@@ -6,13 +6,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
-// import { IconModule, IconSetService } from '@coreui/icons-angular';
+import { IconModule, IconSetService } from '@coreui/icons-angular';
+// import { IconDirective } from '@coreui/icons-angular';
 
 // const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 //   suppressScrollX: true
 // };
 
-// import { GlobalHttpInterceptor } from '../app/_core/utilities/global-http-interceptor';
+import { GlobalHttpInterceptor } from '../app/_core/utilities/global-http-interceptor';
 import { AppComponent } from './app.component';
 // Import containers
 // import { DefaultLayoutComponent } from './containers';
@@ -21,13 +22,13 @@ import { AppComponent } from './app.component';
 //   DefaultLayoutComponent
 // ];
 
-// import {
-//   AppAsideModule,
-//   AppBreadcrumbModule,
-//   AppFooterModule,
-//   AppHeaderModule,
-//   AppSidebarModule,
-// } from '@coreui/angular';
+import {
+  AppAsideModule,
+  AppBreadcrumbModule,
+  AppFooterModule,
+  AppHeaderModule,
+  AppSidebarModule,
+} from '@coreui/angular';
 
 // Import routing module
 import { AppRoutingModule } from './app.routing';
@@ -41,8 +42,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 // import { NgxOrgChartModule } from '@tots/ngx-org-chart';
 // import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-alt-snotify';
-// import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-// import { TabsModule } from 'ngx-bootstrap/tabs';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 // import { NgxBreadcrumbModule } from "ngx-dynamic-breadcrumb";
 // import { IConfig, NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 // import { NgxPanZoomModule } from 'ngx-panzoom';
@@ -71,16 +72,16 @@ import { environment } from '../environments/environment';
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    // AppAsideModule,
-    // AppBreadcrumbModule.forRoot(),
-    // AppFooterModule,
-    // AppHeaderModule,
-    // AppSidebarModule,
+    AppAsideModule,
+    AppBreadcrumbModule.forRoot(),
+    AppFooterModule,
+    AppHeaderModule,
+    AppSidebarModule,
     // NgxOrgChartModule,
     // PerfectScrollbarModule,
-    // BsDropdownModule.forRoot(),
-    // TabsModule.forRoot(),
-    // IconModule,
+    BsDropdownModule.forRoot(),
+    TabsModule.forRoot(),
+    IconModule,
     // SnotifyModule,
     // NgSelectModule,
     // NgxSpinnerModule,
@@ -116,9 +117,9 @@ import { environment } from '../environments/environment';
       useClass: HashLocationStrategy
     },
     // { provide: 'SnotifyToastConfig', useValue: ToastDefaults },
-    // { provide: HTTP_INTERCEPTORS, useClass: GlobalHttpInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: GlobalHttpInterceptor, multi: true },
     // SnotifyService,
-    // IconSetService,
+    IconSetService,
     // ModalService,
     // provideNgxMask(maskConfig),
   ],

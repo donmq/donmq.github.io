@@ -135,6 +135,15 @@
   dependencies:
     tslib "^2.3.0"
 
+"@angular/cdk@^17.2.2":
+  version "17.2.2"
+  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-17.2.2.tgz#c3f3335209a2099cbc124c2b1e9b1b8d20488647"
+  integrity sha512-no3FownDI+05SvCGOxduramTJw+V5p/rKebz4msZbsAXXLnOScZPN2rDgMKShl2dQokc6gjsKXsy8fAYpx7NSQ==
+  dependencies:
+    tslib "^2.3.0"
+  optionalDependencies:
+    parse5 "^7.1.2"
+
 "@angular/cli@^17.2.3":
   version "17.2.3"
   resolved "https://registry.yarnpkg.com/@angular/cli/-/cli-17.2.3.tgz#c5e70fcb8f1e4cc15ef5fba04533fbe414e875c1"
@@ -215,7 +224,7 @@
   dependencies:
     tslib "^2.3.0"
 
-"@angular/platform-server@^17.2.0":
+"@angular/platform-server@^17.2.4":
   version "17.2.4"
   resolved "https://registry.yarnpkg.com/@angular/platform-server/-/platform-server-17.2.4.tgz#650a233aea951d168faf6eb8b26c37e316f19045"
   integrity sha512-xTo7CY0CGKAv9Eqb9N0fVRxRCB70tgh4EXVbnB0sJamv3PibxmXl5xHSkxREZ5ZZfTkQmt+tSgMz0qtghAvlrw==
@@ -1225,6 +1234,32 @@
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/@colors/colors/-/colors-1.5.0.tgz#bb504579c1cae923e6576a4f5da43d25f97bdbd9"
   integrity sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==
+
+"@coreui/angular@2.15.0":
+  version "2.15.0"
+  resolved "https://registry.yarnpkg.com/@coreui/angular/-/angular-2.15.0.tgz#fbc6f10f91088ad700b008282091551727610e8a"
+  integrity sha512-sqBp0DDiXNVsVDlDog0L1xxs1MsBpyTRl3ZiLiZf99FmxQLF9bMijBVAaIzdjgAxjZeecUUbZ8hPn8wvjsoqVw==
+  dependencies:
+    tslib "^2.3.0"
+
+"@coreui/coreui@^4.3.2":
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/@coreui/coreui/-/coreui-4.3.2.tgz#3c1d7eae4a740d2b473e862580ee863c40dcde18"
+  integrity sha512-SKGY6E6v7QGq0P3YTnZQRSrU8t0euLQ3UV/FH5j0JmHYBBu7Mv0Hd9g8AESnj8xrCelKZ5bdZKZhmKaIdG5clw==
+  dependencies:
+    postcss-combine-duplicated-selectors "^10.0.3"
+
+"@coreui/icons-angular@^4.7.16":
+  version "4.7.16"
+  resolved "https://registry.yarnpkg.com/@coreui/icons-angular/-/icons-angular-4.7.16.tgz#944a515172e15d2bb8a0bd01df9e9f69546b671b"
+  integrity sha512-t3d9/SXhfH5gu17wEE3Z6lhIq9fcgH1fGAW6GKZgN4YqDkSYx/iOAIQSJN1BOOYKAjjeKTYf/XYkNYq7yH6yCQ==
+  dependencies:
+    tslib "^2.3.0"
+
+"@coreui/icons@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@coreui/icons/-/icons-3.0.1.tgz#a6b77a3d3578a59b08474fbfe29de0ebc5ea4c80"
+  integrity sha512-u9UKEcRMyY9pa4jUoLij8pAR03g5g6TLWV33/Mx2ix8sffyi0eO4fLV8DSTQljDCw938zt7KYog5cVKEAJUxxg==
 
 "@discoveryjs/json-ext@0.5.7":
   version "0.5.7"
@@ -2399,6 +2434,11 @@ boolbase@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
   integrity sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==
+
+bootstrap@^5.3.3:
+  version "5.3.3"
+  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-5.3.3.tgz#de35e1a765c897ac940021900fcbb831602bac38"
+  integrity sha512-8HLCdWgyoMguSO9o+aH+iuZ+aht+mzW0u3HIMzVu7Srrpv7EBBxTnrFlSCskwdY1+EOFQSm7uMJhNQHkdPcmjg==
 
 brace-expansion@^1.1.7:
   version "1.1.11"
@@ -4602,6 +4642,13 @@ neo-async@^2.6.2:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
 
+ngx-bootstrap@^12.0.0:
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/ngx-bootstrap/-/ngx-bootstrap-12.0.0.tgz#fc1c7f74aef3d098cf5ca458121e28d3790eedff"
+  integrity sha512-6/Hs+FT6peMc+Y2uiOm3IawG06Jh3gLQwwKRBF0U1OMlRbpx4KIyHS9GpZtMevtZaBsCRNfHKiSxwsnvn9wx0Q==
+  dependencies:
+    tslib "^2.3.0"
+
 nice-napi@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/nice-napi/-/nice-napi-1.0.2.tgz#dc0ab5a1eac20ce548802fc5686eaa6bc654927b"
@@ -4933,7 +4980,7 @@ parse5-sax-parser@^7.0.0:
   dependencies:
     parse5 "^7.0.0"
 
-parse5@^7.0.0:
+parse5@^7.0.0, parse5@^7.1.2:
   version "7.1.2"
   resolved "https://registry.yarnpkg.com/parse5/-/parse5-7.1.2.tgz#0736bebbfd77793823240a23b7fc5e010b7f8e32"
   integrity sha512-Czj1WaSVpaoj0wbhMzLmWD69anp2WH7FXMB9n1Sy8/ZFF9jolSQVMu1Ij5WIyGmcBmhk7EOndpO4mIpihVqAXw==
@@ -5021,6 +5068,13 @@ pkg-dir@^7.0.0:
   integrity sha512-Ie9z/WINcxxLp27BKOCHGde4ITq9UklYKDzVo1nhk5sqGEXU3FpkwP5GM2voTGJkGd9B3Otl+Q4uwSOeSUtOBA==
   dependencies:
     find-up "^6.3.0"
+
+postcss-combine-duplicated-selectors@^10.0.3:
+  version "10.0.3"
+  resolved "https://registry.yarnpkg.com/postcss-combine-duplicated-selectors/-/postcss-combine-duplicated-selectors-10.0.3.tgz#71e8b6783e99cd560cf08ba7b896ad0db318c11c"
+  integrity sha512-IP0BmwFloCskv7DV7xqvzDXqMHpwdczJa6ZvIW8abgHdcIHs9mCJX2ltFhu3EwA51ozp13DByng30+Ke+eIExA==
+  dependencies:
+    postcss-selector-parser "^6.0.4"
 
 postcss-loader@8.1.0:
   version "8.1.0"
