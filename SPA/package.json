@@ -27,9 +27,13 @@
     "@coreui/icons-angular": "^4.7.16",
     "bootstrap": "^5.3.3",
     "express": "^4.18.2",
+    "font-awesome": "^4.7.0",
+    "moment": "^2.30.1",
     "ngx-bootstrap": "^12.0.0",
+    "ngx-dynamic-breadcrumb": "^2.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
+    "typed.js": "^2.1.0",
     "zone.js": "~0.14.3"
   },
   "devDependencies": {

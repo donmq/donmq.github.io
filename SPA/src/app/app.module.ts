@@ -16,19 +16,19 @@ import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { GlobalHttpInterceptor } from '../app/_core/utilities/global-http-interceptor';
 import { AppComponent } from './app.component';
 // Import containers
-// import { DefaultLayoutComponent } from './containers';
+import { DefaultLayoutComponent } from './containers';
 
-// const APP_CONTAINERS = [
-//   DefaultLayoutComponent
-// ];
+const APP_CONTAINERS = [
+  DefaultLayoutComponent
+];
 
-import {
-  AppAsideModule,
-  AppBreadcrumbModule,
-  AppFooterModule,
-  AppHeaderModule,
-  AppSidebarModule,
-} from '@coreui/angular';
+// import {
+//   AppAsideModule,
+//   AppBreadcrumbModule,
+//   AppFooterModule,
+//   AppHeaderModule,
+//   AppSidebarModule,
+// } from '@coreui/angular';
 
 // Import routing module
 import { AppRoutingModule } from './app.routing';
@@ -36,6 +36,7 @@ import { AppRoutingModule } from './app.routing';
 // Import 3rd party components
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 // import { JwtModule } from '@auth0/angular-jwt';
 // import { NgSelectModule } from '@ng-select/ng-select';
 // import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -44,7 +45,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-alt-snotify';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
-// import { NgxBreadcrumbModule } from "ngx-dynamic-breadcrumb";
+import { NgxBreadcrumbModule } from "ngx-dynamic-breadcrumb";
 // import { IConfig, NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 // import { NgxPanZoomModule } from 'ngx-panzoom';
 // import { NgxSpinnerModule } from 'ngx-spinner';
@@ -72,11 +73,7 @@ import { environment } from '../environments/environment';
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    AppAsideModule,
-    AppBreadcrumbModule.forRoot(),
-    AppFooterModule,
-    AppHeaderModule,
-    AppSidebarModule,
+    CommonModule,
     // NgxOrgChartModule,
     // PerfectScrollbarModule,
     BsDropdownModule.forRoot(),
@@ -86,7 +83,7 @@ import { environment } from '../environments/environment';
     // NgSelectModule,
     // NgxSpinnerModule,
     // NgxPanZoomModule,
-    // NgxBreadcrumbModule.forRoot(),
+    NgxBreadcrumbModule.forRoot(),
     // NgxMaskDirective,
     // NgxMaskPipe,
     // TranslateModule.forRoot({
@@ -106,7 +103,7 @@ import { environment } from '../environments/environment';
   ],
   declarations: [
     AppComponent,
-    // ...APP_CONTAINERS,
+    ...APP_CONTAINERS,
     // P404Component,
     // P500Component,
     // LoginComponent
