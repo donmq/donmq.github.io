@@ -1,1 +1,52 @@
-<p>about works!</p>
+<div class="animated fadeIn">
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-6 pad">
+        <img class="img-logo" src="assets/images/work.jpg" alt="Logo">
+      </div>
+      <div class="col-xl-6 pl about-info">
+        <h1>Giới Thiệu</h1>
+        <ul class="about-info">
+          <div *ngFor="let item of data">
+            <li class="row"><span>{{item.title}}</span> <span>{{item.content}}</span></li>
+          </div>
+        </ul>
+        <h1>Mục tiêu nghề nghiệp</h1>
+        <ul class="about-info">
+          <li>
+            <p> - Mong muốn một môi trường làm việc chuyên nghiệp, có cơ hội thăng tiến và phát triển bản
+              thân.
+            </p>
+          </li>
+          <li>
+            <p> - Mong muốn có cơ hội cống hiến bản thân, đạt được mục tiêu trong sự nghiệp.</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="partner">
+      <div class="row">
+        <div class="col-sm ftco-animate">
+          <a href="#" class="partner"><img src="assets/images/partner-1.png" class="img-fluid"
+              alt="Colorlib Template"></a>
+        </div>
+        <div class="col-sm ftco-animate">
+          <a href="#" class="partner"><img src="assets/images/partner-2.png" class="img-fluid"
+              alt="Colorlib Template"></a>
+        </div>
+        <div class="col-sm ftco-animate">
+          <a href="#" class="partner"><img src="assets/images/partner-3.png" class="img-fluid"
+              alt="Colorlib Template"></a>
+        </div>
+        <div class="col-sm ftco-animate">
+          <a href="#" class="partner"><img src="assets/images/partner-4.png" class="img-fluid"
+              alt="Colorlib Template"></a>
+        </div>
+        <div class="col-sm ftco-animate">
+          <a href="#" class="partner"><img src="assets/images/partner-5.png" class="img-fluid"
+              alt="Colorlib Template"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,49 @@
+.img-logo {
+  width: 70%;
+  background-color: gray;
+  float: right;
+}
+
+.pad {
+  padding: 0;
+}
+
+.pl {
+  padding-left: 3rem;
+  padding-top: 3rem
+}
+
+.about-info,
+.about-info li,
+.about-info p,
+h1,
+h2 {
+  font-family: "Poppins", Arial, sans-serif !important;
+}
+
+ul.about-info {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+
+  li {
+    list-style: none;
+    margin-bottom: 10px;
+
+    span {
+      display: block;
+      width: calc(100% - 130px);
+
+      &:first-child {
+        font-weight: 600;
+        color: black;
+        width: 130px;
+      }
+    }
+  }
+}
+
+.partner {
+  margin-top: 15px;
+}

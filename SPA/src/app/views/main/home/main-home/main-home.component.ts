@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import Typed from 'typed.js';
 
+
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  imports: [],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+  selector: 'app-main-home',
+  templateUrl: './main-home.component.html',
+  styleUrl: './main-home.component.scss'
 })
-export class HomeComponent implements OnInit{
+export class MainHomeComponent implements OnInit {
 
 
   ngOnInit() {
