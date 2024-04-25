@@ -11,18 +11,18 @@ export class MainHomeComponent implements OnInit {
 
 
   ngOnInit() {
-    const options = {
-      strings: [
-        'Data',
-        'Developer',
-        'Data Science'],
-      typeSpeed: 100,
-      backSpeed: 50,
-      showCursor: true,
-      cursorChar: '',
-      loop: true
-    };
-    const typed = new Typed('.typed-element', options);
+    // const options = {
+    //   strings: [
+    //     'Data',
+    //     'Developer',
+    //     'Data Science'],
+    //   typeSpeed: 100,
+    //   backSpeed: 50,
+    //   showCursor: true,
+    //   cursorChar: '',
+    //   loop: true
+    // };
+    // const typed = new Typed('.typed-element', options);
   }
 
   ngOnDestroy() {
