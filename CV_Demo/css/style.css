@@ -1,0 +1,96 @@
+@charset "UTF-8";
+html {
+  font-family: "Poppins", Arial, sans-serif !important;
+  line-height: 1.15;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  font-family: "Poppins", Arial, sans-serif !important;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  text-align: left;
+  background-color: #fff;
+}
+
+.navbar-light .container {
+  width: 1000px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.navbar-brand {
+  font-weight: 900;
+  font-size: 26px;
+  position: relative;
+  text-decoration: none;
+  z-index: 0;
+  color: #000000;
+}
+
+.navbar-brand span {
+  color: #fff;
+}
+
+.navbar-brand:hover, .navbar-brand:focus {
+  color: rgba(80, 0, 0, 0.9);
+}
+
+.navbar-brand:after {
+  position: absolute;
+  top: 50%;
+  left: -12px;
+  width: 40px;
+  height: 40px;
+  content: "";
+  background: #a2a5b1;
+  z-index: -1;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  border-radius: 50%;
+}
+
+.navbar-collapse {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.navbar-collapse .nav-item span {
+  color: #000000;
+  position: relative;
+  transition: border-width 0.5s;
+  /* Thêm hiệu ứng chuyển động */
+}
+
+.navbar-collapse .nav-item span::before {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  /* Đặt bottom là -2px để ẩn thanh gạch chân */
+  left: 50%;
+  /* Đặt initial position ở giữa */
+  width: 0;
+  /* Bắt đầu với width là 0 */
+  border-bottom: 2px solid #1bcfc6;
+  transition: width 0.5s, left 0.5s;
+  /* Thêm hiệu ứng chuyển động */
+}
+
+.navbar-collapse .nav-item span:hover::before {
+  width: 100%;
+  /* Khi hover thì width sẽ tăng lên 100% */
+  left: 0;
+  /* Khi hover di chuyển từ giữa sang bên trái */
+}
+
+.nav-item {
+  margin-right: 15px;
+}
