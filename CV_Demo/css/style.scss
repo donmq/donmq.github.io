@@ -25,11 +25,11 @@ body {
     background-color: #fff;
 }
 
-.navbar-light .container{
-    width: 1000px;
-    margin: 0 auto;
-    padding: 0;
-}
+// .navbar-light .container{
+//     width: 1000px;
+//     margin: 0 auto;
+//     padding: 0;
+// }
 
 .navbar-brand {
     font-weight: 900;
@@ -92,4 +92,126 @@ body {
 
 .nav-item{
     margin-right: 15px;
+}
+
+.hero-wrap{
+    width: 100%;
+    height: 100%;
+    position: inherit;
+    background-size: cover;
+    background-repeat: no-repeat;
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        content: '';
+        opacity: .1;
+        width: 100%;
+        background: $primary;
+        z-index: -1;
+    }
+    .row{
+        margin-top: 40px;
+    }
+}
+
+.c-orange {
+    color: #000000;
+    font-weight: 700;
+    font-size: 4rem;
+}
+
+.c-btn {
+    border: none;
+    background: #fca61f;
+    color: #fff;
+    font-size: 1.2rem;
+}
+
+.h-btn:hover {
+    background: #6f34fe;
+    color: #fff;
+    transform: translateY(-20px);
+    transition-duration: 1s;
+}
+
+//MOUSE WHEEL
+.mouse {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 120px;
+    z-index: 2;
+}
+
+.mouse-icon {
+    width: 70px;
+    height: 70px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    position: relative;
+    text-align: center;
+    margin: 0 auto;
+    display: block;
+
+    &:after {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        content: '';
+        background: lighten($primary, 30%);
+        z-index: -1;
+        transform: rotate(45deg);
+    }
+}
+
+.mouse-wheel {
+    height: 70px;
+    margin: 2px auto 0;
+    display: block;
+    width: 30px;
+    background: transparent;
+    color: $primary;
+    font-size: 30px;
+    opacity: 1;
+    animation: moveDown 1.5s ease infinite;
+}
+
+@keyframes moveDown {
+    0% {
+        transform: translateY(0);
+    }
+
+    80% {
+        transform: translateY(25px);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(25px);
+        opacity: 0;
+    }
+}
+
+.home_social {
+    margin-top: 20px;
+    flex-direction: column;
+}
+
+.home_social-icon {
+    width: max-content;
+    margin-top: 20px;
+    margin-right: 30px;
+    font-size: 1.5rem;
+    color: black;
+}
+
+.home_social-icon:hover {
+    color: rgb(197, 47, 47);
+    transform: translateY(-20px);
+    transition-duration: 1s;
 }
