@@ -1,6 +1,6 @@
 @charset "UTF-8";
 html {
-  font-family: "Poppins", Arial, sans-serif !important;
+  font-family: Poppins, Arial, sans-serif !important;
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent;
@@ -8,7 +8,7 @@ html {
 
 body {
   margin: 0;
-  font-family: "Poppins", Arial, sans-serif !important;
+  font-family: Poppins, Arial, sans-serif !important;
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
@@ -208,4 +208,271 @@ body {
   color: #c52f2f;
   transform: translateY(-20px);
   transition-duration: 1s;
+}
+
+.section .container {
+  padding-top: 3.5rem;
+}
+
+.about-title {
+  text-align: center;
+}
+
+.about-title h2 {
+  position: relative;
+  text-transform: uppercase;
+  font-size: 4rem;
+  font-weight: 700;
+}
+
+.about-title h2 span {
+  color: #27AE60;
+}
+
+.about-title h2 .bg-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  color: #f6f0f0;
+  transition: all .4s ease-in-out;
+  z-index: -1;
+  transform: translate(-50%, -50%);
+  font-weight: 800;
+  font-size: 6.3rem;
+}
+
+.left-about p {
+  line-height: 2rem;
+  padding: 1rem;
+  color: #dbe1e8;
+}
+
+.left-about h4 {
+  font-size: 2rem;
+  text-transform: uppercase;
+}
+
+/*Independent Component*/
+.btn-con {
+  display: flex;
+  align-self: flex-start;
+}
+
+.main-btn {
+  border-radius: 30px;
+  color: inherit;
+  font-weight: 600;
+  position: relative;
+  border: 1px solid var(--color-secondary);
+  display: flex;
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.main-btn .btn-text {
+  padding: 0 2rem;
+}
+
+.main-btn .btn-icon {
+  background-color: var(--color-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  padding: 1rem;
+}
+
+.main-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translateX(100%);
+  transition: all .4s ease-out;
+  z-index: -1;
+}
+
+.main-btn:hover {
+  transition: all .4s ease-out;
+}
+
+.main-btn:hover::before {
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-secondary);
+  transform: translateX(0);
+  transition: all .4s ease-out;
+}
+
+.right-about {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 2rem;
+}
+
+.right-about .about-item {
+  border: 1px solid #f8f8f8;
+  border-radius: 5px;
+  transition: all .4s ease-in-out;
+  box-shadow: 1px 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.right-about .about-item:hover {
+  cursor: default;
+  transform: translateY(-5px);
+  border: 1px solid #A6D1E6;
+  box-shadow: 1px 4px 15px rgba(0, 0, 0, 0.32);
+}
+
+.right-about .about-item .about-text {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.right-about .about-item .about-text .title-text {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #A6D1E6;
+  margin-bottom: 0;
+}
+
+.right-about .about-item .about-text .small-text {
+  padding-top: 0;
+  padding-left: 3rem;
+  position: relative;
+  text-transform: uppercase;
+  font-size: 1.2rem;
+  color: gray;
+  letter-spacing: 2px;
+}
+
+.right-about .about-item .about-text .small-text::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 15px;
+  width: 2rem;
+  height: 2px;
+  background-color: #f8f8f8;
+}
+
+.progress-wrap {
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.progress-wrap h3 {
+  font-size: 16px;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.progress {
+  height: 10px;
+  box-shadow: none;
+  background: #e6e6e6;
+  overflow: visible;
+}
+
+.progress-bar {
+  background: #3e64ff;
+  box-shadow: none;
+  font-size: 12px;
+  line-height: 1.2;
+  color: #000000;
+  font-weight: 600;
+  position: relative;
+  overflow: visible;
+}
+
+.progress-bar:after {
+  position: absolute;
+  top: -2px;
+  right: 0;
+  width: 34px;
+  height: 34px;
+  content: '';
+  background: #3e64ff;
+  opacity: 0;
+}
+
+.progress-bar span {
+  position: absolute;
+  top: -38px;
+  right: 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: #000000;
+}
+
+.progress-circle .progress {
+  width: 150px;
+  height: 150px;
+  background: none;
+  position: relative;
+}
+
+.progress-circle .progress::after {
+  content: "";
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 6px solid #eee;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.progress-circle .progress > span {
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  z-index: 1;
+}
+
+.progress-circle .progress .progress-left {
+  left: 0;
+}
+
+.progress-circle .progress .progress-bar {
+  width: 100%;
+  height: 100%;
+  background: none;
+  border-width: 6px;
+  border-style: solid;
+  position: absolute;
+  top: 0;
+}
+
+.progress-circle .progress .progress-left .progress-bar {
+  left: 100%;
+  border-top-right-radius: 80px;
+  border-bottom-right-radius: 80px;
+  border-left: 0;
+  -webkit-transform-origin: center left;
+  transform-origin: center left;
+}
+
+.progress-circle .progress .progress-right {
+  right: 0;
+}
+
+.progress-circle .progress .progress-right .progress-bar {
+  left: -100%;
+  border-top-left-radius: 80px;
+  border-bottom-left-radius: 80px;
+  border-right: 0;
+  -webkit-transform-origin: center right;
+  transform-origin: center right;
+}
+
+.progress-circle .progress .progress-value {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
