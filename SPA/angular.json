@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "SPA": {
+    "ng": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -18,11 +18,11 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/spa",
             "index": "src/index.html",
-            "browser": "src/main.ts",
+            "main": "src/main.ts",
             "polyfills": [
               "src/polyfills.ts"
             ],
@@ -33,6 +33,10 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/@coreui/icons/css/free.css",
+              "node_modules/font-awesome/css/font-awesome.css",
+              "node_modules/@ng-select/ng-select/themes/default.theme.css",
               "src/scss/_custom.scss"
             ],
             "stylePreprocessorOptions": {
@@ -65,7 +69,9 @@
               "outputHashing": "all"
             },
             "development": {
+              "buildOptimizer": false,
               "optimization": false,
+              "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
@@ -77,10 +83,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "SPA:build:production"
+              "buildTarget": "ng:build:production"
             },
             "development": {
-              "buildTarget": "SPA:build:development"
+              "buildTarget": "ng:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -88,7 +94,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "SPA:build"
+            "buildTarget": "ng:build"
           }
         },
         "test": {
@@ -106,6 +112,8 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/@coreui/icons/css/free.css",
+              "node_modules/font-awesome/css/font-awesome.css",
               "src/scss/_custom.scss"
             ],
             "scripts": [],
@@ -118,5 +126,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "459a4d95-90a1-4edd-8946-4bebbb5f7ddd"
   }
 }

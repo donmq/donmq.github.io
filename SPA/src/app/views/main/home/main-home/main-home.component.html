@@ -1,0 +1,218 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal text-center" autocomplete="off">
+          <h2>LẬP KẾ HOẠCH HUẤN LUYỆN</h2>
+          <h4>CHO CẦU THỦ GAME TOP ELEVEN</h4>
+        </form>
+        <div class="card-body">
+          <div class="row border-shadow">
+            <div class="row col-12">
+              <div class="col-2">
+                <label class>Chọn cầu thủ</label>
+              </div>
+              <div class="col-3">
+                <ng-select [(ngModel)]="param.player">
+                  <ng-option *ngFor="let item of players"
+                    value="{{ item.key }}">{{ item.key }} - {{ item.value }}</ng-option>
+                </ng-select>
+              </div>
+            </div>
+          </div>
+          <div class="border-shadow mb-4">
+            <div class="row col-12 mt-4">
+              <div class="col-4">
+                <label class>Tên cầu thủ</label>
+                <input autocomplete="off" type="text" class="form-control" name="Name" maxlength="100" [(ngModel)]="data.name" />
+              </div>
+              <div class="col-4 ml-2">
+                <label>Vị Trí</label>
+                <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.roles" />
+              </div>
+              <div class="col-4">
+                <label>Tư chất</label>
+                <input autocomplete="off" type="text" class="form-control" name="personality" [(ngModel)]="data.personality" />
+              </div>
+            </div>
+            <div class="col-12 mt-4">
+              <div class="row">
+                <div class="col-4">
+                  <label class="col-12 text-center">Phòng Thủ</label>
+                  <div class="form-group row mt-1">
+                    <label class="col-4">Cản phá</label>
+                    <div class="col-7">
+                      <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.roles" />
+                    </div>
+                  </div>
+                  <div class="form-group row mt-1">
+                    <label class="col-4">Kèm người</label>
+                    <div class="col-7">
+                      <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.roles" />
+                    </div>
+                  </div>
+                  <div class="form-group row mt-1">
+                    <label class="col-4">Chạy chỗ</label>
+                    <div class="col-7">
+                      <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.roles" />
+                    </div>
+                  </div>
+                  <div class="form-group row mt-1">
+                    <label class="col-4">Đánh đầu</label>
+                    <div class="col-7">
+                      <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.roles" />
+                    </div>
+                  </div>
+                  <div class="form-group row mt-1">
+                    <label class="col-4">Dũng cảm</label>
+                    <div class="col-7">
+                      <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.roles" />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <label class="col-12 text-center">Tấn Công</label>
+                  <div class="form-group row mt-1">
+                    <label class="col-4">Chuyền bóng</label>
+                    <div class="col-7">
+                      <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.roles" />
+                    </div>
+                  </div>
+                  <div class="form-group row mt-1">
+                    <label class="col-4">Rê bóng</label>
+                    <div class="col-7">
+                      <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.roles" />
+                    </div>
+                  </div>
+                  <div class="form-group row mt-1">
+                    <label class="col-4">Tạt cánh</label>
+                    <div class="col-7">
+                      <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.roles" />
+                    </div>
+                  </div>
+                  <div class="form-group row mt-1">
+                    <label class="col-4">Sút mạnh</label>
+                    <div class="col-7">
+                      <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.roles" />
+                    </div>
+                  </div>
+                  <div class="form-group row mt-1">
+                    <label class="col-4">Dứt điểm</label>
+                    <div class="col-7">
+                      <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.roles" />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <label class="col-12 text-center">Thể Chất</label>
+                  <div class="form-group row mt-1">
+                    <label class="col-4">Thể lực</label>
+                    <div class="col-7">
+                      <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.roles" />
+                    </div>
+                  </div>
+                  <div class="form-group row mt-1">
+                    <label class="col-4">Sức mạnh</label>
+                    <div class="col-7">
+                      <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.roles" />
+                    </div>
+                  </div>
+                  <div class="form-group row mt-1">
+                    <label class="col-4">Xông xáo</label>
+                    <div class="col-7">
+                      <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.roles" />
+                    </div>
+                  </div>
+                  <div class="form-group row mt-1">
+                    <label class="col-4">Tốc độ</label>
+                    <div class="col-7">
+                      <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.roles" />
+                    </div>
+                  </div>
+                  <div class="form-group row mt-1">
+                    <label class="col-4">Sáng tạo</label>
+                    <div class="col-7">
+                      <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.roles" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row justify-content-md-center">
+            <div class="col-xl-12 col-xxl-12">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th class="text-center"></th>
+                      <th class="text-center"></th>
+                      <th class="text-center"></th>
+                      <th class="text-center"></th>
+                      <th class="text-center"></th>
+                      <th class="text-center"></th>
+                      <th class="text-center"></th>
+                      <th class="text-center"></th>
+                      <th class="text-center"></th>
+                      <th class="text-center"></th>
+                      <th class="text-center"></th>
+                      <th class="text-center"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+
+                      </td>
+                    </tr>
+                    <!-- <tr *ngFor="let item of data; let i = index">
+                      <td class="text-center">
+                        <button type="button"
+                                class="btn btn-warning btn-sm"
+                                (click)="onForm(item)">
+                          <i class="{{ iconButton.EDIT }}"></i>
+                          {{ "System.Action.Edit" | translate }}
+                        </button>
+                      </td>
+                      <td class="text-center">{{ item.division }}</td>
+                      <td class="text-center">{{ item.factory }}</td>
+                      <td class="text-center">{{ item.center_Code }}</td>
+                      <td class="text-center">{{ item.org_Level_Name }}</td>
+                      <td class="text-center">{{ item.department_Code }}</td>
+                      <td class="text-center">{{ item.department_Name_Lang }}</td>
+                      <td class="text-center"
+                          *ngIf="item.upper_Department == null; else upper"></td>
+                      <ng-template #upper>
+                        <td class="text-center">{{ item.upper_Department_Name }}</td>
+                      </ng-template>
+                      <td class="text-center"
+                          *ngIf="item.virtual_Department == null; else virtual"></td>
+                      <ng-template #virtual>
+                        <td class="text-center">{{ item.virtual_Department_Name }}</td>
+                      </ng-template>
+                      <td class="text-center">{{ item.supervisor_Employee_ID }}</td>
+                      <td class="text-center"></td>
+                      <td class="text-center">{{ item.supervisor_Type }}</td>
+                      <td class="text-center">{{ item.approved_Headcount }}</td>
+                      <td class="text-center"></td>
+                      <td class="text-center">{{ item.cost_Center }}</td>
+                      <td class="text-center">
+                        {{item.isActive === true
+                        ? ("OrganizationManagement.DepartmentMaintenance.Enabled" | translate)
+                        : ("OrganizationManagement.DepartmentMaintenance.Disabled" | translate)}}
+                      </td>
+                      <td class="text-center">{{ item.effective_Date | date : "yyyy/MM/dd" }}</td>
+                      <td class="text-center">{{ item.expiration_Date | date : "yyyy/MM/dd" }}</td>
+                    </tr> -->
+                  </tbody>
+                </table>
+              </div>
+              <div class="row">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

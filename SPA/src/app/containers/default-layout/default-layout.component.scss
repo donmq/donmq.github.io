@@ -1,0 +1,68 @@
+.navbar-brand {
+  color: black;
+  // padding-top: 1rem;
+  padding-bottom: 1rem;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.default-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  header {
+    color: #000000;
+    position: relative;
+
+    .img-logo {
+      height: 2.5rem;
+    }
+
+    .link-secondary {
+      color: #000000 !important;
+    }
+
+    .full-name {
+      display: inline-block;
+      color: #000000;
+    }
+
+    .dropdown-menu {
+      inset: 0.25rem 0 auto auto !important;
+    }
+
+    .moment {
+      min-width: 6rem;
+      text-align: center;
+    }
+  }
+
+  .sub-header {
+    background-color: #000000;
+  }
+
+  content {
+    margin-bottom: auto;
+  }
+
+  footer {
+    background-color: #333;
+    color: #000000;
+    position: relative;
+  }
+}
+
+.underline {
+  position: absolute;
+  bottom: 0;
+  left: 5px;
+  width: 0%;
+  height: 2px;
+  background-color: #3e64ff;
+  transition: all 0.3s ease-in-out;
+}
+
+.nav-item:hover .underline {
+  width: 91%;
+}

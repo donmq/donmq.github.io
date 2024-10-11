@@ -6,20 +6,21 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
-// import { IconModule, IconSetService } from '@coreui/icons-angular';
+import { IconModule, IconSetService } from '@coreui/icons-angular';
+// import { IconDirective } from '@coreui/icons-angular';
 
 // const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 //   suppressScrollX: true
 // };
 
-// import { GlobalHttpInterceptor } from '../app/_core/utilities/global-http-interceptor';
+import { GlobalHttpInterceptor } from '../app/_core/utilities/global-http-interceptor';
 import { AppComponent } from './app.component';
 // Import containers
-// import { DefaultLayoutComponent } from './containers';
+import { DefaultLayoutComponent } from './containers';
 
-// const APP_CONTAINERS = [
-//   DefaultLayoutComponent
-// ];
+const APP_CONTAINERS = [
+  DefaultLayoutComponent
+];
 
 // import {
 //   AppAsideModule,
@@ -35,15 +36,16 @@ import { AppRoutingModule } from './app.routing';
 // Import 3rd party components
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 // import { JwtModule } from '@auth0/angular-jwt';
-// import { NgSelectModule } from '@ng-select/ng-select';
+import { NgSelectModule } from '@ng-select/ng-select';
 // import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 // import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 // import { NgxOrgChartModule } from '@tots/ngx-org-chart';
 // import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-alt-snotify';
-// import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-// import { TabsModule } from 'ngx-bootstrap/tabs';
-// import { NgxBreadcrumbModule } from "ngx-dynamic-breadcrumb";
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { TabsModule } from 'ngx-bootstrap/tabs';
+import { NgxBreadcrumbModule } from "ngx-dynamic-breadcrumb";
 // import { IConfig, NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 // import { NgxPanZoomModule } from 'ngx-panzoom';
 // import { NgxSpinnerModule } from 'ngx-spinner';
@@ -71,21 +73,17 @@ import { environment } from '../environments/environment';
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    // AppAsideModule,
-    // AppBreadcrumbModule.forRoot(),
-    // AppFooterModule,
-    // AppHeaderModule,
-    // AppSidebarModule,
+    CommonModule,
     // NgxOrgChartModule,
     // PerfectScrollbarModule,
-    // BsDropdownModule.forRoot(),
-    // TabsModule.forRoot(),
-    // IconModule,
+    BsDropdownModule.forRoot(),
+    TabsModule.forRoot(),
+    IconModule,
     // SnotifyModule,
-    // NgSelectModule,
+    NgSelectModule,
     // NgxSpinnerModule,
     // NgxPanZoomModule,
-    // NgxBreadcrumbModule.forRoot(),
+    NgxBreadcrumbModule.forRoot(),
     // NgxMaskDirective,
     // NgxMaskPipe,
     // TranslateModule.forRoot({
@@ -105,7 +103,7 @@ import { environment } from '../environments/environment';
   ],
   declarations: [
     AppComponent,
-    // ...APP_CONTAINERS,
+    ...APP_CONTAINERS,
     // P404Component,
     // P500Component,
     // LoginComponent
@@ -116,9 +114,9 @@ import { environment } from '../environments/environment';
       useClass: HashLocationStrategy
     },
     // { provide: 'SnotifyToastConfig', useValue: ToastDefaults },
-    // { provide: HTTP_INTERCEPTORS, useClass: GlobalHttpInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: GlobalHttpInterceptor, multi: true },
     // SnotifyService,
-    // IconSetService,
+    IconSetService,
     // ModalService,
     // provideNgxMask(maskConfig),
   ],

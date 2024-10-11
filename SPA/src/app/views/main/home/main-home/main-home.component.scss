@@ -1,0 +1,29 @@
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  content: '';
+  opacity: .1;
+  width: 50%;
+  background: #3e64ff;
+}
+
+.subheading {
+  font-size: 13px;
+  font-weight: 500;
+  display: block;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 1);
+  letter-spacing: 3px;
+  font-weight: 650;
+}
+
+h1 {
+  font-size: 50px;
+  font-weight: 800;
+}
+
+

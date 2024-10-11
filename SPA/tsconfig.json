@@ -2,6 +2,14 @@
   "compileOnSave": false,
   "compilerOptions": {
     "outDir": "./dist/out-tsc",
+    "baseUrl": "./",
+    "paths": {
+      "@services/*": ["src/app/_core/services/*"],
+      "@models/*": ["src/app/_core/models/*"],
+      "@constants/*": ["src/app/_core/constants/*"],
+      "@utilities/*": ["src/app/_core/utilities/*"],
+      "@env/*": ["src/environments/*"]
+    },
     "forceConsistentCasingInFileNames": true,
     "strict": false,
     "noImplicitOverride": true,
