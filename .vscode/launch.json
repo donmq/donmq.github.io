@@ -1,0 +1,57 @@
+{
+    "version": "0.2.0",
+    "compounds": [
+        {
+            "name": "API & SPA (Live Watch)",
+            "configurations": [
+                "API Launch",
+                "SPA Launch"
+            ],
+            "stopAll": true
+        }
+    ],
+    "configurations": [
+        {
+            "name": "SPA Launch",
+            "type": "chrome",
+            "request": "launch",
+            "preLaunchTask": "npm: start",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}/SPA",
+            "sourceMapPathOverrides": {
+                "webpack:/*": "${webRoot}/*",
+                "/./*": "${webRoot}/*",
+                "/src/*": "${webRoot}/*",
+                "/*": "*",
+                "/./~/*": "${webRoot}/node_modules/*"
+            }
+        },
+        {
+            "name": "API Launch",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "watch",
+            "console": "integratedTerminal",
+            "program": "${workspaceFolder}/API/bin/Debug/net7.0/API.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/API",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+http://\\S+:([0-9]+)",
+                "uriFormat": "https://localhost:%s/swagger/index.html"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        {
+            "name": "API Attach",
+            "type": "coreclr",
+            "request": "attach"
+        }
+    ]
+}

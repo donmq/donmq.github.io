@@ -1,0 +1,221 @@
+{
+    // Place your HRM_System workspace snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and 
+    // description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope 
+    // is left empty or omitted, the snippet gets applied to all languages. The prefix is what is 
+    // used to trigger the snippet and the body will be expanded and inserted. Possible variables are: 
+    // $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. 
+    // Placeholders with the same ids are connected.
+    // Example:
+    // "Print to console": {
+    // 	"scope": "javascript,typescript",
+    // 	"prefix": "log",
+    // 	"body": [
+    // 		"console.log('$1');",
+    // 		"$2"
+    // 	],
+    // 	"description": "Log output to console"
+    // }
+    "Generate Component Attribute ": {
+        "prefix": "generate-component",
+        "body": [
+            "lang = localStorage.getItem(LocalStorageConstants.LANG);",
+            "iconButton = IconButton;",
+            "classButton = ClassButton;",
+            "param:  = <>{}",
+            "data: [] = []",
+            "pagination: Pagination = <Pagination>{};",
+            "",
+            "constructor(private service: ) {",
+            "   super();",
+            "   this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe((event: LangChangeEvent) => {",
+            "       this.lang = event.lang;",
+            "       this.checkTW();",
+            "   });",
+            "}",
+            "",
+            "ngOnInit(): void {",
+            "   this.checkTW();",
+            "}",
+            "",
+            "checkTW() {",
+            "   if (this.lang == 'zh') this.lang = 'tw'",
+            "}",
+            "",
+            "getDataFromSource() {",
+            "   effect(() => {",
+            "       this.param = ",
+            "   })",
+            "}",
+            "",
+            "getData(isSearch?: boolean) {",
+            "   this.spinnerService.show()",
+            "   this.service.getData(this.param).subscribe({",
+            "       next: res => {",
+            "           this.spinnerService.hide()",
+            "           this.data = res",
+            "           if (isSearch)",
+            "               this.snotifyService.success(this.translateService.instant('System.Message.QueryOKMsg'), this.translateService.instant('System.Caption.Success'));",
+            "           },",
+            "       error: () => this.functionUtility.snotifySystemError()",
+            "   })",
+            "}",
+            "",
+            "clear() {",
+            "}",
+            "",
+            "search() {",
+            "   this.pagination.pageNumber === 1 ? this.getData(true) : (this.pagination.pageNumber = 1);",
+            "};",
+            "",
+            "pageChanged(event: any) {",
+            "   this.pagination.pageNumber = event.page;",
+            "   this.getData();",
+            "}",
+            "",
+            "deleteProperty(name: string) {",
+            "   delete this.param[name]",
+            "}",
+            "",
+        ],
+        "description": "Generate Component Attribute "
+    },
+    // Generate Service SPA
+    "Generate Service SPA": {
+        "prefix": "generate-service",
+        "body": [
+            "apiUrl: string = environment.apiUrl + '/'",
+            "",
+            "initData = <>{",
+            "   param: <>{},",
+            "}",
+            "",
+            "paramSource = signal<>(JSON.parse(JSON.stringify(this.initData)));",
+            "paramSource$ = toObservable(this.paramSource);",
+            "setSource = (source: ) => this.paramSource.set(source);",
+            "clearParamSearch = () => {",
+            "   this.paramSource.set(JSON.parse(JSON.stringify(this.initData)))",
+            "}",
+            "",
+            "constructor(private http: HttpClient) { }",
+            "",
+            "getData(pagination: PaginationParam, param: ) {",
+            "   let params = new HttpParams().appendAll({ ...pagination, ...param });",
+            "   return this.http.get<PaginationResult<>>(this.baseUrl + 'GetData', { params })" ,
+            "}",
+            "",
+            "create(data: ) {",
+            "   return this.http.post<OperationResult>(this.baseUrl + 'Create', data)",
+            "}",
+            "",
+            "update(data: ) {",
+            "   return this.http.put<OperationResult>(this.baseUrl + 'Update', data)",
+            "}",
+            "",
+            "delete(data: ) {",
+            "   return this.http.delete<OperationResult>(this.baseUrl + 'Delete', { params: {}, body: data });",
+            "}",
+        ],
+        "description": "Generate Service SPA"
+    },
+    "Create Constructor with Services": {
+        "prefix": "ctor-s",
+        "body": [
+            "private readonly $1 _services;",
+            "public DepartmentController($1 services)",
+            "{",
+            "    _services = services;",
+            "}"
+        ],
+        "description": "Create Constructor with Services"
+    },
+    "Create HTTP Get API controller": {
+        "prefix": "api-get",
+        "body": [
+            "[HttpGet($1)]",
+            "public async Task<IActionResult> Get($2)",
+            "{",
+            "  var result = await _services.$3();",
+            "  return Ok(result);",
+            "}"
+        ],
+        "description": "Create HTTP Get API controller"
+    },
+    "Create HTTP Post API controller": {
+        "prefix": "api-post",
+        "body": [
+            "[HttpPost($1)]",
+            "public async Task<IActionResult> Post([FromBody]$2 $3)",
+            "{",
+            "  var result = await _services.$4($3);",
+            "  return Ok(result);",
+            "}"
+        ],
+        "description": "Create HTTP Post API controller"
+    },
+    "Create HTTP Put API controller": {
+        "prefix": "api-put",
+        "body": [
+            "[HttpPut($1)]",
+            "public async Task<IActionResult> Put([FromBody]$2 $3)",
+            "{",
+            "  var result = await _services.$4($3);",
+            "  return Ok(result);",
+            "}"
+        ],
+        "description": "Create HTTP Put API controller"
+    },
+    "Create HTTP Delete API controller": {
+        "prefix": "api-delete",
+        "body": [
+            "[HttpDelete($1)]",
+            "public async Task<IActionResult> Delete($2)",
+            "{",
+            "  var result = await _services.$3();",
+            "  return Ok(result);",
+            "}"
+        ],
+        "description": "Create HTTP Delete API controller"
+    },
+    "Create Full HTTP Request API controller": {
+        "prefix": "api-full",
+        "body": [
+            "",
+            "[HttpGet()]",
+            "public async Task<IActionResult> Get()",
+            "{",
+            "  $1",
+            "  return Ok();",
+            "}",
+            "",
+            "[HttpGet()]",
+            "public async Task<IActionResult> Gets(int ID)",
+            "{",
+            "  $1",
+            "  return Ok();",
+            "}",
+            "",
+            "[HttpPost()]",
+            "public async Task<IActionResult> Post()",
+            "{",
+            "  $1",
+            "  return Ok();",
+            "}",
+            "",
+            "[HttpPut()]",
+            "public async Task<IActionResult> Put()",
+            "{",
+            "  $1",
+            "  return Ok();",
+            "}",
+            "",
+            "[HttpDelete()]",
+            "public async Task<IActionResult> Delete()",
+            "{",
+            "  $1",
+            "  return Ok();",
+            "}",
+            ""
+        ],
+        "description": "Create Full HTTP Request API controller"
+    },
+}

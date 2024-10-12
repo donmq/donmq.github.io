@@ -4,8 +4,8 @@
   left: 0;
   right: 0;
   bottom: 0;
-  content: '';
-  opacity: .1;
+  content: "";
+  opacity: 0.1;
   width: 50%;
   background: #3e64ff;
 }
@@ -26,4 +26,18 @@ h1 {
   font-weight: 800;
 }
 
+table {
+  th{
+    font-size: 13px;
+  }
+  td{
+    font-size: 13px;
+  }
+  ng-select {
+    min-width: 150px;
+  }
+}
 
+button{
+  margin-left: 5px;
+}

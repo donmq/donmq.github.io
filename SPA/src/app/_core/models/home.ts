@@ -1,11 +1,26 @@
 export interface MainHomeDto {
-  player: string;
-  name: string
-  roles: string
-  personality: string
+    ten: string;
+    viTri: string;
+    tuChat: string;
+    canPha: string;
+    kemNguoi: string;
+    chayCho: string;
+    danhDau: string;
+    dungCam: string;
+    chuyenBong: string;
+    reBong: string;
+    tatCanh: string;
+    sutManh: string;
+    dutDiem: string;
+    theLuc: string;
+    sucManh: string;
+    xongXao: string;
+    tocDo: string;
+    sangTao: string;
 }
 
 export interface MainHomeParam {
-  player: string;
+  ten: string;
+  baiTap: string;
 }
 

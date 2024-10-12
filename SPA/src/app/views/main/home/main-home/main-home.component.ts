@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { MainHomeDto, MainHomeParam } from '@models/home';
+import { HomeMainService } from './../../../../_core/services/home-main.service';
 
 
 @Component({
@@ -10,28 +11,33 @@ import { MainHomeDto, MainHomeParam } from '@models/home';
 })
 export class MainHomeComponent implements OnInit {
   data: MainHomeDto = <MainHomeDto>{};
-  players: KeyValuePair[] = [
-    {
-      key: 'a',
-      value: 'test'
-    }, {
-      key: 'a',
-      value: 'test'
-    }, {
-      key: 'a',
-      value: 'test'
-    }, {
-      key: 'a',
-      value: 'test'
-    }
-  ]
+  players: KeyValuePair[] = []
+  exercise: KeyValuePair[] = []
   param: MainHomeParam = <MainHomeParam>{};
-  player: string
+
+  constructor(private service: HomeMainService) { }
 
   ngOnInit() {
-
+    this.getListPlayer();
+    this.getListExersice();
   }
 
-  ngOnDestroy() {
+  getListPlayer() {
+    this.service.getListPlayers().subscribe({
+      next: res => {
+        this.players = res
+      }
+    })
+  }
+
+  getListExersice() {
+    this.service.getListExercise().subscribe({
+      next: res => {
+        this.exercise = res
+      }
+    })
+  }
+  onAdd(){
+    
   }
 }
