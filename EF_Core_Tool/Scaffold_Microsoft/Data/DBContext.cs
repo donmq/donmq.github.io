@@ -20,11 +20,11 @@ public partial class DBContext : DbContext
 
     public virtual DbSet<LoaiThuocTinh> LoaiThuocTinh { get; set; }
 
-    public virtual DbSet<P_ThongTinViTriCauThu> PThongTinViTriCauThu { get; set; }
+    public virtual DbSet<PThongTinViTriCauThu> PThongTinViTriCauThu { get; set; }
 
-    public virtual DbSet<P_ThuocTinhBaiTap> PThuocTinhBaiTap { get; set; }
+    public virtual DbSet<PThuocTinhBaiTap> PThuocTinhBaiTap { get; set; }
 
-    public virtual DbSet<P_ThuocTinhSangToi> PThuocTinhSangToi { get; set; }
+    public virtual DbSet<PThuocTinhSangToi> PThuocTinhSangToi { get; set; }
 
     public virtual DbSet<ThongTin> ThongTin { get; set; }
 
@@ -36,17 +36,12 @@ public partial class DBContext : DbContext
     {
         modelBuilder.Entity<BaiTap>(entity =>
         {
-            entity.Property(e => e.ID).ValueGeneratedNever();
+            entity.Property(e => e.Id).ValueGeneratedNever();
         });
 
-        modelBuilder.Entity<P_ThuocTinhBaiTap>(entity =>
+        modelBuilder.Entity<PThongTinViTriCauThu>(entity =>
         {
-            entity.HasKey(e => e.IDBaiTap).HasName("PK_P_ThuocTinhBaiTap");
-            entity.HasKey(e => e.IDThuocTinhChinh).HasName("PK_P_ThuocTinhBaiTap");
-        });
-        modelBuilder.Entity<P_ThongTinViTriCauThu>(entity =>
-        {
-            entity.HasKey(e => e.ID).HasName("PK_ThongTinViTriCauThu");
+            entity.HasKey(e => e.Id).HasName("PK_ThongTinViTriCauThu");
         });
 
         OnModelCreatingPartial(modelBuilder);

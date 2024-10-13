@@ -27,17 +27,64 @@ h1 {
 }
 
 table {
-  th{
-    font-size: 13px;
+  th {
+    font-size: 11px;
   }
-  td{
-    font-size: 13px;
+  td {
+    font-size: 11px;
   }
   ng-select {
-    min-width: 150px;
+    min-width: 200px;
   }
 }
 
-button{
+button {
   margin-left: 5px;
+}
+
+td input {
+  min-width: 80px;
+}
+
+.disabled-cell {
+  background-color: lightgray; // Màu xám nhạt
+}
+
+tr .text-center {
+  vertical-align: middle;
+}
+
+.custom-select {
+  position: relative;
+}
+
+.element {
+  padding: 10px;
+  .top {
+    border: 2px solid green;
+    border-radius: 5px;
+    padding: 10px;
+  }
+  .mid {
+    border: 2px solid red;
+    border-radius: 5px;
+    padding: 10px;
+  }
+  .bot {
+    border: 2px solid #3500b1;
+    border-radius: 5px;
+    padding: 10px;
+  }
+}
+.green-border {
+  border: 1px solid rgba(0, 255, 0, 0.3);
+  box-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+}
+.red-border {
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+}
+.blue-border {
+  border: 1px solid rgba(0, 0, 255, 0.3);
+  box-shadow: 0 0 5px rgba(0, 0, 255, 0.5);
 }

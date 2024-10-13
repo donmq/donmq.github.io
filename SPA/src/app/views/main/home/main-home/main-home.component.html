@@ -3,8 +3,8 @@
     <div class="col-lg-12">
       <div class="card">
         <form class="form-horizontal text-center" autocomplete="off">
-          <h2 class="pt-2">LẬP KẾ HOẠCH HUẤN LUYỆN</h2>
-          <h4>CHO CẦU THỦ GAME TOP ELEVEN</h4>
+          <!-- <h2 class="pt-2">LẬP KẾ HOẠCH HUẤN LUYỆN</h2>
+          <h4>CHO CẦU THỦ GAME TOP ELEVEN</h4> -->
         </form>
         <div class="card-body">
           <div class="row border-shadow">
@@ -13,7 +13,7 @@
                 <label class>Chọn cầu thủ</label>
               </div>
               <div class="col-3">
-                <ng-select [(ngModel)]="param.ten">
+                <ng-select id="Name" name="Name" [(ngModel)]="param.ten" (ngModelChange)="onSelect()">
                   <ng-option *ngFor="let item of players"
                     value="{{ item.key }}">{{ item.value }}</ng-option>
                 </ng-select>
@@ -31,108 +31,126 @@
                 <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.viTri" />
               </div>
               <div class="col-4">
-                <label>Tư chất</label>
-                <input autocomplete="off" type="text" class="form-control" name="personality" [(ngModel)]="data.tuChat" />
+                <div class="row">
+                  <label>Tư chất</label>
+                  <div class="col-9">
+                    <input autocomplete="off" type="text" class="form-control" name="personality" [(ngModel)]="data.tuChat" />
+
+                  </div>
+                  <div class="col-3">
+                    <button type="button" (click)="openTemplate()" class="btn btn-danger ml-1">
+                      <i class="fa fa-plus"></i> Tính
+                    </button>
+                  </div>
+
+                </div>
+
               </div>
             </div>
             <div class="col-12 mt-4">
               <div class="row">
-                 <div class="col-4">
-                  <label class="col-12 text-center">Phòng Thủ</label>
-                  <div class="form-group row mt-1">
-                    <label class="col-4">Cản phá</label>
-                    <div class="col-7">
-                      <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.canPha" />
+                <div class="col-4 element">
+                  <div class="top">
+                    <label class="col-12 text-center">Phòng Thủ</label>
+                    <div class="form-group row mt-1">
+                      <label class="col-4">Cản phá</label>
+                      <div class="col-7">
+                        <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.canPha" />
+                      </div>
                     </div>
-                  </div>
-                  <div class="form-group row mt-1">
-                    <label class="col-4">Kèm người</label>
-                    <div class="col-7">
-                      <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.kemNguoi" />
+                    <div class="form-group row mt-1">
+                      <label class="col-4">Kèm người</label>
+                      <div class="col-7">
+                        <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.kemNguoi" />
+                      </div>
                     </div>
-                  </div>
-                  <div class="form-group row mt-1">
-                    <label class="col-4">Chạy chỗ</label>
-                    <div class="col-7">
-                      <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.chayCho" />
+                    <div class="form-group row mt-1">
+                      <label class="col-4">Chạy chỗ</label>
+                      <div class="col-7">
+                        <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.chayCho" />
+                      </div>
                     </div>
-                  </div>
-                  <div class="form-group row mt-1">
-                    <label class="col-4">Đánh đầu</label>
-                    <div class="col-7">
-                      <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.danhDau" />
+                    <div class="form-group row mt-1">
+                      <label class="col-4">Đánh đầu</label>
+                      <div class="col-7">
+                        <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.danhDau" />
+                      </div>
                     </div>
-                  </div>
-                  <div class="form-group row mt-1">
-                    <label class="col-4">Dũng cảm</label>
-                    <div class="col-7">
-                      <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.dungCam" />
-                    </div>
-                  </div>
-                </div>
-                <div class="col-4">
-                  <label class="col-12 text-center">Tấn Công</label>
-                  <div class="form-group row mt-1">
-                    <label class="col-4">Chuyền bóng</label>
-                    <div class="col-7">
-                      <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.chuyenBong" />
-                    </div>
-                  </div>
-                  <div class="form-group row mt-1">
-                    <label class="col-4">Rê bóng</label>
-                    <div class="col-7">
-                      <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.reBong" />
-                    </div>
-                  </div>
-                  <div class="form-group row mt-1">
-                    <label class="col-4">Tạt cánh</label>
-                    <div class="col-7">
-                      <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.tatCanh" />
-                    </div>
-                  </div>
-                  <div class="form-group row mt-1">
-                    <label class="col-4">Sút mạnh</label>
-                    <div class="col-7">
-                      <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.sutManh" />
-                    </div>
-                  </div>
-                  <div class="form-group row mt-1">
-                    <label class="col-4">Dứt điểm</label>
-                    <div class="col-7">
-                      <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.dutDiem" />
+                    <div class="form-group row mt-1">
+                      <label class="col-4">Dũng cảm</label>
+                      <div class="col-7">
+                        <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.dungCam" />
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div class="col-4">
-                  <label class="col-12 text-center">Thể Chất</label>
-                  <div class="form-group row mt-1">
-                    <label class="col-4">Thể lực</label>
-                    <div class="col-7">
-                      <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.theLuc" />
+                <div class="col-4 element">
+                  <div class="mid">
+                    <label class="col-12 text-center">Tấn Công</label>
+                    <div class="form-group row mt-1">
+                      <label class="col-4">Chuyền bóng</label>
+                      <div class="col-7">
+                        <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.chuyenBong" />
+                      </div>
+                    </div>
+                    <div class="form-group row mt-1">
+                      <label class="col-4">Rê bóng</label>
+                      <div class="col-7">
+                        <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.reBong" />
+                      </div>
+                    </div>
+                    <div class="form-group row mt-1">
+                      <label class="col-4">Tạt cánh</label>
+                      <div class="col-7">
+                        <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.tatCanh" />
+                      </div>
+                    </div>
+                    <div class="form-group row mt-1">
+                      <label class="col-4">Sút mạnh</label>
+                      <div class="col-7">
+                        <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.sutManh" />
+                      </div>
+                    </div>
+                    <div class="form-group row mt-1">
+                      <label class="col-4">Dứt điểm</label>
+                      <div class="col-7">
+                        <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.dutDiem" />
+                      </div>
                     </div>
                   </div>
-                  <div class="form-group row mt-1">
-                    <label class="col-4">Sức mạnh</label>
-                    <div class="col-7">
-                      <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.sucManh" />
+                </div>
+                <div class="col-4 element">
+                  <div class="bot">
+                    <label class="col-12 text-center">Thể Chất</label>
+                    <div class="form-group row mt-1">
+                      <label class="col-4">Thể lực</label>
+                      <div class="col-7">
+                        <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.theLuc" />
+                      </div>
                     </div>
-                  </div>
-                  <div class="form-group row mt-1">
-                    <label class="col-4">Xông xáo</label>
-                    <div class="col-7">
-                      <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.xongXao" />
+                    <div class="form-group row mt-1">
+                      <label class="col-4">Sức mạnh</label>
+                      <div class="col-7">
+                        <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.sucManh" />
+                      </div>
                     </div>
-                  </div>
-                  <div class="form-group row mt-1">
-                    <label class="col-4">Tốc độ</label>
-                    <div class="col-7">
-                      <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.tocDo" />
+                    <div class="form-group row mt-1">
+                      <label class="col-4">Xông xáo</label>
+                      <div class="col-7">
+                        <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.xongXao" />
+                      </div>
                     </div>
-                  </div>
-                  <div class="form-group row mt-1">
-                    <label class="col-4">Sáng tạo</label>
-                    <div class="col-7">
-                      <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.sangTao" />
+                    <div class="form-group row mt-1">
+                      <label class="col-4">Tốc độ</label>
+                      <div class="col-7">
+                        <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.tocDo" />
+                      </div>
+                    </div>
+                    <div class="form-group row mt-1">
+                      <label class="col-4">Sáng tạo</label>
+                      <div class="col-7">
+                        <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.sangTao" />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -140,14 +158,17 @@
             </div>
             <div class="col-12">
               <label class="d-block">&nbsp;</label>
-              <button type="button" (click)="onAdd()" class="btn btn-success ml-1">
+              <button type="button" (click)="chuyenThongTin()" class="btn btn-success ml-1">
                 <i class="fa fa-plus"></i> Chuyển thông tin
               </button>
-              <button type="button" (click)="onAdd()" class="btn btn-danger ml-1">
+              <button type="button" (click)="save('add')" class="btn btn-danger ml-1">
                 <i class="fa fa-plus"></i> Lưu thông tin
               </button>
-              <button type="button" (click)="onAdd()" class="btn btn-danger ml-1">
-                <i class="fa fa-plus"></i> Xóa cầu thủ
+              <button type="button" (click)="save('edit')" class="btn btn-danger ml-1">
+                <i class="fa fa-plus"></i> Sửa Thông tin
+              </button>
+              <button type="button" (click)="delete()" class="btn btn-danger ml-1">
+                <i class="fa fa-plus"></i> Xóa Cầu thủ
               </button>
             </div>
           </div>
@@ -160,23 +181,22 @@
                       <th></th>
                       <th class="text-center">Bài tập</th>
                       <th class="text-center">Điểm TB</th>
-                      <th class="text-center">Cản phá</th>
-                      <th class="text-center">Kèm người</th>
-                      <th class="text-center">Chạy chỗ</th>
-                      <th class="text-center">Đánh đầu</th>
-                      <th class="text-center">Dũng cảm</th>
-                      <th class="text-center">Chuyền bóng</th>
-                      <th class="text-center">Rê bóng</th>
-                      <th class="text-center">Tạt cánh</th>
-                      <th class="text-center">Sút mạnh</th>
-                      <th class="text-center">Dứt điểm</th>
-                      <th class="text-center">Thể lực</th>
-                      <th class="text-center">Sức mạnh</th>
-                      <th class="text-center">Xông xáo</th>
-                      <th class="text-center">Tốc độ</th>
-                      <th class="text-center">Sáng tạo</th>
+                      <th class="text-center green-border" [ngClass]="{'disabled-cell': stand[0]?.value === '0'}">Cản phá</th>
+                      <th class="text-center green-border" [ngClass]="{'disabled-cell': stand[1]?.value === '0'}">Kèm người</th>
+                      <th class="text-center green-border" [ngClass]="{'disabled-cell': stand[2]?.value === '0'}">Chạy chỗ</th>
+                      <th class="text-center green-border" [ngClass]="{'disabled-cell': stand[3]?.value === '0'}">Đánh đầu</th>
+                      <th class="text-center green-border" [ngClass]="{'disabled-cell': stand[4]?.value === '0'}">Dũng cảm</th>
+                      <th class="text-center red-border" [ngClass]="{'disabled-cell': stand[5]?.value === '0'}">Chuyền bóng</th>
+                      <th class="text-center red-border" [ngClass]="{'disabled-cell': stand[6]?.value === '0'}">Rê bóng</th>
+                      <th class="text-center red-border" [ngClass]="{'disabled-cell': stand[7]?.value === '0'}">Tạt cánh</th>
+                      <th class="text-center red-border" [ngClass]="{'disabled-cell': stand[8]?.value === '0'}">Sút mạnh</th>
+                      <th class="text-center red-border" [ngClass]="{'disabled-cell': stand[9]?.value === '0'}">Dứt điểm</th>
+                      <th class="text-center blue-border" [ngClass]="{'disabled-cell': stand[10]?.value === '0'}">Thể lực</th>
+                      <th class="text-center blue-border" [ngClass]="{'disabled-cell': stand[11]?.value === '0'}">Sức mạnh</th>
+                      <th class="text-center blue-border" [ngClass]="{'disabled-cell': stand[12]?.value === '0'}">Xông xáo</th>
+                      <th class="text-center blue-border" [ngClass]="{'disabled-cell': stand[13]?.value === '0'}">Tốc độ</th>
+                      <th class="text-center blue-border" [ngClass]="{'disabled-cell': stand[14]?.value === '0'}">Sáng tạo</th>
                       <th class="text-center">Chất lượng chung</th>
-                      <th class="text-center">% Kỹ năng chính</th>
                       <th class="text-center">Lượng pack cần</th>
                       <th class="text-center">Số lần tập</th>
                       <th class="text-center"></th>
@@ -185,126 +205,105 @@
                   <tbody>
                     <tr>
                       <td></td>
-                      <td class="text-center">Player Name</td>
-                      <td class="text-center">Roles</td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td class="text-center">Kết quả tập luyện</td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
+                      <td class="text-center">{{dataTable.ten}}</td>
+                      <td class="text-center">{{dataTable.viTri}}</td>
+                      <td class="text-center green-border" [ngClass]="{'disabled-cell': stand[0]?.value === '0'}">{{dataTable.canPha}}</td>
+                      <td class="text-center green-border" [ngClass]="{'disabled-cell': stand[1]?.value === '0'}">{{dataTable.kemNguoi}}</td>
+                      <td class="text-center green-border" [ngClass]="{'disabled-cell': stand[2]?.value === '0'}">{{dataTable.chayCho}}</td>
+                      <td class="text-center green-border" [ngClass]="{'disabled-cell': stand[3]?.value === '0'}">{{dataTable.danhDau}}</td>
+                      <td class="text-center green-border" [ngClass]="{'disabled-cell': stand[4]?.value === '0'}">{{dataTable.dungCam}}</td>
+                      <td class="text-center red-border" [ngClass]="{'disabled-cell': stand[5]?.value === '0'}">{{dataTable.chuyenBong}}</td>
+                      <td class="text-center red-border" [ngClass]="{'disabled-cell': stand[6]?.value === '0'}">{{dataTable.reBong}}</td>
+                      <td class="text-center red-border" [ngClass]="{'disabled-cell': stand[7]?.value === '0'}">{{dataTable.tatCanh}}</td>
+                      <td class="text-center red-border" [ngClass]="{'disabled-cell': stand[8]?.value === '0'}">{{dataTable.sutManh}}</td>
+                      <td class="text-center red-border" [ngClass]="{'disabled-cell': stand[9]?.value === '0'}">{{dataTable.dutDiem}}</td>
+                      <td class="text-center blue-border" [ngClass]="{'disabled-cell': stand[10]?.value === '0'}">{{dataTable.theLuc}}</td>
+                      <td class="text-center blue-border" [ngClass]="{'disabled-cell': stand[11]?.value === '0'}">{{dataTable.sucManh}}</td>
+                      <td class="text-center blue-border" [ngClass]="{'disabled-cell': stand[12]?.value === '0'}">{{dataTable.xongXao}}</td>
+                      <td class="text-center blue-border" [ngClass]="{'disabled-cell': stand[13]?.value === '0'}">{{dataTable.tocDo}}</td>
+                      <td class="text-center blue-border" [ngClass]="{'disabled-cell': stand[14]?.value === '0'}">{{dataTable.sangTao}}</td>
+                      <td class="text-center"> {{dataTable.chatLuongChung}}</td>
+                      <td class="text-center"></td>
+                      <td class="text-center"></td>
                       <td></td>
                     </tr>
                     <tr>
-                      <td></td>
                       <td>
-                        <ng-select [(ngModel)]="param.baiTap" appendTo="body">
-                          <ng-option *ngFor="let item of exercise" value="{{ item.key }}">{{ item.value }}</ng-option>
-                        </ng-select>
-                      </td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <!-- <tr *ngFor="let item of data; let i = index">
-                      <td class="text-center">
                         <button type="button"
-                                class="btn btn-warning btn-sm"
-                                (click)="onForm(item)">
-                          <i class="{{ iconButton.EDIT }}"></i>
-                          {{ "System.Action.Edit" | translate }}
+                          class="btn btn-success btn-sm"
+                          (click)="addItem()">
+                          <i class="fa fa-plus"></i>
                         </button>
                       </td>
-<td class="text-center">{{ item.division }}</td>
-                      <td class="text-center">{{ item.factory }}</td>
-                      <td class="text-center">{{ item.center_Code }}</td>
-                      <td class="text-center">{{ item.org_Level_Name }}</td>
-                      <td class="text-center">{{ item.department_Code }}</td>
-                      <td class="text-center">{{ item.department_Name_Lang }}</td>
-                      <td class="text-center"
-                          *ngIf="item.upper_Department == null; else upper"></td>
-                      <ng-template #upper>
-                        <td class="text-center">{{ item.upper_Department_Name }}</td>
-                      </ng-template>
-                      <td class="text-center"
-                          *ngIf="item.virtual_Department == null; else virtual"></td>
-                      <ng-template #virtual>
-                        <td class="text-center">{{ item.virtual_Department_Name }}</td>
-                      </ng-template>
-                      <td class="text-center">{{ item.supervisor_Employee_ID }}</td>
-                      <td class="text-center"></td>
-                      <td class="text-center">{{ item.supervisor_Type }}</td>
-                      <td class="text-center">{{ item.approved_Headcount }}</td>
-                      <td class="text-center"></td>
-                      <td class="text-center">{{ item.cost_Center }}</td>
-                      <td class="text-center">
-                        {{item.isActive === true
-                        ? ("OrganizationManagement.DepartmentMaintenance.Enabled" | translate)
-                        : ("OrganizationManagement.DepartmentMaintenance.Disabled" | translate)}}
+                      <td class="text-center">Kết quả tập luyện</td>
+                      <td></td>
+                      <td class="text-center green-border" [ngClass]="{'disabled-cell': stand[0]?.value === '0'}">{{dataKetQua.canPha}}</td>
+                      <td class="text-center green-border" [ngClass]="{'disabled-cell': stand[1]?.value === '0'}">{{dataKetQua.kemNguoi}}</td>
+                      <td class="text-center green-border" [ngClass]="{'disabled-cell': stand[2]?.value === '0'}">{{dataKetQua.chayCho}}</td>
+                      <td class="text-center green-border" [ngClass]="{'disabled-cell': stand[3]?.value === '0'}">{{dataKetQua.danhDau}}</td>
+                      <td class="text-center green-border" [ngClass]="{'disabled-cell': stand[4]?.value === '0'}">{{dataKetQua.dungCam}}</td>
+                      <td class="text-center red-border" [ngClass]="{'disabled-cell': stand[5]?.value === '0'}">{{dataKetQua.chuyenBong}}</td>
+                      <td class="text-center red-border" [ngClass]="{'disabled-cell': stand[6]?.value === '0'}">{{dataKetQua.reBong}}</td>
+                      <td class="text-center red-border" [ngClass]="{'disabled-cell': stand[7]?.value === '0'}">{{dataKetQua.tatCanh}}</td>
+                      <td class="text-center red-border" [ngClass]="{'disabled-cell': stand[8]?.value === '0'}">{{dataKetQua.sutManh}}</td>
+                      <td class="text-center red-border" [ngClass]="{'disabled-cell': stand[9]?.value === '0'}">{{dataKetQua.dutDiem}}</td>
+                      <td class="text-center blue-border" [ngClass]="{'disabled-cell': stand[10]?.value === '0'}">{{dataKetQua.theLuc}}</td>
+                      <td class="text-center blue-border" [ngClass]="{'disabled-cell': stand[11]?.value === '0'}">{{dataKetQua.sucManh}}</td>
+                      <td class="text-center blue-border" [ngClass]="{'disabled-cell': stand[12]?.value === '0'}">{{dataKetQua.xongXao}}</td>
+                      <td class="text-center blue-border" [ngClass]="{'disabled-cell': stand[13]?.value === '0'}">{{dataKetQua.tocDo}}</td>
+                      <td class="text-center blue-border" [ngClass]="{'disabled-cell': stand[14]?.value === '0'}">{{dataKetQua.sangTao}}</td>
+                      <td class="text-center">{{dataKetQua.chatLuongChung}}</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr *ngFor="let dataItem of dataBefore; let i = index ">
+                      <td>
+                        <button type="button"
+                          class="btn btn-success btn-sm"
+                          (click)="addItem()">
+                          <i class="fa fa-plus"></i>
+                        </button>
                       </td>
-                      <td class="text-center">{{ item.effective_Date | date : "yyyy/MM/dd" }}</td>
-                      <td class="text-center">{{ item.expiration_Date | date : "yyyy/MM/dd" }}</td>
-                    </tr> -->
+                      <td>
+                        <ng-select class="custom-select" [id]="'baiTap' + i" [name]="'baiTap' + i" [(ngModel)]="dataItem.idBaiTap" (ngModelChange)="changeBaiTap(i, dataItem)" appendTo="ng-select">
+                          <ng-option *ngFor="let item of exercise" [value]="item.key">{{ item.value }}</ng-option>
+                        </ng-select>
+                      </td>
+                      <td>
+                        <input type="number"
+                          class="form-control text-center"
+                          [name]="'diemTB' + i"
+                          min="0"
+                          max="180"
+                          pattern="^[1-9][0-9]?$"
+                          (input)="dataItem.diemTB = (dataItem.diemTB > 180 ? 180 : dataItem.diemTB)"
+                          (keyup)="dataItem.diemTB = (dataItem.diemTB > 180 ? 180 : dataItem.diemTB)"
+                          [(ngModel)]="dataItem.diemTB"
+                          (ngModelChange)="changeBaiTap(i, dataItem)">
+                      </td>
+                      <td *ngFor="let key of keys" [class]="'text-center red-border-' + i" [ngClass]="{
+                        'green-border': key.border === 'green-border',
+                        'red-border': key.border === 'red-border',
+                        'blue-border': key.border === 'blue-border',
+                        'disabled-cell': stand[keys.indexOf(key)]?.value === '0'}">
+                        <div [class]="key.value">
+                          {{ dataItem[key.value] }}
+                        </div>
+                      </td>
+                      <td class="text-center">{{dataItem?.chatLuongChung}}</td>
+                      <td></td>
+                      <td></td>
+                      <td>
+                        <button class="btn btn-danger btn-sm"
+                          (click)="removeItem(i)">
+                          <i class="fa fa-trash-o"
+                            aria-hidden="true"></i>
+                        </button>
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
-              </div>
-              <div class="row">
               </div>
             </div>
           </div>
@@ -313,3 +312,20 @@
     </div>
   </div>
 </div>
+
+<ng-template #templateTuChat>
+  <!-- <div class="modal-container"> -->
+  <div class="modal-header">
+    <h4 id="dialog-static-name" class="modal-title pull-left">
+      <strong>Tư Chất </strong>
+    </h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="closeTemplate()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    Tính Toán
+  </div>
+  <!-- </div> -->
+
+</ng-template>

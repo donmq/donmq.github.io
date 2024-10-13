@@ -1,0 +1,6 @@
+.vscode
+.history
+.vs
+dist
+.sln
+/package-lock.json

@@ -10,13 +10,13 @@ public partial class BaiTap
 {
     [Key]
     [Column("ID")]
-    public int ID { get; set; }
+    public int Id { get; set; }
 
     [StringLength(50)]
     public string TenBaiTap { get; set; }
 
     [Column("IDThuocTinh")]
-    public int? IDThuocTinh { get; set; }
+    public int? IdthuocTinh { get; set; }
 
     public int? DoKho { get; set; }
 

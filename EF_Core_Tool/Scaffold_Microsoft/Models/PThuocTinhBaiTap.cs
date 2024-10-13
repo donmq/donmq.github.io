@@ -6,15 +6,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Models;
 
-[Keyless]
-[Table("P_ThuocTinhSangToi")]
-public partial class P_ThuocTinhSangToi
+[PrimaryKey("IdbaiTap", "IdthuocTinhChinh")]
+[Table("P_ThuocTinhBaiTap")]
+public partial class PThuocTinhBaiTap
 {
-    [Column("IDViTri")]
-    public int IDViTri { get; set; }
+    [Key]
+    [Column("IDBaiTap")]
+    public int IdbaiTap { get; set; }
 
+    [Key]
     [Column("IDThuocTinhChinh")]
-    public int IDThuocTinhChinh { get; set; }
-
-    public bool LoaiThuocTinh { get; set; }
+    public int IdthuocTinhChinh { get; set; }
 }

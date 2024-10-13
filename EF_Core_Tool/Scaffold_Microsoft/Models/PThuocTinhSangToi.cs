@@ -8,13 +8,13 @@ namespace API.Models;
 
 [Keyless]
 [Table("P_ThuocTinhSangToi")]
-public partial class P_ThuocTinhSangToi
+public partial class PThuocTinhSangToi
 {
     [Column("IDViTri")]
-    public int IDViTri { get; set; }
+    public int IdviTri { get; set; }
 
     [Column("IDThuocTinhChinh")]
-    public int IDThuocTinhChinh { get; set; }
+    public int IdthuocTinhChinh { get; set; }
 
     public bool LoaiThuocTinh { get; set; }
 }

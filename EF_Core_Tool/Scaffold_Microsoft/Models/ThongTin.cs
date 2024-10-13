@@ -10,7 +10,7 @@ public partial class ThongTin
 {
     [Key]
     [Column("ID")]
-    public int ID { get; set; }
+    public int Id { get; set; }
 
     [StringLength(50)]
     public string Ten { get; set; }
@@ -19,8 +19,8 @@ public partial class ThongTin
     public string Tuoi { get; set; }
 
     [Column("CLTT")]
-    public int? CLTT { get; set; }
+    public int? Cltt { get; set; }
 
     [Column("ViTriID")]
-    public int? ViTriID { get; set; }
+    public int? ViTriId { get; set; }
 }

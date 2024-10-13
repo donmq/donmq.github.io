@@ -8,3 +8,16 @@ body {
   padding: 0;
   margin-top: 20px;
 }
+
+body,
+body.modal-open {
+  overflow-x: hidden;
+  overflow-y: auto !important;
+}
+
+.form-floating label {
+  color: red;
+}
+.ng-bar-placeholder {
+  height: 5px !important;
+}

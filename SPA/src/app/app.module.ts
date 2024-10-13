@@ -1,6 +1,6 @@
 
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { importProvidersFrom, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -34,7 +34,7 @@ const APP_CONTAINERS = [
 import { AppRoutingModule } from './app.routing';
 
 // Import 3rd party components
-import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule, provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 // import { JwtModule } from '@auth0/angular-jwt';
@@ -42,13 +42,13 @@ import { NgSelectModule } from '@ng-select/ng-select';
 // import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 // import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 // import { NgxOrgChartModule } from '@tots/ngx-org-chart';
-// import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-alt-snotify';
+import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-alt-snotify';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { NgxBreadcrumbModule } from "ngx-dynamic-breadcrumb";
 // import { IConfig, NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 // import { NgxPanZoomModule } from 'ngx-panzoom';
-// import { NgxSpinnerModule } from 'ngx-spinner';
+import { NgxSpinnerModule } from 'ngx-spinner';
 // import { ModalService } from '../app/_core/services/modal.service';
 import { environment } from '../environments/environment';
 // import { LocalStorageConstants } from './_core/constants/local-storage.constants';
@@ -58,7 +58,8 @@ import { environment } from '../environments/environment';
 // const maskConfig: Partial<IConfig> = {
 //   validation: false,
 // };
-
+import { NgProgressModule } from "ngx-progressbar";
+import { NgProgressHttpModule } from 'ngx-progressbar/http';
 // export function tokenGetter() {
 //   return localStorage.getItem(LocalStorageConstants.TOKEN);
 // }
@@ -79,11 +80,13 @@ import { environment } from '../environments/environment';
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
     IconModule,
-    // SnotifyModule,
+    SnotifyModule,
     NgSelectModule,
-    // NgxSpinnerModule,
+    NgxSpinnerModule,
     // NgxPanZoomModule,
     NgxBreadcrumbModule.forRoot(),
+    NgProgressModule.withConfig({ spinner: false }),
+    NgProgressHttpModule,
     // NgxMaskDirective,
     // NgxMaskPipe,
     // TranslateModule.forRoot({
@@ -113,10 +116,12 @@ import { environment } from '../environments/environment';
       provide: LocationStrategy,
       useClass: HashLocationStrategy
     },
-    // { provide: 'SnotifyToastConfig', useValue: ToastDefaults },
+    { provide: 'SnotifyToastConfig', useValue: ToastDefaults },
     { provide: HTTP_INTERCEPTORS, useClass: GlobalHttpInterceptor, multi: true },
-    // SnotifyService,
+    SnotifyService,
     IconSetService,
+    importProvidersFrom(NgProgressHttpModule),
+    provideHttpClient(withInterceptorsFromDi())
     // ModalService,
     // provideNgxMask(maskConfig),
   ],

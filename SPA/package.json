@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --configuration production --aot=true --build-optimizer=true --output-hashing=all",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:SPA": "node dist/spa/server/server.mjs"
@@ -32,6 +32,9 @@
     "moment": "^2.30.1",
     "ngx-bootstrap": "^12.0.0",
     "ngx-dynamic-breadcrumb": "^2.0.0",
+    "ng-alt-snotify": "^14.2.12",
+    "ngx-progressbar": "^11.0.0",
+    "ngx-spinner": "15.0.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "typed.js": "^2.1.0",

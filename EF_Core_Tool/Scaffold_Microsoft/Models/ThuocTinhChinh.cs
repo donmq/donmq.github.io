@@ -10,7 +10,7 @@ public partial class ThuocTinhChinh
 {
     [Key]
     [Column("ID")]
-    public int ID { get; set; }
+    public int Id { get; set; }
 
     [StringLength(50)]
     public string TenThuocTinh { get; set; }

@@ -6,14 +6,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Models;
 
-public partial class ThuocTinhChinh
+[Table("P_ThuocTinhBaiTap")]
+public partial class P_ThuocTinhBaiTap
 {
     [Key]
-    [Column("ID")]
-    public int ID { get; set; }
+    [Column("IDBaiTap")]
+    public int IDBaiTap { get; set; }
 
-    [StringLength(50)]
-    public string TenThuocTinh { get; set; }
-
-    public int? Loai { get; set; }
+    [Key]
+    [Column("IDThuocTinhChinh")]
+    public int IDThuocTinhChinh { get; set; }
 }
