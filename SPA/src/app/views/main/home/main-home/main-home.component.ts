@@ -37,7 +37,19 @@ export class MainHomeComponent implements OnInit {
       }
     })
   }
+
+  onSelect() {
+    this.getData()
+  }
+
+  getData() {
+    this.service.getData(this.param).subscribe({
+      next: res => {
+        this.data = res
+      }
+    })
+  }
   onAdd(){
-    
+
   }
 }

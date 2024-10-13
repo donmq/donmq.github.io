@@ -13,7 +13,7 @@
                 <label class>Chọn cầu thủ</label>
               </div>
               <div class="col-3">
-                <ng-select [(ngModel)]="param.ten">
+                <ng-select id="Name" name="Name" [(ngModel)]="param.ten" (ngModelChange)="onSelect()">
                   <ng-option *ngFor="let item of players"
                     value="{{ item.key }}">{{ item.value }}</ng-option>
                 </ng-select>
@@ -235,9 +235,9 @@
                     </tr>
                     <tr>
                       <td></td>
-                      <td>
-                        <ng-select [(ngModel)]="param.baiTap" appendTo="body">
-                          <ng-option *ngFor="let item of exercise" value="{{ item.key }}">{{ item.value }}</ng-option>
+                      <td style="position: relative;">
+                        <ng-select id="baiTap" name="baiTap" [(ngModel)]="param.baiTap" appendTo="body">
+                          <ng-option class="overflow-box" *ngFor="let item of exercise" value="{{ item.key }}">{{ item.value }}</ng-option>
                         </ng-select>
                       </td>
                       <td></td>

@@ -34,10 +34,17 @@ table {
     font-size: 13px;
   }
   ng-select {
-    min-width: 150px;
+    min-width: 200px;
   }
 }
 
 button{
   margin-left: 5px;
+}
+
+.overflow-box {
+  padding: 5px;
+  height: 100px;
+  border: 1px solid #999;
+  overflow: hidden;
 }

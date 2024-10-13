@@ -1,6 +1,7 @@
 
 
 using API._Services.Interfaces;
+using API.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.HomeMain
@@ -23,6 +24,11 @@ namespace API.Controllers.HomeMain
         public async Task<IActionResult> GetListExercise()
         {
             return Ok(await _service.GetListExercise());
+        }
+        [HttpGet("GetData")]
+        public async Task<IActionResult> GetData([FromQuery] HomeMainParam param)
+        {
+            return Ok(await _service.GetData(param));
         }
     }
 }

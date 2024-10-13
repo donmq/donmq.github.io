@@ -17,24 +17,50 @@ namespace API._Services.Services
         }
         public async Task<HomeMainDto> GetData(HomeMainParam param)
         {
-            var pred = PredicateBuilder.New<ThongTin>(true);
+            var pred = PredicateBuilder.New<ChatLuong>(true);
+            if(string.IsNullOrWhiteSpace(param.Ten))
+                pred.And(x => x.ID == int.Parse(param.Ten));
 
-            var data = await _repositoryAccessor.ThongTin.FindAll().ToListAsync();
-            var dataChatLuong = await _repositoryAccessor.ChatLuongCauThu.FindAll().ToListAsync();
+            var data = await _repositoryAccessor.ThongTin.FindAll(x => x.ID == int.Parse(param.Ten)).ToListAsync();
+            var dataChatLuong = await _repositoryAccessor.ChatLuong.FindAll(pred).ToListAsync();
+            var dataViTri = data
+                .GroupJoin(_repositoryAccessor.P_ThongTinViTriCauThu.FindAll(),
+                    x => x.ViTriID,
+                    y => y.ThongTinID,
+                    (x, y) => new { ThongTin = x, ThongTinViTri = y })
+                .SelectMany(x => x.ThongTinViTri.DefaultIfEmpty(),
+                    (x, y) => new { x.ThongTin, ThongTinViTri = y })
+                .GroupJoin(_repositoryAccessor.ViTri.FindAll(),
+                    x => x.ThongTinViTri.ViTriID,
+                    y => y.ID,
+                    (x, y) => new { x.ThongTin, x.ThongTinViTri, ViTri = y })
+                .SelectMany(x => x.ViTri.DefaultIfEmpty(),
+                    (x, y) => new { x.ThongTin, x.ThongTinViTri, ViTri = y })
+                .Select(x => x.ViTri.TenViTri).ToList();    
 
             var result = dataChatLuong.Join(data,
                     x => x.IDThongTin,
                     y => y.ID,
                     (x, y) => new { ChatLuong = x, ThongTin = y })
-                .Join(_repositoryAccessor.ThuocTinhChinh.FindAll(),
-                    x => x.ChatLuong.IDThuocTinhChinh,
-                    y => y.ID,
-                    (x, y) => new { x.ChatLuong, x.ThongTin, ThuocTinhChinh = y })
                 .Select(x => new HomeMainDto{
-                    // Ten = x.ThongTin.Ten,
-                    // ViTri = "",
-                    // TuChat = "",
-                    // CanPha = x.
+                    Ten = x.ThongTin.Ten,
+                    ViTri = string.Join(" + ", dataViTri),
+                    TuChat = "",
+                    CanPha = x.ChatLuong.CanPha,
+                    KemNguoi = x.ChatLuong.KemNguoi,
+                    ChayCho = x.ChatLuong.ChayCho,
+                    DanhDau = x.ChatLuong.DanhDau,
+                    DungCam = x.ChatLuong.DungCam,
+                    ChuyenBong = x.ChatLuong.ChuyenBong,
+                    ReBong = x.ChatLuong.ReBong,
+                    TatCanh = x.ChatLuong.TatCanh,
+                    SutManh = x.ChatLuong.SutManh,
+                    DutDiem = x.ChatLuong.DutDiem,
+                    TheLuc = x.ChatLuong.TheLuc,
+                    SucManh = x.ChatLuong.SucManh,
+                    XongXao = x.ChatLuong.XongXao,
+                    TocDo = x.ChatLuong.TocDo,
+                    SangTao = x.ChatLuong.SangTao,
                 })
                 .FirstOrDefault();
             return result;

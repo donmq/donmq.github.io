@@ -17,6 +17,7 @@ public partial class DBContext : DbContext
     }
 
     public virtual DbSet<BaiTap> BaiTap { get; set; }
+    public virtual DbSet<ChatLuong> ChatLuong { get; set; }
 
     public virtual DbSet<LoaiThuocTinh> LoaiThuocTinh { get; set; }
 
