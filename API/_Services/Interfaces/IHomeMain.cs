@@ -10,5 +10,6 @@ namespace API._Services.Interfaces
         Task<HomeMainDto> GetData(HomeMainParam param);
         Task<List<KeyValuePair<string, string>>> GetListPlayers();
         Task<List<KeyValuePair<string, string>>> GetListExercise();
+        Task<List<KeyValuePair<string, string>>> GetListThuocTinh(int IDBaiTap);
     }
 }

@@ -44,9 +44,7 @@
                 "./node_modules"
               ]
             },
-            "scripts": [
-              "node_modules/popper.js/dist/umd/popper.min.js"
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {

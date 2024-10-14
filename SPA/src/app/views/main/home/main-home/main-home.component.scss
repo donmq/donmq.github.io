@@ -42,9 +42,6 @@ button{
   margin-left: 5px;
 }
 
-.overflow-box {
-  padding: 5px;
-  height: 100px;
-  border: 1px solid #999;
-  overflow: hidden;
+td input{
+  min-width: 80px;
 }

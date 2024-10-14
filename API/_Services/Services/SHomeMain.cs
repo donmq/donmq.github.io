@@ -77,5 +77,26 @@ namespace API._Services.Services
             var data = await _repositoryAccessor.ThongTin.FindAll().ToListAsync();
             return data.Select(x => new KeyValuePair<string, string>(x.ID.ToString(), x.Ten)).ToList();
         }
+
+        public async Task<List<KeyValuePair<string, string>>> GetListThuocTinh(int IDBaiTap)
+        {
+            var data = await _repositoryAccessor.BaiTap.FindAll(x => x.ID == IDBaiTap).ToListAsync();
+            var result = data
+                .Join(_repositoryAccessor.P_ThuocTinhBaiTap.FindAll(),
+                    x => x.ID,
+                    y => y.IDBaiTap,
+                    (x, y) => new {BaiTap = x, P_ThuocTinhBaiTap = y})
+                .Join(_repositoryAccessor.ThuocTinhChinh.FindAll(),
+                    x => x.P_ThuocTinhBaiTap.IDThuocTinhChinh,
+                    y => y.ID,
+                    (x, y) => new { x.BaiTap, x.P_ThuocTinhBaiTap, ThuocTinhChinh = y })
+                .Select(x => new KeyValuePair<string, string>(
+                    $"{x.BaiTap.ID}-{x.BaiTap.TenBaiTap}",
+                    x.ThuocTinhChinh.TenThuocTinh
+                ))
+                .Distinct()
+                .ToList();
+            return result;
+        }
     }
 }

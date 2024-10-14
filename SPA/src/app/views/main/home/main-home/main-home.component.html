@@ -37,7 +37,7 @@
             </div>
             <div class="col-12 mt-4">
               <div class="row">
-                 <div class="col-4">
+                <div class="col-4">
                   <label class="col-12 text-center">Phòng Thủ</label>
                   <div class="form-group row mt-1">
                     <label class="col-4">Cản phá</label>
@@ -140,7 +140,7 @@
             </div>
             <div class="col-12">
               <label class="d-block">&nbsp;</label>
-              <button type="button" (click)="onAdd()" class="btn btn-success ml-1">
+              <button type="button" (click)="chuyenThongTin()" class="btn btn-success ml-1">
                 <i class="fa fa-plus"></i> Chuyển thông tin
               </button>
               <button type="button" (click)="onAdd()" class="btn btn-danger ml-1">
@@ -185,62 +185,73 @@
                   <tbody>
                     <tr>
                       <td></td>
-                      <td class="text-center">Player Name</td>
-                      <td class="text-center">Roles</td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
+                      <td class="text-center">{{dataTable.ten}}</td>
+                      <td class="text-center">{{dataTable.viTri}}</td>
+                      <td class="text-center">{{dataTable.canPha}}</td>
+                      <td class="text-center">{{dataTable.kemNguoi}}</td>
+                      <td class="text-center">{{dataTable.chayCho}}</td>
+                      <td class="text-center">{{dataTable.danhDau}}</td>
+                      <td class="text-center">{{dataTable.dungCam}}</td>
+                      <td class="text-center">{{dataTable.chuyenBong}}</td>
+                      <td class="text-center">{{dataTable.reBong}}</td>
+                      <td class="text-center">{{dataTable.tatCanh}}</td>
+                      <td class="text-center">{{dataTable.sutManh}}</td>
+                      <td class="text-center">{{dataTable.dutDiem}}</td>
+                      <td class="text-center">{{dataTable.theLuc}}</td>
+                      <td class="text-center">{{dataTable.sucManh}}</td>
+                      <td class="text-center">{{dataTable.xongXao}}</td>
+                      <td class="text-center">{{dataTable.tocDo}}</td>
+                      <td class="text-center">{{dataTable.sangTao}}</td>
+                      <td class="text-center"></td>
+                      <td class="text-center"></td>
+                      <td class="text-center"></td>
+                      <td class="text-center"></td>
                       <td></td>
                     </tr>
                     <tr>
                       <td></td>
                       <td class="text-center">Kết quả tập luyện</td>
                       <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
+                      <td class="text-center">{{dataKetQua.canPha}}</td>
+                      <td class="text-center">{{dataKetQua.kemNguoi}}</td>
+                      <td class="text-center">{{dataKetQua.chayCho}}</td>
+                      <td class="text-center">{{dataKetQua.danhDau}}</td>
+                      <td class="text-center">{{dataKetQua.dungCam}}</td>
+                      <td class="text-center">{{dataKetQua.chuyenBong}}</td>
+                      <td class="text-center">{{dataKetQua.reBong}}</td>
+                      <td class="text-center">{{dataKetQua.tatCanh}}</td>
+                      <td class="text-center">{{dataKetQua.sutManh}}</td>
+                      <td class="text-center">{{dataKetQua.dutDiem}}</td>
+                      <td class="text-center">{{dataKetQua.theLuc}}</td>
+                      <td class="text-center">{{dataKetQua.sucManh}}</td>
+                      <td class="text-center">{{dataKetQua.xongXao}}</td>
+                      <td class="text-center">{{dataKetQua.tocDo}}</td>
+                      <td class="text-center">{{dataKetQua.sangTao}}</td>
                       <td></td>
                       <td></td>
                       <td></td>
                       <td></td>
                       <td></td>
                     </tr>
-                    <tr>
+                    <tr *ngFor="let item of dataBefore; let i = index ">
                       <td></td>
-                      <td style="position: relative;">
-                        <ng-select id="baiTap" name="baiTap" [(ngModel)]="param.baiTap" appendTo="body">
-                          <ng-option class="overflow-box" *ngFor="let item of exercise" value="{{ item.key }}">{{ item.value }}</ng-option>
+                      <td>
+                        <ng-select id="baiTap" [name]="'baiTap' + i" [(ngModel)]="param.baiTap" (ngModelChange)="changeBaiTap(i, param.baiTap)" appendTo="body">
+                          <ng-option *ngFor="let item of exercise" value="{{ item.key }}">{{ item.value }}</ng-option>
                         </ng-select>
                       </td>
-                      <td></td>
+                      <td>
+                        <input type="number"
+                               class="form-control text-center"
+                               [name]="'diemTB' + i"
+                               min="0"
+                               max="180"
+                               pattern="^[1-9][0-9]?$"
+                               oninput="if(this.value > 180) { this.value = 180;}"
+                               onkeypress="return /[0-9]/i.test(event.key)"
+                               [(ngModel)]="item.diemTB"
+                               (blur)="changeDiemTB(i)">
+                      </td>
                       <td></td>
                       <td></td>
                       <td></td>
