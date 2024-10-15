@@ -17,4 +17,9 @@ public partial class ThuocTinhChinh
     public string TenThuocTinh { get; set; }
 
     public int? Loai { get; set; }
+
+    internal IEnumerable<object> DefaultIfEmpty()
+    {
+        throw new NotImplementedException();
+    }
 }

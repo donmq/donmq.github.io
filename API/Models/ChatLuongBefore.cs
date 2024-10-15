@@ -8,6 +8,7 @@ public partial class ChatLuongBefore
     public int ID { get; set; }
     public int? IDThongTin { get; set; }
     public int? IDBaiTap { get; set; }
+    public int? DiemTB { get; set; }
     public int? CanPha { get; set; }
     public int? KemNguoi { get; set; }
     public int? ChayCho { get; set; }

@@ -11,9 +11,9 @@ namespace API.Models;
 [Keyless]
 public partial class P_ThuocTinhSangToi
 {
-    public int? IDViTri { get; set; }
+    public int IDViTri { get; set; }
 
-    public int? IDThuocTinhChinh { get; set; }
+    public int IDThuocTinhChinh { get; set; }
 
-    public bool? LoaiThuocTinh { get; set; }
+    public bool LoaiThuocTinh { get; set; }
 }

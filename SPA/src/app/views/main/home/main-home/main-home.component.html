@@ -160,21 +160,21 @@
                       <th></th>
                       <th class="text-center">Bài tập</th>
                       <th class="text-center">Điểm TB</th>
-                      <th class="text-center">Cản phá</th>
-                      <th class="text-center">Kèm người</th>
-                      <th class="text-center">Chạy chỗ</th>
-                      <th class="text-center">Đánh đầu</th>
-                      <th class="text-center">Dũng cảm</th>
-                      <th class="text-center">Chuyền bóng</th>
-                      <th class="text-center">Rê bóng</th>
-                      <th class="text-center">Tạt cánh</th>
-                      <th class="text-center">Sút mạnh</th>
-                      <th class="text-center">Dứt điểm</th>
-                      <th class="text-center">Thể lực</th>
-                      <th class="text-center">Sức mạnh</th>
-                      <th class="text-center">Xông xáo</th>
-                      <th class="text-center">Tốc độ</th>
-                      <th class="text-center">Sáng tạo</th>
+                      <th class="text-center" [ngClass]="{'disabled-cell': stand[0]?.value === '0'}" >Cản phá</th>
+                      <th class="text-center" [ngClass]="{'disabled-cell': stand[1]?.value === '0'}" >Kèm người</th>
+                      <th class="text-center" [ngClass]="{'disabled-cell': stand[2]?.value === '0'}" >Chạy chỗ</th>
+                      <th class="text-center" [ngClass]="{'disabled-cell': stand[3]?.value === '0'}" >Đánh đầu</th>
+                      <th class="text-center" [ngClass]="{'disabled-cell': stand[4]?.value === '0'}" >Dũng cảm</th>
+                      <th class="text-center" [ngClass]="{'disabled-cell': stand[5]?.value === '0'}" >Chuyền bóng</th>
+                      <th class="text-center" [ngClass]="{'disabled-cell': stand[6]?.value === '0'}" >Rê bóng</th>
+                      <th class="text-center" [ngClass]="{'disabled-cell': stand[7]?.value === '0'}" >Tạt cánh</th>
+                      <th class="text-center" [ngClass]="{'disabled-cell': stand[8]?.value === '0'}" >Sút mạnh</th>
+                      <th class="text-center" [ngClass]="{'disabled-cell': stand[9]?.value === '0'}" >Dứt điểm</th>
+                      <th class="text-center" [ngClass]="{'disabled-cell': stand[10]?.value === '0'}" >Thể lực</th>
+                      <th class="text-center" [ngClass]="{'disabled-cell': stand[11]?.value === '0'}" >Sức mạnh</th>
+                      <th class="text-center" [ngClass]="{'disabled-cell': stand[12]?.value === '0'}" >Xông xáo</th>
+                      <th class="text-center" [ngClass]="{'disabled-cell': stand[13]?.value === '0'}" >Tốc độ</th>
+                      <th class="text-center" [ngClass]="{'disabled-cell': stand[14]?.value === '0'}" >Sáng tạo</th>
                       <th class="text-center">Chất lượng chung</th>
                       <th class="text-center">% Kỹ năng chính</th>
                       <th class="text-center">Lượng pack cần</th>
@@ -187,21 +187,21 @@
                       <td></td>
                       <td class="text-center">{{dataTable.ten}}</td>
                       <td class="text-center">{{dataTable.viTri}}</td>
-                      <td class="text-center">{{dataTable.canPha}}</td>
-                      <td class="text-center">{{dataTable.kemNguoi}}</td>
-                      <td class="text-center">{{dataTable.chayCho}}</td>
-                      <td class="text-center">{{dataTable.danhDau}}</td>
-                      <td class="text-center">{{dataTable.dungCam}}</td>
-                      <td class="text-center">{{dataTable.chuyenBong}}</td>
-                      <td class="text-center">{{dataTable.reBong}}</td>
-                      <td class="text-center">{{dataTable.tatCanh}}</td>
-                      <td class="text-center">{{dataTable.sutManh}}</td>
-                      <td class="text-center">{{dataTable.dutDiem}}</td>
-                      <td class="text-center">{{dataTable.theLuc}}</td>
-                      <td class="text-center">{{dataTable.sucManh}}</td>
-                      <td class="text-center">{{dataTable.xongXao}}</td>
-                      <td class="text-center">{{dataTable.tocDo}}</td>
-                      <td class="text-center">{{dataTable.sangTao}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[0]?.value === '0'}">{{dataTable.canPha}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[1]?.value === '0'}">{{dataTable.kemNguoi}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[2]?.value === '0'}">{{dataTable.chayCho}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[3]?.value === '0'}">{{dataTable.danhDau}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[4]?.value === '0'}">{{dataTable.dungCam}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[5]?.value === '0'}">{{dataTable.chuyenBong}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[6]?.value === '0'}">{{dataTable.reBong}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[7]?.value === '0'}">{{dataTable.tatCanh}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[8]?.value === '0'}">{{dataTable.sutManh}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[9]?.value === '0'}">{{dataTable.dutDiem}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[10]?.value === '0'}">{{dataTable.theLuc}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[11]?.value === '0'}">{{dataTable.sucManh}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[12]?.value === '0'}">{{dataTable.xongXao}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[13]?.value === '0'}">{{dataTable.tocDo}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[14]?.value === '0'}">{{dataTable.sangTao}}</td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
@@ -212,21 +212,21 @@
                       <td></td>
                       <td class="text-center">Kết quả tập luyện</td>
                       <td></td>
-                      <td class="text-center">{{dataKetQua.canPha}}</td>
-                      <td class="text-center">{{dataKetQua.kemNguoi}}</td>
-                      <td class="text-center">{{dataKetQua.chayCho}}</td>
-                      <td class="text-center">{{dataKetQua.danhDau}}</td>
-                      <td class="text-center">{{dataKetQua.dungCam}}</td>
-                      <td class="text-center">{{dataKetQua.chuyenBong}}</td>
-                      <td class="text-center">{{dataKetQua.reBong}}</td>
-                      <td class="text-center">{{dataKetQua.tatCanh}}</td>
-                      <td class="text-center">{{dataKetQua.sutManh}}</td>
-                      <td class="text-center">{{dataKetQua.dutDiem}}</td>
-                      <td class="text-center">{{dataKetQua.theLuc}}</td>
-                      <td class="text-center">{{dataKetQua.sucManh}}</td>
-                      <td class="text-center">{{dataKetQua.xongXao}}</td>
-                      <td class="text-center">{{dataKetQua.tocDo}}</td>
-                      <td class="text-center">{{dataKetQua.sangTao}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[0]?.value === '0'}">{{dataKetQua.canPha}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[1]?.value === '0'}">{{dataKetQua.kemNguoi}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[2]?.value === '0'}">{{dataKetQua.chayCho}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[3]?.value === '0'}">{{dataKetQua.danhDau}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[4]?.value === '0'}">{{dataKetQua.dungCam}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[5]?.value === '0'}">{{dataKetQua.chuyenBong}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[6]?.value === '0'}">{{dataKetQua.reBong}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[7]?.value === '0'}">{{dataKetQua.tatCanh}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[8]?.value === '0'}">{{dataKetQua.sutManh}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[9]?.value === '0'}">{{dataKetQua.dutDiem}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[10]?.value === '0'}">{{dataKetQua.theLuc}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[11]?.value === '0'}">{{dataKetQua.sucManh}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[12]?.value === '0'}">{{dataKetQua.xongXao}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[13]?.value === '0'}">{{dataKetQua.tocDo}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[14]?.value === '0'}">{{dataKetQua.sangTao}}</td>
                       <td></td>
                       <td></td>
                       <td></td>
@@ -242,31 +242,31 @@
                       </td>
                       <td>
                         <input type="number"
-                               class="form-control text-center"
-                               [name]="'diemTB' + i"
-                               min="0"
-                               max="180"
-                               pattern="^[1-9][0-9]?$"
-                               oninput="if(this.value > 180) { this.value = 180;}"
-                               onkeypress="return /[0-9]/i.test(event.key)"
-                               [(ngModel)]="item.diemTB"
-                               (blur)="changeDiemTB(i)">
+                          class="form-control text-center"
+                          [name]="'diemTB' + i"
+                          min="0"
+                          max="180"
+                          pattern="^[1-9][0-9]?$"
+                          oninput="if(this.value > 180) { this.value = 180;}"
+                          onkeypress="return /[0-9]/i.test(event.key)"
+                          [(ngModel)]="item.diemTB"
+                          (blur)="changeDiemTB(i)">
                       </td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
+                      <td [ngClass]="{'disabled-cell': stand[0]?.value === '0'}"></td>
+                      <td [ngClass]="{'disabled-cell': stand[1]?.value === '0'}"></td>
+                      <td [ngClass]="{'disabled-cell': stand[2]?.value === '0'}"></td>
+                      <td [ngClass]="{'disabled-cell': stand[3]?.value === '0'}"></td>
+                      <td [ngClass]="{'disabled-cell': stand[4]?.value === '0'}"></td>
+                      <td [ngClass]="{'disabled-cell': stand[5]?.value === '0'}"></td>
+                      <td [ngClass]="{'disabled-cell': stand[6]?.value === '0'}"></td>
+                      <td [ngClass]="{'disabled-cell': stand[7]?.value === '0'}"></td>
+                      <td [ngClass]="{'disabled-cell': stand[8]?.value === '0'}"></td>
+                      <td [ngClass]="{'disabled-cell': stand[9]?.value === '0'}"></td>
+                      <td [ngClass]="{'disabled-cell': stand[10]?.value === '0'}"></td>
+                      <td [ngClass]="{'disabled-cell': stand[11]?.value === '0'}"></td>
+                      <td [ngClass]="{'disabled-cell': stand[12]?.value === '0'}"></td>
+                      <td [ngClass]="{'disabled-cell': stand[13]?.value === '0'}"></td>
+                      <td [ngClass]="{'disabled-cell': stand[14]?.value === '0'}"></td>
                       <td></td>
                       <td></td>
                       <td></td>

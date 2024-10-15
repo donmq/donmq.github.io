@@ -15,6 +15,8 @@ export class MainHomeComponent implements OnInit {
   dataKetQua: ChuyenThongTin = <ChuyenThongTin>{};
   players: KeyValuePair[] = []
   exercise: KeyValuePair[] = []
+  attribute: KeyValuePair[] = []
+  stand: KeyValuePair[] = []
   param: MainHomeParam = <MainHomeParam>{};
 
   dataBefore: ChuyenThongTin[] = []
@@ -24,6 +26,25 @@ export class MainHomeComponent implements OnInit {
   ngOnInit() {
     this.getListPlayer();
     this.getListExersice();
+    if (this.dataBefore.length == 0)
+      this.dataBefore.push(<ChuyenThongTin>{
+        diemTB: 180,
+        canPha: null,
+        kemNguoi: null,
+        chayCho: null,
+        danhDau: null,
+        dungCam: null,
+        chuyenBong: null,
+        reBong: null,
+        tatCanh: null,
+        sutManh: null,
+        dutDiem: null,
+        theLuc: null,
+        sucManh: null,
+        xongXao: null,
+        tocDo: null,
+        sangTao: null
+      });
   }
 
   getListPlayer() {
@@ -60,9 +81,10 @@ export class MainHomeComponent implements OnInit {
   changeBaiTap(index: number, baiTap: string) {
 
     let parseInt = +baiTap.split('-')[0]
-      this.service.getListThuocTinh(parseInt).subscribe({
+    console.log('parseInt :', parseInt);
+    this.service.getListThuocTinh(parseInt).subscribe({
       next: res => {
-        this.data = res
+        this.attribute = res
       }
     })
     // this.dataBefore[index].diemTB = 180
@@ -105,25 +127,14 @@ export class MainHomeComponent implements OnInit {
     this.dataKetQua.xongXao = this.data.xongXao
     this.dataKetQua.tocDo = this.data.tocDo
     this.dataKetQua.sangTao = this.data.sangTao
-    if (this.dataBefore.length == 0)
-      this.dataBefore.push(<ChuyenThongTin>{
-        diemTB: 180,
-        canPha: null,
-        kemNguoi: null,
-        chayCho: null,
-        danhDau: null,
-        dungCam: null,
-        chuyenBong: null,
-        reBong: null,
-        tatCanh: null,
-        sutManh: null,
-        dutDiem: null,
-        theLuc: null,
-        sucManh: null,
-        xongXao: null,
-        tocDo: null,
-        sangTao: null
-      });
+
+    this.service.getListDisable(this.data.viTri).subscribe({
+      next: res => {
+        this.stand = res
+        console.log('this.stand  :', this.stand );
+      }
+    })
+
   }
 
 }

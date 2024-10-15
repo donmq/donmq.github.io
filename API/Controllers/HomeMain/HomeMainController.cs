@@ -35,5 +35,10 @@ namespace API.Controllers.HomeMain
         {
             return Ok(await _service.GetListThuocTinh(BaiTap));
         }
+        [HttpGet("GetListDisable")]
+        public async Task<IActionResult> GetListDisable(string ViTri)
+        {
+            return Ok(await _service.GetListDisable(ViTri));
+        }
     }
 }
