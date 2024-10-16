@@ -26,7 +26,7 @@ export class HomeMainService {
 
   getListThuocTinh(idBaiTap: number) {
     let params = new HttpParams().appendAll({ idBaiTap });
-    return this.http.get<KeyValuePair[]>(this.baseUrl + "GetListThuocTinh", { params })
+    return this.http.get<string[]>(this.baseUrl + "GetListThuocTinh", { params })
   }
 
   getListDisable(ViTri: string) {

@@ -1,4 +1,6 @@
 
+using API.Models;
+
 namespace API.DTO
 {
     public class HomeMainDto
@@ -21,6 +23,7 @@ namespace API.DTO
         public int? XongXao { get; set; }
         public int? TocDo { get; set; }
         public int? SangTao { get; set; }
+        public List<ChatLuongBefore> ChatLuongBefore { get; set; }
     }
     public class HomeMainParam
     {

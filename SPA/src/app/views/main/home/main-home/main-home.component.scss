@@ -28,10 +28,10 @@ h1 {
 
 table {
   th{
-    font-size: 13px;
+    font-size: 11px;
   }
   td{
-    font-size: 13px;
+    font-size: 11px;
   }
   ng-select {
     min-width: 200px;
@@ -48,4 +48,8 @@ td input{
 
 .disabled-cell {
   background-color: lightgray; // Màu xám nhạt
+}
+
+tr .text-center{
+  vertical-align: middle;
 }

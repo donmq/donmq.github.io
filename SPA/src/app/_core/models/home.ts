@@ -17,6 +17,7 @@ export interface MainHomeDto {
   xongXao: number;
   tocDo: number;
   sangTao: number;
+  chatLuongBefore: ChatLuongBefore[];
 }
 
 export interface MainHomeParam {
@@ -43,5 +44,27 @@ export interface ChuyenThongTin {
   xongXao: number | null;
   tocDo: number | null;
   sangTao: number | null;
+}
+
+export interface ChatLuongBefore {
+    id: number;
+    idThongTin: number | null;
+    idBaiTap: number | null;
+    diemTB: number | null;
+    canPha: number | null;
+    kemNguoi: number | null;
+    chayCho: number | null;
+    danhDau: number | null;
+    dungCam: number | null;
+    chuyenBong: number | null;
+    reBong: number | null;
+    tatCanh: number | null;
+    sutManh: number | null;
+    dutDiem: number | null;
+    theLuc: number | null;
+    sucManh: number | null;
+    xongXao: number | null;
+    tocDo: number | null;
+    sangTao: number | null;
 }
 

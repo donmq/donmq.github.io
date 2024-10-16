@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { KeyValuePair } from '@utilities/key-value-pair';
-import { ChuyenThongTin, MainHomeDto, MainHomeParam } from '@models/home';
+import { ChatLuongBefore, ChuyenThongTin, MainHomeDto, MainHomeParam } from '@models/home';
 import { HomeMainService } from './../../../../_core/services/home-main.service';
 
 
@@ -15,11 +15,14 @@ export class MainHomeComponent implements OnInit {
   dataKetQua: ChuyenThongTin = <ChuyenThongTin>{};
   players: KeyValuePair[] = []
   exercise: KeyValuePair[] = []
-  attribute: KeyValuePair[] = []
+  attribute: string[] = []
   stand: KeyValuePair[] = []
   param: MainHomeParam = <MainHomeParam>{};
 
-  dataBefore: ChuyenThongTin[] = []
+  dataBefore: ChatLuongBefore[] = []
+  // chatLuongBefore: ChatLuongBefore[] = [];
+  // dataKetQua: ChuyenThongTin = <ChuyenThongTin>{};
+
 
   constructor(private service: HomeMainService) { }
 
@@ -27,7 +30,7 @@ export class MainHomeComponent implements OnInit {
     this.getListPlayer();
     this.getListExersice();
     if (this.dataBefore.length == 0)
-      this.dataBefore.push(<ChuyenThongTin>{
+      this.dataBefore.push(<ChatLuongBefore>{
         diemTB: 180,
         canPha: null,
         kemNguoi: null,
@@ -59,38 +62,87 @@ export class MainHomeComponent implements OnInit {
     this.service.getListExercise().subscribe({
       next: res => {
         this.exercise = res
+        console.log('this.exercise :', this.exercise);
       }
     })
   }
 
   onSelect() {
-    this.getData()
+    this.getData();
   }
 
   getData() {
     this.service.getData(this.param).subscribe({
       next: res => {
         this.data = res
+        this.dataBefore = this.data.chatLuongBefore
+        console.log('this.dataBefore :', this.dataBefore);
+        this.chuyenThongTin();
       }
     })
   }
-  onAdd() {
-
+  addItem() {
+    this.dataBefore.push(<ChatLuongBefore>{
+      diemTB: 180,
+      canPha: null,
+      kemNguoi: null,
+      chayCho: null,
+      danhDau: null,
+      dungCam: null,
+      chuyenBong: null,
+      reBong: null,
+      tatCanh: null,
+      sutManh: null,
+      dutDiem: null,
+      theLuc: null,
+      sucManh: null,
+      xongXao: null,
+      tocDo: null,
+      sangTao: null
+    });
+  }
+  removeItem(i: number) {
+    this.dataBefore = this.dataBefore.filter(item => item.id !== this.dataBefore[i].id);
+    for (let i = 0; i < this.dataBefore.length; i++) {
+      this.dataBefore[i].id = i + 1;
+    }
   }
 
-  changeBaiTap(index: number, baiTap: string) {
+  changeBaiTap(index: number, baiTap: ChatLuongBefore) {
+    this.getListThuocTinh(index, baiTap);
 
-    let parseInt = +baiTap.split('-')[0]
-    console.log('parseInt :', parseInt);
-    this.service.getListThuocTinh(parseInt).subscribe({
+  }
+  changeDiemTB(index: number, baiTap: ChatLuongBefore) {
+    console.log('baiTap :', baiTap);
+    this.dataBefore[index].canPha = null
+    this.dataBefore[index].kemNguoi = null
+    this.dataBefore[index].chayCho = null
+    this.dataBefore[index].danhDau = null
+    this.dataBefore[index].dungCam = null
+    this.dataBefore[index].chuyenBong = null
+    this.dataBefore[index].reBong = null
+    this.dataBefore[index].tatCanh = null
+    this.dataBefore[index].sutManh = null
+    this.dataBefore[index].dutDiem = null
+    this.dataBefore[index].theLuc = null
+    this.dataBefore[index].sucManh = null
+    this.dataBefore[index].xongXao = null
+    this.dataBefore[index].tocDo = null
+    this.dataBefore[index].sangTao = null
+    this.getListThuocTinh(index, baiTap);
+    // if()
+  }
+
+  getListThuocTinh(index: number, baiTap: ChatLuongBefore) {
+    // let parseInt = +baiTap.split('-')[0]
+    this.service.getListThuocTinh(baiTap.idBaiTap).subscribe({
       next: res => {
         this.attribute = res
+        if (this.attribute && this.attribute.includes('CanPha')) {
+          this.dataBefore[index].canPha = this.dataBefore[index].canPha + this.dataBefore[index].diemTB;
+        }
       }
     })
-    // this.dataBefore[index].diemTB = 180
-  }
-  changeDiemTB(index: number) {
-    // this.dataBefore[index].diemTB = 180
   }
 
   chuyenThongTin() {
@@ -127,14 +179,15 @@ export class MainHomeComponent implements OnInit {
     this.dataKetQua.xongXao = this.data.xongXao
     this.dataKetQua.tocDo = this.data.tocDo
     this.dataKetQua.sangTao = this.data.sangTao
+    this.getListDisable();
+  }
 
+  getListDisable() {
     this.service.getListDisable(this.data.viTri).subscribe({
       next: res => {
         this.stand = res
-        console.log('this.stand  :', this.stand );
+        console.log('this.stand  :', this.stand);
       }
     })
-
   }
-
 }

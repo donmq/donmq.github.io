@@ -143,10 +143,10 @@
               <button type="button" (click)="chuyenThongTin()" class="btn btn-success ml-1">
                 <i class="fa fa-plus"></i> Chuyển thông tin
               </button>
-              <button type="button" (click)="onAdd()" class="btn btn-danger ml-1">
+              <button type="button" (click)="addItem()" class="btn btn-danger ml-1">
                 <i class="fa fa-plus"></i> Lưu thông tin
               </button>
-              <button type="button" (click)="onAdd()" class="btn btn-danger ml-1">
+              <button type="button" (click)="addItem()" class="btn btn-danger ml-1">
                 <i class="fa fa-plus"></i> Xóa cầu thủ
               </button>
             </div>
@@ -160,21 +160,21 @@
                       <th></th>
                       <th class="text-center">Bài tập</th>
                       <th class="text-center">Điểm TB</th>
-                      <th class="text-center" [ngClass]="{'disabled-cell': stand[0]?.value === '0'}" >Cản phá</th>
-                      <th class="text-center" [ngClass]="{'disabled-cell': stand[1]?.value === '0'}" >Kèm người</th>
-                      <th class="text-center" [ngClass]="{'disabled-cell': stand[2]?.value === '0'}" >Chạy chỗ</th>
-                      <th class="text-center" [ngClass]="{'disabled-cell': stand[3]?.value === '0'}" >Đánh đầu</th>
-                      <th class="text-center" [ngClass]="{'disabled-cell': stand[4]?.value === '0'}" >Dũng cảm</th>
-                      <th class="text-center" [ngClass]="{'disabled-cell': stand[5]?.value === '0'}" >Chuyền bóng</th>
-                      <th class="text-center" [ngClass]="{'disabled-cell': stand[6]?.value === '0'}" >Rê bóng</th>
-                      <th class="text-center" [ngClass]="{'disabled-cell': stand[7]?.value === '0'}" >Tạt cánh</th>
-                      <th class="text-center" [ngClass]="{'disabled-cell': stand[8]?.value === '0'}" >Sút mạnh</th>
-                      <th class="text-center" [ngClass]="{'disabled-cell': stand[9]?.value === '0'}" >Dứt điểm</th>
-                      <th class="text-center" [ngClass]="{'disabled-cell': stand[10]?.value === '0'}" >Thể lực</th>
-                      <th class="text-center" [ngClass]="{'disabled-cell': stand[11]?.value === '0'}" >Sức mạnh</th>
-                      <th class="text-center" [ngClass]="{'disabled-cell': stand[12]?.value === '0'}" >Xông xáo</th>
-                      <th class="text-center" [ngClass]="{'disabled-cell': stand[13]?.value === '0'}" >Tốc độ</th>
-                      <th class="text-center" [ngClass]="{'disabled-cell': stand[14]?.value === '0'}" >Sáng tạo</th>
+                      <th class="text-center" [ngClass]="{'disabled-cell': stand[0]?.value === '0'}">Cản phá</th>
+                      <th class="text-center" [ngClass]="{'disabled-cell': stand[1]?.value === '0'}">Kèm người</th>
+                      <th class="text-center" [ngClass]="{'disabled-cell': stand[2]?.value === '0'}">Chạy chỗ</th>
+                      <th class="text-center" [ngClass]="{'disabled-cell': stand[3]?.value === '0'}">Đánh đầu</th>
+                      <th class="text-center" [ngClass]="{'disabled-cell': stand[4]?.value === '0'}">Dũng cảm</th>
+                      <th class="text-center" [ngClass]="{'disabled-cell': stand[5]?.value === '0'}">Chuyền bóng</th>
+                      <th class="text-center" [ngClass]="{'disabled-cell': stand[6]?.value === '0'}">Rê bóng</th>
+                      <th class="text-center" [ngClass]="{'disabled-cell': stand[7]?.value === '0'}">Tạt cánh</th>
+                      <th class="text-center" [ngClass]="{'disabled-cell': stand[8]?.value === '0'}">Sút mạnh</th>
+                      <th class="text-center" [ngClass]="{'disabled-cell': stand[9]?.value === '0'}">Dứt điểm</th>
+                      <th class="text-center" [ngClass]="{'disabled-cell': stand[10]?.value === '0'}">Thể lực</th>
+                      <th class="text-center" [ngClass]="{'disabled-cell': stand[11]?.value === '0'}">Sức mạnh</th>
+                      <th class="text-center" [ngClass]="{'disabled-cell': stand[12]?.value === '0'}">Xông xáo</th>
+                      <th class="text-center" [ngClass]="{'disabled-cell': stand[13]?.value === '0'}">Tốc độ</th>
+                      <th class="text-center" [ngClass]="{'disabled-cell': stand[14]?.value === '0'}">Sáng tạo</th>
                       <th class="text-center">Chất lượng chung</th>
                       <th class="text-center">% Kỹ năng chính</th>
                       <th class="text-center">Lượng pack cần</th>
@@ -233,11 +233,17 @@
                       <td></td>
                       <td></td>
                     </tr>
-                    <tr *ngFor="let item of dataBefore; let i = index ">
-                      <td></td>
+                    <tr *ngFor="let dataItem of dataBefore; let i = index ">
                       <td>
-                        <ng-select id="baiTap" [name]="'baiTap' + i" [(ngModel)]="param.baiTap" (ngModelChange)="changeBaiTap(i, param.baiTap)" appendTo="body">
-                          <ng-option *ngFor="let item of exercise" value="{{ item.key }}">{{ item.value }}</ng-option>
+                        <button type="button"
+                          class="btn btn-success btn-sm"
+                          (click)="addItem()">
+                          <i class="fa fa-plus"></i>
+                        </button>
+                      </td>
+                      <td>
+                        <ng-select [id]="'baiTap' + i" [name]="'baiTap' + i" [(ngModel)]="dataItem.idBaiTap" (ngModelChange)="changeBaiTap(i, dataItem)" appendTo="body">
+                          <ng-option *ngFor="let item of exercise" [value]="item.key">{{ item.value }}</ng-option>
                         </ng-select>
                       </td>
                       <td>
@@ -247,31 +253,37 @@
                           min="0"
                           max="180"
                           pattern="^[1-9][0-9]?$"
-                          oninput="if(this.value > 180) { this.value = 180;}"
-                          onkeypress="return /[0-9]/i.test(event.key)"
-                          [(ngModel)]="item.diemTB"
-                          (blur)="changeDiemTB(i)">
+                          (input)="dataItem.diemTB = (dataItem.diemTB > 180 ? 180 : dataItem.diemTB)"
+                          (keyup)="dataItem.diemTB = (dataItem.diemTB > 180 ? 180 : dataItem.diemTB)"
+                          [(ngModel)]="dataItem.diemTB"
+                          (ngModelChange)="changeDiemTB(i, dataItem)">
                       </td>
-                      <td [ngClass]="{'disabled-cell': stand[0]?.value === '0'}"></td>
-                      <td [ngClass]="{'disabled-cell': stand[1]?.value === '0'}"></td>
-                      <td [ngClass]="{'disabled-cell': stand[2]?.value === '0'}"></td>
-                      <td [ngClass]="{'disabled-cell': stand[3]?.value === '0'}"></td>
-                      <td [ngClass]="{'disabled-cell': stand[4]?.value === '0'}"></td>
-                      <td [ngClass]="{'disabled-cell': stand[5]?.value === '0'}"></td>
-                      <td [ngClass]="{'disabled-cell': stand[6]?.value === '0'}"></td>
-                      <td [ngClass]="{'disabled-cell': stand[7]?.value === '0'}"></td>
-                      <td [ngClass]="{'disabled-cell': stand[8]?.value === '0'}"></td>
-                      <td [ngClass]="{'disabled-cell': stand[9]?.value === '0'}"></td>
-                      <td [ngClass]="{'disabled-cell': stand[10]?.value === '0'}"></td>
-                      <td [ngClass]="{'disabled-cell': stand[11]?.value === '0'}"></td>
-                      <td [ngClass]="{'disabled-cell': stand[12]?.value === '0'}"></td>
-                      <td [ngClass]="{'disabled-cell': stand[13]?.value === '0'}"></td>
-                      <td [ngClass]="{'disabled-cell': stand[14]?.value === '0'}"></td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[0]?.value === '0'}">{{dataItem?.canPha}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[1]?.value === '0'}">{{dataItem?.kemNguoi}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[2]?.value === '0'}">{{dataItem?.chayCho}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[3]?.value === '0'}">{{dataItem?.danhDau}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[4]?.value === '0'}">{{dataItem?.dungCam}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[5]?.value === '0'}">{{dataItem?.chuyenBong}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[6]?.value === '0'}">{{dataItem?.reBong}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[7]?.value === '0'}">{{dataItem?.tatCanh}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[8]?.value === '0'}">{{dataItem?.sutManh}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[9]?.value === '0'}">{{dataItem?.dutDiem}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[10]?.value === '0'}">{{dataItem?.theLuc}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[11]?.value === '0'}">{{dataItem?.sucManh}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[12]?.value === '0'}">{{dataItem?.xongXao}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[13]?.value === '0'}">{{dataItem?.tocDo}}</td>
+                      <td class="text-center" [ngClass]="{'disabled-cell': stand[14]?.value === '0'}">{{dataItem?.sangTao}}</td>
                       <td></td>
                       <td></td>
                       <td></td>
                       <td></td>
-                      <td></td>
+                      <td>
+                        <button class="btn btn-danger btn-sm"
+                          (click)="removeItem(i)">
+                          <i class="fa fa-trash-o"
+                            aria-hidden="true"></i>
+                        </button>
+                      </td>
                     </tr>
                     <!-- <tr *ngFor="let item of data; let i = index">
                       <td class="text-center">

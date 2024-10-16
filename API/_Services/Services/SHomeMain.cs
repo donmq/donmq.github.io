@@ -37,7 +37,9 @@ namespace API._Services.Services
                     (x, y) => new { x.ThongTin, x.ThongTinViTri, ViTri = y })
                 .SelectMany(x => x.ViTri.DefaultIfEmpty(),
                     (x, y) => new { x.ThongTin, x.ThongTinViTri, ViTri = y })
-                .Select(x => x.ViTri.TenViTri).ToList();    
+                .Select(x => x.ViTri.TenViTri).ToList();
+
+            var dataBefore = await _repositoryAccessor.ChatLuongBefore.FindAll(x => x.IDThongTin == int.Parse(param.Ten)).ToListAsync();
 
             var result = dataChatLuong.Join(data,
                     x => x.IDThongTin,
@@ -62,16 +64,17 @@ namespace API._Services.Services
                     XongXao = x.ChatLuong.XongXao,
                     TocDo = x.ChatLuong.TocDo,
                     SangTao = x.ChatLuong.SangTao,
+                    ChatLuongBefore = dataBefore
                 })
                 .FirstOrDefault();
             return result;
         }
 
 
-        public async Task<List<KeyValuePair<string, string>>> GetListExercise()
+        public async Task<List<KeyValuePair<int, string>>> GetListExercise()
         {
             var data = await _repositoryAccessor.BaiTap.FindAll().ToListAsync();
-            return data.Select(x => new KeyValuePair<string, string>($"{x.ID}-{x.PhanLoai}", x.TenBaiTap)).ToList();
+            return data.Select(x => new KeyValuePair<int, string>(x.ID, x.TenBaiTap)).ToList();
         }
 
         public async Task<List<KeyValuePair<string, string>>> GetListPlayers()
