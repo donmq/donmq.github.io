@@ -41,6 +41,8 @@ namespace API._Services.Services
 
             var dataBefore = await _repositoryAccessor.ChatLuongBefore.FindAll(x => x.IDThongTin == int.Parse(param.Ten)).ToListAsync();
 
+            
+
             var result = dataChatLuong.Join(data,
                     x => x.IDThongTin,
                     y => y.ID,
@@ -85,6 +87,8 @@ namespace API._Services.Services
 
         public async Task<List<KeyValuePair<string, string>>> GetListThuocTinh(int IDBaiTap)
         {
+
+
             var data = await _repositoryAccessor.BaiTap.FindAll(x => x.ID == IDBaiTap).ToListAsync();
             var result = data
                 .GroupJoin(_repositoryAccessor.P_ThuocTinhBaiTap.FindAll(x => x.IDBaiTap == IDBaiTap),
@@ -99,27 +103,41 @@ namespace API._Services.Services
                     (x, y) => new { x.BaiTap, x.P_ThuocTinhBaiTap, ThuocTinhChinh = y })
                 .SelectMany(x => x.ThuocTinhChinh.DefaultIfEmpty(),
                     (x, y) => new { x.BaiTap, x.P_ThuocTinhBaiTap, ThuocTinhChinh = y })
-                .Select(x => new KeyValuePair<string, string>(
-                    $"{x.BaiTap.ID}-{x.BaiTap.TenBaiTap}",
-                    x.ThuocTinhChinh.TenThuocTinh
-                ))
-                // .Distinct()
+                .Select(x => x.ThuocTinhChinh.TenThuocTinh)
                 .ToList();
-            return result;
+
+            
+
+            var dataDisabled = await GetListDisable("ST+AMC");
+
+            var filteredResult = dataDisabled
+                .Where(x => result.Contains(x.Key))
+                .ToList();
+
+
+            return filteredResult;
         }
 
         public async Task<List<KeyValuePair<string, string>>> GetListDisable(string ViTri)
         {
             var listViTri = ViTri.Split("+");
             var dataViTri = await _repositoryAccessor.ViTri.FindAll(x => listViTri.Contains(x.TenViTri.Trim())).Select(x => x.ID).ToListAsync();
-            var result = _repositoryAccessor.P_ThuocTinhSangToi.FindAll(x => dataViTri.Contains(x.IDViTri)).GroupBy(x => x.IDThuocTinhChinh)
-                          .Select(g => new
-                          {
-                              ID = g.Key,
-                              KQ = g.Max(x => Convert.ToInt32(x.LoaiThuocTinh)) == 0 ? 0 : 1
-                          })
-                          .ToList();
-            return result.Select(x => new KeyValuePair<string, string>(x.ID.ToString(), x.KQ.ToString())).ToList();
+
+            var result = _repositoryAccessor.P_ThuocTinhSangToi
+                .FindAll(x => dataViTri.Contains(x.IDViTri))
+                .Join(_repositoryAccessor.ThuocTinhChinh.FindAll(),
+                    x => x.IDThuocTinhChinh,
+                    y => y.ID,
+                    (x, y) => new { P_ThuocTinhSangToi = x, ThuocTinhChinh = y })
+                .GroupBy(x => x.P_ThuocTinhSangToi.IDThuocTinhChinh)
+                .Select(g => new
+                {
+                    ID = g.Key,
+                    Name = g.Select(x => x.ThuocTinhChinh.TenThuocTinh).FirstOrDefault(),
+                    KQ = g.Max(x => Convert.ToInt32(x.P_ThuocTinhSangToi.LoaiThuocTinh)) == 0 ? 0 : 1
+                })
+                .ToList();
+            return result.Select(x => new KeyValuePair<string, string>(x.Name, x.KQ.ToString())).ToList();
         }
     }
 }
