@@ -18,12 +18,12 @@ namespace API._Services.Services
         }
         public async Task<HomeMainDto> GetData(HomeMainParam param)
         {
-            var pred = PredicateBuilder.New<ChatLuong>(true);
-            if(string.IsNullOrWhiteSpace(param.Ten))
+            var pred = PredicateBuilder.New<ChatLuongAfter>(true);
+            if (string.IsNullOrWhiteSpace(param.Ten))
                 pred.And(x => x.ID == int.Parse(param.Ten));
 
             var data = await _repositoryAccessor.ThongTin.FindAll(x => x.ID == int.Parse(param.Ten)).ToListAsync();
-            var dataChatLuong = await _repositoryAccessor.ChatLuong.FindAll(pred).ToListAsync();
+            var dataChatLuong = await _repositoryAccessor.ChatLuongAfter.FindAll(pred).ToListAsync();
             var dataViTri = data
                 .GroupJoin(_repositoryAccessor.P_ThongTinViTriCauThu.FindAll(),
                     x => x.ViTriID,
@@ -41,13 +41,14 @@ namespace API._Services.Services
 
             var dataBefore = await _repositoryAccessor.ChatLuongBefore.FindAll(x => x.IDThongTin == int.Parse(param.Ten)).ToListAsync();
 
-            
+
 
             var result = dataChatLuong.Join(data,
                     x => x.IDThongTin,
                     y => y.ID,
                     (x, y) => new { ChatLuong = x, ThongTin = y })
-                .Select(x => new HomeMainDto{
+                .Select(x => new HomeMainDto
+                {
                     Ten = x.ThongTin.Ten,
                     ViTri = string.Join("+", dataViTri),
                     TuChat = "",
@@ -94,7 +95,7 @@ namespace API._Services.Services
                 .GroupJoin(_repositoryAccessor.P_ThuocTinhBaiTap.FindAll(x => x.IDBaiTap == IDBaiTap),
                     x => x.ID,
                     y => y.IDBaiTap,
-                    (x, y) => new {BaiTap = x, P_ThuocTinhBaiTap = y})
+                    (x, y) => new { BaiTap = x, P_ThuocTinhBaiTap = y })
                 .SelectMany(x => x.P_ThuocTinhBaiTap.DefaultIfEmpty(),
                     (x, y) => new { x.BaiTap, P_ThuocTinhBaiTap = y })
                 .GroupJoin(_repositoryAccessor.ThuocTinhChinh.FindAll(),
@@ -106,7 +107,7 @@ namespace API._Services.Services
                 .Select(x => x.ThuocTinhChinh.TenThuocTinh)
                 .ToList();
 
-            
+
 
             var dataDisabled = await GetListDisable("ST+AMC");
 

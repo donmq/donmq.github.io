@@ -11,7 +11,7 @@ namespace API._Repositories
             _dbContext = dbContext;
             BaiTap = new Repository<BaiTap>(_dbContext);
             ChatLuongBefore = new Repository<ChatLuongBefore>(_dbContext);
-            ChatLuong = new Repository<ChatLuong>(_dbContext);
+            ChatLuongAfter = new Repository<ChatLuongAfter>(_dbContext);
             LoaiThuocTinh = new Repository<LoaiThuocTinh>(_dbContext);
             P_ThongTinViTriCauThu = new Repository<P_ThongTinViTriCauThu>(_dbContext);
             P_ThuocTinhSangToi = new Repository<P_ThuocTinhSangToi>(_dbContext);
@@ -37,7 +37,7 @@ namespace API._Repositories
 
         public IRepository<ChatLuongBefore> ChatLuongBefore { get; set; }
 
-        public IRepository<ChatLuong> ChatLuong { get; set; }
+        public IRepository<ChatLuongAfter> ChatLuongAfter { get; set; }
 
         public async Task<bool> Save()
         {

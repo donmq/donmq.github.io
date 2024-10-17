@@ -2,7 +2,7 @@
 
 namespace API.Models;
 
-public partial class ChatLuong
+public partial class ChatLuongAfter
 {
     [Key]
     public int ID { get; set; }

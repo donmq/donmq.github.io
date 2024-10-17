@@ -11,7 +11,7 @@ namespace API._Repositories
         Task<bool> Save();
         Task<IDbContextTransaction> BeginTransactionAsync();
         IRepository<BaiTap> BaiTap { get; }
-        IRepository<ChatLuong> ChatLuong{ get; }
+        IRepository<ChatLuongAfter> ChatLuongAfter { get; }
         IRepository<ChatLuongBefore> ChatLuongBefore { get; }
         IRepository<LoaiThuocTinh> LoaiThuocTinh { get; }
         IRepository<P_ThongTinViTriCauThu> P_ThongTinViTriCauThu { get; }
