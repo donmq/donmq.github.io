@@ -242,7 +242,7 @@
                         </button>
                       </td>
                       <td>
-                        <ng-select [id]="'baiTap' + i" [name]="'baiTap' + i" [(ngModel)]="dataItem.idBaiTap" (ngModelChange)="changeBaiTap(i, dataItem)" appendTo="body">
+                        <ng-select class="custom-select" [id]="'baiTap' + i" [name]="'baiTap' + i" [(ngModel)]="dataItem.idBaiTap" (ngModelChange)="changeBaiTap(i, dataItem)" appendTo="ng-select">
                           <ng-option *ngFor="let item of exercise" [value]="item.key">{{ item.value }}</ng-option>
                         </ng-select>
                       </td>

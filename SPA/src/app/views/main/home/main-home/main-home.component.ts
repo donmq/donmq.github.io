@@ -221,7 +221,10 @@ export class MainHomeComponent implements OnInit {
     let diemCongSang
     let diemCongToi
     if (this.attributeDisable.length == 5) {
-      if (countValueOne === 4) {
+      if (countValueOne === 5) {
+        diemCongSang = Math.ceil(tongDiemSang / 5);
+        diemCongToi = 0
+      } else if (countValueOne === 4) {
         diemCongSang = Math.ceil(tongDiemSang / 4);
         diemCongToi = Math.ceil(tongDiemToi);
       } else if (countValueOne === 3) {
@@ -236,7 +239,10 @@ export class MainHomeComponent implements OnInit {
       }
     }
     if (this.attributeDisable.length == 4) {
-      if (countValueOne === 3) {
+      if (countValueOne === 4) {
+        diemCongSang = Math.ceil(tongDiemSang / 4);
+        diemCongToi = 0
+      } else if (countValueOne === 3) {
         diemCongSang = Math.ceil(tongDiemSang / 3);
         diemCongToi = Math.ceil(tongDiemToi);
       } else if (countValueOne === 2) {
@@ -248,7 +254,10 @@ export class MainHomeComponent implements OnInit {
       }
     }
     if (this.attributeDisable.length == 3) {
-      if (countValueOne === 2) {
+      if (countValueOne === 3) {
+        diemCongSang = Math.ceil(tongDiemSang / 3);
+        diemCongToi = 0
+      } else if (countValueOne === 2) {
         diemCongSang = Math.ceil(tongDiemSang / 2);
         diemCongToi = Math.ceil(tongDiemToi);
       } else if (countValueOne === 1) {
@@ -257,77 +266,83 @@ export class MainHomeComponent implements OnInit {
       }
     }
     if (this.attributeDisable.length == 2) {
-      diemCongSang = Math.ceil(tongDiemSang);
-      diemCongToi = Math.ceil(tongDiemToi);
+      if (countValueOne === 2) {
+        diemCongSang = Math.ceil(tongDiemSang / 2);
+        diemCongToi = 0
+      } else {
+        diemCongSang = Math.ceil(tongDiemSang);
+        diemCongToi = Math.ceil(tongDiemToi);
+      }
     }
-
 
     console.log('diemCongSang :', diemCongSang);
     console.log('diemCongToi :', diemCongToi);
 
-
-
     if (this.attribute.includes('CanPha') && this.attributeDisable) {
-      this.dataBefore[index].canPha = this.attributeDisable.find(x => x.key === 'CanPha')?.value === "1" ? diemCongSang : diemCongToi
+      this.dataBefore[index].canPha = this.dataKetQua.canPha + (this.attributeDisable.find(x => x.key === 'CanPha')?.value === "1" ? diemCongSang : diemCongToi)
       this.dataKetQua.canPha = this.dataBefore[index].canPha
     }
     console.log('this.dataKetQua.canPha :', this.dataKetQua.canPha);
 
     if (this.attribute.includes('KemNguoi')) {
-      this.dataBefore[index].kemNguoi = this.attributeDisable.find(x => x.key === 'KemNguoi')?.value === "1" ? diemCongSang : diemCongToi
+      this.dataBefore[index].kemNguoi = this.dataKetQua.kemNguoi + (this.attributeDisable.find(x => x.key === 'KemNguoi')?.value === "1" ? diemCongSang : diemCongToi)
       this.dataKetQua.kemNguoi = Math.max(...this.dataBefore.map(x => x.kemNguoi));
     }
     if (this.attribute.includes('ChayCho')) {
-      this.dataBefore[index].chayCho = this.attributeDisable.find(x => x.key === 'ChayCho')?.value === "1" ? diemCongSang : diemCongToi
+      this.dataBefore[index].chayCho = this.dataKetQua.chayCho + (this.attributeDisable.find(x => x.key === 'ChayCho')?.value === "1" ? diemCongSang : diemCongToi)
       this.dataKetQua.chayCho = Math.max(...this.dataBefore.map(x => x.chayCho));
     }
     if (this.attribute.includes('DanhDau')) {
-      this.dataBefore[index].danhDau = this.attributeDisable.find(x => x.key === 'DanhDau')?.value === "1" ? diemCongSang : diemCongToi
+      this.dataBefore[index].danhDau = this.dataKetQua.danhDau + (this.attributeDisable.find(x => x.key === 'DanhDau')?.value === "1" ? diemCongSang : diemCongToi)
       this.dataKetQua.danhDau = Math.max(...this.dataBefore.map(x => x.danhDau));
     }
     if (this.attribute.includes('DungCam')) {
-      this.dataBefore[index].dungCam = this.attributeDisable.find(x => x.key === 'DungCam')?.value === "1" ? diemCongSang : diemCongToi
+      this.dataBefore[index].dungCam = this.dataKetQua.dungCam + (this.attributeDisable.find(x => x.key === 'DungCam')?.value === "1" ? diemCongSang : diemCongToi)
       this.dataKetQua.dungCam = Math.max(...this.dataBefore.map(x => x.dungCam));
     }
     if (this.attribute.includes('ChuyenBong')) {
-      this.dataBefore[index].chuyenBong = this.attributeDisable.find(x => x.key === 'ChuyenBong')?.value === "1" ? diemCongSang : diemCongToi
+      this.dataBefore[index].chuyenBong = this.dataKetQua.chuyenBong + (this.attributeDisable.find(x => x.key === 'ChuyenBong')?.value === "1" ? diemCongSang : diemCongToi)
       this.dataKetQua.chuyenBong = Math.max(...this.dataBefore.map(x => x.chuyenBong));
     }
     if (this.attribute.includes('ReBong')) {
-      this.dataBefore[index].reBong = this.attributeDisable.find(x => x.key === 'ReBong')?.value === "1" ? diemCongSang : diemCongToi
+      this.dataBefore[index].reBong = this.dataKetQua.reBong + (this.attributeDisable.find(x => x.key === 'ReBong')?.value === "1" ? diemCongSang : diemCongToi)
       this.dataKetQua.reBong = Math.max(...this.dataBefore.map(x => x.reBong));
     }
     if (this.attribute.includes('TatCanh')) {
-      this.dataBefore[index].tatCanh = this.attributeDisable.find(x => x.key === 'TatCanh')?.value === "1" ? diemCongSang : diemCongToi
+      this.dataBefore[index].tatCanh = this.dataKetQua.tatCanh + (this.attributeDisable.find(x => x.key === 'TatCanh')?.value === "1" ? diemCongSang : diemCongToi)
       this.dataKetQua.tatCanh = Math.max(...this.dataBefore.map(x => x.tatCanh));
     }
     if (this.attribute.includes('SutManh')) {
-      this.dataBefore[index].sutManh = this.attributeDisable.find(x => x.key === 'SutManh')?.value === "1" ? diemCongSang : diemCongToi
+      this.dataBefore[index].sutManh = this.dataKetQua.sutManh + (this.attributeDisable.find(x => x.key === 'SutManh')?.value === "1" ? diemCongSang : diemCongToi)
       this.dataKetQua.sutManh = Math.max(...this.dataBefore.map(x => x.sutManh));
     }
     if (this.attribute.includes('DutDiem')) {
-      this.dataBefore[index].dutDiem = this.attributeDisable.find(x => x.key === 'DutDiem')?.value === "1" ? diemCongSang : diemCongToi
+      this.dataBefore[index].dutDiem = this.dataKetQua.dutDiem + (this.attributeDisable.find(x => x.key === 'DutDiem')?.value === "1" ? diemCongSang : diemCongToi)
       this.dataKetQua.dutDiem = Math.max(...this.dataBefore.map(x => x.dutDiem));
     }
     if (this.attribute.includes('TheLuc')) {
-      this.dataBefore[index].theLuc = this.attributeDisable.find(x => x.key === 'TheLuc')?.value === "1" ? diemCongSang : diemCongToi
+      this.dataBefore[index].theLuc = this.dataKetQua.theLuc + (this.attributeDisable.find(x => x.key === 'TheLuc')?.value === "1" ? diemCongSang : diemCongToi)
       this.dataKetQua.theLuc = Math.max(...this.dataBefore.map(x => x.theLuc));
     }
     if (this.attribute.includes('SucManh')) {
-      this.dataBefore[index].sucManh = this.attributeDisable.find(x => x.key === 'SucManh')?.value === "1" ? diemCongSang : diemCongToi
+      this.dataBefore[index].sucManh = this.dataKetQua.sucManh + (this.attributeDisable.find(x => x.key === 'SucManh')?.value === "1" ? diemCongSang : diemCongToi)
       this.dataKetQua.sucManh = Math.max(...this.dataBefore.map(x => x.sucManh));
     }
     if (this.attribute.includes('XongXao')) {
-      this.dataBefore[index].xongXao = this.attributeDisable.find(x => x.key === 'XongXao')?.value === "1" ? diemCongSang : diemCongToi
+      this.dataBefore[index].xongXao = this.dataKetQua.xongXao + (this.attributeDisable.find(x => x.key === 'XongXao')?.value === "1" ? diemCongSang : diemCongToi)
       this.dataKetQua.xongXao = Math.max(...this.dataBefore.map(x => x.xongXao));
     }
     if (this.attribute.includes('TocDo')) {
-      this.dataBefore[index].tocDo = this.attributeDisable.find(x => x.key === 'TocDo')?.value === "1" ? diemCongSang : diemCongToi
+      this.dataBefore[index].tocDo = this.dataKetQua.tocDo + (this.attributeDisable.find(x => x.key === 'TocDo')?.value === "1" ? diemCongSang : diemCongToi)
       this.dataKetQua.tocDo = Math.max(...this.dataBefore.map(x => x.tocDo));
     }
     if (this.attribute.includes('SangTao')) {
-      this.dataBefore[index].sangTao = this.attributeDisable.find(x => x.key === 'SangTao')?.value === "1" ? diemCongSang : diemCongToi
+      this.dataBefore[index].sangTao = this.dataKetQua.sangTao + (this.attributeDisable.find(x => x.key === 'SangTao')?.value === "1" ? diemCongSang : diemCongToi)
       this.dataKetQua.sangTao = Math.max(...this.dataBefore.map(x => x.sangTao));
+    }
+
+    for (let i in this.dataKetQua) {
+      console.log("i:",i)
     }
   }
 
@@ -350,21 +365,25 @@ export class MainHomeComponent implements OnInit {
     this.dataTable.tocDo = this.data.tocDo
     this.dataTable.sangTao = this.data.sangTao
 
-    this.dataKetQua.canPha = this.dataBefore.map(x => x.canPha).reduce((a, b) => a + b)
-    this.dataKetQua.kemNguoi = this.dataBefore.map(x => x.kemNguoi).reduce((a, b) => a + b)
-    this.dataKetQua.chayCho = this.dataBefore.map(x => x.chayCho).reduce((a, b) => a + b)
-    this.dataKetQua.danhDau = this.dataBefore.map(x => x.danhDau).reduce((a, b) => a + b)
-    this.dataKetQua.dungCam = this.dataBefore.map(x => x.dungCam).reduce((a, b) => a + b)
-    this.dataKetQua.chuyenBong = this.dataBefore.map(x => x.chuyenBong).reduce((a, b) => a + b)
-    this.dataKetQua.reBong = this.dataBefore.map(x => x.reBong).reduce((a, b) => a + b)
-    this.dataKetQua.tatCanh = this.dataBefore.map(x => x.tatCanh).reduce((a, b) => a + b)
-    this.dataKetQua.sutManh = this.dataBefore.map(x => x.canPha).reduce((a, b) => a + b)
-    this.dataKetQua.dutDiem = this.dataBefore.map(x => x.canPha).reduce((a, b) => a + b)
-    this.dataKetQua.theLuc = this.dataBefore.map(x => x.canPha).reduce((a, b) => a + b)
-    this.dataKetQua.sucManh = this.dataBefore.map(x => x.canPha).reduce((a, b) => a + b)
-    this.dataKetQua.xongXao = this.dataBefore.map(x => x.canPha).reduce((a, b) => a + b)
-    this.dataKetQua.tocDo = this.dataBefore.map(x => x.canPha).reduce((a, b) => a + b)
-    this.dataKetQua.sangTao = this.dataBefore.map(x => x.canPha).reduce((a, b) => a + b)
+    this.dataKetQua.canPha = this.dataBefore.map(x => x.canPha).reduce((a, b) => a + b) != null  ? this.dataBefore.map(x => x.canPha).reduce((a, b) => a + b) : this.dataTable.canPha
+    this.dataKetQua.kemNguoi = this.dataBefore.map(x => x.kemNguoi).reduce((a, b) => a + b) != null  ? this.dataBefore.map(x => x.kemNguoi).reduce((a, b) => a + b) : this.dataTable.kemNguoi
+    this.dataKetQua.chayCho = this.dataBefore.map(x => x.chayCho).reduce((a, b) => a + b) != null  ? this.dataBefore.map(x => x.chayCho).reduce((a, b) => a + b) : this.dataTable.chayCho
+    this.dataKetQua.danhDau = this.dataBefore.map(x => x.danhDau).reduce((a, b) => a + b) != null ? this.dataBefore.map(x => x.danhDau).reduce((a, b) => a + b) : this.dataTable.danhDau
+    this.dataKetQua.dungCam = this.dataBefore.map(x => x.dungCam).reduce((a, b) => a + b) != null ? this.dataBefore.map(x => x.dungCam).reduce((a, b) => a + b) : this.dataTable.dungCam
+    this.dataKetQua.chuyenBong = this.dataBefore.map(x => x.chuyenBong).reduce((a, b) => a + b) != null ? this.dataBefore.map(x => x.chuyenBong).reduce((a, b) => a + b) : this.dataTable.chuyenBong
+    this.dataKetQua.reBong = this.dataBefore.map(x => x.reBong != null)? this.dataBefore.map(x => x.reBong).reduce((a, b) => a + b) : this.dataTable.reBong
+    this.dataKetQua.tatCanh = this.dataBefore.map(x => x.tatCanh).reduce((a, b) => a + b) != null ? this.dataBefore.map(x => x.tatCanh).reduce((a, b) => a + b) : this.dataTable.tatCanh
+    this.dataKetQua.sutManh = this.dataBefore.map(x => x.sutManh).reduce((a, b) => a + b) != null ? this.dataBefore.map(x => x.sutManh).reduce((a, b) => a + b) : this.dataTable.sutManh
+    this.dataKetQua.dutDiem = this.dataBefore.map(x => x.dutDiem).reduce((a, b) => a + b) != null ? this.dataBefore.map(x => x.dutDiem).reduce((a, b) => a + b) : this.dataTable.dutDiem
+    this.dataKetQua.theLuc = this.dataBefore.map(x => x.theLuc != null)? this.dataBefore.map(x => x.theLuc).reduce((a, b) => a + b) : this.dataTable.theLuc
+    this.dataKetQua.sucManh = this.dataBefore.map(x => x.sucManh ).reduce((a, b) => a + b) != null ? this.dataBefore.map(x => x.sucManh).reduce((a, b) => a + b) : this.dataTable.sucManh
+    this.dataKetQua.xongXao = this.dataBefore.map(x => x.xongXao ).reduce((a, b) => a + b) != null ? this.dataBefore.map(x => x.xongXao).reduce((a, b) => a + b) : this.dataTable.xongXao
+    this.dataKetQua.tocDo = this.dataBefore.map(x => x.tocDo ).reduce((a, b) => a + b) != null ? this.dataBefore.map(x => x.tocDo).reduce((a, b) => a + b) : this.dataTable.tocDo
+    this.dataKetQua.sangTao = this.dataBefore.map(x => x.sangTao).reduce((a, b) => a + b) != null ? this.dataBefore.map(x => x.sangTao).reduce((a, b) => a + b) : this.dataTable.sangTao
+
+    console.log('this.dataKetQua :', this.dataTable);
+    console.log('this.dataBefore :', this.dataBefore.map(x => x.chayCho).reduce((a, b) => a + b)) != null;
+
     this.getListDisable();
   }
 
