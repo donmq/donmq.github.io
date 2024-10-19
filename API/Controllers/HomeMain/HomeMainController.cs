@@ -31,9 +31,9 @@ namespace API.Controllers.HomeMain
             return Ok(await _service.GetData(param));
         }
         [HttpGet("GetListThuocTinh")]
-        public async Task<IActionResult> GetListThuocTinh(int IDBaiTap)
+        public async Task<IActionResult> GetListThuocTinh(int IDBaiTap, string ViTri)
         {
-            return Ok(await _service.GetListThuocTinh(IDBaiTap));
+            return Ok(await _service.GetListThuocTinh(IDBaiTap, ViTri));
         }
         [HttpGet("GetListDisable")]
         public async Task<IActionResult> GetListDisable(string ViTri)

@@ -202,7 +202,7 @@
                       <td class="text-center" [ngClass]="{'disabled-cell': stand[12]?.value === '0'}">{{dataTable.xongXao}}</td>
                       <td class="text-center" [ngClass]="{'disabled-cell': stand[13]?.value === '0'}">{{dataTable.tocDo}}</td>
                       <td class="text-center" [ngClass]="{'disabled-cell': stand[14]?.value === '0'}">{{dataTable.sangTao}}</td>
-                      <td class="text-center"></td>
+                      <td class="text-center"> {{dataTable.chatLuongChung}}</td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
@@ -227,7 +227,7 @@
                       <td class="text-center" [ngClass]="{'disabled-cell': stand[12]?.value === '0'}">{{dataKetQua.xongXao}}</td>
                       <td class="text-center" [ngClass]="{'disabled-cell': stand[13]?.value === '0'}">{{dataKetQua.tocDo}}</td>
                       <td class="text-center" [ngClass]="{'disabled-cell': stand[14]?.value === '0'}">{{dataKetQua.sangTao}}</td>
-                      <td></td>
+                      <td class="text-center">{{dataKetQua.chatLuongChung}}</td>
                       <td></td>
                       <td></td>
                       <td></td>
@@ -258,76 +258,25 @@
                           [(ngModel)]="dataItem.diemTB"
                           (ngModelChange)="changeDiemTB(i, dataItem)">
                       </td>
-                      <td class="text-center" [ngClass]="{'disabled-cell': stand[0]?.value === '0'}">{{dataItem?.canPha}}</td>
-                      <td class="text-center" [ngClass]="{'disabled-cell': stand[1]?.value === '0'}">{{dataItem?.kemNguoi}}</td>
-                      <td class="text-center" [ngClass]="{'disabled-cell': stand[2]?.value === '0'}">{{dataItem?.chayCho}}</td>
-                      <td class="text-center" [ngClass]="{'disabled-cell': stand[3]?.value === '0'}">{{dataItem?.danhDau}}</td>
-                      <td class="text-center" [ngClass]="{'disabled-cell': stand[4]?.value === '0'}">{{dataItem?.dungCam}}</td>
-                      <td class="text-center" [ngClass]="{'disabled-cell': stand[5]?.value === '0'}">{{dataItem?.chuyenBong}}</td>
-                      <td class="text-center" [ngClass]="{'disabled-cell': stand[6]?.value === '0'}">{{dataItem?.reBong}}</td>
-                      <td class="text-center" [ngClass]="{'disabled-cell': stand[7]?.value === '0'}">{{dataItem?.tatCanh}}</td>
-                      <td class="text-center" [ngClass]="{'disabled-cell': stand[8]?.value === '0'}">{{dataItem?.sutManh}}</td>
-                      <td class="text-center" [ngClass]="{'disabled-cell': stand[9]?.value === '0'}">{{dataItem?.dutDiem}}</td>
-                      <td class="text-center" [ngClass]="{'disabled-cell': stand[10]?.value === '0'}">{{dataItem?.theLuc}}</td>
-                      <td class="text-center" [ngClass]="{'disabled-cell': stand[11]?.value === '0'}">{{dataItem?.sucManh}}</td>
-                      <td class="text-center" [ngClass]="{'disabled-cell': stand[12]?.value === '0'}">{{dataItem?.xongXao}}</td>
-                      <td class="text-center" [ngClass]="{'disabled-cell': stand[13]?.value === '0'}">{{dataItem?.tocDo}}</td>
-                      <td class="text-center" [ngClass]="{'disabled-cell': stand[14]?.value === '0'}">{{dataItem?.sangTao}}</td>
-                      <td></td>
+                      <td *ngFor="let key of keys" class="text-center" [ngClass]="{'disabled-cell': stand[keys.indexOf(key)]?.value === '0'}">
+                        <div>
+                          {{ dataItem[key] }}
+                        </div>
+                      </td>
+                      <td class="text-center">{{dataItem?.chatLuongChung}}</td>
                       <td></td>
                       <td></td>
                       <td></td>
                       <td>
                         <button class="btn btn-danger btn-sm"
-                          (click)="removeItem(i)">
+                          (click)="removeItem(dataItem)">
                           <i class="fa fa-trash-o"
                             aria-hidden="true"></i>
                         </button>
                       </td>
                     </tr>
-                    <!-- <tr *ngFor="let item of data; let i = index">
-                      <td class="text-center">
-                        <button type="button"
-                                class="btn btn-warning btn-sm"
-                                (click)="onForm(item)">
-                          <i class="{{ iconButton.EDIT }}"></i>
-                          {{ "System.Action.Edit" | translate }}
-                        </button>
-                      </td>
-<td class="text-center">{{ item.division }}</td>
-                      <td class="text-center">{{ item.factory }}</td>
-                      <td class="text-center">{{ item.center_Code }}</td>
-                      <td class="text-center">{{ item.org_Level_Name }}</td>
-                      <td class="text-center">{{ item.department_Code }}</td>
-                      <td class="text-center">{{ item.department_Name_Lang }}</td>
-                      <td class="text-center"
-                          *ngIf="item.upper_Department == null; else upper"></td>
-                      <ng-template #upper>
-                        <td class="text-center">{{ item.upper_Department_Name }}</td>
-                      </ng-template>
-                      <td class="text-center"
-                          *ngIf="item.virtual_Department == null; else virtual"></td>
-                      <ng-template #virtual>
-                        <td class="text-center">{{ item.virtual_Department_Name }}</td>
-                      </ng-template>
-                      <td class="text-center">{{ item.supervisor_Employee_ID }}</td>
-                      <td class="text-center"></td>
-                      <td class="text-center">{{ item.supervisor_Type }}</td>
-                      <td class="text-center">{{ item.approved_Headcount }}</td>
-                      <td class="text-center"></td>
-                      <td class="text-center">{{ item.cost_Center }}</td>
-                      <td class="text-center">
-                        {{item.isActive === true
-                        ? ("OrganizationManagement.DepartmentMaintenance.Enabled" | translate)
-                        : ("OrganizationManagement.DepartmentMaintenance.Disabled" | translate)}}
-                      </td>
-                      <td class="text-center">{{ item.effective_Date | date : "yyyy/MM/dd" }}</td>
-                      <td class="text-center">{{ item.expiration_Date | date : "yyyy/MM/dd" }}</td>
-                    </tr> -->
                   </tbody>
                 </table>
-              </div>
-              <div class="row">
               </div>
             </div>
           </div>

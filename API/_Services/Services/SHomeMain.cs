@@ -86,7 +86,7 @@ namespace API._Services.Services
             return data.Select(x => new KeyValuePair<string, string>(x.ID.ToString(), x.Ten)).ToList();
         }
 
-        public async Task<List<KeyValuePair<string, string>>> GetListThuocTinh(int IDBaiTap)
+        public async Task<List<KeyValuePair<string, string>>> GetListThuocTinh(int IDBaiTap, string ViTri)
         {
 
 
@@ -109,7 +109,7 @@ namespace API._Services.Services
 
 
 
-            var dataDisabled = await GetListDisable("ST+AMC");
+            var dataDisabled = await GetListDisable(ViTri);
 
             var filteredResult = dataDisabled
                 .Where(x => result.Contains(x.Key))

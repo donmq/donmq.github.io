@@ -22,10 +22,9 @@ export class MainHomeComponent implements OnInit {
     ten: "1"
   };
 
-  dataBefore: ChatLuongBefore[] = []
-  // chatLuongBefore: ChatLuongBefore[] = [];
-  // dataKetQua: ChuyenThongTin = <ChuyenThongTin>{};
+  keys = ['canPha', 'kemNguoi', 'chayCho', 'danhDau', 'dungCam', 'chuyenBong', 'reBong', 'tatCanh', 'sutManh', 'dutDiem', 'theLuc', 'sucManh', 'xongXao', 'tocDo', 'sangTao'];
 
+  dataBefore: ChatLuongBefore[] = []
 
   constructor(private service: HomeMainService) { }
 
@@ -34,40 +33,7 @@ export class MainHomeComponent implements OnInit {
     this.getListPlayer();
     this.getListExersice();
     if (this.dataBefore.length == 0)
-      this.dataBefore.push(<ChatLuongBefore>{
-        diemTB: 180,
-        canPha: null,
-        kemNguoi: null,
-        chayCho: null,
-        danhDau: null,
-        dungCam: null,
-        chuyenBong: null,
-        reBong: null,
-        tatCanh: null,
-        sutManh: null,
-        dutDiem: null,
-        theLuc: null,
-        sucManh: null,
-        xongXao: null,
-        tocDo: null,
-        sangTao: null
-      });
-  }
-
-  getListPlayer() {
-    this.service.getListPlayers().subscribe({
-      next: res => {
-        this.players = res
-      }
-    })
-  }
-
-  getListExersice() {
-    this.service.getListExercise().subscribe({
-      next: res => {
-        this.exercise = res
-      }
-    })
+      this.addItem();
   }
 
   onSelect() {
@@ -80,98 +46,15 @@ export class MainHomeComponent implements OnInit {
         this.data = res
         this.dataBefore = this.data.chatLuongBefore
         this.chuyenThongTin();
-      }
-    })
-  }
-  addItem() {
-    this.dataBefore.push(<ChatLuongBefore>{
-      diemTB: 180,
-      canPha: null,
-      kemNguoi: null,
-      chayCho: null,
-      danhDau: null,
-      dungCam: null,
-      chuyenBong: null,
-      reBong: null,
-      tatCanh: null,
-      sutManh: null,
-      dutDiem: null,
-      theLuc: null,
-      sucManh: null,
-      xongXao: null,
-      tocDo: null,
-      sangTao: null
-    });
-  }
-  removeItem(i: number) {
-    this.dataBefore = this.dataBefore.filter(item => item.id !== this.dataBefore[i].id);
-    for (let i = 0; i < this.dataBefore.length; i++) {
-      this.dataBefore[i].id = i + 1;
-    }
-  }
-
-  changeBaiTap(index: number, baiTap: ChatLuongBefore) {
-    this.clear(index);
-    this.getListThuocTinh(index, baiTap);
-
-  }
-  changeDiemTB(index: number, baiTap: ChatLuongBefore) {
-    this.clear(index);
-    this.getListThuocTinh(index, baiTap);
-    // if()
-  }
-
-  clear(index: number) {
-    this.dataBefore[index].canPha = null
-    this.dataBefore[index].kemNguoi = null
-    this.dataBefore[index].chayCho = null
-    this.dataBefore[index].danhDau = null
-    this.dataBefore[index].dungCam = null
-    this.dataBefore[index].chuyenBong = null
-    this.dataBefore[index].reBong = null
-    this.dataBefore[index].tatCanh = null
-    this.dataBefore[index].sutManh = null
-    this.dataBefore[index].dutDiem = null
-    this.dataBefore[index].theLuc = null
-    this.dataBefore[index].sucManh = null
-    this.dataBefore[index].xongXao = null
-    this.dataBefore[index].tocDo = null
-    this.dataBefore[index].sangTao = null
-  }
-
-  ketQua(index: number) {
-    this.dataKetQua.canPha = this.dataBefore.map(x => x.canPha).reduce((a, b) => a + b)
-    this.dataKetQua.kemNguoi = this.data.kemNguoi
-    this.dataKetQua.chayCho = this.data.chayCho
-    this.dataKetQua.danhDau = this.data.danhDau
-    this.dataKetQua.dungCam = this.data.dungCam
-    this.dataKetQua.chuyenBong = this.data.chuyenBong
-    this.dataKetQua.reBong = this.data.reBong
-    this.dataKetQua.tatCanh = this.data.tatCanh
-    this.dataKetQua.sutManh = this.data.sutManh
-    this.dataKetQua.dutDiem = this.data.dutDiem
-    this.dataKetQua.theLuc = this.data.theLuc
-    this.dataKetQua.sucManh = this.data.sucManh
-    this.dataKetQua.xongXao = this.data.xongXao
-    this.dataKetQua.tocDo = this.data.tocDo
-    this.dataKetQua.sangTao = this.data.sangTao
-  }
-  getListThuocTinh(index: number, baiTap: ChatLuongBefore) {
-    this.service.getListThuocTinh(baiTap.idBaiTap).subscribe({
-      next: res => {
-        this.attributeDisable = res
-        console.log('this.attributeDisable :', this.attributeDisable);
-        this.attribute = this.attributeDisable.map(x => x.key)
-        console.log('this.att :', this.attribute);
-
-        this.tinhToan(index);
-
+        for (let index in this.dataBefore) {
+          this.dataBefore[index].chatLuongChung = Math.floor(this.keys.reduce((total, key) => total + this.dataBefore[index][key], 0) / 15) + "%";
+        }
       }
     })
   }
 
+  //#region Tính toán
   tinhToan(index: number) {
-    debugger
     let totalSum = 0;
 
     let filteredData: any = {};
@@ -184,9 +67,12 @@ export class MainHomeComponent implements OnInit {
         totalSum += this.dataKetQua[key];
       }
     });
-    let soDiemCong = this.attribute.length * this.dataBefore[index].diemTB - totalSum
-    console.log('totalSum :', totalSum);
-    console.log(soDiemCong)
+    let soDiemCong
+    if (index == 0)
+      soDiemCong = this.attribute.length * this.dataBefore[index].diemTB
+    else
+      soDiemCong = this.attribute.length * this.dataBefore[index].diemTB - totalSum
+
 
     var diemChia = 100;
 
@@ -212,7 +98,6 @@ export class MainHomeComponent implements OnInit {
       diemChia = 80
     else if (this.attributeDisable.length == 2 && countValueOne == 1)
       diemChia = 67
-    console.log('diemChia :', diemChia);
 
     let tongDiemToi = (soDiemCong / 100) * (100 - diemChia)
     let tongDiemSang = soDiemCong - tongDiemToi;
@@ -274,123 +159,125 @@ export class MainHomeComponent implements OnInit {
         diemCongToi = Math.ceil(tongDiemToi);
       }
     }
+    debugger
+    this.keys.forEach(key => {
+      if (index === 0) {
+        this.dataBefore[index][key] = (this.attribute.includes(key) ? (this.attributeDisable.find(x => x.key === key)?.value === "1" ? diemCongSang : diemCongToi) : 0);
 
-    console.log('diemCongSang :', diemCongSang);
-    console.log('diemCongToi :', diemCongToi);
+      } else {
+        this.dataBefore[index][key] = this.dataKetQua[key] + (this.attribute.includes(key) ? (this.attributeDisable.find(x => x.key === key)?.value === "1" ? diemCongSang : diemCongToi) : 0);
+      }
+      this.dataBefore.splice(index + 1);
+      this.addItem();
+      this.dataKetQua[key] = this.dataBefore[index][key];
+    });
 
-    if (this.attribute.includes('CanPha') && this.attributeDisable) {
-      this.dataBefore[index].canPha = this.dataKetQua.canPha + (this.attributeDisable.find(x => x.key === 'CanPha')?.value === "1" ? diemCongSang : diemCongToi)
-      this.dataKetQua.canPha = this.dataBefore[index].canPha
-    }
-    console.log('this.dataKetQua.canPha :', this.dataKetQua.canPha);
+    this.dataBefore[index].chatLuongChung = Math.floor(this.keys.reduce((total, key) => total + this.dataBefore[index][key], 0) / 15) + "%";
+    this.dataKetQua.chatLuongChung = Math.floor(this.keys.reduce((total, key) => total + this.dataKetQua[key], 0) / 15) + "%";
 
-    if (this.attribute.includes('KemNguoi')) {
-      this.dataBefore[index].kemNguoi = this.dataKetQua.kemNguoi + (this.attributeDisable.find(x => x.key === 'KemNguoi')?.value === "1" ? diemCongSang : diemCongToi)
-      this.dataKetQua.kemNguoi = Math.max(...this.dataBefore.map(x => x.kemNguoi));
-    }
-    if (this.attribute.includes('ChayCho')) {
-      this.dataBefore[index].chayCho = this.dataKetQua.chayCho + (this.attributeDisable.find(x => x.key === 'ChayCho')?.value === "1" ? diemCongSang : diemCongToi)
-      this.dataKetQua.chayCho = Math.max(...this.dataBefore.map(x => x.chayCho));
-    }
-    if (this.attribute.includes('DanhDau')) {
-      this.dataBefore[index].danhDau = this.dataKetQua.danhDau + (this.attributeDisable.find(x => x.key === 'DanhDau')?.value === "1" ? diemCongSang : diemCongToi)
-      this.dataKetQua.danhDau = Math.max(...this.dataBefore.map(x => x.danhDau));
-    }
-    if (this.attribute.includes('DungCam')) {
-      this.dataBefore[index].dungCam = this.dataKetQua.dungCam + (this.attributeDisable.find(x => x.key === 'DungCam')?.value === "1" ? diemCongSang : diemCongToi)
-      this.dataKetQua.dungCam = Math.max(...this.dataBefore.map(x => x.dungCam));
-    }
-    if (this.attribute.includes('ChuyenBong')) {
-      this.dataBefore[index].chuyenBong = this.dataKetQua.chuyenBong + (this.attributeDisable.find(x => x.key === 'ChuyenBong')?.value === "1" ? diemCongSang : diemCongToi)
-      this.dataKetQua.chuyenBong = Math.max(...this.dataBefore.map(x => x.chuyenBong));
-    }
-    if (this.attribute.includes('ReBong')) {
-      this.dataBefore[index].reBong = this.dataKetQua.reBong + (this.attributeDisable.find(x => x.key === 'ReBong')?.value === "1" ? diemCongSang : diemCongToi)
-      this.dataKetQua.reBong = Math.max(...this.dataBefore.map(x => x.reBong));
-    }
-    if (this.attribute.includes('TatCanh')) {
-      this.dataBefore[index].tatCanh = this.dataKetQua.tatCanh + (this.attributeDisable.find(x => x.key === 'TatCanh')?.value === "1" ? diemCongSang : diemCongToi)
-      this.dataKetQua.tatCanh = Math.max(...this.dataBefore.map(x => x.tatCanh));
-    }
-    if (this.attribute.includes('SutManh')) {
-      this.dataBefore[index].sutManh = this.dataKetQua.sutManh + (this.attributeDisable.find(x => x.key === 'SutManh')?.value === "1" ? diemCongSang : diemCongToi)
-      this.dataKetQua.sutManh = Math.max(...this.dataBefore.map(x => x.sutManh));
-    }
-    if (this.attribute.includes('DutDiem')) {
-      this.dataBefore[index].dutDiem = this.dataKetQua.dutDiem + (this.attributeDisable.find(x => x.key === 'DutDiem')?.value === "1" ? diemCongSang : diemCongToi)
-      this.dataKetQua.dutDiem = Math.max(...this.dataBefore.map(x => x.dutDiem));
-    }
-    if (this.attribute.includes('TheLuc')) {
-      this.dataBefore[index].theLuc = this.dataKetQua.theLuc + (this.attributeDisable.find(x => x.key === 'TheLuc')?.value === "1" ? diemCongSang : diemCongToi)
-      this.dataKetQua.theLuc = Math.max(...this.dataBefore.map(x => x.theLuc));
-    }
-    if (this.attribute.includes('SucManh')) {
-      this.dataBefore[index].sucManh = this.dataKetQua.sucManh + (this.attributeDisable.find(x => x.key === 'SucManh')?.value === "1" ? diemCongSang : diemCongToi)
-      this.dataKetQua.sucManh = Math.max(...this.dataBefore.map(x => x.sucManh));
-    }
-    if (this.attribute.includes('XongXao')) {
-      this.dataBefore[index].xongXao = this.dataKetQua.xongXao + (this.attributeDisable.find(x => x.key === 'XongXao')?.value === "1" ? diemCongSang : diemCongToi)
-      this.dataKetQua.xongXao = Math.max(...this.dataBefore.map(x => x.xongXao));
-    }
-    if (this.attribute.includes('TocDo')) {
-      this.dataBefore[index].tocDo = this.dataKetQua.tocDo + (this.attributeDisable.find(x => x.key === 'TocDo')?.value === "1" ? diemCongSang : diemCongToi)
-      this.dataKetQua.tocDo = Math.max(...this.dataBefore.map(x => x.tocDo));
-    }
-    if (this.attribute.includes('SangTao')) {
-      this.dataBefore[index].sangTao = this.dataKetQua.sangTao + (this.attributeDisable.find(x => x.key === 'SangTao')?.value === "1" ? diemCongSang : diemCongToi)
-      this.dataKetQua.sangTao = Math.max(...this.dataBefore.map(x => x.sangTao));
-    }
-
-    for (let i in this.dataKetQua) {
-      console.log("i:",i)
-    }
+    console.log('this.dataBefore :', this.dataBefore);
   }
-
+  //#endregion
+  //#region Chuyển Thông tin
   chuyenThongTin() {
+
     this.dataTable.ten = this.data.ten
     this.dataTable.viTri = this.data.viTri
-    this.dataTable.canPha = this.data.canPha
-    this.dataTable.kemNguoi = this.data.kemNguoi
-    this.dataTable.chayCho = this.data.chayCho
-    this.dataTable.danhDau = this.data.danhDau
-    this.dataTable.dungCam = this.data.dungCam
-    this.dataTable.chuyenBong = this.data.chuyenBong
-    this.dataTable.reBong = this.data.reBong
-    this.dataTable.tatCanh = this.data.tatCanh
-    this.dataTable.sutManh = this.data.sutManh
-    this.dataTable.dutDiem = this.data.dutDiem
-    this.dataTable.theLuc = this.data.theLuc
-    this.dataTable.sucManh = this.data.sucManh
-    this.dataTable.xongXao = this.data.xongXao
-    this.dataTable.tocDo = this.data.tocDo
-    this.dataTable.sangTao = this.data.sangTao
 
-    this.dataKetQua.canPha = this.dataBefore.map(x => x.canPha).reduce((a, b) => a + b) != null  ? this.dataBefore.map(x => x.canPha).reduce((a, b) => a + b) : this.dataTable.canPha
-    this.dataKetQua.kemNguoi = this.dataBefore.map(x => x.kemNguoi).reduce((a, b) => a + b) != null  ? this.dataBefore.map(x => x.kemNguoi).reduce((a, b) => a + b) : this.dataTable.kemNguoi
-    this.dataKetQua.chayCho = this.dataBefore.map(x => x.chayCho).reduce((a, b) => a + b) != null  ? this.dataBefore.map(x => x.chayCho).reduce((a, b) => a + b) : this.dataTable.chayCho
-    this.dataKetQua.danhDau = this.dataBefore.map(x => x.danhDau).reduce((a, b) => a + b) != null ? this.dataBefore.map(x => x.danhDau).reduce((a, b) => a + b) : this.dataTable.danhDau
-    this.dataKetQua.dungCam = this.dataBefore.map(x => x.dungCam).reduce((a, b) => a + b) != null ? this.dataBefore.map(x => x.dungCam).reduce((a, b) => a + b) : this.dataTable.dungCam
-    this.dataKetQua.chuyenBong = this.dataBefore.map(x => x.chuyenBong).reduce((a, b) => a + b) != null ? this.dataBefore.map(x => x.chuyenBong).reduce((a, b) => a + b) : this.dataTable.chuyenBong
-    this.dataKetQua.reBong = this.dataBefore.map(x => x.reBong != null)? this.dataBefore.map(x => x.reBong).reduce((a, b) => a + b) : this.dataTable.reBong
-    this.dataKetQua.tatCanh = this.dataBefore.map(x => x.tatCanh).reduce((a, b) => a + b) != null ? this.dataBefore.map(x => x.tatCanh).reduce((a, b) => a + b) : this.dataTable.tatCanh
-    this.dataKetQua.sutManh = this.dataBefore.map(x => x.sutManh).reduce((a, b) => a + b) != null ? this.dataBefore.map(x => x.sutManh).reduce((a, b) => a + b) : this.dataTable.sutManh
-    this.dataKetQua.dutDiem = this.dataBefore.map(x => x.dutDiem).reduce((a, b) => a + b) != null ? this.dataBefore.map(x => x.dutDiem).reduce((a, b) => a + b) : this.dataTable.dutDiem
-    this.dataKetQua.theLuc = this.dataBefore.map(x => x.theLuc != null)? this.dataBefore.map(x => x.theLuc).reduce((a, b) => a + b) : this.dataTable.theLuc
-    this.dataKetQua.sucManh = this.dataBefore.map(x => x.sucManh ).reduce((a, b) => a + b) != null ? this.dataBefore.map(x => x.sucManh).reduce((a, b) => a + b) : this.dataTable.sucManh
-    this.dataKetQua.xongXao = this.dataBefore.map(x => x.xongXao ).reduce((a, b) => a + b) != null ? this.dataBefore.map(x => x.xongXao).reduce((a, b) => a + b) : this.dataTable.xongXao
-    this.dataKetQua.tocDo = this.dataBefore.map(x => x.tocDo ).reduce((a, b) => a + b) != null ? this.dataBefore.map(x => x.tocDo).reduce((a, b) => a + b) : this.dataTable.tocDo
-    this.dataKetQua.sangTao = this.dataBefore.map(x => x.sangTao).reduce((a, b) => a + b) != null ? this.dataBefore.map(x => x.sangTao).reduce((a, b) => a + b) : this.dataTable.sangTao
+    this.keys.forEach(key => {
+      this.dataTable[key] = this.data[key];
+    });
 
-    console.log('this.dataKetQua :', this.dataTable);
-    console.log('this.dataBefore :', this.dataBefore.map(x => x.chayCho).reduce((a, b) => a + b)) != null;
+    this.dataTable.chatLuongChung = Math.floor(this.keys.reduce((total, key) => total + this.data[key], 0) / 15) + "%";
+
+    this.keys.forEach(key => {
+      this.dataKetQua[key] = this.dataBefore.map(x => x[key]).reduce((a, b) => a + b) !== null ? this.dataBefore.map(x => x[key]).reduce((a, b) => a + b) : this.dataTable[key];
+    });
+    this.dataKetQua.chatLuongChung = Math.floor(this.keys.reduce((total, key) => total + this.dataKetQua[key], 0) / 15) + "%";
 
     this.getListDisable();
+  }
+  //#endregion
+
+  addItem() {
+    this.dataBefore.push(<ChatLuongBefore>{
+      diemTB: 180,
+      canPha: null,
+      kemNguoi: null,
+      chayCho: null,
+      danhDau: null,
+      dungCam: null,
+      chuyenBong: null,
+      reBong: null,
+      tatCanh: null,
+      sutManh: null,
+      dutDiem: null,
+      theLuc: null,
+      sucManh: null,
+      xongXao: null,
+      tocDo: null,
+      sangTao: null
+    });
+  }
+  removeItem(data: ChatLuongBefore) {
+    // debugger
+    this.dataBefore = this.dataBefore.filter(x => x.id != data.id)
+  }
+
+  changeBaiTap(index: number, baiTap: ChatLuongBefore) {
+    this.clear(index);
+    this.getListThuocTinh(index, baiTap);
+
+  }
+  changeDiemTB(index: number, baiTap: ChatLuongBefore) {
+    this.clear(index);
+    this.getListThuocTinh(index, baiTap);
+  }
+
+  clear(index: number) {
+    this.keys.forEach(key => {
+      this.dataBefore[index][key] = null
+    });
+  }
+
+  ketQua(index: number) {
+    // this.dataKetQua.canPha = this.dataBefore.map(x => x.canPha).reduce((a, b) => a + b)
+    this.keys.forEach(key => {
+      this.dataKetQua[key] = this.data[key]
+    });
+  }
+  getListThuocTinh(index: number, baiTap: ChatLuongBefore) {
+    this.service.getListThuocTinh(baiTap.idBaiTap, this.data.viTri).subscribe({
+      next: res => {
+        this.attributeDisable = res
+        this.attribute = this.attributeDisable.map(x => x.key)
+
+        this.tinhToan(index);
+
+      }
+    })
   }
 
   getListDisable() {
     this.service.getListDisable(this.data.viTri).subscribe({
       next: res => {
         this.stand = res
+      }
+    })
+  }
+
+  getListPlayer() {
+    this.service.getListPlayers().subscribe({
+      next: res => {
+        this.players = res
+      }
+    })
+  }
+
+  getListExersice() {
+    this.service.getListExercise().subscribe({
+      next: res => {
+        this.exercise = res
       }
     })
   }
