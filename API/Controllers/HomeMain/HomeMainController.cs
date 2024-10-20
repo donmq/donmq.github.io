@@ -40,5 +40,10 @@ namespace API.Controllers.HomeMain
         {
             return Ok(await _service.GetListDisable(ViTri));
         }
+        [HttpPost("Create")]
+        public async Task<IActionResult> Create([FromBody] DataCreate data)
+        {
+            return Ok(await _service.Create(data));
+        }
     }
 }

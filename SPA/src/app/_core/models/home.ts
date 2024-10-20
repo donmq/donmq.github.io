@@ -1,4 +1,5 @@
 export interface MainHomeDto {
+  id: number;
   ten: string;
   viTri: string;
   tuChat: string;
@@ -20,12 +21,18 @@ export interface MainHomeDto {
   chatLuongBefore: ChatLuongBefore[];
 }
 
+export interface DataCreate {
+  dataTable: ChuyenThongTin;
+  dataBefore: ChatLuongBefore[];
+}
+
 export interface MainHomeParam {
   ten: string;
   baiTap: string;
 }
 
 export interface ChuyenThongTin {
+  id: number;
   ten: string;
   viTri: string;
   diemTB: number;

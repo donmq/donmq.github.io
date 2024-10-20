@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { KeyValuePair } from '@utilities/key-value-pair';
-import { ChatLuongBefore, ChuyenThongTin, MainHomeDto, MainHomeParam } from '@models/home';
+import { ChatLuongBefore, ChuyenThongTin, DataCreate, MainHomeDto, MainHomeParam } from '@models/home';
 import { HomeMainService } from './../../../../_core/services/home-main.service';
 
 
@@ -159,7 +159,6 @@ export class MainHomeComponent implements OnInit {
         diemCongToi = Math.ceil(tongDiemToi);
       }
     }
-    debugger
     this.keys.forEach(key => {
       if (index === 0) {
         this.dataBefore[index][key] = (this.attribute.includes(key) ? (this.attributeDisable.find(x => x.key === key)?.value === "1" ? diemCongSang : diemCongToi) : 0);
@@ -168,14 +167,14 @@ export class MainHomeComponent implements OnInit {
         this.dataBefore[index][key] = this.dataKetQua[key] + (this.attribute.includes(key) ? (this.attributeDisable.find(x => x.key === key)?.value === "1" ? diemCongSang : diemCongToi) : 0);
       }
       this.dataBefore.splice(index + 1);
-      this.addItem();
+      // if(this.dataBefore.length < index)
+        this.addItem();
       this.dataKetQua[key] = this.dataBefore[index][key];
     });
 
     this.dataBefore[index].chatLuongChung = Math.floor(this.keys.reduce((total, key) => total + this.dataBefore[index][key], 0) / 15) + "%";
     this.dataKetQua.chatLuongChung = Math.floor(this.keys.reduce((total, key) => total + this.dataKetQua[key], 0) / 15) + "%";
 
-    console.log('this.dataBefore :', this.dataBefore);
   }
   //#endregion
   //#region Chuyển Thông tin
@@ -219,6 +218,38 @@ export class MainHomeComponent implements OnInit {
       sangTao: null
     });
   }
+
+  dataCreate: DataCreate = <DataCreate>{
+    dataTable: {},
+    dataBefore: []
+  };
+
+  save() {
+    this.dataTable.id = +this.param.ten
+    this.dataCreate.dataTable = this.dataTable
+    console.log('this.dataCreate.dataTable :', this.dataCreate);
+    this.dataCreate.dataBefore = this.dataBefore
+
+      this.service.create(this.dataCreate).subscribe({
+        next: result => {
+          console.log(result)
+        },
+      })
+
+    // else {
+    //   this.spinnerService.show();
+    //   this.service.update(this.data).subscribe({
+    //     next: result => {
+    //       this.spinnerService.hide()
+    //       this.functionUtility.snotifySuccessError(result.isSuccess, result.isSuccess ? 'System.Message.UpdateOKMsg' : result.error)
+    //       if (result.isSuccess) this.closeModal(result.isSuccess);
+    //     },
+    //     error: () => this.functionUtility.snotifySystemError()
+    //   })
+    // }
+
+  }
+
   removeItem(data: ChatLuongBefore) {
     // debugger
     this.dataBefore = this.dataBefore.filter(x => x.id != data.id)

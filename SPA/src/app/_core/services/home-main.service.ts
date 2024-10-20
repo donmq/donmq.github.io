@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { environment } from './../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { KeyValuePair } from './../utilities/key-value-pair';
-import { MainHomeDto, MainHomeParam } from '../models/home';
+import { DataCreate, MainHomeDto, MainHomeParam } from '../models/home';
+import { OperationResult } from '@utilities/operation-result';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +33,12 @@ export class HomeMainService {
   getListDisable(ViTri: string) {
     let params = new HttpParams().appendAll({ ViTri });
     return this.http.get<KeyValuePair[]>(this.baseUrl + "GetListDisable", { params })
+  }
+  create(data: DataCreate) {
+    return this.http.post<OperationResult>(this.baseUrl + 'Create', data)
+  }
+  update() {
+
   }
 
 }

@@ -5,6 +5,7 @@ namespace API.DTO
 {
     public class HomeMainDto
     {
+        public int ID { get; set; }
         public string Ten { get; set; }
         public string ViTri { get; set; }
         public string TuChat { get; set; }
@@ -25,6 +26,12 @@ namespace API.DTO
         public int? SangTao { get; set; }
         public List<ChatLuongBefore> ChatLuongBefore { get; set; }
     }
+
+    public class DataCreate
+    {
+        public ChuyenThongTin DataTable { get; set; }
+        public ChatLuongBefore[] DataBefore { get; set; }
+    }
     public class HomeMainParam
     {
         public string Ten { get; set; }
@@ -33,6 +40,7 @@ namespace API.DTO
 
     public class ChuyenThongTin
     {
+        public int ID { get; set; }
         public string Ten { get; set; }
         public string ViTri { get; set; }
         public int DiemTB { get; set; }

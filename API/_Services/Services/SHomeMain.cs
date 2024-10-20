@@ -1,11 +1,13 @@
 
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using API._Repositories;
 using API._Services.Interfaces;
 using API.DTO;
 using API.Models;
 using LinqKit;
 using Microsoft.EntityFrameworkCore;
+using SD3_API.Helpers.Utilities;
 
 namespace API._Services.Services
 {
@@ -139,6 +141,49 @@ namespace API._Services.Services
                 })
                 .ToList();
             return result.Select(x => new KeyValuePair<string, string>(x.Name, x.KQ.ToString())).ToList();
+        }
+
+        public async Task<OperationResult> Create(DataCreate data)
+        {
+            var checkDataAfter = await _repositoryAccessor.ThongTin.FindAll().ToListAsync();
+
+            // if (checkDataAfter.Any(x => x.ID == data.DataTable.ID))
+            //     return new OperationResult(false, "Trùng dữ liệu");
+            var dataThongTin = new ThongTin
+            {
+                Ten = data.DataTable.Ten,
+                Tuoi = "18",
+            };
+            _repositoryAccessor.ThongTin.Add(dataThongTin);
+            await _repositoryAccessor.Save();
+
+
+
+            var ViTri = data.DataTable.ViTri.Split("+");
+
+            var idViTri = await _repositoryAccessor.ViTri.FindAll(x => ViTri.Contains(x.TenViTri)).Select(x => x.ID).ToListAsync();
+
+            var dataViTri = new List<P_ThongTinViTriCauThu>();
+
+            foreach (var item in idViTri)
+            {
+                dataViTri.Add(new P_ThongTinViTriCauThu
+                {
+
+                });
+            }
+
+
+
+
+
+
+            throw new NotImplementedException();
+        }
+
+        public Task<OperationResult> Update(DataCreate data)
+        {
+            throw new NotImplementedException();
         }
     }
 }
