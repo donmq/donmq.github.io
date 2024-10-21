@@ -168,7 +168,7 @@ export class MainHomeComponent implements OnInit {
       }
       this.dataBefore.splice(index + 1);
       // if(this.dataBefore.length < index)
-        this.addItem();
+      this.addItem();
       this.dataKetQua[key] = this.dataBefore[index][key];
     });
 
@@ -186,13 +186,13 @@ export class MainHomeComponent implements OnInit {
     this.keys.forEach(key => {
       this.dataTable[key] = this.data[key];
     });
-
-    this.dataTable.chatLuongChung = Math.floor(this.keys.reduce((total, key) => total + this.data[key], 0) / 15) + "%";
+    this.dataTable.chatLuongChung = Math.floor(this.keys.reduce((total, key) => total + parseInt(this.data[key]), 0) / 15) + "%";
+    console.log('this.dataTable.chatLuongChung :', this.dataTable.chatLuongChung);
 
     this.keys.forEach(key => {
       this.dataKetQua[key] = this.dataBefore.map(x => x[key]).reduce((a, b) => a + b) !== null ? this.dataBefore.map(x => x[key]).reduce((a, b) => a + b) : this.dataTable[key];
     });
-    this.dataKetQua.chatLuongChung = Math.floor(this.keys.reduce((total, key) => total + this.dataKetQua[key], 0) / 15) + "%";
+    this.dataKetQua.chatLuongChung = Math.floor(this.keys.reduce((total, key) => total + parseInt(this.dataKetQua[key]), 0) / 15) + "%";
 
     this.getListDisable();
   }
@@ -230,11 +230,13 @@ export class MainHomeComponent implements OnInit {
     console.log('this.dataCreate.dataTable :', this.dataCreate);
     this.dataCreate.dataBefore = this.dataBefore
 
-      this.service.create(this.dataCreate).subscribe({
-        next: result => {
-          console.log(result)
-        },
-      })
+    this.service.create(this.dataCreate).subscribe({
+      next: result => {
+        console.log(result)
+        if (result.isSuccess)
+          this.getListPlayer();
+      },
+    })
 
     // else {
     //   this.spinnerService.show();
@@ -251,8 +253,9 @@ export class MainHomeComponent implements OnInit {
   }
 
   removeItem(data: ChatLuongBefore) {
-    // debugger
     this.dataBefore = this.dataBefore.filter(x => x.id != data.id)
+    if (this.dataBefore.length == 0)
+      this.addItem();
   }
 
   changeBaiTap(index: number, baiTap: ChatLuongBefore) {

@@ -18,6 +18,104 @@ namespace API._Services.Services
         {
             _repositoryAccessor = repositoryAccessor;
         }
+        #region Create        
+        public async Task<OperationResult> Create(DataCreate data)
+        {
+            var checkDataAfter = await _repositoryAccessor.ThongTin.FindAll().ToListAsync();
+
+            // if (checkDataAfter.Any(x => x.ID == data.DataTable.ID))
+            //     return new OperationResult(false, "Trùng dữ liệu");
+            var dataThongTin = new ThongTin
+            {
+                Ten = data.DataTable.Ten,
+                Tuoi = "18",
+            };
+            _repositoryAccessor.ThongTin.Add(dataThongTin);
+            await _repositoryAccessor.Save();
+
+            var maxIDThongTin = await _repositoryAccessor.ThongTin.FindAll().MaxAsync(x => x.ID);
+
+
+            var ViTri = data.DataTable.ViTri.Split("+");
+
+            var idViTri = await _repositoryAccessor.ViTri.FindAll(x => ViTri.Contains(x.TenViTri)).Select(x => x.ID).ToListAsync();
+
+            var dataViTri = new List<P_ThongTinViTriCauThu>();
+            var dataChatLuongAfter = new ChatLuongAfter { };
+            var dataChatLuongBefore = new List<ChatLuongBefore>();
+
+            foreach (var item in idViTri)
+            {
+                dataViTri.Add(new P_ThongTinViTriCauThu
+                {
+                    ThongTinID = maxIDThongTin,
+                    ViTriID = item
+                });
+            }
+
+
+            dataChatLuongAfter = new ChatLuongAfter
+            {
+                IDThongTin = maxIDThongTin,
+                CanPha = data.DataTable.CanPha,
+                KemNguoi = data.DataTable.KemNguoi,
+                ChayCho = data.DataTable.ChayCho,
+                DanhDau = data.DataTable.DanhDau,
+                DungCam = data.DataTable.DungCam,
+                ChuyenBong = data.DataTable.ChuyenBong,
+                ReBong = data.DataTable.ReBong,
+                TatCanh = data.DataTable.TatCanh,
+                SutManh = data.DataTable.SutManh,
+                DutDiem = data.DataTable.DutDiem,
+                TheLuc = data.DataTable.TheLuc,
+                SucManh = data.DataTable.SucManh,
+                XongXao = data.DataTable.XongXao,
+                TocDo = data.DataTable.TocDo,
+                SangTao = data.DataTable.SangTao
+            };
+
+
+            foreach (var item in data.DataBefore)
+            {
+                dataChatLuongBefore.Add(new ChatLuongBefore
+                {
+                    IDThongTin = maxIDThongTin,
+                    IDBaiTap = item.IDBaiTap,
+                    DiemTB = item.DiemTB,
+                    CanPha = item.CanPha,
+                    KemNguoi = item.KemNguoi,
+                    ChayCho = item.ChayCho,
+                    DanhDau = item.DanhDau,
+                    DungCam = item.DungCam,
+                    ChuyenBong = item.ChuyenBong,
+                    ReBong = item.ReBong,
+                    TatCanh = item.TatCanh,
+                    SutManh = item.SutManh,
+                    DutDiem = item.DutDiem,
+                    TheLuc = item.TheLuc,
+                    SucManh = item.SucManh,
+                    XongXao = item.XongXao,
+                    TocDo = item.TocDo,
+                    SangTao = item.SangTao
+                });
+            }
+
+            _repositoryAccessor.P_ThongTinViTriCauThu.AddMultiple(dataViTri);
+            _repositoryAccessor.ChatLuongAfter.Add(dataChatLuongAfter);
+            _repositoryAccessor.ChatLuongBefore.AddMultiple(dataChatLuongBefore);
+
+
+            return new OperationResult(await _repositoryAccessor.Save());
+        }
+        #endregion
+        #region Update
+
+        public Task<OperationResult> Update(DataCreate data)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+        #region  GetData
         public async Task<HomeMainDto> GetData(HomeMainParam param)
         {
             var pred = PredicateBuilder.New<ChatLuongAfter>(true);
@@ -74,7 +172,7 @@ namespace API._Services.Services
                 .FirstOrDefault();
             return result;
         }
-
+        #endregion
 
         public async Task<List<KeyValuePair<int, string>>> GetListExercise()
         {
@@ -143,47 +241,5 @@ namespace API._Services.Services
             return result.Select(x => new KeyValuePair<string, string>(x.Name, x.KQ.ToString())).ToList();
         }
 
-        public async Task<OperationResult> Create(DataCreate data)
-        {
-            var checkDataAfter = await _repositoryAccessor.ThongTin.FindAll().ToListAsync();
-
-            // if (checkDataAfter.Any(x => x.ID == data.DataTable.ID))
-            //     return new OperationResult(false, "Trùng dữ liệu");
-            var dataThongTin = new ThongTin
-            {
-                Ten = data.DataTable.Ten,
-                Tuoi = "18",
-            };
-            _repositoryAccessor.ThongTin.Add(dataThongTin);
-            await _repositoryAccessor.Save();
-
-
-
-            var ViTri = data.DataTable.ViTri.Split("+");
-
-            var idViTri = await _repositoryAccessor.ViTri.FindAll(x => ViTri.Contains(x.TenViTri)).Select(x => x.ID).ToListAsync();
-
-            var dataViTri = new List<P_ThongTinViTriCauThu>();
-
-            foreach (var item in idViTri)
-            {
-                dataViTri.Add(new P_ThongTinViTriCauThu
-                {
-
-                });
-            }
-
-
-
-
-
-
-            throw new NotImplementedException();
-        }
-
-        public Task<OperationResult> Update(DataCreate data)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
