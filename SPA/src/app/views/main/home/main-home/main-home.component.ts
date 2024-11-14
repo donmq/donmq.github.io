@@ -19,32 +19,15 @@ export class MainHomeComponent implements OnInit {
   attribute: string[] = []
   attributeDisable: KeyValuePair[] = []
   stand: KeyValuePair[] = []
-  param: MainHomeParam = <MainHomeParam>{
-    ten: "1"
-  };
+  param: MainHomeParam = <MainHomeParam>{};
 
-  keys = [
-    { label: 'Cản Phá', value: 'canPha', border: 'green-border' },
-    { label: 'Kèm Người', value: 'kemNguoi', border: 'green-border' },
-    { label: 'Chạy Chỗ', value: 'chayCho', border: 'green-border' },
-    { label: 'Đánh Đầu', value: 'danhDau', border: 'green-border' },
-    { label: 'Dũng Cảm', value: 'dungCam', border: 'green-border' },
-    { label: 'Chuyền Bóng', value: 'chuyenBong', border: 'red-border' },
-    { label: 'Rê Bóng', value: 'reBong', border: 'red-border' },
-    { label: 'Tạt Cánh', value: 'tatCanh', border: 'red-border' },
-    { label: 'Sút Mạnh', value: 'sutManh', border: 'red-border' },
-    { label: 'Dứt Điểm', value: 'dutDiem', border: 'red-border' },
-    { label: 'Thể Lực', value: 'theLuc', border: 'blue-border' },
-    { label: 'Sức Mạnh', value: 'sucManh', border: 'blue-border' },
-    { label: 'Xông Xáo', value: 'xongXao', border: 'blue-border' },
-    { label: 'Tốc Độ', value: 'tocDo', border: 'blue-border' },
-    { label: 'Sáng Tạo', value: 'sangTao', border: 'blue-border' },
-  ];
+  keys: KeyValuePair[] = [];
   dataBefore: ChatLuongBefore[] = []
 
   constructor(private modalService: BsModalService, private service: HomeMainService) { }
 
   ngOnInit() {
+    this.getKeys();
     this.getData();
     this.getListPlayer();
     this.getListExersice();
@@ -75,7 +58,7 @@ export class MainHomeComponent implements OnInit {
         this.dataBefore = this.data.chatLuongBefore
         this.chuyenThongTin();
         for (let index in this.dataBefore) {
-          this.dataBefore[index].chatLuongChung = Math.floor(this.keys.reduce((total, key) => total + this.dataBefore[index][key.value], 0) / 15) + "%";
+          this.dataBefore[index].chatLuongChung = Math.floor(this.keys.reduce((a, b) => a + this.dataBefore[index][b.key], 0) / 15) + "%";
         }
       }
     })
@@ -203,18 +186,18 @@ export class MainHomeComponent implements OnInit {
     }
 
 
-    this.keys.forEach(key => {
+    this.keys.forEach(x => {
       if (index === 0) {
-        this.dataBefore[index][key.value] = this.dataTable[key.value] + (this.attribute.includes(key.value) ? (this.attributeDisable.find(x => x.key === key.value)?.value === "1" ? diemCongSang : diemCongToi) : 0);
+        this.dataBefore[index][x.key] = this.dataTable[x.key] + (this.attribute.includes(x.key) ? (this.attributeDisable.find(y => y.key === x.key)?.value === "1" ? diemCongSang : diemCongToi) : 0);
 
       } else {
-        this.dataBefore[index][key.value] = this.dataKetQua[key.value] + (this.attribute.includes(key.value) ? (this.attributeDisable.find(x => x.key === key.value)?.value === "1" ? diemCongSang : diemCongToi) : 0);
+        this.dataBefore[index][x.key] = this.dataKetQua[x.key] + (this.attribute.includes(x.key) ? (this.attributeDisable.find(y => y.key === x.key)?.value === "1" ? diemCongSang : diemCongToi) : 0);
       }
-      this.dataKetQua[key.value] = this.dataBefore[index][key.value];
+      this.dataKetQua[x.key] = this.dataBefore[index][x.key];
     });
 
-    this.dataBefore[index].chatLuongChung = Math.floor(this.keys.reduce((total, key) => total + this.dataBefore[index][key.value], 0) / 15) + "%";
-    this.dataKetQua.chatLuongChung = Math.floor(this.keys.reduce((total, key) => total + this.dataKetQua[key.value], 0) / 15) + "%";
+    this.dataBefore[index].chatLuongChung = Math.floor(this.keys.reduce((a, b) => a + this.dataBefore[index][b.key], 0) / 15) + "%";
+    this.dataKetQua.chatLuongChung = Math.floor(this.keys.reduce((a, b) => a + this.dataKetQua[b.key], 0) / 15) + "%";
 
   }
   //#endregion
@@ -224,15 +207,15 @@ export class MainHomeComponent implements OnInit {
     this.dataTable.ten = this.data.ten
     this.dataTable.viTri = this.data.viTri
 
-    this.keys.forEach(key => {
-      this.dataTable[key.value] = +this.data[key.value];
+    this.keys.forEach(x => {
+      this.dataTable[x.key] = +this.data[x.key];
     });
-    this.dataTable.chatLuongChung = Math.floor(this.keys.reduce((total, key) => total + parseInt(this.data[key.value]), 0) / 15) + "%";
+    this.dataTable.chatLuongChung = Math.floor(this.keys.reduce((a, b) => a + parseInt(this.data[b.key]), 0) / 15) + "%";
 
-    this.keys.forEach(key => {
-      this.dataKetQua[key.value] = this.dataBefore.length != 0 ? Math.max(...this.dataBefore.map(x => x[key.value])) : this.dataTable[key.value];
+    this.keys.forEach(x => {
+      this.dataKetQua[x.key] = this.dataBefore.length != 0 ? Math.max(...this.dataBefore.map(y => y[x.key])) : this.dataTable[x.key];
     });
-    this.dataKetQua.chatLuongChung = Math.floor(this.keys.reduce((total, key) => total + parseInt(this.dataKetQua[key.value]), 0) / 15) + "%";
+    this.dataKetQua.chatLuongChung = Math.floor(this.keys.reduce((a, b) => a + parseInt(this.dataKetQua[b.key]), 0) / 15) + "%";
 
     this.dataBefore.forEach((x, index) => {
       this.getListThuocTinh(index, x, false)
@@ -306,19 +289,19 @@ export class MainHomeComponent implements OnInit {
       console.log('Đã xóa phần tử tại index:', index);
 
       // Gọi lại hàm tinhToan cho tất cả các chỉ số sau index
-      for (let i = index; i < this.dataBefore.length; i++) {
-        this.tinhToan(i);
+      if (this.dataBefore[index] !== undefined) {
+        this.changeBaiTap(index, this.dataBefore[index])
       }
 
       // Cập nhật lại kết quả dựa trên trạng thái mới của dataBefore
       if (index === 0) {
-        this.keys.forEach(key => {
-          this.dataKetQua[key.value] = this.dataTable[key.value];
+        this.keys.forEach(x => {
+          this.dataKetQua[x.key] = this.dataTable[x.key];
         });
         this.dataKetQua.chatLuongChung = this.dataTable.chatLuongChung;
       } else {
-        this.keys.forEach(key => {
-          this.dataKetQua[key.value] = Math.max(...this.dataBefore.map(x => x[key.value]));
+        this.keys.forEach(x => {
+          this.dataKetQua[x.key] = Math.max(...this.dataBefore.map(y => y[x.key]));
         });
         this.dataKetQua.chatLuongChung = Math.max(...this.dataBefore.map(x => parseInt(x.chatLuongChung))) + '%';
       }
@@ -398,15 +381,23 @@ export class MainHomeComponent implements OnInit {
     })
   }
 
+  getKeys() {
+    this.service.getKeys().subscribe({
+      next: res => {
+        this.keys = res
+      }
+    })
+  }
+
   clear(index: number) {
-    this.keys.forEach(key => {
-      this.dataBefore[index][key.value] = null
+    this.keys.forEach(x => {
+      this.dataBefore[index][x.key] = null
     });
   }
 
   ketQua(index: number) {
-    this.keys.forEach(key => {
-      this.dataKetQua[key.value] = this.data[key.value]
+    this.keys.forEach(x => {
+      this.dataKetQua[x.key] = this.data[x.key]
     });
   }
 }

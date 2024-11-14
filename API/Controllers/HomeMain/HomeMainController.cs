@@ -40,6 +40,11 @@ namespace API.Controllers.HomeMain
         {
             return Ok(await _service.GetListDisable(ViTri));
         }
+        [HttpGet("GetKeys")]
+        public async Task<IActionResult> GetKeys()
+        {
+            return Ok(await _service.GetKeys());
+        }
         [HttpPost("Create")]
         public async Task<IActionResult> Create([FromBody] DataCreate data)
         {

@@ -282,13 +282,13 @@
                           [(ngModel)]="dataItem.diemTB"
                           (ngModelChange)="changeBaiTap(i, dataItem)">
                       </td>
-                      <td *ngFor="let key of keys" [class]="'text-center red-border-' + i" [ngClass]="{
-                        'green-border': key.border === 'green-border',
-                        'red-border': key.border === 'red-border',
-                        'blue-border': key.border === 'blue-border',
-                        'disabled-cell': stand[keys.indexOf(key)]?.value === '0'}">
-                        <div [class]="key.value">
-                          {{ dataItem[key.value] }}
+                      <td *ngFor="let item of keys" [class]="'text-center red-border-' + i" [ngClass]="{
+                        'green-border': item.value === '1',
+                        'red-border': item.value === '2',
+                        'blue-border': item.value === '3',
+                        'disabled-cell': stand[keys.indexOf(item)]?.value === '0'}">
+                        <div [class]="item.key">
+                          {{ dataItem[item.key] }}
                         </div>
                       </td>
                       <td class="text-center">{{dataItem?.chatLuongChung}}</td>

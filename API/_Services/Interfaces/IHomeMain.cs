@@ -16,5 +16,6 @@ namespace API._Services.Interfaces
         Task<OperationResult> Create(DataCreate data);
         Task<OperationResult> Update(DataCreate data);
         Task<OperationResult> Delete(int id);
+        Task<List<KeyValuePair<string, string>>> GetKeys();
     }
 }

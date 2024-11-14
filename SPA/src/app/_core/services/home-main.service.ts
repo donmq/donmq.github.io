@@ -24,6 +24,9 @@ export class HomeMainService {
   getListExercise() {
     return this.http.get<KeyValuePair[]>(this.baseUrl + "GetListExercise")
   }
+  getKeys() {
+    return this.http.get<KeyValuePair[]>(this.baseUrl + "GetKeys")
+  }
 
   getListThuocTinh(idBaiTap: number, viTri: string) {
     let params = new HttpParams().appendAll({ idBaiTap, viTri });

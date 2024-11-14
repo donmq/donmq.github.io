@@ -301,6 +301,12 @@ namespace API._Services.Services
             return data.Select(x => new KeyValuePair<string, string>(x.ID.ToString(), x.Ten)).ToList();
         }
 
+        public async Task<List<KeyValuePair<string, string>>> GetKeys()
+        {
+            var data = await _repositoryAccessor.ThuocTinhChinh.FindAll().ToListAsync();
+            return data.Select(x => new KeyValuePair<string, string>(x.TenThuocTinh, x.Loai.ToString())).ToList();
+        }
+
         public async Task<List<KeyValuePair<string, string>>> GetListThuocTinh(int IDBaiTap, string ViTri)
         {
 
