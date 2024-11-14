@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from './../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { KeyValuePair } from './../utilities/key-value-pair';
-import { DataCreate, MainHomeDto, MainHomeParam } from '../models/home';
+import { DataCreate, MainHomeDto, MainHomeParam, Quality } from '../models/home';
 import { OperationResult } from '@utilities/operation-result';
 
 @Injectable({
@@ -24,14 +24,22 @@ export class HomeMainService {
   getListExercise() {
     return this.http.get<KeyValuePair[]>(this.baseUrl + "GetListExercise")
   }
+  getKeys() {
+    return this.http.get<KeyValuePair[]>(this.baseUrl + "GetKeys")
+  }
 
-  getListThuocTinh(idBaiTap: number, viTri: string) {
-    let params = new HttpParams().appendAll({ idBaiTap, viTri });
+  getListThuocTinh(exerciseID: number, position: string) {
+    let params = new HttpParams().appendAll({ exerciseID, position });
     return this.http.get<KeyValuePair[]>(this.baseUrl + "GetListThuocTinh", { params })
   }
 
-  getListDisable(ViTri: string) {
-    let params = new HttpParams().appendAll({ ViTri });
+  getExercisesForAttributes(key: string) {
+    let params = new HttpParams().appendAll({ key });
+    return this.http.get<KeyValuePair[]>(this.baseUrl + "GetExercisesForAttributes", { params })
+  }
+
+  getListDisable(position: string) {
+    let params = new HttpParams().appendAll({ position });
     return this.http.get<KeyValuePair[]>(this.baseUrl + "GetListDisable", { params })
   }
   create(data: DataCreate) {
@@ -45,4 +53,15 @@ export class HomeMainService {
     return this.http.delete<OperationResult>(this.baseUrl + 'Delete', { params });
   }
 
+  getListCompares(inforID: number) {
+    let params = new HttpParams().appendAll({ inforID });
+    return this.http.get<Quality[]>(this.baseUrl + "GetListCompares", { params })
+  }
+  createCompare(data: DataCreate) {
+    return this.http.post<OperationResult>(this.baseUrl + 'CreateCompare', data)
+  }
+  deleteCompare(data: Quality) {
+  console.log('data :', data);
+    return this.http.delete<OperationResult>(this.baseUrl + 'DeleteCompare', { body: data });
+  }
 }

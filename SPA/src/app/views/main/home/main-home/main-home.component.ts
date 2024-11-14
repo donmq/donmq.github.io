@@ -1,8 +1,8 @@
 import { Component, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { KeyValuePair } from '@utilities/key-value-pair';
-import { ChatLuongBefore, ChuyenThongTin, DataCreate, MainHomeDto, MainHomeParam } from '@models/home';
+import { Quality, DataCreate, MainHomeDto, MainHomeParam } from '@models/home';
 import { HomeMainService } from './../../../../_core/services/home-main.service';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 
 
 @Component({
@@ -12,51 +12,48 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 })
 export class MainHomeComponent implements OnInit {
   data: MainHomeDto = <MainHomeDto>{};
-  dataTable: ChuyenThongTin = <ChuyenThongTin>{};
-  dataKetQua: ChuyenThongTin = <ChuyenThongTin>{};
+  dataTable: Quality = <Quality>{};
+  dataKetQua: Quality = <Quality>{};
   players: KeyValuePair[] = []
   exercise: KeyValuePair[] = []
   attribute: string[] = []
   attributeDisable: KeyValuePair[] = []
   stand: KeyValuePair[] = []
-  param: MainHomeParam = <MainHomeParam>{
-    ten: "1"
-  };
+  listPlan: KeyValuePair[] = []
+  param: MainHomeParam = <MainHomeParam>{};
 
-  keys = [
-    { label: 'Cản Phá', value: 'canPha', border: 'green-border' },
-    { label: 'Kèm Người', value: 'kemNguoi', border: 'green-border' },
-    { label: 'Chạy Chỗ', value: 'chayCho', border: 'green-border' },
-    { label: 'Đánh Đầu', value: 'danhDau', border: 'green-border' },
-    { label: 'Dũng Cảm', value: 'dungCam', border: 'green-border' },
-    { label: 'Chuyền Bóng', value: 'chuyenBong', border: 'red-border' },
-    { label: 'Rê Bóng', value: 'reBong', border: 'red-border' },
-    { label: 'Tạt Cánh', value: 'tatCanh', border: 'red-border' },
-    { label: 'Sút Mạnh', value: 'sutManh', border: 'red-border' },
-    { label: 'Dứt Điểm', value: 'dutDiem', border: 'red-border' },
-    { label: 'Thể Lực', value: 'theLuc', border: 'blue-border' },
-    { label: 'Sức Mạnh', value: 'sucManh', border: 'blue-border' },
-    { label: 'Xông Xáo', value: 'xongXao', border: 'blue-border' },
-    { label: 'Tốc Độ', value: 'tocDo', border: 'blue-border' },
-    { label: 'Sáng Tạo', value: 'sangTao', border: 'blue-border' },
-  ];
-  dataBefore: ChatLuongBefore[] = []
+  keys: KeyValuePair[] = [];
+  dataAfter: Quality[] = []
+
+  diemCongSang: number
+  diemCongToi: number
 
   constructor(private modalService: BsModalService, private service: HomeMainService) { }
 
   ngOnInit() {
-    this.getData();
+    this.getKeys();
     this.getListPlayer();
     this.getListExersice();
-    if (this.dataBefore.length == 0)
-      this.addItem();
   }
 
   @ViewChild('templateTuChat', { read: TemplateRef }) templateTuChat!: TemplateRef<any>;
+  @ViewChild('templateKetQua', { read: TemplateRef }) templateKetQua!: TemplateRef<any>;
+  @ViewChild('templateSoSanh', { read: TemplateRef }) templateSoSanh!: TemplateRef<any>;
   modalRef?: BsModalRef;
 
-  openTemplate() {
-    this.modalRef = this.modalService.show(this.templateTuChat);
+  openTemplate(template: string) {
+    const initialState: ModalOptions = {
+      class: 'modal-lg'
+    };
+    if (template == 'tuChat')
+      this.modalRef = this.modalService.show(this.templateTuChat);
+    else if (template == 'ketQua')
+      this.modalRef = this.modalService.show(this.templateKetQua, initialState);
+    else {
+      this.getListCompares(this.param.inforID);
+      this.modalRef = this.modalService.show(this.templateSoSanh);
+    }
+
   }
   closeTemplate() {
     if (this.modalRef) {
@@ -65,186 +62,108 @@ export class MainHomeComponent implements OnInit {
   }
 
   onSelect() {
-    this.getData();
+    if (this.param.inforID != null)
+      this.getData(1);
   }
 
-  getData() {
+  onChangesKey() {
+    this.getExercisesForAttributes();
+  }
+  keyAttribute: string
+  exerciesForAttributes: KeyValuePair[] = []
+
+  getExercisesForAttributes() {
+    this.service.getExercisesForAttributes(this.keyAttribute).subscribe({
+      next: res => {
+        this.exerciesForAttributes = res
+      }
+    })
+  }
+  //#region Get Data
+  getData(planID?: number) {
     this.service.getData(this.param).subscribe({
       next: res => {
         this.data = res
-        this.dataBefore = this.data.chatLuongBefore
+        if (this.data.qualityAfter != null) {
+          this.dataAfter = this.data.qualityAfter.filter(x => x.planID == planID)
+          // Sử dụng Set để đảm bảo các planID là duy nhất
+          const uniquePlanIDs = new Set();
+          this.listPlan = this.data.qualityAfter
+            .filter(x => {
+              if (uniquePlanIDs.has(x.planID)) {
+                return false; // Bỏ qua các bản sao
+              }
+              uniquePlanIDs.add(x.planID);
+              return true; // Bao gồm planID duy nhất
+            })
+            .map(x => ({
+              key: x.planID,
+              value: 'Phương án ' + x.planID
+            }));
+
+        }
+        this.param.planID = planID
         this.chuyenThongTin();
-        for (let index in this.dataBefore) {
-          this.dataBefore[index].chatLuongChung = Math.floor(this.keys.reduce((total, key) => total + this.dataBefore[index][key.value], 0) / 15) + "%";
+        for (let index in this.dataAfter) {
+          this.dataAfter[index].chatLuongChung = Math.floor(this.keys.reduce((a, b) => a + this.dataAfter[index][b.key], 0) / 15);
         }
       }
     })
   }
 
   //#region Tính toán
-  tinhToan(index: number) {
-    let totalSum = 0;
+  async tinhToan(index: number) {
 
-    let filteredData: any = {};
-    let lowercaseAttribute = this.attribute.map(a => a.toLowerCase());
-
-    Object.keys(this.dataKetQua).forEach(key => {
-      let lowercaseKey = key.toLowerCase();
-      if (lowercaseAttribute.includes(lowercaseKey)) {
-        filteredData[key] = index == 0 ? this.dataTable[key] : this.dataKetQua[key];
-        totalSum += index == 0 ? this.dataTable[key] : this.dataKetQua[key];
-      }
-    });
-    let soDiemCong: number
-    if (index == 0)
-      soDiemCong = this.attribute.length * this.dataBefore[index].diemTB - totalSum
-    else
-      soDiemCong = this.attribute.length * this.dataBefore[index].diemTB - totalSum
-
-
-    var diemChia = 100;
-
-    const countValueOne = this.attributeDisable.filter(x => x.value === "1").length;
-
-    if (this.attributeDisable.length == 5 && countValueOne == 1)
-      diemChia = 33
-    else if (this.attributeDisable.length == 5 && countValueOne == 2)
-      diemChia = 57
-    else if (this.attributeDisable.length == 5 && countValueOne == 3)
-      diemChia = 75
-    else if (this.attributeDisable.length == 5 && countValueOne == 4)
-      diemChia = 89
-    else if (this.attributeDisable.length == 4 && countValueOne == 1)
-      diemChia = 40
-    else if (this.attributeDisable.length == 4 && countValueOne == 2)
-      diemChia = 67
-    else if (this.attributeDisable.length == 4 && countValueOne == 3)
-      diemChia = 86
-    else if (this.attributeDisable.length == 3 && countValueOne == 1)
-      diemChia = 50
-    else if (this.attributeDisable.length == 3 && countValueOne == 2)
-      diemChia = 80
-    else if (this.attributeDisable.length == 2 && countValueOne == 1)
-      diemChia = 67
-
-    let tongDiemToi = (soDiemCong / 100) * (100 - diemChia)
-    if (countValueOne == 0)
-      tongDiemToi = soDiemCong
-    let tongDiemSang = soDiemCong - tongDiemToi;
-
-
-    let diemCongSang
-    let diemCongToi
-    if (this.attributeDisable.length == 5) {
-      if (countValueOne === 5) {
-        diemCongSang = Math.ceil(tongDiemSang / 5);
-        diemCongToi = 0
-      } else if (countValueOne === 4) {
-        diemCongSang = Math.ceil(tongDiemSang / 4);
-        diemCongToi = Math.ceil(tongDiemToi);
-      } else if (countValueOne === 3) {
-        diemCongSang = Math.ceil(tongDiemSang / 3);
-        diemCongToi = Math.ceil(tongDiemToi / 2);
-      } else if (countValueOne === 2) {
-        diemCongSang = Math.ceil(tongDiemSang / 2);
-        diemCongToi = Math.ceil(tongDiemToi / 3);
-      } else if (countValueOne === 1) {
-        diemCongSang = Math.ceil(tongDiemSang);
-        diemCongToi = Math.ceil(tongDiemToi / 4);
-      } else if (countValueOne === 0) {
-        diemCongSang = 0;
-        diemCongToi = Math.ceil(tongDiemToi / 5);
-      }
-    }
-    if (this.attributeDisable.length == 4) {
-      if (countValueOne === 4) {
-        diemCongSang = Math.ceil(tongDiemSang / 4);
-        diemCongToi = 0
-      } else if (countValueOne === 3) {
-        diemCongSang = Math.ceil(tongDiemSang / 3);
-        diemCongToi = Math.ceil(tongDiemToi);
-      } else if (countValueOne === 2) {
-        diemCongSang = Math.ceil(tongDiemSang / 2);
-        diemCongToi = Math.ceil(tongDiemToi / 2);
-      } else if (countValueOne === 1) {
-        diemCongSang = Math.ceil(tongDiemSang);
-        diemCongToi = Math.ceil(tongDiemToi / 3);
-      } else if (countValueOne === 0) {
-        diemCongSang = 0;
-        diemCongToi = Math.ceil(tongDiemToi / 4);
-      }
-    }
-    if (this.attributeDisable.length == 3) {
-      if (countValueOne === 3) {
-        diemCongSang = Math.ceil(tongDiemSang / 3);
-        diemCongToi = 0
-      } else if (countValueOne === 2) {
-        diemCongSang = Math.ceil(tongDiemSang / 2);
-        diemCongToi = Math.ceil(tongDiemToi);
-      } else if (countValueOne === 1) {
-        diemCongSang = Math.ceil(tongDiemSang);
-        diemCongToi = Math.ceil(tongDiemToi / 2);
-      } else if (countValueOne === 0) {
-        diemCongSang = 0;
-        diemCongToi = Math.ceil(tongDiemToi / 3);
-      }
-    }
-    if (this.attributeDisable.length == 2) {
-      if (countValueOne === 2) {
-        diemCongSang = Math.ceil(tongDiemSang / 2);
-        diemCongToi = 0
-      } else if (countValueOne === 1) {
-        diemCongSang = Math.ceil(tongDiemSang);
-        diemCongToi = Math.ceil(tongDiemToi);
-      } else if (countValueOne === 0) {
-        diemCongSang = 0;
-        diemCongToi = Math.ceil(tongDiemToi / 2);
-      }
-    }
-
-
-    this.keys.forEach(key => {
+    await this.diemCong(index)
+    this.keys.forEach(x => {
       if (index === 0) {
-        this.dataBefore[index][key.value] = this.dataTable[key.value] + (this.attribute.includes(key.value) ? (this.attributeDisable.find(x => x.key === key.value)?.value === "1" ? diemCongSang : diemCongToi) : 0);
+        this.dataAfter[index][x.key] = this.dataTable[x.key] + (this.attribute.includes(x.key) ? (this.attributeDisable.find(y => y.key === x.key)?.value === "1" ? this.diemCongSang : this.diemCongToi) : 0);
 
       } else {
-        this.dataBefore[index][key.value] = this.dataKetQua[key.value] + (this.attribute.includes(key.value) ? (this.attributeDisable.find(x => x.key === key.value)?.value === "1" ? diemCongSang : diemCongToi) : 0);
+        this.dataAfter[index][x.key] = this.dataKetQua[x.key] + (this.attribute.includes(x.key) ? (this.attributeDisable.find(y => y.key === x.key)?.value === "1" ? this.diemCongSang : this.diemCongToi) : 0);
       }
-      this.dataKetQua[key.value] = this.dataBefore[index][key.value];
+      this.dataKetQua[x.key] = this.dataAfter[index][x.key];
     });
 
-    this.dataBefore[index].chatLuongChung = Math.floor(this.keys.reduce((total, key) => total + this.dataBefore[index][key.value], 0) / 15) + "%";
-    this.dataKetQua.chatLuongChung = Math.floor(this.keys.reduce((total, key) => total + this.dataKetQua[key.value], 0) / 15) + "%";
+    this.dataAfter[index].chatLuongChung = Math.floor(this.keys.reduce((a, b) => a + this.dataAfter[index][b.key], 0) / 15);
+    this.dataKetQua.chatLuongChung = Math.floor(this.keys.reduce((a, b) => a + this.dataKetQua[b.key], 0) / 15);
 
   }
+
   //#endregion
   //#region Chuyển Thông tin
   chuyenThongTin() {
 
-    this.dataTable.ten = this.data.ten
-    this.dataTable.viTri = this.data.viTri
+    this.dataTable.name = this.data.name
+    this.dataTable.position = this.data.position
 
-    this.keys.forEach(key => {
-      this.dataTable[key.value] = +this.data[key.value];
+    this.keys.forEach(x => {
+      this.dataTable[x.key] = +this.data[x.key];
     });
-    this.dataTable.chatLuongChung = Math.floor(this.keys.reduce((total, key) => total + parseInt(this.data[key.value]), 0) / 15) + "%";
+    this.dataTable.chatLuongChung = Math.floor(this.keys.reduce((a, b) => a + parseInt(this.data[b.key]), 0) / 15);
 
-    this.keys.forEach(key => {
-      this.dataKetQua[key.value] = this.dataBefore.length != 0 ? Math.max(...this.dataBefore.map(x => x[key.value])) : this.dataTable[key.value];
+    this.keys.forEach(x => {
+      this.dataKetQua[x.key] = this.dataAfter.length != 0 ? Math.max(...this.dataAfter.map(y => y[x.key])) : this.dataTable[x.key];
     });
-    this.dataKetQua.chatLuongChung = Math.floor(this.keys.reduce((total, key) => total + parseInt(this.dataKetQua[key.value]), 0) / 15) + "%";
+    this.dataKetQua.chatLuongChung = Math.floor(this.keys.reduce((a, b) => a + parseInt(this.dataKetQua[b.key]), 0) / 15);
 
-    this.dataBefore.forEach((x, index) => {
+    this.dataAfter.forEach((x, index) => {
       this.getListThuocTinh(index, x, false)
     });
 
     this.getListDisable();
   }
-  //#endregion
 
+  changeThuocTinh() {
+    this.keys.forEach(x => {
+      this.data[x.key] = this.data[x.key] - 20;
+    });
+  }
+  //#endregion
+  diemTB: number = 180;
   addItem() {
-    this.dataBefore.push(<ChatLuongBefore>{
-      diemTB: 180,
+    this.dataAfter.push(<Quality>{
+      average: this.diemTB,
       canPha: null,
       kemNguoi: null,
       chayCho: null,
@@ -265,13 +184,14 @@ export class MainHomeComponent implements OnInit {
 
   dataCreate: DataCreate = <DataCreate>{
     dataTable: {},
-    dataBefore: []
+    dataAfter: []
   };
-
+  //region Save
   save(type: string) {
-    this.dataTable.id = +this.param.ten
+    this.dataTable.inforID = this.param.inforID
+    this.dataTable.planID = this.param.planID
     this.dataCreate.dataTable = this.dataTable
-    this.dataCreate.dataBefore = this.dataBefore
+    this.dataCreate.dataAfter = this.dataAfter
     if (type == 'add')
       this.service.create(this.dataCreate).subscribe({
         next: result => {
@@ -288,8 +208,9 @@ export class MainHomeComponent implements OnInit {
     }
 
   }
+  //region Delete
   delete() {
-    this.service.delete(parseInt(this.param.ten)).subscribe({
+    this.service.delete(this.param.inforID).subscribe({
       next: result => {
         if (result.isSuccess)
           this.getListPlayer();
@@ -299,48 +220,60 @@ export class MainHomeComponent implements OnInit {
 
   removeItem(index: number) {
     // Kiểm tra chỉ số hợp lệ để xóa
-    if (index >= 0 && index < this.dataBefore.length) {
+    if (index >= 0 && index < this.dataAfter.length) {
       // Xóa phần tử tại index
-      this.dataBefore.splice(index, 1); // Sử dụng 1 để chỉ xóa 1 phần tử
+      this.dataAfter.splice(index, 1); // Sử dụng 1 để chỉ xóa 1 phần tử
 
       console.log('Đã xóa phần tử tại index:', index);
 
       // Gọi lại hàm tinhToan cho tất cả các chỉ số sau index
-      for (let i = index; i < this.dataBefore.length; i++) {
-        this.tinhToan(i);
+      if (this.dataAfter[index] !== undefined) {
+        this.changeBaiTap(index, this.dataAfter[index])
       }
 
-      // Cập nhật lại kết quả dựa trên trạng thái mới của dataBefore
+      // Cập nhật lại kết quả dựa trên trạng thái mới của dataAfter
       if (index === 0) {
-        this.keys.forEach(key => {
-          this.dataKetQua[key.value] = this.dataTable[key.value];
+        this.keys.forEach(x => {
+          this.dataKetQua[x.key] = this.dataTable[x.key];
         });
         this.dataKetQua.chatLuongChung = this.dataTable.chatLuongChung;
       } else {
-        this.keys.forEach(key => {
-          this.dataKetQua[key.value] = Math.max(...this.dataBefore.map(x => x[key.value]));
+        this.keys.forEach(x => {
+          this.dataKetQua[x.key] = Math.max(...this.dataAfter.map(y => y[x.key]));
         });
-        this.dataKetQua.chatLuongChung = Math.max(...this.dataBefore.map(x => parseInt(x.chatLuongChung))) + '%';
+        this.dataKetQua.chatLuongChung = Math.max(...this.dataAfter.map(x => x.chatLuongChung));
       }
     } else {
       console.log('Chỉ số không hợp lệ:', index);
     }
   }
-
-  changeBaiTap(index: number, baiTap: ChatLuongBefore) {
+  //region changeBaiTap
+  async changeBaiTap(index: number, baiTap: Quality) {
     this.clear(index);
-    this.getListThuocTinh(index, baiTap, true);
-
-    // Kiểm tra nếu this.dataBefore[nextIndex] ko rỗng thì tiếp tục tính toán bằng đệ quy
-    var nextIndex = index + 1
-    if (this.dataBefore[nextIndex] !== undefined) {
-      this.changeBaiTap(nextIndex, this.dataBefore[nextIndex])
+    if (index === 0) {
+      this.keys.forEach(x => {
+        this.dataKetQua[x.key] = this.dataTable[x.key];
+      });
+      this.dataKetQua.chatLuongChung = this.dataTable.chatLuongChung;
+    } else {
+      this.keys.forEach(x => {
+        this.dataKetQua[x.key] = Math.max(...this.dataAfter.map(y => y[x.key]));
+      });
+      this.dataKetQua.chatLuongChung = Math.max(...this.dataAfter.map(x => x.chatLuongChung));
     }
+    await this.getListThuocTinh(index, baiTap, true);
+
+    // Kiểm tra nếu this.dataAfter[nextIndex] ko rỗng thì tiếp tục tính toán bằng đệ quy
+    var nextIndex = index + 1
+    if (this.dataAfter[nextIndex] !== undefined) {
+      await this.changeBaiTap(nextIndex, this.dataAfter[nextIndex])
+    }
+    else return;
 
   }
-
-  getListThuocTinh(index: number, baiTap: ChatLuongBefore, tinhtoan: boolean) {
-    this.service.getListThuocTinh(baiTap.idBaiTap, this.data.viTri).subscribe({
+  //region GetListAttribute
+  async getListThuocTinh(index: number, exercise: Quality, tinhtoan: boolean) {
+    this.service.getListThuocTinh(exercise.exerciseID, this.data.position).subscribe({
       next: res => {
         this.attributeDisable = res
         this.attribute = this.attributeDisable.map(x => x.key)
@@ -374,8 +307,9 @@ export class MainHomeComponent implements OnInit {
     });
   }
 
+  // region GetList
   getListDisable() {
-    this.service.getListDisable(this.data.viTri).subscribe({
+    this.service.getListDisable(this.data.position).subscribe({
       next: res => {
         this.stand = res
       }
@@ -397,16 +331,186 @@ export class MainHomeComponent implements OnInit {
       }
     })
   }
+  keyPhongThu
+  keyTanCong
+  keyTheChat
+  trungBinh = "Trung bình"
+  getKeys() {
+    this.service.getKeys().subscribe({
+      next: res => {
+        this.keys = res
+        this.keyPhongThu = res.filter(x => x.value == '1')
+        this.keyTanCong = res.filter(x => x.value == '2')
+        this.keyTheChat = res.filter(x => x.value == '3')
+
+      }
+    })
+  }
 
   clear(index: number) {
-    this.keys.forEach(key => {
-      this.dataBefore[index][key.value] = null
+    this.keys.forEach(x => {
+      this.dataAfter[index][x.key] = null
     });
   }
 
   ketQua(index: number) {
-    this.keys.forEach(key => {
-      this.dataKetQua[key.value] = this.data[key.value]
+    this.keys.forEach(x => {
+      this.dataKetQua[x.key] = this.data[x.key]
     });
   }
+
+  listCompares: Quality[]
+  getListCompares(inforID: number) {
+    this.service.getListCompares(inforID).subscribe({
+      next: res => {
+        this.listCompares = res.map(item => ({
+          ...item,
+          canDelete: true // Thêm thuộc tính canDelete cho từng đối tượng
+        }));
+      }
+    })
+  }
+  // #region Plan
+  compare: Quality
+  createCompare() {
+    console.log('this.param.inforID :', this.dataKetQua);
+
+    this.dataTable.inforID = this.param.inforID
+    this.dataTable.planID = this.param.planID
+    this.dataCreate.dataTable = this.dataTable
+    this.dataCreate.dataAfter = this.dataAfter
+    this.service.createCompare(this.dataCreate).subscribe({
+      next: res => {
+        this.getListCompares(this.compare.inforID);
+      }
+    })
+  }
+
+  deleteCompare(data: Quality) {
+    data.inforID = this.param.inforID
+    // data.planID = this.param.planID
+    this.service.deleteCompare(data).subscribe({
+      next: res => {
+        this.getListCompares(data.inforID);
+      }
+    })
+  }
+  //#region DiemCong
+  async diemCong(index: number) {
+    let totalSum = 0;
+
+    let lowercaseAttribute = this.attribute.map(a => a.toLowerCase());
+
+    Object.keys(this.dataKetQua).forEach(key => {
+      let lowercaseKey = key.toLowerCase();
+      if (lowercaseAttribute.includes(lowercaseKey)) {
+        totalSum += index == 0 ? this.dataTable[key] : this.dataKetQua[key];
+      }
+    });
+    console.log(`Tổng số điểm: ${totalSum}`);
+    let soDiemCong: number
+    if (index == 0)
+      soDiemCong = this.attribute.length * this.dataAfter[index].average - totalSum
+    else
+      soDiemCong = this.attribute.length * this.dataAfter[index].average - totalSum
+    this.dataAfter[index].soDiemTap = soDiemCong
+
+    var diemChia = 100;
+
+    const countValueOne = this.attributeDisable.filter(x => x.value === "1").length;
+
+    if (this.attributeDisable.length == 5 && countValueOne == 1)
+      diemChia = 33
+    else if (this.attributeDisable.length == 5 && countValueOne == 2)
+      diemChia = 57
+    else if (this.attributeDisable.length == 5 && countValueOne == 3)
+      diemChia = 75
+    else if (this.attributeDisable.length == 5 && countValueOne == 4)
+      diemChia = 89
+    else if (this.attributeDisable.length == 4 && countValueOne == 1)
+      diemChia = 40
+    else if (this.attributeDisable.length == 4 && countValueOne == 2)
+      diemChia = 67
+    else if (this.attributeDisable.length == 4 && countValueOne == 3)
+      diemChia = 86
+    else if (this.attributeDisable.length == 3 && countValueOne == 1)
+      diemChia = 50
+    else if (this.attributeDisable.length == 3 && countValueOne == 2)
+      diemChia = 80
+    else if (this.attributeDisable.length == 2 && countValueOne == 1)
+      diemChia = 67
+
+    let tongDiemToi = (soDiemCong / 100) * (100 - diemChia)
+    if (countValueOne == 0)
+      tongDiemToi = soDiemCong
+    let tongDiemSang = soDiemCong - tongDiemToi;
+
+    if (this.attributeDisable.length == 5) {
+      if (countValueOne === 5) {
+        this.diemCongSang = Math.ceil(tongDiemSang / 5);
+        this.diemCongToi = 0
+      } else if (countValueOne === 4) {
+        this.diemCongSang = Math.ceil(tongDiemSang / 4);
+        this.diemCongToi = Math.ceil(tongDiemToi);
+      } else if (countValueOne === 3) {
+        this.diemCongSang = Math.ceil(tongDiemSang / 3);
+        this.diemCongToi = Math.ceil(tongDiemToi / 2);
+      } else if (countValueOne === 2) {
+        this.diemCongSang = Math.ceil(tongDiemSang / 2);
+        this.diemCongToi = Math.ceil(tongDiemToi / 3);
+      } else if (countValueOne === 1) {
+        this.diemCongSang = Math.ceil(tongDiemSang);
+        this.diemCongToi = Math.ceil(tongDiemToi / 4);
+      } else if (countValueOne === 0) {
+        this.diemCongSang = 0;
+        this.diemCongToi = Math.ceil(tongDiemToi / 5);
+      }
+    }
+    if (this.attributeDisable.length == 4) {
+      if (countValueOne === 4) {
+        this.diemCongSang = Math.ceil(tongDiemSang / 4);
+        this.diemCongToi = 0
+      } else if (countValueOne === 3) {
+        this.diemCongSang = Math.ceil(tongDiemSang / 3);
+        this.diemCongToi = Math.ceil(tongDiemToi);
+      } else if (countValueOne === 2) {
+        this.diemCongSang = Math.ceil(tongDiemSang / 2);
+        this.diemCongToi = Math.ceil(tongDiemToi / 2);
+      } else if (countValueOne === 1) {
+        this.diemCongSang = Math.ceil(tongDiemSang);
+        this.diemCongToi = Math.ceil(tongDiemToi / 3);
+      } else if (countValueOne === 0) {
+        this.diemCongSang = 0;
+        this.diemCongToi = Math.ceil(tongDiemToi / 4);
+      }
+    }
+    if (this.attributeDisable.length == 3) {
+      if (countValueOne === 3) {
+        this.diemCongSang = Math.ceil(tongDiemSang / 3);
+        this.diemCongToi = 0
+      } else if (countValueOne === 2) {
+        this.diemCongSang = Math.ceil(tongDiemSang / 2);
+        this.diemCongToi = Math.ceil(tongDiemToi);
+      } else if (countValueOne === 1) {
+        this.diemCongSang = Math.ceil(tongDiemSang);
+        this.diemCongToi = Math.ceil(tongDiemToi / 2);
+      } else if (countValueOne === 0) {
+        this.diemCongSang = 0;
+        this.diemCongToi = Math.ceil(tongDiemToi / 3);
+      }
+    }
+    if (this.attributeDisable.length == 2) {
+      if (countValueOne === 2) {
+        this.diemCongSang = Math.ceil(tongDiemSang / 2);
+        this.diemCongToi = 0
+      } else if (countValueOne === 1) {
+        this.diemCongSang = Math.ceil(tongDiemSang);
+        this.diemCongToi = Math.ceil(tongDiemToi);
+      } else if (countValueOne === 0) {
+        this.diemCongSang = 0;
+        this.diemCongToi = Math.ceil(tongDiemToi / 2);
+      }
+    }
+  }
+  // #endregion
 }

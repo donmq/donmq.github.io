@@ -11,10 +11,16 @@ namespace API._Services.Interfaces
         Task<HomeMainDto> GetData(HomeMainParam param);
         Task<List<KeyValuePair<string, string>>> GetListPlayers();
         Task<List<KeyValuePair<int, string>>> GetListExercise();
-        Task<List<KeyValuePair<string, string>>> GetListThuocTinh(int IDBaiTap, string ViTri);
-        Task<List<KeyValuePair<string, string>>> GetListDisable(string ViTri);
+        Task<List<KeyValuePair<string, string>>> GetListThuocTinh(int ExerciseID, string Position);
+        Task<List<KeyValuePair<string, string>>> GetExercisesForAttributes(string Key);
+        Task<List<KeyValuePair<string, string>>> GetListDisable(string Position);
         Task<OperationResult> Create(DataCreate data);
         Task<OperationResult> Update(DataCreate data);
         Task<OperationResult> Delete(int id);
+        Task<List<KeyValuePair<string, string>>> GetKeys();
+        Task<List<Quality>> GetListCompares(int inforID);
+        Task<OperationResult> CreateCompare(DataCreate data);
+        Task<OperationResult> DeleteCompare(Quality data);
+
     }
 }

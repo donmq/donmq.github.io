@@ -1,8 +1,8 @@
 export interface MainHomeDto {
   id: number;
-  ten: string;
-  viTri: string;
-  tuChat: string;
+  name: string;
+  position: string;
+  personality: string;
   canPha: number;
   kemNguoi: number;
   chayCho: number;
@@ -18,24 +18,25 @@ export interface MainHomeDto {
   xongXao: number;
   tocDo: number;
   sangTao: number;
-  chatLuongBefore: ChatLuongBefore[];
+  qualityAfter: Quality[];
 }
 
 export interface DataCreate {
-  dataTable: ChuyenThongTin;
-  dataBefore: ChatLuongBefore[];
+  dataTable: Quality;
+  dataAfter: Quality[];
 }
 
 export interface MainHomeParam {
-  ten: string;
-  baiTap: string;
+  inforID: number;
+  exerciseID: number;
+  planID: number;
 }
 
-export interface ChuyenThongTin {
-  id: number;
-  ten: string;
-  viTri: string;
-  diemTB: number;
+export interface Quality {
+  inforID: number;
+  name: string;
+  position: string;
+  average: number;
   canPha: number | null;
   kemNguoi: number | null;
   chayCho: number | null;
@@ -51,29 +52,12 @@ export interface ChuyenThongTin {
   xongXao: number | null;
   tocDo: number | null;
   sangTao: number | null;
-  chatLuongChung: string;
+  chatLuongChung: number;
+  planID: number;
+  soDiemTap: number;
+  exerciseID: number | null;
+  canDelete?: boolean
 }
 
-export interface ChatLuongBefore {
-  id: number;
-  idThongTin: number | null;
-  idBaiTap: number | null;
-  diemTB: number | null;
-  canPha: number | null;
-  kemNguoi: number | null;
-  chayCho: number | null;
-  danhDau: number | null;
-  dungCam: number | null;
-  chuyenBong: number | null;
-  reBong: number | null;
-  tatCanh: number | null;
-  sutManh: number | null;
-  dutDiem: number | null;
-  theLuc: number | null;
-  sucManh: number | null;
-  xongXao: number | null;
-  tocDo: number | null;
-  sangTao: number | null;
-  chatLuongChung: string;
-}
+
 

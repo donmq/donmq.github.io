@@ -31,14 +31,24 @@ namespace API.Controllers.HomeMain
             return Ok(await _service.GetData(param));
         }
         [HttpGet("GetListThuocTinh")]
-        public async Task<IActionResult> GetListThuocTinh(int IDBaiTap, string ViTri)
+        public async Task<IActionResult> GetListThuocTinh(int ExerciseID, string Position)
         {
-            return Ok(await _service.GetListThuocTinh(IDBaiTap, ViTri));
+            return Ok(await _service.GetListThuocTinh(ExerciseID, Position));
+        }
+        [HttpGet("GetExercisesForAttributes")]
+        public async Task<IActionResult> GetExercisesForAttributes(string key)
+        {
+            return Ok(await _service.GetExercisesForAttributes(key));
         }
         [HttpGet("GetListDisable")]
-        public async Task<IActionResult> GetListDisable(string ViTri)
+        public async Task<IActionResult> GetListDisable(string Position)
         {
-            return Ok(await _service.GetListDisable(ViTri));
+            return Ok(await _service.GetListDisable(Position));
+        }
+        [HttpGet("GetKeys")]
+        public async Task<IActionResult> GetKeys()
+        {
+            return Ok(await _service.GetKeys());
         }
         [HttpPost("Create")]
         public async Task<IActionResult> Create([FromBody] DataCreate data)
@@ -54,6 +64,21 @@ namespace API.Controllers.HomeMain
         public async Task<IActionResult> Delete(int id)
         {
             return Ok(await _service.Delete(id));
+        }
+        [HttpGet("GetListCompares")]
+        public async Task<IActionResult> GetListCompares(int inforID)
+        {
+            return Ok(await _service.GetListCompares(inforID));
+        }
+        [HttpPost("CreateCompare")]
+        public async Task<IActionResult> CreateCompare([FromBody] DataCreate data)
+        {
+            return Ok(await _service.CreateCompare(data));
+        }
+        [HttpDelete("DeleteCompare")]
+        public async Task<IActionResult> DeleteCompare([FromBody] Quality data)
+        {
+            return Ok(await _service.DeleteCompare(data));
         }
     }
 }
