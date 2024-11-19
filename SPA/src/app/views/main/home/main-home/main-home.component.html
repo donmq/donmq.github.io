@@ -175,7 +175,7 @@
           <div class="row justify-content-md-center">
             <div class="col-xl-12">
               <div class="table-responsive">
-                <table class="table table-bordered">
+                <table class="table table-bordered" style="border-collapse: separate;">
                   <thead>
                     <tr>
                       <th></th>
@@ -198,13 +198,19 @@
                       <th class="text-center blue-border" [ngClass]="{'disabled-cell': stand[14]?.value === '0'}">Sáng tạo</th>
                       <th class="text-center">Chất lượng chung</th>
                       <th class="text-center">Lượng pack cần</th>
-                      <th class="text-center">Số lần tập</th>
+                      <th class="text-center">Tổng điểm tập</th>
                       <th class="text-center"></th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td></td>
+                      <td>
+                        <button type="button"
+                          class="btn btn-success btn-sm"
+                          (click)="addItem()">
+                          <i class="fa fa-plus"></i>
+                        </button>
+                      </td>
                       <td class="text-center">{{dataTable.ten}}</td>
                       <td class="text-center">{{dataTable.viTri}}</td>
                       <td class="text-center green-border" [ngClass]="{'disabled-cell': stand[0]?.value === '0'}">{{dataTable.canPha}}</td>
@@ -293,7 +299,7 @@
                       </td>
                       <td class="text-center">{{dataItem?.chatLuongChung}}</td>
                       <td></td>
-                      <td></td>
+                      <td class="text-center">{{dataItem?.soDiemTap}}</td>
                       <td>
                         <button class="btn btn-danger btn-sm"
                           (click)="removeItem(i)">

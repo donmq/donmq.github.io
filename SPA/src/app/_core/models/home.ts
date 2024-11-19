@@ -75,5 +75,6 @@ export interface ChatLuongBefore {
   tocDo: number | null;
   sangTao: number | null;
   chatLuongChung: string;
+  soDiemTap: number;
 }
 

@@ -28,11 +28,8 @@ export class MainHomeComponent implements OnInit {
 
   ngOnInit() {
     this.getKeys();
-    this.getData();
     this.getListPlayer();
     this.getListExersice();
-    if (this.dataBefore.length == 0)
-      this.addItem();
   }
 
   @ViewChild('templateTuChat', { read: TemplateRef }) templateTuChat!: TemplateRef<any>;
@@ -48,7 +45,8 @@ export class MainHomeComponent implements OnInit {
   }
 
   onSelect() {
-    this.getData();
+    if(this.param.ten != null)
+      this.getData();
   }
 
   getData() {
@@ -83,6 +81,7 @@ export class MainHomeComponent implements OnInit {
       soDiemCong = this.attribute.length * this.dataBefore[index].diemTB - totalSum
     else
       soDiemCong = this.attribute.length * this.dataBefore[index].diemTB - totalSum
+    this.dataBefore[index].soDiemTap = soDiemCong
 
 
     var diemChia = 100;
@@ -312,6 +311,17 @@ export class MainHomeComponent implements OnInit {
 
   changeBaiTap(index: number, baiTap: ChatLuongBefore) {
     this.clear(index);
+    if (index === 0) {
+      this.keys.forEach(x => {
+        this.dataKetQua[x.key] = this.dataTable[x.key];
+      });
+      this.dataKetQua.chatLuongChung = this.dataTable.chatLuongChung;
+    } else {
+      this.keys.forEach(x => {
+        this.dataKetQua[x.key] = Math.max(...this.dataBefore.map(y => y[x.key]));
+      });
+      this.dataKetQua.chatLuongChung = Math.max(...this.dataBefore.map(x => parseInt(x.chatLuongChung))) + '%';
+    }
     this.getListThuocTinh(index, baiTap, true);
 
     // Kiểm tra nếu this.dataBefore[nextIndex] ko rỗng thì tiếp tục tính toán bằng đệ quy
