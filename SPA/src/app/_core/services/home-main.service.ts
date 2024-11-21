@@ -28,13 +28,13 @@ export class HomeMainService {
     return this.http.get<KeyValuePair[]>(this.baseUrl + "GetKeys")
   }
 
-  getListThuocTinh(idBaiTap: number, viTri: string) {
-    let params = new HttpParams().appendAll({ idBaiTap, viTri });
+  getListThuocTinh(exerciseID: number, position: string) {
+    let params = new HttpParams().appendAll({ exerciseID, position });
     return this.http.get<KeyValuePair[]>(this.baseUrl + "GetListThuocTinh", { params })
   }
 
-  getListDisable(ViTri: string) {
-    let params = new HttpParams().appendAll({ ViTri });
+  getListDisable(position: string) {
+    let params = new HttpParams().appendAll({ position });
     return this.http.get<KeyValuePair[]>(this.baseUrl + "GetListDisable", { params })
   }
   create(data: DataCreate) {

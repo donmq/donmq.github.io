@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { KeyValuePair } from '@utilities/key-value-pair';
-import { ChatLuongBefore, ChuyenThongTin, DataCreate, MainHomeDto, MainHomeParam } from '@models/home';
+import { QualityAfter, ChuyenThongTin, DataCreate, MainHomeDto, MainHomeParam } from '@models/home';
 import { HomeMainService } from './../../../../_core/services/home-main.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
@@ -22,7 +22,7 @@ export class MainHomeComponent implements OnInit {
   param: MainHomeParam = <MainHomeParam>{};
 
   keys: KeyValuePair[] = [];
-  dataBefore: ChatLuongBefore[] = []
+  dataAfter: QualityAfter[] = []
 
   constructor(private modalService: BsModalService, private service: HomeMainService) { }
 
@@ -45,7 +45,7 @@ export class MainHomeComponent implements OnInit {
   }
 
   onSelect() {
-    if(this.param.ten != null)
+    if(this.param.inforID != null)
       this.getData();
   }
 
@@ -53,10 +53,10 @@ export class MainHomeComponent implements OnInit {
     this.service.getData(this.param).subscribe({
       next: res => {
         this.data = res
-        this.dataBefore = this.data.chatLuongBefore
+        this.dataAfter = this.data.qualityAfter
         this.chuyenThongTin();
-        for (let index in this.dataBefore) {
-          this.dataBefore[index].chatLuongChung = Math.floor(this.keys.reduce((a, b) => a + this.dataBefore[index][b.key], 0) / 15) + "%";
+        for (let index in this.dataAfter) {
+          this.dataAfter[index].chatLuongChung = Math.floor(this.keys.reduce((a, b) => a + this.dataAfter[index][b.key], 0) / 15) + "%";
         }
       }
     })
@@ -78,10 +78,10 @@ export class MainHomeComponent implements OnInit {
     });
     let soDiemCong: number
     if (index == 0)
-      soDiemCong = this.attribute.length * this.dataBefore[index].diemTB - totalSum
+      soDiemCong = this.attribute.length * this.dataAfter[index].average - totalSum
     else
-      soDiemCong = this.attribute.length * this.dataBefore[index].diemTB - totalSum
-    this.dataBefore[index].soDiemTap = soDiemCong
+      soDiemCong = this.attribute.length * this.dataAfter[index].average - totalSum
+    this.dataAfter[index].soDiemTap = soDiemCong
 
 
     var diemChia = 100;
@@ -187,15 +187,15 @@ export class MainHomeComponent implements OnInit {
 
     this.keys.forEach(x => {
       if (index === 0) {
-        this.dataBefore[index][x.key] = this.dataTable[x.key] + (this.attribute.includes(x.key) ? (this.attributeDisable.find(y => y.key === x.key)?.value === "1" ? diemCongSang : diemCongToi) : 0);
+        this.dataAfter[index][x.key] = this.dataTable[x.key] + (this.attribute.includes(x.key) ? (this.attributeDisable.find(y => y.key === x.key)?.value === "1" ? diemCongSang : diemCongToi) : 0);
 
       } else {
-        this.dataBefore[index][x.key] = this.dataKetQua[x.key] + (this.attribute.includes(x.key) ? (this.attributeDisable.find(y => y.key === x.key)?.value === "1" ? diemCongSang : diemCongToi) : 0);
+        this.dataAfter[index][x.key] = this.dataKetQua[x.key] + (this.attribute.includes(x.key) ? (this.attributeDisable.find(y => y.key === x.key)?.value === "1" ? diemCongSang : diemCongToi) : 0);
       }
-      this.dataKetQua[x.key] = this.dataBefore[index][x.key];
+      this.dataKetQua[x.key] = this.dataAfter[index][x.key];
     });
 
-    this.dataBefore[index].chatLuongChung = Math.floor(this.keys.reduce((a, b) => a + this.dataBefore[index][b.key], 0) / 15) + "%";
+    this.dataAfter[index].chatLuongChung = Math.floor(this.keys.reduce((a, b) => a + this.dataAfter[index][b.key], 0) / 15) + "%";
     this.dataKetQua.chatLuongChung = Math.floor(this.keys.reduce((a, b) => a + this.dataKetQua[b.key], 0) / 15) + "%";
 
   }
@@ -203,8 +203,8 @@ export class MainHomeComponent implements OnInit {
   //#region Chuyển Thông tin
   chuyenThongTin() {
 
-    this.dataTable.ten = this.data.ten
-    this.dataTable.viTri = this.data.viTri
+    this.dataTable.name = this.data.name
+    this.dataTable.position = this.data.position
 
     this.keys.forEach(x => {
       this.dataTable[x.key] = +this.data[x.key];
@@ -212,11 +212,11 @@ export class MainHomeComponent implements OnInit {
     this.dataTable.chatLuongChung = Math.floor(this.keys.reduce((a, b) => a + parseInt(this.data[b.key]), 0) / 15) + "%";
 
     this.keys.forEach(x => {
-      this.dataKetQua[x.key] = this.dataBefore.length != 0 ? Math.max(...this.dataBefore.map(y => y[x.key])) : this.dataTable[x.key];
+      this.dataKetQua[x.key] = this.dataAfter.length != 0 ? Math.max(...this.dataAfter.map(y => y[x.key])) : this.dataTable[x.key];
     });
     this.dataKetQua.chatLuongChung = Math.floor(this.keys.reduce((a, b) => a + parseInt(this.dataKetQua[b.key]), 0) / 15) + "%";
 
-    this.dataBefore.forEach((x, index) => {
+    this.dataAfter.forEach((x, index) => {
       this.getListThuocTinh(index, x, false)
     });
 
@@ -225,8 +225,8 @@ export class MainHomeComponent implements OnInit {
   //#endregion
 
   addItem() {
-    this.dataBefore.push(<ChatLuongBefore>{
-      diemTB: 180,
+    this.dataAfter.push(<QualityAfter>{
+      average: 180,
       canPha: null,
       kemNguoi: null,
       chayCho: null,
@@ -247,13 +247,13 @@ export class MainHomeComponent implements OnInit {
 
   dataCreate: DataCreate = <DataCreate>{
     dataTable: {},
-    dataBefore: []
+    dataAfter: []
   };
 
   save(type: string) {
-    this.dataTable.id = +this.param.ten
+    this.dataTable.id = this.param.inforID
     this.dataCreate.dataTable = this.dataTable
-    this.dataCreate.dataBefore = this.dataBefore
+    this.dataCreate.dataAfter = this.dataAfter
     if (type == 'add')
       this.service.create(this.dataCreate).subscribe({
         next: result => {
@@ -271,7 +271,7 @@ export class MainHomeComponent implements OnInit {
 
   }
   delete() {
-    this.service.delete(parseInt(this.param.ten)).subscribe({
+    this.service.delete(this.param.inforID).subscribe({
       next: result => {
         if (result.isSuccess)
           this.getListPlayer();
@@ -281,18 +281,18 @@ export class MainHomeComponent implements OnInit {
 
   removeItem(index: number) {
     // Kiểm tra chỉ số hợp lệ để xóa
-    if (index >= 0 && index < this.dataBefore.length) {
+    if (index >= 0 && index < this.dataAfter.length) {
       // Xóa phần tử tại index
-      this.dataBefore.splice(index, 1); // Sử dụng 1 để chỉ xóa 1 phần tử
+      this.dataAfter.splice(index, 1); // Sử dụng 1 để chỉ xóa 1 phần tử
 
       console.log('Đã xóa phần tử tại index:', index);
 
       // Gọi lại hàm tinhToan cho tất cả các chỉ số sau index
-      if (this.dataBefore[index] !== undefined) {
-        this.changeBaiTap(index, this.dataBefore[index])
+      if (this.dataAfter[index] !== undefined) {
+        this.changeBaiTap(index, this.dataAfter[index])
       }
 
-      // Cập nhật lại kết quả dựa trên trạng thái mới của dataBefore
+      // Cập nhật lại kết quả dựa trên trạng thái mới của dataAfter
       if (index === 0) {
         this.keys.forEach(x => {
           this.dataKetQua[x.key] = this.dataTable[x.key];
@@ -300,16 +300,16 @@ export class MainHomeComponent implements OnInit {
         this.dataKetQua.chatLuongChung = this.dataTable.chatLuongChung;
       } else {
         this.keys.forEach(x => {
-          this.dataKetQua[x.key] = Math.max(...this.dataBefore.map(y => y[x.key]));
+          this.dataKetQua[x.key] = Math.max(...this.dataAfter.map(y => y[x.key]));
         });
-        this.dataKetQua.chatLuongChung = Math.max(...this.dataBefore.map(x => parseInt(x.chatLuongChung))) + '%';
+        this.dataKetQua.chatLuongChung = Math.max(...this.dataAfter.map(x => parseInt(x.chatLuongChung))) + '%';
       }
     } else {
       console.log('Chỉ số không hợp lệ:', index);
     }
   }
 
-  changeBaiTap(index: number, baiTap: ChatLuongBefore) {
+  changeBaiTap(index: number, baiTap: QualityAfter) {
     this.clear(index);
     if (index === 0) {
       this.keys.forEach(x => {
@@ -318,22 +318,22 @@ export class MainHomeComponent implements OnInit {
       this.dataKetQua.chatLuongChung = this.dataTable.chatLuongChung;
     } else {
       this.keys.forEach(x => {
-        this.dataKetQua[x.key] = Math.max(...this.dataBefore.map(y => y[x.key]));
+        this.dataKetQua[x.key] = Math.max(...this.dataAfter.map(y => y[x.key]));
       });
-      this.dataKetQua.chatLuongChung = Math.max(...this.dataBefore.map(x => parseInt(x.chatLuongChung))) + '%';
+      this.dataKetQua.chatLuongChung = Math.max(...this.dataAfter.map(x => parseInt(x.chatLuongChung))) + '%';
     }
     this.getListThuocTinh(index, baiTap, true);
 
-    // Kiểm tra nếu this.dataBefore[nextIndex] ko rỗng thì tiếp tục tính toán bằng đệ quy
+    // Kiểm tra nếu this.dataAfter[nextIndex] ko rỗng thì tiếp tục tính toán bằng đệ quy
     var nextIndex = index + 1
-    if (this.dataBefore[nextIndex] !== undefined) {
-      this.changeBaiTap(nextIndex, this.dataBefore[nextIndex])
+    if (this.dataAfter[nextIndex] !== undefined) {
+      this.changeBaiTap(nextIndex, this.dataAfter[nextIndex])
     }
 
   }
 
-  getListThuocTinh(index: number, baiTap: ChatLuongBefore, tinhtoan: boolean) {
-    this.service.getListThuocTinh(baiTap.idBaiTap, this.data.viTri).subscribe({
+  getListThuocTinh(index: number, exercise: QualityAfter, tinhtoan: boolean) {
+    this.service.getListThuocTinh(exercise.exerciseID, this.data.position).subscribe({
       next: res => {
         this.attributeDisable = res
         this.attribute = this.attributeDisable.map(x => x.key)
@@ -368,7 +368,7 @@ export class MainHomeComponent implements OnInit {
   }
 
   getListDisable() {
-    this.service.getListDisable(this.data.viTri).subscribe({
+    this.service.getListDisable(this.data.position).subscribe({
       next: res => {
         this.stand = res
       }
@@ -401,7 +401,7 @@ export class MainHomeComponent implements OnInit {
 
   clear(index: number) {
     this.keys.forEach(x => {
-      this.dataBefore[index][x.key] = null
+      this.dataAfter[index][x.key] = null
     });
   }
 

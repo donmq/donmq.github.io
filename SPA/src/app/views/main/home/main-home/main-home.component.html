@@ -4,7 +4,7 @@
       <div class="card">
         <form class="form-horizontal text-center" autocomplete="off">
           <!-- <h2 class="pt-2">LẬP KẾ HOẠCH HUẤN LUYỆN</h2>
-          <h4>CHO CẦU THỦ GAME TOP ELEVEN</h4> -->
+          <h4>CHO CẦU THỦ TOP ELEVEN</h4> -->
         </form>
         <div class="card-body">
           <div class="row border-shadow">
@@ -13,7 +13,7 @@
                 <label class>Chọn cầu thủ</label>
               </div>
               <div class="col-3">
-                <ng-select id="Name" name="Name" [(ngModel)]="param.ten" (ngModelChange)="onSelect()">
+                <ng-select id="Name" name="Name" [(ngModel)]="param.inforID" (ngModelChange)="onSelect()">
                   <ng-option *ngFor="let item of players"
                     value="{{ item.key }}">{{ item.value }}</ng-option>
                 </ng-select>
@@ -24,17 +24,17 @@
             <div class="row col-12 mt-4">
               <div class="col-4">
                 <label class>Tên cầu thủ</label>
-                <input autocomplete="off" type="text" class="form-control" name="Name" maxlength="100" [(ngModel)]="data.ten" />
+                <input autocomplete="off" type="text" class="form-control" name="Name" maxlength="100" [(ngModel)]="data.name" />
               </div>
               <div class="col-4 ml-2">
                 <label>Vị Trí</label>
-                <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.viTri" />
+                <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.position" />
               </div>
               <div class="col-4">
                 <div class="row">
                   <label>Tư chất</label>
                   <div class="col-9">
-                    <input autocomplete="off" type="text" class="form-control" name="personality" [(ngModel)]="data.tuChat" />
+                    <input autocomplete="off" type="text" class="form-control" name="personality" [(ngModel)]="data.personality" />
 
                   </div>
                   <div class="col-3">
@@ -211,8 +211,8 @@
                           <i class="fa fa-plus"></i>
                         </button>
                       </td>
-                      <td class="text-center">{{dataTable.ten}}</td>
-                      <td class="text-center">{{dataTable.viTri}}</td>
+                      <td class="text-center">{{dataTable.name}}</td>
+                      <td class="text-center">{{dataTable.position}}</td>
                       <td class="text-center green-border" [ngClass]="{'disabled-cell': stand[0]?.value === '0'}">{{dataTable.canPha}}</td>
                       <td class="text-center green-border" [ngClass]="{'disabled-cell': stand[1]?.value === '0'}">{{dataTable.kemNguoi}}</td>
                       <td class="text-center green-border" [ngClass]="{'disabled-cell': stand[2]?.value === '0'}">{{dataTable.chayCho}}</td>
@@ -263,7 +263,7 @@
                       <td></td>
                       <td></td>
                     </tr>
-                    <tr *ngFor="let dataItem of dataBefore; let i = index ">
+                    <tr *ngFor="let dataItem of dataAfter; let i = index ">
                       <td>
                         <button type="button"
                           class="btn btn-success btn-sm"
@@ -272,7 +272,7 @@
                         </button>
                       </td>
                       <td>
-                        <ng-select class="custom-select" [id]="'baiTap' + i" [name]="'baiTap' + i" [(ngModel)]="dataItem.idBaiTap" (ngModelChange)="changeBaiTap(i, dataItem)" appendTo="ng-select">
+                        <ng-select class="custom-select" [id]="'baiTap' + i" [name]="'baiTap' + i" [(ngModel)]="dataItem.exerciseID" (ngModelChange)="changeBaiTap(i, dataItem)" appendTo="ng-select">
                           <ng-option *ngFor="let item of exercise" [value]="item.key">{{ item.value }}</ng-option>
                         </ng-select>
                       </td>
@@ -283,8 +283,8 @@
                           min="0"
                           max="180"
                           pattern="^[1-9][0-9]?$"
-                          (input)="dataItem.diemTB = (dataItem.diemTB > 180 ? 180 : dataItem.diemTB)"
-                          (keyup)="dataItem.diemTB = (dataItem.diemTB > 180 ? 180 : dataItem.diemTB)"
+                          (input)="dataItem.average = (dataItem.average > 180 ? 180 : dataItem.average)"
+                          (keyup)="dataItem.average = (dataItem.average > 180 ? 180 : dataItem.average)"
                           [(ngModel)]="dataItem.diemTB"
                           (ngModelChange)="changeBaiTap(i, dataItem)">
                       </td>

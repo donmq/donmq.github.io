@@ -1,24 +1,24 @@
-using API.Helper.Attributes;
-using API.Models;
 using Microsoft.EntityFrameworkCore.Storage;
-
-namespace API._Repositories
+using Microsoft.Extensions.DependencyInjection;
+using API.Models;
+using API.Helper.Attributes;
+using API._Repositories;
+namespace API.Accessor._Interfaces
 {
     [DependencyInjectionAttribute(ServiceLifetime.Scoped)]
     public interface IRepositoryAccessor
     {
-
-        Task<bool> Save();
+        IRepository<QualityAfter> QualityAfter { get; }
+        IRepository<PositionInformation> PositionInformation { get; }
+        IRepository<ExerciseAttributes> ExerciseAttributes { get; }
+        IRepository<Information> Information { get; }
+        IRepository<Position> Position { get; }
+        IRepository<Exercises> Exercises { get; }
+        IRepository<MainAttributes> MainAttributes { get; }
+        IRepository<Attributes> Attributes { get; }
+        IRepository<TypeAttributes> TypeAttributes { get; }
+        IRepository<QualityBefore> QualityBefore { get; }
+        Task<bool> SaveChangesAsync();
         Task<IDbContextTransaction> BeginTransactionAsync();
-        IRepository<BaiTap> BaiTap { get; }
-        IRepository<ChatLuongAfter> ChatLuongAfter { get; }
-        IRepository<ChatLuongBefore> ChatLuongBefore { get; }
-        IRepository<LoaiThuocTinh> LoaiThuocTinh { get; }
-        IRepository<P_ThongTinViTriCauThu> P_ThongTinViTriCauThu { get; }
-        IRepository<P_ThuocTinhSangToi> P_ThuocTinhSangToi { get; }
-        IRepository<P_ThuocTinhBaiTap> P_ThuocTinhBaiTap { get; }
-        IRepository<ThongTin> ThongTin { get; }
-        IRepository<ThuocTinhChinh> ThuocTinhChinh { get; }
-        IRepository<ViTri> ViTri { get; }
     }
 }

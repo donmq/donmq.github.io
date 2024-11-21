@@ -1,8 +1,5 @@
-
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using API._Repositories;
 using API._Services.Interfaces;
+using API.Accessor._Interfaces;
 using API.DTO;
 using API.Models;
 using LinqKit;
@@ -21,42 +18,42 @@ namespace API._Services.Services
         #region Create        
         public async Task<OperationResult> Create(DataCreate data)
         {
-            var checkDataAfter = await _repositoryAccessor.ThongTin.FindAll().ToListAsync();
+            var checkDataAfter = await _repositoryAccessor.Information.FindAll().ToListAsync();
 
             // if (checkDataAfter.Any(x => x.ID == data.DataTable.ID))
             //     return new OperationResult(false, "Trùng dữ liệu");
-            var dataThongTin = new ThongTin
+            var dataInfor = new Information
             {
-                Ten = data.DataTable.Ten,
-                Tuoi = "18",
+                Name = data.DataTable.Name,
+                YearOld = "18",
             };
-            _repositoryAccessor.ThongTin.Add(dataThongTin);
-            await _repositoryAccessor.Save();
+            _repositoryAccessor.Information.Add(dataInfor);
+            await _repositoryAccessor.SaveChangesAsync();
 
-            var maxIDThongTin = await _repositoryAccessor.ThongTin.FindAll().MaxAsync(x => x.ID);
+            var maxIDInfor = await _repositoryAccessor.Information.FindAll().MaxAsync(x => x.ID);
 
 
-            var ViTri = data.DataTable.ViTri.Split("+");
+            var position = data.DataTable.Position.Split("+");
 
-            var idViTri = await _repositoryAccessor.ViTri.FindAll(x => ViTri.Contains(x.TenViTri)).Select(x => x.ID).ToListAsync();
+            var positionID = await _repositoryAccessor.Position.FindAll(x => position.Contains(x.Name)).Select(x => x.ID).ToListAsync();
 
-            var dataViTri = new List<P_ThongTinViTriCauThu>();
-            var dataChatLuongAfter = new ChatLuongAfter { };
-            var dataChatLuongBefore = new List<ChatLuongBefore>();
+            var dataPosition = new List<PositionInformation>();
+            var dataQualityBefore = new QualityBefore { };
+            var dataQualityAfter = new List<QualityAfter>();
 
-            foreach (var item in idViTri)
+            foreach (var item in positionID)
             {
-                dataViTri.Add(new P_ThongTinViTriCauThu
+                dataPosition.Add(new PositionInformation
                 {
-                    ThongTinID = maxIDThongTin,
-                    ViTriID = item
+                    InforID = maxIDInfor,
+                    PositionID = item
                 });
             }
 
 
-            dataChatLuongAfter = new ChatLuongAfter
+            dataQualityBefore = new QualityBefore
             {
-                IDThongTin = maxIDThongTin,
+                InforID = maxIDInfor,
                 CanPha = data.DataTable.CanPha,
                 KemNguoi = data.DataTable.KemNguoi,
                 ChayCho = data.DataTable.ChayCho,
@@ -75,13 +72,13 @@ namespace API._Services.Services
             };
 
 
-            foreach (var item in data.DataBefore)
+            foreach (var item in data.DataAfter)
             {
-                dataChatLuongBefore.Add(new ChatLuongBefore
+                dataQualityAfter.Add(new QualityAfter
                 {
-                    IDThongTin = maxIDThongTin,
-                    IDBaiTap = item.IDBaiTap,
-                    DiemTB = item.DiemTB,
+                    InforID = maxIDInfor,
+                    ExerciseID = item.ExerciseID,
+                    Average = item.Average,
                     CanPha = item.CanPha,
                     KemNguoi = item.KemNguoi,
                     ChayCho = item.ChayCho,
@@ -100,12 +97,12 @@ namespace API._Services.Services
                 });
             }
 
-            _repositoryAccessor.P_ThongTinViTriCauThu.AddMultiple(dataViTri);
-            _repositoryAccessor.ChatLuongAfter.Add(dataChatLuongAfter);
-            _repositoryAccessor.ChatLuongBefore.AddMultiple(dataChatLuongBefore);
+            _repositoryAccessor.PositionInformation.AddMultiple(dataPosition);
+            _repositoryAccessor.QualityBefore.Add(dataQualityBefore);
+            _repositoryAccessor.QualityAfter.AddMultiple(dataQualityAfter);
 
 
-            return new OperationResult(await _repositoryAccessor.Save());
+            return new OperationResult(await _repositoryAccessor.SaveChangesAsync());
         }
         #endregion
         #region Update
@@ -114,69 +111,68 @@ namespace API._Services.Services
         {
 
             // Xóa table để cập nhật lại
-            var delBefore = await _repositoryAccessor.ChatLuongBefore.FindAll(x => x.IDThongTin == data.DataTable.ID).ToListAsync();
-            var delViTri = await _repositoryAccessor.P_ThongTinViTriCauThu.FindAll(x => x.ThongTinID == data.DataTable.ID).ToListAsync();
-            _repositoryAccessor.ChatLuongBefore.RemoveMultiple(delBefore);
-            _repositoryAccessor.P_ThongTinViTriCauThu.RemoveMultiple(delViTri);
-            await _repositoryAccessor.Save();
+            var delAfter = await _repositoryAccessor.QualityAfter.FindAll(x => x.InforID == data.DataTable.ID).ToListAsync();
+            var delPosition = await _repositoryAccessor.PositionInformation.FindAll(x => x.InforID == data.DataTable.ID).ToListAsync();
+            _repositoryAccessor.QualityAfter.RemoveMultiple(delAfter);
+            _repositoryAccessor.PositionInformation.RemoveMultiple(delPosition);
+            await _repositoryAccessor.SaveChangesAsync();
 
             // Cập nhật ThongTin
-            var dataThongTin = await _repositoryAccessor.ThongTin.FirstOrDefaultAsync(x => x.ID == data.DataTable.ID);
-            if (dataThongTin == null)
+            var dataInfor = await _repositoryAccessor.Information.FirstOrDefaultAsync(x => x.ID == data.DataTable.ID);
+            if (dataInfor == null)
                 return new OperationResult(false);
-            dataThongTin.Ten = data.DataTable.Ten.Trim();
-            dataThongTin.Tuoi = "18";
-            dataThongTin.CLTT = 0;
-            dataThongTin.ViTriID = 0;
-            _repositoryAccessor.ThongTin.Update(dataThongTin);
+            dataInfor.Name = data.DataTable.Name.Trim();
+            dataInfor.YearOld = "18";
+            dataInfor.Quality = 0;
+            _repositoryAccessor.Information.Update(dataInfor);
 
 
             // Chỉnh sửa vị trí
-            var ViTri = data.DataTable.ViTri.Split("+");
-            var idViTri = await _repositoryAccessor.ViTri.FindAll(x => ViTri.Contains(x.TenViTri)).Select(x => x.ID).ToListAsync();
-            var dataViTri = new List<P_ThongTinViTriCauThu>();
-            foreach (var item in idViTri)
+            var position = data.DataTable.Position.Split("+");
+            var listPosition = await _repositoryAccessor.Position.FindAll(x => position.Contains(x.Name)).Select(x => x.ID).ToListAsync();
+            var dataPosition = new List<PositionInformation>();
+            foreach (var item in listPosition)
             {
-                dataViTri.Add(new P_ThongTinViTriCauThu
+                dataPosition.Add(new PositionInformation
                 {
-                    ThongTinID = data.DataTable.ID,
-                    ViTriID = item
+                    InforID = data.DataTable.ID,
+                    PositionID = item
                 });
             }
-            _repositoryAccessor.P_ThongTinViTriCauThu.AddMultiple(dataViTri);
+            _repositoryAccessor.PositionInformation.AddMultiple(dataPosition);
 
             // Chỉnh sửa Chất lượng After
-            var dataAfter = await _repositoryAccessor.ChatLuongAfter.FirstOrDefaultAsync(x => x.IDThongTin == data.DataTable.ID);
-            if (dataAfter == null)
+            var dataBefore = await _repositoryAccessor.QualityBefore.FirstOrDefaultAsync(x => x.InforID == data.DataTable.ID);
+            if (dataBefore == null)
                 return new OperationResult(false);
-            dataAfter.CanPha = data.DataTable.CanPha;
-            dataAfter.KemNguoi = data.DataTable.KemNguoi;
-            dataAfter.ChayCho = data.DataTable.ChayCho;
-            dataAfter.DanhDau = data.DataTable.DanhDau;
-            dataAfter.DungCam = data.DataTable.DungCam;
-            dataAfter.ChuyenBong = data.DataTable.ChuyenBong;
-            dataAfter.ReBong = data.DataTable.ReBong;
-            dataAfter.TatCanh = data.DataTable.TatCanh;
-            dataAfter.SutManh = data.DataTable.SutManh;
-            dataAfter.DutDiem = data.DataTable.DutDiem;
-            dataAfter.TheLuc = data.DataTable.TheLuc;
-            dataAfter.SucManh = data.DataTable.SucManh;
-            dataAfter.XongXao = data.DataTable.XongXao;
-            dataAfter.TocDo = data.DataTable.TocDo;
-            dataAfter.SangTao = data.DataTable.SangTao;
-            _repositoryAccessor.ChatLuongAfter.Update(dataAfter);
+            dataBefore.CanPha = data.DataTable.CanPha;
+            dataBefore.KemNguoi = data.DataTable.KemNguoi;
+            dataBefore.ChayCho = data.DataTable.ChayCho;
+            dataBefore.DanhDau = data.DataTable.DanhDau;
+            dataBefore.DungCam = data.DataTable.DungCam;
+            dataBefore.ChuyenBong = data.DataTable.ChuyenBong;
+            dataBefore.ReBong = data.DataTable.ReBong;
+            dataBefore.TatCanh = data.DataTable.TatCanh;
+            dataBefore.SutManh = data.DataTable.SutManh;
+            dataBefore.DutDiem = data.DataTable.DutDiem;
+            dataBefore.TheLuc = data.DataTable.TheLuc;
+            dataBefore.SucManh = data.DataTable.SucManh;
+            dataBefore.XongXao = data.DataTable.XongXao;
+            dataBefore.TocDo = data.DataTable.TocDo;
+            dataBefore.SangTao = data.DataTable.SangTao;
+            _repositoryAccessor.QualityBefore.Update(dataBefore);
 
             // Chỉnh sửa Chất lượng Before
-            var dataChatLuongBefore = new List<ChatLuongBefore>();
-            if (data.DataBefore.Length != 0)
+            var dataQualityAfter = new List<QualityAfter>();
+            if (data.DataAfter.Length != 0)
             {
-                foreach (var item in data.DataBefore)
+                foreach (var item in data.DataAfter)
                 {
-                    dataChatLuongBefore.Add(new ChatLuongBefore
+                    dataQualityAfter.Add(new QualityAfter
                     {
-                        IDThongTin = data.DataTable.ID,
-                        IDBaiTap = item.IDBaiTap,
-                        DiemTB = item.DiemTB,
+                        InforID = data.DataTable.ID,
+                        ExerciseID = item.ExerciseID,
+                        Average = item.Average,
                         CanPha = item.CanPha,
                         KemNguoi = item.KemNguoi,
                         ChayCho = item.ChayCho,
@@ -194,12 +190,12 @@ namespace API._Services.Services
                         SangTao = item.SangTao
                     });
                 }
-                _repositoryAccessor.ChatLuongBefore.AddMultiple(dataChatLuongBefore);
+                _repositoryAccessor.QualityAfter.AddMultiple(dataQualityAfter);
             }
             using var _transaction = await _repositoryAccessor.BeginTransactionAsync();
             try
             {
-                await _repositoryAccessor.Save();
+                await _repositoryAccessor.SaveChangesAsync();
                 await _transaction.CommitAsync();
                 return new OperationResult(true);
             }
@@ -212,77 +208,77 @@ namespace API._Services.Services
         #endregion
         public async Task<OperationResult> Delete(int id)
         {
-            var dataThongTin = await _repositoryAccessor.ThongTin.FirstOrDefaultAsync(x => x.ID == id);
-            if (dataThongTin != null)
-                _repositoryAccessor.ThongTin.Remove(dataThongTin);
+            var dataInfor = await _repositoryAccessor.Information.FirstOrDefaultAsync(x => x.ID == id);
+            if (dataInfor != null)
+                _repositoryAccessor.Information.Remove(dataInfor);
 
-            var dataViTri = await _repositoryAccessor.P_ThongTinViTriCauThu.FindAll(x => x.ThongTinID == id).ToListAsync();
-            if (dataViTri != null)
-                _repositoryAccessor.P_ThongTinViTriCauThu.RemoveMultiple(dataViTri);
+            var dataPosition = await _repositoryAccessor.PositionInformation.FindAll(x => x.InforID == id).ToListAsync();
+            if (dataPosition != null)
+                _repositoryAccessor.PositionInformation.RemoveMultiple(dataPosition);
 
-            var dataAfter = await _repositoryAccessor.ChatLuongAfter.FirstOrDefaultAsync(x => x.IDThongTin == id);
-            if (dataAfter != null)
-                _repositoryAccessor.ChatLuongAfter.Remove(dataAfter);
-
-            var dataBefore = await _repositoryAccessor.ChatLuongBefore.FindAll(x => x.IDThongTin == id).ToListAsync();
+            var dataBefore = await _repositoryAccessor.QualityBefore.FirstOrDefaultAsync(x => x.InforID == id);
             if (dataBefore != null)
-                _repositoryAccessor.ChatLuongBefore.RemoveMultiple(dataBefore);
+                _repositoryAccessor.QualityBefore.Remove(dataBefore);
 
-            return new OperationResult(await _repositoryAccessor.Save());
+            var dataAfter= await _repositoryAccessor.QualityAfter.FindAll(x => x.InforID == id).ToListAsync();
+            if (dataBefore != null)
+                _repositoryAccessor.QualityAfter.RemoveMultiple(dataAfter);
+
+            return new OperationResult(await _repositoryAccessor.SaveChangesAsync());
         }
         #region  GetData
         public async Task<HomeMainDto> GetData(HomeMainParam param)
         {
-            var pred = PredicateBuilder.New<ChatLuongAfter>(true);
-            if (!string.IsNullOrWhiteSpace(param.Ten))
-                pred.And(x => x.IDThongTin == int.Parse(param.Ten));
+            var pred = PredicateBuilder.New<QualityBefore>(true);
+            if (!string.IsNullOrWhiteSpace(param.InforID.ToString()))
+                pred.And(x => x.InforID == param.InforID);
 
-            var data = await _repositoryAccessor.ThongTin.FindAll(x => x.ID == int.Parse(param.Ten)).ToListAsync();
-            var dataChatLuong = await _repositoryAccessor.ChatLuongAfter.FindAll(pred).ToListAsync();
-            var dataViTri = data
-                .GroupJoin(_repositoryAccessor.P_ThongTinViTriCauThu.FindAll(),
+            var data = await _repositoryAccessor.Information.FindAll(x => x.ID == param.InforID).ToListAsync();
+            var dataQuality = await _repositoryAccessor.QualityBefore.FindAll(pred).ToListAsync();
+            var dataPosition = data
+                .GroupJoin(_repositoryAccessor.PositionInformation.FindAll(),
                     x => x.ID,
-                    y => y.ThongTinID,
-                    (x, y) => new { ThongTin = x, ThongTinViTri = y })
-                .SelectMany(x => x.ThongTinViTri.DefaultIfEmpty(),
-                    (x, y) => new { x.ThongTin, ThongTinViTri = y })
-                .GroupJoin(_repositoryAccessor.ViTri.FindAll(),
-                    x => x.ThongTinViTri.ViTriID,
+                    y => y.InforID,
+                    (x, y) => new { Infor = x, PositionInfor = y })
+                .SelectMany(x => x.PositionInfor.DefaultIfEmpty(),
+                    (x, y) => new { x.Infor, PositionInfor = y })
+                .GroupJoin(_repositoryAccessor.Position.FindAll(),
+                    x => x.PositionInfor.PositionID,
                     y => y.ID,
-                    (x, y) => new { x.ThongTin, x.ThongTinViTri, ViTri = y })
-                .SelectMany(x => x.ViTri.DefaultIfEmpty(),
-                    (x, y) => new { x.ThongTin, x.ThongTinViTri, ViTri = y })
-                .Select(x => x.ViTri.TenViTri).ToList();
+                    (x, y) => new { x.Infor, x.PositionInfor, Position = y })
+                .SelectMany(x => x.Position.DefaultIfEmpty(),
+                    (x, y) => new { x.Infor, x.PositionInfor, Position = y })
+                .Select(x => x.Position.Name).ToList();
 
-            var dataBefore = await _repositoryAccessor.ChatLuongBefore.FindAll(x => x.IDThongTin == int.Parse(param.Ten)).ToListAsync();
+            var dataAfter = await _repositoryAccessor.QualityAfter.FindAll(x => x.InforID == param.InforID).ToListAsync();
 
 
 
-            var result = dataChatLuong.Join(data,
-                    x => x.IDThongTin,
+            var result = dataQuality.Join(data,
+                    x => x.InforID,
                     y => y.ID,
-                    (x, y) => new { ChatLuong = x, ThongTin = y })
+                    (x, y) => new { Quality = x, Infor = y })
                 .Select(x => new HomeMainDto
                 {
-                    Ten = x.ThongTin.Ten,
-                    ViTri = string.Join("+", dataViTri),
-                    TuChat = "",
-                    CanPha = x.ChatLuong.CanPha,
-                    KemNguoi = x.ChatLuong.KemNguoi,
-                    ChayCho = x.ChatLuong.ChayCho,
-                    DanhDau = x.ChatLuong.DanhDau,
-                    DungCam = x.ChatLuong.DungCam,
-                    ChuyenBong = x.ChatLuong.ChuyenBong,
-                    ReBong = x.ChatLuong.ReBong,
-                    TatCanh = x.ChatLuong.TatCanh,
-                    SutManh = x.ChatLuong.SutManh,
-                    DutDiem = x.ChatLuong.DutDiem,
-                    TheLuc = x.ChatLuong.TheLuc,
-                    SucManh = x.ChatLuong.SucManh,
-                    XongXao = x.ChatLuong.XongXao,
-                    TocDo = x.ChatLuong.TocDo,
-                    SangTao = x.ChatLuong.SangTao,
-                    ChatLuongBefore = dataBefore ?? new List<ChatLuongBefore>()
+                    Name = x.Infor.Name,
+                    Position = string.Join("+", dataPosition),
+                    Personality = "",
+                    CanPha = x.Quality.CanPha,
+                    KemNguoi = x.Quality.KemNguoi,
+                    ChayCho = x.Quality.ChayCho,
+                    DanhDau = x.Quality.DanhDau,
+                    DungCam = x.Quality.DungCam,
+                    ChuyenBong = x.Quality.ChuyenBong,
+                    ReBong = x.Quality.ReBong,
+                    TatCanh = x.Quality.TatCanh,
+                    SutManh = x.Quality.SutManh,
+                    DutDiem = x.Quality.DutDiem,
+                    TheLuc = x.Quality.TheLuc,
+                    SucManh = x.Quality.SucManh,
+                    XongXao = x.Quality.XongXao,
+                    TocDo = x.Quality.TocDo,
+                    SangTao = x.Quality.SangTao,
+                    QualityAfter = dataAfter ?? new List<QualityAfter>()
                 })
                 .FirstOrDefault();
             return result;
@@ -291,46 +287,44 @@ namespace API._Services.Services
 
         public async Task<List<KeyValuePair<int, string>>> GetListExercise()
         {
-            var data = await _repositoryAccessor.BaiTap.FindAll().ToListAsync();
-            return data.Select(x => new KeyValuePair<int, string>(x.ID, x.TenBaiTap)).ToList();
+            var data = await _repositoryAccessor.Exercises.FindAll().ToListAsync();
+            return data.Select(x => new KeyValuePair<int, string>(x.ID, x.Name)).ToList();
         }
 
         public async Task<List<KeyValuePair<string, string>>> GetListPlayers()
         {
-            var data = await _repositoryAccessor.ThongTin.FindAll().ToListAsync();
-            return data.Select(x => new KeyValuePair<string, string>(x.ID.ToString(), x.Ten)).ToList();
+            var data = await _repositoryAccessor.Information.FindAll().ToListAsync();
+            return data.Select(x => new KeyValuePair<string, string>(x.ID.ToString(), x.Name)).ToList();
         }
 
         public async Task<List<KeyValuePair<string, string>>> GetKeys()
         {
-            var data = await _repositoryAccessor.ThuocTinhChinh.FindAll().ToListAsync();
-            return data.Select(x => new KeyValuePair<string, string>(x.TenThuocTinh, x.Loai.ToString())).ToList();
+            var data = await _repositoryAccessor.MainAttributes.FindAll().ToListAsync();
+            return data.Select(x => new KeyValuePair<string, string>(x.Name, x.Type.ToString())).ToList();
         }
 
-        public async Task<List<KeyValuePair<string, string>>> GetListThuocTinh(int IDBaiTap, string ViTri)
+        public async Task<List<KeyValuePair<string, string>>> GetListThuocTinh(int ExerciseID, string Position)
         {
-
-
-            var data = await _repositoryAccessor.BaiTap.FindAll(x => x.ID == IDBaiTap).ToListAsync();
+            var data = await _repositoryAccessor.Exercises.FindAll(x => x.ID == ExerciseID).ToListAsync();
             var result = data
-                .GroupJoin(_repositoryAccessor.P_ThuocTinhBaiTap.FindAll(x => x.IDBaiTap == IDBaiTap),
+                .GroupJoin(_repositoryAccessor.ExerciseAttributes.FindAll(x => x.ExerciseID == ExerciseID),
                     x => x.ID,
-                    y => y.IDBaiTap,
-                    (x, y) => new { BaiTap = x, P_ThuocTinhBaiTap = y })
-                .SelectMany(x => x.P_ThuocTinhBaiTap.DefaultIfEmpty(),
-                    (x, y) => new { x.BaiTap, P_ThuocTinhBaiTap = y })
-                .GroupJoin(_repositoryAccessor.ThuocTinhChinh.FindAll(),
-                    x => x.P_ThuocTinhBaiTap.IDThuocTinhChinh,
+                    y => y.ExerciseID,
+                    (x, y) => new { Exercise = x, ExerciseAttributes = y })
+                .SelectMany(x => x.ExerciseAttributes.DefaultIfEmpty(),
+                    (x, y) => new { x.Exercise, ExerciseAttributes = y })
+                .GroupJoin(_repositoryAccessor.MainAttributes.FindAll(),
+                    x => x.ExerciseAttributes.ExerciseID,
                     y => y.ID,
-                    (x, y) => new { x.BaiTap, x.P_ThuocTinhBaiTap, ThuocTinhChinh = y })
-                .SelectMany(x => x.ThuocTinhChinh.DefaultIfEmpty(),
-                    (x, y) => new { x.BaiTap, x.P_ThuocTinhBaiTap, ThuocTinhChinh = y })
-                .Select(x => x.ThuocTinhChinh.TenThuocTinh)
+                    (x, y) => new { x.Exercise, x.ExerciseAttributes, MainAttributes = y })
+                .SelectMany(x => x.MainAttributes.DefaultIfEmpty(),
+                    (x, y) => new { x.Exercise, x.ExerciseAttributes, MainAttributes = y })
+                .Select(x => x.MainAttributes.Name)
                 .ToList();
 
 
 
-            var dataDisabled = await GetListDisable(ViTri);
+            var dataDisabled = await GetListDisable(Position);
 
             var filteredResult = dataDisabled
                 .Where(x => result.Contains(x.Key))
@@ -340,23 +334,23 @@ namespace API._Services.Services
             return filteredResult;
         }
 
-        public async Task<List<KeyValuePair<string, string>>> GetListDisable(string ViTri)
+        public async Task<List<KeyValuePair<string, string>>> GetListDisable(string Position)
         {
-            var listViTri = ViTri.Split("+");
-            var dataViTri = await _repositoryAccessor.ViTri.FindAll(x => listViTri.Contains(x.TenViTri.Trim())).Select(x => x.ID).ToListAsync();
+            var listPosition = Position.Split("+");
+            var dataPosition = await _repositoryAccessor.Position.FindAll(x => listPosition.Contains(x.Name.Trim())).Select(x => x.ID).ToListAsync();
 
-            var result = _repositoryAccessor.P_ThuocTinhSangToi
-                .FindAll(x => dataViTri.Contains(x.IDViTri))
-                .Join(_repositoryAccessor.ThuocTinhChinh.FindAll(),
-                    x => x.IDThuocTinhChinh,
+            var result = _repositoryAccessor.TypeAttributes
+                .FindAll(x => dataPosition.Contains(x.PositionID))
+                .Join(_repositoryAccessor.MainAttributes.FindAll(),
+                    x => x.AttributeID,
                     y => y.ID,
-                    (x, y) => new { P_ThuocTinhSangToi = x, ThuocTinhChinh = y })
-                .GroupBy(x => x.P_ThuocTinhSangToi.IDThuocTinhChinh)
+                    (x, y) => new { TypeAttributes = x, MainAttributes = y })
+                .GroupBy(x => x.TypeAttributes.AttributeID)
                 .Select(g => new
                 {
                     ID = g.Key,
-                    Name = g.Select(x => x.ThuocTinhChinh.TenThuocTinh).FirstOrDefault(),
-                    KQ = g.Max(x => Convert.ToInt32(x.P_ThuocTinhSangToi.LoaiThuocTinh)) == 0 ? 0 : 1
+                    Name = g.Select(x => x.MainAttributes.Name).FirstOrDefault(),
+                    KQ = g.Max(x => Convert.ToInt32(x.TypeAttributes.Disable)) == 0 ? 0 : 1
                 })
                 .ToList();
             return result.Select(x => new KeyValuePair<string, string>(x.Name, x.KQ.ToString())).ToList();

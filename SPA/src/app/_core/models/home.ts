@@ -1,8 +1,8 @@
 export interface MainHomeDto {
   id: number;
-  ten: string;
-  viTri: string;
-  tuChat: string;
+  name: string;
+  position: string;
+  personality: string;
   canPha: number;
   kemNguoi: number;
   chayCho: number;
@@ -18,24 +18,24 @@ export interface MainHomeDto {
   xongXao: number;
   tocDo: number;
   sangTao: number;
-  chatLuongBefore: ChatLuongBefore[];
+  qualityAfter: QualityAfter[];
 }
 
 export interface DataCreate {
   dataTable: ChuyenThongTin;
-  dataBefore: ChatLuongBefore[];
+  dataAfter: QualityAfter[];
 }
 
 export interface MainHomeParam {
-  ten: string;
-  baiTap: string;
+  inforID: number;
+  exerciseID: number;
 }
 
 export interface ChuyenThongTin {
   id: number;
-  ten: string;
-  viTri: string;
-  diemTB: number;
+  name: string;
+  position: string;
+  average: number;
   canPha: number | null;
   kemNguoi: number | null;
   chayCho: number | null;
@@ -54,11 +54,11 @@ export interface ChuyenThongTin {
   chatLuongChung: string;
 }
 
-export interface ChatLuongBefore {
+export interface QualityAfter {
   id: number;
-  idThongTin: number | null;
-  idBaiTap: number | null;
-  diemTB: number | null;
+  inforID: number | null;
+  exerciseID: number | null;
+  average: number | null;
   canPha: number | null;
   kemNguoi: number | null;
   chayCho: number | null;

@@ -31,14 +31,14 @@ namespace API.Controllers.HomeMain
             return Ok(await _service.GetData(param));
         }
         [HttpGet("GetListThuocTinh")]
-        public async Task<IActionResult> GetListThuocTinh(int IDBaiTap, string ViTri)
+        public async Task<IActionResult> GetListThuocTinh(int ExerciseID, string Position)
         {
-            return Ok(await _service.GetListThuocTinh(IDBaiTap, ViTri));
+            return Ok(await _service.GetListThuocTinh(ExerciseID, Position));
         }
         [HttpGet("GetListDisable")]
-        public async Task<IActionResult> GetListDisable(string ViTri)
+        public async Task<IActionResult> GetListDisable(string Position)
         {
-            return Ok(await _service.GetListDisable(ViTri));
+            return Ok(await _service.GetListDisable(Position));
         }
         [HttpGet("GetKeys")]
         public async Task<IActionResult> GetKeys()
