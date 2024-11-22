@@ -38,7 +38,7 @@
 
                   </div>
                   <div class="col-3">
-                    <button type="button" (click)="openTemplate()" class="btn btn-danger ml-1">
+                    <button type="button" (click)="openTemplate('tuChat')" class="btn btn-danger ml-1">
                       <i class="fa fa-plus"></i> Tính
                     </button>
                   </div>
@@ -310,6 +310,23 @@
                     </tr>
                   </tbody>
                 </table>
+
+                <div class="col-12">
+                  <label class="d-block">&nbsp;</label>
+                  <button type="button" (click)="addItem()" class="btn btn-success ml-1">
+                    <i class="fa fa-plus"></i> Thêm bài tập
+                  </button>
+                  <button type="button" (click)="openTemplate('ketQua')" class="btn btn-danger ml-1">
+                    <i class="fa fa-plus"></i> Xem kết quả
+                  </button>
+                  <button type="button" (click)="createCompare()" class="btn btn-success ml-1">
+                    <i class="fa fa-plus"></i> Thêm vào bảng so sánh
+                  </button>
+                  <button type="button" (click)="openTemplate('soSanh')" class="btn btn-danger ml-1">
+                    <i class="fa fa-plus"></i> Xem bảng so sánh
+                  </button>
+                </div>
+
               </div>
             </div>
           </div>
@@ -331,6 +348,40 @@
   </div>
   <div class="modal-body">
     Tính Toán
+  </div>
+  <!-- </div> -->
+
+</ng-template>
+
+<ng-template #templateKetQua>
+  <!-- <div class="modal-container"> -->
+  <div class="modal-header">
+    <h4 id="dialog-static-name" class="modal-title pull-left">
+      <strong>Kết Quả </strong>
+    </h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="closeTemplate()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    Kết Quả
+  </div>
+  <!-- </div> -->
+
+</ng-template>
+
+<ng-template #templateSoSanh>
+  <!-- <div class="modal-container"> -->
+  <div class="modal-header">
+    <h4 id="dialog-static-name" class="modal-title pull-left">
+      <strong>So Sánh </strong>
+    </h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="closeTemplate()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    So sánh
   </div>
   <!-- </div> -->
 

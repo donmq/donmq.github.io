@@ -5,6 +5,7 @@ namespace API.Data
 {
     public partial class DBContext : DbContext
     {
+        public virtual DbSet<Compares> Compares { get; set; }
         public virtual DbSet<QualityAfter> QualityAfter { get; set; }
         public virtual DbSet<PositionInformation> PositionInformation { get; set; }
         public virtual DbSet<ExerciseAttributes> ExerciseAttributes { get; set; }
@@ -24,6 +25,10 @@ namespace API.Data
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<Compares>(entity =>
+            {
+                entity.HasKey(e => new { e.InforID, e.PlanID });
+            });
             builder.Entity<QualityAfter>(entity =>
             {
                 entity.HasKey(e => new {e.ExerciseID, e.InforID});

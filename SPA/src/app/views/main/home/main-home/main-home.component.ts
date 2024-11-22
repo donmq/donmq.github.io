@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { KeyValuePair } from '@utilities/key-value-pair';
-import { QualityAfter, ChuyenThongTin, DataCreate, MainHomeDto, MainHomeParam } from '@models/home';
+import { Quality, DataCreate, MainHomeDto, MainHomeParam } from '@models/home';
 import { HomeMainService } from './../../../../_core/services/home-main.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
@@ -12,8 +12,8 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 })
 export class MainHomeComponent implements OnInit {
   data: MainHomeDto = <MainHomeDto>{};
-  dataTable: ChuyenThongTin = <ChuyenThongTin>{};
-  dataKetQua: ChuyenThongTin = <ChuyenThongTin>{};
+  dataTable: Quality = <Quality>{};
+  dataKetQua: Quality = <Quality>{};
   players: KeyValuePair[] = []
   exercise: KeyValuePair[] = []
   attribute: string[] = []
@@ -22,7 +22,7 @@ export class MainHomeComponent implements OnInit {
   param: MainHomeParam = <MainHomeParam>{};
 
   keys: KeyValuePair[] = [];
-  dataAfter: QualityAfter[] = []
+  dataAfter: Quality[] = []
 
   constructor(private modalService: BsModalService, private service: HomeMainService) { }
 
@@ -33,10 +33,18 @@ export class MainHomeComponent implements OnInit {
   }
 
   @ViewChild('templateTuChat', { read: TemplateRef }) templateTuChat!: TemplateRef<any>;
+  @ViewChild('templateKetQua', { read: TemplateRef }) templateKetQua!: TemplateRef<any>;
+  @ViewChild('templateSoSanh', { read: TemplateRef }) templateSoSanh!: TemplateRef<any>;
   modalRef?: BsModalRef;
 
-  openTemplate() {
-    this.modalRef = this.modalService.show(this.templateTuChat);
+  openTemplate(template: string) {
+    if(template == 'tuChat')
+      this.modalRef = this.modalService.show(this.templateTuChat);
+    else if(template == 'ketQua')
+      this.modalRef = this.modalService.show(this.templateKetQua);
+    else
+      this.modalRef = this.modalService.show(this.templateSoSanh);
+
   }
   closeTemplate() {
     if (this.modalRef) {
@@ -56,7 +64,7 @@ export class MainHomeComponent implements OnInit {
         this.dataAfter = this.data.qualityAfter
         this.chuyenThongTin();
         for (let index in this.dataAfter) {
-          this.dataAfter[index].chatLuongChung = Math.floor(this.keys.reduce((a, b) => a + this.dataAfter[index][b.key], 0) / 15) + "%";
+          this.dataAfter[index].chatLuongChung = Math.floor(this.keys.reduce((a, b) => a + this.dataAfter[index][b.key], 0) / 15);
         }
       }
     })
@@ -195,8 +203,8 @@ export class MainHomeComponent implements OnInit {
       this.dataKetQua[x.key] = this.dataAfter[index][x.key];
     });
 
-    this.dataAfter[index].chatLuongChung = Math.floor(this.keys.reduce((a, b) => a + this.dataAfter[index][b.key], 0) / 15) + "%";
-    this.dataKetQua.chatLuongChung = Math.floor(this.keys.reduce((a, b) => a + this.dataKetQua[b.key], 0) / 15) + "%";
+    this.dataAfter[index].chatLuongChung = Math.floor(this.keys.reduce((a, b) => a + this.dataAfter[index][b.key], 0) / 15);
+    this.dataKetQua.chatLuongChung = Math.floor(this.keys.reduce((a, b) => a + this.dataKetQua[b.key], 0) / 15);
 
   }
   //#endregion
@@ -209,12 +217,12 @@ export class MainHomeComponent implements OnInit {
     this.keys.forEach(x => {
       this.dataTable[x.key] = +this.data[x.key];
     });
-    this.dataTable.chatLuongChung = Math.floor(this.keys.reduce((a, b) => a + parseInt(this.data[b.key]), 0) / 15) + "%";
+    this.dataTable.chatLuongChung = Math.floor(this.keys.reduce((a, b) => a + parseInt(this.data[b.key]), 0) / 15);
 
     this.keys.forEach(x => {
       this.dataKetQua[x.key] = this.dataAfter.length != 0 ? Math.max(...this.dataAfter.map(y => y[x.key])) : this.dataTable[x.key];
     });
-    this.dataKetQua.chatLuongChung = Math.floor(this.keys.reduce((a, b) => a + parseInt(this.dataKetQua[b.key]), 0) / 15) + "%";
+    this.dataKetQua.chatLuongChung = Math.floor(this.keys.reduce((a, b) => a + parseInt(this.dataKetQua[b.key]), 0) / 15);
 
     this.dataAfter.forEach((x, index) => {
       this.getListThuocTinh(index, x, false)
@@ -225,7 +233,7 @@ export class MainHomeComponent implements OnInit {
   //#endregion
 
   addItem() {
-    this.dataAfter.push(<QualityAfter>{
+    this.dataAfter.push(<Quality>{
       average: 180,
       canPha: null,
       kemNguoi: null,
@@ -251,7 +259,7 @@ export class MainHomeComponent implements OnInit {
   };
 
   save(type: string) {
-    this.dataTable.id = this.param.inforID
+    this.dataTable.inforID = this.param.inforID
     this.dataCreate.dataTable = this.dataTable
     this.dataCreate.dataAfter = this.dataAfter
     if (type == 'add')
@@ -302,14 +310,14 @@ export class MainHomeComponent implements OnInit {
         this.keys.forEach(x => {
           this.dataKetQua[x.key] = Math.max(...this.dataAfter.map(y => y[x.key]));
         });
-        this.dataKetQua.chatLuongChung = Math.max(...this.dataAfter.map(x => parseInt(x.chatLuongChung))) + '%';
+        this.dataKetQua.chatLuongChung = Math.max(...this.dataAfter.map(x => x.chatLuongChung));
       }
     } else {
       console.log('Chỉ số không hợp lệ:', index);
     }
   }
 
-  changeBaiTap(index: number, baiTap: QualityAfter) {
+  changeBaiTap(index: number, baiTap: Quality) {
     this.clear(index);
     if (index === 0) {
       this.keys.forEach(x => {
@@ -320,7 +328,7 @@ export class MainHomeComponent implements OnInit {
       this.keys.forEach(x => {
         this.dataKetQua[x.key] = Math.max(...this.dataAfter.map(y => y[x.key]));
       });
-      this.dataKetQua.chatLuongChung = Math.max(...this.dataAfter.map(x => parseInt(x.chatLuongChung))) + '%';
+      this.dataKetQua.chatLuongChung = Math.max(...this.dataAfter.map(x => x.chatLuongChung));
     }
     this.getListThuocTinh(index, baiTap, true);
 
@@ -332,7 +340,7 @@ export class MainHomeComponent implements OnInit {
 
   }
 
-  getListThuocTinh(index: number, exercise: QualityAfter, tinhtoan: boolean) {
+  getListThuocTinh(index: number, exercise: Quality, tinhtoan: boolean) {
     this.service.getListThuocTinh(exercise.exerciseID, this.data.position).subscribe({
       next: res => {
         this.attributeDisable = res
@@ -410,4 +418,47 @@ export class MainHomeComponent implements OnInit {
       this.dataKetQua[x.key] = this.data[x.key]
     });
   }
+
+  listCompares: Quality[]
+  getListCompares(inforID: number) {
+    this.service.getListCompares(inforID).subscribe({
+      next: res => this.listCompares = res
+    })
+  }
+
+  compare: Quality
+  createCompare() {
+    this.compare.inforID = this.param.inforID
+    this.compare.chatLuongChung = this.dataKetQua.chatLuongChung
+    this.compare.canPha = this.dataKetQua.canPha
+    this.compare.kemNguoi = this.dataKetQua.kemNguoi
+    this.compare.chayCho = this.dataKetQua.chayCho
+    this.compare.danhDau = this.dataKetQua.danhDau
+    this.compare.dungCam = this.dataKetQua.dungCam
+    this.compare.chuyenBong = this.dataKetQua.chuyenBong
+    this.compare.reBong = this.dataKetQua.reBong
+    this.compare.tatCanh = this.dataKetQua.tatCanh
+    this.compare.sutManh = this.dataKetQua.sutManh
+    this.compare.dutDiem = this.dataKetQua.dutDiem
+    this.compare.theLuc = this.dataKetQua.theLuc
+    this.compare.sucManh = this.dataKetQua.sucManh
+    this.compare.xongXao = this.dataKetQua.xongXao
+    this.compare.tocDo = this.dataKetQua.tocDo
+    this.compare.sangTao = this.dataKetQua.sangTao
+    this.service.createCompare(this.compare).subscribe({
+      next: res => {
+        this.getListCompares(this.compare.inforID);
+      }
+    })
+  }
+
+  deleteCompare(data: Quality) {
+    this.service.deleteCompare(data).subscribe({
+      next: res => {
+        this.getListCompares(data.inforID);
+      }
+    })
+  }
+
+
 }

@@ -12,6 +12,7 @@ namespace API.Accessor._Repositories
         public RepositoryAccessor(DBContext context)
         {
             _context = context;
+            Compares = new Repository<Compares>(_context);
             QualityAfter = new Repository<QualityAfter>(_context);
             PositionInformation = new Repository<PositionInformation>(_context);
             ExerciseAttributes = new Repository<ExerciseAttributes>(_context);
@@ -33,6 +34,8 @@ namespace API.Accessor._Repositories
         public IRepository<Attributes> Attributes { get; private set; }
         public IRepository<TypeAttributes> TypeAttributes { get; private set; }
         public IRepository<QualityBefore> QualityBefore { get; private set; }
+        public IRepository<Compares> Compares { get; private set; }
+
         public async Task<bool> SaveChangesAsync()
         {
             return await _context.SaveChangesAsync() > 0;

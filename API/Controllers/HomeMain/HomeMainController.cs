@@ -60,5 +60,20 @@ namespace API.Controllers.HomeMain
         {
             return Ok(await _service.Delete(id));
         }
+        [HttpGet("GetListCompares")]
+        public async Task<IActionResult> GetListCompares(int inforID)
+        {
+            return Ok(await _service.GetListCompares(inforID));
+        }
+        [HttpPost("CreateCompares")]
+        public async Task<IActionResult> CreateCompares([FromBody] ListCompares data)
+        {
+            return Ok(await _service.CreateCompare(data));
+        }
+        [HttpDelete("DeleteCompares")]
+        public async Task<IActionResult> DeleteCompares([FromBody] ListCompares data)
+        {
+            return Ok(await _service.DeleteCompare(data));
+        }
     }
 }

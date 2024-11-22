@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from './../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { KeyValuePair } from './../utilities/key-value-pair';
-import { DataCreate, MainHomeDto, MainHomeParam } from '../models/home';
+import { DataCreate, MainHomeDto, MainHomeParam, Quality } from '../models/home';
 import { OperationResult } from '@utilities/operation-result';
 
 @Injectable({
@@ -48,4 +48,15 @@ export class HomeMainService {
     return this.http.delete<OperationResult>(this.baseUrl + 'Delete', { params });
   }
 
+  getListCompares(inforID: number) {
+    let params = new HttpParams().appendAll({ inforID });
+    return this.http.get<Quality[]>(this.baseUrl + "GetListCompares", { params })
+  }
+  createCompare(data: Quality) {
+    return this.http.post<OperationResult>(this.baseUrl + 'CreateCompare', data)
+  }
+  deleteCompare(data: Quality) {
+    let params = new HttpParams().appendAll({ ...data })
+    return this.http.delete<OperationResult>(this.baseUrl + 'DeleteCompare', { params });
+  }
 }

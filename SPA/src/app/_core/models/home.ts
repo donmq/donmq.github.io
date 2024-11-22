@@ -18,12 +18,12 @@ export interface MainHomeDto {
   xongXao: number;
   tocDo: number;
   sangTao: number;
-  qualityAfter: QualityAfter[];
+  qualityAfter: Quality[];
 }
 
 export interface DataCreate {
-  dataTable: ChuyenThongTin;
-  dataAfter: QualityAfter[];
+  dataTable: Quality;
+  dataAfter: Quality[];
 }
 
 export interface MainHomeParam {
@@ -31,8 +31,8 @@ export interface MainHomeParam {
   exerciseID: number;
 }
 
-export interface ChuyenThongTin {
-  id: number;
+export interface Quality {
+  inforID: number;
   name: string;
   position: string;
   average: number;
@@ -51,30 +51,11 @@ export interface ChuyenThongTin {
   xongXao: number | null;
   tocDo: number | null;
   sangTao: number | null;
-  chatLuongChung: string;
+  chatLuongChung: number;
+  planID: number;
+  soDiemTap: number;
+  exerciseID: number | null;
 }
 
-export interface QualityAfter {
-  id: number;
-  inforID: number | null;
-  exerciseID: number | null;
-  average: number | null;
-  canPha: number | null;
-  kemNguoi: number | null;
-  chayCho: number | null;
-  danhDau: number | null;
-  dungCam: number | null;
-  chuyenBong: number | null;
-  reBong: number | null;
-  tatCanh: number | null;
-  sutManh: number | null;
-  dutDiem: number | null;
-  theLuc: number | null;
-  sucManh: number | null;
-  xongXao: number | null;
-  tocDo: number | null;
-  sangTao: number | null;
-  chatLuongChung: string;
-  soDiemTap: number;
-}
+
 

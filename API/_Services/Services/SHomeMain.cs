@@ -111,14 +111,14 @@ namespace API._Services.Services
         {
 
             // Xóa table để cập nhật lại
-            var delAfter = await _repositoryAccessor.QualityAfter.FindAll(x => x.InforID == data.DataTable.ID).ToListAsync();
-            var delPosition = await _repositoryAccessor.PositionInformation.FindAll(x => x.InforID == data.DataTable.ID).ToListAsync();
+            var delAfter = await _repositoryAccessor.QualityAfter.FindAll(x => x.InforID == data.DataTable.InforID).ToListAsync();
+            var delPosition = await _repositoryAccessor.PositionInformation.FindAll(x => x.InforID == data.DataTable.InforID).ToListAsync();
             _repositoryAccessor.QualityAfter.RemoveMultiple(delAfter);
             _repositoryAccessor.PositionInformation.RemoveMultiple(delPosition);
             await _repositoryAccessor.SaveChangesAsync();
 
             // Cập nhật ThongTin
-            var dataInfor = await _repositoryAccessor.Information.FirstOrDefaultAsync(x => x.ID == data.DataTable.ID);
+            var dataInfor = await _repositoryAccessor.Information.FirstOrDefaultAsync(x => x.ID == data.DataTable.InforID);
             if (dataInfor == null)
                 return new OperationResult(false);
             dataInfor.Name = data.DataTable.Name.Trim();
@@ -135,14 +135,14 @@ namespace API._Services.Services
             {
                 dataPosition.Add(new PositionInformation
                 {
-                    InforID = data.DataTable.ID,
+                    InforID = data.DataTable.InforID,
                     PositionID = item
                 });
             }
             _repositoryAccessor.PositionInformation.AddMultiple(dataPosition);
 
             // Chỉnh sửa Chất lượng After
-            var dataBefore = await _repositoryAccessor.QualityBefore.FirstOrDefaultAsync(x => x.InforID == data.DataTable.ID);
+            var dataBefore = await _repositoryAccessor.QualityBefore.FirstOrDefaultAsync(x => x.InforID == data.DataTable.InforID);
             if (dataBefore == null)
                 return new OperationResult(false);
             dataBefore.CanPha = data.DataTable.CanPha;
@@ -170,7 +170,7 @@ namespace API._Services.Services
                 {
                     dataQualityAfter.Add(new QualityAfter
                     {
-                        InforID = data.DataTable.ID,
+                        InforID = data.DataTable.InforID,
                         ExerciseID = item.ExerciseID,
                         Average = item.Average,
                         CanPha = item.CanPha,
@@ -278,10 +278,80 @@ namespace API._Services.Services
                     XongXao = x.Quality.XongXao,
                     TocDo = x.Quality.TocDo,
                     SangTao = x.Quality.SangTao,
-                    QualityAfter = dataAfter ?? new List<QualityAfter>()
+                    QualityAfter = dataAfter ?? new List<Quality>()
                 })
                 .FirstOrDefault();
             return result;
+        }
+        #endregion
+        #region Compares
+        public async Task<List<Quality>> GetListCompares(int inforID)
+        {
+            var data = await _repositoryAccessor.Compares.FindAll(x => x.InforID == inforID).ToListAsync();
+            if(data == null)
+                return null;
+
+            return data.Select(x => new Quality
+            {
+                InforID = x.InforID,
+                PlanID = x.PlanID,
+                ChatLuongChung = x.ChatLuong,
+                CanPha = x.CanPha,
+                KemNguoi = x.KemNguoi,
+                ChayCho = x.ChayCho,
+                DanhDau = x.DanhDau,
+                DungCam = x.DungCam,
+                ChuyenBong = x.ChuyenBong,
+                ReBong = x.ReBong,
+                TatCanh = x.TatCanh,
+                SutManh = x.SutManh,
+                DutDiem = x.DutDiem,
+                TheLuc = x.TheLuc,
+                SucManh = x.SucManh,
+                XongXao = x.XongXao,
+                TocDo = x.TocDo,
+                SangTao = x.SangTao
+            }).ToList();
+        }
+        #endregion
+        #region Create Compares
+        public async Task<OperationResult> CreateCompare(ListCompares data)
+        {
+            var dataCheck = await _repositoryAccessor.Compares.FindAll(x => x.InforID == data.InforID).ToListAsync();
+            var maxPlanID = data != null ? dataCheck.Max(x => x.PlanID) : 0;
+            var dataCompares = new Compares()
+            {
+                InforID = data.InforID,
+                PlanID = maxPlanID + 1,
+                ChatLuong = data.ChatLuong,
+                CanPha = data.CanPha,
+                KemNguoi = data.KemNguoi,
+                ChayCho = data.ChayCho,
+                DanhDau = data.DanhDau,
+                DungCam = data.DungCam,
+                ChuyenBong = data.ChuyenBong,
+                ReBong = data.ReBong,
+                TatCanh = data.TatCanh,
+                SutManh = data.SutManh,
+                DutDiem = data.DutDiem,
+                TheLuc = data.TheLuc,
+                SucManh = data.SucManh,
+                XongXao = data.XongXao,
+                TocDo = data.TocDo,
+                SangTao = data.SangTao
+            };
+            _repositoryAccessor.Compares.Add(dataCompares);
+            return new OperationResult(await _repositoryAccessor.SaveChangesAsync());
+        }
+
+        public async Task<OperationResult> DeleteCompare(ListCompares data)
+        {
+            var dataCheck = await _repositoryAccessor.Compares.FirstOrDefaultAsync(x => x.InforID == data.InforID && x.PlanID == data.PlanID);
+            if (data == null)
+                return null;
+            _repositoryAccessor.Compares.Remove(dataCheck);
+            return new OperationResult(await _repositoryAccessor.SaveChangesAsync());
+
         }
         #endregion
 
@@ -355,6 +425,5 @@ namespace API._Services.Services
                 .ToList();
             return result.Select(x => new KeyValuePair<string, string>(x.Name, x.KQ.ToString())).ToList();
         }
-
     }
 }

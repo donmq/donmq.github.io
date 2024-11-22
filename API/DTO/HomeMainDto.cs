@@ -24,13 +24,13 @@ namespace API.DTO
         public int? XongXao { get; set; }
         public int? TocDo { get; set; }
         public int? SangTao { get; set; }
-        public List<QualityAfter> QualityAfter { get; set; }
+        public List<Quality> QualityAfter { get; set; }
     }
 
     public class DataCreate
     {
-        public ChuyenThongTin DataTable { get; set; }
-        public QualityAfter[] DataAfter { get; set; }
+        public Quality DataTable { get; set; }
+        public Quality[] DataAfter { get; set; }
     }
     public class HomeMainParam
     {
@@ -38,9 +38,9 @@ namespace API.DTO
         public int ExerciseID { get; set; }
     }
 
-    public class ChuyenThongTin
+    public class Quality
     {
-        public int ID { get; set; }
+        public int InforID { get; set; }
         public string Name { get; set; }
         public string Position { get; set; }
         public int Average { get; set; }
@@ -59,5 +59,9 @@ namespace API.DTO
         public int? XongXao { get; set; }
         public int? TocDo { get; set; }
         public int? SangTao { get; set; }
+        public int ChatLuongChung { get; set; }
+        public int PlanID { get; set; }
+        public int SoDiemTap { get; set; }
+        public int ExerciseID { get; set; }
     }
 }

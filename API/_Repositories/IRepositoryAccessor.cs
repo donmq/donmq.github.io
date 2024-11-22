@@ -8,6 +8,7 @@ namespace API.Accessor._Interfaces
     [DependencyInjectionAttribute(ServiceLifetime.Scoped)]
     public interface IRepositoryAccessor
     {
+        IRepository<Compares> Compares { get; }
         IRepository<QualityAfter> QualityAfter { get; }
         IRepository<PositionInformation> PositionInformation { get; }
         IRepository<ExerciseAttributes> ExerciseAttributes { get; }
