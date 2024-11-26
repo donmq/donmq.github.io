@@ -285,7 +285,7 @@
                           pattern="^[1-9][0-9]?$"
                           (input)="dataItem.average = (dataItem.average > 180 ? 180 : dataItem.average)"
                           (keyup)="dataItem.average = (dataItem.average > 180 ? 180 : dataItem.average)"
-                          [(ngModel)]="dataItem.diemTB"
+                          [(ngModel)]="dataItem.average"
                           (ngModelChange)="changeBaiTap(i, dataItem)">
                       </td>
                       <td *ngFor="let item of keys" [class]="'text-center red-border-' + i" [ngClass]="{
@@ -364,7 +364,77 @@
     </button>
   </div>
   <div class="modal-body">
-    Kết Quả
+    <div class="row col-12">
+      <div class="col-4">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th colspan="3" class="text-center">Phòng thủ</th>
+            </tr>
+          </thead>
+          <thead>
+            <tr>
+              <th>Kỹ năng</th>
+              <th>Trước</th>
+              <th>Sau</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of keyPhongThu">
+              <td>{{item.key}}</td>
+              <td>{{dataTable[item.key]}}</td>
+              <td>{{dataKetQua[item.key]}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-4">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th colspan="3" class="text-center">Tấn Công</th>
+            </tr>
+          </thead>
+          <thead>
+            <tr>
+              <th>Kỹ năng</th>
+              <th>Trước</th>
+              <th>Sau</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of keyTanCong">
+              <td>{{item.key}}</td>
+              <td>{{dataTable[item.key]}}</td>
+              <td>{{dataKetQua[item.key]}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-4">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th colspan="3" class="text-center">Thể Chất</th>
+            </tr>
+          </thead>
+          <thead>
+            <tr>
+              <th>Kỹ năng</th>
+              <th>Trước</th>
+              <th>Sau</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of keyTheChat">
+              <td>{{item.key}}</td>
+              <td>{{dataTable[item.key]}}</td>
+              <td>{{dataKetQua[item.key]}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
   <!-- </div> -->
 
@@ -381,7 +451,27 @@
     </button>
   </div>
   <div class="modal-body">
-    So sánh
+    <div class="col-12">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th colspan="4" class="text-center">So sánh</th>
+            </tr>
+          </thead>
+          <thead>
+            <tr>
+              <th>Kỹ năng</th>
+              <th *ngFor="let pa of listCompares; let i = index">Phương án {{i + 1}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of keys">
+              <td>{{item.key}}</td>
+              <td *ngFor="let pa of listCompares">{{pa[item.key]}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
   </div>
   <!-- </div> -->
 

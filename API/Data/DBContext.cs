@@ -68,7 +68,7 @@ namespace API.Data
             });
             builder.Entity<QualityBefore>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => new { e.InforID });
             });
             OnModelCreatingPartial(builder);
         }

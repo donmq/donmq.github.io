@@ -6,7 +6,9 @@ namespace API.Models
     [Table("QualityBefore")]
     public partial class QualityBefore
     {
-        public int? InforID { get; set; }
+        [Key]
+        [Required]
+        public int InforID { get; set; }
         public int? CanPha { get; set; }
         public int? KemNguoi { get; set; }
         public int? ChayCho { get; set; }

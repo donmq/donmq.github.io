@@ -66,12 +66,12 @@ namespace API.Controllers.HomeMain
             return Ok(await _service.GetListCompares(inforID));
         }
         [HttpPost("CreateCompares")]
-        public async Task<IActionResult> CreateCompares([FromBody] ListCompares data)
+        public async Task<IActionResult> CreateCompares([FromBody] Quality data)
         {
             return Ok(await _service.CreateCompare(data));
         }
         [HttpDelete("DeleteCompares")]
-        public async Task<IActionResult> DeleteCompares([FromBody] ListCompares data)
+        public async Task<IActionResult> DeleteCompares([FromBody] Quality data)
         {
             return Ok(await _service.DeleteCompare(data));
         }

@@ -18,159 +18,68 @@ namespace API._Services.Services
         #region Create        
         public async Task<OperationResult> Create(DataCreate data)
         {
-            var checkDataAfter = await _repositoryAccessor.Information.FindAll().ToListAsync();
-
-            // if (checkDataAfter.Any(x => x.ID == data.DataTable.ID))
-            //     return new OperationResult(false, "Trùng dữ liệu");
-            var dataInfor = new Information
+            using var _transaction = await _repositoryAccessor.BeginTransactionAsync();
+            try
             {
-                Name = data.DataTable.Name,
-                YearOld = "18",
-            };
-            _repositoryAccessor.Information.Add(dataInfor);
-            await _repositoryAccessor.SaveChangesAsync();
+                var checkDataAfter = await _repositoryAccessor.Information.FindAll().ToListAsync();
 
-            var maxIDInfor = await _repositoryAccessor.Information.FindAll().MaxAsync(x => x.ID);
+                // if (checkDataAfter.Any(x => x.ID == data.DataTable.ID))
+                //     return new OperationResult(false, "Trùng dữ liệu");
+                var dataInfor = new Information
+                {
+                    Name = data.DataTable.Name,
+                    YearOld = "18",
+                };
+                _repositoryAccessor.Information.Add(dataInfor);
+                await _repositoryAccessor.SaveChangesAsync();
+
+                var maxIDInfor = await _repositoryAccessor.Information.FindAll().MaxAsync(x => x.ID);
 
 
-            var position = data.DataTable.Position.Split("+");
+                var position = data.DataTable.Position.Split("+");
 
-            var positionID = await _repositoryAccessor.Position.FindAll(x => position.Contains(x.Name)).Select(x => x.ID).ToListAsync();
+                var positionID = await _repositoryAccessor.Position.FindAll(x => position.Contains(x.Name)).Select(x => x.ID).ToListAsync();
 
-            var dataPosition = new List<PositionInformation>();
-            var dataQualityBefore = new QualityBefore { };
-            var dataQualityAfter = new List<QualityAfter>();
+                var dataPosition = new List<PositionInformation>();
+                var dataQualityAfter = new List<QualityAfter>();
 
-            foreach (var item in positionID)
-            {
-                dataPosition.Add(new PositionInformation
+                foreach (var item in positionID)
+                {
+                    dataPosition.Add(new PositionInformation
+                    {
+                        InforID = maxIDInfor,
+                        PositionID = item
+                    });
+                }
+
+                var dataQualityBefore = new QualityBefore { };
+                dataQualityBefore = new QualityBefore
                 {
                     InforID = maxIDInfor,
-                    PositionID = item
-                });
-            }
+                    CanPha = data.DataTable.CanPha,
+                    KemNguoi = data.DataTable.KemNguoi,
+                    ChayCho = data.DataTable.ChayCho,
+                    DanhDau = data.DataTable.DanhDau,
+                    DungCam = data.DataTable.DungCam,
+                    ChuyenBong = data.DataTable.ChuyenBong,
+                    ReBong = data.DataTable.ReBong,
+                    TatCanh = data.DataTable.TatCanh,
+                    SutManh = data.DataTable.SutManh,
+                    DutDiem = data.DataTable.DutDiem,
+                    TheLuc = data.DataTable.TheLuc,
+                    SucManh = data.DataTable.SucManh,
+                    XongXao = data.DataTable.XongXao,
+                    TocDo = data.DataTable.TocDo,
+                    SangTao = data.DataTable.SangTao
+                };
+                _repositoryAccessor.QualityBefore.Add(dataQualityBefore);
 
 
-            dataQualityBefore = new QualityBefore
-            {
-                InforID = maxIDInfor,
-                CanPha = data.DataTable.CanPha,
-                KemNguoi = data.DataTable.KemNguoi,
-                ChayCho = data.DataTable.ChayCho,
-                DanhDau = data.DataTable.DanhDau,
-                DungCam = data.DataTable.DungCam,
-                ChuyenBong = data.DataTable.ChuyenBong,
-                ReBong = data.DataTable.ReBong,
-                TatCanh = data.DataTable.TatCanh,
-                SutManh = data.DataTable.SutManh,
-                DutDiem = data.DataTable.DutDiem,
-                TheLuc = data.DataTable.TheLuc,
-                SucManh = data.DataTable.SucManh,
-                XongXao = data.DataTable.XongXao,
-                TocDo = data.DataTable.TocDo,
-                SangTao = data.DataTable.SangTao
-            };
-
-
-            foreach (var item in data.DataAfter)
-            {
-                dataQualityAfter.Add(new QualityAfter
-                {
-                    InforID = maxIDInfor,
-                    ExerciseID = item.ExerciseID,
-                    Average = item.Average,
-                    CanPha = item.CanPha,
-                    KemNguoi = item.KemNguoi,
-                    ChayCho = item.ChayCho,
-                    DanhDau = item.DanhDau,
-                    DungCam = item.DungCam,
-                    ChuyenBong = item.ChuyenBong,
-                    ReBong = item.ReBong,
-                    TatCanh = item.TatCanh,
-                    SutManh = item.SutManh,
-                    DutDiem = item.DutDiem,
-                    TheLuc = item.TheLuc,
-                    SucManh = item.SucManh,
-                    XongXao = item.XongXao,
-                    TocDo = item.TocDo,
-                    SangTao = item.SangTao
-                });
-            }
-
-            _repositoryAccessor.PositionInformation.AddMultiple(dataPosition);
-            _repositoryAccessor.QualityBefore.Add(dataQualityBefore);
-            _repositoryAccessor.QualityAfter.AddMultiple(dataQualityAfter);
-
-
-            return new OperationResult(await _repositoryAccessor.SaveChangesAsync());
-        }
-        #endregion
-        #region Update
-
-        public async Task<OperationResult> Update(DataCreate data)
-        {
-
-            // Xóa table để cập nhật lại
-            var delAfter = await _repositoryAccessor.QualityAfter.FindAll(x => x.InforID == data.DataTable.InforID).ToListAsync();
-            var delPosition = await _repositoryAccessor.PositionInformation.FindAll(x => x.InforID == data.DataTable.InforID).ToListAsync();
-            _repositoryAccessor.QualityAfter.RemoveMultiple(delAfter);
-            _repositoryAccessor.PositionInformation.RemoveMultiple(delPosition);
-            await _repositoryAccessor.SaveChangesAsync();
-
-            // Cập nhật ThongTin
-            var dataInfor = await _repositoryAccessor.Information.FirstOrDefaultAsync(x => x.ID == data.DataTable.InforID);
-            if (dataInfor == null)
-                return new OperationResult(false);
-            dataInfor.Name = data.DataTable.Name.Trim();
-            dataInfor.YearOld = "18";
-            dataInfor.Quality = 0;
-            _repositoryAccessor.Information.Update(dataInfor);
-
-
-            // Chỉnh sửa vị trí
-            var position = data.DataTable.Position.Split("+");
-            var listPosition = await _repositoryAccessor.Position.FindAll(x => position.Contains(x.Name)).Select(x => x.ID).ToListAsync();
-            var dataPosition = new List<PositionInformation>();
-            foreach (var item in listPosition)
-            {
-                dataPosition.Add(new PositionInformation
-                {
-                    InforID = data.DataTable.InforID,
-                    PositionID = item
-                });
-            }
-            _repositoryAccessor.PositionInformation.AddMultiple(dataPosition);
-
-            // Chỉnh sửa Chất lượng After
-            var dataBefore = await _repositoryAccessor.QualityBefore.FirstOrDefaultAsync(x => x.InforID == data.DataTable.InforID);
-            if (dataBefore == null)
-                return new OperationResult(false);
-            dataBefore.CanPha = data.DataTable.CanPha;
-            dataBefore.KemNguoi = data.DataTable.KemNguoi;
-            dataBefore.ChayCho = data.DataTable.ChayCho;
-            dataBefore.DanhDau = data.DataTable.DanhDau;
-            dataBefore.DungCam = data.DataTable.DungCam;
-            dataBefore.ChuyenBong = data.DataTable.ChuyenBong;
-            dataBefore.ReBong = data.DataTable.ReBong;
-            dataBefore.TatCanh = data.DataTable.TatCanh;
-            dataBefore.SutManh = data.DataTable.SutManh;
-            dataBefore.DutDiem = data.DataTable.DutDiem;
-            dataBefore.TheLuc = data.DataTable.TheLuc;
-            dataBefore.SucManh = data.DataTable.SucManh;
-            dataBefore.XongXao = data.DataTable.XongXao;
-            dataBefore.TocDo = data.DataTable.TocDo;
-            dataBefore.SangTao = data.DataTable.SangTao;
-            _repositoryAccessor.QualityBefore.Update(dataBefore);
-
-            // Chỉnh sửa Chất lượng Before
-            var dataQualityAfter = new List<QualityAfter>();
-            if (data.DataAfter.Length != 0)
-            {
                 foreach (var item in data.DataAfter)
                 {
                     dataQualityAfter.Add(new QualityAfter
                     {
-                        InforID = data.DataTable.InforID,
+                        InforID = maxIDInfor,
                         ExerciseID = item.ExerciseID,
                         Average = item.Average,
                         CanPha = item.CanPha,
@@ -190,11 +99,115 @@ namespace API._Services.Services
                         SangTao = item.SangTao
                     });
                 }
+                var checkDataAfternew = await _repositoryAccessor.Information.FindAll().ToListAsync();
+
+                _repositoryAccessor.PositionInformation.AddMultiple(dataPosition);
+                _repositoryAccessor.QualityBefore.Add(dataQualityBefore);
                 _repositoryAccessor.QualityAfter.AddMultiple(dataQualityAfter);
+
+
+                await _repositoryAccessor.SaveChangesAsync();
+                await _transaction.CommitAsync();
+                return new OperationResult(true);
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error adding dataQualityBefore: {ex.Message}");
+                await _transaction.RollbackAsync();
+                return new OperationResult(false);
+            }
+        }
+        #endregion
+        #region Update
+
+        public async Task<OperationResult> Update(DataCreate data)
+        {
             using var _transaction = await _repositoryAccessor.BeginTransactionAsync();
             try
             {
+                // Xóa table để cập nhật lại
+                var delAfter = await _repositoryAccessor.QualityAfter.FindAll(x => x.InforID == data.DataTable.InforID).ToListAsync();
+                var delPosition = await _repositoryAccessor.PositionInformation.FindAll(x => x.InforID == data.DataTable.InforID).ToListAsync();
+                _repositoryAccessor.QualityAfter.RemoveMultiple(delAfter);
+                _repositoryAccessor.PositionInformation.RemoveMultiple(delPosition);
+                await _repositoryAccessor.SaveChangesAsync();
+
+                // Cập nhật ThongTin
+                var dataInfor = await _repositoryAccessor.Information.FirstOrDefaultAsync(x => x.ID == data.DataTable.InforID);
+                if (dataInfor == null)
+                    return new OperationResult(false);
+                dataInfor.Name = data.DataTable.Name.Trim();
+                dataInfor.YearOld = "18";
+                dataInfor.Quality = 0;
+                _repositoryAccessor.Information.Update(dataInfor);
+
+
+                // Chỉnh sửa vị trí
+                var position = data.DataTable.Position.Split("+");
+                var listPosition = await _repositoryAccessor.Position.FindAll(x => position.Contains(x.Name)).Select(x => x.ID).ToListAsync();
+                var dataPosition = new List<PositionInformation>();
+                foreach (var item in listPosition)
+                {
+                    dataPosition.Add(new PositionInformation
+                    {
+                        InforID = data.DataTable.InforID,
+                        PositionID = item
+                    });
+                }
+                _repositoryAccessor.PositionInformation.AddMultiple(dataPosition);
+
+                // Chỉnh sửa Chất lượng After
+                var dataBefore = await _repositoryAccessor.QualityBefore.FirstOrDefaultAsync(x => x.InforID == data.DataTable.InforID);
+                if (dataBefore == null)
+                    return new OperationResult(false);
+                dataBefore.CanPha = data.DataTable.CanPha;
+                dataBefore.KemNguoi = data.DataTable.KemNguoi;
+                dataBefore.ChayCho = data.DataTable.ChayCho;
+                dataBefore.DanhDau = data.DataTable.DanhDau;
+                dataBefore.DungCam = data.DataTable.DungCam;
+                dataBefore.ChuyenBong = data.DataTable.ChuyenBong;
+                dataBefore.ReBong = data.DataTable.ReBong;
+                dataBefore.TatCanh = data.DataTable.TatCanh;
+                dataBefore.SutManh = data.DataTable.SutManh;
+                dataBefore.DutDiem = data.DataTable.DutDiem;
+                dataBefore.TheLuc = data.DataTable.TheLuc;
+                dataBefore.SucManh = data.DataTable.SucManh;
+                dataBefore.XongXao = data.DataTable.XongXao;
+                dataBefore.TocDo = data.DataTable.TocDo;
+                dataBefore.SangTao = data.DataTable.SangTao;
+                _repositoryAccessor.QualityBefore.Update(dataBefore);
+
+                // Chỉnh sửa Chất lượng Before
+                var dataQualityAfter = new List<QualityAfter>();
+                if (data.DataAfter.Length != 0)
+                {
+                    foreach (var item in data.DataAfter)
+                    {
+                        dataQualityAfter.Add(new QualityAfter
+                        {
+                            InforID = data.DataTable.InforID,
+                            ExerciseID = item.ExerciseID,
+                            Average = item.Average,
+                            CanPha = item.CanPha,
+                            KemNguoi = item.KemNguoi,
+                            ChayCho = item.ChayCho,
+                            DanhDau = item.DanhDau,
+                            DungCam = item.DungCam,
+                            ChuyenBong = item.ChuyenBong,
+                            ReBong = item.ReBong,
+                            TatCanh = item.TatCanh,
+                            SutManh = item.SutManh,
+                            DutDiem = item.DutDiem,
+                            TheLuc = item.TheLuc,
+                            SucManh = item.SucManh,
+                            XongXao = item.XongXao,
+                            TocDo = item.TocDo,
+                            SangTao = item.SangTao
+                        });
+                    }
+                    _repositoryAccessor.QualityAfter.AddMultiple(dataQualityAfter);
+                }
+
                 await _repositoryAccessor.SaveChangesAsync();
                 await _transaction.CommitAsync();
                 return new OperationResult(true);
@@ -220,7 +233,7 @@ namespace API._Services.Services
             if (dataBefore != null)
                 _repositoryAccessor.QualityBefore.Remove(dataBefore);
 
-            var dataAfter= await _repositoryAccessor.QualityAfter.FindAll(x => x.InforID == id).ToListAsync();
+            var dataAfter = await _repositoryAccessor.QualityAfter.FindAll(x => x.InforID == id).ToListAsync();
             if (dataBefore != null)
                 _repositoryAccessor.QualityAfter.RemoveMultiple(dataAfter);
 
@@ -250,7 +263,31 @@ namespace API._Services.Services
                     (x, y) => new { x.Infor, x.PositionInfor, Position = y })
                 .Select(x => x.Position.Name).ToList();
 
-            var dataAfter = await _repositoryAccessor.QualityAfter.FindAll(x => x.InforID == param.InforID).ToListAsync();
+            var dataAfter = await _repositoryAccessor.QualityAfter.FindAll(x => x.InforID == param.InforID)
+                .Select(x => new Quality
+                {
+                    InforID = x.InforID,
+                    ExerciseID = x.ExerciseID,
+                    Average = x.Average ?? 0,
+                    CanPha = x.CanPha,
+                    KemNguoi = x.KemNguoi,
+                    ChayCho = x.ChayCho,
+                    DanhDau = x.DanhDau,
+                    DungCam = x.DungCam,
+                    ChuyenBong = x.ChuyenBong,
+                    ReBong = x.ReBong,
+                    TatCanh = x.TatCanh,
+                    SutManh = x.SutManh,
+                    DutDiem = x.DutDiem,
+                    TheLuc = x.TheLuc,
+                    SucManh = x.SucManh,
+                    XongXao = x.XongXao,
+                    TocDo = x.TocDo,
+                    SangTao = x.SangTao,
+
+
+                })
+                .ToListAsync();
 
 
 
@@ -288,14 +325,14 @@ namespace API._Services.Services
         public async Task<List<Quality>> GetListCompares(int inforID)
         {
             var data = await _repositoryAccessor.Compares.FindAll(x => x.InforID == inforID).ToListAsync();
-            if(data == null)
+            if (data == null)
                 return null;
 
             return data.Select(x => new Quality
             {
                 InforID = x.InforID,
                 PlanID = x.PlanID,
-                ChatLuongChung = x.ChatLuong,
+                ChatLuongChung = x.ChatLuong ?? 0,
                 CanPha = x.CanPha,
                 KemNguoi = x.KemNguoi,
                 ChayCho = x.ChayCho,
@@ -315,7 +352,7 @@ namespace API._Services.Services
         }
         #endregion
         #region Create Compares
-        public async Task<OperationResult> CreateCompare(ListCompares data)
+        public async Task<OperationResult> CreateCompare(Quality data)
         {
             var dataCheck = await _repositoryAccessor.Compares.FindAll(x => x.InforID == data.InforID).ToListAsync();
             var maxPlanID = data != null ? dataCheck.Max(x => x.PlanID) : 0;
@@ -323,7 +360,7 @@ namespace API._Services.Services
             {
                 InforID = data.InforID,
                 PlanID = maxPlanID + 1,
-                ChatLuong = data.ChatLuong,
+                ChatLuong = data.ChatLuongChung,
                 CanPha = data.CanPha,
                 KemNguoi = data.KemNguoi,
                 ChayCho = data.ChayCho,
@@ -344,7 +381,7 @@ namespace API._Services.Services
             return new OperationResult(await _repositoryAccessor.SaveChangesAsync());
         }
 
-        public async Task<OperationResult> DeleteCompare(ListCompares data)
+        public async Task<OperationResult> DeleteCompare(Quality data)
         {
             var dataCheck = await _repositoryAccessor.Compares.FirstOrDefaultAsync(x => x.InforID == data.InforID && x.PlanID == data.PlanID);
             if (data == null)
@@ -372,7 +409,7 @@ namespace API._Services.Services
             var data = await _repositoryAccessor.MainAttributes.FindAll().ToListAsync();
             return data.Select(x => new KeyValuePair<string, string>(x.Name, x.Type.ToString())).ToList();
         }
-
+        #region GetListAttribute
         public async Task<List<KeyValuePair<string, string>>> GetListThuocTinh(int ExerciseID, string Position)
         {
             var data = await _repositoryAccessor.Exercises.FindAll(x => x.ID == ExerciseID).ToListAsync();
@@ -384,7 +421,7 @@ namespace API._Services.Services
                 .SelectMany(x => x.ExerciseAttributes.DefaultIfEmpty(),
                     (x, y) => new { x.Exercise, ExerciseAttributes = y })
                 .GroupJoin(_repositoryAccessor.MainAttributes.FindAll(),
-                    x => x.ExerciseAttributes.ExerciseID,
+                    x => x.ExerciseAttributes.AttributeID,
                     y => y.ID,
                     (x, y) => new { x.Exercise, x.ExerciseAttributes, MainAttributes = y })
                 .SelectMany(x => x.MainAttributes.DefaultIfEmpty(),
@@ -403,6 +440,7 @@ namespace API._Services.Services
 
             return filteredResult;
         }
+        #endregion
 
         public async Task<List<KeyValuePair<string, string>>> GetListDisable(string Position)
         {

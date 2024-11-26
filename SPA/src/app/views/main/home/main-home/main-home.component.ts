@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@an
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { Quality, DataCreate, MainHomeDto, MainHomeParam } from '@models/home';
 import { HomeMainService } from './../../../../_core/services/home-main.service';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 
 
 @Component({
@@ -38,12 +38,17 @@ export class MainHomeComponent implements OnInit {
   modalRef?: BsModalRef;
 
   openTemplate(template: string) {
+    const initialState: ModalOptions = {
+      class: 'modal-md'
+    };
     if(template == 'tuChat')
       this.modalRef = this.modalService.show(this.templateTuChat);
     else if(template == 'ketQua')
-      this.modalRef = this.modalService.show(this.templateKetQua);
-    else
+      this.modalRef = this.modalService.show(this.templateKetQua, initialState);
+    else {
+      this.getListCompares(this.param.inforID);
       this.modalRef = this.modalService.show(this.templateSoSanh);
+    }
 
   }
   closeTemplate() {
@@ -257,7 +262,7 @@ export class MainHomeComponent implements OnInit {
     dataTable: {},
     dataAfter: []
   };
-
+  //region Save
   save(type: string) {
     this.dataTable.inforID = this.param.inforID
     this.dataCreate.dataTable = this.dataTable
@@ -278,6 +283,7 @@ export class MainHomeComponent implements OnInit {
     }
 
   }
+  //region Delete
   delete() {
     this.service.delete(this.param.inforID).subscribe({
       next: result => {
@@ -316,7 +322,7 @@ export class MainHomeComponent implements OnInit {
       console.log('Chỉ số không hợp lệ:', index);
     }
   }
-
+  //region changeBaiTap
   changeBaiTap(index: number, baiTap: Quality) {
     this.clear(index);
     if (index === 0) {
@@ -339,7 +345,7 @@ export class MainHomeComponent implements OnInit {
     }
 
   }
-
+  //region GetListAttribute
   getListThuocTinh(index: number, exercise: Quality, tinhtoan: boolean) {
     this.service.getListThuocTinh(exercise.exerciseID, this.data.position).subscribe({
       next: res => {
@@ -375,6 +381,7 @@ export class MainHomeComponent implements OnInit {
     });
   }
 
+  // region GetList
   getListDisable() {
     this.service.getListDisable(this.data.position).subscribe({
       next: res => {
@@ -398,11 +405,18 @@ export class MainHomeComponent implements OnInit {
       }
     })
   }
-
+  keyPhongThu
+  keyTanCong
+  keyTheChat
+  trungBinh = "Trung bình"
   getKeys() {
     this.service.getKeys().subscribe({
       next: res => {
         this.keys = res
+        this.keyPhongThu = res.filter(x => x.value == '1')
+        this.keyTanCong = res.filter(x => x.value == '2')
+        this.keyTheChat = res.filter(x => x.value == '3')
+
       }
     })
   }
@@ -422,7 +436,10 @@ export class MainHomeComponent implements OnInit {
   listCompares: Quality[]
   getListCompares(inforID: number) {
     this.service.getListCompares(inforID).subscribe({
-      next: res => this.listCompares = res
+      next: res => {
+        this.listCompares = res
+        console.log('this.listCompares :', this.listCompares);
+      }
     })
   }
 
