@@ -236,10 +236,10 @@ export class MainHomeComponent implements OnInit {
     this.getListDisable();
   }
   //#endregion
-
+  diemTB: number = 180;
   addItem() {
     this.dataAfter.push(<Quality>{
-      average: 180,
+      average: this.diemTB,
       canPha: null,
       kemNguoi: null,
       chayCho: null,

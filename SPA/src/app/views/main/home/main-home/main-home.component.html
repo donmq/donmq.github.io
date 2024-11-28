@@ -156,20 +156,26 @@
                 </div>
               </div>
             </div>
-            <div class="col-12">
-              <label class="d-block">&nbsp;</label>
-              <button type="button" (click)="chuyenThongTin()" class="btn btn-success ml-1">
-                <i class="fa fa-plus"></i> Chuyển thông tin
-              </button>
-              <button type="button" (click)="save('add')" class="btn btn-danger ml-1">
-                <i class="fa fa-plus"></i> Lưu thông tin
-              </button>
-              <button type="button" (click)="save('edit')" class="btn btn-danger ml-1">
-                <i class="fa fa-plus"></i> Sửa Thông tin
-              </button>
-              <button type="button" (click)="delete()" class="btn btn-danger ml-1">
-                <i class="fa fa-plus"></i> Xóa Cầu thủ
-              </button>
+            <div class="row">
+              <div class="col-6">
+                <label class="d-block">&nbsp;</label>
+                <button type="button" (click)="chuyenThongTin()" class="btn btn-success ml-1">
+                  <i class="fa fa-plus"></i> Chuyển thông tin
+                </button>
+                <button type="button" (click)="save('add')" class="btn btn-danger ml-1">
+                  <i class="fa fa-plus"></i> Lưu thông tin
+                </button>
+                <button type="button" (click)="save('edit')" class="btn btn-danger ml-1">
+                  <i class="fa fa-plus"></i> Sửa Thông tin
+                </button>
+                <button type="button" (click)="delete()" class="btn btn-danger ml-1">
+                  <i class="fa fa-plus"></i> Xóa Cầu thủ
+                </button>
+              </div>
+              <div class="col-6">
+                <label class="ml-1">Điểm trung bình</label>
+                <input autocomplete="off" type="text" class="form-control" name="diemTBTong" maxlength="100" [(ngModel)]="diemTB" />
+              </div>
             </div>
           </div>
           <div class="row justify-content-md-center">
@@ -452,26 +458,26 @@
   </div>
   <div class="modal-body">
     <div class="col-12">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th colspan="4" class="text-center">So sánh</th>
-            </tr>
-          </thead>
-          <thead>
-            <tr>
-              <th>Kỹ năng</th>
-              <th *ngFor="let pa of listCompares; let i = index">Phương án {{i + 1}}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of keys">
-              <td>{{item.key}}</td>
-              <td *ngFor="let pa of listCompares">{{pa[item.key]}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th colspan="4" class="text-center">So sánh</th>
+          </tr>
+        </thead>
+        <thead>
+          <tr>
+            <th>Kỹ năng</th>
+            <th *ngFor="let pa of listCompares; let i = index">Phương án {{i + 1}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of keys">
+            <td>{{item.key}}</td>
+            <td *ngFor="let pa of listCompares">{{pa[item.key]}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
   <!-- </div> -->
 
