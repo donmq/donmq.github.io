@@ -24,6 +24,9 @@ export class MainHomeComponent implements OnInit {
   keys: KeyValuePair[] = [];
   dataAfter: Quality[] = []
 
+  diemCongSang: number
+  diemCongToi: number
+
   constructor(private modalService: BsModalService, private service: HomeMainService) { }
 
   ngOnInit() {
@@ -41,9 +44,9 @@ export class MainHomeComponent implements OnInit {
     const initialState: ModalOptions = {
       class: 'modal-md'
     };
-    if(template == 'tuChat')
+    if (template == 'tuChat')
       this.modalRef = this.modalService.show(this.templateTuChat);
-    else if(template == 'ketQua')
+    else if (template == 'ketQua')
       this.modalRef = this.modalService.show(this.templateKetQua, initialState);
     else {
       this.getListCompares(this.param.inforID);
@@ -58,7 +61,7 @@ export class MainHomeComponent implements OnInit {
   }
 
   onSelect() {
-    if(this.param.inforID != null)
+    if (this.param.inforID != null)
       this.getData();
   }
 
@@ -77,133 +80,14 @@ export class MainHomeComponent implements OnInit {
 
   //#region Tính toán
   tinhToan(index: number) {
-    let totalSum = 0;
 
-    let filteredData: any = {};
-    let lowercaseAttribute = this.attribute.map(a => a.toLowerCase());
-
-    Object.keys(this.dataKetQua).forEach(key => {
-      let lowercaseKey = key.toLowerCase();
-      if (lowercaseAttribute.includes(lowercaseKey)) {
-        filteredData[key] = index == 0 ? this.dataTable[key] : this.dataKetQua[key];
-        totalSum += index == 0 ? this.dataTable[key] : this.dataKetQua[key];
-      }
-    });
-    let soDiemCong: number
-    if (index == 0)
-      soDiemCong = this.attribute.length * this.dataAfter[index].average - totalSum
-    else
-      soDiemCong = this.attribute.length * this.dataAfter[index].average - totalSum
-    this.dataAfter[index].soDiemTap = soDiemCong
-
-
-    var diemChia = 100;
-
-    const countValueOne = this.attributeDisable.filter(x => x.value === "1").length;
-
-    if (this.attributeDisable.length == 5 && countValueOne == 1)
-      diemChia = 33
-    else if (this.attributeDisable.length == 5 && countValueOne == 2)
-      diemChia = 57
-    else if (this.attributeDisable.length == 5 && countValueOne == 3)
-      diemChia = 75
-    else if (this.attributeDisable.length == 5 && countValueOne == 4)
-      diemChia = 89
-    else if (this.attributeDisable.length == 4 && countValueOne == 1)
-      diemChia = 40
-    else if (this.attributeDisable.length == 4 && countValueOne == 2)
-      diemChia = 67
-    else if (this.attributeDisable.length == 4 && countValueOne == 3)
-      diemChia = 86
-    else if (this.attributeDisable.length == 3 && countValueOne == 1)
-      diemChia = 50
-    else if (this.attributeDisable.length == 3 && countValueOne == 2)
-      diemChia = 80
-    else if (this.attributeDisable.length == 2 && countValueOne == 1)
-      diemChia = 67
-
-    let tongDiemToi = (soDiemCong / 100) * (100 - diemChia)
-    if (countValueOne == 0)
-      tongDiemToi = soDiemCong
-    let tongDiemSang = soDiemCong - tongDiemToi;
-
-
-    let diemCongSang
-    let diemCongToi
-    if (this.attributeDisable.length == 5) {
-      if (countValueOne === 5) {
-        diemCongSang = Math.ceil(tongDiemSang / 5);
-        diemCongToi = 0
-      } else if (countValueOne === 4) {
-        diemCongSang = Math.ceil(tongDiemSang / 4);
-        diemCongToi = Math.ceil(tongDiemToi);
-      } else if (countValueOne === 3) {
-        diemCongSang = Math.ceil(tongDiemSang / 3);
-        diemCongToi = Math.ceil(tongDiemToi / 2);
-      } else if (countValueOne === 2) {
-        diemCongSang = Math.ceil(tongDiemSang / 2);
-        diemCongToi = Math.ceil(tongDiemToi / 3);
-      } else if (countValueOne === 1) {
-        diemCongSang = Math.ceil(tongDiemSang);
-        diemCongToi = Math.ceil(tongDiemToi / 4);
-      } else if (countValueOne === 0) {
-        diemCongSang = 0;
-        diemCongToi = Math.ceil(tongDiemToi / 5);
-      }
-    }
-    if (this.attributeDisable.length == 4) {
-      if (countValueOne === 4) {
-        diemCongSang = Math.ceil(tongDiemSang / 4);
-        diemCongToi = 0
-      } else if (countValueOne === 3) {
-        diemCongSang = Math.ceil(tongDiemSang / 3);
-        diemCongToi = Math.ceil(tongDiemToi);
-      } else if (countValueOne === 2) {
-        diemCongSang = Math.ceil(tongDiemSang / 2);
-        diemCongToi = Math.ceil(tongDiemToi / 2);
-      } else if (countValueOne === 1) {
-        diemCongSang = Math.ceil(tongDiemSang);
-        diemCongToi = Math.ceil(tongDiemToi / 3);
-      } else if (countValueOne === 0) {
-        diemCongSang = 0;
-        diemCongToi = Math.ceil(tongDiemToi / 4);
-      }
-    }
-    if (this.attributeDisable.length == 3) {
-      if (countValueOne === 3) {
-        diemCongSang = Math.ceil(tongDiemSang / 3);
-        diemCongToi = 0
-      } else if (countValueOne === 2) {
-        diemCongSang = Math.ceil(tongDiemSang / 2);
-        diemCongToi = Math.ceil(tongDiemToi);
-      } else if (countValueOne === 1) {
-        diemCongSang = Math.ceil(tongDiemSang);
-        diemCongToi = Math.ceil(tongDiemToi / 2);
-      } else if (countValueOne === 0) {
-        diemCongSang = 0;
-        diemCongToi = Math.ceil(tongDiemToi / 3);
-      }
-    }
-    if (this.attributeDisable.length == 2) {
-      if (countValueOne === 2) {
-        diemCongSang = Math.ceil(tongDiemSang / 2);
-        diemCongToi = 0
-      } else if (countValueOne === 1) {
-        diemCongSang = Math.ceil(tongDiemSang);
-        diemCongToi = Math.ceil(tongDiemToi);
-      } else if (countValueOne === 0) {
-        diemCongSang = 0;
-        diemCongToi = Math.ceil(tongDiemToi / 2);
-      }
-    }
-
-
+    this.diemCong(index)
     this.keys.forEach(x => {
       if (index === 0) {
-        this.dataAfter[index][x.key] = this.dataTable[x.key] + (this.attribute.includes(x.key) ? (this.attributeDisable.find(y => y.key === x.key)?.value === "1" ? diemCongSang : diemCongToi) : 0);
+        this.dataAfter[index][x.key] = this.dataTable[x.key] + (this.attribute.includes(x.key) ? (this.attributeDisable.find(y => y.key === x.key)?.value === "1" ? this.diemCongSang : this.diemCongToi) : 0);
 
       } else {
-        this.dataAfter[index][x.key] = this.dataKetQua[x.key] + (this.attribute.includes(x.key) ? (this.attributeDisable.find(y => y.key === x.key)?.value === "1" ? diemCongSang : diemCongToi) : 0);
+        this.dataAfter[index][x.key] = this.dataKetQua[x.key] + (this.attribute.includes(x.key) ? (this.attributeDisable.find(y => y.key === x.key)?.value === "1" ? this.diemCongSang : this.diemCongToi) : 0);
       }
       this.dataKetQua[x.key] = this.dataAfter[index][x.key];
     });
@@ -212,6 +96,7 @@ export class MainHomeComponent implements OnInit {
     this.dataKetQua.chatLuongChung = Math.floor(this.keys.reduce((a, b) => a + this.dataKetQua[b.key], 0) / 15);
 
   }
+
   //#endregion
   //#region Chuyển Thông tin
   chuyenThongTin() {
@@ -476,6 +361,121 @@ export class MainHomeComponent implements OnInit {
       }
     })
   }
+  //#region DiemCong
+  diemCong(index: number) {
+    let totalSum = 0;
 
+    let lowercaseAttribute = this.attribute.map(a => a.toLowerCase());
 
+    Object.keys(this.dataKetQua).forEach(key => {
+      let lowercaseKey = key.toLowerCase();
+      if (lowercaseAttribute.includes(lowercaseKey)) {
+        totalSum += index == 0 ? this.dataTable[key] : this.dataKetQua[key];
+      }
+    });
+    let soDiemCong: number
+    if (index == 0)
+      soDiemCong = this.attribute.length * this.dataAfter[index].average - totalSum
+    else
+      soDiemCong = this.attribute.length * this.dataAfter[index].average - totalSum
+    this.dataAfter[index].soDiemTap = soDiemCong
+
+    var diemChia = 100;
+
+    const countValueOne = this.attributeDisable.filter(x => x.value === "1").length;
+
+    if (this.attributeDisable.length == 5 && countValueOne == 1)
+      diemChia = 33
+    else if (this.attributeDisable.length == 5 && countValueOne == 2)
+      diemChia = 57
+    else if (this.attributeDisable.length == 5 && countValueOne == 3)
+      diemChia = 75
+    else if (this.attributeDisable.length == 5 && countValueOne == 4)
+      diemChia = 89
+    else if (this.attributeDisable.length == 4 && countValueOne == 1)
+      diemChia = 40
+    else if (this.attributeDisable.length == 4 && countValueOne == 2)
+      diemChia = 67
+    else if (this.attributeDisable.length == 4 && countValueOne == 3)
+      diemChia = 86
+    else if (this.attributeDisable.length == 3 && countValueOne == 1)
+      diemChia = 50
+    else if (this.attributeDisable.length == 3 && countValueOne == 2)
+      diemChia = 80
+    else if (this.attributeDisable.length == 2 && countValueOne == 1)
+      diemChia = 67
+
+    let tongDiemToi = (soDiemCong / 100) * (100 - diemChia)
+    if (countValueOne == 0)
+      tongDiemToi = soDiemCong
+    let tongDiemSang = soDiemCong - tongDiemToi;
+
+    if (this.attributeDisable.length == 5) {
+      if (countValueOne === 5) {
+        this.diemCongSang = Math.ceil(tongDiemSang / 5);
+        this.diemCongToi = 0
+      } else if (countValueOne === 4) {
+        this.diemCongSang = Math.ceil(tongDiemSang / 4);
+        this.diemCongToi = Math.ceil(tongDiemToi);
+      } else if (countValueOne === 3) {
+        this.diemCongSang = Math.ceil(tongDiemSang / 3);
+        this.diemCongToi = Math.ceil(tongDiemToi / 2);
+      } else if (countValueOne === 2) {
+        this.diemCongSang = Math.ceil(tongDiemSang / 2);
+        this.diemCongToi = Math.ceil(tongDiemToi / 3);
+      } else if (countValueOne === 1) {
+        this.diemCongSang = Math.ceil(tongDiemSang);
+        this.diemCongToi = Math.ceil(tongDiemToi / 4);
+      } else if (countValueOne === 0) {
+        this.diemCongSang = 0;
+        this.diemCongToi = Math.ceil(tongDiemToi / 5);
+      }
+    }
+    if (this.attributeDisable.length == 4) {
+      if (countValueOne === 4) {
+        this.diemCongSang = Math.ceil(tongDiemSang / 4);
+        this.diemCongToi = 0
+      } else if (countValueOne === 3) {
+        this.diemCongSang = Math.ceil(tongDiemSang / 3);
+        this.diemCongToi = Math.ceil(tongDiemToi);
+      } else if (countValueOne === 2) {
+        this.diemCongSang = Math.ceil(tongDiemSang / 2);
+        this.diemCongToi = Math.ceil(tongDiemToi / 2);
+      } else if (countValueOne === 1) {
+        this.diemCongSang = Math.ceil(tongDiemSang);
+        this.diemCongToi = Math.ceil(tongDiemToi / 3);
+      } else if (countValueOne === 0) {
+        this.diemCongSang = 0;
+        this.diemCongToi = Math.ceil(tongDiemToi / 4);
+      }
+    }
+    if (this.attributeDisable.length == 3) {
+      if (countValueOne === 3) {
+        this.diemCongSang = Math.ceil(tongDiemSang / 3);
+        this.diemCongToi = 0
+      } else if (countValueOne === 2) {
+        this.diemCongSang = Math.ceil(tongDiemSang / 2);
+        this.diemCongToi = Math.ceil(tongDiemToi);
+      } else if (countValueOne === 1) {
+        this.diemCongSang = Math.ceil(tongDiemSang);
+        this.diemCongToi = Math.ceil(tongDiemToi / 2);
+      } else if (countValueOne === 0) {
+        this.diemCongSang = 0;
+        this.diemCongToi = Math.ceil(tongDiemToi / 3);
+      }
+    }
+    if (this.attributeDisable.length == 2) {
+      if (countValueOne === 2) {
+        this.diemCongSang = Math.ceil(tongDiemSang / 2);
+        this.diemCongToi = 0
+      } else if (countValueOne === 1) {
+        this.diemCongSang = Math.ceil(tongDiemSang);
+        this.diemCongToi = Math.ceil(tongDiemToi);
+      } else if (countValueOne === 0) {
+        this.diemCongSang = 0;
+        this.diemCongToi = Math.ceil(tongDiemToi / 2);
+      }
+    }
+  }
+  // #endregion
 }
