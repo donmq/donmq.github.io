@@ -178,6 +178,8 @@ export class MainHomeComponent implements OnInit {
     })
   }
 
+  removePlan(index: number){}
+
   removeItem(index: number) {
     // Kiểm tra chỉ số hợp lệ để xóa
     if (index >= 0 && index < this.dataAfter.length) {
@@ -322,8 +324,10 @@ export class MainHomeComponent implements OnInit {
   getListCompares(inforID: number) {
     this.service.getListCompares(inforID).subscribe({
       next: res => {
-        this.listCompares = res
-        console.log('this.listCompares :', this.listCompares);
+        this.listCompares = res.map(item => ({
+          ...item,
+          canDelete: true // Thêm thuộc tính canDelete cho từng đối tượng
+        }));
       }
     })
   }

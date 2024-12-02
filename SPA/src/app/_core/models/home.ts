@@ -55,6 +55,7 @@ export interface Quality {
   planID: number;
   soDiemTap: number;
   exerciseID: number | null;
+  canDelete?: boolean
 }
 
 
