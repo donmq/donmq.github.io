@@ -1,4 +1,4 @@
-// Generated at 11/21/2024, 11:29:24 AM
+// Generated at 12/7/2024, 4:02:59 PM
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 namespace API.Models
@@ -6,6 +6,9 @@ namespace API.Models
     [Table("QualityAfter")]
     public partial class QualityAfter
     {
+        [Key]
+        [Required]
+        public int ID { get; set; }
         [Key]
         [Required]
         public int InforID { get; set; }

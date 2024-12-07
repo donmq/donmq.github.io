@@ -1,4 +1,4 @@
-// Generated at 11/21/2024, 11:29:27 AM
+// Generated at 12/7/2024, 4:02:58 PM
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 namespace API.Models

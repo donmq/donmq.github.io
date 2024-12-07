@@ -156,7 +156,7 @@ namespace API._Services.Services
                 }
                 _repositoryAccessor.PositionInformation.AddMultiple(dataPosition);
 
-                // Chỉnh sửa Chất lượng After
+                // Chỉnh sửa Chất lượng Before
                 var dataBefore = await _repositoryAccessor.QualityBefore.FirstOrDefaultAsync(x => x.InforID == data.DataTable.InforID);
                 if (dataBefore == null)
                     return new OperationResult(false);
@@ -177,7 +177,7 @@ namespace API._Services.Services
                 dataBefore.SangTao = data.DataTable.SangTao;
                 _repositoryAccessor.QualityBefore.Update(dataBefore);
 
-                // Chỉnh sửa Chất lượng Before
+                // Chỉnh sửa Chất lượng Affter
                 var dataQualityAfter = new List<QualityAfter>();
                 if (data.DataAfter.Length != 0)
                 {
