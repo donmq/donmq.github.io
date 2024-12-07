@@ -66,7 +66,10 @@ namespace API.Data
             builder.Entity<QualityAfter>(entity =>
             {
                 entity.HasKey(e => new {e.ExerciseID, e.ID, e.InforID});
+                entity.Property(e => e.ID)
+                .ValueGeneratedOnAdd();
             });
+            
             builder.Entity<QualityBefore>(entity =>
             {
                 entity.HasKey(e => new {e.InforID});

@@ -212,10 +212,10 @@ namespace API._Services.Services
                 await _transaction.CommitAsync();
                 return new OperationResult(true);
             }
-            catch
+            catch (Exception ex)
             {
                 await _transaction.RollbackAsync();
-                return new OperationResult(false);
+                return new OperationResult(false, ex.InnerException);
             }
         }
         #endregion

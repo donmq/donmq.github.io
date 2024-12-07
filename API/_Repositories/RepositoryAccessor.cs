@@ -24,17 +24,17 @@ namespace API.Accessor._Repositories
             TypeAttributes = new Repository<TypeAttributes>(_context);
             QualityBefore = new Repository<QualityBefore>(_context);
         }
-        public IRepository<QualityAfter> QualityAfter { get; private set; }
-        public IRepository<PositionInformation> PositionInformation { get; private set; }
-        public IRepository<ExerciseAttributes> ExerciseAttributes { get; private set; }
-        public IRepository<Information> Information { get; private set; }
-        public IRepository<Position> Position { get; private set; }
-        public IRepository<Exercises> Exercises { get; private set; }
-        public IRepository<MainAttributes> MainAttributes { get; private set; }
-        public IRepository<Attributes> Attributes { get; private set; }
-        public IRepository<TypeAttributes> TypeAttributes { get; private set; }
-        public IRepository<QualityBefore> QualityBefore { get; private set; }
-        public IRepository<Compares> Compares { get; private set; }
+        public IRepository<QualityAfter> QualityAfter { get; set; }
+        public IRepository<PositionInformation> PositionInformation { get; set; }
+        public IRepository<ExerciseAttributes> ExerciseAttributes { get; set; }
+        public IRepository<Information> Information { get; set; }
+        public IRepository<Position> Position { get; set; }
+        public IRepository<Exercises> Exercises { get; set; }
+        public IRepository<MainAttributes> MainAttributes { get; set; }
+        public IRepository<Attributes> Attributes { get; set; }
+        public IRepository<TypeAttributes> TypeAttributes { get; set; }
+        public IRepository<QualityBefore> QualityBefore { get; set; }
+        public IRepository<Compares> Compares { get; set; }
 
         public async Task<bool> SaveChangesAsync()
         {
