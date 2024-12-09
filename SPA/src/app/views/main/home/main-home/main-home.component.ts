@@ -65,6 +65,21 @@ export class MainHomeComponent implements OnInit {
       this.getData();
   }
 
+  onChangesKey() {
+      this.getExercisesForAttributes();
+  }
+  keyAttribute: string
+  exerciesForAttributes: KeyValuePair[] = []
+
+  getExercisesForAttributes() {
+    console.log('this.keyAttribute :', this.keyAttribute);
+    this.service.getExercisesForAttributes(this.keyAttribute).subscribe({
+      next: res => {
+        this.exerciesForAttributes = res
+      }
+    })
+  }
+
   getData() {
     this.service.getData(this.param).subscribe({
       next: res => {

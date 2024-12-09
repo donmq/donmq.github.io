@@ -75,10 +75,12 @@ namespace API._Services.Services
                 _repositoryAccessor.QualityBefore.Add(dataQualityBefore);
 
 
-                foreach (var item in data.DataAfter)
+                for (int i = 0; i < data.DataAfter.Length; i++)
                 {
+                    var item = data.DataAfter[i];
                     dataQualityAfter.Add(new QualityAfter
                     {
+                        ID = i + 1,
                         InforID = maxIDInfor,
                         ExerciseID = item.ExerciseID,
                         Average = item.Average,
@@ -181,10 +183,12 @@ namespace API._Services.Services
                 var dataQualityAfter = new List<QualityAfter>();
                 if (data.DataAfter.Length != 0)
                 {
-                    foreach (var item in data.DataAfter)
+                    for (int i = 0; i < data.DataAfter.Length; i++)
                     {
+                        var item = data.DataAfter[i];
                         dataQualityAfter.Add(new QualityAfter
                         {
+                            ID = i + 1,
                             InforID = data.DataTable.InforID,
                             ExerciseID = item.ExerciseID,
                             Average = item.Average,
@@ -462,6 +466,29 @@ namespace API._Services.Services
                 })
                 .ToList();
             return result.Select(x => new KeyValuePair<string, string>(x.Name, x.KQ.ToString())).ToList();
+        }
+
+        public async Task<List<KeyValuePair<string, string>>> GetExercisesForAttributes(string Key)
+        {
+            var data = await _repositoryAccessor.MainAttributes.FindAll(x => x.Name == Key).ToListAsync();
+            var result = data
+                .GroupJoin(_repositoryAccessor.ExerciseAttributes.FindAll(),
+                    x => x.ID,
+                    y => y.AttributeID,
+                    (x, y) => new { MainAttributes = x, ExerciseAttributes = y })
+                .SelectMany(x => x.ExerciseAttributes.DefaultIfEmpty(),
+                    (x, y) => new { x.MainAttributes, ExerciseAttributes = y })
+                .GroupJoin(_repositoryAccessor.Exercises.FindAll(),
+                    x => x.ExerciseAttributes.ExerciseID,
+                    y => y.ID,
+                    (x, y) => new { x.MainAttributes, x.ExerciseAttributes, Exercises = y })
+                .SelectMany(x => x.Exercises.DefaultIfEmpty(),
+                    (x, y) => new { x.MainAttributes, x.ExerciseAttributes, Exercises = y })
+                .Select(x => new KeyValuePair<string, string>(x.Exercises.ID.ToString(), x.Exercises.Name))
+                .ToList();
+
+
+            return result;
         }
     }
 }

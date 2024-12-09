@@ -35,6 +35,11 @@ namespace API.Controllers.HomeMain
         {
             return Ok(await _service.GetListThuocTinh(ExerciseID, Position));
         }
+        [HttpGet("GetExercisesForAttributes")]
+        public async Task<IActionResult> GetExercisesForAttributes(string key)
+        {
+            return Ok(await _service.GetExercisesForAttributes(key));
+        }
         [HttpGet("GetListDisable")]
         public async Task<IActionResult> GetListDisable(string Position)
         {

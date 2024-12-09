@@ -12,6 +12,7 @@ namespace API._Services.Interfaces
         Task<List<KeyValuePair<string, string>>> GetListPlayers();
         Task<List<KeyValuePair<int, string>>> GetListExercise();
         Task<List<KeyValuePair<string, string>>> GetListThuocTinh(int ExerciseID, string Position);
+        Task<List<KeyValuePair<string, string>>> GetExercisesForAttributes(string Key);
         Task<List<KeyValuePair<string, string>>> GetListDisable(string Position);
         Task<OperationResult> Create(DataCreate data);
         Task<OperationResult> Update(DataCreate data);

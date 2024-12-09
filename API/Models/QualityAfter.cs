@@ -12,8 +12,6 @@ namespace API.Models
         [Key]
         [Required]
         public int InforID { get; set; }
-        [Key]
-        [Required]
         public int ExerciseID { get; set; }
         public int? Average { get; set; }
         public int? CanPha { get; set; }

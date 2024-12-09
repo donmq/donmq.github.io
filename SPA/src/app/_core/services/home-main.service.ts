@@ -33,6 +33,11 @@ export class HomeMainService {
     return this.http.get<KeyValuePair[]>(this.baseUrl + "GetListThuocTinh", { params })
   }
 
+  getExercisesForAttributes(key: string) {
+    let params = new HttpParams().appendAll({ key });
+    return this.http.get<KeyValuePair[]>(this.baseUrl + "GetExercisesForAttributes", { params })
+  }
+
   getListDisable(position: string) {
     let params = new HttpParams().appendAll({ position });
     return this.http.get<KeyValuePair[]>(this.baseUrl + "GetListDisable", { params })

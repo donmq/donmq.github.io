@@ -157,7 +157,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-6">
+              <div class="col-12">
                 <label class="d-block">&nbsp;</label>
                 <button type="button" (click)="chuyenThongTin()" class="btn btn-success ml-1">
                   <i class="fa fa-plus"></i> Chuyển thông tin
@@ -172,9 +172,18 @@
                   <i class="fa fa-plus"></i> Xóa Cầu thủ
                 </button>
               </div>
-              <div class="col-6">
-                <label class="ml-1">Điểm trung bình</label>
-                <input autocomplete="off" type="text" class="form-control" name="diemTBTong" maxlength="100" [(ngModel)]="diemTB" />
+              <div class="row col-12">
+                <div class=" col-6">
+                  <label class="ml-1">Điểm trung bình</label>
+                  <input autocomplete="off" type="text" class="form-control" name="diemTBTong" maxlength="100" [(ngModel)]="diemTB" />
+                </div>
+                <div class=" col-6"> <!-- Thay đổi class margin-left nếu cần -->
+                  <label class="ml-1">Thuộc tính</label>
+                  <ng-select id="keyAttribute" name="keyAttribute" [(ngModel)]="keyAttribute" (ngModelChange)="onChangesKey()">
+                    <ng-option *ngFor="let item of keys" value="{{ item.key }}">{{ item.key }}</ng-option>
+                  </ng-select>
+                  <div *ngFor="let item of exerciesForAttributes">{{item.value}}</div>
+                </div>
               </div>
             </div>
           </div>
@@ -316,7 +325,6 @@
                     </tr>
                   </tbody>
                 </table>
-
                 <div class="col-12">
                   <label class="d-block">&nbsp;</label>
                   <button type="button" (click)="addItem()" class="btn btn-success ml-1">
@@ -332,7 +340,6 @@
                     <i class="fa fa-plus"></i> Xem bảng so sánh
                   </button>
                 </div>
-
               </div>
             </div>
           </div>
@@ -372,7 +379,7 @@
   <div class="modal-body">
     <div class="row col-12">
       <div class="col-4">
-        <table class="table table-striped">
+        <table class="table table-bordered">
           <thead>
             <tr>
               <th colspan="3" class="text-center">Phòng thủ</th>
@@ -395,7 +402,7 @@
         </table>
       </div>
       <div class="col-4">
-        <table class="table table-striped">
+        <table class="table table-bordered">
           <thead>
             <tr>
               <th colspan="3" class="text-center">Tấn Công</th>
@@ -418,7 +425,7 @@
         </table>
       </div>
       <div class="col-4">
-        <table class="table table-striped">
+        <table class="table table-bordered">
           <thead>
             <tr>
               <th colspan="3" class="text-center">Thể Chất</th>
@@ -478,11 +485,11 @@
           <tr>
             <td></td>
             <td *ngFor="let pa of listCompares; let i = index" colspan="{{listCompares.length + 1}}" class="text-center">
-                <button type="button" (click)="removePlan()" class="btn btn-danger ml-1">
-                  <i class="fa fa-remove"></i>
-                </button>
+              <button type="button" (click)="removePlan()" class="btn btn-danger ml-1">
+                <i class="fa fa-remove"></i>
+              </button>
             </td>
-        </tr>
+          </tr>
         </tbody>
       </table>
     </div>
