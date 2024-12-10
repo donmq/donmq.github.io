@@ -359,7 +359,7 @@ namespace API._Services.Services
         public async Task<OperationResult> CreateCompare(Quality data)
         {
             var dataCheck = await _repositoryAccessor.Compares.FindAll(x => x.InforID == data.InforID).ToListAsync();
-            var maxPlanID = data != null ? dataCheck.Max(x => x.PlanID) : 0;
+            var maxPlanID = dataCheck.Select(x => x.PlanID).DefaultIfEmpty(0).Max();
             var dataCompares = new Compares()
             {
                 InforID = data.InforID,

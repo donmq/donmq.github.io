@@ -72,7 +72,6 @@ export class MainHomeComponent implements OnInit {
   exerciesForAttributes: KeyValuePair[] = []
 
   getExercisesForAttributes() {
-    console.log('this.keyAttribute :', this.keyAttribute);
     this.service.getExercisesForAttributes(this.keyAttribute).subscribe({
       next: res => {
         this.exerciesForAttributes = res
@@ -193,7 +192,12 @@ export class MainHomeComponent implements OnInit {
     })
   }
 
-  removePlan(index: number){}
+  removePlan(index: number) {
+    if (index >= 0 && index < this.dataAfter.length) {
+      // Xóa phần tử tại index
+      this.listCompares.splice(index, 1);
+    }
+  }
 
   removeItem(index: number) {
     // Kiểm tra chỉ số hợp lệ để xóa
@@ -349,24 +353,10 @@ export class MainHomeComponent implements OnInit {
 
   compare: Quality
   createCompare() {
-    this.compare.inforID = this.param.inforID
-    this.compare.chatLuongChung = this.dataKetQua.chatLuongChung
-    this.compare.canPha = this.dataKetQua.canPha
-    this.compare.kemNguoi = this.dataKetQua.kemNguoi
-    this.compare.chayCho = this.dataKetQua.chayCho
-    this.compare.danhDau = this.dataKetQua.danhDau
-    this.compare.dungCam = this.dataKetQua.dungCam
-    this.compare.chuyenBong = this.dataKetQua.chuyenBong
-    this.compare.reBong = this.dataKetQua.reBong
-    this.compare.tatCanh = this.dataKetQua.tatCanh
-    this.compare.sutManh = this.dataKetQua.sutManh
-    this.compare.dutDiem = this.dataKetQua.dutDiem
-    this.compare.theLuc = this.dataKetQua.theLuc
-    this.compare.sucManh = this.dataKetQua.sucManh
-    this.compare.xongXao = this.dataKetQua.xongXao
-    this.compare.tocDo = this.dataKetQua.tocDo
-    this.compare.sangTao = this.dataKetQua.sangTao
-    this.service.createCompare(this.compare).subscribe({
+    console.log('this.param.inforID :', this.dataKetQua);
+
+    this.dataKetQua.inforID = this.param.inforID
+    this.service.createCompare(this.dataKetQua).subscribe({
       next: res => {
         this.getListCompares(this.compare.inforID);
       }

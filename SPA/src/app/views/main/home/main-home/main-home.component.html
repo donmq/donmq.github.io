@@ -485,7 +485,7 @@
           <tr>
             <td></td>
             <td *ngFor="let pa of listCompares; let i = index" colspan="{{listCompares.length + 1}}" class="text-center">
-              <button type="button" (click)="removePlan()" class="btn btn-danger ml-1">
+              <button type="button" (click)="deleteCompare(pa)" class="btn btn-danger ml-1">
                 <i class="fa fa-remove"></i>
               </button>
             </td>

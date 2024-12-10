@@ -61,6 +61,7 @@ export class HomeMainService {
     return this.http.post<OperationResult>(this.baseUrl + 'CreateCompare', data)
   }
   deleteCompare(data: Quality) {
+  console.log('data :', data);
     let params = new HttpParams().appendAll({ ...data })
     return this.http.delete<OperationResult>(this.baseUrl + 'DeleteCompare', { params });
   }
