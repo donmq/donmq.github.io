@@ -19,6 +19,7 @@ export class MainHomeComponent implements OnInit {
   attribute: string[] = []
   attributeDisable: KeyValuePair[] = []
   stand: KeyValuePair[] = []
+  listPlan: KeyValuePair[] = []
   param: MainHomeParam = <MainHomeParam>{};
 
   keys: KeyValuePair[] = [];
@@ -62,7 +63,7 @@ export class MainHomeComponent implements OnInit {
 
   onSelect() {
     if (this.param.inforID != null)
-      this.getData();
+      this.getData(1);
   }
 
   onChangesKey() {
@@ -78,12 +79,21 @@ export class MainHomeComponent implements OnInit {
       }
     })
   }
-
-  getData() {
+  //#region Get Data
+  getData(planID?: number) {
     this.service.getData(this.param).subscribe({
       next: res => {
         this.data = res
-        this.dataAfter = this.data.qualityAfter
+        if (this.data.qualityAfter != null) {
+          this.dataAfter = this.data.qualityAfter.filter(x => x.planID == planID)
+          this.listPlan = this.data.qualityAfter.map(x => {
+            return {
+              key: x.planID,
+              value: 'Phương án ' + x.planID
+            }
+          })
+          this.param.planID = planID
+        }
         this.chuyenThongTin();
         for (let index in this.dataAfter) {
           this.dataAfter[index].chatLuongChung = Math.floor(this.keys.reduce((a, b) => a + this.dataAfter[index][b.key], 0) / 15);
@@ -164,6 +174,7 @@ export class MainHomeComponent implements OnInit {
   //region Save
   save(type: string) {
     this.dataTable.inforID = this.param.inforID
+    this.dataTable.planID = this.param.planID
     this.dataCreate.dataTable = this.dataTable
     this.dataCreate.dataAfter = this.dataAfter
     if (type == 'add')
@@ -190,13 +201,6 @@ export class MainHomeComponent implements OnInit {
           this.getListPlayer();
       },
     })
-  }
-
-  removePlan(index: number) {
-    if (index >= 0 && index < this.dataAfter.length) {
-      // Xóa phần tử tại index
-      this.listCompares.splice(index, 1);
-    }
   }
 
   removeItem(index: number) {
@@ -350,13 +354,16 @@ export class MainHomeComponent implements OnInit {
       }
     })
   }
-
+  // #region Plan
   compare: Quality
   createCompare() {
     console.log('this.param.inforID :', this.dataKetQua);
 
-    this.dataKetQua.inforID = this.param.inforID
-    this.service.createCompare(this.dataKetQua).subscribe({
+    this.dataTable.inforID = this.param.inforID
+    this.dataTable.planID = this.param.planID
+    this.dataCreate.dataTable = this.dataTable
+    this.dataCreate.dataAfter = this.dataAfter
+    this.service.createCompare(this.dataCreate).subscribe({
       next: res => {
         this.getListCompares(this.compare.inforID);
       }
@@ -364,6 +371,8 @@ export class MainHomeComponent implements OnInit {
   }
 
   deleteCompare(data: Quality) {
+    data.inforID = this.param.inforID
+    // data.planID = this.param.planID
     this.service.deleteCompare(data).subscribe({
       next: res => {
         this.getListCompares(data.inforID);

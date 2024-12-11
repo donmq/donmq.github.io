@@ -173,17 +173,24 @@
                 </button>
               </div>
               <div class="row col-12">
-                <div class=" col-6">
+                <div class=" col-4">
                   <label class="ml-1">Điểm trung bình</label>
                   <input autocomplete="off" type="text" class="form-control" name="diemTBTong" maxlength="100" [(ngModel)]="diemTB" />
                 </div>
-                <div class=" col-6"> <!-- Thay đổi class margin-left nếu cần -->
+                <div class=" col-4"> <!-- Thay đổi class margin-left nếu cần -->
                   <label class="ml-1">Thuộc tính</label>
                   <ng-select id="keyAttribute" name="keyAttribute" [(ngModel)]="keyAttribute" (ngModelChange)="onChangesKey()">
                     <ng-option *ngFor="let item of keys" value="{{ item.key }}">{{ item.key }}</ng-option>
                   </ng-select>
                   <div *ngFor="let item of exerciesForAttributes">{{item.value}}</div>
                 </div>
+                <div class="col-4">
+                  <label class="ml-1">Phương án</label>
+                <ng-select id="plan" name="plan" [(ngModel)]="param.planID" (ngModelChange)="getData(param.planID)">
+                  <ng-option *ngFor="let item of listPlan"
+                    value="{{ item.key }}">{{ item.value }}</ng-option>
+                </ng-select>
+              </div>
               </div>
             </div>
           </div>
@@ -334,10 +341,10 @@
                     <i class="fa fa-plus"></i> Xem kết quả
                   </button>
                   <button type="button" (click)="createCompare()" class="btn btn-success ml-1">
-                    <i class="fa fa-plus"></i> Thêm vào bảng so sánh
+                    <i class="fa fa-plus"></i> Thêm phương án
                   </button>
                   <button type="button" (click)="openTemplate('soSanh')" class="btn btn-danger ml-1">
-                    <i class="fa fa-plus"></i> Xem bảng so sánh
+                    <i class="fa fa-plus"></i> So sánh Phương án
                   </button>
                 </div>
               </div>

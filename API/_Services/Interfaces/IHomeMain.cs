@@ -19,7 +19,7 @@ namespace API._Services.Interfaces
         Task<OperationResult> Delete(int id);
         Task<List<KeyValuePair<string, string>>> GetKeys();
         Task<List<Quality>> GetListCompares(int inforID);
-        Task<OperationResult> CreateCompare(Quality data);
+        Task<OperationResult> CreateCompare(DataCreate data);
         Task<OperationResult> DeleteCompare(Quality data);
 
     }

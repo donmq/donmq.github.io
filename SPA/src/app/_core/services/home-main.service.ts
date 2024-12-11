@@ -57,12 +57,11 @@ export class HomeMainService {
     let params = new HttpParams().appendAll({ inforID });
     return this.http.get<Quality[]>(this.baseUrl + "GetListCompares", { params })
   }
-  createCompare(data: Quality) {
+  createCompare(data: DataCreate) {
     return this.http.post<OperationResult>(this.baseUrl + 'CreateCompare', data)
   }
   deleteCompare(data: Quality) {
   console.log('data :', data);
-    let params = new HttpParams().appendAll({ ...data })
-    return this.http.delete<OperationResult>(this.baseUrl + 'DeleteCompare', { params });
+    return this.http.delete<OperationResult>(this.baseUrl + 'DeleteCompare', { body: data });
   }
 }

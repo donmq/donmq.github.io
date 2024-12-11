@@ -6,6 +6,7 @@ namespace API.DTO
     public class HomeMainDto
     {
         public int ID { get; set; }
+        public int PlanID { get; set; }
         public string Name { get; set; }
         public string Position { get; set; }
         public string Personality { get; set; }
@@ -36,6 +37,7 @@ namespace API.DTO
     {
         public int InforID { get; set; }
         public int ExerciseID { get; set; }
+        public int PlanID { get; set; }
     }
 
     public class Quality

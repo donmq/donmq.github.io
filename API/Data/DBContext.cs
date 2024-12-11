@@ -6,7 +6,6 @@ namespace API.Data
     public partial class DBContext : DbContext
     {
         public virtual DbSet<Attributes> Attributes { get; set; }
-        public virtual DbSet<Compares> Compares { get; set; }
         public virtual DbSet<ExerciseAttributes> ExerciseAttributes { get; set; }
         public virtual DbSet<Exercises> Exercises { get; set; }
         public virtual DbSet<Information> Information { get; set; }
@@ -29,10 +28,6 @@ namespace API.Data
             builder.Entity<Attributes>(entity =>
             {
                 entity.HasKey(e => new {e.ID});
-            });
-            builder.Entity<Compares>(entity =>
-            {
-                entity.HasKey(e => new {e.InforID, e.PlanID});
             });
             builder.Entity<ExerciseAttributes>(entity =>
             {
@@ -65,7 +60,7 @@ namespace API.Data
             });
             builder.Entity<QualityAfter>(entity =>
             {
-                entity.HasKey(e => new {e.ExerciseID, e.ID, e.InforID});
+                entity.HasKey(e => new {e.PlanID, e.ID, e.InforID});
             });
             
             builder.Entity<QualityBefore>(entity =>

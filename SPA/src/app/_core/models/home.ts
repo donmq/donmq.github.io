@@ -29,6 +29,7 @@ export interface DataCreate {
 export interface MainHomeParam {
   inforID: number;
   exerciseID: number;
+  planID: number;
 }
 
 export interface Quality {
