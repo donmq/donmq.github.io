@@ -144,6 +144,12 @@ export class MainHomeComponent implements OnInit {
 
     this.getListDisable();
   }
+
+  changeThuocTinh() {
+    this.keys.forEach(x => {
+      this.data[x.key] = this.data[x.key] - 20;
+    });
+  }
   //#endregion
   diemTB: number = 180;
   addItem() {
@@ -246,6 +252,7 @@ export class MainHomeComponent implements OnInit {
       });
       this.dataKetQua.chatLuongChung = Math.max(...this.dataAfter.map(x => x.chatLuongChung));
     }
+    console.log(baiTap.average)
     this.getListThuocTinh(index, baiTap, true);
 
     // Kiểm tra nếu this.dataAfter[nextIndex] ko rỗng thì tiếp tục tính toán bằng đệ quy
