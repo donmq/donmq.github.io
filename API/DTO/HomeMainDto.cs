@@ -42,6 +42,7 @@ namespace API.DTO
 
     public class Quality
     {
+        public int ID { get; set; }
         public int InforID { get; set; }
         public string Name { get; set; }
         public string Position { get; set; }

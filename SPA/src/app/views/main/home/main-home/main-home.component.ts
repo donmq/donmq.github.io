@@ -43,7 +43,7 @@ export class MainHomeComponent implements OnInit {
 
   openTemplate(template: string) {
     const initialState: ModalOptions = {
-      class: 'modal-md'
+      class: 'modal-lg'
     };
     if (template == 'tuChat')
       this.modalRef = this.modalService.show(this.templateTuChat);
@@ -67,7 +67,7 @@ export class MainHomeComponent implements OnInit {
   }
 
   onChangesKey() {
-      this.getExercisesForAttributes();
+    this.getExercisesForAttributes();
   }
   keyAttribute: string
   exerciesForAttributes: KeyValuePair[] = []
@@ -86,14 +86,24 @@ export class MainHomeComponent implements OnInit {
         this.data = res
         if (this.data.qualityAfter != null) {
           this.dataAfter = this.data.qualityAfter.filter(x => x.planID == planID)
-          this.listPlan = this.data.qualityAfter.map(x => {
-            return {
+          // Sử dụng Set để đảm bảo các planID là duy nhất
+          const uniquePlanIDs = new Set();
+          this.listPlan = this.data.qualityAfter
+            .filter(x => {
+              if (uniquePlanIDs.has(x.planID)) {
+                return false; // Bỏ qua các bản sao
+              }
+              uniquePlanIDs.add(x.planID);
+              return true; // Bao gồm planID duy nhất
+            })
+            .map(x => ({
               key: x.planID,
               value: 'Phương án ' + x.planID
-            }
-          })
-          this.param.planID = planID
+            }));
+          console.log('this.listPlan :', this.listPlan);
+
         }
+        this.param.planID = planID
         this.chuyenThongTin();
         for (let index in this.dataAfter) {
           this.dataAfter[index].chatLuongChung = Math.floor(this.keys.reduce((a, b) => a + this.dataAfter[index][b.key], 0) / 15);

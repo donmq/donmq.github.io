@@ -8,9 +8,9 @@ namespace API.Models
     {
         [Required]
         public int Q { get; set; }
-        // public decimal? 18Year { get; set; }
-        // public decimal? 19Year { get; set; }
-        // public decimal? 20Year { get; set; }
-        // public decimal? 21Year { get; set; }
+        public decimal? Year18 { get; set; }
+        public decimal? Year19 { get; set; }
+        public decimal? Year20 { get; set; }
+        public decimal? Year21 { get; set; }
     }
 }

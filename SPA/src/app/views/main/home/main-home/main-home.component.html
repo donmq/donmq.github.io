@@ -13,7 +13,7 @@
                 <label class>Chọn cầu thủ</label>
               </div>
               <div class="col-3">
-                <ng-select id="Name" name="Name" [(ngModel)]="param.inforID" (ngModelChange)="onSelect()">
+                <ng-select name="inforId" [(ngModel)]="param.inforID" (ngModelChange)="onSelect()">
                   <ng-option *ngFor="let item of players"
                     value="{{ item.key }}">{{ item.value }}</ng-option>
                 </ng-select>

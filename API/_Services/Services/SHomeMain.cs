@@ -271,6 +271,7 @@ namespace API._Services.Services
             var dataAfter = await _repositoryAccessor.QualityAfter.FindAll(x => x.InforID == param.InforID)
                 .Select(x => new Quality
                 {
+                    ID = x.ID,
                     InforID = x.InforID,
                     PlanID = x.PlanID,
                     ExerciseID = x.ExerciseID,
@@ -294,6 +295,7 @@ namespace API._Services.Services
 
                 })
                 .OrderBy(x => x.PlanID)
+                .ThenBy(x => x.ID)
                 .ToListAsync();
 
 
@@ -328,14 +330,19 @@ namespace API._Services.Services
             return result;
         }
         #endregion
-        #region Compares
+        #region So sánh GetListCompares
         public async Task<List<Quality>> GetListCompares(int inforID)
         {
             var data = await _repositoryAccessor.QualityAfter.FindAll(x => x.InforID == inforID).ToListAsync();
             if (data == null)
                 return null;
 
-            return data.Select(x => new Quality
+            var groupedData = data
+                .GroupBy(x => x.PlanID)
+                .Select(g => g.OrderByDescending(x => x.ID).First())
+                .ToList();
+
+            return groupedData.Select(x => new Quality
             {
                 InforID = x.InforID,
                 PlanID = x.PlanID,
