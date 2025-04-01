@@ -249,7 +249,7 @@ export class MainHomeComponent implements OnInit {
     }
   }
   //region changeBaiTap
-  changeBaiTap(index: number, baiTap: Quality) {
+  async changeBaiTap(index: number, baiTap: Quality) {
     this.clear(index);
     if (index === 0) {
       this.keys.forEach(x => {
@@ -263,12 +263,12 @@ export class MainHomeComponent implements OnInit {
       this.dataKetQua.chatLuongChung = Math.max(...this.dataAfter.map(x => x.chatLuongChung));
     }
     console.log(baiTap.average)
-    this.getListThuocTinh(index, baiTap, true);
+    await this.getListThuocTinh(index, baiTap, true);
 
     // Kiểm tra nếu this.dataAfter[nextIndex] ko rỗng thì tiếp tục tính toán bằng đệ quy
     var nextIndex = index + 1
     if (this.dataAfter[nextIndex] !== undefined) {
-      this.changeBaiTap(nextIndex, this.dataAfter[nextIndex])
+      await this.changeBaiTap(nextIndex, this.dataAfter[nextIndex])
     }
 
   }
