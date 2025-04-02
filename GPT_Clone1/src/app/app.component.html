@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="side-panel">
+    <div class="content">
+      <div class="new-chat" (click)="onNewChatClick()">
+        <img src="../assets//images/plus.png" alt="New Chat" />
+        New Chat
+      </div>
+      <div class="history">
+        <div
+          class="item"
+          *ngFor="let item of history; let i = index"
+          (click)="getTheChatHistory(item, i)"
+        >
+          <img src="../assets/images/chat.png" alt="chat" />
+          {{ item }}
+        </div>
+      </div>
+    </div>
+    <div class="account">
+      <div class="btn">
+        <img src="../assets/images/user.png" alt="user" />
+        Venura Warnasooriya
+      </div>
+    </div>
+  </div>
+  <div class="chat-panel">
+    <app-chat-component
+      #chatComponent
+      (messagesHistory)="handleHistory($event)"
+    ></app-chat-component>
+  </div>
+</div>

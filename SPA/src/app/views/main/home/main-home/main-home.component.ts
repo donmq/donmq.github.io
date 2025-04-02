@@ -273,14 +273,14 @@ export class MainHomeComponent implements OnInit {
 
   }
   //region GetListAttribute
-  getListThuocTinh(index: number, exercise: Quality, tinhtoan: boolean) {
+  async getListThuocTinh(index: number, exercise: Quality, tinhtoan: boolean) {
     this.service.getListThuocTinh(exercise.exerciseID, this.data.position).subscribe({
       next: res => {
         this.attributeDisable = res
         this.attribute = this.attributeDisable.map(x => x.key)
 
         if (tinhtoan == true)
-          this.tinhToan(index);
+          await this.tinhToan(index);
 
         this.styleBaiTapBasedOnAttribute(index);
       }

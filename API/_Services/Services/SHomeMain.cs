@@ -247,6 +247,8 @@ namespace API._Services.Services
         #region  GetData
         public async Task<HomeMainDto> GetData(HomeMainParam param)
         {
+
+
             var pred = PredicateBuilder.New<QualityBefore>(true);
             if (!string.IsNullOrWhiteSpace(param.InforID.ToString()))
                 pred.And(x => x.InforID == param.InforID);
