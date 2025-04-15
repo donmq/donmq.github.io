@@ -100,7 +100,6 @@ export class MainHomeComponent implements OnInit {
               key: x.planID,
               value: 'Phương án ' + x.planID
             }));
-          console.log('this.listPlan :', this.listPlan);
 
         }
         this.param.planID = planID
@@ -113,9 +112,9 @@ export class MainHomeComponent implements OnInit {
   }
 
   //#region Tính toán
-  tinhToan(index: number) {
+  async tinhToan(index: number) {
 
-    this.diemCong(index)
+    await this.diemCong(index)
     this.keys.forEach(x => {
       if (index === 0) {
         this.dataAfter[index][x.key] = this.dataTable[x.key] + (this.attribute.includes(x.key) ? (this.attributeDisable.find(y => y.key === x.key)?.value === "1" ? this.diemCongSang : this.diemCongToi) : 0);
@@ -262,7 +261,6 @@ export class MainHomeComponent implements OnInit {
       });
       this.dataKetQua.chatLuongChung = Math.max(...this.dataAfter.map(x => x.chatLuongChung));
     }
-    console.log(baiTap.average)
     await this.getListThuocTinh(index, baiTap, true);
 
     // Kiểm tra nếu this.dataAfter[nextIndex] ko rỗng thì tiếp tục tính toán bằng đệ quy
@@ -270,6 +268,7 @@ export class MainHomeComponent implements OnInit {
     if (this.dataAfter[nextIndex] !== undefined) {
       await this.changeBaiTap(nextIndex, this.dataAfter[nextIndex])
     }
+    else return;
 
   }
   //region GetListAttribute
@@ -280,7 +279,7 @@ export class MainHomeComponent implements OnInit {
         this.attribute = this.attributeDisable.map(x => x.key)
 
         if (tinhtoan == true)
-          await this.tinhToan(index);
+          this.tinhToan(index);
 
         this.styleBaiTapBasedOnAttribute(index);
       }
@@ -397,7 +396,7 @@ export class MainHomeComponent implements OnInit {
     })
   }
   //#region DiemCong
-  diemCong(index: number) {
+  async diemCong(index: number) {
     let totalSum = 0;
 
     let lowercaseAttribute = this.attribute.map(a => a.toLowerCase());
@@ -408,6 +407,7 @@ export class MainHomeComponent implements OnInit {
         totalSum += index == 0 ? this.dataTable[key] : this.dataKetQua[key];
       }
     });
+    console.log(`Tổng số điểm: ${totalSum}`);
     let soDiemCong: number
     if (index == 0)
       soDiemCong = this.attribute.length * this.dataAfter[index].average - totalSum
