@@ -1,0 +1,50 @@
+@import "../../../../../styles/variables";
+
+.text-left {
+  text-align: left;
+}
+.text-center {
+  text-align: center;
+}
+.main-button {
+  margin: 0 0 0 3px;
+}
+
+.main-button-add {
+  margin: 0 0 0 3px;
+  width: 100px;
+}
+
+.overall-main-button {
+  i {
+    margin-right: 5px;
+  }
+  margin: auto;
+}
+
+.button-modal {
+  text-align: right;
+}
+
+.form-add {
+  margin-bottom: 10px;
+}
+
+.title-input {
+  padding-top: 8px;
+}
+
+.table-title {
+  height: 36px;
+}
+
+.table-content {
+  vertical-align: middle;
+  td {
+    height: 28px;
+  }
+}
+
+.box-title {
+  margin-top: 6px;
+}

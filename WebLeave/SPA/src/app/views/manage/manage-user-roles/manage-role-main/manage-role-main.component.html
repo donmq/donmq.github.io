@@ -1,0 +1,52 @@
+<div class="animated fadeIn">
+  <div class="box-header with-border">
+    <div class="row">
+      <div class="col-lg-6 col-xs-6 col-sm-6">
+        <h4 class="box-title">
+          {{ "Manage.UserManage.RoleManagement" | translate }} <i class="fa fa-caret-right" aria-hidden="true"></i> {{user.userName}}
+        </h4>
+      </div>
+      <div class="col-lg-6 col-xs-6 col-sm-6 back">
+        <button type="button" class="btn btn-sm btn-primary float-end back" [routerLink]="['/manage/user']">
+          <i class="{{iconButton.BACK}}"></i> {{ "System.Action.Back" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="row">
+      <ul class="nav nav-pills col-10" id="pills-tab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active btn btn-primary fw-bolder" id="pills-leave-tab" data-bs-toggle="pill"
+            data-bs-target="#role-leave" type="button" role="tab" aria-controls="pills-home" aria-selected="true">{{
+            "Manage.UserManage.RoleLeave" | translate | uppercase}}</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link btn btn-primary fw-bolder" id="pills-group-tab" data-bs-toggle="pill"
+            data-bs-target="#role-group" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">{{
+            "Manage.UserManage.RoleGroup" | translate | uppercase}}</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link btn btn-primary fw-bolder" type="button" (click)="ShowRoleAdmin(this.user)">{{
+            "Manage.UserManage.RoleManage" | translate | uppercase}}</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link fw-bolder" type="button" (click)="ShowRoleReport(this.user)">{{
+            "Manage.UserManage.RoleReport" | translate | uppercase}}</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="tab-content" id="pills-tabContent">
+      <div class="tab-pane fade show active" id="role-leave" role="tabpanel" aria-labelledby="pills-leave-tab">
+        <app-manage-role-leave></app-manage-role-leave>
+      </div>
+      <div class="tab-pane fade" id="role-group" role="tabpanel" aria-labelledby="pills-group-tab">
+        <app-manage-role-group></app-manage-role-group>
+      </div>
+    </div>
+  </div>
+</div>

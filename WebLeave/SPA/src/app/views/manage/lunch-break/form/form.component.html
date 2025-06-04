@@ -1,0 +1,130 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">
+        {{ title | translate }}
+    </h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="close('CLOSE')">
+        <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form class="row" autocomplete="off" #luchBreakForm="ngForm">
+        <div class="col-6">
+            <label for="key" class="col-12 col-form-label">
+                {{'Manage.LunchBreak.Key' | translate}} <span class="pframe mb-2">*</span>
+            </label>
+            <div class="col-12">
+                <input type="text" id="key" class="form-control" required name="key" [(ngModel)]="data.key"
+                    [disabled]="data.type != 'CREATE'">
+            </div>
+        </div>
+        <div class="col-6">
+            <label for="seq" class="col-12 col-form-label">
+                {{'Manage.LunchBreak.Seq' | translate}} <span class="pframe mb-2">*</span>
+            </label>
+            <div class="col-12">
+                <input type="number" id="seq" class="form-control" required name="seq" [(ngModel)]="data.seq" [min]="1"
+                    [disabled]="data.type != 'CREATE'">
+            </div>
+        </div>
+        <div class="col-6">
+            <label for="workTimeStart" class="col-12 col-form-label">
+                {{'Manage.LunchBreak.WorkTime' | translate}} {{'Manage.LunchBreak.Start' | translate}} <span class="pframe mb-2">*</span>
+            </label>
+            <div class="col-12 input-group">
+                <input class="form-control" id="workTimeStart" name="workTimeStart" [options]="optionWTS"
+                    a2e-datetimepicker [(ngModel)]="workTimeStart" (blur)="wtsChange()" required
+                    onkeypress="return false;" onpaste="return false;" [disabled]="data.type == 'DETAIL'" />
+                <span class="input-group-addon">
+                    <i class="{{optionWTS.icons.time}}" id="icon"></i>
+                </span>
+            </div>
+        </div>
+        <div class="col-6">
+            <label for="workTimeEnd" class="col-12 col-form-label">
+                {{'Manage.LunchBreak.WorkTime' | translate}} {{'Manage.LunchBreak.End' | translate}} <span class="pframe mb-2">*</span>
+            </label>
+            <div class="col-12 input-group">
+                <input class="form-control" id="workTimeEnd" name="workTimeEnd" [options]="optionWTE" a2e-datetimepicker
+                    [(ngModel)]="workTimeEnd" (blur)="wteChange()" required onkeypress="return false;"
+                    onpaste="return false;" [disabled]="data.type == 'DETAIL'" />
+                <span class="input-group-addon">
+                    <i class="{{optionWTE.icons.time}}" id="icon"></i>
+                </span>
+            </div>
+        </div>
+        <div class="col-6">
+            <label for="lunchTimeStart" class="col-12 col-form-label">
+                {{'Manage.LunchBreak.LunchTime' | translate}} {{'Manage.LunchBreak.Start' | translate}} <span class="pframe mb-2">*</span>
+            </label>
+            <div class="col-12 input-group">
+                <input class="form-control" id="lunchTimeStart" name="lunchTimeStart" [options]="optionLTS"
+                    a2e-datetimepicker [(ngModel)]="lunchTimeStart" (blur)="ltsChange()" required
+                    onkeypress="return false;" onpaste="return false;" [disabled]="data.type == 'DETAIL'" />
+                <span class="input-group-addon">
+                    <i class="{{optionLTS.icons.time}}" id="icon"></i>
+                </span>
+            </div>
+        </div>
+        <div class="col-6">
+            <label for="lunchTimeEnd" class="col-12 col-form-label">
+                {{'Manage.LunchBreak.LunchTime' | translate}} {{'Manage.LunchBreak.End' | translate}} <span class="pframe mb-2">*</span>
+            </label>
+            <div class="col-12 input-group">
+                <input class="form-control" id="lunchTimeEnd" name="lunchTimeEnd" [options]="optionLTE"
+                    a2e-datetimepicker [(ngModel)]="lunchTimeEnd" (blur)="lteChange()" required
+                    onkeypress="return false;" onpaste="return false;" [disabled]="data.type == 'DETAIL'" />
+                <span class="input-group-addon">
+                    <i class="{{optionLTE.icons.time}}" id="icon"></i>
+                </span>
+            </div>
+        </div>
+        <div class="col-12">
+            <label for="value_vi" class="col-12 col-form-label">
+                Value VN
+            </label>
+            <div class="col-12">
+                <input type="text" id="value_vi" class="form-control" name="value_vi" [(ngModel)]="data.value_vi"
+                    [disabled]="data.type == 'DETAIL'">
+            </div>
+        </div>
+        <div class="col-12">
+            <label for="value_en" class="col-12 col-form-label">
+                Value EN
+            </label>
+            <div class="col-12">
+                <input type="text" id="value_en" class="form-control" name="value_en" [(ngModel)]="data.value_en"
+                    [disabled]="data.type == 'DETAIL'">
+            </div>
+        </div>
+        <div class="col-12">
+            <label for="value_zh" class="col-12 col-form-label">
+                Value ZH
+            </label>
+            <div class="col-12">
+                <input type="text" id="value_zh" class="form-control" name="value_zh" [(ngModel)]="data.value_zh"
+                    [disabled]="data.type == 'DETAIL'">
+            </div>
+        </div>
+        <div class="col-12 mt-2">
+            <input type="checkbox" class="form-check-input me-2" id="visible" name="visible" [(ngModel)]="data.visible"
+                [disabled]="data.type == 'DETAIL'">
+            <label class="form-check-label" for="visible">{{'Manage.LunchBreak.Visible' | translate}}</label>
+        </div>
+    </form>
+</div>
+<div class="modal-footer" *ngIf="data.type != 'DETAIL'">
+    <button type="button" class="btn btn-danger me-2" (click)="reset()">
+        <i class="{{iconButton.RESET}}"></i>
+        {{'Manage.TeamManager.Reset' | translate}}
+    </button>
+    <button *ngIf="data.type === 'CREATE'" type="button" class="btn btn-primary me-2" (click)="saveAdd('SAVE_AND_NEXT')"
+        [disabled]='luchBreakForm.invalid'>
+        <i class="{{iconButton.EDIT}}"></i>
+        {{'Manage.TeamManager.SaveAndNext' | translate}}
+    </button>
+    <button type="button" class="btn btn-success" (click)="data.type === 'CREATE' ? saveAdd('SAVE') : saveUpdate()"
+        [disabled]="luchBreakForm.invalid">
+        <i class="{{iconButton.SAVE}}"></i>
+        {{'Manage.TeamManager.Save' | translate}}
+    </button>
+</div>

@@ -1,0 +1,100 @@
+
+<div class="animated fadeIn">
+  <div class="box-header with-border">
+    <div class="row">
+      <div class="col-lg-6 col-xs-6 col-sm-6">
+        <h4 class="box-title">{{'Manage.Area' | translate }}</h4>
+      </div>
+      <div class="col-lg-6 col-xs-6 col-sm-6 back">
+        <button class="btn btn-sm btn-primary float-end" [routerLink]="['/manage']">
+          <i [class]="iconButton.BACK"></i> {{'System.Action.Back' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <button class="btn btn-success mb-2" (click)="changePageAdd()">
+        <i [class]="iconButton.ADD"></i> {{'System.Action.AddNew' | translate }}
+      </button>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead class="text-start">
+            <tr>
+              <th scope="col">{{'ManageArea_Building.CompanyName' | translate }}</th>
+              <th scope="col">{{'ManageArea_Building.AreaName' | translate }}</th>
+              <th scope="col">{{'ManageArea_Building.Number' | translate }}</th>
+              <th scope="col">{{'ManageArea_Building.Visible' | translate }}</th>
+              <th scope="col">{{'System.Action.Text' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of areas">
+              <td>{{item.company}}</td>
+              <td>{{item.areaName}}</td>
+              <td>{{item.number}}</td>
+              <td>
+                <input class="form-check-input" type="checkbox" id="{{item.areaID}}" [checked]="item.visible" disabled>
+              </td>
+              <td>
+                  <button class="btn btn-sm btn-warning" (click)="changePageEdit(item)">
+                    <i class="{{iconButton.EDIT}}"></i> {{'System.Action.Edit' | translate}}</button> 
+                  <button class="btn btn-sm btn-primary ms-2" (click)="openModal(template, item)">
+                    <i class="{{iconButton.VIEW}}"></i> {{'System.Action.View' | translate}}</button>
+                  
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ---------------------------------- Modal Detail Area--------------------------------------------- -->
+<ng-template #template>
+  <div class="modal-header modal-header1">
+    <h4 class="modal-title pull-left">{{'ManageArea_Building.DetailArea' | translate }}</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <label class="col-md-4" for="companyName">
+        <strong class="float-right">{{'ManageArea_Building.CompanyName' | translate }}: </strong>
+      </label>
+      <div class="col-md-8">
+        <p>{{areaDetail.company}}</p>
+      </div>
+
+      <label class="col-md-4" for="AreaName">
+        <strong class="float-right">{{'ManageArea_Building.AreaName' | translate }}: </strong>
+      </label>
+      <div class="col-md-8">
+        <p>{{areaDetail.areaName}}</p>
+      </div>
+
+      <label class="col-md-4" for="AreaSym">
+        <strong class="float-right">AreaSym: </strong>
+      </label>
+      <div class="col-md-8">
+        <p>{{areaDetail.areaSym}}</p>
+      </div>
+
+      <label class="col-md-4" for="Number">
+        <strong class="float-right">{{'ManageArea_Building.Number' | translate }}: </strong>
+      </label>
+      <div class="col-md-8">
+        <p>{{areaDetail.number}}</p>
+      </div>
+      
+      <label class="col-md-4" for="Visible">
+        <strong class="float-right">{{'ManageArea_Building.Visible' | translate }}: </strong>
+      </label>
+      <div class="col-md-8">
+        <input class="form-check-input" type="checkbox" id="{{'areaDetail'+areaDetail.areaID}}" [checked]="areaDetail.visible" disabled>
+      </div>
+    </div>
+  </div>
+</ng-template>

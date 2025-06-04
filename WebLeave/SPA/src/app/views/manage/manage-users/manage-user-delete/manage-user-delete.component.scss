@@ -1,0 +1,54 @@
+@import "../../../../../styles/_variables.scss";
+
+.empupload {
+  .uptitle {
+    top: 0.6rem;
+  }
+}
+
+.badge-text{
+  background-color: #ffffff !important;
+  color: black !important;
+  line-height: 1rem;
+  padding: .20em .40em !important;
+  font-size: medium;
+  margin: 0.2rem;
+  top: 0;
+}
+
+.badge {
+  line-height: 1rem;
+  padding: .20em .40em !important;
+}
+
+.btn-text{
+  line-height: 1rem !important;
+  padding-left: 6px;
+  padding-right: 5px;
+  opacity: 0.90;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.badge-status {
+  font-size: 14px;
+  font-weight: 600 !important;
+}
+
+.badge-button {
+  display: inline-flex;
+  align-items: center; 
+}
+
+.box-import{
+  border: 1px solid #e1e5ee;
+}
+
+input#input_uploadFile {
+  border-radius: 10px;
+  padding-left: 10px;
+}
+
+input#input_uploadFile:focus {
+  box-shadow: none !important;
+}

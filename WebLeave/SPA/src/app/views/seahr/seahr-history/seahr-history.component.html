@@ -1,0 +1,157 @@
+<div class="animated fadeIn">
+  <div class="box-header with-border">
+    <h4 class="box-title">{{ 'SeaHr.SeaHrHistory.History' | translate}}</h4>
+    <button type="button" class="btn btn-sm btn-primary float-right" (click)="btnBack()">
+      <i class="{{iconButton.BACK}}"></i> {{'System.Action.Back' | translate}}
+    </button>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <div class="row mt-3">
+        <div class="col-sm-6 col-md-6 col-lg-2 col-xl-2 mb-3">
+          <input type="text" name="dateFrom" autocomplete="off"
+            placeholder="{{ 'SeaHr.SeaHrHistory.EmpNumber' | translate}}" [(ngModel)]="searchHistoryParams.empId"
+            class="form-control" (keyup)="onKeyUpEmpID()">
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-2 col-xl-2 mb-3">
+          <ng-select [(ngModel)]="searchHistoryParams.status" (open)="loadStatus()" (clear)="clearStatus()"
+            placeholder="{{ 'SeaHr.SeaHrHistory.Status' | translate}}">
+            <ng-option *ngFor="let item of status" [value]="item.key">{{item.value}}</ng-option>
+          </ng-select>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-2 col-xl-2 mb-3">
+          <ng-select [(ngModel)]="searchHistoryParams.categoryId" (open)="openCategory()" (clear)="clearCategory()"
+            placeholder="{{ 'SeaHr.SeaHrHistory.Category' | translate}}">
+            <ng-option *ngFor="let item of category" [value]="item.key">{{item.value}}</ng-option>
+          </ng-select>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-3 col-xl-3 mb-3">
+          <ng-select [(ngModel)]="searchHistoryParams.departmentId" (change)="getPartData()" (clear)="clearDepartment()"
+            placeholder="{{ 'SeaHr.SeaHrHistory.Department' | translate}}">
+            <ng-option *ngFor="let item of departments" [value]="item.key">{{item.value}}</ng-option>
+          </ng-select>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-3 col-xl-3 mb-3">
+          <ng-select [(ngModel)]="searchHistoryParams.partList" (clear)="clearPart()" multiple="true"
+            placeholder="{{ 'SeaHr.SeaHrHistory.Part' | translate}}">
+            <ng-option *ngFor="let item of parts" [value]="item.key">{{item.value}}</ng-option>
+          </ng-select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6 col-md-6 col-lg-2 col-xl-2 mb-3">
+          <div class="input-group">
+            <input name="formDate" id="formDate" type="text" [(ngModel)]="fromDateDate" [bsConfig]="bsConfig"
+              [maxDate]="toDateDate" placeholder="{{'Leave.HistoryLeave.FromDate'|translate}}..." class="form-control"
+              bsDatepicker onkeypress="return false;" onpaste="return false;" [maxDate]="toDateDate">
+            <div lass="input-group-addon">
+              <i class="fa-solid fa-calendar-days" id="icon"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-2 col-xl-2 mb-3">
+          <div class="input-group">
+            <input name="toDate" id="toDate" type="text" [(ngModel)]="toDateDate" [bsConfig]="bsConfig"
+              [minDate]="fromDateDate" placeholder="{{'Leave.HistoryLeave.ToDate'|translate}}..." class="form-control"
+              bsDatepicker onkeypress="return false;" onpaste="return false;" [minDate]="fromDateDate">
+            <div lass="input-group-addon">
+              <i class="fa-solid fa-calendar-days" id="icon"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <button type="button" (click)="btnSearch()" class="btn btn-primary me-2">
+            <i class="{{iconButton.SEARCH}}"></i>
+            {{ 'System.Action.Search' | translate}}
+          </button>
+          <button type="button" (click)="btnExportExcel()" class="btn btn-success">
+            <i class="{{iconButton.EXCEL}}"></i>
+            {{ 'System.Action.ExportExcel' | translate}}
+          </button>
+        </div>
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <ng-container *ngFor="let item of countEachCategory">
+                  <div class="col-3"><b>{{ item['value_' + languageCurrent.replace('-TW', '')] }}</b>: {{ item.optional}}</div>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 mt-3" *ngIf="pagination.totalCount > 0">
+          <div class="row">
+              <div class="col-12 text-end"><b>{{ 'SeaHr.SeaHrHistory.Total' | translate}}</b>: {{pagination.totalCount}}</div>
+          </div>
+        </div>
+      </div>
+      <!-- ========== Table ========== -->
+      <div class="col-md-12 mt-3 table-responsive">
+        <table class="table table-striped">
+          <thead class="text-start">
+            <tr>
+              <th>{{ 'SeaHr.SeaHrHistory.NO' | translate}}</th>
+              <th>{{ 'SeaHr.SeaHrHistory.FullName' | translate}}</th>
+              <th>{{ 'SeaHr.SeaHrHistory.DEPARTMENT' | translate}}</th>
+              <th>{{ 'SeaHr.SeaHrHistory.LeaveCategory' | translate}}</th>
+              <th>{{ 'SeaHr.SeaHrHistory.TimeOfLeave' | translate}}</th>
+              <th>{{ 'SeaHr.SeaHrHistory.LeaveDay' | translate}}</th>
+              <th>{{ 'SeaHr.SeaHrHistory.STATUS' | translate}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of leaveDataHistory; let i = index" [ngClass]="{'status_Look': item.status_Lock}">
+              <td><span>{{i + 1}}</span>
+              </td>
+              <td>
+                <button class="btn btn-sm btn-primary darkcyan" type="button">
+                  {{item.empNumber}}
+                </button>
+                - <span>{{item.empName}}</span>
+              </td>
+              <!-- dept name lang -->
+              <td *ngIf="languageCurrent === langConstants.ZH_TW || languageCurrent === 'zh'">
+                <span>{{item.deptNameLangZH}}</span>
+              </td>
+              <td *ngIf="languageCurrent === langConstants.VN">
+                <span>{{item.deptNameLangVN}}</span>
+              </td>
+              <td *ngIf="languageCurrent === langConstants.EN">
+                <span>{{item.deptNameLangEN}}</span>
+              </td>
+              <!-- category lang -->
+              <td *ngIf="languageCurrent === langConstants.ZH_TW || languageCurrent === 'zh'">
+                <span>{{item.categoryLangZH}}</span>
+              </td>
+              <td *ngIf="languageCurrent === langConstants.VN"><span>{{item.categoryLangVN}}</span>
+              </td>
+              <td *ngIf="languageCurrent === langConstants.EN"><span>{{item.categoryLangEN}}</span>
+              </td>
+              <td>
+                <span>{{item.timeStart}} {{item.dateStart}} - {{item.timeEnd}}
+                  {{item.dateEnd}}</span>
+              </td>
+              <td><span>{{item.leaveDayByString}}</span></td>
+              <td>
+                <a (click)="toDetail(item.leaveID)">{{item.status}}</a>
+              </td>
+            </tr>
+            <tr *ngIf="leaveDataHistory.length == 0">
+              <td colspan="100%" class="table-warning text-center fw-bold">{{ 'Common.NoData' |
+                translate}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="d-flex align-items-baseline" *ngIf="pagination.totalPage > 1">
+        <pagination [boundaryLinks]="true" [totalItems]="pagination.totalCount" [(ngModel)]="pagination.pageNumber"
+          [itemsPerPage]="pagination.pageSize" (pageChanged)="pageChanged($event)" previousText="&lsaquo;"
+          nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" [maxSize]=5>
+        </pagination>
+        <div class="ms-2">Page - {{pagination.pageNumber}} /
+          {{pagination.totalPage}}</div>
+      </div>
+    </div>
+  </div>
+</div>

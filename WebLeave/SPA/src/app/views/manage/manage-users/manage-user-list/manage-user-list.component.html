@@ -1,0 +1,108 @@
+<div class="animated fadeIn">
+  <div class="box-header with-border">
+    <div class="row">
+      <div class="col-lg-6 col-xs-6 col-sm-6">
+        <h4 class="box-title">
+          {{ "Manage.UserManage.UserManagement" | translate }}
+        </h4>
+      </div>
+      <div class="col-lg-6 col-xs-6 col-sm-6 back">
+        <button type="button" class="btn btn-sm btn-primary float-end back" (click)="back()" >
+          <i class="{{iconButton.BACK}}"></i> {{ "System.Action.Back" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-body">
+    <div class="pt-3 pb-3">
+      <div class="row">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-3">
+              <input type="text" class="form-control" [(ngModel)]="param.keyword" placeholder="Full name, User name, Email" (keyup)="onKeyUpUser()"/>
+            </div>
+            <div class="col">
+              <button type="button" class="btn btn-primary me-2" (click)="search()">
+                <i class="{{iconButton.SEARCH}}"></i> {{'System.Action.Search' | translate}}</button>
+              <button type="button" class="btn btn-danger " (click)="refreshSearch()">
+                <i class="{{iconButton.CLEAR}}"></i> {{'System.Action.Clear' | translate}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <div class="row">
+      <div class="col-12 mt-3 mb-2">
+        <button type="button" class="btn btn-success me-2" (click)="addUser()">
+          <i class="{{iconButton.ADD}}"></i>
+          {{ "System.Action.AddNew" | translate }}
+        </button>
+        <button [routerLink]="['delete']" type="button" class="btn btn-danger me-2"
+         pTooltip="Xóa chuyên gia" showDelay="50" tooltipPosition="bottom">
+          <i class="{{iconButton.DELETE}}"></i>
+          {{ "Manage.UserManage.DeleteCG" | translate }}
+        </button>
+        <button type="button" class="btn btn-success" showDelay="50" tooltipPosition="bottom"
+          pTooltip="Xuất chuyên gia" (click)="exportExcel()">
+          <i class="{{iconButton.EXCEL}}"></i>
+          {{ "System.Action.ExportExcel" | translate }}
+        </button>
+      </div>
+      <div class="col-12">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>{{ "Manage.UserManage.Stt" | translate }}</th>
+              <th>{{ "Manage.UserManage.UserName" | translate }}</th>
+              <th>{{ "Manage.UserManage.FullName" | translate }}</th>
+              <th>{{ "Manage.UserManage.Email" | translate }}</th>
+              <th>{{ "Manage.UserManage.Role" | translate }}</th>
+              <th [width]="'80px'">{{ "Manage.UserManage.Visible" | translate }}</th>
+              <th [width]="'200px'">{{ "Manage.UserManage.Action" | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of users; index as i">
+              <td>
+                {{ (pagination.pageNumber - 1) * pagination.pageSize + i + 1 }}
+              </td>
+              <td>{{ user.userName }}</td>
+              <td class="text-start">{{ user.fullName | uppercase }}</td>
+              <td class="text-start">{{ user.emailAddress }}</td>
+              <td>{{ getRoleGroup(user.userRank) }}</td>
+              <td>
+                <input class="form-check-input" type="checkbox" disabled [checked]="user.visible" />
+              </td>
+              <td>
+                <button type="button" class="btn btn-sm btn-warning me-2" (click)="editUser(user)">
+                  <i class="{{iconButton.EDIT}}"></i> {{'System.Action.Edit' | translate}}
+                </button>
+                <!-- </td>
+              <td> -->
+                <button type="button" class="btn btn-sm btn-primary" (click)="rolesDetail(user)">
+                  <i class="fa-solid fa-users-gear"></i> {{'Manage.UserManage.Role' | translate}}
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="users.length <= 0">
+              <td colspan="100%" class="table-warning text-center fw-bold">
+                {{ "System.Message.Nodata" | translate }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 d-flex justify-content-start" *ngIf="pagination.totalPage > 1">
+        <pagination [boundaryLinks]="true" [totalItems]="pagination.totalCount"
+          [itemsPerPage]="pagination.pageSize" [(ngModel)]="pagination.pageNumber" [maxSize]="5"
+          (pageChanged)="pageChanged($event)" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
+          lastText="&raquo;">
+        </pagination>
+        <span class="cs-page"> Page - {{pagination.pageNumber}} / {{pagination.totalPage}}</span>
+      </div>
+    </div>
+  </div>
+</div>

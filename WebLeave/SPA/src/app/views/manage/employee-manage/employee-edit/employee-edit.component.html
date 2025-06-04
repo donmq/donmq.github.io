@@ -1,0 +1,121 @@
+<div class="animated fadeIn">
+  <div class="box-header with-border">
+    <div class="row">
+      <div class="col-lg-6 col-xs-6 col-sm-6">
+        <h4 class="box-title"> {{ 'Manage.EmployeeManage.EditEmployee' | translate}}</h4>
+      </div>
+      <div class="col-lg-6 col-xs-6 col-sm-6">
+        <button (click)="backList()" type="button" class="btn btn-sm btn-primary float-end ">
+          <i [class]="iconButton.BACK"></i> {{'System.Action.Back' | translate}}
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <div class="row d-flex justify-content-center">
+      <div class="col-xl-6 col-lg-8 col-md-12">
+        <div class="empupload box box-primary">
+          <div class="uptitle addnew">
+            {{ 'Manage.EmployeeManage.EditEmployee' | translate}}
+          </div>
+          <div class="box-header">
+            <div class="row">
+              <div class="col-sm-6">
+                <form class="was-validated" #EditForm="ngForm">
+
+                  <div class="form">
+                    <input type="text" [(ngModel)]="editEmployee.empNumber" name="empName" class="form__input"
+                      autocomplete="off" placeholder="" required>
+                    <label for="email" class="form__label ">{{'Manage.EmployeeManage.NumberCode' | translate}}</label>
+                  </div>
+
+                  <div class="form">
+                    <input type="text" [(ngModel)]="editEmployee.empName" name="empNumber" class="form__input"
+                      autocomplete="off" placeholder="" required>
+                    <label for="email" class="form__label">{{ 'Manage.EmployeeManage.Name' | translate}}</label>
+                  </div>
+
+                  <div class="form">
+                    <ng-select class="" aria-label="select example" [(ngModel)]="editEmployee.deptID" name="deptID"
+                      (ngModelChange)="changeDept($event)" placeholder=""
+                      [clearable]="editEmployee.deptID != editEmployee.deptID">
+                      <ng-option *ngFor="let item of listDeptID" [value]="item.key">
+                        {{item.value}}
+                      </ng-option>
+                    </ng-select>
+                    <label for="email" class="form__label_ng">{{ 'Manage.EmployeeManage.Department' |
+                      translate}}</label>
+                  </div>
+
+                  <div class="form">
+                    <ng-select class="" [(ngModel)]="editEmployee.partID" aria-label="select example" placeholder=""
+                      name="partID" [clearable]="editEmployee.partID != editEmployee.partID">
+                      <ng-option *ngFor="let item of listPartID" [value]="item.key">
+                        {{item.value}}
+                      </ng-option>
+                    </ng-select>
+                    <label for="email" class="form__label_ng">{{ 'Manage.EmployeeManage.PartID' | translate}}</label>
+                  </div>
+                </form>
+
+              </div>
+              <div class="col-sm-6">
+                <form class="was-validated" #EditForm="ngForm">
+                  <div class="form">
+                    <input type="text" class="form__input" #dp="bsDatepicker" name="dateIn" bsDatepicker
+                      onkeypress="return false;" onpaste="return false;" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }"
+                      [(ngModel)]="editEmployee.dateIn">
+                    <label for="numberID" class="form__label">{{ 'Manage.EmployeeManage.DateIn' | translate}}</label>
+                    <div lass="input-group-addon" id="div-icon">
+                      <i class="fa-solid fa-calendar-days" id="icon-custom"></i>
+                    </div>
+                  </div>
+
+                  <div class="form">
+                    <ng-select class="" aria-label="select example" [(ngModel)]="editEmployee.positionID" placeholder=""
+                      name="positionSym" [clearable]="editEmployee.positionID != editEmployee.positionID">
+                      <ng-option *ngFor="let item of listPositionID" [value]="item.key">
+                        {{item.value}}
+                      </ng-option>
+                    </ng-select>
+                    <label for="email" class="form__label_ng">{{ 'Manage.EmployeeManage.Position' | translate}}</label>
+                  </div>
+                  <div class="form">
+
+                    <ng-select class="" aria-label="select example" [(ngModel)]="editEmployee.gbid" placeholder=""
+                      name="baseName" [clearable]="editEmployee.gbid != editEmployee.gbid">
+                      <ng-option *ngFor="let item of listGroupBase" [value]="item.key">
+                        {{item.value}}
+                      </ng-option>
+                    </ng-select>
+                    <label for="email" class="form__label_ng">{{ 'Manage.EmployeeManage.Group' | translate}}</label>
+                  </div>
+                  <div class="form form-group  row">
+
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" name="visible" [(ngModel)]="editEmployee.visible"
+                        id="visibleCheck" (change)="onChecked(editEmployee.visible)">
+                      <label class="form-check-label fw-bold text-dark" for="visibleCheck">
+                        {{ 'Manage.EmployeeManage.Visible' | translate}}
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="form-check-button">
+                    <button type="button" class="btn btn-danger me-2" (click)="reset()">
+                      <i class="{{iconButton.RESET}}"></i>&nbsp;{{ 'System.Action.Reset' | translate}}
+                    </button>
+                    <button type="button" class="btn btn-success" (click)="save()"
+                      [disabled]="!EditForm.valid || editEmployee.dateIn == undefined || editEmployee.partID == 0 ">
+                      <i class="{{iconButton.SAVE}}"></i>&nbsp;{{ 'System.Action.Save' | translate}}
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

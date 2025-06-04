@@ -1,0 +1,95 @@
+<div class="animated fadeIn">
+  <div class="box-header with-border">
+    <h4 class="box-title">{{ 'Manage.CompanyFunction.Company' | translate}}</h4>
+    <button type="button" class="btn btn-sm btn-primary float-right" [routerLink]="['/manage']" routerLinkActive="router-link-active"><i class="{{iconButton.BACK}}"></i>
+      {{ 'System.Action.Back' | translate}}</button>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <div class="col-md-12">
+        <button class="btn btn-success mb-2" (click)="addCompany()"><i class="{{iconButton.ADD}}"></i> {{
+          'System.Action.AddNew' | translate}}</button>
+      </div>
+      <div class="row">
+        <div class="col-md-12 table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">{{ 'Manage.CompanyFunction.CompanyName' | translate}}</th>
+                <th scope="col">{{ 'Manage.CompanyFunction.CompanyInfo' | translate}}</th>
+                <th scope="col">{{ 'Manage.CompanyFunction.CompanySym' | translate}}</th>
+                <th scope="col">{{ 'Manage.CompanyFunction.Visible' | translate}}</th>
+                <th scope="col">{{ 'Manage.CompanyFunction.Actions' | translate}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of listCompanyManage">
+                <td>{{item.companyName}}</td>
+                <td>{{item.companyInfo}}</td>
+                <td>{{item.companySym}}</td>
+                <td>
+                  <input class="form-check-input" type="checkbox" [checked]="item.visible" id="{{item.companyID}}" disabled>
+                </td>
+                <td style="min-width: 200px;">
+                  <button class="btn btn-warning btn-sm" (click)="editCompany(item, 'edit')">
+                    <i class="{{iconButton.EDIT}}" aria-hidden="true"></i>
+                    {{'System.Action.Edit' | translate}}
+                  </button>
+                  <button class="btn btn-primary btn-sm ms-2" (click)="openModal(template, item)">
+                    <i class="{{iconButton.VIEW}}" aria-hidden="true"></i>
+                    {{'System.Action.View' | translate}}
+                  </button>
+                </td>
+              </tr>
+              <tr *ngIf="listCompanyManage.length == 0">
+                <td colspan="100%" class="table-warning text-center fw-bold">{{
+                  'Common.NoData'
+                  | translate}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ---------------------------------- Modal Detail Company--------------------------------------------- -->
+<ng-template #template>
+  <div class="modal-header modal-header1">
+    <h4 class="modal-title pull-left">{{ 'Manage.CompanyFunction.DetailsCompany' | translate}}</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <label class="col-md-4" for="companyName">
+        <strong class="float-right">{{ 'Manage.CompanyFunction.CompanyName' | translate}}:</strong>
+      </label>
+      <div class="col-md-8">
+        <p>{{detailCompanyManage.companyName}}</p>
+      </div>
+
+      <label class="col-md-4" for="CompanyInfo">
+        <strong class="float-right">{{ 'Manage.CompanyFunction.CompanyInfo' | translate}}: </strong>
+      </label>
+      <div class="col-md-8">
+        <p>{{detailCompanyManage.companyInfo}}</p>
+      </div>
+
+      <label class="col-md-4" for="CompanySym">
+        <strong class="float-right">{{ 'Manage.CompanyFunction.CompanySym' | translate}}: </strong>
+      </label>
+      <div class="col-md-8">
+        <p>{{detailCompanyManage.companySym}}</p>
+      </div>
+
+      <label class="col-md-4" for="Visible">
+        <strong class="float-right">{{ 'Manage.CompanyFunction.Visible' | translate}}: </strong>
+      </label>
+      <div class="col-md-8">
+        <input class="form-check-input" type="checkbox" [checked]="detailCompanyManage.visible" id="{{detailCompanyManage.companyID}}" disabled>
+      </div>
+    </div>
+  </div>
+</ng-template>

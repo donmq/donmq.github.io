@@ -1,0 +1,38 @@
+.tableHeader { 
+    text-align: center;
+}
+
+.solid{
+    border-top: 1px solid rgb(125, 129, 83);
+}
+
+.txtLeaveDate{
+    font-weight: 700;
+}
+.sunday{ 
+    font-weight: bold;
+    text-align: center;
+}
+#title{
+    color: brown;
+    text-align: center;
+    font-size: 25px ;
+}
+
+table th {
+    border: none !important;
+}
+
+/* .dataGrid tbody tr:hover {
+    border: none !important;
+    background-color: rgb(236, 236, 135);
+} */
+.dataWeek tr td:hover {
+    border: none !important;
+    background-color: rgb(236, 236, 135);
+}
+
+.table-responsive.data-month {
+    overflow: inherit;
+    height: max-content;
+}

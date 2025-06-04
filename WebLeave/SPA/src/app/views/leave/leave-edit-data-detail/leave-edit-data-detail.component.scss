@@ -1,0 +1,17 @@
+
+$clr-yellow: #ffc107;
+.box-header {
+    .box-title {
+      display: inline-block;
+      font-size: 25px;
+      font-weight: 500;
+      color: $clr-yellow;
+      padding-bottom: 5px;
+    }
+  }
+.viewdatadt{
+  border: 2px solid $clr-yellow;
+}
+.Cmttime{
+  margin-top: 50px !important;
+}

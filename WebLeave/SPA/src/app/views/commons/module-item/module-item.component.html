@@ -1,0 +1,14 @@
+<div class="module-item animate__animated animate__zoomIn">
+  <div class="card card-shadow">
+    <div class="card-body position-relative">
+      <span *ngIf="badge && badge > 0"
+        class="position-absolute top-0 end-0 translate-middle badge rounded-pill bg-danger">{{badge}}</span>
+      <a class="d-block" [routerLink]="[routerLink]">
+        <img ngOptimizedImage [ngSrc]="imgSrc" width="135" height="140" priority fetchpriority="high">
+        <div class="card-title">
+          <h6>{{title | uppercase}}</h6>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>

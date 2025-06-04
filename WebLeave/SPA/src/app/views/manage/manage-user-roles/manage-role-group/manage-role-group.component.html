@@ -1,0 +1,36 @@
+<div id="groupBase" class="row">
+  <div class="col-sm-6">
+    <div class="box-tree box-primary">
+      <div class="title-tree">
+        {{ "Manage.UserManage.GroupBaseList" | translate | titlecase}}
+      </div>
+      <div class="tree">
+        <p-tree [value]="roles" selectionMode="sigle" class="w-full md:w-30rem"
+          [style]="{'max-height':'540px','overflow':'auto'}" (onNodeSelect)="assignRole($event)">
+          <ng-template let-node pTemplate="default">
+            <b class="text-green">
+              {{ node.label }}
+            </b>
+          </ng-template>
+        </p-tree>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="box-tree box-primary">
+      <div class="title-tree">
+        {{ "Manage.UserManage.AssignedGroupBase" | translate | titlecase}}
+      </div>
+      <div class="tree">
+        <p-tree [value]="assignedRoles" selectionMode="sigle" class="w-full md:w-30rem"
+          [style]="{'max-height':'540px','overflow':'auto'}" (onNodeSelect)="unAssignRole($event)">
+          <ng-template let-node pTemplate="default">
+            <b class="text-green">
+              {{ node.label }}
+            </b>
+          </ng-template>
+        </p-tree>
+      </div>
+    </div>
+  </div>
+</div>

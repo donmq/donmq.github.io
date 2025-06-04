@@ -1,0 +1,26 @@
+.status_Look {
+  td{
+    background-color: #EC2727 !important;
+  }
+
+  a {
+    color:  #246bb2 !important;
+  }
+
+  span {
+    color:black ;
+  }
+}
+
+.disabledTime {
+  background-color: white;
+}
+
+tr>td>a {
+  color: #246bb2;
+
+  &:hover {
+    cursor: pointer;
+    color: #0a7bec;
+  }
+}

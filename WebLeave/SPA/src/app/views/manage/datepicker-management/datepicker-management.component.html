@@ -1,0 +1,29 @@
+<div class="animated fadeIn">
+    <div class="box-header with-border">
+        <div class="row">
+            <div class="col-lg-6 col-xs-6 col-sm-6">
+                <h4 class="box-title">{{'Manage.DatePicker' | translate}}</h4>
+            </div>
+            <div class="col-lg-6 col-xs-6 col-sm-6">
+                <button class="btn btn-primary btn-sm float-end" (click)="back()"><i class="{{iconButton.BACK}}"></i>
+                    {{'System.Action.Back'|translate }}</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mx-auto">
+        <div class="card-body">
+            <div class="row border-yellow" *ngFor="let item of datepicker">
+                <div class="col-10">
+                    <h5 class="text-detail">{{item.description | translate}}</h5>
+                </div>
+                <div class="col-2">
+                    <div class="form-check form-switch">
+                        <input type="checkbox" class="form-check-input" id="site_state"
+                            [(ngModel)]="item.enableMonthPrevious" (ngModelChange)="updateDatepicker(item)">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

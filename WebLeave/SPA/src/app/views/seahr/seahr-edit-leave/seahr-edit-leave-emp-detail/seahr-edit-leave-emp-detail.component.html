@@ -1,0 +1,67 @@
+<div class="modal-header">
+    <h4 id="dialog-sizes-name" class="modal-title pull-left">
+        <i class="fa-solid fa-user me-1"></i>
+        {{'Common.LeavePersonal' | translate}}
+    </h4>
+    <button type="button" class="btn-close close pull-right" (click)="bsModalRef.hide()" aria-label="Close">
+        <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="row mb-3">
+        <div class="col-4">
+            <strong>{{'Common.EmpName' | translate}}: </strong>
+            <span>{{leaveData.empName}}</span>
+        </div>
+        <div class="col-4">
+            <strong>{{'Common.EmpNumber' | translate}}: </strong>
+            <span>{{leaveData.empNumber}}</span>
+        </div>
+        <div class="col-4">
+            <strong>{{'SeaHr.SeaHrEditLeave.Dept' | translate}}: </strong>
+            <span>{{leaveData.deptCode}} - {{leaveData['partName_' + lang.replace('-TW', '')] }}</span>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-4">
+            <strong>{{'Common.DateIn' | translate}}: </strong>
+            <span>{{leaveData.dateIn | date:'dd/MM/yyyy'}}</span>
+        </div>
+        <div class="col-4">
+            <strong>{{'Common.AnnualLeave' | translate}}: </strong>
+            <span>{{detailEmployee.employee?.totalDay}}</span>
+        </div>
+        <div class="col-4">
+            <strong>{{'Common.UsedAnnualLeave' | translate}}: </strong>
+            <span>{{detailEmployee.employee?.countTotal}}</span>
+        </div>
+    </div>
+    <div class="row mb-5">
+        <div class="col-4">
+            <strong>{{'Common.TotalUsedAnnualLeave' | translate}}: </strong>
+            <span>{{detailEmployee.employee?.countLeave}}</span>
+        </div>
+    </div>
+    <h5>{{'Common.TopLeave' | translate}}</h5>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <tbody>
+                <ng-container *ngFor="let item of detailEmployee.listLeave">
+                    <tr>
+                        <td><span>{{ item['cateName_' + lang.replace('-TW', '')]}}</span></td>
+                        <td><span>{{item.timeLine}}</span></td>
+                        <td><span>{{item.leaveDayByString}}</span></td>
+                        <td><strong>{{item.approvedString | translate}}</strong></td>
+                    </tr>
+                    <tr *ngIf="!item.status_Line">
+                        <td colspan="100%">
+                            <ng-container *ngFor="let item of item.translatedComment?.split('-')">
+                                <p class="mb-0"><strong>{{item}}</strong></p>
+                            </ng-container>
+                        </td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+    </div>
+</div>

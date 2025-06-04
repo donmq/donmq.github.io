@@ -1,0 +1,56 @@
+@import "../../../styles/variables.scss";
+
+:host ::ng-deep {
+  .breadcrumb-item a {
+    font-size: 1.2rem;
+  }
+}
+
+.default-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  header {
+    background-color: #333;
+    color: #fff;
+    position: relative;
+
+    .dropdown-toggle::after {
+      color: #fff;
+    }
+
+    .img-logo {
+      height: 2.5rem;
+    }
+
+    .full-name {
+      display: inline-block;
+      color: #fff;
+    }
+
+    .dropdown-menu {
+      inset: 0.25rem 0 auto auto !important;
+    }
+
+    .moment {
+      min-width: 6rem;
+      text-align: center;
+    }
+  }
+
+  .sub-header {
+    background-color: $light-color;
+  }
+
+  content {
+    margin-bottom: auto;
+  }
+
+  footer {
+    background-color: #333;
+    color: #fff;
+    position: relative;
+  }
+
+}

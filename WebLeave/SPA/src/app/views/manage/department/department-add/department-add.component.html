@@ -1,0 +1,106 @@
+<div class="animated fadeIn">
+    <div class="box-header with-border">
+        <div class="row">
+            <div class="col-lg-6 col-xs-6 col-sm-6">
+                <h4 class="box-title">{{ 'Department.AddnewDepartment' | translate}}</h4>
+            </div>
+            <div class="col-lg-6 col-xs-6 col-sm-6 back">
+                <button type="button" class="btn btn-sm btn-primary float-end " [routerLink]="['/manage/department']"
+                    routerLinkActive="router-link-active"><i class="fa-solid fa-angle-left"></i> {{'System.Action.Back'
+                    | translate}}</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="row d-flex justify-content-center">
+            <div class="col-xl-4 col-lg-6 col-md-8">
+                <div class="empupload box box-primary">
+                    <div class="uptitle addnew">
+                        {{ 'Department.AddnewDepartment' | translate}}
+                    </div>
+                    <div class="box-header">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <form #add="ngForm" autocomplete="off">
+                                    <div class="form">
+                                        <input type="text" name="DeptnameVN" placeholder=" "
+                                            [(ngModel)]="addDepartment.deptnamevn" class="form__input  form-control"
+                                            required>
+
+                                        <label for="DeptnameVN" class="form__label">{{ 'Department.DeptnameVN' |
+                                            translate}}</label>
+                                    </div>
+                                    <div class="form">
+                                        <input type="text" name="DeptnameEN" placeholder=" "
+                                            [(ngModel)]="addDepartment.deptnameen" class="form__input form-control"
+                                            required>
+                                        <label for="DeptnameEN" class="form__label">{{ 'Department.DeptnameEN' |
+                                            translate}}</label>
+                                    </div>
+                                    <div class="form">
+                                        <input type="text" name="DeptnameTW" placeholder=" "
+                                            [(ngModel)]="addDepartment.deptnametw" class="form__input form-control"
+                                            required>
+                                        <label for="DeptnameTW" class="form__label">{{ 'Department.DeptnameTW' |
+                                            translate}}</label>
+                                    </div>
+                                    <div class="form">
+                                        <ng-select [(ngModel)]="addDepartment.areaID" #AreaID="ngModel"
+                                            [class.invalid]="AreaID.invalid && AreaID.touched" name="AreaID"
+                                            class="custom" placeholder="{{ 'Department.AreaID' | translate}}...."
+                                            required aria-label="select example">
+                                            <ng-option *ngFor="let area of areaList" [value]="area.key">
+                                                {{area.value}}
+                                            </ng-option>
+                                        </ng-select>
+                                    </div>
+                                    <div class="form">
+                                        <div class="mb-3">
+                                            <ng-select [(ngModel)]="addDepartment.buildingID" class="custom"
+                                                #BuildingID="ngModel"
+                                                [class.invalid]="BuildingID.invalid && BuildingID.touched"
+                                                placeholder="{{ 'Department.BuildingID' | translate}}......"
+                                                name="BuildingID" required>
+                                                <ng-option *ngFor="let build of buildingList" [value]="build.key">
+                                                    {{build.value}}</ng-option>
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                    <div class="form">
+                                        <input type="number" name="number" placeholder=" "
+                                            [(ngModel)]="addDepartment.number" id="number"
+                                            class="form__input form-control">
+                                        <label for="number" class="form__label" id="number">{{ 'Department.Number' |
+                                            translate}}</label>
+                                    </div>
+                                    <div class="form">
+                                        <input type="text" name="DeptCode" placeholder=" "
+                                            [(ngModel)]="addDepartment.deptCode" class="form__input form-control"
+                                            required>
+                                        <label for="DeptCode" class="form__label">{{ 'Department.DeptCode' |
+                                            translate}}</label>
+                                    </div>
+                                    <div class="form-check mb-3 check_show">
+                                        <input type="checkbox" [(ngModel)]="addDepartment.visible"
+                                            class="form-check-input" name="Visible" id="visible">
+                                        <label class="form-check-label" for="visible">{{
+                                            'Department.Visible' | translate}}</label>
+                                    </div>
+                                    <div class="form-check-button">
+                                        <button type="button" class="btn btn-sm btn-success btn_save"
+                                            (click)="save()" [disabled]="!add.valid">
+                                            <i [class]="iconButton.SAVE"></i>
+                                            {{ 'Department.Save' | translate}}
+                                        </button>
+                                    </div>
+                                </form>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

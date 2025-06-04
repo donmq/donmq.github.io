@@ -1,0 +1,71 @@
+.customs-responsive .table-responsive {
+  min-height: 400px;
+}
+
+::ng-deep .p-tooltip-text .table-responsive {
+  min-height: auto;
+  height: auto;
+}
+
+::ng-deep .set-width {
+  min-width: auto;
+}
+
+::ng-deep .hover-class {
+  max-width: 800px;
+  min-width: 800px;
+}
+
+::ng-deep .hover-class .p-tooltip-text {
+  text-align: left !important;
+}
+
+::ng-deep .p-tooltip .p-tooltip-text {
+  max-height: 400px !important;
+}
+
+.modal-container {
+  position: fixed;
+  top: 15%;
+  left: 15%;
+  z-index: 2;
+  border: 1px solid #05050550;
+  border-radius: 5px;
+  max-width: 50% !important;
+  width: auto !important;
+  overflow: auto !important;
+  max-height: 70%;
+  .modal-header {
+    background-color: #246bb2;
+    color: #ffffff;
+    padding: 5px 16px;
+    h4 {
+      font-size: 1.2rem;
+    }
+  }
+  .modal-body {
+    padding: 15px;
+    background-color: #fff;
+    span {
+      font-size: 1rem;
+    }
+    td {
+      font-size: 0.8rem;
+    }
+  }
+}
+
+.position-modal {
+  position: relative;
+}
+.nowarp{
+  text-wrap: nowrap;
+}
+.width-td{
+  max-width: 180px !important;
+  @media (max-width: 1400px) {
+        max-width: 100px !important;
+    }
+}
+
+

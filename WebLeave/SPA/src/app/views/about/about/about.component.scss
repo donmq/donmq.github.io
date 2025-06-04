@@ -1,0 +1,60 @@
+#about-session {
+  .about-content {
+    margin: auto;
+
+    .about-content-header {
+      &_title {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 2em;
+        font-weight: bold;
+        text-transform: uppercase;
+        padding-bottom: 10px;
+        color: #c55252;
+        span {
+          border-bottom: 2px solid #6c757d;
+        }
+      }
+    }
+
+    &_info {
+      padding: 0 10px;
+
+      .about-item {
+        line-height: 1.6em;
+        font-size: 18px;
+        font-weight: 500;
+        margin-bottom: 10px;
+
+        i {
+          color: #c55252;
+        }
+      }
+    }
+
+    .about-footer {
+      margin-top: 50px;
+      padding-right: 20px;
+
+      &_box {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 15px;
+
+        .version {
+          font-size: 16px;
+          margin-left: 20px;
+        }
+
+        .developed-by {
+          font-size: 16px;
+          margin-left: 20px;
+
+          .team {
+            margin-left: 3px;
+            font-weight: 500;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,189 @@
+<div class="animated fadeIn">
+  <div class="box-header with-border">
+    <div class="row">
+      <div class="col-lg-6 col-xs-6 col-sm-6">
+        <h4 class="box-title">{{'Leave.HistoryLeave.Title'|translate}}</h4>
+      </div>
+      <div class="col-lg-6 col-xs-6 col-sm-6 back">
+        <button type="button" class="btn btn-primary btn-sm float-end" (click)="back()">
+          <i class="fa-solid fa-angle-left"></i>
+          {{'System.Action.Back'|translate}}
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <form autocomplete="off">
+        <div class="row mt-3">
+          <div class="col-12 col-md-6 col-xl-2 mb-3">
+            <input type="text" name="empNumber" id="empNumber" [(ngModel)]="param.empId" class="form-control"
+              autocomplete="off" placeholder="{{'Leave.HistoryLeave.EmployeeId'|translate}}" (keyup)="onKeyUpEmpID()">
+          </div>
+          <div class="col-12 col-md-6 col-xl-3 mb-3">
+            <div class="input-group">
+              <input name="fromDate" id="fromDate" type="text" [(ngModel)]="startTimeDate" onkeypress="return false;" onpaste="return false;"
+                 [bsConfig]="bsDatepickerConfig"
+                placeholder="{{'Leave.HistoryLeave.FromDate'|translate}}" class="form-control" bsDatepicker>
+                <div lass="input-group-addon">
+                  <i class="fa-solid fa-calendar-days" id="icon"></i>
+                </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-xl-3 mb-3">
+            <div class="input-group">
+              <input name="toDate" id="toDate" type="text" [(ngModel)]="endTimeDate" onkeypress="return false;" onpaste="return false;"
+                placeholder="{{'Leave.HistoryLeave.ToDate'|translate}}"
+                [bsConfig]="bsDatepickerConfig" class="form-control" bsDatepicker>
+
+              <div lass="input-group-addon">
+                <i class="fa-solid fa-calendar-days" id="icon"></i>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-xl-2 mb-3">
+            <ng-select name="cateID" id="cateID" bindLabel="value" (change)="search()" [(ngModel)]="param.categoryId" [clearable]="false"
+              bindValue="key" placeholder="{{'Leave.HistoryLeave.AllCategory'|translate}}">
+              <ng-option *ngFor="let cate of categoryList" [value]="cate.key">
+                {{cate.value}}
+              </ng-option>
+            </ng-select>
+          </div>
+          <div class="col-12 col-md-6 col-xl-2 mb-3">
+            <ng-select name="status" id="status"  (change)="search()" [clearable]="false" (open)="loadStatus()"
+              [(ngModel)]="param.status"
+              placeholder="ádasdasdasd">
+              <ng-option [value]="0"> {{'Leave.HistoryLeave.AllStatus'|translate}} </ng-option>
+              <ng-option *ngFor="let i of status" [value]="i.key">
+                {{i.value}}
+              </ng-option>
+            </ng-select>
+
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-12 col-xl-8 mb-1">
+            <button class="btn btn-success me-2 " type="submit" (click)="search()">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              {{'System.Action.Search'|translate}}
+            </button>
+            <button class="btn btn-primary me-2" type="button" (click)="exportExcelHistory()">
+              <i class="fa-solid fa-file-excel"></i>
+              {{'Leave.HistoryLeave.ExportExcel'|translate}}
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <div class="row">
+        <div class="col-md-12 mt-3">
+          <table class="table  table-striped">
+            <thead class="text-start">
+              <tr>
+                <th>{{'Leave.HistoryLeave.No'|translate}}</th>
+                <th>{{'Leave.HistoryLeave.Employee'|translate}}</th>
+                <th>{{'Leave.HistoryLeave.Part'|translate}}</th>
+                <th>{{'Leave.HistoryLeave.Category'|translate}}</th>
+                <th>{{'Leave.HistoryLeave.TimeLine'|translate}}</th>
+                <th>{{'Leave.HistoryLeave.LeaveDay'|translate}}</th>
+                <th>{{'Leave.HistoryLeave.Status'|translate}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of leaveData;let i=index">
+                <td>{{ (pagination.pageNumber - 1) * pagination.pageSize + i + 1 }}</td>
+                <td>
+                  <button class="btn btn-sm btn-primary darkcyan" type="button">
+                    {{item.empNumber}}
+                  </button>
+                  <span> - {{item.empName}}</span>
+                </td>
+
+                <td>
+                  <span>
+                    {{ lang === langConstants.VN ? (item.partCode + ' - ' + item.partNameVN) :
+                       lang === langConstants.EN ? (item.partCode + ' - ' + item.partNameEN) :
+                       (item.partCode + ' - ' + item.partNameZH) }}
+                    <i *ngIf="lang === langConstants.ZH_TW && item.exhibit" class="fa-solid fa-bookmark"></i>
+                  </span>
+                </td>
+
+
+                <td class="tdCategory">
+                  <span>
+                    {{ lang === langConstants.VN ? (item.cateSym + ' - ' + item.cateNameVN) :
+                       lang === langConstants.EN ? (item.cateSym + ' - ' + item.cateNameEN) :
+                       (item.cateSym + ' - ' + item.cateNameZH) }}
+                  </span>
+                </td>
+
+                <td class="tdCategory">
+                  <span>
+                    {{item.timeLine}}
+                  </span>
+                </td>
+
+                <td><span>{{item.leaveDayByString}}</span></td>
+                <td>
+                  <span *ngIf="item.approved===1 && item.status_Line===false">
+                    <a (click)="leaveDetail(item)">
+                      {{'Leave.HistoryLeave.Delete'|translate}}
+                    </a>
+                  </span>
+                  <span *ngIf="item.approved===1 && item.status_Line===true">
+                    <a (click)="leaveDetail(item)">
+                      {{'Leave.HistoryLeave.Pending'|translate}}
+                    </a>
+                  </span>
+                  <span *ngIf="item.approved===2">
+                    <a (click)="leaveDetail(item)">
+                      {{'Leave.HistoryLeave.Approve'|translate}}
+                    </a>
+                  </span>
+                  <span *ngIf="item.approved===3">
+                    <a (click)="leaveDetail(item)">
+                      {{'Leave.HistoryLeave.Refuse'|translate}}
+                    </a>
+                  </span>
+                  <span *ngIf="item.approved===4">
+                    <a (click)="leaveDetail(item)">
+                      {{'Leave.HistoryLeave.Complete'|translate}}
+                    </a>
+                  </span>
+                </td>
+              </tr>
+              <tr *ngIf=" leaveData.length===0">
+                <td colspan="100%" class="table-warning text-center fw-bold">
+                  {{'Common.NoData'|translate}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="row">
+            <div class="col-6 col-md-6 d-flex align-items-baseline">
+              <pagination *ngIf="pagination.totalPage > 1" [boundaryLinks]="true" [maxSize]="5"
+                [totalItems]="pagination.totalCount" [itemsPerPage]="pagination.pageSize" [(ngModel)]="pagination.pageNumber"
+                (pageChanged)="pageChanged($event)" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
+                lastText="&raquo;">
+              </pagination>
+              <span *ngIf="pagination.totalPage > 1" class="ms-2">Page -
+                {{pagination.pageNumber}}/{{pagination.totalPage}}</span>
+            </div>
+            <div class="col-6 col-md-6">
+              <div class="pull-right" style="margin-top:2px" id="showDay">
+                <div class="row">
+                  <div class="col-md-12 totalLeave">
+                    <div class="pull-left" style="line-height: 35px;padding-right: 15px;">
+                      {{'Leave.HistoryLeave.TotalOffDay'|translate}}:</div>
+                    <input type="text" name="name" value="{{sumLeaveDay.toFixed(5)}}" class="form-control pull-left"
+                      style="width: 150px;" disabled="disabled" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

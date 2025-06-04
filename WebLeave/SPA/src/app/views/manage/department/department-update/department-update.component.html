@@ -1,0 +1,110 @@
+<div class="animated fadeIn">
+    <div class="box-header with-border">
+        <div class="row">
+            <div class="col-lg-6 col-xs-6 col-sm-6">
+                <h4 class="box-title">{{ 'Department.Update' | translate}} </h4>
+            </div>
+            <div class="col-lg-6 col-xs-6 col-sm-6 back">
+                <button type="button" class="btn btn-sm btn-primary float-end " [routerLink]="['/manage/department']"
+                    routerLinkActive="router-link-active"><i class="fa-solid fa-angle-left"></i> {{'System.Action.Back' | translate}}</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="row d-flex justify-content-center">
+                <div class="col-xl-4 col-lg-6 col-md-8">
+                    <div class="empupload box box-primary">
+                        <div class="uptitle addnew">
+                            {{ 'Department.UpdateDepartment' | translate}}
+                        </div>
+                        <div class="box-header">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <form #add="ngForm" autocomplete="off">
+                                        <div class="form">
+                                            <input type="text" name="DeptnameVN" placeholder=" "
+                                                [(ngModel)]="editDepartment.deptnamevn"
+                                                class="form__input form-control" required>
+
+                                            <label for="DeptnameVN" class="form__label">{{ 'Department.DeptnameVN' |
+                                                translate}}</label>
+                                        </div>
+                                        <div class="form">
+                                            <input type="text" name="DeptnameEN" placeholder=" "
+                                                [(ngModel)]="editDepartment.deptnameen"
+                                                class="form__input form-control" required>
+                                            <label for="DeptnameEN" class="form__label">{{ 'Department.DeptnameEN' |
+                                                translate}}</label>
+                                        </div>
+                                        <div class="form">
+                                            <input type="text" name="DeptnameTW" placeholder=" "
+                                                [(ngModel)]="editDepartment.deptnametw"
+                                                class="form__input form-control" required>
+                                            <label for="DeptnameTW" class="form__label">{{ 'Department.DeptnameTW' |
+                                                translate}}</label>
+                                        </div>
+                                        <div class="form">
+
+                                            <ng-select [(ngModel)]="editDepartment.areaID" class="custom" name="AreaID"
+                                                placeholder="{{ 'Department.AreaID' | translate}}...." required aria-label="select example">
+                                                <ng-option *ngFor="let area of areaList" [value]="area.key">
+                                                    {{area.value}}
+                                                </ng-option>
+                                            </ng-select>
+                                        </div>
+                                        <div class="form">
+                                            <div class="mb-3">
+                                                <ng-select [(ngModel)]="editDepartment.buildingID" class="custom"
+                                                    placeholder="{{ 'Department.BuildingID' | translate}}......" name="BuildingID" required>
+                                                    <ng-option *ngFor="let build of buildingList" [value]="build.key">
+                                                        {{build.value}}</ng-option>
+                                                </ng-select>
+                                            </div>
+                                        </div>
+                                        <div class="form">
+                                            <input type="text" name="deptSym" placeholder=" "
+                                                [(ngModel)]="editDepartment.deptSym"
+                                                class="form__input form-control" disabled>
+                                            <label for="deptSym" class="form__label">{{ 'Department.DeptSym' |
+                                                translate}}</label>
+                                        </div>
+                                        <div class="form">
+                                            <input type="number" name="number"
+                                                [(ngModel)]="editDepartment.number"
+                                                class="form__input form-control" >
+                                            <label for="number" class="form__label">{{ 'Department.Number' |
+                                                translate}}</label>
+                                        </div>
+                                        <div class="form">
+                                            <input type="text" name="DeptCode" placeholder=" "
+                                                [(ngModel)]="editDepartment.deptCode"
+                                                class="form__input form-control" required>
+                                            <label for="DeptCode" class="form__label">{{ 'Department.DeptCode' |
+                                                translate}}</label>
+                                        </div>
+                                        <div class="form-check mb-3 check_show">
+                                            <input type="checkbox" id="{{'detailDepartments'+editDepartment.deptID}}" [checked]="editDepartment.visible" [(ngModel)]="editDepartment.visible"
+                                                class="form-check-input" name="Visible" >
+                                            <label class="form-check-label" for="validationFormCheck1">{{
+                                                'Department.Visible' | translate}}</label>
+                                        </div>
+                                        <div class="form-check-button">
+                                                <button type="button" class="btn btn-sm btn-success btn_save"
+                                                (click)="save()" [disabled]="!add.valid">
+                                               <i [class]="iconButton.SAVE"></i>
+                                               {{ 'Department.Save' | translate}}
+                                           </button>
+                                        </div>
+                                    </form>
+
+                                </div>
+                              
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

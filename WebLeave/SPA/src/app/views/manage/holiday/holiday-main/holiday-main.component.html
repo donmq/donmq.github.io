@@ -1,0 +1,119 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-4">
+      <h4 class="box-title">{{ 'Holiday.Title' | translate}}</h4>
+    </div>
+    <div class="col-8 main-button">
+      <button type="button" class="btn btn-primary float-right back-button btn-sm" [routerLink]="['/manage']"
+          routerLinkActive="router-link-active"><i class="{{iconButton.BACK}}"></i>
+          {{ 'System.Action.Back' | translate}}
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="holiday-note">
+        <span class="d-block">{{ 'Holiday.Note1' | translate}} <b>{{ 'Holiday.Note2' | translate}}</b></span>
+        <span>{{ 'Holiday.Note3' | translate}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12 mt-1">
+          <div class="mb-2">
+            <button class="btn btn-success main-button-add" (click)="openModal(template)"><i class="{{iconButton.ADD}}"></i> {{
+              'System.Action.AddNew' | translate}}
+            </button>
+          </div>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col" class="text-left">{{ 'Holiday.No' | translate}}</th>
+                <th scope="col">{{ 'Holiday.Holiday' | translate}}</th>
+                <th scope="col" class="text-start">{{ 'Holiday.Description' | translate}}</th>
+                <th scope="col" class="text-start">{{ 'Holiday.CreateBy' | translate}}</th>
+                <th scope="col" class="text-start">{{ 'Holiday.CreateTime' | translate}}</th>
+                <th scope="col">{{ 'System.Action.Text' | translate}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of listHoliday; let i = index">
+                <td class="text-left">{{i + 1}}</td>
+
+                <td>
+                  {{item.date | date:'dd/MM/yyyy'}}
+                </td>
+
+                <td class="text-left">{{item.description}}</td>
+
+                <td class="text-left">{{item.fullName}}</td>
+
+                <td class="text-left">
+                  {{'Holiday.At' | translate}} {{item.createTime | date:'dd/MM/yyyy HH:mm:ss'}}
+                </td>
+
+                <td>
+                  <button type="button" class="btn btn-danger btn-sm" (click)="remove(item.holidayID)">
+                    <i class="{{iconButton.DELETE}}"></i> {{ 'System.Action.Delete' | translate}}
+                  </button>
+                </td>
+              </tr>
+              <tr *ngIf="listHoliday.length == 0">
+                <td colspan="100%" class="table-warning text-center fw-bold">{{ commonConstants.COMMON_NODATA | translate}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ---------------------------------- Modal Add Holiday --------------------------------------------- -->
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">
+      <span class="d-block">{{ 'Holiday.TitleModalAdd' | translate}}</span>
+      <span>({{ 'Holiday.Holiday' | translate}})</span>
+    </h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="[modalRef?.hide(), clearAdd()]">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal" #addForm="ngForm">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="input-group">
+            <input type="text" name="holidayTime" [(ngModel)]="addHoliday.date" autocomplete="off"
+              placeholder="{{ 'Holiday.Holiday' | translate}}..." [bsConfig]="bsConfig" class="form-control"
+              bsDatepicker required onkeypress="return false;" onpaste="return false;">
+
+              <div lass="input-group-addon">
+                <i class="fa-solid fa-calendar-days" id="icon"></i>
+              </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <textarea class="textarea-add form-control" name="descriptionArea" [(ngModel)]="addHoliday.description"
+            placeholder="{{ 'Holiday.Description' | translate}}..." required></textarea>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 button-modal">
+          <!-- <button type="button" class="btn btn-danger me-1 save-button btn-sm" (click)="resetAdd()">
+            <i class="{{IconButton.RESET}}"></i>
+            {{'System.Action.Reset' | translate}}
+          </button> -->
+          <button type="button" class="btn btn-success save-button btn-sm" (click)="addData()"
+            [disabled]="!addForm.valid">
+            <i class="{{iconButton.SAVE}}"></i>
+            {{'System.Action.Save' | translate}}
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</ng-template>

@@ -1,0 +1,67 @@
+<div class="animated fadeIn">
+  <div class="box-header with-border">
+    <div class="row align-items-center">
+      <div class="col-lg-6 col-xs-6 col-sm-6">
+        <h4 class="box-title">{{'SeaHr.EditLeave'|translate}}</h4>
+      </div>
+      <div class="col-lg-6 col-xs-6 col-sm-6 back">
+        <button class="btn btn-sm btn-primary float-end" (click)="back()"><i class="fa-solid fa-chevron-left"></i>
+          {{'System.Action.Back'| translate}}</button>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12 mt-1 table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th class="col-2">{{'Leave.EditLeaves.FullName' | translate}}</th>
+                <th class="col-1">{{'Leave.EditLeaves.Dept' | translate}}</th>
+                <th class="col-1">{{'Leave.EditLeaves.Category' | translate}}</th>
+                <th class="col-2">{{'Leave.EditLeaves.Timeline' | translate}}</th>
+                <th class="col-1">{{'Leave.EditLeaves.LeaveDay' | translate}}</th>
+                <th class="col-4">{{'Leave.HistoryLeave.Reason' | translate}}</th>
+                <th class="col-1">{{ 'System.Action.Text' | translate}}</th>
+              </tr>
+            </thead>
+            <tbody class="text-left">
+              <tr *ngFor="let item of listEditLeave">
+                <td >
+                  <ng-container>
+                    <button class="btn btn-sm btn-primary darkcyan">
+                      {{item.empNumber}}</button><span> - {{item.empName}}</span>
+                  </ng-container>
+
+                </td>
+                <td >{{item.deptCode}}</td>
+                <td >
+                  {{item.cateSym}}-{{lang === 'vi' ? item.cateNameVN : lang === 'en' ?
+                  item.cateNameEN : item.cateNameTW}}
+                  <ng-container *ngIf="item.exhibit">
+                    <i class="fa-solid fa-bookmark" pTooltip="{{'Leave.EditLeaves.Implement' | translate}}" showDelay="50" tooltipPosition="top"></i>
+                  </ng-container>
+                </td>
+                <td >{{item.timeLine}}</td>
+                <td >{{item.leaveDay}}</td>
+                <td >{{item.reasonAdjust}}</td>
+                <td class="text-primary darkcyan"><i class="fa-solid fa-circle-arrow-right"
+                    (click)="viewDetail(item)"></i>
+                </td>
+              </tr>
+              <tr *ngIf="listEditLeave.length === 0">
+                <td colspan="100%" class="table-warning text-center fw-bold">{{"Common.NoData" | translate}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="d-flex" *ngIf="pagination.totalPage > 1">
+            <pagination [boundaryLinks]="true" [(ngModel)]="pagination.pageNumber" [totalItems]="pagination.totalCount" [(ngModel)]="pagination.pageNumber" [itemsPerPage]="pagination.pageSize" (pageChanged)="pageChanged($event)" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" [maxSize]=5>
+            </pagination>
+            <span class="cs-page ms-2"> Page - {{pagination.pageNumber}} / {{pagination.totalPage}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

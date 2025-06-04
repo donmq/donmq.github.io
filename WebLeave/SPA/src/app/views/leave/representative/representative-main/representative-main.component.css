@@ -1,0 +1,37 @@
+.sub-total {
+  float: right;
+  color: #ffc107;
+  margin-top: 5px;
+  font-weight: bold;
+}
+
+tr.status-danger td .fa.fa-arrow-circle-right {
+  color: #ffc107;
+}
+
+tr td.detail-leave-modal:hover {
+  cursor: pointer;
+  color: #ffc107;
+}
+
+.col-2 {
+  width: 16.66666667% !important;
+}
+
+.emp-info b {
+  color: #ffc107;
+  margin: 0 5px;
+}
+
+.emp-info p {
+  margin-right: 5px;
+}
+
+.pframe {
+  font-weight: bold;
+  color: #ff0000;
+}
+
+::ng-deep .p-tooltip {
+  margin-left: -0.1rem;
+}

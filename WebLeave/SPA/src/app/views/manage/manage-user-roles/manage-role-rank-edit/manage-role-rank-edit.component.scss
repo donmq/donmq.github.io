@@ -1,0 +1,24 @@
+@import "../../../../../styles/_variables.scss";
+
+.was-validated .form-check {
+  margin-left: 5px !important;
+}
+.input-group .input-group-text {
+  background-color: #007bff;
+  color: #ffffff;
+}
+
+.btn-role {
+  width: -webkit-fill-available;
+}
+
+.form-check {
+  padding-left: 1.5em !important;
+  margin-bottom: 0.5rem !important;
+}
+
+::ng-deep .modal-dialog{
+  max-width: 600px !important;
+  width: 600px;
+}
+

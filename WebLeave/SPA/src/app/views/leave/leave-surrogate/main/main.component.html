@@ -1,0 +1,58 @@
+<div class="animated fadeIn">
+  <div class="box-header">
+    <div class="row">
+      <div class="col-12 d-flex">
+        <h4 class="box-title me-2">{{'Leave.LeaveSurrogate.Title' | translate}}: </h4>
+        <form class="d-flex" autocomplete="off">
+          <ng-select name="surrogate" class="custom-select me-2" placeholder="{{'Leave.LeaveSurrogate.SelectTitle' | translate}}"
+            [(ngModel)]="surrogateId" appendTo="body" (clear)="clear()" [clearable]="surrogateId !== 0">
+            <ng-option *ngFor="let sur of surrogates" [value]="sur.key">{{sur.value}}</ng-option>
+          </ng-select>
+          <button type="button" class="btn btn-danger me-2 " (click)="cancel()">
+            <i class="{{iconButton.CLEAR}}"></i> {{ "System.Action.Cancel" | translate }}
+          </button>
+          <button type="button" class="btn btn-success " (click)="save()"
+            [disabled]="surrogateId === 0">
+            <i class="{{iconButton.SAVE}}"></i> {{ "System.Action.Save" | translate }}
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <div class="row d-flex">
+        <div class="col-xl-8 col-lg-10 col-md-12">
+          <table class="table table-striped">
+            <thead class="text-start">
+              <tr>
+                <th>{{'Leave.LeaveSurrogate.No'|translate}}</th>
+                <th>{{'Leave.LeaveSurrogate.EmpNumber'|translate}}</th>
+                <th>{{'Leave.LeaveSurrogate.FullName'|translate}}</th>
+                <th>{{'Leave.LeaveSurrogate.Action'|translate}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="surrogate.surrogateId > 0">
+                <td>1</td>
+                <td>{{surrogateView.optional}}</td>
+                <td>{{surrogateView.value}}</td>
+                <td>
+                  <button type="button" class="btn btn-danger btn-sm" (click)="remove()">
+                    <i class="{{ iconButton.DELETE }}"></i>
+                    {{ "Leave.LeavePersonal.Delete" | translate }}
+                  </button>
+                </td>
+              </tr>
+              <tr *ngIf="surrogate.surrogateId === 0">
+                <td colspan="100%" class="table-warning text-center fw-bold">
+                  {{ "Common.NoData" | translate }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

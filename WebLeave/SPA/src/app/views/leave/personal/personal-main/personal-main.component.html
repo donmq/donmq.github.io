@@ -1,0 +1,317 @@
+<div class="animated fadeIn">
+  <div class="box-header">
+    <div class="row">
+      <div class="col-lg-6 col-xs-6 col-sm-6">
+        <h4 class="box-title">{{ "Leave.Personal" | translate }}</h4>
+      </div>
+      <div class="col-lg-6 col-xs-6 col-sm-6">
+        <button type="button" class="btn btn-primary float-end btn-sm" (click)="back()">
+          <i class="{{ iconButton.BACK }}"></i>
+          {{ "System.Action.Back" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-12 col-sm-12 col-xs-12 mb-2 mt-2 info ">
+              <div class="card">
+                <div class="card-header">
+                  <h6>{{ "Leave.LeavePersonal.TitleInfo" | translate }}</h6>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-6 col-sm-6 col-xs-6">
+                      <div>
+                        <b>{{ "Leave.LeavePersonal.EmployeeNumber" | translate }}:
+                        </b>
+                        <p>{{ employee?.empNumber }}</p>
+                      </div>
+                      <div>
+                        <b>{{ "Leave.LeavePersonal.FullName" | translate }}: </b>
+                        <p>{{ employee?.empName }}</p>
+                      </div>
+                      <div>
+                        <b>{{ "Leave.LeavePersonal.DateIn" | translate }}: </b>
+                        <p>
+                          {{
+                          language === "vi"
+                          ? employee?.dateInVN
+                          : language === "en"
+                          ? employee?.dateInEN
+                          : employee?.dateInTW
+                          }}
+                        </p>
+                      </div>
+                      <div>
+                        <b>{{ "Leave.LeavePersonal.Department" | translate }}: </b>
+                        <p>
+                          {{ employee?.deptCode }} -
+                          {{
+                          language === "vi"
+                          ? employee?.partNameVN
+                          : language === "en"
+                          ? employee?.partNameEN
+                          : employee?.partNameTW
+                          }}
+                        </p>
+                      </div>
+                      <div>
+                        <b>{{ "Leave.LeavePersonal.Position" | translate }}: </b>
+                        <p>
+                          {{
+                          language === "vi"
+                          ? employee?.positionNameVN
+                          : language === "en"
+                          ? employee?.positionNameEN
+                          : employee?.positionNameTW
+                          }}
+                        </p>
+                      </div>
+                    </div>
+                    <div class="shine"></div>
+                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-6 col-sm-6 col-xs-6 customs-b">
+                      <div class="d-flex">
+                        <b>{{ "Leave.LeavePersonal.AnnualLeave" | translate }}: </b>
+                        <p>{{ history?.totalDay }}</p>
+                      </div>
+                      <div class="d-flex">
+                        <b>{{ "Leave.LeavePersonal.AgentLeave" | translate }}: </b>
+                        <p>{{ history?.countAgent }}</p>
+                      </div>
+                      <div class="d-flex">
+                        <b>{{ "Leave.LeavePersonal.ArrangeLeave" | translate }}:
+                        </b>
+                        <p>{{ history?.countArran }}</p>
+                      </div>
+                      <div class="d-flex">
+                        <b>{{
+                          "Leave.LeavePersonal.TotalUsedAnnualLeave" | translate
+                          }}:
+                        </b>
+                        <p>{{ history?.countLeave }}</p>
+                      </div>
+                      <div class="d-flex">
+                        <b>{{ "Leave.LeavePersonal.UsedAnnualLeave" | translate }}:
+                        </b>
+                        <p>{{ history?.countTotal }}</p>
+                      </div>
+                      <div class="d-flex">
+                        <b>{{
+                          "Leave.LeavePersonal.AnnualLeaveEnough" | translate
+                          }}:
+                        </b>
+                        <p>{{ history?.countRestAgent }}</p>
+                      </div>
+                      <div class="d-flex">
+                        <b>{{ "Leave.LeavePersonal.AgentLeaveEnough" | translate }}:
+                        </b>
+                        <p>{{ history?.countRestArran }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col mb-2 mt-2">
+              <div class="card">
+                <div class="card-header">
+                  <h6>{{ "Leave.LeavePersonal.LeavePersonalTitle" | translate }}</h6>
+                </div>
+                <div class="card-body">
+                  <div class="row mb-2">
+                    <!-- Danh mục loại phép -->
+                    <div class="col-xxl-6 col-xl-5 col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                      <div class="row">
+                        <label class="col-auto col-form-label custom-heigth-lable">
+                          {{ "Leave.LeavePersonal.ReasonOfLeave" | translate }}
+                          <span class="pframe mb-2">*</span>
+                        </label>
+                        <div class="col">
+                          <ng-select name="cateID" [(ngModel)]="leavePersonal.cateID"
+                            (ngModelChange)="getStepMinute()" autocomplete="off" [clearable]="false"
+                            placeholder="{{ 'Leave.LeavePersonal.LeaveCategory' | translate }}" required>
+                            <ng-option *ngFor="let cate of listCategory" [value]="cate.key">
+                              {{cate.value }}
+                            </ng-option>
+                          </ng-select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Thời gian nghỉ trưa -->
+                    <div class="col-xxl-6 col-xl-7 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                      <div class="row">
+                        <label class="col-auto col-form-label">{{ "Leave.LeavePersonal.TimeLunch" | translate }}
+                          <span class="pframe mb-2">*</span></label>
+                        <div class="col">
+                          <ng-select [(ngModel)]="leavePersonal.time_Lunch" name="lunch" [clearable]="false"
+                            class="custom-select" placeholder="{{ 'Leave.LeavePersonal.TimeLuchOption' | translate }}"
+                            autocomplete="off" [disabled]="leavePersonal.cateID === null"
+                            (ngModelChange)="changeTimeLunch()" appendTo="body" dropdownPosition="bottom">
+                            <ng-option *ngFor="let item of listLunchTime" [value]="item.key">
+                              {{item['value_' + language.replace('-tw', '')]}}
+                            </ng-option>
+                          </ng-select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Thời gian -->
+                  <div class="row mb-2">
+                    <div class="col-4">
+                      <label class="col-12 col-form-label">{{ "Leave.LeavePersonal.StartTime" | translate }}
+                        <span class="pframe mb-2">*</span></label>
+                      <div class="col-12 input-group">
+                        <input class="form-control" placeholder="{{'Leave.LeavePersonal.StartTime' | translate}}"
+                          id="time_Start" name="time_Start" a2e-datetimepicker
+                          [(ngModel)]="leavePersonal.time_Start" (ngModelChange)="changeDate()" [options]="options"
+                          [disabled]="leavePersonal.time_Lunch === '0' || leavePersonal.time_Lunch === null"
+                          (blur)="validateTime('time_Start')"
+                          onkeypress="return false;" onpaste="return false;" autocomplete="off" />
+                        <span class="input-group-addon">
+                          <i class="{{options.icons.date}}" id="icon"></i>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <label class="col-12 col-form-label">{{ "Leave.LeavePersonal.EndTime" | translate }}
+                        <span class="pframe mb-2">*</span></label>
+                      <div class="col-12 input-group">
+                        <input class="form-control" placeholder="{{'Leave.LeavePersonal.EndTime' | translate}}"
+                          name="time_End" [(ngModel)]="leavePersonal.time_End" (ngModelChange)="getLeaveHourAndDay()"
+                          autocomplete="off" a2e-datetimepicker id="time_End"
+                          [options]="optionsTimeEnd" [disabled]="leavePersonal.time_Start === null"
+                          (blur)="validateTime('time_End')"
+                          onkeypress="return false;" onpaste="return false;" />
+                        <span class="input-group-addon">
+                          <i class="{{options.icons.date}}" id="icon"></i>
+                        </span>
+                      </div>
+                    </div>
+
+                    <!-- Ngày nghỉ -->
+                    <div class="col-4">
+                      <label class="col-12 col-form-label">
+                        {{"Leave.LeavePersonal.LeaveDay" | translate}}
+                      </label>
+                      <div class="col-12 d-flex leaveHours">
+                        <input type="text" class="form-control me-2" name="hour" [(ngModel)]="leaveHoursView"
+                          placeholder="{{ 'Leave.LeavePersonal.Hour' | translate }}" disabled />
+                        <span class="me-2">{{ "Leave.LeavePersonal.Hour" | translate }}</span>
+                        <input type="text" class="form-control me-2" name="leave" [(ngModel)]="leaveDayView"
+                          placeholder="{{ 'Leave.LeavePersonal.Day' | translate }}" disabled />
+                        <span>{{ "Leave.LeavePersonal.Day" | translate }}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Ghi chú -->
+                  <div class="row mb-2">
+                    <div class="col-12">
+                      <label class="col-12 col-form-label">
+                        {{"Leave.LeavePersonal.Comment" | translate }}
+                        <span *ngIf="isRequiredComment" class="pframe mb-2">*</span>
+                      </label>
+                      <div class="col-12">
+                        <textarea type="text" class="form-control" name="comment" [(ngModel)]="leavePersonal.comment"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-success float-right"
+                    [disabled]="validateSave()"
+                    (click)="saveAddLeave()">
+                    <i class="{{ iconButton.SAVE }}"></i>
+                    {{ "Leave.LeavePersonal.Apply" | translate }}
+                  </button>
+                  <button type="button" class="btn btn-danger me-2 float-right" (click)="refreshForm()">
+                    <i class="{{ iconButton.RESET }}"></i>
+                    {{ "Leave.LeavePersonal.Reset" | translate }}
+                  </button>
+                </div>
+              </div>
+
+              <!-- Danh sách xin phép -->
+              <div class="col-md-12 mt-3 table-responsive">
+                <table class="table table-bordered table-hover table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">
+                        {{ "Leave.LeavePersonal.STT" | translate }}
+                      </th>
+                      <th scope="col">
+                        {{ "Leave.LeavePersonal.DateOfRegister" | translate }}
+                      </th>
+                      <th scope="col">
+                        {{ "Leave.LeavePersonal.ReasonOfLeave" | translate }}
+                      </th>
+                      <th scope="col">
+                        {{ "Leave.LeavePersonal.LeaveTime" | translate }}
+                      </th>
+                      <th scope="col">
+                        {{ "Leave.LeavePersonal.TotalLeaveDay" | translate }}
+                      </th>
+                      <th scope="col"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of leaveData; let i = index"
+                      [ngClass]="item?.status_Lock ? 'status-danger' : ''">
+                      <td>{{ i + 1 }}</td>
+                      <td>
+                        {{ item?.updated | date : "dd/MM/yyyy HH:mm:ss a" }}
+                      </td>
+                      <td>
+                        {{
+                        language === "vi"
+                        ? item?.categoryNameVN
+                        : language === "en"
+                        ? item?.categoryNameEN
+                        : item?.categoryNameTW
+                        }}
+                        <span *ngIf="item.reasonAdjust" class="text-warning"
+                          pTooltip="{{'Leave.LeavePersonal.ReasonAdjust' | translate }}" showDelay="50"
+                          tooltipStyleClass="style-personal">
+                          <i class="fa fa-warning"></i>
+                        </span>
+                        <span *ngIf="item?.status_Lock" class="text-warning" pTooltip="{{item?.mailContent_Lock == null || item?.mailContent_Lock == ''
+                              ? ('Leave.ErrorMessage.Lockleaver' | translate)
+                              : item?.mailContent_Lock
+                          }}" showDelay="50" tooltipStyleClass="style-personal">
+                          <i class="fa fa-warning"></i>
+                        </span>
+                      </td>
+                      <td>{{ item?.timeLine }}</td>
+                      <td>{{ item?.leaveDayReturn }}</td>
+                      <td class="text-center">
+                        <button type="button" class="btn btn-danger btn-sm" (click)="delete(item)">
+                          <i class="{{ iconButton.DELETE }}"></i>
+                          {{ "Leave.LeavePersonal.Delete" | translate }}
+                        </button>
+                      </td>
+                    </tr>
+                    <tr *ngIf="leaveData?.length < 1">
+                      <td colspan="100%" class="table-warning text-center fw-bold">
+                        {{ "Common.NoData" | translate }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="pframe mb-3">
+                <label>{{ "Leave.LeavePersonal.Note" | translate }}: </label><br />
+                + {{ "Leave.LeavePersonal.PersonalLeaveUnit" | translate }}.<br />
+                + {{ "Leave.LeavePersonal.AnnualLeaveUnit" | translate }}.<br />
+                + (*) {{ "Leave.LeavePersonal.Required" | translate }}.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

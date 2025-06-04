@@ -1,0 +1,311 @@
+<div class="animated fadeIn">
+  <div class="box-header with-border">
+    <div class="row">
+      <div class="col-lg-6 col-xs-6 col-sm-6">
+        <h4 class="box-title">{{'Manage.EmployeeManage.DetailEmpl' |translate}}</h4>
+      </div>
+      <div class="col-lg-6 col-xs-6 col-sm-6">
+        <button (click)="back()" type="button" class="btn btn-primary btn-sm float-end ">
+          <i [class]="iconButton.BACK"></i> {{'System.Action.Back' | translate}}
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12 emp-info">
+    <div class="card">
+      <div class="row">
+        <div class="col-lg-12 col-md-12">
+          <div class="mx-3">
+            <div class=" col-md-12">
+              <div class="row">
+                <div class="col-sm">
+                  <p class="m-3"><strong>{{ 'Manage.EmployeeManage.NumberCode' | translate}}:
+                    </strong>{{detailEmployee.numberID}}</p>
+                  <p class="m-3"><strong>{{ 'Manage.EmployeeManage.Name' | translate}}:
+                    </strong>{{detailEmployee.fullname}}</p>
+                  <p class="m-3"><strong>{{ 'Manage.EmployeeManage.Department' | translate}}:
+                    </strong>{{detailEmployee.deptCode}}</p>
+                  <p class="m-3"><strong>{{ 'Manage.EmployeeManage.DateIn' | translate}}:
+                    </strong>{{detailEmployee.dateIn_By_Lang}}</p>
+                  <div class="m-3">
+                    <button (click)="openModal(detailEmployee)" type="button" class="btn btn-sm btn-warning mb-1 me-2">
+                      <i [class]="iconButton.EDIT"></i> {{ 'System.Action.Edit' | translate}}
+                    </button>
+                    <button (click)="disable()" type="button" class="btn btn-sm btn-primary mb-1 me-2">
+                      <i [class]="iconButton.DISABLED"></i> {{ buttonTilte}}
+                    </button>
+                    <button (click)="deleteItem(detailEmployee.empID)" type="button"
+                      class="btn btn-sm  btn-danger mb-1 me-2">
+                      <i [class]="iconButton.DELETE"></i> {{ 'System.Action.Delete' | translate}}
+                    </button>
+                  </div>
+                </div>
+                <div class="col-sm">
+                  <p class="m-3"><strong>{{ 'Manage.EmployeeManage.Group' | translate}}:
+                    </strong>{{detailEmployee.empGroup}}</p>
+                  <!-- Phép năm -->
+                  <p class="m-3"><strong>{{ 'Manage.EmployeeManage.AnnualLeave' | translate}}:
+                    </strong>{{detailEmployee.phepNam}}</p>
+                  <!-- Phép năm cá nhân (Đã nghỉ) -->
+                  <p class="m-3"><strong>{{ 'Manage.EmployeeManage.AgentLeave' | translate}}:
+                    </strong>{{detailEmployee.phep_Nam_Ca_Nhan}}</p>
+                  <!-- Phép năm cá nhân (Chưa nghỉ) -->
+                  <p class="m-3"><strong>{{ 'Manage.EmployeeManage.ArrangeLeave' | translate}}:
+                    </strong>{{detailEmployee.phep_Nam_Cty}}</p>
+                </div>
+                <div class="col-sm">
+                  <!-- Phép năm sắp xếp (Chưa nghỉ) -->
+                  <p class="m-3"><strong>{{ 'Manage.EmployeeManage.UsedAnnualLeave' | translate}}:
+                    </strong>{{detailEmployee.pnCty}}</p>
+                  <!-- Tổng phép đã nghỉ -->
+                  <p class="m-3"><strong>{{ 'Manage.EmployeeManage.TotalUsedAnnual' | translate}}:
+                    </strong>{{detailEmployee.tongPhep_DaNghi}}</p>
+
+                  <ng-container *ngIf="detailEmployee.voHieu === '0'; else elseTemplate">
+                    <p class="m-3" btn><strong>{{ 'Manage.EmployeeManage.Status' | translate}}: </strong>{{
+                      'Manage.EmployeeManage.StatusFinish' | translate}}</p>
+                  </ng-container>
+                  <ng-template #elseTemplate>
+                    <p class="m-3" btn><strong>{{ 'Manage.EmployeeManage.Status' | translate}}: </strong>{{
+                      'Manage.EmployeeManage.StatusReject' | translate}}</p>
+                  </ng-template>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-------------------------------------Danh sách ------------------------------------- -->
+  <div class="card mt-3">
+    <div class="card-body">
+      <div class="border-shadow">
+        <div class="row mt-3">
+          <div class="col-6 col-sm-6 col-md-3 col-xl-2 mb-3 mr-2">
+            <ng-select id="CategoryId" placeholder="{{ 'Manage.EmployeeManage.Catalog' | translate}}"
+              [(ngModel)]="CategoryId" (ngModelChange)="changeCate($event)" name="cateID" [clearable]="CategoryId != 0"
+              (clear)="CategoryId = 0">
+              <ng-option *ngFor="let item of listCateLog " [value]="item.key">
+                {{item.value}}
+              </ng-option>
+            </ng-select>
+          </div>
+          <div class="col-6 col-sm-6 col-md-3 col-xl-2 mb-3 ml-2">
+            <ng-select id="Year" placeholder="{{ 'Manage.EmployeeManage.Year' | translate}}" [(ngModel)]="Year"
+              (ngModelChange)="changeYear($event)" name="dateLeave" [clearable]="Year != Year">
+              <ng-option *ngFor="let item of listYear " [value]="item.key">
+                {{item.value}}
+              </ng-option>
+            </ng-select>
+          </div>
+        </div>
+
+      <div class="col-md-12 mt-3 table-responsive">
+        <table class="table table-striped">
+          <thead class="text-start text-capitalize">
+            <tr>
+              <th>{{ 'Manage.EmployeeManage.No' | translate}} </th>
+              <th>{{ 'Manage.EmployeeManage.AppliedAt' | translate}}</th>
+              <th>{{ 'Manage.EmployeeManage.LeaveCategory' | translate}}</th>
+              <th>{{ 'Manage.EmployeeManage.Time' | translate}}</th>
+              <th>{{ 'Manage.EmployeeManage.Days' | translate}}</th>
+              <th>{{ 'Manage.EmployeeManage.Status' | translate}}</th>
+              <th>{{ 'System.Action.Text' | translate}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of searchList, let i = index">
+              <td>{{ (pagination.pageNumber - 1) * pagination.pageSize + i + 1 }}</td>
+              <td>{{item.created_day}}</td>
+              <td>{{item.category}}</td>
+              <td>{{item.timeLine}}</td>
+              <td>{{item.numberDay}}</td>
+              <td> {{statusMultiLanguage(item.statusString)}}</td>
+              <td>
+                <button type="button" class="btn btn-sm btn-warning me-2"
+                  [routerLink]="'/leave/detail/' + item.leaveID">
+                  <i class="{{iconButton.ARROW_RIGHT}}"></i>&nbsp;{{ 'System.Action.Detail' | translate}}
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="searchList?.length == 0">
+              <td colspan="100%" class="table-warning text-center fw-bold">
+                {{"Common.NoData" | translate}} </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="d-flex" *ngIf="pagination.totalPage > 1">
+          <pagination [boundaryLinks]="true" [(ngModel)]="pagination.pageNumber" [totalItems]="pagination.totalCount"
+            [(ngModel)]="pagination.pageNumber" [itemsPerPage]="pagination.pageSize" (pageChanged)="pageChanged($event)"
+            previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" [maxSize]=5>
+          </pagination>
+          <span class="cs-page ms-2"> Page - {{pagination.pageNumber}} / {{pagination.totalPage}}</span>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================================== Modal Edit trong Detail====================================  -->
+
+  <div bsModal #modalEdit="bs-modal" class="modal fade p-60px" tabindex="-1" role="dialog"
+    aria-labelledby="dialog-sizes-name1">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header modal-header-add p-50px">
+          <h4 class="modal-title pull-left">{{'Manage.EmployeeManage.Update' | translate}}</h4>
+          <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalEdit?.hide()">
+            <span aria-hidden="true" class="visually-hidden">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body p-50px bg-white">
+          <div class="row">
+            <div class="container">
+              <div class=" row">
+                <div class="col-sm-6">
+                  <form class=" was-validated" #EditDetailForm_1="ngForm">
+                    <div class="form">
+                      <input type="text" [(ngModel)]="detailEmployee.numberID" name="numberID"
+                        class="form__input  disable" autocomplete="off" placeholder=" " required disabled>
+                      <label for="numberID" class="form__label">{{'Manage.EmployeeManage.NumberCode' |
+                        translate}}</label>
+                    </div>
+                    <div class="form">
+                      <input type="text" [(ngModel)]="detailEmployee.fullname" name="fullname" class="form__input "
+                        autocomplete="off" placeholder=" " required>
+                      <label for="numberID" class="form__label">{{ 'Manage.EmployeeManage.Name' | translate}}</label>
+                    </div>
+
+                    <div class="form">
+                      <input type="text" class="form__input" [(ngModel)]="dateIn" name="dateIn" bsDatepicker
+                        [bsConfig]="{dateInputFormat: 'DD/MM/YYYY' }" autocomplete="off" onkeypress="return false;" onpaste="return false;">
+                      <label for="numberID" class="form__label">{{ 'Manage.EmployeeManage.DateIn' | translate}}</label>
+                    </div>
+
+                    <div class="form">
+                      <ng-select class="custom" [(ngModel)]="detailEmployee.deptID"
+                        (ngModelChange)="changeDept(detailEmployee.deptID)" placeholder="" name="deptID"
+                        [clearable]="detailEmployee.deptID != detailEmployee.deptID">
+                        <ng-option *ngFor="let item of listDeptID " [value]="item.key">
+                          {{item.value}}
+                        </ng-option>
+                      </ng-select>
+                      <label for="deptName" class="form__label_ng">{{ 'Manage.EmployeeManage.Department' |
+                        translate}}</label>
+                    </div>
+
+                    <div class="form">
+                      <ng-select class="" aria-label="select example" [(ngModel)]="detailEmployee.partID"
+                        [disabled]="detailEmployee.deptID == 0" name="partID"
+                        [clearable]="detailEmployee.partID != detailEmployee.partID">
+                        <ng-option *ngFor="let item of listPartID" [value]="item.key">
+                          {{item.value}}
+                        </ng-option>
+                      </ng-select>
+                      <label for="deptName" class="form__label_ng">{{ 'Manage.EmployeeManage.PartID' |
+                        translate}}</label>
+                    </div>
+
+                    <div class="form">
+                      <ng-select class="" aria-label="select example" [(ngModel)]="detailEmployee.positionID"
+                        placeholder="" name="positionName"
+                        [clearable]="detailEmployee.positionID != detailEmployee.positionID">
+                        <ng-option *ngFor="let item of listPositionID " [value]="item.key">
+                          {{item.value}}
+                        </ng-option>
+                      </ng-select>
+                      <label for="deptName" class="form__label_ng">{{ 'Manage.EmployeeManage.Position' |
+                        translate}}</label>
+                    </div>
+
+                    <div class="form">
+                      <ng-select class="" aria-label="select example" [(ngModel)]="detailEmployee.gbid" placeholder=""
+                        name="empGroup" [clearable]="detailEmployee.gbid != detailEmployee.gbid">
+                        <ng-option *ngFor="let item of listGroupBase " [value]="item.key">
+                          {{item.value}}
+                        </ng-option>
+                      </ng-select>
+                      <label for="deptName" class="form__label_ng">{{ 'Manage.EmployeeManage.Group' |
+                        translate}}</label>
+                    </div>
+
+                  </form>
+
+                </div>
+                <div class="col-sm-6">
+                  <form class="was-validated" #EditDetailForm_2="ngForm">
+                    <div class="form">
+                      <input type="datetime" [(ngModel)]="detailEmployee.phepNam" name="phepNam" id="validationTextarea"
+                        class="form__input " placeholder=" " required>
+                      <label for="validationTextarea" class="form__label ">{{ 'Manage.EmployeeManage.AnnualLeave' |
+                        translate}}</label>
+                    </div>
+
+                    <div class="form">
+                      <input type="text" [(ngModel)]="detailEmployee.pnCaNhan_DaNghi_HeThong"
+                        name="pNCaNhan_DaNghi_HeThong" id="pNCaNhan_DaNghi_HeThong" class="form__input " placeholder=" "
+                        required>
+                      <label for="pNCaNhan_DaNghi_HeThong" class="form__label ">{{
+                        'Manage.EmployeeManage.UsedAnnualLeaveYes' | translate}}</label>
+                    </div>
+
+                    <div class="form">
+                      <input type="text" [(ngModel)]="detailEmployee.pnCaNhan_ChuaNghi" name="pNCaNhan_ChuaNghi"
+                        class="form__input " placeholder=" " required>
+                      <label for="validationTextarea" class="form__label ">{{ 'Manage.EmployeeManage.UsedAnnualLeaveNo'
+                        | translate}}</label>
+                    </div>
+
+                    <div class="form">
+                      <input type="text" [(ngModel)]="detailEmployee.pnSapXep_DaNghi" name="pNSapXep_DaNghi"
+                        class="form__input " placeholder=" " required>
+                      <label for="validationTextarea" class="form__label ">{{ 'Manage.EmployeeManage.ArrangeLeaveYes' |
+                        translate}}</label>
+                    </div>
+
+                    <div class="form">
+                      <input type="text" [(ngModel)]="detailEmployee.pnSapXep_ChuaNghi" name="pNSapXep_ChuaNghi"
+                        class="form__input " placeholder=" " required>
+                      <label for="validationTextarea" class="form__label ">{{ 'Manage.EmployeeManage.ArrangeLeaveNo' |
+                        translate}}</label>
+                    </div>
+
+                    <div class="form">
+                      <input type="text" [(ngModel)]="detailEmployee.tongPhep_DaNghi" name="pnCty" class="form__input "
+                        placeholder=" " required>
+                      <label for="validationTextarea" class="form__label ">{{ 'Manage.EmployeeManage.TotalUsedAnnual' |
+                        translate}}</label>
+                    </div>
+
+                    <div class="form">
+                      <input type="text" [(ngModel)]="detailEmployee.descript" name="descript" id="validationTextarea"
+                        class="form__input " placeholder=" ">
+                      <label for="validationTextarea" class="form__label ">{{ 'Manage.EmployeeManage.Note' |
+                        translate}}</label>
+                    </div>
+
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <div class="row">
+            <div class="form-check-button">
+              <button type="button" class="btn btn-danger me-2" (click)="reset()">
+                <i class="{{iconButton.RESET}}"></i>&nbsp;{{ 'System.Action.Reset' | translate}}
+              </button>
+              <button type="button" class="btn btn-success" (click)="saveEditInDetail()" [disabled]="!EditDetailForm_1.valid
+            || !detailEmployee.dateIn || !EditDetailForm_2.valid || detailEmployee.partID == 0 ">
+                <i class="{{iconButton.SAVE}}"></i>&nbsp;{{ 'System.Action.Save' | translate}}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

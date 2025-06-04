@@ -1,0 +1,72 @@
+@import "../../../../styles/variables.scss";
+
+.custom-file-label::after {
+  content: "Select";
+}
+
+/*   border radius */
+$radius: 0.5rem;
+
+// *,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+#input_uploadFile::file-selector-button {
+  display: none;
+  color: $clr-gray500;
+  margin-left: 10px;
+}
+.bg-white {
+  border: 1px solid #6495ed;
+}
+
+#input_uploadFile {
+  padding-left: 15px;
+  color: $clr-gray500;
+  outline: none;
+  padding-top: 6px;
+  background-color: transparent;
+  border: 0px solid;
+}
+
+#input_uploadFile:focus {
+  border-color: inherit;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.form-check {
+  padding-left: 1.2rem !important;
+  .form-check-input {
+    margin-left: -8px !important;
+    font-size: 16px !important;
+  }
+  .form-check-label {
+    color: #4f546c;
+  }
+}
+.form-check-button {
+  margin-left: 10px !important;
+}
+
+#div-icon{
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 3;
+}
+
+#icon-custom {
+  color: #ffffff;
+  background: #2196F3;
+  border: 1px solid #2196F3;
+  padding: 11.5px 1rem;
+  font-size: 1rem;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+  border-top-right-radius: 11px;
+  border-bottom-right-radius: 7px;
+}

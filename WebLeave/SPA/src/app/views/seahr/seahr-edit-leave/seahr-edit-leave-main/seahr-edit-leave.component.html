@@ -1,0 +1,86 @@
+<div class="animated fadeIn">
+    <div class="box-header with-border">
+        <div class="row">
+            <div class="col-lg-6 col-xs-6 col-sm-6">
+                <h4 class="box-title">{{'SeaHr.EditLeave'|translate}}</h4>
+            </div>
+            <div class="col-lg-6 col-xs-6 col-sm-6">
+                <button class="btn btn-primary btn-sm float-end" (click)="back()"><i class="{{iconButton.BACK}}"></i>
+                    {{'System.Action.Back'|translate}}</button>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12 mt-1 table-responsive">
+                    <table class="table table-striped ">
+                        <thead>
+                            <tr>
+                                <th class="col-1">{{'System.Action.Confirm' | translate}}</th>
+                                <th class="col-2">{{'Common.EmpName' | translate}}</th>
+                                <th class="col-1">{{'SeaHr.SeaHrEditLeave.Dept' | translate}}</th>
+                                <th class="col-1">{{'Common.Category' | translate}}</th>
+                                <th class="col-1">{{'Common.TimeLine' | translate}}</th>
+                                <th class="col-1">{{'SeaHr.SeaHrEditLeave.LeaveDay' | translate}}</th>
+                                <th class="col-4">{{'Leave.HistoryLeave.Reason' | translate}}</th>
+                                <th class="col-1">{{'System.Action.Text' | translate}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of listLeaveData">
+                                <td>
+                                    <button class="btn btn-success btn-sm" (click)="acceptEditLeave(item.leaveID)"><i
+                                            class="{{iconButton.SAVE}}"></i>
+                                        {{'SeaHr.SeaHrEditLeave.Accept' | translate}}</button>
+                                    <button class="btn btn-danger btn-sm ms-2" (click)="rejectEditLeave(item.leaveID)">
+                                        <i class="{{iconButton.CLOSE}}"></i>
+                                        {{'SeaHr.SeaHrEditLeave.Reject' | translate}}</button>
+                                </td>
+                                <td>
+                                    <ng-container>
+                                        <button class="btn btn-primary btn-sm " (click)="getDetailEmployee(item)">
+                                            {{item.empNumber}}</button> -{{item.empName}}
+                                        <!-- <span *ngIf="item.reasonAdjust" [pTooltip]="item.reasonAdjust" showDelay="50" tooltipPosition="top">
+                                          <i class="fa fa-warning"></i>
+                                        </span> -->
+                                    </ng-container>
+
+                                </td>
+                                <td>{{item.deptCode}}</td>
+                                <td>
+                                    {{item.cateSym}}-{{item['cateName_' + lang.replace('-TW', '')]}}
+                                    <ng-container *ngIf="item.exhibit">
+                                        <i class="{{iconButton.BOOKMARK}} bookmark" aria-hidden="true" align="right"
+                                           [pTooltip]="'Common.NoteCategory' | translate" showDelay="50" tooltipPosition="top"></i>
+                                    </ng-container>
+                                </td>
+                                <td>{{item.timeLine}}</td>
+                                <td>{{item.leaveDay}}</td>
+                                <td>{{item.reasonAdjust}}</td>
+                                <td> <button (click)="viewDetail(item.leaveID)" class="btn btn-warning btn-sm">
+                                        <i class="{{iconButton.ARROW_RIGHT}}"></i>&nbsp;
+                                        {{'System.Action.Detail' |translate}}
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr *ngIf="listLeaveData.length === 0">
+                                <td colspan="8" class="text-center table-warning">
+                                    <strong>{{commonConstants.COMMON_NODATA | translate}}</strong>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="d-flex" *ngIf="pagination.totalPage > 1">
+                        <pagination [boundaryLinks]="true" [totalItems]="pagination.totalCount"
+                            [itemsPerPage]="pagination.pageSize" (pageChanged)="pageChanged($event)"
+                            [(ngModel)]="pagination.pageNumber" previousText="&lsaquo;" nextText="&rsaquo;"
+                            firstText="&laquo;" lastText="&raquo;" [maxSize]=5>
+                        </pagination>
+                        <span class="cs-page ml-2"> Page - {{pagination.pageNumber}} / {{pagination.totalPage}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

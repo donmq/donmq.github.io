@@ -1,0 +1,14 @@
+.title {
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
+}
+.btnHeader {
+  float: right;
+  width: 150px;
+}
+
+.pagin {
+  float: left;
+}
+

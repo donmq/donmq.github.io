@@ -1,0 +1,24 @@
+tr.status-danger td i.fa-trash {
+  color: #ffc107 !important;
+}
+
+h6 {
+  margin: 0px;
+}
+
+.table-bordered>:not(caption)>*>* {
+  border-width: 0 0;
+}
+
+.card-header {
+  background-color: #727139;
+  color: #ffffff;
+}
+
+::ng-deep .style-personal {
+  max-width: 205px;
+
+  .p-tooltip-text {
+    text-align: center;
+  }
+}

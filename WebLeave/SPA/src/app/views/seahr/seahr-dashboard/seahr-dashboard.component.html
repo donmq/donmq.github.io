@@ -1,0 +1,9 @@
+<div class="row module-items" [@fadeInUp]>
+  <ng-container>
+    <div class="col-12 col-lg-4 col-xl-2" *ngFor="let role of roles" [@fadeInUp]>
+      <module-item [imgSrc]="role.imgSrc" [routerLink]="role.route" title="{{role.roleSym | translate}}"
+        [badge]="role.badge">
+      </module-item>
+    </div>
+  </ng-container>
+</div>

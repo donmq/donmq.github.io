@@ -1,0 +1,50 @@
+@import "../../../../styles/variables.scss";
+.empupload {
+  position: relative;
+}
+
+.empupload .uptitle {
+  top: -20px;
+  left: 1rem;
+}
+
+.empupload .upform .form-left {
+  float: left;
+  padding-right: 4px;
+}
+
+.empupload .upform .form-right {
+  float: left;
+  padding-right: 4px;
+  padding-left: 8px;
+}
+
+.Dowhere {
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+#input_uploadFile::file-selector-button {
+  display: none;
+  color: $clr-gray500;
+  margin-left: 10px;
+}
+.bg-white {
+  border: 1px solid #6495ed;
+}
+
+#input_uploadFile {
+  padding-left: 15px;
+  color: $clr-gray500;
+  outline: none;
+  padding-top: 6px;
+  background-color: transparent;
+  border: 0px solid;
+}
+
+#input_uploadFile:focus {
+  border-color: inherit;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}

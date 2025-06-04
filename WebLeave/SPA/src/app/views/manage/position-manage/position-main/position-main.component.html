@@ -1,0 +1,92 @@
+<div class="animated fadeIn">
+    <div class="box-header with-border">
+        <h4 class="box-title">{{ 'Manage.PositionFunction.Position' | translate}}</h4>
+        <button type="button" class="btn btn-sm btn-primary float-right" [routerLink]="['/manage']"
+            routerLinkActive="router-link-active"><i class="{{iconButton.BACK}}"></i>
+            {{ 'System.Action.Back' | translate}}</button>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-success mb-2 me-1" (click)="addPosition()"><i
+                        class="{{iconButton.ADD}}"></i>
+                    {{ 'System.Action.AddNew' | translate}}</button>
+                <button type="button" class="btn btn-success mb-2" (click)="exportExcel()"><i
+                        class="{{iconButton.EXCEL}}"></i>
+                    {{ 'System.Action.ExportExcel' | translate}}</button>
+            </div>
+            <div class="col-md-12 table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">{{ 'Manage.PositionFunction.PositionName' | translate}}</th>
+                            <th scope="col">{{ 'Manage.PositionFunction.PositionSym' | translate}}</th>
+                            <th scope="col">{{ 'Manage.PositionFunction.Actions' | translate}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of listPositionManage">
+                            <td>{{item.positionName}}</td>
+                            <td>{{item.positionSym}}</td>
+                            <td style="min-width: 250px;">
+                                <button class="btn btn-primary btn-sm me-2" (click)="openModal(template, item)">
+                                    <i class="{{iconButton.VIEW}}" aria-hidden="true"></i>
+                                    {{'System.Action.View' | translate}}
+                                </button>
+                                <!-- <i class="fa-1x fa-solid fa-eye" (click)="openModal(template, item)"
+                                                style="margin-left: 15px;color: #246bb2; cursor: pointer;"></i> -->
+                                <button class="btn btn-warning btn-sm" (click)="editPosition(item, 'edit')">
+                                    <i class="{{iconButton.EDIT}}" aria-hidden="true"></i>
+                                    {{'System.Action.Edit' | translate}}
+                                </button>
+                                <!-- <i class="fa-1x fa-solid fa-pencil" (click)="editPosition(item, 'edit')"
+                                                style="color: #FFC107; cursor: pointer;"></i> -->
+                                <button class="btn btn-danger btn-sm ms-2" (click)="removePosition(item.positionID)">
+                                    <i class="{{iconButton.DELETE}}" aria-hidden="true"></i>
+                                    {{'System.Action.Delete' | translate}}
+                                </button>
+                                <!-- <i class="fa-1x fa-solid fa-trash-can"
+                                                (click)="removePosition(item.positionID)"
+                                                style="margin-left: 15px;color: #246bb2; cursor: pointer;"></i> -->
+                            </td>
+                        </tr>
+                        <tr *ngIf="listPositionManage.length == 0">
+                            <td colspan="100%" class="table-warning text-center fw-bold">{{
+                                'Common.NoData'
+                                | translate}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="d-flex align-items-baseline" *ngIf="pagination.totalPage > 1">
+                <pagination [boundaryLinks]="true" [totalItems]="pagination.totalCount"
+                    [itemsPerPage]="pagination.pageSize" previousText="&lsaquo;" [(ngModel)]="pagination.pageNumber"
+                    (pageChanged)="pageChanged($event)" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"
+                    [maxSize]="5">
+                </pagination>
+                <div class="ms-2">Page - {{pagination.pageNumber}} /
+                    {{pagination.totalPage}}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ---------------------------------- Modal Detail Position--------------------------------------------- -->
+<ng-template #template>
+    <div class="modal-header modal-header1">
+        <h4 class="modal-title pull-left">{{ 'Manage.PositionFunction.DetailsPosition' | translate}}</h4>
+        <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+            <span aria-hidden="true" class="visually-hidden">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <label class="col-md-4" for="PositionName">
+                <strong class="float-right">{{ 'Manage.PositionFunction.PositionName' | translate}}: </strong>
+            </label>
+            <div class="col-md-8">
+                <p>{{detailPositionManage.positionName}}</p>
+            </div>
+        </div>
+    </div>
+</ng-template>

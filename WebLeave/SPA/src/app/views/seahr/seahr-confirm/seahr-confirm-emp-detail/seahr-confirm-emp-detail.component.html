@@ -1,0 +1,67 @@
+<div class="modal-header">
+  <h4 id="dialog-static-name" class="modal-title pull-left">
+    <i class="fa-solid fa-user me-1"></i>
+    <strong>{{'SeaHr.SeaHrSeaConfirm.LeavePersonal' | translate}} </strong>
+  </h4>
+  <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true" class="visually-hidden">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row mb-3">
+    <div class="col-4">
+      <strong>{{'SeaHr.SeaHrSeaConfirm.EmpName' | translate}}: </strong>
+      <span>{{leaveItem.empName}}</span>
+    </div>
+    <div class="col-4">
+      <strong>{{'SeaHr.SeaHrSeaConfirm.EmpNumber' | translate}}: </strong>
+      <span>{{leaveItem.empNumber}}</span>
+    </div>
+    <div class="col-4">
+      <strong>{{'SeaHr.SeaHrSeaConfirm.Part' | translate}}: </strong>
+      <span>{{leaveItem.partCode}} - {{leaveItem['partName_' + lang.replace('-TW', '')]}}</span>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col-4">
+      <strong>{{'SeaHr.SeaHrSeaConfirm.DateIn' | translate}}: </strong>
+      <span>{{leaveItem.dateIn | date:'dd/MM/yyyy'}}</span>
+    </div>
+    <div class="col-4">
+      <strong>{{'SeaHr.SeaHrSeaConfirm.AnnualLeave' | translate}}: </strong>
+      <span>{{empDetail.historyEmp?.totalDay}}</span>
+    </div>
+    <div class="col-4">
+      <strong>{{'SeaHr.SeaHrSeaConfirm.UsedAnnualLeave' | translate}}: </strong>
+      <span>{{empDetail.historyEmp?.countTotal}}</span>
+    </div>
+  </div>
+  <div class="row mb-5">
+    <div class="col-4">
+      <strong>{{'SeaHr.SeaHrSeaConfirm.TotalUsedAnnualLeave' | translate}}: </strong>
+      <span>{{empDetail.historyEmp?.countLeave}}</span>
+    </div>
+  </div>
+  <h5>{{'SeaHr.SeaHrSeaConfirm.TopLeave' | translate}}</h5>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <tbody>
+        <ng-container *ngFor="let item of empDetail.leaveData">
+          <tr>
+            <td>{{item['cateName_' + lang.replace('-TW', '')]}}</td>
+            <td>{{item.timeLine}}</td>
+            <td>{{item.leaveDayByString}}</td>
+            <td class="fw-bold">{{'Common.Status' + item.approved | translate}}</td>
+          </tr>
+          <tr *ngIf="!item.status_Line">
+            <td colspan="100%">
+              <ng-container *ngFor="let cmt of item.translatedComment?.split('-')">
+                <p class="mb-0"><strong>{{cmt}}</strong></p>
+              </ng-container>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+</div>

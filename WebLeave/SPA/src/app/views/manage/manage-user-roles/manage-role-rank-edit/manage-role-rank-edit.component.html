@@ -1,0 +1,39 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">{{ "Manage.UserManage.EditRole" | translate | uppercase}}</h4>
+  <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true" class="visually-hidden">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form class="was-validated" [formGroup]="editRoleRank" id="editRoleRank">
+    <div class="input-group mb-3 input-group-form">
+      <span class="input-group-text" id="basic-addon1">{{ "Manage.UserManage.Role" | translate }}</span>
+      <input type="text" class="form-control text-center" formControlName="roleName" aria-describedby="basic-addon1" [readonly]="true">
+    </div>
+    <div class="form-group mb-3 text-center">
+      <div class="btn-group btn-role " btnRadioGroup formControlName="roleRank">
+        <label btnRadio="1" class="btn btn-outline-primary mb-0">View</label>
+        <label btnRadio="2" class="btn btn-outline-primary mb-0">Apply</label>
+        <label btnRadio="3" class="btn btn-outline-primary mb-0">Approve</label>
+        <label btnRadio="6" class="btn btn-outline-primary mb-0">View SEA/HR</label>
+        <label btnRadio="4" class="btn btn-outline-primary mb-0">SEA/HR</label>
+        <label btnRadio="5" class="btn btn-outline-primary mb-0">Full Access</label>
+      </div>
+      <div>
+        <input type="text" class=" form-control text-center fw-bold " [value]="getRoleGroup(editRoleRank?.value.roleRank)" [readonly]="true">
+      </div>
+    </div>
+    <div class="form-check mb-3 ps-2">
+      <input type="checkbox" class="form-check-input" id="checkInherit" formControlName="isInherit">
+      <label class="form-check-label" for="checkInherit">{{ "Manage.UserManage.InheritOldRole" | translate }} ?</label>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-danger" (click)="resetForm()">
+    <i class="{{iconButton.RESET}}"></i>  {{ "System.Action.Reset" | translate }}
+  </button>
+  <button type="button" class="btn btn-success" form="editRoleRank" (click)="updateRoleRank()">
+    <i class="{{iconButton.SAVE}}"></i>  {{ "System.Action.Save" | translate }}
+  </button>
+</div>

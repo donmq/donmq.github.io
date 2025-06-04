@@ -1,0 +1,313 @@
+<div class="animated fadeIn">
+  <div class="box-header with-border">
+    <div class="row">
+      <div class="col-lg-6 col-xs-6 col-sm-6">
+        <h4 class="box-title">{{ 'Report.ReportShow_ViewData.ViewReport' | translate | titlecase}}</h4>
+      </div>
+      <div class="col-lg-6 col-xs-6 col-sm-6">
+        <button type="button" class="btn btn-primary btn-sm float-end" (click)="onBack()">
+          <i class="{{iconButton.BACK}}"></i>
+          {{ 'System.Action.Back' | translate}}
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <div>
+        <h5 id="title">
+          {{ title[param.lang == "zh-TW" ? "zh_TW" : param.lang] }}
+        </h5>
+        <hr class="solid" />
+        <div class="row">
+          <div class="col-12 col-md-6 col-xl-3 mb-2">
+            <div class="input-group">
+              <input placeholder="{{'Report.ReportShow_ViewData.FromDate' | translate }}..." class="form-control"
+                type="text" name="fromdate" bsDatepicker
+                onkeypress="return false;" onpaste="return false;" [bsConfig]="datePickerConfig"
+                [(ngModel)]="bsValueStartDay" />
+              <div lass="input-group-addon">
+                <i class="fa-solid fa-calendar-days" id="icon"></i>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-xl-3 mb-2">
+            <div class="input-group">
+              <input placeholder="{{'Report.ReportShow_ViewData.ToDate' | translate }}..." class="form-control"
+                type="text" name="todate" bsDatepicker onkeypress="return false;"
+                onpaste="return false;" [bsConfig]="datePickerConfig" [(ngModel)]="bsValueEndDay" />
+              <div lass="input-group-addon">
+                <i class="fa-solid fa-calendar-days" id="icon"></i>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-xl-6 mb-2">
+            <button class="btn btn-primary col-auto text-white me-1" (click)="onSearch()">
+              <i class="{{ iconButton.SEARCH }} text-white"></i>
+              {{ "System.Action.Search" | translate }}
+            </button>
+            <button class="btn btn-success text-light col-auto me-1" (click)="onExportExcel()">
+              <i class="{{ iconButton.EXCEL }} text-light"></i>
+              {{ "System.Action.ExportExcel" | translate }}
+            </button>
+          </div>
+        </div>
+        <div class="mt-2" style="margin-bottom: 10px">
+          <button class="btn btn-primary" [style]="{
+              'background-color': isToggleGridDetail == true ? '' : 'white',
+              color: isToggleGridDetail == true ? '' : 'black'
+            }" (click)="onToggleGrid()">
+            {{ "Report.ReportShow_ViewData.Grid" | translate }}
+          </button>
+          <button class="btn btn-primary" [style]="{
+              'background-color': isToggleGridDetail == false ? '' : 'white',
+              color: isToggleGridDetail == false ? '' : 'black',
+              'margin-left': '5px'
+            }" (click)="onToggleMonth()">
+            {{ "Report.ReportShow_ViewData.Month" | translate }}
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <!-- hiển thị dữ liệu theo tháng -->
+        <div class="col-md-12 table-responsive data-month" *ngIf="isToggleGridDetail == false">
+          <table class="table table-striped table-hover dataWeek">
+            <thead>
+              <tr>
+                <th class="tableHeader">
+                  {{ "Report.ReportShow_ViewData.Sunday" | translate }}
+                </th>
+                <th class="tableHeader">
+                  {{ "Report.ReportShow_ViewData.Monday" | translate }}
+                </th>
+                <th class="tableHeader">
+                  {{ "Report.ReportShow_ViewData.Tuesday" | translate }}
+                </th>
+                <th class="tableHeader">
+                  {{ "Report.ReportShow_ViewData.Wednesday" | translate }}
+                </th>
+                <th class="tableHeader">
+                  {{ "Report.ReportShow_ViewData.Thursday" | translate }}
+                </th>
+                <th class="tableHeader">
+                  {{ "Report.ReportShow_ViewData.Friday" | translate }}
+                </th>
+                <th class="tableHeader">
+                  {{ "Report.ReportShow_ViewData.Saturday" | translate }}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let items of listParents; let i = index">
+                <!-- Chủ nhật -->
+                <td class="tableHeader">
+                  <ng-container *ngFor="let item of items">
+                    <div *ngIf="item.dayOfWeek == 0">
+                      <span class="txtLeaveDate">{{
+                        item.leaveDate | date: "dd/MM/yyyy"
+                        }}</span>
+                    </div>
+                  </ng-container>
+                </td>
+                <!-- Thứ 2 -->
+                <td class="tableHeader">
+                  <ng-container *ngFor="let item of items">
+                    <div *ngIf="item.dayOfWeek == 1">
+                      <span class="txtLeaveDate">{{
+                        item.leaveDate | date: "dd/MM/yyyy"
+                        }}</span>
+                      <div>
+                        <button style="margin-right: 2px" class="btn btn-sm btn-success"
+                          (click)="onShowDateApplied(item)">
+                          {{ item.applied }}
+                        </button>
+                        <button style="margin-left: 2px" class="btn btn-sm btn-primary"
+                          (click)="onShowDateApproved(item)">
+                          {{ item.approved }}
+                        </button>
+                      </div>
+                    </div>
+                  </ng-container>
+                </td>
+                <!-- Thứ 3 -->
+                <td class="tableHeader">
+                  <ng-container *ngFor="let item of items">
+                    <div *ngIf="item.dayOfWeek == 2">
+                      <span class="txtLeaveDate">{{
+                        item.leaveDate | date: "dd/MM/yyyy"
+                        }}</span>
+                      <div>
+                        <button style="margin-right: 2px" class="btn btn-sm btn-success"
+                          (click)="onShowDateApplied(item)">
+                          {{ item.applied }}
+                        </button>
+                        <button style="margin-left: 2px" class="btn btn-sm btn-primary"
+                          (click)="onShowDateApproved(item)">
+                          {{ item.approved }}
+                        </button>
+                      </div>
+                    </div>
+                  </ng-container>
+                </td>
+                <!-- Thứ 4 -->
+                <td class="tableHeader">
+                  <ng-container *ngFor="let item of items">
+                    <div *ngIf="item.dayOfWeek == 3">
+                      <span class="txtLeaveDate">{{
+                        item.leaveDate | date: "dd/MM/yyyy"
+                        }}</span>
+                      <div>
+                        <button style="margin-right: 2px" class="btn btn-sm btn-success"
+                          (click)="onShowDateApplied(item)">
+                          {{ item.applied }}
+                        </button>
+                        <button style="margin-left: 2px" class="btn btn-sm btn-primary"
+                          (click)="onShowDateApproved(item)">
+                          {{ item.approved }}
+                        </button>
+                      </div>
+                    </div>
+                  </ng-container>
+                </td>
+                <!-- Thứ 5 -->
+                <td class="tableHeader">
+                  <ng-container *ngFor="let item of items">
+                    <div *ngIf="item.dayOfWeek == 4">
+                      <span class="txtLeaveDate">{{
+                        item.leaveDate | date: "dd/MM/yyyy"
+                        }}</span>
+                      <div>
+                        <button style="margin-right: 2px" class="btn btn-sm btn-success"
+                          (click)="onShowDateApplied(item)">
+                          {{ item.applied }}
+                        </button>
+                        <button style="margin-left: 2px" class="btn btn-sm btn-primary"
+                          (click)="onShowDateApproved(item)">
+                          {{ item.approved }}
+                        </button>
+                      </div>
+                    </div>
+                  </ng-container>
+                </td>
+                <!-- THứ 6 -->
+                <td class="tableHeader">
+                  <ng-container *ngFor="let item of items">
+                    <div *ngIf="item.dayOfWeek == 5">
+                      <span class="txtLeaveDate">{{
+                        item.leaveDate | date: "dd/MM/yyyy"
+                        }}</span>
+                      <div>
+                        <button style="margin-right: 2px" class="btn btn-sm btn-success"
+                          (click)="onShowDateApplied(item)">
+                          {{ item.applied }}
+                        </button>
+                        <button style="margin-left: 2px" class="btn btn-sm btn-primary"
+                          (click)="onShowDateApproved(item)">
+                          {{ item.approved }}
+                        </button>
+                      </div>
+                    </div>
+                  </ng-container>
+                </td>
+                <!-- THứ 7 -->
+                <td class="tableHeader">
+                  <ng-container *ngFor="let item of items">
+                    <div *ngIf="item.dayOfWeek == 6">
+                      <span class="txtLeaveDate">{{
+                        item.leaveDate | date: "dd/MM/yyyy"
+                        }}</span>
+                      <div>
+                        <button style="margin-right: 2px" class="btn btn-sm btn-success"
+                          (click)="onShowDateApplied(item)">
+                          {{ item.applied }}
+                        </button>
+                        <button style="margin-left: 2px" class="btn btn-sm btn-primary"
+                          (click)="onShowDateApproved(item)">
+                          {{ item.approved }}
+                        </button>
+                      </div>
+                    </div>
+                  </ng-container>
+                </td>
+              </tr>
+              <tr *ngIf="listParents?.length === 0">
+                <td colspan="100%" class="table-warning text-center fw-bold">{{ "Common.NoData" | translate }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="text-center">
+            <span class="p-2 bg-success text-white rounded">{{
+              "Report.ReportShow_ViewData.Applied" | translate
+              }}</span>
+            <span class="p-2 bg-primary text-white rounded ms-2">{{
+              "Report.ReportShow_ViewData.Approved" | translate
+              }}</span>
+          </div>
+        </div>
+        <!-- hiển thị dữ liệu dạng lưới -->
+        <div class="col-md-12 table-responsive" *ngIf="isToggleGridDetail">
+          <table class="table table-hover table-striped dataGrid">
+            <thead>
+              <tr>
+                <th class="tableHeader">
+                  {{ "Report.ReportShow_ViewData.Date" | translate }}
+                </th>
+                <th class="tableHeader">
+                  {{ "Report.ReportShow_ViewData.SEAMP" | translate }}
+                </th>
+                <th class="tableHeader">
+                  {{ "Report.ReportShow_ViewData.LeaveApplied" | translate }}
+                </th>
+                <th class="tableHeader">
+                  {{ "Report.ReportShow_ViewData.LeaveApproved" | translate }}
+                </th>
+                <th class="tableHeader">
+                  {{ "Report.ReportShow_ViewData.Actual" | translate }}
+                </th>
+                <th class="tableHeader">
+                  {{ "Report.ReportShow_ViewData.MPPoolOut" | translate }}
+                </th>
+                <th class="tableHeader">
+                  {{ "Report.ReportShow_ViewData.MPPoolIn" | translate }}
+                </th>
+                <th class="tableHeader">
+                  {{ "Report.ReportShow_ViewData.Total" | translate }}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="cursor: pointer" *ngFor="let item of reportIndexViewModels; let i = index"
+                (click)="onReportGridDetail(item)">
+                <ng-container *ngIf="item.dayOfWeek !== 0; else sunDay">
+                  <td class="tableHeader">
+                    {{ item.leaveDate | date: "dd/MM/yyyy" }}
+                  </td>
+                  <td class="tableHeader">{{ item.seamp }}</td>
+                  <td class="tableHeader">{{ item.applied }}</td>
+                  <td class="tableHeader">{{ item.approved }}</td>
+                  <td class="tableHeader">{{ item.actual }}</td>
+                  <td class="tableHeader">{{ item.mpPoolOut }}</td>
+                  <td class="tableHeader">{{ item.mpPoolIn }}</td>
+                  <td class="tableHeader">{{ item.total }}</td>
+                </ng-container>
+                <ng-template #sunDay>
+                  <td colspan="100%" style="
+                      color: black;
+                      text-align: center;
+                      font-weight: 500;
+                      background-color: #ffc107;
+                    ">
+                    {{ item.leaveDate | date: "dd/MM/yyyy" }} - {{'Report.ReportShow_ViewData.Sunday' | translate }}
+                  </td>
+                </ng-template>
+              </tr>
+              <tr *ngIf="reportIndexViewModels?.length === 0">
+                <td colspan="100%" class="table-warning fw-bold text-center">{{ "Common.NoData" | translate }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

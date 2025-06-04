@@ -1,0 +1,72 @@
+<div class="animated fadeIn">
+
+  <div class="box-header with-border">
+    <div class="row">
+      <div class="col-lg-6 col-xs-6 col-sm-6">
+        <h4 class="box-title">{{'ManageArea_Building.CreateArea' | translate }}</h4>
+      </div>
+      <div class="col-lg-6 col-xs-6 col-sm-6">
+        <button type="button" class="btn btn-sm btn-primary float-end" [routerLink]="['/manage/area']" routerLinkActive="router-link-active" ><i class="{{iconButton.BACK}}"></i> {{'System.Action.Back' | translate}}</button>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <div class="box box-primary">
+      <div class="row">
+        <div class="col-lg-12 col-md-12">
+          <div class="empupload box box-primary">
+            <div class="box-header">
+              <div class="row">
+                <div class="col-sm-6">
+                  <form #AddAreaForm="ngForm">
+                    <div class="form">
+                      <input type="text" name="AreaNameVN" [(ngModel)]="area.areaNameVi" class="form-control form__input"
+                        autocomplete="off" placeholder=" " required>
+                      <label for="AreaNameVN" class="form__label">{{'ManageArea_Building.AreaName' | translate }} (VN)</label>
+                    </div>
+                    <div class="form">
+                      <input type="text" name="AreaNameEN" [(ngModel)]="area.areaNameEn" class="form-control form__input"
+                        autocomplete="off" placeholder=" " required>
+                      <label for="AreaNameEN" class="form__label">{{'ManageArea_Building.AreaName' | translate }} (EN)</label>
+                    </div>
+                    <div class="form">
+                      <input type="text" [(ngModel)]="area.areaNameZh" name="AreaNameTW" class="form-control form__input"
+                        autocomplete="off" placeholder=" " required>
+                      <label for="AreaNameTW" class="form__label">{{'ManageArea_Building.AreaName' | translate }} (TW)</label>
+                    </div>
+                    <div class="form">
+                      <div class="mb-3">
+                        <select class="form-select" name="company" [(ngModel)]="area.companyID" required
+                          aria-label="select example">
+                          <option [value]="item.companyID" *ngFor="let item of companys">{{item.companyName}}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form">
+                      <input type="number" [(ngModel)]="area.number" name="number" id="Number" class="form-control form__input"
+                        autocomplete="off" placeholder=" ">
+                      <label for="Number" class="form__label">{{'ManageArea_Building.Number' | translate }}</label>
+                    </div>
+                    <div class="form">
+                      <div class="mb-3">
+                        <select class="form-control" [(ngModel)]="area.visible" name="visible">
+                          <option [ngValue]="null">Not set</option>
+                          <option [ngValue]="true">True</option>
+                          <option [ngValue]="false">False</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-check-button">
+                        <button type="button" class="btn btn-success" (click)="saveAdd()" [disabled]="!AddAreaForm.valid"><i class="{{iconButton.SAVE}}"></i> {{'System.Action.Save' | translate}}</button>
+                        <button type="button" class="btn btn-danger mr-2" (click)="clear()"><i class="{{iconButton.RESET}}"></i> {{'System.Action.Reset' | translate}}</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

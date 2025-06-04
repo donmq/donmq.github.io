@@ -1,0 +1,63 @@
+<div class="animated fadeIn">
+    <div class="box-header with-border">
+        <div class="row">
+            <div class="col-lg-6 col-xs-6 col-sm-6">
+                <h4 class="box-title">{{'Manage.Category'|translate}}</h4>
+            </div>
+            <div class="col-lg-6 col-xs-6 col-sm-6">
+                <button class="btn btn-primary btn-sm float-end" (click)="back()"><i class="{{iconButton.BACK}}"></i>
+                    {{'System.Action.Back'|translate}}</button>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <button class="btn btn-success mb-2" (click)="openAddModal()"><i class="{{iconButton.ADD}}"></i>
+                {{'System.Action.AddNew' | translate }}</button>
+            <div class="row">
+                <div class="col-md-12 mt-1 table-responsive">
+                    <!-- Responsive table -->
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>{{'Manage.CategoryManage.CateName' | translate}}</th>
+                                <th>{{'Manage.CategoryManage.CateSym' | translate}}</th>
+                                <th>{{'Manage.CategoryManage.Visible' | translate}}</th>
+                                <th colspan="2" class="w-1rem">{{'System.Action.Text' | translate}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of category">
+                                <td>{{item.cateName}}</td>
+                                <td>{{item.cateSym}}</td>
+                                <td>
+                                    <input class="form-check-input" type="checkbox" id="{{item.cateID}}"
+                                        [checked]="item.visible" disabled>
+                                </td>
+                                <td class="w-1rem">
+                                    <button class="btn btn-primary btn-sm" type="button" title="Detail"
+                                        (click)="openDetailModal(item)"><i class="{{iconButton.VIEW}}"></i>
+                                        {{'System.Action.View'|translate}}</button>
+                                </td>
+                                <td class="w-1rem">
+                                    <button class="btn btn-warning btn-sm" type="button" title="Edit"
+                                        (click)="openEditModal(item)"><i class="{{iconButton.EDIT}}"></i>
+                                        {{'System.Action.Edit'|translate}}</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="d-flex" *ngIf="pagination.totalPage > 1">
+                        <pagination [boundaryLinks]="true"
+                            [totalItems]="pagination.totalCount" [itemsPerPage]="pagination.pageSize"
+                            (pageChanged)="pageChanged($event)" [(ngModel)]="pagination.pageNumber"
+                            previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"
+                            [maxSize]=5>
+                        </pagination>
+                        <span class="cs-page ml-2"> Page - {{pagination.pageNumber}} / {{pagination.totalPage}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

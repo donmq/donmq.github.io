@@ -1,0 +1,101 @@
+<div class="animated fadeIn">
+  <div class="box-header with-border">
+
+    <h4 class="box-title">{{'SeaHr.ManageCommentArchive' | translate}}</h4>
+    <button type="button" class="btn btn-sm btn-primary float-end" [routerLink]="['/seahr']">
+      <i [class]="iconButton.BACK"></i>
+      {{'System.Action.Back' | translate}}
+    </button>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-12">
+          <button (click)="openModalAdd(addtemplate)" type="button" class="btn btn-success mb-2">
+            <i [class]="iconButton.ADD"></i> {{ 'System.Action.AddNew' | translate}}
+          </button>
+        </div>
+        <div class="col-md-12 mt-1 table-responsive">
+          <table class="table table-striped">
+            <thead class="text-start text-capitalize">
+              <tr>
+                <th>{{"SeaHr.ManageCommentArchiveAdd.NumberCode" | translate }}</th>
+                <th>{{"SeaHr.ManageCommentArchiveAdd.Content" | translate }}</th>
+                <th>{{"SeaHr.ManageCommentArchiveAdd.CreateBy" | translate }}</th>
+                <th>{{"System.Action.Text" | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of commentData">
+                <td>{{item.value}}</td>
+                <td>
+                  <span [tooltip]="item.comment"> {{item.comment}}</span>
+                </td>
+                <td>
+                    {{item.createName}}, {{"SeaHr.ManageCommentArchiveAdd.Text" | translate }} {{item.createTime | date:'dd/MM/yyyy hh:mm:ss'}} {{"SeaHr.ManageCommentArchiveAdd.Am" | translate }}
+                </td>
+                <td>
+                  <button (click)="deleteItem(item.commentArchiveID)" type="button" class="btn btn-sm btn-danger">
+                    <i [class]="iconButton.DELETE"></i> {{'System.Action.Delete' | translate}}
+                  </button>
+                </td>
+              </tr>
+              <tr *ngIf="commentData.length === 0">
+                <td colspan="100%" class="table-warning text-center fw-bold">
+                  {{commonConstants.COMMON_NODATA | translate}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="d-flex" *ngIf="pagination.totalPage > 1">
+            <pagination [boundaryLinks]="true" [(ngModel)]="pagination.pageNumber" [totalItems]="pagination.totalCount" [(ngModel)]="pagination.pageNumber" [itemsPerPage]="pagination.pageSize" (pageChanged)="pageChanged($event)" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" [maxSize]=5>
+            </pagination>
+            <span class="cs-page ms-2"> Page - {{pagination.pageNumber}} / {{pagination.totalPage}}</span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ---------------------------------- Modal Add --------------------------------------------- -->
+<ng-template #addtemplate>
+  <div class="modal-header modal-header-add">
+
+    <h4 class="modal-title pull-left">{{"SeaHr.ManageCommentArchiveAdd.AddNew" | translate }}</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+
+  </div>
+
+  <div class="modal-body">
+    <div class="row">
+      <div class="container">
+        <div class="row p-55px">
+          <form class="was-validated" #EditForm="ngForm">
+            <div class="form">
+
+              <input type="text" [(ngModel)]="commentArchiveDataAdd.value" name="value" class="form__input " autocomplete="off" placeholder=" " required>
+              <label for="numberID" class="form__label">{{"SeaHr.ManageCommentArchiveAdd.NumberCodeAdd" | translate }}</label>
+
+            </div>
+            <div class="form">
+              <input type="text" [(ngModel)]="commentArchiveDataAdd.comment" name="comment" class="form__input " autocomplete="off" placeholder=" " required>
+              <label for="numberID" class="form__label"> {{"SeaHr.ManageCommentArchiveAdd.Content" | translate }}</label>
+
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class=" btn  btn-sm btn-danger " (click)="refresh()"><i [class]='iconButton.RESET'></i> {{'System.Action.Reset' | translate}}</button>
+        <button class=" btn  btn-sm btn-success " [disabled]="!commentArchiveDataAdd.value || !commentArchiveDataAdd.comment  " (click)="add()">
+          <i [class]="iconButton.SAVE"></i> {{'System.Action.Save' | translate}}</button>
+
+      </div>
+
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,105 @@
+<div class="animated fadeIn">
+  <div class="box-header with-border">
+    <div class="row">
+      <div class="col-lg-6 col-xs-6 col-sm-6">
+        <h4 class="box-title">{{'Manage.UserManage.DeleteExpert' | translate}}</h4>
+      </div>
+      <div class="col-lg-6 col-xs-6 col-sm-6 back">
+        <button type="button" class="btn btn-sm btn-primary float-end " [routerLink]="['/manage/user']">
+          <i class="fa-solid fa-angle-left"></i> {{'System.Action.Back' | translate}}
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <div class="box box-primary">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="empupload">
+            <div class="uptitle">
+              {{ "Manage.UserManage.UploadExcel" | translate | uppercase}}
+            </div>
+            <div class="upnote">
+             <b>{{'Manage.UserManage.Note' | translate}}</b>  {{'Manage.UserManage.NoteDelete' | translate}}
+                <a style="color:blue; cursor: pointer;" href="/assets/template/SampleDeleteExperts.xlsx" download="SampleDeleteExperts.xlsx" target="_blank">{{'Manage.UserManage.AtHere' | translate}}</a>. <br>
+                {{'Manage.UserManage.NoteDelete1' | translate}}<br>
+              <i class="fa fa-warning"></i>   {{'Manage.UserManage.NoteDelete2' | translate}}
+            </div>
+            <div class="col-xl-5 col-lg-8 col-md-10 col-sm-12">
+            <div class="input-group mb-3 px-2 py-2 rounded-pill box-import shadow-sm">
+              <input id="input_uploadFile" type="file" class="form-control border-0" accept="{{accept}}"
+                (change)="onSelectFile($event)">
+              <div class="input-group-append">
+                <label for="upload" class="btn btn-light m-0 rounded-pill px-4" (click)="uploadExcel()"> <i
+                    class="fa fa-cloud-upload mr-2 text-muted" style="margin-right: 5px;"></i><small
+                    class="text-uppercase fw-bold text-muted">{{'Manage.UserManage.Upload' |
+                    translate}}</small></label>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="box box-primary" *ngIf="data.length > 0">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="empupload">
+            <div class="uptitle">
+              {{'Manage.UserManage.ListEmp' | translate | uppercase}}
+            </div>
+            <div>
+              <div>
+                <div class="d-flex flex-row justify-content-center">
+                  <div class="p-2">
+                    <button type="button" class="btn btn-text btn-sm btn-primary badge-button" disabled>
+                      {{'Manage.UserManage.NumberUpload' | translate}} <span class="badge badge-text badge-light">{{data.length}}</span>
+                    </button>
+                  </div>
+                  <div class="p-2">
+                    <button type="button" class="btn btn-text btn-sm btn-success badge-button" disabled>
+                      {{'Manage.UserManage.DeleteSuccess' | translate}} <span class="badge badge-text badge-light">{{success_delete}}</span>
+                    </button>
+                  </div>
+                  <div class="p-2">
+                    <button type="button" class="btn btn-text btn-sm btn-danger badge-button" disabled>
+                      {{'Manage.UserManage.DeleteFailed' | translate}} <span class="badge badge-text badge-light">{{failed_delete}}</span>
+                    </button>
+                  </div>
+                  <div class="p-2">
+                    <button type="button" class="btn btn-text btn-sm btn-secondary badge-button" disabled>
+                      {{'Manage.UserManage.NotFound' | translate}} <span class="badge badge-text badge-light">{{not_found}}</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <table class="table table-striped text-center">
+                <thead class="thead-success">
+                  <tr>
+                    <th scope="col">{{'Manage.UserManage.Stt' | translate}}</th>
+                    <th scope="col">{{'Manage.UserManage.UserName' | translate}}</th>
+                    <th scope="col">{{'Manage.UserManage.FullName' | translate}}</th>
+                    <th scope="col">{{'Manage.UserManage.Status' | translate}}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of data; index as i">
+                    <td>{{i + 1}}</td>
+                    <td>{{item.userName}}</td>
+                    <td class="text-start">{{item.fullName}}</td>
+                    <td>
+                      <span [ngClass]="item.status == -1 ? 'badge bg-secondary badge-status' :
+                      item.status == 0 ? 'badge bg-danger badge-status' : 'badge bg-success badge-status'">
+                        {{getNameStatus(item.status)}}
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

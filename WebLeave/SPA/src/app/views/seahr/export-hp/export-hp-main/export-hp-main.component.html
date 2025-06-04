@@ -1,0 +1,98 @@
+<div class="animated fadeIn">
+  <div class="box-header with-border">
+    <h4 class="box-title">{{'ExportHP.Title' | translate}}</h4>
+    <button type="button" class="btn btn-sm btn-primary float-right" (click)="back()">
+      <i class="{{iconButton.BACK}}"></i> {{'System.Action.Back' | translate}}
+    </button>
+  </div>
+  <div class="shadow p-3 bg-body rounded-3">
+    <div class="row">
+      <div class="card-body">
+        <div class="row border-shadow pt-3 pb-3">
+          <div class="col-12 col-md-6 col-xl-2 mb-3">
+            <ng-select name="area" [(ngModel)]="area" [clearable]="area != 0" (clear)="area = 0">
+              <ng-option [value]="0">{{'ExportHP.All_Area' | translate}}</ng-option>
+              <ng-option *ngFor="let area of areas" [value]="area.areaID">{{area.areaName}}</ng-option>
+            </ng-select>
+          </div>
+          <div class="col-12 col-md-6 col-xl-3 mb-3">
+            <ng-select name="department" [(ngModel)]="department" [clearable]="department != 0" (clear)="department = 0">
+              <ng-option [value]="0">{{'ExportHP.All_Department' | translate}}</ng-option>
+              <ng-option *ngFor="let department of departments" [value]="department.deptID">{{department.deptName}}</ng-option>
+            </ng-select>
+          </div>
+          <div class="col-12 col-md-6 col-xl-2 mb-3">
+            <div class="input-group">
+              <input type="text" name="dateFrom" autocomplete="off" placeholder="{{'ExportHP.FromDate' | translate}}" [(ngModel)]="startDate"
+              bsDatepicker  onkeypress="return false;" [dateCustomClasses]="dateCustomStart" onpaste="return false;"
+              [bsConfig]="bsConfig"  class="form-control" (ngModelChange)="changeSelect()" [maxDate]="endDate">
+              <div lass="input-group-addon">
+                <i class="fa-solid fa-calendar-days" id="icon"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-xl-2 mb-3">
+            <div class="input-group">
+              <input type="text" name="dateTo" autocomplete="off" placeholder="{{'ExportHP.ToDate' | translate}}" bsDatepicker onkeypress="return false;"
+              onpaste="return false;" [bsConfig]="bsConfig" [(ngModel)]="endDate"  [dateCustomClasses]="dateCustomEnd"  class="form-control" [minDate]="startDate" (ngModelChange)="changeSelect()">
+              <div lass="input-group-addon">
+                <i class="fa-solid fa-calendar-days" id="icon"></i>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-xl-3 mb-3">
+            <ng-select [items]="leaves" bindLabel="value" bindValue="key" [(ngModel)]="leaveID" [clearable]="leaveID != 0" (clear)="leaveID = 0">
+            </ng-select>
+          </div>
+          <div class="col-12">
+            <button type="button" class="btn btn-primary me-2" (click)="search()">
+              <i [class]="iconButton.VIEW"></i> {{'ExportHP.View' | translate}}
+            </button>
+            <button type="button" class="btn btn-success me-2" (click)="exportExcel('csv')">
+              <i [class]="iconButton.EXCEL"></i> CSV
+            </button>
+            <button type="button" class="btn btn-success " (click)="exportExcel('xlsx')">
+              <i [class]="iconButton.EXCEL"></i> Excel
+            </button>
+          </div>
+        </div>
+        <div class="row border-shadow">
+          <span><strong>{{'ExportHP.Total' | translate}}: {{countData}}</strong></span>
+          <div class="col-md-12">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">{{'ExportHP.symd' | translate}}</th>
+                  <th scope="col">{{'ExportHP.eymd' | translate}}</th>
+                  <th scope="col">{{'ExportHP.empno' | translate}}</th>
+                  <th scope="col">{{'ExportHP.code' | translate}}</th>
+                  <th scope="col">{{'ExportHP.shm' | translate}}</th>
+                  <th scope="col">{{'ExportHP.ehm' | translate}}</th>
+                  <th scope="col">{{'ExportHP.dat' | translate}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of dataHPShow">
+                  <td>{{item.symd | date : "MM/dd/yyyy" }}</td>
+                  <td>{{item.eymd | date : "MM/dd/yyyy" }}</td>
+                  <td>{{item.empno}}</td>
+                  <td>{{item.code}}</td>
+                  <td>{{item.shm}}</td>
+                  <td>{{item.ehm}}</td>
+                  <td>{{item.dat}}</td>
+                </tr>
+                <tr *ngIf="dataHPShow.length === 0">
+                  <td colspan="100%" class="table-warning text-center fw-bold">
+                    {{'Common.NoData'|translate}}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <pagination *ngIf="pagination.totalPage > 0" [boundaryLinks]="true" [totalItems]="pagination.totalCount" [itemsPerPage]="pagination.pageSize" (pageChanged)="pageChanged($event)" [(ngModel)]="pagination.pageNumber" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" [maxSize]=5>
+            </pagination>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

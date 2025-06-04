@@ -1,0 +1,40 @@
+<div class="box-header with-border">
+  <div class="row">
+    <div class="col-lg-6 col-xs-6 col-sm-6">
+      <h4 class="box-title">{{ 'SeaHr.SearHrAddEmployee.Delete' | translate}}</h4>
+    </div>
+    <div class="col-lg-6 col-xs-6 col-sm-6">
+      <button type="button" class="btn btn-sm btn-primary float-right" (click)="back()">
+        <i class="{{iconButton.BACK}}"></i> {{'System.Action.Back'| translate}}
+      </button>
+    </div>
+  </div>
+</div>
+<div class="card card-child">
+  <div class="card-header">
+    <div class="row d-flex justify-content-center">
+      <div class="col-xl-6 col-lg-8 col-md-12 mt-2">
+        <div class="empupload">
+          <div class="uptitle">
+            {{ 'SeaHr.SearHrAddEmployee.UploadExcel' | translate}}
+          </div>
+          <div class="upnote">
+            {{ 'SeaHr.SearHrAddEmployee.Note' | translate}}
+            <a (click)="dowloadFile()" class="Dowhere">{{ 'SeaHr.SearHrAddEmployee.Here' | translate}}.</a> <br>
+            <i class="fa fa-warning"></i> {{ 'SeaHr.SearHrAddEmployee.Warning' | translate}}
+          </div>
+          <div class="input-group px-2 py-2 rounded-pill bg-white shadow-sm">
+            <input id="input_uploadFile" type="file" class="form-control border-0" accept="{{accept}}"
+              (change)="onSelectFile($event)">
+            <div class="input-group-append">
+              <label for="upload" class="btn btn-light m-0 rounded-pill px-4" (click)="uploadFile()"> <i
+                  class="fa fa-cloud-upload mr-2 text-muted" style="margin-right: 5px;"></i><small
+                  class="text-uppercase fw-bold text-muted">{{'SeaHr.SearHrAddEmployee.UploadFile' |
+                  translate}}</small></label> 
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

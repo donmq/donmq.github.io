@@ -1,0 +1,93 @@
+<div class="animated fadeIn">
+  <div class="box-header with-border">
+    <h4 class="box-title">{{viewDataConstants.VIEW_DATA | translate}}</h4>
+    <button type="button" class="btn btn-primary btn-sm float-right" (click)="btnBack()">
+      <i class="{{iconButton.BACK}}"></i> {{'System.Action.Back' | translate}}
+    </button>
+  </div>
+  <div class="card">
+    <div class="card-body">
+        <div class="row mb-3 mt-3">
+          <div class=" col-md-2">
+            <div class="input-group">
+              <!-- <span class="badge bg-warning text-dark mb-2">{{viewDataConstants.DATE_FORM | translate}}</span> -->
+              <input type="text" name="dateFrom" bsDatepicker onkeypress="return false;" onpaste="return false;" [bsConfig]="bsConfig" [(ngModel)]="dateFrom" [maxDate]="dateTo" class="form-control">
+              <div lass="input-group-addon">
+                <i class="fa-solid fa-calendar-days" id="icon"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-2">
+            <div class="input-group">
+              <!-- <span class="badge bg-warning text-dark mb-2">{{viewDataConstants.DATE_TO | translate}}</span> -->
+              <input type="text" name="dateTo" bsDatepicker onkeypress="return false;" onpaste="return false;" [bsConfig]="bsConfig" [(ngModel)]="dateTo" [minDate]="dateFrom" class="form-control">
+              <div lass="input-group-addon">
+                <i class="fa-solid fa-calendar-days" id="icon"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-5">
+            <button type="button" (click)="btnSearch()" class="btn btn-primary me-3"> <i [class]="iconButton.SEARCH"></i>
+              {{'System.Action.Search' | translate}}
+            </button>
+            <button type="button" (click)="btnExportExcel()" class="btn btn-success"> <i [class]="iconButton.EXCEL"></i>
+              {{'System.Action.ExportExcel' | translate}}</button>
+          </div>
+        </div>
+      <!-- ========== Table ========== -->
+      <div class="col-md-12 mt-1 table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>{{viewDataConstants.NO | translate}}</th>
+              <th>{{viewDataConstants.FULLNAME | translate}}</th>
+              <th>{{viewDataConstants.DEPARTMENT | translate}}</th>
+              <th>{{viewDataConstants.LEAVE_CATEGORY | translate}}</th>
+              <th>{{viewDataConstants.TIME_OF_LEAVE | translate}}</th>
+              <th>{{viewDataConstants.STATUS | translate}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of viewConfirmDaily; let i = index">
+              <td>{{(pagination.pageNumber - 1) * pagination.pageSize + i + 1}}</td>
+              <td>
+                <button class="btn btn-sm btn-primary darkcyan" type="button">{{item.empNumber}}</button>
+                - {{item.empName}}
+              </td>
+              <ng-container [ngSwitch]="lang">
+                <ng-container *ngSwitchCase="'vi'">
+                  <td>{{item.deptCode}}-{{item.partNameVN}}</td>
+                  <td>{{item.cateSym}} - {{item.cateNameVN}}</td>
+                </ng-container>
+                <ng-container *ngSwitchCase="'zh-TW'">
+                  <td>{{item.deptCode}}-{{item.partNameZH}}</td>
+                  <td>{{item.cateSym}} - {{item.cateNameZH}}</td>
+                </ng-container>
+                <ng-container *ngSwitchDefault>
+                  <td>{{item.deptCode}}-{{item.partNameEN}}</td>
+                  <td>{{item.cateSym}} - {{item.cateNameEN}}</td>
+                </ng-container>
+              </ng-container>
+
+              <td>{{item.timeStart}} {{item.dateStart}} - {{item.timeEnd}} {{item.dateEnd}}</td>
+              <td>
+                <a (click)="leaveDetail(item)"  pTooltip="{{viewDataConstants.TOOLTIP_STATUS_FINISH | translate}}" showDelay="50" tooltipPosition="left">{{viewDataConstants.STATUS_FINISH | translate}}</a>
+              </td>
+            </tr>
+            <tr *ngIf="viewConfirmDaily.length == 0">
+              <td colspan="100%" class="table-warning text-center fw-bold">
+                {{viewDataConstants.NO_DATA | translate}} </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="d-flex" *ngIf="pagination.totalPage > 1">
+        <pagination [boundaryLinks]="true" [totalItems]="pagination.totalCount" [itemsPerPage]="pagination.pageSize" (pageChanged)="pageChanged($event)" [(ngModel)]="pagination.pageNumber" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" [maxSize]=5>
+        </pagination>
+        <span class="cs-page ml-2"> Page - {{pagination.pageNumber}} / {{pagination.totalPage}}</span>
+      </div>
+    </div>
+  </div>
+</div>

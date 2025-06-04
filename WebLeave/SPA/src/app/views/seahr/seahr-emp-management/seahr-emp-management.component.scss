@@ -1,0 +1,37 @@
+.under-line {
+  text-decoration: underline;
+  text-align: center;
+}
+
+.flash-light {
+  // display: block;
+  // text-align: center;
+  color: #f1ebe5;
+  // text-shadow: 2px 4.36px 6.896px #c4b59d, 0 0px 30px #fff;
+}
+
+.under-line::after {
+  content: "";
+  position: absolute;
+}
+
+.box-no-content {
+  padding: 0.35em 0.65em;
+  margin-bottom: 12px;
+}
+
+.bg-badge {
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.bg-purple {
+  background-color: var(--bs-indigo);
+}
+
+.table-responsive {
+  min-height: 400px;
+}
+
+i.fa.fa-arrow-circle-right {
+  font-size: 0.9rem;
+}

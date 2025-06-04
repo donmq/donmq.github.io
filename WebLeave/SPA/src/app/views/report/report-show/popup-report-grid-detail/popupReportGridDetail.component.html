@@ -1,0 +1,77 @@
+<div class="p-2">
+  <div class="py-2" style="background-color: rgb(226, 226, 114); color: black">
+    <h4 style="text-align: center">{{ title }}</h4>
+    <h5 style="text-align: center">{{ leaveDay }}</h5>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th class="headerTable">
+            {{ "Report.ReportShow_ViewData.NO" | translate }}
+          </th>
+          <th class="headerTable">
+            {{ "Report.ReportShow_ViewData.EmpID" | translate }}
+          </th>
+          <th class="headerTable">
+            {{ "Report.ReportShow_ViewData.FullName" | translate }}
+          </th>
+          <th class="headerTable">
+            {{ "Report.ReportShow_ViewData.Department" | translate }}
+          </th>
+          <th class="headerTable">
+            {{ "Report.ReportShow_ViewData.Position" | translate }}
+          </th>
+          <th class="headerTable">
+            {{ "Report.ReportShow_ViewData.LeaveCategory" | translate }}
+          </th>
+          <th colspan="2" class="headerTable">
+            {{ "Report.ReportShow_ViewData.TimeOfLeave" | translate }}
+          </th>
+          <th class="headerTable">
+            {{ "Report.ReportShow_ViewData.Status" | translate }}
+          </th>
+        </tr>
+        <tr>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th class="headerTable">
+            {{ "Report.ReportShow_ViewData.FromDate" | translate }}
+          </th>
+          <th class="headerTable">
+            {{ "Report.ReportShow_ViewData.ToDate" | translate }}
+          </th>
+          <th class="headerTable"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of items; let i = index">
+          <td class="headerTable">{{ i + 1 }}</td>
+          <td class="headerTable">{{ item.employeeNumber }}</td>
+          <td class="headerTable">{{ item.employeeName }}</td>
+          <td class="headerTable">{{ item.partCode }}</td>
+          <td class="headerTable">{{ item.employeePostition }}</td>
+          <td class="headerTable">{{ item.leaveType }}</td>
+          <td class="headerTable">{{ item.time_Start }}</td>
+          <td class="headerTable">{{ item.time_End }}</td>
+          <td class="headerTable">
+            {{ item.leaveStatus != 1 ? "Approved" : "Applied" }}
+          </td>
+        </tr>
+        <tr *ngIf="items.length === 0">
+          <td
+            colspan="100%"
+            class="table-warning text-center"
+            style="font-weight: bold"
+          >
+            {{ "Common.NoData" | translate }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

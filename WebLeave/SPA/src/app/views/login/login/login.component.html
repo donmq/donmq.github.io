@@ -1,0 +1,67 @@
+<div class="app-login">
+  <div class="login-background">
+    <img ngOptimizedImage [ngSrc]="'assets/images/login.png'" width="1440" height="923" priority fetchpriority="high">
+  </div>
+  <div class="login-controls">
+    <div class="app-body">
+      <div class="container">
+        <div class="login-title">
+          <img src="assets/logo/logo-ssb.png" alt="SSB Logo">
+          <h5>{{'DefaultLayout.WelcomeTo' | translate}}</h5>
+          <h3>Web Leave - {{factory}}</h3>
+        </div>
+        <div class="card-body">
+          <form (ngSubmit)="login()" #form="ngForm">
+            <div class="input-group flex-nowrap mb-3">
+              <span class="input-group-text" id="addon-wrapping"><i class="fa-solid fa-globe"></i></span>
+              <select name="lang" id="lang" [(ngModel)]="lang" class="form-select"
+                (ngModelChange)="langChanged()">
+                <option *ngFor="let item of langs" [value]="item.key">{{item.value}}</option>
+              </select>
+            </div>
+            <div class="input-group flex-nowrap mb-3">
+              <span class="input-group-text" id="addon-wrapping"><i class="fa-solid fa-user"></i></span>
+              <input type="text" class="form-control"
+                placeholder="{{'DefaultLayout.Username' | translate}}"
+                [(ngModel)]="userForLoginParam.username"
+                name="username" autocomplete="username" required>
+            </div>
+            <div class="input-group flex-nowrap mb-3">
+              <span class="input-group-text" id="addon-wrapping"><i class="fa-solid fa-lock"></i></span>
+              <input #passwordRef type="password" class="form-control"
+                placeholder="{{'DefaultLayout.Password' | translate}}"
+                [(ngModel)]="userForLoginParam.password"
+                name="password" autocomplete="current-password" required>
+            </div>
+            <!-- <div class="form-check mb-5">
+              <input name="remember-me" [(ngModel)]="userForLoginParam.remember_Me" type="checkbox"
+                class="form-check-input" id="remember-me">
+              <label class="form-check-label" for="remember-me">Remember Me</label>
+            </div> -->
+            <div class="row mb-3">
+              <div class="col">
+                <div class="d-grid gap-2 text-center">
+                  <button type="submit" class="btn btn-primary" [disabled]="!form.valid || disLogin">
+                    <i class="fa-solid fa-right-to-bracket"></i>
+                    {{'DefaultLayout.Login' | translate}}
+                  </button>
+                </div>
+              </div>
+              <div class="col">
+                <div class="d-grid gap-2 text-center">
+                  <button type="reset" class="btn btn-danger">
+                    <i class="fa-solid fa-arrows-rotate"></i>
+                    {{'DefaultLayout.Reset' | translate}}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+          <div class="login-footer">
+            <p>Copyright &copy; 2022 <a href="javascript:;">SD TEAM</a>. All Rights Reserved.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

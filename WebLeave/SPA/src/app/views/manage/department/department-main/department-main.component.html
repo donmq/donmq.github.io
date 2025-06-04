@@ -1,0 +1,151 @@
+<div class="box-header with-border">
+  <div class="row">
+    <div class="col-lg-6 col-xs-6 col-sm-6">
+      <h4 class="box-title">{{'Department.Department' | translate}}</h4>
+    </div>
+    <div class="col-lg-6 col-xs-6 col-sm-6">
+      <button (click)="back()" type="button" class="btn btn-sm btn-primary float-end ">
+        <i [class]="iconButton.BACK"></i> {{'System.Action.Back' | translate}}
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <div class="border-shadow pt-3 pb-2" style="padding-left: 0 !important;">
+      <div class="row">
+        <div class="col-md-4">
+          <ng-select [(ngModel)]="paramSearch.areaID" name="areaID" (clear)="paramSearch.areaID = 'All'" [clearable]="paramSearch.areaID != 'All'">
+            <ng-option *ngFor="let area of areaList" [value]="area.key">{{area.value}}</ng-option>
+          </ng-select>
+        </div>
+        <div class="col-md-4">
+          <input type="text" placeholder="{{ 'Department.DeptCode' | translate}}" [(ngModel)]="paramSearch.deptCode" class="form-control" (keyup)="onKeyUpDeptCode()">
+        </div>
+        <div class="col-md-3 col-sm-6 d-flex p-0 m-0">
+          <button class="btn btn-primary text-white mr-1" (click)="search()"><i class="fa fa-search">
+            </i>
+            {{ 'System.Action.Search' | translate}}
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <button class="btn btn-success text-white mr-1" (click)="add()"><i class="fa fa-add">
+          </i>
+          {{ 'System.Action.AddNew' | translate}}
+        </button>
+      </div>
+      <div class="col-md-12 mt-2">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>{{ 'Department.AreaName' | translate}}</th>
+              <th>{{ 'Department.BuildingName' | translate}}</th>
+              <th>{{ 'Department.DeptName' | translate}}</th>
+              <th>{{ 'Department.Number' | translate}}</th>
+              <th>{{ 'Department.DeptCode' | translate}}</th>
+              <th>{{ 'Department.Visible' | translate}}</th>
+              <th>{{ 'System.Action.Text' | translate}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of departmentList">
+              <td>{{item.areaName}}</td>
+              <td>{{item.buildingName}}</td>
+              <td>{{item.deptName}}</td>
+              <td>{{item.number}}</td>
+              <td>{{item.deptCode}}</td>
+              <td>
+                <div class="custom-control custom-checkbox">
+                  <input class="form-check-input" type="checkbox" id="{{'detailDepartments'+item.deptID}}" [checked]="item.visible" disabled>
+                </div>
+              </td>
+              <td>
+                <button class="btn btn-primary btn-sm me-2" type="button" title="Detail" (click)="detail(template,item)"><i class="{{iconButton.VIEW}}"></i>
+                  {{'System.Action.View'|translate}}</button>
+                <button class="btn btn-warning btn-sm " type="button" title="Edit" (click)="edit(item)"><i class="{{iconButton.EDIT}}"></i>
+                  {{'System.Action.Edit'|translate}}</button>
+              </td>
+            </tr>
+          </tbody>
+          <tbody *ngIf="departmentList?.length === 0">
+            <tr>
+              <td colspan="100%" class="table-warning text-center fw-bold">
+                NO_DATA
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="d-flex" *ngIf="pagination.totalPage > 1">
+          <pagination [boundaryLinks]="true" [(ngModel)]="pagination.pageNumber" [totalItems]="pagination.totalCount" [(ngModel)]="pagination.pageNumber" [itemsPerPage]="pagination.pageSize" (pageChanged)="pageChanged($event)" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" [maxSize]=5>
+          </pagination>
+          <span class="cs-page ms-2"> Page - {{pagination.pageNumber}} / {{pagination.totalPage}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- ---------------------------------- Modal Detail Area--------------------------------------------- -->
+<ng-template #template>
+  <div class="modal-header modal-header1">
+    <h4 class="modal-title pull-left">{{ 'Department.DetailsDepartment' | translate}}</h4>
+    <button type="button" class="btn-close close pull-right" (click)="modalRef?.hide()" aria-label="Close">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <label class="col-md-4" for="AreaName">
+        <strong class="float-right">{{ 'Department.AreaName' | translate}}: </strong>
+      </label>
+      <div class="col-md-8">
+        <p>{{detailDepartments.areaName}}</p>
+      </div>
+
+      <label class="col-md-4" for="BuildingName">
+        <strong class="float-right">{{ 'Department.BuildingName' | translate}}: </strong>
+      </label>
+      <div class="col-md-8">
+        <p>{{detailDepartments.buildingName}}</p>
+      </div>
+
+      <label class="col-md-4" for="DeptName">
+        <strong class="float-right">{{ 'Department.DeptName' | translate}}: </strong>
+      </label>
+      <div class="col-md-8">
+        <p>{{detailDepartments.deptName}}</p>
+      </div>
+
+      <label class="col-md-4" for="DeptSym">
+        <strong class="float-right">{{ 'Department.DeptSym' | translate}}: </strong>
+      </label>
+      <div class="col-md-8">
+        <p>{{detailDepartments.deptSym}}</p>
+      </div>
+      <label class="col-md-4" for="Number">
+        <strong class="float-right">{{ 'Department.Number' | translate}}: </strong>
+      </label>
+      <div class="col-md-8">
+        <p>{{detailDepartments.number}}</p>
+      </div>
+      <label class="col-md-4" for="Shift_Time">
+        <strong class="float-right">{{ 'Department.Shift_Time' | translate}}: </strong>
+      </label>
+      <div class="col-md-8">
+        <p>{{detailDepartments.shift_Time}}</p>
+      </div>
+      <label class="col-md-4" for="Visible">
+        <strong class="float-right">{{ 'Department.Visible' | translate}}: </strong>
+      </label>
+      <div class="col-md-8">
+        <input class="form-check-input" type="checkbox" id="{{'detailDepartments'+detailDepartments.areaID}}" [checked]="detailDepartments.visible" disabled>
+      </div>
+    </div>
+  </div>
+</ng-template>

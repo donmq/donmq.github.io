@@ -1,0 +1,41 @@
+.box-tree {
+  border: 3px solid #4f546c;
+  border-radius: 10px;
+  padding: 24px;
+  margin: 15px 10px 12px 10px;
+  position: relative;
+  min-height: 600px;
+}
+
+.title-tree {
+  position: absolute;
+  left: 2rem;
+  top: -1.1rem;
+  padding: 0 0.5rem;
+  color: #2a324b;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: text;
+  transition: top 200ms ease-in, left 200ms ease-in, font-size 200ms ease-in;
+  background-color: #ffffff;
+}
+
+.form-check-label {
+  font-weight: 500;
+}
+
+::ng-deep .style-manage-role {
+  margin-left: -1px;
+  max-width: 300px;
+}
+
+::ng-deep .style-manage-role .p-tooltip-text {
+  text-align: left;
+  max-height: 245px;
+}
+
+::ng-deep .p-tree {
+  border: none;
+  border-radius: 0;
+  padding: 0;
+}

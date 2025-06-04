@@ -1,0 +1,57 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">{{ "System.Action.Edit" | translate | uppercase}}</h4>
+  <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true" class="visually-hidden">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form  [formGroup]="editUserForm" id="editUserForm">
+    <div class="form">
+      <input type="text" formControlName="userName" id="userName" maxlength="100"
+      class="form__input form-control" autocomplete="off" placeholder=" " [readonly]="true">
+      <label for="userName" class="form__label ">{{ "Manage.UserManage.UserName" | translate}}</label>
+    </div>
+    <div class="form">
+      <input type="password" maxlength="100" formControlName="hashPass" id="password" class="form__input  form-control"  autocomplete="off"
+        placeholder=" ">
+      <label class="form__label" for="password">{{ "Manage.UserManage.Password" | translate}}</label>
+    </div>
+    <div class="form">
+      <input type="text" maxlength="100" formControlName="fullName" id="fullName" class="form__input form-control" autocomplete="off" placeholder=" ">
+      <label for="fullName" class="form__label">{{ "Manage.UserManage.FullName" | translate}} <span class="text-danger">*</span></label>
+    </div>
+    <div class="form">
+      <input type="text" maxlength="100" formControlName="emailAddress" id="email" class="form__input form-control" autocomplete="off"
+        placeholder=" ">
+      <label for="email" class="form__label">{{ "Manage.UserManage.Email" | translate}}</label>
+    </div>
+    <div class="form">
+      <input type="text" formControlName="empNumber" id="empNum" class="form__input form-control"
+        autocomplete="off" placeholder=" ">
+      <label for="empNum" class="form__label">{{ "Manage.UserManage.EmpNumber" | translate}}</label>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 col-form-label fw-bold  ms-4 text-muted">{{ "Manage.UserManage.Visible" | translate}}:</label>
+      <div class="form-check form-check-inline me-3">
+        <input class="form-check-input" type="radio" id="visible1" formControlName="visible"
+               value="true" >
+        <label class="form-check-label" for="visible1">
+          {{ "Manage.UserManage.True" | translate}}
+        </label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="visible2" formControlName="visible"
+               value="false">
+        <label class="form-check-label" for="visible2">
+          {{ "Manage.UserManage.False" | translate}}
+        </label>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-danger me-2" (click)="resetForm()">
+    <i class="{{iconButton.RESET}}"></i>  {{ "System.Action.Reset" | translate }}</button>
+  <button type="button" class="btn btn-success" (click)="updateUser()" form="editUserForm" [disabled]="!editUserForm.valid">
+    <i class="{{iconButton.SAVE}}"></i>  {{ "System.Action.Save" | translate }}</button>
+</div>

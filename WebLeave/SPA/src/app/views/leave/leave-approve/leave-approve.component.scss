@@ -1,0 +1,89 @@
+.disabledTime {
+  background-color: white;
+}
+
+.viewOnTime {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.timeViewOnTime {
+  padding-top: 2rem;
+  padding-bottom: 1rem;
+}
+
+.fa-bookmark {
+  color: #EC2727;
+  font-size: smaller;
+  padding-left: 1rem;
+}
+
+.status_Look {
+  background-color: #EC2727 !important;
+
+  .viewOnTime {
+    color: white;
+  }
+
+  .fa-circle-exclamation {
+    padding-left: 0.5rem;
+    color: #f0ad4e;
+  }
+
+  .fa-right-to-bracket {
+    color: #f0ad4e;
+  }
+
+  .fa-bookmark {
+    color: #f0ad4e;
+  }
+
+  span {
+    color: white;
+  }
+}
+
+.lock_Leave {
+  background-color: #0A58CA !important;
+
+  .viewOnTime {
+    color: white;
+  }
+
+  .fa-circle-exclamation {
+    padding-left: 0.5rem;
+    color: #f0ad4e;
+  }
+
+  .fa-right-to-bracket {
+    color: #f0ad4e;
+  }
+
+  .fa-bookmark {
+    color: #f0ad4e;
+  }
+
+  span {
+    color: white;
+  }
+}
+
+.userViewOnTime {
+  margin-bottom: 5px;
+}
+
+.fa-right-to-bracket {
+  color: #0A58CA;
+}
+
+#selectCategoryId {
+  line-height: 22px;
+}
+
+::ng-deep .p-tooltip {
+  margin-left: 0.4rem;
+}
+
+i.fa-solid.fa-right-to-bracket {
+  font-size: 1rem;
+}

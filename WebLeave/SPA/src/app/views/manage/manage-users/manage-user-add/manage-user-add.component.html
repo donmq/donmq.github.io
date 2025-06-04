@@ -1,0 +1,64 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">{{ "System.Action.AddNew" | translate | uppercase}}</h4>
+  <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true" class="visually-hidden">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="addUserForm" id="addUserForm">
+    <div class="form">
+      <input type="text" formControlName="userName" id="userName" maxlength="100" class="form__input form-control" autocomplete="off" placeholder=" ">
+      <label for="userName" class="form__label ">{{ "Manage.UserManage.UserName" | translate}} <span
+          class="text-danger">*</span></label>
+    </div>
+    <div class="form">
+      <input type="password" formControlName="hashPass" id="password" maxlength="100" class="form__input form-control" autocomplete="off" placeholder=" ">
+      <label class="form__label" for="password">{{ "Manage.UserManage.Password" | translate}} </label>
+    </div>
+    <div class="form">
+      <input type="text" formControlName="fullName" id="fullName" maxlength="100" class="form__input form-control" autocomplete="off" placeholder=" ">
+      <label for="fullName" class="form__label">{{ "Manage.UserManage.FullName" | translate}} <span
+          class="text-danger">*</span></label>
+    </div>
+    <div class="form">
+      <input type="text" formControlName="emailAddress" id="email" maxlength="100" class="form__input form-control" autocomplete="off" placeholder=" ">
+      <label for="email" class="form__label">{{ "Manage.UserManage.Email" | translate}}</label>
+    </div>
+    <div class="form">
+      <input type="text" formControlName="empNumber" id="empNum" class="form__input form-control" autocomplete="off" placeholder=" ">
+      <label for="empNum" class="form__label">{{ "Manage.UserManage.EmpNumber" | translate}}</label>
+    </div>
+    <div class="form">
+      <div class="mb-3">
+        <ng-select formControlName="userRank" class="custom-select" placeholder='{{ "Manage.UserManage.UserRank" | translate}} *'>
+          <ng-option *ngFor="let rank of userRank" [value]="rank.value">{{ "Manage.UserManage." + rank.display | translate}}</ng-option>
+      </ng-select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-4 col-form-label fw-bold mb-3 ms-3 text-muted">{{ "Manage.UserManage.IsPermitted" |
+        translate}}:</label>
+      <div class="form-check form-check-inline me-3">
+        <input class="form-check-input" type="radio" id="iSPermitted1" formControlName="iSPermitted"
+          value="true">
+        <label class="form-check-label" for="iSPermitted1">
+          {{ "Manage.UserManage.True" | translate}}
+        </label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="iSPermitted2" formControlName="iSPermitted"
+          value="false">
+        <label class="form-check-label" for="iSPermitted2">
+          {{ "Manage.UserManage.False" | translate}}
+        </label>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-danger me-2 " (click)="resetForm()">
+    <i class="{{iconButton.RESET}}"></i> {{ "System.Action.Reset" | translate }}</button>
+  <button type="button" class="btn btn-success " (click)="addUser()" form="addUserForm"
+  [disabled]="!addUserForm.valid">
+  <i class="{{iconButton.SAVE}}"></i> {{ "System.Action.Save" | translate }}</button>
+</div>

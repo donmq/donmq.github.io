@@ -1,0 +1,53 @@
+<div class="animated fadeIn">
+  <div class="box-header with-border">
+    <h4 class="box-title">{{'Dashboard.Report' | translate | titlecase}}</h4>
+    <button type="button" class="btn btn-sm btn-primary float-end" [routerLink]="['/']">
+      <i [class]="iconButton.BACK"></i>
+      {{'System.Action.Back' | translate}}
+    </button>
+  </div>
+  <div class="card card-chart1">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10">
+          <p-organizationChart [value]="dataChart1" selectionMode="single" [(selection)]="selectedNode"
+            (onNodeSelect)="selectChart1($event)" styleClass="company">
+            <ng-template let-node pTemplate="person">
+              <div class="node-header p-corner-top">{{node.label}}</div>
+              <div class="node-content">
+                <div>{{node.data.name}}</div>
+              </div>
+            </ng-template>
+            <ng-template let-node pTemplate="department">
+              {{node.label}}
+            </ng-template>
+          </p-organizationChart>
+        </div>
+        <div class="col-1"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card mt-2 card-chart2 style-1" id="card-chart2" *ngIf="dataChart2.length > 0">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10">
+          <p-organizationChart [value]="dataChart2" selectionMode="single" [(selection)]="selectedNode"
+            (onNodeSelect)="selectChart2($event)" styleClass="company">
+            <ng-template let-node pTemplate="person">
+              <div class="node-header p-corner-top">{{node.label}}</div>
+              <div class="node-content">
+                <div>{{node.data.name}}</div>
+              </div>
+            </ng-template>
+            <ng-template let-node pTemplate="department">
+              {{node.label}}
+            </ng-template>
+          </p-organizationChart>
+        </div>
+        <div class="col-1"></div>
+      </div>
+    </div>
+  </div>
+</div>

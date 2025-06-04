@@ -1,0 +1,101 @@
+<div class="box-header with-border">
+    <div class="row">
+        <div class="col-lg-6 col-xs-6 col-sm-6">
+            <h4 class="box-title">{{'Manage.LunchBreak.Title' | translate}}</h4>
+        </div>
+        <div class="col-lg-6 col-xs-6 col-sm-6">
+            <button (click)="back()" type="button" class="btn btn-sm btn-primary float-end ">
+                <i [class]="iconButton.BACK"></i> {{'System.Action.Back' | translate}}
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <!-- <div class="border-shadow pt-3 pb-2" style="padding-left: 0 !important;">
+            <div class="row">
+                <div class="col-md-3 col-sm-6 d-flex p-0 m-0">
+                    <button class="btn btn-primary text-white mr-1" (click)="search()"><i class="fa fa-search">
+                        </i>
+                        {{ 'System.Action.Search' | translate}}
+                    </button>
+                </div>
+            </div>
+        </div> -->
+        <div class="row">
+            <div class="col-12">
+                <button class="btn btn-success text-white mr-1" (click)="create()"><i class="fa fa-add">
+                    </i>
+                    {{ 'System.Action.AddNew' | translate}}
+                </button>
+            </div>
+            <div class="col-md-12 mt-2">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>{{'Manage.LunchBreak.Seq' | translate}}</th>
+                            <th>{{'Manage.LunchBreak.Key' | translate}}</th>
+                            <th>{{'Manage.LunchBreak.WorkTime' | translate}}</th>
+                            <th>{{'Manage.LunchBreak.LunchTime' | translate}}</th>
+                            <th>{{'Manage.LunchBreak.Value' | translate}}</th>
+                            <th>{{'Manage.LunchBreak.Visible' | translate}}</th>
+                            <th colspan="3" class="w-1rem">{{ 'System.Action.Text' | translate}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of datas">
+                            <td>{{item.seq}}</td>
+                            <td>{{item.key}}</td>
+                            <td>{{item.workTimeStart}} - {{item.workTimeEnd}}</td>
+                            <td>{{item.lunchTimeStart}} - {{item.lunchTimeEnd}}</td>
+                            <td>{{item['value_' + language.replace('-tw', '')]}}</td>
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input class="form-check-input" type="checkbox" id="{{'lunchBreak'+item.id}}"
+                                        [checked]="item.visible" disabled>
+                                </div>
+                            </td>
+                            <td class="w-1rem">
+                                <button class="btn btn-primary btn-sm me-2" type="button" title="Detail"
+                                    (click)="detail(item.id)">
+                                    <i class="{{iconButton.VIEW}}"></i>
+                                    {{'System.Action.View'|translate}}
+                                </button>
+                            </td>
+                            <td class="w-1rem">
+                                <button class="btn btn-warning btn-sm me-2" type="button" title="Edit"
+                                    (click)="update(item.id)">
+                                    <i class="{{iconButton.EDIT}}"></i>
+                                    {{'System.Action.Edit'|translate}}
+                                </button>
+                            </td>
+                            <td class="w-1rem">
+                                <button class="btn btn-danger btn-sm " type="button" title="Delete"
+                                    (click)="delete(item.id)">
+                                    <i class="{{iconButton.DELETE}}"></i>
+                                    {{'System.Action.Delete'|translate}}
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="datas.length === 0">
+                        <tr>
+                            <td colspan="100%" class="table-warning text-center fw-bold">
+                                {{ "System.Message.Nodata" | translate }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="d-flex" *ngIf="pagination.totalPage > 1">
+                    <pagination [boundaryLinks]="true" [(ngModel)]="pagination.pageNumber"
+                        [totalItems]="pagination.totalCount" [(ngModel)]="pagination.pageNumber"
+                        [itemsPerPage]="pagination.pageSize" (pageChanged)="pageChanged($event)" previousText="&lsaquo;"
+                        nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" [maxSize]=5>
+                    </pagination>
+                    <span class="cs-page ms-2"> {{'Manage.LunchBreak.Page' | translate}} - {{pagination.pageNumber}} / {{pagination.totalPage}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

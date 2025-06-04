@@ -1,0 +1,1047 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="About" xml:space="preserve">
+    <value>關於</value>
+  </data>
+  <data name="Accept" xml:space="preserve">
+    <value>接受</value>
+  </data>
+  <data name="AddApply" xml:space="preserve">
+    <value>代表</value>
+  </data>
+  <data name="AddBegin" xml:space="preserve">
+    <value>開始</value>
+  </data>
+  <data name="AddbtnAdd" xml:space="preserve">
+    <value>增加</value>
+  </data>
+  <data name="AddbtnAdvance" xml:space="preserve">
+    <value>進階</value>
+  </data>
+  <data name="AddbtnDelete" xml:space="preserve">
+    <value>刪除</value>
+  </data>
+  <data name="AddbtnUpload" xml:space="preserve">
+    <value>上傳</value>
+  </data>
+  <data name="AddCate" xml:space="preserve">
+    <value>休假類別</value>
+  </data>
+  <data name="AddCateList" xml:space="preserve">
+    <value>假別</value>
+  </data>
+  <data name="AddCountResult" xml:space="preserve">
+    <value> 總</value>
+  </data>
+  <data name="AddDay" xml:space="preserve">
+    <value> 天</value>
+  </data>
+  <data name="AddDayLeave" xml:space="preserve">
+    <value>休假天</value>
+  </data>
+  <data name="AddDept" xml:space="preserve">
+    <value>部門</value>
+  </data>
+  <data name="AddE1" xml:space="preserve">
+    <value>找不到員工。或是原工不屬於管理圈</value>
+  </data>
+  <data name="AddE2" xml:space="preserve">
+    <value>煩請輸入工號再繼續</value>
+  </data>
+  <data name="AddE3" xml:space="preserve">
+    <value>找不到員工。或是員工不屬於管理圈</value>
+  </data>
+  <data name="AddE4" xml:space="preserve">
+    <value>請選擇休假起訖月日</value>
+  </data>
+  <data name="AddE5" xml:space="preserve">
+    <value>休假天數不正確！或是起訖的日期輸入錯誤</value>
+  </data>
+  <data name="AddE6" xml:space="preserve">
+    <value>請按照規定選擇假別</value>
+  </data>
+  <data name="AddE7" xml:space="preserve">
+    <value>員工的年假已無！請選擇其他假別</value>
+  </data>
+  <data name="AddE8" xml:space="preserve">
+    <value>員工的休假日與已登記的假日重複！請重新檢查！</value>
+  </data>
+  <data name="AddE9" xml:space="preserve">
+    <value>員工的年假不足！請選擇其他假別或是休假的時間！</value>
+  </data>
+  <data name="AddEmpNo" xml:space="preserve">
+    <value>工號</value>
+  </data>
+  <data name="AddEnd" xml:space="preserve">
+    <value> 訖</value>
+  </data>
+  <data name="AddFast" xml:space="preserve">
+    <value> 增加</value>
+  </data>
+  <data name="AddFullname" xml:space="preserve">
+    <value>姓名</value>
+  </data>
+  <data name="AddHour" xml:space="preserve">
+    <value>時數</value>
+  </data>
+  <data name="AddImplement" xml:space="preserve">
+    <value> 需要補充資料的假別</value>
+  </data>
+  <data name="AddTime" xml:space="preserve">
+    <value>休假時間</value>
+  </data>
+  <data name="AdvBegin" xml:space="preserve">
+    <value>開始</value>
+  </data>
+  <data name="AdvbtnReg" xml:space="preserve">
+    <value>登記</value>
+  </data>
+  <data name="AdvbtnReset" xml:space="preserve">
+    <value>重試</value>
+  </data>
+  <data name="AdvEnd" xml:space="preserve">
+    <value>結束</value>
+  </data>
+  <data name="AdvListEmp" xml:space="preserve">
+    <value> 職員名單</value>
+  </data>
+  <data name="AdvSelectCate" xml:space="preserve">
+    <value>選擇假別</value>
+  </data>
+  <data name="AdvTextDay" xml:space="preserve">
+    <value> 輸入需要休假的天數</value>
+  </data>
+  <data name="alert1" xml:space="preserve">
+    <value>請選擇表單以便作業</value>
+  </data>
+  <data name="alert2" xml:space="preserve">
+    <value>無法找到符合資料</value>
+  </data>
+  <data name="alertapprove" xml:space="preserve">
+    <value>請填寫拒絕原因 !</value>
+  </data>
+  <data name="Application" xml:space="preserve">
+    <value>休假</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value> 代表</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>審核</value>
+  </data>
+  <data name="ApproveCheck" xml:space="preserve">
+    <value>請選擇休假別而繼續下一步</value>
+  </data>
+  <data name="ApproveTitle" xml:space="preserve">
+    <value>接受已檢查的單子</value>
+  </data>
+  <data name="area" xml:space="preserve">
+    <value>區域</value>
+  </data>
+  <data name="batdau" xml:space="preserve">
+    <value>開始</value>
+  </data>
+  <data name="bophan" xml:space="preserve">
+    <value>小組</value>
+  </data>
+  <data name="boqua" xml:space="preserve">
+    <value>跳過</value>
+  </data>
+  <data name="BoxUploadTitle" xml:space="preserve">
+    <value>上傳請假卡</value>
+  </data>
+  <data name="btnApproved" xml:space="preserve">
+    <value> 執行</value>
+  </data>
+  <data name="btnCancel" xml:space="preserve">
+    <value> 取消</value>
+  </data>
+  <data name="btnCancelDelete" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="btnChangePass" xml:space="preserve">
+    <value>確認</value>
+  </data>
+  <data name="btnConfirmDelete" xml:space="preserve">
+    <value>同意</value>
+  </data>
+  <data name="btnLogin" xml:space="preserve">
+    <value> 登入</value>
+  </data>
+  <data name="btnReset" xml:space="preserve">
+    <value>重試</value>
+  </data>
+  <data name="btnUpload" xml:space="preserve">
+    <value>上傳</value>
+  </data>
+  <data name="building" xml:space="preserve">
+    <value>棟別</value>
+  </data>
+  <data name="buphep" xml:space="preserve">
+    <value>補假</value>
+  </data>
+  <data name="CateApprove" xml:space="preserve">
+    <value> 假別</value>
+  </data>
+  <data name="category" xml:space="preserve">
+    <value>假別</value>
+  </data>
+  <data name="ChangeAvatar" xml:space="preserve">
+    <value>更換封面</value>
+  </data>
+  <data name="ChangePassword" xml:space="preserve">
+    <value>更換密碼</value>
+  </data>
+  <data name="chinhsua" xml:space="preserve">
+    <value>修改</value>
+  </data>
+  <data name="chitiet" xml:space="preserve">
+    <value>明細</value>
+  </data>
+  <data name="chucvu" xml:space="preserve">
+    <value>職務</value>
+  </data>
+  <data name="company" xml:space="preserve">
+    <value>厰別</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>確認</value>
+  </data>
+  <data name="confirmDelete" xml:space="preserve">
+    <value> 很多假卡會在系統取消！你是否繼續?</value>
+  </data>
+  <data name="CopyRight" xml:space="preserve">
+    <value> 保存所有權限</value>
+  </data>
+  <data name="CountDay" xml:space="preserve">
+    <value>休假天</value>
+  </data>
+  <data name="Cpanel" xml:space="preserve">
+    <value>管制</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>新增</value>
+  </data>
+  <data name="danghiviec" xml:space="preserve">
+    <value>已離職</value>
+  </data>
+  <data name="danglamviec" xml:space="preserve">
+    <value>在職</value>
+  </data>
+  <data name="Debby" xml:space="preserve">
+    <value>開發由</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>預設值</value>
+  </data>
+  <data name="DeleteCheckList" xml:space="preserve">
+    <value>請選擇休假單而執行刪除休假單</value>
+  </data>
+  <data name="department" xml:space="preserve">
+    <value>部門</value>
+  </data>
+  <data name="DeptApprove" xml:space="preserve">
+    <value> 部門</value>
+  </data>
+  <data name="Detail" xml:space="preserve">
+    <value> 明細</value>
+  </data>
+  <data name="DtArchive" xml:space="preserve">
+    <value>存儲代碼</value>
+  </data>
+  <data name="DtBegin" xml:space="preserve">
+    <value>開始</value>
+  </data>
+  <data name="DtbtnEditStatus" xml:space="preserve">
+    <value>修改</value>
+  </data>
+  <data name="DtCapNhat" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="DtCate" xml:space="preserve">
+    <value>所有假別</value>
+  </data>
+  <data name="DtDateApply" xml:space="preserve">
+    <value>休假從….起</value>
+  </data>
+  <data name="DtDatein" xml:space="preserve">
+    <value>入廠日</value>
+  </data>
+  <data name="DtDept" xml:space="preserve">
+    <value> 部門</value>
+  </data>
+  <data name="DtEditStatus" xml:space="preserve">
+    <value> 修改請假單</value>
+  </data>
+  <data name="DtEmpID" xml:space="preserve">
+    <value> 工號</value>
+  </data>
+  <data name="DtEnd" xml:space="preserve">
+    <value> 訖</value>
+  </data>
+  <data name="DtFullname" xml:space="preserve">
+    <value> 姓名</value>
+  </data>
+  <data name="DtNguoiDuyet" xml:space="preserve">
+    <value> 審核人</value>
+  </data>
+  <data name="DtNguoiGoi" xml:space="preserve">
+    <value> 發送人</value>
+  </data>
+  <data name="DtSoNgay" xml:space="preserve">
+    <value>天數</value>
+  </data>
+  <data name="DtStatus" xml:space="preserve">
+    <value>狀況</value>
+  </data>
+  <data name="DtTimeLine" xml:space="preserve">
+    <value>時間表</value>
+  </data>
+  <data name="employee" xml:space="preserve">
+    <value>員工</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>錯誤</value>
+  </data>
+  <data name="ErrorAccess" xml:space="preserve">
+    <value> 您尚未得到登入此區的權限，請聯繫IT瞭解詳細內容</value>
+  </data>
+  <data name="ErrorAdmin" xml:space="preserve">
+    <value> 您需要有管制的權限登入此區。請聯繫IT瞭解詳細內容</value>
+  </data>
+  <data name="ErrorLink1" xml:space="preserve">
+    <value> 系統自動返回主頁</value>
+  </data>
+  <data name="ErrorLink2" xml:space="preserve">
+    <value>秒</value>
+  </data>
+  <data name="ErrorLoginFail" xml:space="preserve">
+    <value>您輸入失敗！帳戶不正確或是已鎖住。請聯繫IT瞭解詳細內容</value>
+  </data>
+  <data name="ErrorNotLogin" xml:space="preserve">
+    <value> 您尚未登入系統！請登入而繼續或是聯繫IT瞭解詳細內容</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>登出</value>
+  </data>
+  <data name="group" xml:space="preserve">
+    <value>權限級別</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>協助</value>
+  </data>
+  <data name="hisbtnExport" xml:space="preserve">
+    <value>輸出Excel </value>
+  </data>
+  <data name="HisbtnSearch" xml:space="preserve">
+    <value> 收尋</value>
+  </data>
+  <data name="hiscate" xml:space="preserve">
+    <value>假別</value>
+  </data>
+  <data name="hisdept" xml:space="preserve">
+    <value>部門</value>
+  </data>
+  <data name="hisfullname" xml:space="preserve">
+    <value>姓名</value>
+  </data>
+  <data name="hisselectAllCate" xml:space="preserve">
+    <value>所有的類別</value>
+  </data>
+  <data name="hisselectStatus0" xml:space="preserve">
+    <value>根據預設值</value>
+  </data>
+  <data name="hisselectStatus1" xml:space="preserve">
+    <value>待審核</value>
+  </data>
+  <data name="hisselectStatus2" xml:space="preserve">
+    <value>已核准</value>
+  </data>
+  <data name="hisselectStatus3" xml:space="preserve">
+    <value>拒絕</value>
+  </data>
+  <data name="hisselectStatus4" xml:space="preserve">
+    <value>已檢查</value>
+  </data>
+  <data name="hisstatus" xml:space="preserve">
+    <value>狀態</value>
+  </data>
+  <data name="hisstt" xml:space="preserve">
+    <value> 次序</value>
+  </data>
+  <data name="histime" xml:space="preserve">
+    <value>休假時間</value>
+  </data>
+  <data name="History" xml:space="preserve">
+    <value>記錄</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>主頁</value>
+  </data>
+  <data name="idnohoten" xml:space="preserve">
+    <value>工號-姓名</value>
+  </data>
+  <data name="JS1" xml:space="preserve">
+    <value>JAVASCRIPT CLIENT不活動</value>
+  </data>
+  <data name="JS2" xml:space="preserve">
+    <value>抱歉此問題</value>
+  </data>
+  <data name="JS3" xml:space="preserve">
+    <value> 一些系統設立的活動不穩定若是client的遊覽網站不允許啟動Javascript </value>
+  </data>
+  <data name="JS4" xml:space="preserve">
+    <value> 若是在從新啟動 Javascrip遇到任何困難請聯繫相關單位</value>
+  </data>
+  <data name="JS5" xml:space="preserve">
+    <value> 遊覽網站太舊</value>
+  </data>
+  <data name="JS6" xml:space="preserve">
+    <value> Client 的現代遊覽版本太舊</value>
+  </data>
+  <data name="JS7" xml:space="preserve">
+    <value> 一些系統設立活動會不穩定及不安全對於職工</value>
+  </data>
+  <data name="JS8" xml:space="preserve">
+    <value> 抱歉此事！請更新最新的版本</value>
+  </data>
+  <data name="JS9" xml:space="preserve">
+    <value> 若是在遊覽升級的過程中遇到任何困難，請聯繫相關單位</value>
+  </data>
+  <data name="ketthuc" xml:space="preserve">
+    <value>結束</value>
+  </data>
+  <data name="khongtimthay" xml:space="preserve">
+    <value>無法找到符合資料</value>
+  </data>
+  <data name="kichhoat" xml:space="preserve">
+    <value>活性</value>
+  </data>
+  <data name="lammoi" xml:space="preserve">
+    <value>重新</value>
+  </data>
+  <data name="LeavePlus" xml:space="preserve">
+    <value>補充</value>
+  </data>
+  <data name="luuy" xml:space="preserve">
+    <value>備註:</value>
+  </data>
+  <data name="luuy1" xml:space="preserve">
+    <value>Excel文件是由IT部門提供設置文件。或下載示例文件</value>
+  </data>
+  <data name="luuy2" xml:space="preserve">
+    <value>在這兒</value>
+  </data>
+  <data name="luuy3" xml:space="preserve">
+    <value>有缺陷的系統的所有病例沒有預警的被自動忽略。</value>
+  </data>
+  <data name="masothe" xml:space="preserve">
+    <value>工號</value>
+  </data>
+  <data name="nam" xml:space="preserve">
+    <value>年 </value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value> 姓名</value>
+  </data>
+  <data name="NewPass" xml:space="preserve">
+    <value> 新密碼</value>
+  </data>
+  <data name="ngaylaybaocao" xml:space="preserve">
+    <value>產生報告日期</value>
+  </data>
+  <data name="ngaynghi" xml:space="preserve">
+    <value>休假天</value>
+  </data>
+  <data name="ngayphepnam" xml:space="preserve">
+    <value>年假</value>
+  </data>
+  <data name="nhapmanv" xml:space="preserve">
+    <value>輸入工號</value>
+  </data>
+  <data name="nhom" xml:space="preserve">
+    <value>權限級別</value>
+  </data>
+  <data name="NoteCategory" xml:space="preserve">
+    <value> 補充確認資料</value>
+  </data>
+  <data name="Notification" xml:space="preserve">
+    <value>通告</value>
+  </data>
+  <data name="OldPass" xml:space="preserve">
+    <value> 舊的密碼</value>
+  </data>
+  <data name="PagePerson" xml:space="preserve">
+    <value> 個人</value>
+  </data>
+  <data name="part" xml:space="preserve">
+    <value>組別</value>
+  </data>
+  <data name="PerBegin" xml:space="preserve">
+    <value> 開始</value>
+  </data>
+  <data name="PerbtnAdd" xml:space="preserve">
+    <value> 請假</value>
+  </data>
+  <data name="PerbtnChangePass" xml:space="preserve">
+    <value> 更換密碼</value>
+  </data>
+  <data name="PerbtnDangKy" xml:space="preserve">
+    <value> 登記</value>
+  </data>
+  <data name="PerbtnDelete" xml:space="preserve">
+    <value>刪除</value>
+  </data>
+  <data name="PerbtnLamLai" xml:space="preserve">
+    <value>重試</value>
+  </data>
+  <data name="PerbtnRole" xml:space="preserve">
+    <value>遊覽權限</value>
+  </data>
+  <data name="PerCate" xml:space="preserve">
+    <value>假別</value>
+  </data>
+  <data name="PerCateSelect" xml:space="preserve">
+    <value> 選擇假別</value>
+  </data>
+  <data name="PerComment" xml:space="preserve">
+    <value> 備註</value>
+  </data>
+  <data name="PerCount" xml:space="preserve">
+    <value> 休假天</value>
+  </data>
+  <data name="PerCountDay" xml:space="preserve">
+    <value> 休假天數</value>
+  </data>
+  <data name="PerDateIn" xml:space="preserve">
+    <value>入廠日</value>
+  </data>
+  <data name="PerDateLeave" xml:space="preserve">
+    <value>申請休假日</value>
+  </data>
+  <data name="PerDept" xml:space="preserve">
+    <value> 部門</value>
+  </data>
+  <data name="PerEmpID" xml:space="preserve">
+    <value>工號</value>
+  </data>
+  <data name="PerEnd" xml:space="preserve">
+    <value> 訖</value>
+  </data>
+  <data name="PerError1" xml:space="preserve">
+    <value> 請選擇休假起訖月日</value>
+  </data>
+  <data name="PerError2" xml:space="preserve">
+    <value> 請按照規定選擇休假類別</value>
+  </data>
+  <data name="PerError3" xml:space="preserve">
+    <value>選擇的時間及日期不正確！請重試！</value>
+  </data>
+  <data name="PerError4" xml:space="preserve">
+    <value>您的年假已完！請選擇其他假別</value>
+  </data>
+  <data name="PerError5" xml:space="preserve">
+    <value> 您的這期的年假不足！請選擇其他假別或是更換休假時間</value>
+  </data>
+  <data name="PerError6" xml:space="preserve">
+    <value>職工的休假日與已登記的假日重複！請重新檢查！</value>
+  </data>
+  <data name="PerErrorTitle" xml:space="preserve">
+    <value>通告</value>
+  </data>
+  <data name="PerFullname" xml:space="preserve">
+    <value> 姓名</value>
+  </data>
+  <data name="PerGio" xml:space="preserve">
+    <value>小時</value>
+  </data>
+  <data name="PerLeave" xml:space="preserve">
+    <value>年假</value>
+  </data>
+  <data name="PerLeave2" xml:space="preserve">
+    <value>已休年假</value>
+  </data>
+  <data name="PerLeave3" xml:space="preserve">
+    <value>已休的年假總數</value>
+  </data>
+  <data name="PerLeaveAgent" xml:space="preserve">
+    <value>個人年假</value>
+  </data>
+  <data name="PerLeaveArrange" xml:space="preserve">
+    <value>公司年假</value>
+  </data>
+  <data name="PerNgay" xml:space="preserve">
+    <value>日期</value>
+  </data>
+  <data name="PerNote" xml:space="preserve">
+    <value>要求不留空白的情況</value>
+  </data>
+  <data name="PerPosition" xml:space="preserve">
+    <value>職務</value>
+  </data>
+  <data name="PerSoGio" xml:space="preserve">
+    <value>時數</value>
+  </data>
+  <data name="Personal" xml:space="preserve">
+    <value> 個人</value>
+  </data>
+  <data name="PerSoNgay" xml:space="preserve">
+    <value>天數</value>
+  </data>
+  <data name="PerStt" xml:space="preserve">
+    <value>項次</value>
+  </data>
+  <data name="PerTimelin" xml:space="preserve">
+    <value>休假時間</value>
+  </data>
+  <data name="PerTitle" xml:space="preserve">
+    <value> 個人請假</value>
+  </data>
+  <data name="phepnam" xml:space="preserve">
+    <value>年假</value>
+  </data>
+  <data name="phongban" xml:space="preserve">
+    <value>部門</value>
+  </data>
+  <data name="pncanhan1" xml:space="preserve">
+    <value>已休年假</value>
+  </data>
+  <data name="pndanghi" xml:space="preserve">
+    <value>已休年假/年假</value>
+  </data>
+  <data name="pnsapxep1" xml:space="preserve">
+    <value>公司年假</value>
+  </data>
+  <data name="position" xml:space="preserve">
+    <value>職稱</value>
+  </data>
+  <data name="QuestionDelete" xml:space="preserve">
+    <value>您是否確定刪除已選的請假單</value>
+  </data>
+  <data name="Refuse" xml:space="preserve">
+    <value>拒絕</value>
+  </data>
+  <data name="RefuseTitle" xml:space="preserve">
+    <value>拒絕已檢查的單子</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>登記</value>
+  </data>
+  <data name="Remember" xml:space="preserve">
+    <value>次自動登入</value>
+  </data>
+  <data name="Report" xml:space="preserve">
+    <value>報告</value>
+  </data>
+  <data name="SEAHR" xml:space="preserve">
+    <value>人事</value>
+  </data>
+  <data name="SEAHR1" xml:space="preserve">
+    <value>新增職員</value>
+  </data>
+  <data name="SEAHR2" xml:space="preserve">
+    <value>SEA 確認</value>
+  </data>
+  <data name="SEAHR3" xml:space="preserve">
+    <value>修改假單</value>
+  </data>
+  <data name="SEAHR4" xml:space="preserve">
+    <value>每日報告資料</value>
+  </data>
+  <data name="SEAHR5" xml:space="preserve">
+    <value> 輸出HP</value>
+  </data>
+  <data name="SEAHR6" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="SEAHR7" xml:space="preserve">
+    <value>職員管理</value>
+  </data>
+  <data name="SEAHR8" xml:space="preserve">
+    <value> 分權</value>
+  </data>
+  <data name="SearchApprove" xml:space="preserve">
+    <value>掃尋</value>
+  </data>
+  <data name="status0" xml:space="preserve">
+    <value>待審核</value>
+  </data>
+  <data name="status1" xml:space="preserve">
+    <value> 已核准</value>
+  </data>
+  <data name="status2" xml:space="preserve">
+    <value>拒絕</value>
+  </data>
+  <data name="status3" xml:space="preserve">
+    <value>完成</value>
+  </data>
+  <data name="sua" xml:space="preserve">
+    <value>修改</value>
+  </data>
+  <data name="SystemChecked" xml:space="preserve">
+    <value>系統已檢查</value>
+  </data>
+  <data name="tailen" xml:space="preserve">
+    <value>上載</value>
+  </data>
+  <data name="tatca" xml:space="preserve">
+    <value>全部</value>
+  </data>
+  <data name="tatcacacloaiphep" xml:space="preserve">
+    <value>所有假別</value>
+  </data>
+  <data name="tckhuvuc" xml:space="preserve">
+    <value>所有區域</value>
+  </data>
+  <data name="tcphongban" xml:space="preserve">
+    <value>所有部門</value>
+  </data>
+  <data name="textcmt1" xml:space="preserve">
+    <value>新增在個人主頁</value>
+  </data>
+  <data name="textcmt10" xml:space="preserve">
+    <value>更新密碼已成功。系統會自動登出。請再登入！</value>
+  </data>
+  <data name="textcmt11" xml:space="preserve">
+    <value>成功！系統已記綠。請在代理請假重看名單</value>
+  </data>
+  <data name="textcmt12" xml:space="preserve">
+    <value>您的帳號沒有聯結到員工資料。請聯係有關部門處理。</value>
+  </data>
+  <data name="textcmt13" xml:space="preserve">
+    <value>系統不會自動檢查員工的請假重複時間</value>
+  </data>
+  <data name="textcmt14" xml:space="preserve">
+    <value>要求修改時間不符合，請重新選擇時間</value>
+  </data>
+  <data name="textcmt2" xml:space="preserve">
+    <value>新增在代理請假頁面</value>
+  </data>
+  <data name="textcmt3" xml:space="preserve">
+    <value>審核by</value>
+  </data>
+  <data name="textcmt4" xml:space="preserve">
+    <value>拒絕by</value>
+  </data>
+  <data name="textcmt5" xml:space="preserve">
+    <value>在進階頁面新增</value>
+  </data>
+  <data name="textcmt6" xml:space="preserve">
+    <value>確認by</value>
+  </data>
+  <data name="textcmt7" xml:space="preserve">
+    <value>已修改狀態 (待審核)</value>
+  </data>
+  <data name="textcmt8" xml:space="preserve">
+    <value>已修改狀態 (接收)</value>
+  </data>
+  <data name="textcmt9" xml:space="preserve">
+    <value>已修改狀態(拒絕)</value>
+  </data>
+  <data name="them" xml:space="preserve">
+    <value>新增</value>
+  </data>
+  <data name="themthucong" xml:space="preserve">
+    <value>請輸入資料</value>
+  </data>
+  <data name="TimeApprove" xml:space="preserve">
+    <value>時間</value>
+  </data>
+  <data name="TimeSystem" xml:space="preserve">
+    <value> 系統時間</value>
+  </data>
+  <data name="titlecapnhatnghiphep" xml:space="preserve">
+    <value>更新職員的年假</value>
+  </data>
+  <data name="TitleDelete" xml:space="preserve">
+    <value>刪除請假卡</value>
+  </data>
+  <data name="titlexuatbc" xml:space="preserve">
+    <value>產生每天休假報表</value>
+  </data>
+  <data name="tong" xml:space="preserve">
+    <value>總共</value>
+  </data>
+  <data name="tongnghiphep" xml:space="preserve">
+    <value>已休的年假總數</value>
+  </data>
+  <data name="tongphep1" xml:space="preserve">
+    <value>已休的年假總數</value>
+  </data>
+  <data name="txtPassword" xml:space="preserve">
+    <value>密碼</value>
+  </data>
+  <data name="txtUserName" xml:space="preserve">
+    <value>工號</value>
+  </data>
+  <data name="UploadNote" xml:space="preserve">
+    <value>備註：系統自動檢查，不符合的請假單會無通告而被忽略</value>
+  </data>
+  <data name="UploadNote2" xml:space="preserve">
+    <value>讓系統操作正確。上傳的檔案必須符合由IT 提供的檔案範本。使用其他的範本都不符合及導致錯誤</value>
+  </data>
+  <data name="UpNote3" xml:space="preserve">
+    <value>取檔案樣根據</value>
+  </data>
+  <data name="UpNote4" xml:space="preserve">
+    <value>此連接</value>
+  </data>
+  <data name="UpNote5" xml:space="preserve">
+    <value>或是下載</value>
+  </data>
+  <data name="UpNote6" xml:space="preserve">
+    <value>這裡</value>
+  </data>
+  <data name="UpNote7" xml:space="preserve">
+    <value> 聯繫IT 瞭解明細</value>
+  </data>
+  <data name="user" xml:space="preserve">
+    <value>用戶</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>版本</value>
+  </data>
+  <data name="view" xml:space="preserve">
+    <value>檢視</value>
+  </data>
+  <data name="vohieuhoa" xml:space="preserve">
+    <value>無效化</value>
+  </data>
+  <data name="vohieuhoanv" xml:space="preserve">
+    <value>無效化職員</value>
+  </data>
+  <data name="xacnhan" xml:space="preserve">
+    <value>確認</value>
+  </data>
+  <data name="ycduyetlai" xml:space="preserve">
+    <value>假單已經修改請您再審核</value>
+  </data>
+  <data name="ycsuachua" xml:space="preserve">
+    <value>請修改假單</value>
+  </data>
+  <data name="language" xml:space="preserve">
+    <value>中文</value>
+  </data>
+  <data name="textcmt15" xml:space="preserve">
+    <value>編輯</value>
+  </data>
+  <data name="ExportExcel" xml:space="preserve">
+    <value>匯出Excel</value>
+  </data>
+  <data name="PerPart" xml:space="preserve">
+    <value>組別</value>
+  </data>
+  <data name="ReportActual" xml:space="preserve">
+    <value>實到人數</value>
+  </data>
+  <data name="ReportLeaveApplied" xml:space="preserve">
+    <value>已請假人數</value>
+  </data>
+  <data name="ReportLeaveApproved" xml:space="preserve">
+    <value>已請假核准人數</value>
+  </data>
+  <data name="ReportMPPoolIn" xml:space="preserve">
+    <value>派入人數</value>
+  </data>
+  <data name="ReportMPPoolOut" xml:space="preserve">
+    <value>派出人數</value>
+  </data>
+  <data name="ReportSEAMP" xml:space="preserve">
+    <value>應到人數</value>
+  </data>
+  <data name="ReportTotal" xml:space="preserve">
+    <value>總共</value>
+  </data>
+  <data name="ReportDate" xml:space="preserve">
+    <value>日期</value>
+  </data>
+  <data name="ReportShow" xml:space="preserve">
+    <value>查看報告</value>
+  </data>
+  <data name="FromDate" xml:space="preserve">
+    <value>自日期起:</value>
+  </data>
+  <data name="ToDate" xml:space="preserve">
+    <value>自日期訖:</value>
+  </data>
+  <data name="LunchTime" xml:space="preserve">
+    <value>午餐時間</value>
+  </data>
+  <data name="OfficeHours1" xml:space="preserve">
+    <value>行政班(1) (11:00~12:00)</value>
+  </data>
+  <data name="OfficeHours2" xml:space="preserve">
+    <value>行政班(2) (11:30~12:30)</value>
+  </data>
+  <data name="OfficeHours3" xml:space="preserve">
+    <value>行政班(3) (12:00~13:00)</value>
+  </data>
+  <data name="OfficeHours4" xml:space="preserve">
+    <value>行政班(4) (12:30~13:30)</value>
+  </data>
+  <data name="SelectBreakTime" xml:space="preserve">
+    <value>請選擇吃飯時間</value>
+  </data>
+  <data name="Shift5" xml:space="preserve">
+    <value>5班(餐廳) (12:45~13:45)</value>
+  </data>
+  <data name="ShiftA" xml:space="preserve">
+    <value>A班 (10:30~11:00)</value>
+  </data>
+  <data name="ShiftB" xml:space="preserve">
+    <value>B班 (17:30~18:00)</value>
+  </data>
+  <data name="ShiftC" xml:space="preserve">
+    <value>C班(夜班) (01:00~01:45)</value>
+  </data>
+  <data name="NgDuocDuyet" xml:space="preserve">
+    <value>Approved persons</value>
+  </data>
+  <data name="lockleaver" xml:space="preserve">
+    <value>這張請假單不對，請儘快聯係SEA修改假單。謝謝!</value>
+  </data>
+  <data name="songaynghi" xml:space="preserve">
+    <value>請假天數</value>
+  </data>
+  <data name="phepnamcon" xml:space="preserve">
+    <value>未休年假</value>
+  </data>
+  <data name="holiday" xml:space="preserve">
+    <value>Holiday</value>
+  </data>
+  <data name="errorDeleteUser" xml:space="preserve">
+    <value>刪除員工失敗請重新檢查！ 謝謝你。</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>登入</value>
+  </data>
+  <data name="RequestEditLeaveToHuman" xml:space="preserve">
+    <value>向 HR 申請編輯請假資料</value>
+  </data>
+  <data name="RequestEditLeaveToManager" xml:space="preserve">
+    <value>向 管理員 申請編輯請假資料</value>
+  </data>
+  <data name="status4" xml:space="preserve">
+    <value>核准</value>
+  </data>
+  <data name="successDelete" xml:space="preserve">
+    <value>成功刪除員工！ 謝謝你。</value>
+  </data>
+</root>

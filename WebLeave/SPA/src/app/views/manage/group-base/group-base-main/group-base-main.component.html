@@ -1,0 +1,169 @@
+<div class="animated fadeIn">
+  <div class="box-header with-border">
+    <div class="row">
+      <div class="col-4">
+        <h4 class="box-title">{{ 'GroupBase.Group' | translate}}</h4>
+      </div>
+      <div class="col-sm-8 overall-main-button">
+        <button type="button" class="btn btn-primary float-right main-button btn-sm" [routerLink]="['/manage']"
+          routerLinkActive="router-link-active"><i class="{{iconButton.BACK}}"></i>
+          {{ 'System.Action.Back' | translate}}
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12 mt-1">
+          <div class="mb-2">
+            <button class="btn btn-success main-button-add me-1" (click)="openModalAdd(templateAdd)"><i
+                class="{{iconButton.ADD}}"></i>
+              {{'System.Action.AddNew' | translate}}
+            </button>
+            <button class="btn btn-success" (click)="exportExcel()"><i class="{{iconButton.EXCEL}}"></i>
+              {{'System.Action.ExportExcel' | translate}}
+            </button>
+          </div>
+          <table class="table table-striped">
+            <thead class="text-start">
+              <tr class="table-title">
+                <th scope="col">{{ 'GroupBase.BaseName' | translate}}</th>
+                <th scope="col">{{ 'GroupBase.BaseSym' | translate}}</th>
+                <th scope="col">{{ 'System.Action.Text' | translate}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of listGroupBaseManage" class="table-content">
+                <td class="text-left">{{item.baseName}}</td>
+                <td class="text-left">{{item.baseSym}}</td>
+                <td>
+                  <button type="button" class="btn btn-warning btn-sm" (click)="openModalEdit(templateEdit, item)">
+                    <i class="{{iconButton.EDIT}}"></i> {{ 'System.Action.Edit' | translate}}
+                  </button>
+
+                  <button class="btn btn-danger btn-sm ms-2" (click)="removeGroup(item)">
+                    <i class="{{iconButton.DELETE}}" aria-hidden="true"></i>
+                    {{'System.Action.Delete' | translate}}
+                </button>
+                </td>
+              </tr>
+              <tr *ngIf="listGroupBaseManage.length == 0">
+                <td colspan="100%" class="table-warning text-center fw-bold">{{ commonConstants.COMMON_NODATA |
+                  translate}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ---------------------------------- Modal Add Group --------------------------------------------- -->
+<ng-template #templateAdd>
+  <div class="modal-header modal-header1">
+    <h4 class="modal-title pull-left">
+      <span class="d-block">{{ 'GroupBase.AddGroupBase' | translate}}</span>
+    </h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal" #addForm="ngForm">
+      <div class="form">
+        <input type="text" class="form-control form__input" id="gbvn" name="gbvn" placeholder=" " required
+          [(ngModel)]="addGroupBase.gbvn">
+        <label class="form__label" for="gbvn">{{'GroupBase.GroupBaseVN' | translate}} <span
+            class="text-danger">*</span></label>
+      </div>
+      <div class="form">
+        <input type="text" class="form-control form__input" id="gben" name="gben" placeholder=" " required
+          [(ngModel)]="addGroupBase.gben">
+        <label class="form__label" for="gben">{{'GroupBase.GroupBaseEN' | translate}} <span
+            class="text-danger">*</span></label>
+      </div>
+      <div class="form">
+        <input type="text" class="form-control form__input" id="gbtw" name="gbtw" placeholder=" " required
+          [(ngModel)]="addGroupBase.gbtw">
+        <label class="form__label" for="gbtw">{{'GroupBase.GroupBaseTW' | translate}} <span
+            class="text-danger">*</span></label>
+      </div>
+      <div class="form">
+        <input type="text" class="form-control form__input" id="baseSym" name="baseSym" placeholder=" " required
+          [(ngModel)]="addGroupBase.baseSym">
+        <label class="form__label" for="baseSym">{{'GroupBase.BaseSym' | translate}} <span
+            class="text-danger">*</span></label>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <div class="col-sm-12">
+      <div class="col-12 button-modal">
+        <button type="button" class="btn btn-danger me-1 save-button" (click)="resetAdd()">
+          <i class="{{iconButton.RESET}}"></i>
+          {{'System.Action.Reset' | translate}}
+        </button>
+        <button type="button" class="btn btn-success save-button" (click)="saveAdd()" [disabled]="!addForm.valid">
+          <i class="{{iconButton.SAVE}}"></i>
+          {{'System.Action.Save' | translate}}
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- ---------------------------------- Modal Edit Group --------------------------------------------- -->
+<ng-template #templateEdit>
+  <div class="modal-header modal-header1">
+    <h4 class="modal-title pull-left">
+      <span class="d-block">{{ 'GroupBase.EditGroupBase' | translate}}</span>
+    </h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal" #addForm="ngForm">
+      <div class="form">
+        <input type="text" class="form-control form__input" id="gbvn" name="gbvn" placeholder=" " required
+          [(ngModel)]="editGroupBase.gbvn">
+        <label class="form__label" for="gbvn">{{'GroupBase.GroupBaseVN' | translate}} <span
+            class="text-danger">*</span></label>
+      </div>
+      <div class="form">
+        <input type="text" class="form-control form__input" id="gben" name="gben" placeholder=" " required
+          [(ngModel)]="editGroupBase.gben">
+        <label class="form__label" for="gben">{{'GroupBase.GroupBaseEN' | translate}} <span
+            class="text-danger">*</span></label>
+      </div>
+      <div class="form">
+        <input type="text" class="form-control form__input" id="gbtw" name="gbtw" placeholder=" " required
+          [(ngModel)]="editGroupBase.gbtw">
+        <label class="form__label" for="gbtw">{{'GroupBase.GroupBaseTW' | translate}} <span
+            class="text-danger">*</span></label>
+      </div>
+      <div class="form">
+        <input type="text" class="form-control form__input" id="baseSym" name="baseSym" placeholder=" " required
+          [(ngModel)]="editGroupBase.baseSym">
+        <label class="form__label" for="baseSym">{{'GroupBase.BaseSym' | translate}} <span
+            class="text-danger">*</span></label>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <div class="col-sm-12">
+      <div class="col-12 button-modal">
+        <button type="button" class="btn btn-danger me-1 save-button" (click)="resetEdit()">
+          <i class="{{iconButton.RESET}}"></i>
+          {{'System.Action.Reset' | translate}}
+        </button>
+        <button type="button" class="btn btn-success save-button" (click)="saveEdit()" [disabled]="!addForm.valid">
+          <i class="{{iconButton.SAVE}}"></i>
+          {{'System.Action.Save' | translate}}
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>

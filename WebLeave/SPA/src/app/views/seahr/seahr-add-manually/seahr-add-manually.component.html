@@ -1,0 +1,138 @@
+<div class="animated fadeIn">
+  <div class="box-header with-border">
+    <div class="row">
+      <div class="col-lg-6 col-xs-6 col-sm-6">
+        <h4 class="box-title">{{'AddManually.Title' | translate}}</h4>
+      </div>
+      <div class="col-lg-6 col-xs-6 col-sm-6">
+        <button type="button" class="btn btn-primary float-end btn-sm" (click)="back()">
+          <i class="{{iconButton.BACK}}"></i> {{'System.Action.Back' | translate}}
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <div class="col-md-12">
+        <div class="border-shadow pt-3 pb-3">
+          <form class="form-horizontal" #mainForm="ngForm" autocomplete="off" novalidate>
+            <div class="row">
+              <div class="col-xxl-1 col-xl-4 col-lg-4 col-md-4 mb-2">
+                <input id="empNumber" type="text" name="empNumber" class="form-control"
+                  [(ngModel)]="addManuallyParam.empNumber" placeholder="{{'AddManually.EmpID' | translate}}" (ngModelChange)="checkIsSun(addManuallyParam.empNumber)" required>
+              </div>
+              <div class="col-xxl-2 col-xl-4 col-lg-4 col-md-4 mb-2">
+                <ng-select id="slCategoryPersonal" [(ngModel)]="addManuallyParam.slCategoryPersonal"
+                  placeholder="{{'Leave.LeaveRepresentative.LeaveCategory' | translate}}" [clearable]="false"
+                  (ngModelChange)="getStepMinute()" name="listCategory" [disabled]="addManuallyParam.empNumber === null"
+                  required>
+                  <ng-option *ngFor="let item of listCategory" [value]="item.key">
+                    {{item.value}}
+                  </ng-option>
+                </ng-select>
+              </div>
+              <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-4 mb-2">
+                <ng-select id="lunchTime" [(ngModel)]="addManuallyParam.lunchTime"
+                  (ngModelChange)="lunchTimeChange($event)" name="lunchTime" [clearable]="false"
+                  [disabled]="addManuallyParam.slCategoryPersonal === null" required class="custom-select">
+                  <ng-option *ngFor="let item of listLunchTime" [value]="item.key">
+                    {{item['value_' + language.replace('-tw', '')]}}
+                  </ng-option>
+                </ng-select>
+              </div>
+              <div class="col-xxl-2 col-xl-4 col-lg-4 col-md-4 mb-2">
+                <div class="input-group">
+                  <input class="form-control" placeholder="{{'AddManually.Start' | translate}}"
+                    name="txtPersonalBeign"
+                    a2e-datetimepicker [(ngModel)]="addManuallyParam.txtPersonalBeign" (ngModelChange)="changeDate()" [options]="options"
+                    [disabled]="addManuallyParam.lunchTime === '0'"
+                    (blur)="validateTime('txtPersonalBeign')"
+                    onkeypress="return false;" onpaste="return false;"/>
+                  <span class="input-group-addon">
+                    <i class="{{options.icons.date}}" id="icon"></i>
+                  </span>
+                </div>
+              </div>
+              <div class="col-xxl-2 col-xl-4 col-lg-4 col-md-4 mb-2">
+                <div class="input-group">
+                  <input class="form-control" placeholder="{{'AddManually.End' | translate}}"
+                     name="txtPersonalEnd" a2e-datetimepicker
+                    [(ngModel)]="addManuallyParam.txtPersonalEnd" (ngModelChange)="getLeaveHourAndDay()" [options]="optionsTimeEnd"
+                    [disabled]="addManuallyParam.txtPersonalBeign === null"
+                    (blur)="validateTime('txtPersonalEnd')"
+                    onkeypress="return false;" onpaste="return false;"/>
+                  <span class="input-group-addon">
+                    <i class="{{options.icons.date}}" id="icon"></i>
+                  </span>
+
+                </div>
+              </div>
+              <div class="col-xxl-2 col-xl-4 col-lg-4 col-md-4 mb-2 d-flex">
+                <input id="hours" type="text" name="hours" class="form-control me-2" style="width: 50%;"
+                  [(ngModel)]="leaveHoursView" disabled placeholder="{{'Leave.LeaveRepresentative.Hour' | translate}}">
+                <input id="leaveday" type="text" name="days" class="form-control me-2" style="width: 50%;"
+                  [(ngModel)]="leaveDayView" disabled placeholder="{{'Leave.LeaveRepresentative.Day' | translate}}">
+
+                <button type="submit" class="btn btn-success" (click)="save()" [disabled]="!mainForm.valid || isLoading">
+                  <i class="{{iconButton.ADD}}"></i> {{'Leave.LeaveRepresentative.Add' | translate}}
+                </button>
+              </div>
+              <!-- <div class="col-xxl-1 col-xl-2 col-lg-3 col-md-3 mb-2">
+
+              </div> -->
+            </div>
+          </form>
+        <div class="mt-3">
+          <!-- Table History Leave -->
+          <div class="row">
+            <!-- Table LeaveData -->
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>{{'AddManually.STT' | translate }}</th>
+                    <th>{{'AddManually.NAME' | translate}}</th>
+                    <th>{{'AddManually.DEP' | translate}}</th>
+                    <th>{{'AddManually.CATE' | translate}}</th>
+                    <th>{{'AddManually.BREAKTIME' | translate}}</th>
+                    <th>{{'AddManually.HOLIDAY' | translate}}</th>
+                    <th>{{'AddManually.DELETE' | translate}}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of data; let i = index">
+                    <td>
+                      {{ i + 1 }}
+                    </td>
+                    <td><button class="btn btn-sm btn-primary darkcyan">{{
+                        item.empNumber
+                        }}</button> -
+                      {{ item.empName }}</td>
+                    <td>{{ item.depName }}</td>
+                    <td>{{ item.cateName }}</td>
+                    <td>{{ item.time_Start | date:"HH:mm dd/MM/yyyy" }} - {{ item.time_End | date:"HH:mm dd/MM/yyyy"
+                      }}
+                    </td>
+                    <td>{{ item.leaveDay.toFixed(5) }} d - {{ ((item.leaveDay)*8).toFixed(5) }} h</td>
+                    <td>
+                      <button type="button" class="btn btn-danger btn-sm" (click)="delete(item.leaveId)">
+                        <i class="{{iconButton.DELETE}}"></i> {{'AddManually.DELETE' | translate}}
+                      </button>
+                    </td>
+                  </tr>
+                  <tr *ngIf="data?.length < 1">
+                    <td colspan="100%" class="table-warning text-center fw-bold">
+                      {{"Common.NoData" | translate}}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        </div>
+        <!-- End Table History Leave -->
+      </div>
+    </div>
+  </div>
+</div>

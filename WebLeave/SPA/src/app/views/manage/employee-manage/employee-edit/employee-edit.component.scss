@@ -1,0 +1,29 @@
+.form-check {
+  margin-top: 15px;
+}
+
+.form-check-button {
+  margin: 10px;
+}
+
+#div-icon{
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 3;
+}
+
+#icon-custom {
+  color: #ffffff;
+  background: #2196F3;
+  border: 1px solid #2196F3;
+  padding: 14.5px 1rem;
+  font-size: 1rem;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+  border-top-right-radius: 11px;
+  border-bottom-right-radius: 7px;
+}
+
+.empupload .addnew {
+  border-radius: 5px;
+}

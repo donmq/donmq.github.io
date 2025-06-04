@@ -1,0 +1,120 @@
+<div class="animated fadeIn">
+    <div class="box-header with-border">
+        <h4 class="box-title">{{ 'SeaHr.ManagementEmployee.Empmanagement'| translate}}</h4>
+        <button type="button" class="btn btn-sm btn-primary float-end" (click)="back()">
+            <i [class]="iconButton.BACK"></i>
+            {{'System.Action.Back' | translate}}
+        </button>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <form #searchForm="ngForm" autocomplete="off" (submit)="search()">
+                <div class="row mt-3">
+                    <!-- KHU VỰC -->
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-3 col-xl-2 mb-3">
+                        <ng-select name="areaId" [(ngModel)]="filter.areaId" (change)="areaChange($event)" (clear)="clear()" placeholder="{{ 'SeaHr.ManagementEmployee.Area' | translate}}">
+                            <ng-option *ngFor="let area of areas" [value]="area.key">{{area.value}}</ng-option>
+                        </ng-select>
+                    </div>
+                    <!-- PHÒNG BAN -->
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-3 col-xl-2 mb-3">
+                        <ng-select name="departmentId" [(ngModel)]="filter.departmentId" (change)="departmentChange($event)" (clear)="clearDepartment()" placeholder="{{ 'SeaHr.ManagementEmployee.Department' | translate}}" [disabled]="departments.length  == 0">
+                            <ng-option *ngFor="let department of departments" [value]="department.key">{{department.value}}</ng-option>
+                        </ng-select>
+                    </div>
+                    <!-- BỘ PHẬN -->
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-3 col-xl-2 mb-3">
+                        <ng-select name="partId" [(ngModel)]="filter.partId" (change)="partChange($event)" (clear)="clearPart()" placeholder="{{ 'SeaHr.ManagementEmployee.Part' | translate}}" [disabled]="parts.length  == 0">
+                            <ng-option *ngFor="let part of parts" [value]="part.key">{{part.value}}</ng-option>
+                        </ng-select>
+                    </div>
+                    <!-- TÌM KIẾM -->
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-3 mb-3">
+                        <input type="text" class="form-control" autocomplete="off" name="employeeId" [(ngModel)]="filter.employeeId" (keyup)="onKeyUpEmployee()" placeholder="{{ 'SeaHr.ManagementEmployee.Input'| translate}}">
+                    </div>
+                    <!-- BUTTONS -->
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-3 mb-3">
+                        <div class="d-block">
+                            <button type="submit" class="btn btn-primary text-capitalize me-1">
+                                <i [class]="iconButton.SEARCH"></i>
+                                {{'System.Action.Search' | translate}}
+                            </button>
+
+                            <button type="button" class="btn btn-danger text-capitalize" (click)="clear()">
+                                <i [class]="iconButton.CLEAR"></i>
+                                {{'System.Action.Clear' | translate}}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="row">
+                <div class="col-md-12 mt-1 table-responsive">
+                    <!-- ========== Table ========== -->
+                    <table class="table table-striped">
+                        <thead class="text-start text-capitalize">
+                            <tr>
+                                <th  class="text-capitalize">
+                                    {{ 'SeaHr.ManagementEmployee.No'| translate}}</th>
+                                <th class="text-capitalize">
+                                    {{ 'SeaHr.ManagementEmployee.Fullname'| translate}}</th>
+                                <th class="text-capitalize">
+                                    {{ 'SeaHr.ManagementEmployee.Department'| translate}}</th>
+                                <th class="text-capitalize">
+                                    {{ 'SeaHr.ManagementEmployee.Part'| translate}}</th>
+                                <th class="text-capitalize">
+                                    {{ 'SeaHr.ManagementEmployee.UALAL'| translate}}</th>
+                                <th class="text-capitalize">
+                                    {{ 'SeaHr.ManagementEmployee.UAL'| translate}}</th>
+                                <th class="text-capitalize">
+                                    {{ 'SeaHr.ManagementEmployee.Detail'| translate}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr  *ngFor="let item of listData; let i=index">
+                                <td >
+                                    {{pagination.pageNumber > 1 ? pagination.pageSize * (pagination.pageNumber -1) + (i + 1) : i + 1}}
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-primary darkcyan">{{item.empNumber}} </button> - {{item.empName}}
+                                </td>
+                                <td>
+                                    <span [pTooltip]="item.deptCode+ ' - '+ item.deptName" showDelay="50">
+                                        {{item.deptCode}} - {{item.deptName}}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span [pTooltip]="item.partName" showDelay="50">
+                                        {{item.partName}}
+                                    </span>
+                                </td>
+                                <td>
+                                    {{item.countTotal}} / {{item.totalDay}}
+                                </td>
+                                <td>
+                                    {{item.countLeave}}
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-warning" (click)="onGoToDetail(item.empID)">
+                                        <i class="{{iconButton.ARROW_RIGHT}}"></i>
+                                        {{'System.Action.Detail' | translate}}
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr *ngIf="listData.length === 0">
+                                <td colspan="100%" class="table-warning text-center fw-bold">
+                                    {{commonConstants.COMMON_NODATA | translate}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="d-flex" *ngIf="pagination.totalPage > 1">
+                        <pagination  [boundaryLinks]="true" [(ngModel)]="pagination.pageNumber" [totalItems]="pagination.totalCount" [(ngModel)]="pagination.pageNumber" [itemsPerPage]="pagination.pageSize" (pageChanged)="pageChanged($event)" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" [maxSize]=5>
+                        </pagination>
+                        <span class="cs-page ms-2"> Page - {{pagination.pageNumber}} / {{pagination.totalPage}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

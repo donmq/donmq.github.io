@@ -1,0 +1,294 @@
+<div class="animated fadeIn">
+  <div class="box-header with-border">
+    <h4 class="box-title">{{ 'Leave.LeaveApprove.LeaveApprove' | translate}}</h4>
+    <button type="button" class="btn btn-sm btn-primary float-end" (click)="btnBack()">
+      <i class="{{iconButton.BACK}}"></i>
+      {{ 'System.Action.Back' | translate}}
+    </button>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <div class="row mt-3 mb-3">
+        <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 mt-1">
+          <div class="form-group">
+            <input class="form-control" name="empNumber" [(ngModel)]="searchApproveParams.empNumber"
+              placeholder="{{ 'Leave.LeaveApprove.EmpNumber...' | translate}}" autocomplete="off" />
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 mt-1">
+          <div class="form-group">
+            <ng-select [(ngModel)]="searchApproveParams.categoryId" (open)="openCategory()" [clearable]="false"
+              (clear)="clearCategory()" placeholder="{{ 'Leave.LeaveApprove.Category' | translate}}">
+              <ng-option *ngFor="let item of category" [value]="item.key">{{item.value}}</ng-option>
+            </ng-select>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 mt-1">
+          <div class="input-group">
+            <input type="text" name="fromDate" id="fromDate" bsDatepicker onkeypress="return false;"
+              onpaste="return false;" placeholder="{{'Leave.HistoryLeave.FromDate'|translate}}..." [bsConfig]="bsConfig"
+              [(ngModel)]="dateFrom" class="form-control" [maxDate]="dateTo">
+            <div lass="input-group-addon">
+              <i class="{{iconButton.CALENDAR}}" id="icon"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 mt-1">
+          <div class="input-group">
+            <input type="text" name="dateTo" [daysDisabled]="[0]" bsDatepicker onkeypress="return false;"
+              onpaste="return false;" placeholder="{{'Leave.HistoryLeave.ToDate'|translate}}..." [bsConfig]="bsConfig"
+              [(ngModel)]="dateTo" class="form-control disabledTime" [minDate]="dateFrom">
+            <div lass="input-group-addon">
+              <i class="{{iconButton.CALENDAR}}" id="icon"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-3 col-xl-3 mt-1">
+          <button type="button" (click)="btnSearch()" class="btn btn-success me-2">
+            <i class="{{iconButton.SEARCH}}"></i>
+            {{ 'System.Action.Search' | translate}}
+          </button>
+          <button class="btn btn-primary me-2" type="button" (click)="exportExcel()">
+            <i class="{{iconButton.EXCEL}}"></i>
+            {{'Leave.HistoryLeave.ExportExcel'|translate}}
+          </button>
+        </div>
+      </div>
+      <div class="row mt-2 mb-2">
+        <div class="col-lg-3">
+          <button type="button" (click)="openModal(templateAccept)" class="btn btn-success mt-1 me-2">
+            <i class="{{iconButton.SAVE}}"></i> {{ 'Leave.LeaveApprove.Accept' | translate}}
+          </button>
+          <button type="button" (click)="openModal(templateReject)" class="btn btn-danger mt-1">
+            <i class="{{iconButton.CLOSE}}"></i> {{ 'Leave.LeaveApprove.Reject' | translate}}
+          </button>
+        </div>
+      </div>
+      <!-- ========== Table ========== -->
+      <div class="col-md-12 mt-1 table-responsive">
+        <table class="table table-striped">
+          <thead class="text-start">
+            <tr>
+              <th><input class="form-check-input" type="checkbox" (click)="handleAllItemChanges()"
+                  [checked]="isAllItemChecked" value="" id="isAllItemChecked"></th>
+              <th>{{ 'Leave.LeaveApprove.FullName' | translate}}</th>
+              <th>{{ 'Leave.LeaveApprove.PNC' | translate}}</th>
+              <th>{{ 'Leave.LeaveApprove.DEPARTMENT' | translate}}</th>
+              <th>{{ 'Leave.LeaveApprove.LeaveCategory' | translate}}</th>
+              <th>{{ 'Leave.LeaveApprove.TimeCreate' | translate}}</th>
+              <th>{{ 'Leave.LeaveApprove.TimeOfLeave' | translate}}</th>
+              <th>{{ 'Leave.LeaveApprove.LeaveDate' | translate}}</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of leaveDataApprove; let i = index">
+              <td [ngClass]="{'status_Look': item.status_Lock, 'lock_Leave': item.lock_Leave}">
+                <input class="form-check-input" [disabled]="item.status_Lock || item.lock_Leave" type="checkbox"
+                  (click)="handleCheckItem(item)" [checked]="item.accept" value="{{item.accept}}" [id]="item.accept">
+              </td>
+              <td [ngClass]="{'status_Look': item.status_Lock, 'lock_Leave': item.lock_Leave}">
+                <button class="btn btn-sm btn-primary darkcyan" type="button">
+                  {{item.empNumber}}
+                </button> -
+                <span>{{item.empName}}</span>
+                <span *ngIf="item.status_Lock" pTooltip="{{item.mailContent_Lock}}" showDelay="50"
+                  tooltipPosition="top">
+                  <i class="fa-solid fa-circle-exclamation"></i>
+                </span>
+              </td>
+              <td style="width:8%" [ngClass]="{'status_Look': item.status_Lock, 'lock_Leave': item.lock_Leave}"><span>{{item.pnc}}</span>
+              </td>
+              <!-- dept name lang -->
+              <td style="width:16%" *ngIf="languageCurrent === langConstants.ZH_TW || languageCurrent === 'zh'"
+                [ngClass]="{'status_Look': item.status_Lock, 'lock_Leave': item.lock_Leave}">
+                <span>{{item.deptNameLangZH}}</span>
+              </td>
+              <td style="width:16%" *ngIf="languageCurrent === langConstants.VN"
+                [ngClass]="{'status_Look': item.status_Lock, 'lock_Leave': item.lock_Leave}">
+                <span>{{item.deptNameLangVN}}</span>
+              </td>
+              <td style="width:16%" *ngIf="languageCurrent === langConstants.EN"
+                [ngClass]="{'status_Look': item.status_Lock, 'lock_Leave': item.lock_Leave}">
+                <span>{{item.deptNameLangEN}}</span>
+              </td>
+              <!-- category lang -->
+              <td style="width:12%" *ngIf="languageCurrent === langConstants.ZH_TW || languageCurrent === 'zh'"
+                [ngClass]="{'status_Look': item.status_Lock, 'lock_Leave': item.lock_Leave}"><span>{{item.categoryLangZH}}</span>
+                <span *ngIf="item.isMarker" pTooltip="{{'Leave.LeaveApprove.isMarker' | translate}}" showDelay="50"
+                  tooltipPosition="top">
+                  <i class="fa-solid fa-bookmark"></i>
+                </span>
+              </td>
+              <td style="width:12%" *ngIf="languageCurrent === langConstants.VN"
+                [ngClass]="{'status_Look': item.status_Lock, 'lock_Leave': item.lock_Leave}"><span>{{item.categoryLangVN}}</span>
+                <span *ngIf="item.isMarker" pTooltip="{{'Leave.LeaveApprove.isMarker' | translate}}" showDelay="50"
+                  tooltipPosition="top">
+                  <i class="fa-solid fa-bookmark"></i>
+                </span>
+              </td>
+              <td style="width:12%" *ngIf="languageCurrent === langConstants.EN"
+                [ngClass]="{'status_Look': item.status_Lock, 'lock_Leave': item.lock_Leave}"><span>{{item.categoryLangEN}}</span>
+                <span *ngIf="item.isMarker" pTooltip="{{'Leave.LeaveApprove.isMarker' | translate}}" showDelay="50"
+                  tooltipPosition="top">
+                  <i class="fa-solid fa-bookmark"></i>
+                </span>
+              </td>
+              <td [ngClass]="{'status_Look': item.status_Lock, 'lock_Leave': item.lock_Leave}"><span>{{item.createdString}}</span>
+              </td>
+              <td [ngClass]="{'status_Look': item.status_Lock, 'lock_Leave': item.lock_Leave}"><a class="viewOnTime"
+                  (click)="openModalView(viewOnTime, item)"> {{item.timeStart}}
+                  {{item.dateStart}} -
+                  {{item.timeEnd}} {{item.dateEnd}}</a>
+              </td>
+              <td [ngClass]="{'status_Look': item.status_Lock, 'lock_Leave': item.lock_Leave}"> <span>{{item.leaveDayString}}d -
+                  {{item.leaveHourString}}h</span></td>
+              <td [ngClass]="{'status_Look': item.status_Lock, 'lock_Leave': item.lock_Leave}">
+                <a (click)="toDetail(item.leaveID)"><i class="fa-solid fa-right-to-bracket"></i></a>
+              </td>
+            </tr>
+            <tr *ngIf="leaveDataApprove.length == 0">
+              <td colspan="100%" class="table-warning text-center fw-bold">{{ 'Common.NoData'
+                | translate}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="d-flex align-items-baseline" *ngIf="pagination.totalPage > 1">
+        <pagination [boundaryLinks]="true" [(ngModel)]="pagination.pageNumber" [totalItems]="pagination.totalCount"
+          [(ngModel)]="pagination.pageNumber" [itemsPerPage]="pagination.pageSize" (pageChanged)="pageChanged($event)"
+          previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" [maxSize]=5>
+        </pagination>
+        <div class="ms-2">Page - {{pagination.pageNumber}} /
+          {{pagination.totalPage}}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- modal -->
+<ng-template #templateAccept>
+  <div class="modal-header modal-header1">
+    <h4 class="modal-title pull-left"> {{ 'Leave.LeaveApprove.AcceptTheChecked' | translate}}</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="was-validated" autocomplete="off" #formAccept="ngForm">
+      <div class="row">
+        <div class="col">
+          <div class="form">
+            <textarea class="form__input is-invalid form-control" maxlength="600" name="comment" id="comment"
+              placeholder=" " [(ngModel)]="commentLeaveData" rows="15"></textarea>
+            <label for="comment" class="form__label">{{ 'Leave.LeaveApprove.Comment' | translate}}</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <button type="button" (click)="updateLeaveData(true)" class="btn btn-success mt-4 me-3">
+            {{ 'Leave.LeaveApprove.OK' | translate}}
+          </button>
+          <button type="button" (click)="closeModal()" class="btn btn-secondary mt-4 me-3">
+            {{ 'Leave.LeaveApprove.Cancel' | translate}}
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</ng-template>
+<!-- modal -->
+<ng-template #templateReject>
+  <div class="modal-header modal-header1">
+    <h4 class="modal-title pull-left">{{ 'Leave.LeaveApprove.RejectTheChecked' | translate}}</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="was-validated" autocomplete="off" #formReject="ngForm">
+      <div class="row">
+        <div class="col">
+          <div class="form">
+            <textarea class="form__input is-invalid form-control" maxlength="600" name="comment" id="comment"
+              placeholder=" " [(ngModel)]="commentLeaveData" rows="15" required></textarea>
+            <label for="comment" class="form__label">{{ 'Leave.LeaveApprove.Comment' | translate}}</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <button type="button" [disabled]="!formReject.valid" (click)="updateLeaveData(false)"
+            class="btn btn-success mt-4 me-3">
+            {{ 'Leave.LeaveApprove.OK' | translate}}
+          </button>
+          <button type="button" (click)="closeModal()" class="btn btn-secondary mt-4 me-3">
+            {{ 'Leave.LeaveApprove.Cancel' | translate}}
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</ng-template>
+<!-- modal view on time -->
+<ng-template #viewOnTime>
+  <div class="modal-header modal-header1">
+    <h4 class="modal-title pull-left">{{ 'Leave.LeaveApprove.ViewOnTime' | translate}}</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="closeModalView()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-12 userViewOnTime">
+        <strong>{{ 'Leave.LeaveApprove.FullName' | translate}}: </strong> <span>
+          {{leaveDataApproveViewOnTime.userViewOnTime}}</span>
+      </div>
+      <div class="col-md-6">
+        <strong>{{ 'Leave.LeaveApprove.LeaveCategory' | translate}}: </strong> <span>
+          {{leaveDataApproveViewOnTime.categoryViewOnTime}}</span>
+      </div>
+      <div class="col-md-6">
+        <strong>{{ 'Leave.LeaveApprove.LeaveDate' | translate}}: </strong> <span>
+          {{leaveDataApproveViewOnTime.leaveTimeViewOnTime}}</span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 timeViewOnTime">
+        <strong>{{ 'Leave.LeaveApprove.TimeOfLeave' | translate}}: </strong> <span>
+          {{leaveDataApproveViewOnTime.timeViewOnTime}}</span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="table-responsive rounded-top">
+        <table class="table table-striped table-hover align-middle table-bordered">
+          <tbody>
+            <tr *ngFor="let item of leaveDataApproveViewOnTime.listLeaveDataApprove; let i = index">
+              <td>
+                <button class="btn btn-sm btn-primary " type="button">
+                  {{item.empNumber}}
+                </button>
+                - {{item.empName}}
+              </td>
+              <!-- category lang -->
+              <td *ngIf="languageCurrent === langConstants.ZH_TW || languageCurrent === 'zh'">
+                <span>{{item.categoryLangZH}}</span>
+              </td>
+              <td *ngIf="languageCurrent === langConstants.VN"><span>{{item.categoryLangVN}}</span>
+              </td>
+              <td *ngIf="languageCurrent === langConstants.EN"><span>{{item.categoryLangEN}}</span>
+              </td>
+              <td>{{item.timeStart}} {{item.dateStart}} - {{item.timeEnd}} {{item.dateEnd}} </td>
+              <td>{{item.leaveDayString}}d - {{item.leaveHourString}}h</td>
+              <td><strong>{{item.status}}</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</ng-template>

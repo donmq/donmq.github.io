@@ -1,0 +1,69 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">
+        {{'Manage.TeamManager.Part' | translate}}
+        {{part.type === 'CREATE' ? ('Manage.TeamManager.AddNew' | translate) : ('Manage.TeamManager.Edit' | translate)}}
+    </h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close"
+        (click)="close('CLOSE')">
+        <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form autocomplete="off" #addPartForm="ngForm">
+        <div class="form">
+            <input type="text" id="partNameVN" class="form__input form-control" autocomplete="off"
+                placeholder=" " required name="partNameVN" [(ngModel)]="part.partNameVN">
+            <label for="partNameVN" class="form__label">{{'Manage.TeamManager.PartName' | translate}} VN <span class="text-danger text-bold"> *</span></label>
+        </div>
+        <div class="form">
+            <input type="text" id="partNameTW" class="form__input form-control" autocomplete="off"
+                placeholder=" " required name="partNameTW" [(ngModel)]="part.partNameTW">
+            <label for="partNameTW" class="form__label">{{'Manage.TeamManager.PartName' | translate}} TW <span class="text-danger text-bold"> *</span></label>
+        </div>
+        <div class="form">
+            <input type="text" id="partNameEN" class="form__input form-control" autocomplete="off"
+                placeholder=" " required name="partNameEN" [(ngModel)]="part.partNameEN">
+            <label for="partNameEN" class="form__label">{{'Manage.TeamManager.PartName' | translate}} EN <span class="text-danger text-bold"> *</span></label>
+        </div>
+        <div class="form">
+            <input type="text" id="partCode" class="form__input form-control" autocomplete="off"
+                placeholder=" " required name="partCode" [(ngModel)]="part.partCode">
+            <label for="partCode" class="form__label">{{'Manage.TeamManager.PartCode' | translate}} <span class="text-danger text-bold"> *</span></label>
+        </div>
+        <div class="form">
+            <input type="number" id="number" class="form__input form-control" autocomplete="off"
+                placeholder=" " name="number" [(ngModel)]="part.number">
+            <label for="number" class="form__label">{{'Manage.TeamManager.Number' | translate}}</label>
+        </div>
+        <div class="form">
+            <div class="mb-3">
+                <ng-select [(ngModel)]="part.deptID" name="deptID" [clearable]="part.deptID !== 'All'" (clear)="part.deptID = 'All'">
+                    <ng-option *ngFor="let dept of listDept" [value]="dept.key">{{dept.value}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <div class="form">
+            <input type="checkbox" class="form-check-input me-2" id="visible" name="visible"
+                [(ngModel)]="part.visible">
+            <label class="form-check-label" for="visible">{{'Manage.TeamManager.Visible' | translate}}</label>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-danger me-2"
+        (click)="reset()">
+        <i class="{{iconButton.RESET}}"></i>
+        {{'Manage.TeamManager.Reset' | translate}}
+    </button>
+    <button *ngIf="part.type === 'CREATE'" type="button" class="btn btn-primary me-2"
+        (click)="saveAdd('SAVE_AND_NEXT')" [disabled]="addPartForm.invalid || part.deptID === 'All'">
+        <i class="{{iconButton.EDIT}}"></i>
+        {{'Manage.TeamManager.SaveAndNext' | translate}}
+    </button>
+    <button type="button" class="btn btn-success"
+        (click)="part.type === 'CREATE' ? saveAdd('SAVE') : saveUpdate()"
+        [disabled]="addPartForm.invalid || part.deptID === 'All'">
+        <i class="{{iconButton.SAVE}}"></i>
+        {{'Manage.TeamManager.Save' | translate}}
+    </button>
+</div>

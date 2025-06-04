@@ -1,0 +1,343 @@
+<div class="animated fadeIn">
+  <div class="box-header">
+    <div class="row">
+      <div class="col-lg-6 col-xs-6 col-sm-6">
+        <h4 class="box-title">{{'Leave.Representative' | translate}}</h4>
+      </div>
+      <div class="col-lg-6 col-xs-6 col-sm-6">
+        <button type="button" class="btn btn-primary float-end btn-sm" (click)="back()">
+          <i class="{{iconButton.BACK}}"></i> {{'System.Action.Back' | translate}}
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <div class="col-md-12">
+        <div class="border-shadow pt-3 pb-3">
+          <!-- Employee Info -->
+          <div class="row emp-info" *ngIf="employeeInfo.empname == null && leavePersonal.empNumber?.length < 5">
+            <div class="d-flex">
+              <div class="pframe mb-3">
+                * {{'Leave.ErrorMessage.EnterEmpNumber' | translate}}
+              </div>
+            </div>
+          </div>
+          <div class="row emp-info" *ngIf="employeeInfo.empname == null && leavePersonal.empNumber?.length >= 5">
+            <div class="d-flex">
+              <div class="pframe mb-3">
+                * {{'Leave.ErrorMessage.CannotFindPerson' | translate}}
+              </div>
+            </div>
+          </div>
+          <div class="row emp-info" *ngIf="leavePersonal.empNumber != null && employeeInfo.empname != null">
+            <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-12 d-flex">
+              <b>{{'Leave.LeaveRepresentative.FullName' | translate}}: </b>
+              <p>{{employeeInfo.empname}}</p>
+            </div>
+            <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-12 d-flex">
+              <b>{{'Leave.LeaveRepresentative.NumberOfAnnual' | translate}}: </b>
+              <p>{{employeeInfo.restedleave}}</p>
+            </div>
+            <!-- <div class="col-md-4"></div> -->
+            <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-12 d-flex">
+              <b>{{'Leave.LeaveRepresentative.RemainingAnnual' | translate}}: </b>
+              <p>
+                {{employeeInfo.remainingAnnual}} {{'Leave.LeaveRepresentative.Day' | translate}} -
+                {{employeeInfo.remainingAnnualHour}} {{'Leave.LeaveRepresentative.Hour' | translate}}
+              </p>
+            </div>
+            <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-12 d-flex">
+              <b>{{'Leave.LeaveRepresentative.IndividualAnnual' | translate}}: </b>
+              <p>
+                {{employeeInfo.cagent}} {{'Leave.LeaveRepresentative.Day' | translate}} -
+                {{employeeInfo.cagentHour}} {{'Leave.LeaveRepresentative.Hour' | translate}}
+              </p>
+            </div>
+            <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-12 d-flex">
+              <b>{{'Leave.LeaveRepresentative.RemainingOfCompany' | translate}}: </b>
+              <p>
+                {{employeeInfo.carrange}} {{'Leave.LeaveRepresentative.Day' | translate}} -
+                {{employeeInfo.carrangeHour}} {{'Leave.LeaveRepresentative.Hour' | translate}}
+              </p>
+            </div>
+
+            <div class="d-flex" *ngIf="leavePersonal.time_End !== null && leaveDay <= 0">
+              <div class="pframe mb-3">
+                * {{'Leave.ErrorMessage.DateError' | translate}}
+              </div>
+            </div>
+          </div>
+          <!-- End Employee Info -->
+          <form class="row" autocomplete="off">
+            <!-- Employee Number -->
+            <div class="col-xxl-1 col-xl-4 col-lg-4 col-md-4 mb-2">
+              <input type="text" class="form-control" name="empNumber" [(ngModel)]="leavePersonal.empNumber"
+                placeholder="{{'Leave.LeaveRepresentative.EmployeeNumber' | translate}}" (keyup)="getEmployeeInfo()">
+            </div>
+            <!-- Leave Category -->
+            <div class="col-xxl-2 col-xl-4 col-lg-4 col-md-4 mb-2">
+              <ng-select [(ngModel)]="leavePersonal.cateID" name="cateID"
+                placeholder="{{'Leave.LeaveRepresentative.LeaveCategory' | translate}}"
+                (ngModelChange)="getStepMinute()" [clearable]="false"
+                [disabled]="leavePersonal.empNumber == null || leavePersonal.empNumber == '' || employeeInfo.empname == null">
+                <ng-option *ngFor="let cate of listCategory" [value]="cate.key">{{cate.value}}</ng-option>
+              </ng-select>
+            </div>
+            <!-- Time Lunch -->
+            <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-4 mb-2">
+              <ng-select [(ngModel)]="leavePersonal.time_Lunch" name="lunch"
+                placeholder="{{'Leave.LeaveRepresentative.TimeLuch' | translate}}" [clearable]="false"
+                class="custom-select" [disabled]="leavePersonal.cateID === null" (ngModelChange)="changeTimeLunch()">
+                <ng-option *ngFor="let item of listLunchTime" [value]="item.key">
+                  {{item['value_' + language.replace('-tw', '')]}}
+                </ng-option>
+              </ng-select>
+            </div>
+            <!-- DateTime Start -->
+            <div class="col-xxl-2 col-xl-4 col-lg-4 col-md-4 mb-2">
+              <div class="input-group">
+                <input class="form-control" placeholder="{{'Leave.LeavePersonal.StartTime' | translate}}"
+                  id="time_Start" name="time_Start" a2e-datetimepicker
+                  [(ngModel)]="leavePersonal.time_Start" (ngModelChange)="changeDate()" [options]="options"
+                  [disabled]="leavePersonal.time_Lunch === '0' || leavePersonal.time_Lunch === null"
+                  (blur)="validateTime('time_Start')"
+                  onkeypress="return false;" onpaste="return false;" />
+                <span class="input-group-addon">
+                  <i class="{{options.icons.date}}" id="icon"></i>
+                </span>
+              </div>
+            </div>
+            <!-- DateTime End -->
+            <div class="col-xxl-2 col-xl-4 col-lg-4 col-md-4 mb-2">
+              <div class="input-group">
+                <input class="form-control" placeholder="{{'Leave.LeavePersonal.EndTime' | translate}}" name="time_End"
+                  a2e-datetimepicker [(ngModel)]="leavePersonal.time_End"
+                  (ngModelChange)="getLeaveHourAndDay()" [options]="optionsTimeEnd"
+                  [disabled]="leavePersonal.time_Start === null"
+                  (blur)="validateTime('time_End')"
+                  onkeypress="return false;" onpaste="return false;" />
+                <span class="input-group-addon">
+                  <i class="{{options.icons.date}}" id="icon"></i>
+                </span>
+              </div>
+            </div>
+            <!-- Hours and Days -->
+            <div class="col-xxl-2 col-xl-4 col-lg-4 col-md-4 mb-2 d-flex">
+              <input type="text" class="form-control me-2" style="width: 50%;" name="hour" [(ngModel)]="leaveHoursView"
+                placeholder="{{'Leave.LeaveRepresentative.Hour' | translate}}" disabled>
+
+              <input type="text" class="form-control me-2" style="width: 50%;" name="leave" [(ngModel)]="leaveDayView"
+                placeholder="{{'Leave.LeaveRepresentative.Day' | translate}}" disabled>
+              <button type="button" class="btn btn-success" (click)="saveAddLeave()" [disabled]="leavePersonal.time_End == null || leavePersonal.cateID == null
+                                    || leavePersonal.time_Lunch === null || leavePersonal.time_Lunch === '0'
+                                    || leavePersonal.empNumber === null || leavePersonal.empNumber === '' || isLoading">
+                <i class="{{iconButton.ADD}}"></i> {{'Leave.LeaveRepresentative.Add' | translate}}
+              </button>
+            </div>
+            <div class="col-12">
+              <textarea type="text" placeholder="{{'Leave.LeavePersonal.Comment' | translate }}" class="form-control" name="comment" [(ngModel)]="leavePersonal.comment"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="border-shadow mt-2">
+          <!-- Table History Leave -->
+          <div class="row">
+            <div class="col-md-12 mt-1">
+              <div class="mb-3">
+                <!-- Button Delete -->
+                <button type="button" class="btn btn-danger" (click)="deleteLeave()">
+                  <i class="{{iconButton.DELETE}}"></i> {{'Leave.LeaveRepresentative.Delete' |
+                  translate}}
+                </button>
+                <!-- Total -->
+                <span class="sub-total">
+                  {{'Leave.LeaveRepresentative.Total' | translate}}: {{leaveData.length}}
+                </span>
+              </div>
+              <!-- Table LeaveData -->
+              <table class="table table-bordered table-hover table-striped">
+                <thead>
+                  <tr>
+                    <!-- CheckAll -->
+                    <th scope="col" class="text-center">
+                      <div class="pretty p-icon p-curve p-jelly">
+                        <input type="checkbox" class="custom-control-input" id="checkAll" [(ngModel)]="checkboxAll"
+                          (change)="checkAll()" [disabled]="leaveData?.length <= 0">
+                        <div class="state p-warning">
+                          <i class="icon fa fa-check"></i>
+                          <label class="custom-control-label" for="checkAll"></label>
+                        </div>
+                      </div>
+                    </th>
+                    <th scope="col">{{'Leave.LeaveRepresentative.FullName' | translate}}</th>
+                    <th scope="col">PNC</th>
+                    <th scope="col">{{'Leave.LeaveRepresentative.Department' | translate}}</th>
+                    <th scope="col">{{'Leave.LeaveRepresentative.ReasonOfLeave' | translate}}</th>
+                    <th scope="col">{{'Leave.LeaveRepresentative.TimeLine' | translate}}</th>
+                    <th scope="col">{{'Leave.LeaveRepresentative.TimeOfLeave' | translate}}</th>
+                    <th scope="col">{{'Leave.LeaveRepresentative.LeaveDay' | translate}}</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of leaveData"
+                    [ngClass]="item.leaveDataViewModel?.status_Lock ? 'status-danger' : ''">
+                    <!-- CheckBox -->
+                    <td class="text-center">
+                      <div class="pretty p-icon p-curve p-jelly">
+                        <input type="checkbox" class="custom-control-input"
+                          [id]="item.leaveDataViewModel?.leaveID"
+                          [(ngModel)]="item.leaveDataViewModel.checked" (change)="checkElement()">
+                        <div class="state p-warning">
+                          <i class="icon fa fa-check"></i>
+                          <label class="custom-control-label" for="{{item.leaveDataViewModel?.leaveID}}">
+                          </label>
+                        </div>
+                      </div>
+                    </td>
+                    <!-- Employee Number - FullName - MailLock -->
+                    <td>
+                      <button class="btn btn-sm btn-primary darkcyan">{{item.employee?.empNumber}}</button>
+                      - {{item.employee?.empName}}
+                      <span *ngIf="item.leaveDataViewModel?.status_Lock" class="text-warning"
+                        pTooltip="{{item.leaveDataViewModel?.mailContent_Lock == null ||
+                                                    item.leaveDataViewModel?.mailContent_Lock == '' ?
+                                                    ('Leave.ErrorMessage.Lockleaver' | translate) : item.leaveDataViewModel?.mailContent_Lock}}" showDelay="50" tooltipPosition="top">
+                        <i class="fa fa-warning"></i>
+                      </span>
+                    </td>
+                    <!-- PNC - Phép năm còn lại -->
+                    <td>{{item.employee?.countRestAgent}}</td>
+                    <!-- Department -->
+                    <td>
+                      {{item.employee?.deptCode}} -
+                      {{
+                      language === 'vi' ? item.employee?.partNameVN :
+                      language === 'en' ? item.employee?.partNameEN :
+                      item.employee?.partNameTW
+                      }}
+                    </td>
+                    <!-- Leave Category -->
+                    <td>
+                      <span class="leaveplus text-success" *ngIf="item.leaveDataViewModel?.exhibit"
+                        pTooltip="{{'Leave.ErrorMessage.LeavePlus' | translate}}" showDelay="50">
+                        <i class="fa fa-share-square" aria-hidden="true"></i>
+                      </span>
+                      {{
+                      language === 'vi' ? item.leaveDataViewModel?.categoryNameVN :
+                      language === 'en' ? item.leaveDataViewModel?.categoryNameEN :
+                      item.leaveDataViewModel?.categoryNameTW
+                      }}
+                      <span class="dbook text-warning" *ngIf="item.leaveDataViewModel?.leavePlus"
+                        pTooltip="{{'Leave.ErrorMessage.AddImplement' | translate}}" showDelay="50"
+                        tooltipPosition="top">
+                        <i class="fa fa-bookmark" aria-hidden="true"></i>
+                      </span>
+                    </td>
+                    <!-- TimeLine -->
+                    <td>{{item.leaveDataViewModel?.created | date: "HH:mm dd/MM/yyyy"}}</td>
+                    <!-- Time Of Leave -->
+                    <td class="detail-leave-modal" (click)="[
+                                                getListOnTime(item.leaveDataViewModel),
+                                                openModal(template, item)
+                                            ]">
+                      {{item.leaveDataViewModel?.timeLine}}
+                    </td>
+                    <!-- LeaveDay -->
+                    <td>{{item.leaveDataViewModel?.leaveDayReturn}}</td>
+                    <td>
+                      <a href="/#/leave/detail/{{item.leaveDataViewModel?.leaveID}}">
+                        <i class="fa fa-arrow-circle-right"></i>
+                      </a>
+                    </td>
+                  </tr>
+                  <tr *ngIf="leaveData?.length < 1">
+                    <td colspan="100%" class="table-warning text-center fw-bold">
+                      {{"Common.NoData" | translate}}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- End Table History Leave -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">View on time</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="[modalRef?.hide()]">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row emp-info">
+      <div class="d-flex">
+        <b>{{'Leave.LeaveRepresentative.EmployeeNumber' | translate}}: </b>
+        <p>{{employeeViewOnTime.employee?.empNumber}}</p>
+      </div>
+      <div class="d-flex">
+        <b>{{'Leave.LeaveRepresentative.FullName' | translate}}: </b>
+        <p>{{employeeViewOnTime.employee?.empName}}</p>
+      </div>
+      <div class="d-flex">
+        <b>{{'Leave.LeaveRepresentative.LeaveCategory' | translate}}: </b>
+        <p>{{employeeViewOnTime.leaveDataViewModel?.categoryNameVN}}</p>
+      </div>
+      <div class="d-flex">
+        <b>{{'Leave.LeaveRepresentative.TimeOfLeave' | translate}}: </b>
+        <p>{{employeeViewOnTime.leaveDataViewModel?.timeLine}}</p>
+      </div>
+      <div class="d-flex">
+        <b>{{'Leave.LeaveRepresentative.LeaveDay' | translate}}: </b>
+        <p>{{employeeViewOnTime.leaveDataViewModel?.leaveDayReturn}}</p>
+      </div>
+      <div class="d-flex" *ngIf="employeeViewOnTime.leaveDataViewModel?.status_Lock">
+        <b>Mail Lock: </b>
+        <p>
+          {{
+          employeeViewOnTime.leaveDataViewModel?.mailContent_Lock == null ||
+          employeeViewOnTime.leaveDataViewModel?.mailContent_Lock == '' ?
+          ('Leave.ErrorMessage.Lockleaver' | translate) :
+          employeeViewOnTime.leaveDataViewModel?.mailContent_Lock
+          }}
+        </p>
+      </div>
+    </div>
+
+    <table class="table table-bordered table-hover table-striped">
+      <thead>
+        <tr>
+          <th scope="col">{{'Leave.LeaveRepresentative.FullName' | translate}}</th>
+          <th scope="col">{{'Leave.LeaveRepresentative.LeaveCategory' | translate}}</th>
+          <th scope="col">{{'Leave.LeaveRepresentative.LeaveDay' | translate}}</th>
+          <th scope="col">{{'Leave.LeaveRepresentative.TimeOfLeave' | translate}}</th>
+          <th scope="col">{{'Leave.LeaveRepresentative.Status' | translate}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of listOnTime">
+          <td>{{item?.empName}}</td>
+          <td>{{item?.categoryNameVN}}</td>
+          <td>{{item?.timeLine}}</td>
+          <td>{{item?.leaveDayReturn}}</td>
+          <td [ngClass]="item?.status.includes('1') ? 'text-warning' :
+                        item?.status.includes('2') ? 'text-primary' :
+                        item?.status.includes('3') ? 'text-danger' : 'text-success' ">
+            {{item?.status | translate}}
+          </td>
+        </tr>
+        <tr *ngIf="listOnTime?.length < 1">
+          <td colspan="100%" class="table-warning text-center fw-bold">
+            {{"Common.NoData" | translate}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</ng-template>

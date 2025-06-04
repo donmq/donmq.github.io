@@ -1,0 +1,311 @@
+<div class="animated fadeIn"
+     *ngIf="isNotification == false; else notification;">
+  <div class="box-header with-border">
+    <div class="row">
+      <div class="col-lg-6 col-xs-6 col-sm-6">
+        <h4 class="box-title">{{'System.Action.AddNew' | translate}}</h4>
+      </div>
+      <div class="col-lg-6 col-xs-6 col-sm-6 back">
+        <button type="button"
+                class="btn btn-primary btn-sm float-end mb-2"
+                (click)="back()"><i class="fa-solid fa-angle-left"></i> {{'System.Action.Back' | translate}}</button>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <div class="row">
+      <div class="col-lg-4 col-md-12">
+        <div class="empupload box box-primary uploadFile">
+          <div class="uptitle addnew">
+            {{'SeaHr.SearHrAddEmployee.UploadExcel' | translate}}
+          </div>
+          <div class="upnote">
+            <span>{{'SeaHr.SearHrAddEmployee.Noted' | translate}}</span>: {{'SeaHr.SearHrAddEmployee.InfoNote' |
+            translate}} <a (click)="exportExcel()">{{'SeaHr.SearHrAddEmployee.Here'
+              | translate}}.</a> <br>
+            {{'SeaHr.SearHrAddEmployee.WarningNote' | translate}}<br>
+            <span style="color:red; font-weight: bold;"><i class="fa fa-warning"></i>{{'SeaHr.SearHrAddEmployee.ProblemNote' | translate}}</span>
+          </div>
+          <!-- Upload image input-->
+          <div class="input-group mb-3 px-2 py-2 rounded-pill bg-white shadow-sm">
+            <input id="input_uploadFile"
+                   type="file"
+                   class="form-control border-0"
+                   accept="{{accept}}"
+                   (change)="onSelectFile($event)">
+            <!-- <label id="labelFile" for="input_uploadFile" class=" font-weight-light text-muted">Choose
+              file</label> -->
+            <div class="input-group-append">
+              <label for="upload"
+                     class="btn btn-light m-0 rounded-pill px-4"
+                     (click)="uploadFile()"> <i class="fa fa-cloud-upload mr-2 text-muted"
+                   style="margin-right: 5px;"></i><small class="text-uppercase fw-bold text-muted">{{'SeaHr.SearHrAddEmployee.UploadFile' |
+                  translate}}</small></label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8 col-md-12">
+        <div class="empupload box box-primary">
+          <div class="uptitle addnew">
+            {{'SeaHr.SearHrAddEmployee.AddManually' | translate}}
+          </div>
+          <form #add="ngForm"
+                autocomplete="off">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form">
+                  <input type="text"
+                         [(ngModel)]="employee.empNumber"
+                         name="empNumber"
+                         id="empNumber"
+                         class="form__input form-control"
+                         placeholder=" "
+                         required>
+                  <label for="empNumber"
+                         class="form__label">{{'SeaHr.SearHrAddEmployee.EmployeeID' |
+                    translate}}</label>
+                </div>
+                <div class="form">
+                  <input type="text"
+                         [(ngModel)]="employee.empName"
+                         id="empName"
+                         name="empName"
+                         class="form__input  form-control"
+                         placeholder=" ">
+                  <label for="empName"
+                         class="form__label">{{'SeaHr.SearHrAddEmployee.FullName' |
+                    translate}}</label>
+                </div>
+                <div class="form">
+                  <input type="text"
+                         placeholder=" "
+                         id="dateIn"
+                         name="dateIn"
+                         [(ngModel)]="employee.dateIn"
+                         class="form__input form-control"
+                         bsDatepicker
+                         onkeypress="return false;"
+                         onpaste="return false;"
+                         [bsConfig]="{ containerClass: 'theme-dark-blue', showClearButton: true, clearPosition: 'right', dateInputFormat: 'DD/MM/YYYY' }">
+                  <label for="dateIn"
+                         class="form__label">{{'SeaHr.SearHrAddEmployee.DateIn' | translate}}</label>
+                  <div lass="input-group-addon"
+                       id="div-icon">
+                    <i class="fa-solid fa-calendar-days"
+                       id="icon-custom"></i>
+                  </div>
+                </div>
+                <div class="form">
+                  <div class="mb-3">
+                    <ng-select name="departmentId"
+                               placeholder="{{ 'SeaHr.SearHrAddEmployee.Department' | translate }}"
+                               [ngClass]="'custom'"
+                               id="departmentId"
+                               [placeholder]=""
+                               [(ngModel)]="employee.deptID"
+                               required
+                               aria-label="select example"
+                               (ngModelChange)="changeDepartment($event)">
+                      <ng-option *ngFor="let department of departmentList"
+                                 [value]="department.key">
+                        {{department.value}}
+                      </ng-option>
+                    </ng-select>
+                  </div>
+                </div>
+                <div class="form">
+                  <div class="mb-3">
+                    <ng-select name="partId"
+                               [ngClass]="'custom'"
+                               placeholder="{{ 'SeaHr.SearHrAddEmployee.PartID' | translate }}"
+                               id="partId"
+                               [(ngModel)]="employee.partID"
+                               [disabled]="flag"
+                               required
+                               aria-label=" select example">
+                      <ng-option *ngFor="let part of partList"
+                                 [value]="part.key">{{part.value}}
+                      </ng-option>
+                    </ng-select>
+                  </div>
+                </div>
+                <div class="form">
+                  <div class="mb-3">
+                    <ng-select name="positionId"
+                               id="positionId"
+                               [ngClass]="'custom'"
+                               placeholder="{{ 'SeaHr.SearHrAddEmployee.Position' | translate }}"
+                               [(ngModel)]="employee.positionID"
+                               required
+                               aria-label="select example">
+                      <ng-option *ngFor="let position of positionList"
+                                 [value]="position.key">{{position.value}}
+                      </ng-option>
+                    </ng-select>
+                  </div>
+                </div>
+                <div class="form">
+                  <ng-select name="groupBaseId"
+                             id="groupBaseId"
+                             placeholder="{{ 'SeaHr.SearHrAddEmployee.Group' | translate }}"
+                             [(ngModel)]="employee.gBID"
+                             [ngClass]="'custom ng-invalid'"
+                             required
+                             aria-label="select example">
+                    <ng-option *ngFor="let groupBase of groupBaseList"
+                               [value]="groupBase.key">{{groupBase.value}}
+                    </ng-option>
+                  </ng-select>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form">
+                  <input type="number"
+                         id="totalDay"
+                         name="totalDay"
+                         in="0"
+                         step="1"
+                         (keydown)="checkValue($event)"
+                         [(ngModel)]="employee.totalDay"
+                         class="form__input form-control"
+                         placeholder=" "
+                         required>
+                  <label for="totalDay"
+                         class="form__label ">{{'SeaHr.SearHrAddEmployee.AnnualLeave' |
+                    translate}}</label>
+                </div>
+                <div class="form">
+                  <input type="number"
+                         id="countAgent"
+                         name="countAgent"
+                         in="0"
+                         step="1"
+                         (keydown)="checkValue($event)"
+                         [(ngModel)]="employee.countAgent"
+                         class="form__input form-control"
+                         autocomplete="off"
+                         placeholder=" "
+                         required>
+                  <label for="countAgent"
+                         class="form__label">{{'SeaHr.SearHrAddEmployee.PersonalLeaveRetired' |
+                    translate}}</label>
+                </div>
+                <div class="form">
+                  <input type="number"
+                         id="countArran"
+                         name="countArran"
+                         in="0"
+                         step="1"
+                         (keydown)="checkValue($event)"
+                         [(ngModel)]="employee.countArran"
+                         class="form__input form-control"
+                         required
+                         autocomplete="off"
+                         placeholder=" ">
+                  <label for="countArran"
+                         class="form__label">{{'SeaHr.SearHrAddEmployee.PersonalLeaveWithout' |
+                    translate}}</label>
+                </div>
+                <div class="form">
+                  <input type="number"
+                         id="countRestAgent"
+                         name="countRestAgent"
+                         in="0"
+                         step="1"
+                         (keydown)="checkValue($event)"
+                         [(ngModel)]="employee.countRestAgent"
+                         class="form__input  form-control"
+                         autocomplete="off"
+                         placeholder=" "
+                         required>
+                  <label for="countRestAgent"
+                         class="form__label">{{'SeaHr.SearHrAddEmployee.ArrangementLeavetired'
+                    | translate}}</label>
+                </div>
+                <div class="form">
+                  <input type="number"
+                         id="countRestArran"
+                         name="countRestArran"
+                         in="0"
+                         step="1"
+                         (keydown)="checkValue($event)"
+                         [(ngModel)]="employee.countRestArran"
+                         class="form__input form-control"
+                         required
+                         autocomplete="off"
+                         placeholder=" ">
+                  <label for="countRestArran"
+                         class="form__label">{{'SeaHr.SearHrAddEmployee.ArrangementLeaveWithout'
+                    | translate}}</label>
+                </div>
+                <div class="form">
+                  <input type="number"
+                         id="countTotal"
+                         name="countTotal"
+                         [(ngModel)]="employee.countTotal"
+                         class="form__input form-control"
+                         autocomplete="off"
+                         placeholder=" ">
+                  <label for="countTotal"
+                         class="form__label">{{'SeaHr.SearHrAddEmployee.TotalLeave' |
+                    translate}}</label>
+                </div>
+                <div class="form-check mb-3">
+                  <input type="checkbox"
+                         class="form-check-input me-2"
+                         id=" visible"
+                         name="visible"
+                         [(ngModel)]="employee.isCreateAccount">
+                  <label class="form-check-label me-2"
+                         for=" visible">{{'SeaHr.SearHrAddEmployee.CreateAccout'
+                    | translate}}</label>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-check-button">
+                  <button type="button"
+                          class="btn btn-success me-2"
+                          [disabled]="!add.valid"
+                          (click)="addEmployee()"><i class="{{iconButton.ADD}}"></i>
+                    {{'System.Action.AddNew' | translate}}</button>
+                  <button type="button"
+                          class="btn btn-danger me-2"
+                          (click)="refresh()"><i class="{{iconButton.RESET}}"></i>
+                    {{'System.Action.Reset' | translate}}</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #notification>
+  <div class="animated fadeIn">
+    <div class="box-header with-border">
+      <div class="row">
+        <div class="col-lg-6 col-xs-6 col-sm-6">
+          <h4 class="box-title">{{'System.Action.Notification' | translate}}</h4>
+        </div>
+        <div class="col-lg-6 col-xs-6 col-sm-6 back">
+          <button type="button"
+                  class="btn btn-primary btn-sm float-end mb-2"
+                  (click)="back()"><i class="fa-solid fa-angle-left"></i> {{'System.Action.Back' | translate}}</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="empupload box box-primary">
+        <div class="row">
+          <span><b>{{'SeaHr.SearHrAddEmployee.TotalEmp' | translate}} :</b> {{resultUpload.totalEmp}}</span>
+          <span><b>{{'SeaHr.SearHrAddEmployee.CreateEmp' | translate}} :</b> {{resultUpload.countCreateEmp}}</span>
+          <span><b>{{'SeaHr.SearHrAddEmployee.UpdateEmp' | translate}} :</b> {{resultUpload.countUpdateEmp}}</span>
+          <span><b>{{'SeaHr.SearHrAddEmployee.Ignore' | translate}} :</b> {{resultUpload.ignore}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

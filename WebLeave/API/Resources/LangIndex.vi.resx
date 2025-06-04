@@ -1,0 +1,1047 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="About" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="Accept" xml:space="preserve">
+    <value>Chấp nhận</value>
+  </data>
+  <data name="AddApply" xml:space="preserve">
+    <value>Đại diện</value>
+  </data>
+  <data name="AddBegin" xml:space="preserve">
+    <value>Bắt đầu</value>
+  </data>
+  <data name="AddbtnAdd" xml:space="preserve">
+    <value>Thêm</value>
+  </data>
+  <data name="AddbtnAdvance" xml:space="preserve">
+    <value>Nâng cao</value>
+  </data>
+  <data name="AddbtnDelete" xml:space="preserve">
+    <value>Xóa nhanh</value>
+  </data>
+  <data name="AddbtnUpload" xml:space="preserve">
+    <value>Tải lên</value>
+  </data>
+  <data name="AddCate" xml:space="preserve">
+    <value>Thể loại nghỉ phép</value>
+  </data>
+  <data name="AddCateList" xml:space="preserve">
+    <value>Loại phép</value>
+  </data>
+  <data name="AddCountResult" xml:space="preserve">
+    <value>Tổng</value>
+  </data>
+  <data name="AddDay" xml:space="preserve">
+    <value>Ngày</value>
+  </data>
+  <data name="AddDayLeave" xml:space="preserve">
+    <value>Ngày nghỉ</value>
+  </data>
+  <data name="AddDept" xml:space="preserve">
+    <value>Bộ phận</value>
+  </data>
+  <data name="AddE1" xml:space="preserve">
+    <value>Không tìm thấy người lao động. Hoặc người lao động không thuộc khung quản lý !</value>
+  </data>
+  <data name="AddE2" xml:space="preserve">
+    <value>Vui lòng nhập mã nhân viên để tiếp tục !</value>
+  </data>
+  <data name="AddE3" xml:space="preserve">
+    <value>Không tìm thấy người lao động. Hoặc người lao động không thuộc khung quản lý !</value>
+  </data>
+  <data name="AddE4" xml:space="preserve">
+    <value>Vui lòng chọn đầy đủ ngày bắt đầu và kết thúc nghỉ phép !</value>
+  </data>
+  <data name="AddE5" xml:space="preserve">
+    <value>Số ngày nghỉ không chính xác ! Hoặc nhập sai ngày bắt đầu và kết thúc !</value>
+  </data>
+  <data name="AddE6" xml:space="preserve">
+    <value>Vui lòng chọn loại nghỉ phép theo quy định !</value>
+  </data>
+  <data name="AddE7" xml:space="preserve">
+    <value>Phép năm của người lao động đã hết ! Vui lòng chọn loại phép khác !</value>
+  </data>
+  <data name="AddE8" xml:space="preserve">
+    <value>Kỳ nghỉ của người lao động bị trùng với một kỳ nghỉ khác đã được đăng ký ! Vui lòng xem lại !</value>
+  </data>
+  <data name="AddE9" xml:space="preserve">
+    <value>Phép năm của người lao động không đủ ! Vui lòng chọn loại phép khác hoặc chọn lại thời gian cho kỳ nghỉ !</value>
+  </data>
+  <data name="AddEmpNo" xml:space="preserve">
+    <value>Mã nhân viên</value>
+  </data>
+  <data name="AddEnd" xml:space="preserve">
+    <value>Kết thúc</value>
+  </data>
+  <data name="AddFast" xml:space="preserve">
+    <value>Thêm nhanh</value>
+  </data>
+  <data name="AddFullname" xml:space="preserve">
+    <value>Họ &amp; tên</value>
+  </data>
+  <data name="AddHour" xml:space="preserve">
+    <value>Giờ</value>
+  </data>
+  <data name="AddImplement" xml:space="preserve">
+    <value>Loại phép cần bổ sung giấy tờ</value>
+  </data>
+  <data name="AddTime" xml:space="preserve">
+    <value>Thời gian nghỉ</value>
+  </data>
+  <data name="AdvBegin" xml:space="preserve">
+    <value>Giờ bắt đầu</value>
+  </data>
+  <data name="AdvbtnReg" xml:space="preserve">
+    <value>Đăng ký</value>
+  </data>
+  <data name="AdvbtnReset" xml:space="preserve">
+    <value>Làm lại</value>
+  </data>
+  <data name="AdvEnd" xml:space="preserve">
+    <value>Giờ kết thúc</value>
+  </data>
+  <data name="AdvListEmp" xml:space="preserve">
+    <value>Danh sách nhân viên</value>
+  </data>
+  <data name="AdvSelectCate" xml:space="preserve">
+    <value>Chọn loại nghỉ phép</value>
+  </data>
+  <data name="AdvTextDay" xml:space="preserve">
+    <value>Nhập số ngày cần nghỉ</value>
+  </data>
+  <data name="alert1" xml:space="preserve">
+    <value>Vui lòng chọn đơn để thực hiện tác vụ</value>
+  </data>
+  <data name="alert2" xml:space="preserve">
+    <value>Không tìm thấy dữ liệu phù hợp</value>
+  </data>
+  <data name="alertapprove" xml:space="preserve">
+    <value>Vui lòng nhập lý do từ chối đơn nghỉ phép !</value>
+  </data>
+  <data name="Application" xml:space="preserve">
+    <value>Nghỉ phép</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Đại Diện</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>Xét Duyệt</value>
+  </data>
+  <data name="ApproveCheck" xml:space="preserve">
+    <value>Vui lòng chọn đơn nghỉ phép để thực hiện hành động tiếp theo !</value>
+  </data>
+  <data name="ApproveTitle" xml:space="preserve">
+    <value>Chấp nhận các đơn đã đánh dấu</value>
+  </data>
+  <data name="area" xml:space="preserve">
+    <value>Khu vực</value>
+  </data>
+  <data name="batdau" xml:space="preserve">
+    <value>Bắt đầu</value>
+  </data>
+  <data name="bophan" xml:space="preserve">
+    <value>Bộ phận</value>
+  </data>
+  <data name="boqua" xml:space="preserve">
+    <value>Bỏ qua</value>
+  </data>
+  <data name="BoxUploadTitle" xml:space="preserve">
+    <value>Upload đơn nghỉ phép</value>
+  </data>
+  <data name="btnApproved" xml:space="preserve">
+    <value>Thực hiện</value>
+  </data>
+  <data name="btnCancel" xml:space="preserve">
+    <value>Hủy bỏ</value>
+  </data>
+  <data name="btnCancelDelete" xml:space="preserve">
+    <value>Huỷ bỏ</value>
+  </data>
+  <data name="btnChangePass" xml:space="preserve">
+    <value>Xác nhận</value>
+  </data>
+  <data name="btnConfirmDelete" xml:space="preserve">
+    <value>Đồng Ý</value>
+  </data>
+  <data name="btnLogin" xml:space="preserve">
+    <value>Đăng nhập</value>
+  </data>
+  <data name="btnReset" xml:space="preserve">
+    <value>Làm lại</value>
+  </data>
+  <data name="btnUpload" xml:space="preserve">
+    <value>Upload</value>
+  </data>
+  <data name="building" xml:space="preserve">
+    <value>Tòa nhà</value>
+  </data>
+  <data name="buphep" xml:space="preserve">
+    <value>Bù Phép</value>
+  </data>
+  <data name="CateApprove" xml:space="preserve">
+    <value>Loại phép</value>
+  </data>
+  <data name="category" xml:space="preserve">
+    <value>Thể loại phép</value>
+  </data>
+  <data name="ChangeAvatar" xml:space="preserve">
+    <value>Đổi hình đại diện</value>
+  </data>
+  <data name="ChangePassword" xml:space="preserve">
+    <value>Đổi mật khẩu</value>
+  </data>
+  <data name="chinhsua" xml:space="preserve">
+    <value>Edit(Chỉnh sửa)</value>
+  </data>
+  <data name="chitiet" xml:space="preserve">
+    <value>Chi tiết</value>
+  </data>
+  <data name="chucvu" xml:space="preserve">
+    <value>Chức vụ</value>
+  </data>
+  <data name="company" xml:space="preserve">
+    <value>Công ty</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Xác nhận</value>
+  </data>
+  <data name="confirmDelete" xml:space="preserve">
+    <value>Rất nhiều đơn xin nghỉ phép sẽ bị xóa khỏi hệ thống ! Bạn có chắc muốn thực hiện không ?</value>
+  </data>
+  <data name="CopyRight" xml:space="preserve">
+    <value>Bảo lưu mọi quyền</value>
+  </data>
+  <data name="CountDay" xml:space="preserve">
+    <value>Ngày nghỉ</value>
+  </data>
+  <data name="Cpanel" xml:space="preserve">
+    <value>Quản trị</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Tạo mới</value>
+  </data>
+  <data name="danghiviec" xml:space="preserve">
+    <value>Đã nghỉ việc</value>
+  </data>
+  <data name="danglamviec" xml:space="preserve">
+    <value>Đang làm việc</value>
+  </data>
+  <data name="Debby" xml:space="preserve">
+    <value>Phát triển bởi</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Mặc định</value>
+  </data>
+  <data name="DeleteCheckList" xml:space="preserve">
+    <value>Vui lòng chọn đơn nghỉ phép để thực hiện xóa các đơn nghỉ phép !</value>
+  </data>
+  <data name="department" xml:space="preserve">
+    <value>Phòng ban</value>
+  </data>
+  <data name="DeptApprove" xml:space="preserve">
+    <value>Bộ phận</value>
+  </data>
+  <data name="Detail" xml:space="preserve">
+    <value>Chi tiết</value>
+  </data>
+  <data name="DtArchive" xml:space="preserve">
+    <value>Mã lưu trữ</value>
+  </data>
+  <data name="DtBegin" xml:space="preserve">
+    <value>Bắt đầu</value>
+  </data>
+  <data name="DtbtnEditStatus" xml:space="preserve">
+    <value>Sửa đổi</value>
+  </data>
+  <data name="DtCapNhat" xml:space="preserve">
+    <value>Cập nhật</value>
+  </data>
+  <data name="DtCate" xml:space="preserve">
+    <value>Loại phép</value>
+  </data>
+  <data name="DtDateApply" xml:space="preserve">
+    <value>Xin phép lúc</value>
+  </data>
+  <data name="DtDatein" xml:space="preserve">
+    <value>Ngày vào</value>
+  </data>
+  <data name="DtDept" xml:space="preserve">
+    <value>Bộ phận</value>
+  </data>
+  <data name="DtEditStatus" xml:space="preserve">
+    <value>Chỉnh sửa đơn nghỉ phép</value>
+  </data>
+  <data name="DtEmpID" xml:space="preserve">
+    <value>Mã nhân viên</value>
+  </data>
+  <data name="DtEnd" xml:space="preserve">
+    <value>Kết thúc</value>
+  </data>
+  <data name="DtFullname" xml:space="preserve">
+    <value>Họ &amp; tên</value>
+  </data>
+  <data name="DtNguoiDuyet" xml:space="preserve">
+    <value>Người duyệt</value>
+  </data>
+  <data name="DtNguoiGoi" xml:space="preserve">
+    <value>Người gởi</value>
+  </data>
+  <data name="DtSoNgay" xml:space="preserve">
+    <value>Số ngày</value>
+  </data>
+  <data name="DtStatus" xml:space="preserve">
+    <value>Tình trạng</value>
+  </data>
+  <data name="DtTimeLine" xml:space="preserve">
+    <value>Dòng thời gian</value>
+  </data>
+  <data name="employee" xml:space="preserve">
+    <value>Người lao động</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Lỗi</value>
+  </data>
+  <data name="ErrorAccess" xml:space="preserve">
+    <value>Bạn chưa được cấp phép để truy cập khu vực này. Liên hệ phòng Nhân Sự để được hướng dẫn thêm.</value>
+  </data>
+  <data name="ErrorAdmin" xml:space="preserve">
+    <value>Bạn cần quyền quản trị để vào khu vực này. Liên hệ phòng Nhân Sự để được hướng dẫn thêm.</value>
+  </data>
+  <data name="errorDeleteUser" xml:space="preserve">
+    <value>Xóa nhân viên không thành công vui lòng kiểm tra lại! Xin cảm ơn.</value>
+  </data>
+  <data name="successDelete" xml:space="preserve">
+    <value>Xóa nhân viên thành công! Xin cảm ơn.</value>
+  </data>
+  <data name="ErrorLink1" xml:space="preserve">
+    <value>Hệ thộng sẽ tự động chuyển về trang chủ trong</value>
+  </data>
+  <data name="ErrorLink2" xml:space="preserve">
+    <value>giây nữa.</value>
+  </data>
+  <data name="ErrorLoginFail" xml:space="preserve">
+    <value>Bạn đăng nhập không thành công ! Tài khoản không chính xác hoặc bị khóa. Liên hệ phòng Nhân Sự để được hướng dẫn thêm.</value>
+  </data>
+  <data name="ErrorNotLogin" xml:space="preserve">
+    <value>Bạn chưa đăng nhập hệ thống ! Đăng nhập để tiếp tục hoặc liên hệ phòng Nhân Sự để được hướng dẫn thêm.</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Đăng xuất</value>
+  </data>
+  <data name="group" xml:space="preserve">
+    <value>Nhóm</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>Trợ giúp</value>
+  </data>
+  <data name="hisbtnExport" xml:space="preserve">
+    <value>Xuất Excel</value>
+  </data>
+  <data name="HisbtnSearch" xml:space="preserve">
+    <value>Tìm kiếm</value>
+  </data>
+  <data name="hiscate" xml:space="preserve">
+    <value>Loại phép</value>
+  </data>
+  <data name="hisdept" xml:space="preserve">
+    <value>Bộ phận</value>
+  </data>
+  <data name="hisfullname" xml:space="preserve">
+    <value>Họ &amp; tên</value>
+  </data>
+  <data name="hisselectAllCate" xml:space="preserve">
+    <value>Tất cả các thể loại</value>
+  </data>
+  <data name="hisselectStatus0" xml:space="preserve">
+    <value>Theo mặc định</value>
+  </data>
+  <data name="hisselectStatus1" xml:space="preserve">
+    <value>Đang chờ duyệt</value>
+  </data>
+  <data name="hisselectStatus2" xml:space="preserve">
+    <value>Đã được duyệt</value>
+  </data>
+  <data name="hisselectStatus3" xml:space="preserve">
+    <value>Bị từ chối</value>
+  </data>
+  <data name="hisselectStatus4" xml:space="preserve">
+    <value>HR xác nhận</value>
+  </data>
+  <data name="hisstatus" xml:space="preserve">
+    <value>Trạng thái</value>
+  </data>
+  <data name="hisstt" xml:space="preserve">
+    <value>Stt</value>
+  </data>
+  <data name="histime" xml:space="preserve">
+    <value>Thời gian nghỉ</value>
+  </data>
+  <data name="History" xml:space="preserve">
+    <value>Lịch Sử</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Trang chủ</value>
+  </data>
+  <data name="idnohoten" xml:space="preserve">
+    <value>Id. No - họ tên</value>
+  </data>
+  <data name="JS1" xml:space="preserve">
+    <value>JAVASCRIPT CLIENT không hoạt động !</value>
+  </data>
+  <data name="JS2" xml:space="preserve">
+    <value>Rất tiếc về điều này ! </value>
+  </data>
+  <data name="JS3" xml:space="preserve">
+    <value>Một số thiết lập hệ thống sẽ hoạt động thiếu ổn định nếu trình duyệt web phía client không cho phép chạy Javascript</value>
+  </data>
+  <data name="JS4" xml:space="preserve">
+    <value>Nếu gặp bất cứ khó khăn nào trong việc khởi chạy lại Javascript vui lòng liên hệ bộ phận liên quan</value>
+  </data>
+  <data name="JS5" xml:space="preserve">
+    <value>Trình duyệt WEB quá cũ !</value>
+  </data>
+  <data name="JS6" xml:space="preserve">
+    <value>Phiên bản trình duyệt hiện tại phía Client đã quá cũ !</value>
+  </data>
+  <data name="JS7" xml:space="preserve">
+    <value>Một số thiết lập hệ thống sẽ hoạt động thiếu ổn định và không an toàn cho người sử dụng</value>
+  </data>
+  <data name="JS8" xml:space="preserve">
+    <value>Rất tiếc về điều này ! Xin hãy sớm cập nhật lên phiên bản mới nhất</value>
+  </data>
+  <data name="JS9" xml:space="preserve">
+    <value>Nếu gặp bất cứ khó khăn nào trong việc nâng cấp trình duyệt, vui lòng liên hệ bộ phận liên quan</value>
+  </data>
+  <data name="ketthuc" xml:space="preserve">
+    <value>Kết thúc</value>
+  </data>
+  <data name="khongtimthay" xml:space="preserve">
+    <value>Không tìm thấy dữ liệu phù hợp !</value>
+  </data>
+  <data name="kichhoat" xml:space="preserve">
+    <value>Kích Hoạt</value>
+  </data>
+  <data name="lammoi" xml:space="preserve">
+    <value>Làm mới</value>
+  </data>
+  <data name="LeavePlus" xml:space="preserve">
+    <value>Bù phép</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Đăng nhập</value>
+  </data>
+  <data name="luuy" xml:space="preserve">
+    <value>Lưu ý:</value>
+  </data>
+  <data name="luuy1" xml:space="preserve">
+    <value>File Excel phải là file theo mẫu do phòng IT cung cấp. Hoặc tải file mẫu</value>
+  </data>
+  <data name="luuy2" xml:space="preserve">
+    <value>tại đây</value>
+  </data>
+  <data name="luuy3" xml:space="preserve">
+    <value>Mọi trường hợp sai xót sẽ bị hệ thống tự động bỏ qua mà không có cảnh báo.</value>
+  </data>
+  <data name="masothe" xml:space="preserve">
+    <value>Mã số thẻ</value>
+  </data>
+  <data name="nam" xml:space="preserve">
+    <value>Năm</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Họ &amp; tên</value>
+  </data>
+  <data name="NewPass" xml:space="preserve">
+    <value>Mật khẩu mới</value>
+  </data>
+  <data name="ngaylaybaocao" xml:space="preserve">
+    <value>Ngày lấy báo cáo</value>
+  </data>
+  <data name="ngaynghi" xml:space="preserve">
+    <value>ngày nghỉ</value>
+  </data>
+  <data name="ngayphepnam" xml:space="preserve">
+    <value>Ngày phép năm</value>
+  </data>
+  <data name="nhapmanv" xml:space="preserve">
+    <value>Nhập mã nhân viên</value>
+  </data>
+  <data name="nhom" xml:space="preserve">
+    <value>Nhóm</value>
+  </data>
+  <data name="NoteCategory" xml:space="preserve">
+    <value>Cần giấy tờ xác nhận bổ sung !</value>
+  </data>
+  <data name="Notification" xml:space="preserve">
+    <value>Thông báo</value>
+  </data>
+  <data name="OldPass" xml:space="preserve">
+    <value>Mật khẩu cũ</value>
+  </data>
+  <data name="PagePerson" xml:space="preserve">
+    <value>Cá nhân</value>
+  </data>
+  <data name="part" xml:space="preserve">
+    <value>Bộ phận</value>
+  </data>
+  <data name="PerBegin" xml:space="preserve">
+    <value>Bắt đầu</value>
+  </data>
+  <data name="PerbtnAdd" xml:space="preserve">
+    <value>Xin phép</value>
+  </data>
+  <data name="PerbtnChangePass" xml:space="preserve">
+    <value>Đổi mật khẩu</value>
+  </data>
+  <data name="PerbtnDangKy" xml:space="preserve">
+    <value>Đăng ký</value>
+  </data>
+  <data name="PerbtnDelete" xml:space="preserve">
+    <value>Xóa</value>
+  </data>
+  <data name="PerbtnLamLai" xml:space="preserve">
+    <value>Làm lại</value>
+  </data>
+  <data name="PerbtnRole" xml:space="preserve">
+    <value>Xem quyền</value>
+  </data>
+  <data name="PerCate" xml:space="preserve">
+    <value>Loại phép</value>
+  </data>
+  <data name="PerCateSelect" xml:space="preserve">
+    <value>Chọn loại nghỉ phép</value>
+  </data>
+  <data name="PerComment" xml:space="preserve">
+    <value>Ghi chú</value>
+  </data>
+  <data name="PerCount" xml:space="preserve">
+    <value>Ngày nghỉ</value>
+  </data>
+  <data name="PerCountDay" xml:space="preserve">
+    <value>Số ngày nghỉ</value>
+  </data>
+  <data name="PerDateIn" xml:space="preserve">
+    <value>Ngày vào</value>
+  </data>
+  <data name="PerDateLeave" xml:space="preserve">
+    <value>Ngày xin nghỉ</value>
+  </data>
+  <data name="PerDept" xml:space="preserve">
+    <value>Bộ phận</value>
+  </data>
+  <data name="PerEmpID" xml:space="preserve">
+    <value>Mã nhân viên</value>
+  </data>
+  <data name="PerEnd" xml:space="preserve">
+    <value>Kết thúc</value>
+  </data>
+  <data name="PerError1" xml:space="preserve">
+    <value>Vui lòng chọn đầy đủ ngày bắt đầu và kết thúc nghỉ phép !</value>
+  </data>
+  <data name="PerError2" xml:space="preserve">
+    <value>Vui lòng chọn loại nghỉ phép theo quy định !</value>
+  </data>
+  <data name="PerError3" xml:space="preserve">
+    <value>Ngày giờ chọn không chính xác ! Vui lòng chọn lại !</value>
+  </data>
+  <data name="PerError4" xml:space="preserve">
+    <value>Phép năm của bạn đã hết ! Vui lòng chọn loại phép khác !</value>
+  </data>
+  <data name="PerError5" xml:space="preserve">
+    <value>Phép năm của bạn không đủ cho kỳ nghỉ này ! Vui lòng chọn loại phép khác hoặc thay đổi thời gian kỳ nghỉ !</value>
+  </data>
+  <data name="PerError6" xml:space="preserve">
+    <value>Kỳ nghỉ của người lao động bị trùng với một kỳ nghỉ khác đã được đăng ký ! Vui lòng xem lại !</value>
+  </data>
+  <data name="PerErrorTitle" xml:space="preserve">
+    <value>Thông báo</value>
+  </data>
+  <data name="PerFullname" xml:space="preserve">
+    <value>Họ &amp; tên</value>
+  </data>
+  <data name="PerGio" xml:space="preserve">
+    <value>giờ</value>
+  </data>
+  <data name="PerLeave" xml:space="preserve">
+    <value>Phép năm</value>
+  </data>
+  <data name="PerLeave2" xml:space="preserve">
+    <value>Phép năm đã nghỉ</value>
+  </data>
+  <data name="PerLeave3" xml:space="preserve">
+    <value>Tổng phép đã nghỉ</value>
+  </data>
+  <data name="PerLeaveAgent" xml:space="preserve">
+    <value>Phép năm cá nhân</value>
+  </data>
+  <data name="PerLeaveArrange" xml:space="preserve">
+    <value>Phép năm công ty</value>
+  </data>
+  <data name="PerNgay" xml:space="preserve">
+    <value>ngày</value>
+  </data>
+  <data name="PerNote" xml:space="preserve">
+    <value>Yêu cầu các trường không được để trống</value>
+  </data>
+  <data name="PerPosition" xml:space="preserve">
+    <value>Chức vụ</value>
+  </data>
+  <data name="PerSoGio" xml:space="preserve">
+    <value>Số giờ</value>
+  </data>
+  <data name="Personal" xml:space="preserve">
+    <value>Cá Nhân</value>
+  </data>
+  <data name="PerSoNgay" xml:space="preserve">
+    <value>Số ngày</value>
+  </data>
+  <data name="PerStt" xml:space="preserve">
+    <value>Stt</value>
+  </data>
+  <data name="PerTimelin" xml:space="preserve">
+    <value>Thời gian nghỉ</value>
+  </data>
+  <data name="PerTitle" xml:space="preserve">
+    <value>Xin phép cá nhân</value>
+  </data>
+  <data name="phepnam" xml:space="preserve">
+    <value>Phép năm</value>
+  </data>
+  <data name="phongban" xml:space="preserve">
+    <value>Phòng/ban</value>
+  </data>
+  <data name="pncanhan1" xml:space="preserve">
+    <value>Pn cá nhân (đã nghỉ)</value>
+  </data>
+  <data name="pndanghi" xml:space="preserve">
+    <value>Pn đã nghỉ/Phép năm</value>
+  </data>
+  <data name="pnsapxep1" xml:space="preserve">
+    <value>PN sắp xếp (đã nghỉ)</value>
+  </data>
+  <data name="position" xml:space="preserve">
+    <value>Chức vụ</value>
+  </data>
+  <data name="QuestionDelete" xml:space="preserve">
+    <value>Bạn có chắc muốn xoá đơn nghỉ phép đã chọn !</value>
+  </data>
+  <data name="Refuse" xml:space="preserve">
+    <value>Từ chối</value>
+  </data>
+  <data name="RefuseTitle" xml:space="preserve">
+    <value>Từ chối các đơn đã check</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Đăng ký</value>
+  </data>
+  <data name="Remember" xml:space="preserve">
+    <value>Tự động đăng nhập lần sau</value>
+  </data>
+  <data name="Report" xml:space="preserve">
+    <value>Báo cáo</value>
+  </data>
+  <data name="SEAHR" xml:space="preserve">
+    <value>Nhân sự</value>
+  </data>
+  <data name="SEAHR1" xml:space="preserve">
+    <value>Thêm mới nhân viên</value>
+  </data>
+  <data name="SEAHR2" xml:space="preserve">
+    <value>SEA Xác Nhận</value>
+  </data>
+  <data name="SEAHR3" xml:space="preserve">
+    <value>Sửa chữa phép</value>
+  </data>
+  <data name="SEAHR4" xml:space="preserve">
+    <value>Dữ liệu hàng ngày</value>
+  </data>
+  <data name="SEAHR5" xml:space="preserve">
+    <value>Xuất HP</value>
+  </data>
+  <data name="SEAHR6" xml:space="preserve">
+    <value>Cập nhật</value>
+  </data>
+  <data name="SEAHR7" xml:space="preserve">
+    <value>Quản lý Nhân viên</value>
+  </data>
+  <data name="SEAHR8" xml:space="preserve">
+    <value>Phân quyền</value>
+  </data>
+  <data name="SearchApprove" xml:space="preserve">
+    <value>Tìm</value>
+  </data>
+  <data name="status0" xml:space="preserve">
+    <value>Chờ duyệt</value>
+  </data>
+  <data name="status1" xml:space="preserve">
+    <value>Đã duyệt</value>
+  </data>
+  <data name="status2" xml:space="preserve">
+    <value>Từ chối</value>
+  </data>
+  <data name="status3" xml:space="preserve">
+    <value>Hoàn thành</value>
+  </data>
+  <data name="sua" xml:space="preserve">
+    <value>Sửa</value>
+  </data>
+  <data name="SystemChecked" xml:space="preserve">
+    <value>Hệ thống đã kiểm tra</value>
+  </data>
+  <data name="tailen" xml:space="preserve">
+    <value>Tải lên</value>
+  </data>
+  <data name="tatca" xml:space="preserve">
+    <value>Tất cả</value>
+  </data>
+  <data name="tatcacacloaiphep" xml:space="preserve">
+    <value>Tất cả các loại phép</value>
+  </data>
+  <data name="tckhuvuc" xml:space="preserve">
+    <value>Tất cả khu vực</value>
+  </data>
+  <data name="tcphongban" xml:space="preserve">
+    <value>Tất cả phòng ban</value>
+  </data>
+  <data name="textcmt1" xml:space="preserve">
+    <value>Thêm tại trang cá nhân</value>
+  </data>
+  <data name="textcmt10" xml:space="preserve">
+    <value>Cập nhập mật khẩu thành công. Hệ thống sẽ tự động đăng xuất. Vui lòng đăng nhập lại !</value>
+  </data>
+  <data name="textcmt11" xml:space="preserve">
+    <value>Thành công ! Hệ thống đã ghi nhận. Vui lòng theo dõi lại danh sách qua trang Đại Diện.</value>
+  </data>
+  <data name="textcmt12" xml:space="preserve">
+    <value>Tài khoản của bạn chưa được liên kết với người lao động. Vui lòng liên hệ các bộ phận liên quan để xử lý vấn đề !</value>
+  </data>
+  <data name="textcmt13" xml:space="preserve">
+    <value>Hệ thống sẽ không tự động kiểm tra việc trùng lặp thời gian xin phép của nhân viên.</value>
+  </data>
+  <data name="textcmt14" xml:space="preserve">
+    <value>Yêu cầu sửa chữa không hợp lệ, vui lòng chọn lại các mốc thời gian.</value>
+  </data>
+  <data name="textcmt2" xml:space="preserve">
+    <value>Thêm từ trang đại diện</value>
+  </data>
+  <data name="textcmt3" xml:space="preserve">
+    <value>Được duyệt bởi</value>
+  </data>
+  <data name="textcmt4" xml:space="preserve">
+    <value>Từ chối bởi</value>
+  </data>
+  <data name="textcmt5" xml:space="preserve">
+    <value>Thêm tại trang nâng cao</value>
+  </data>
+  <data name="textcmt6" xml:space="preserve">
+    <value>Được xác nhận bởi</value>
+  </data>
+  <data name="textcmt7" xml:space="preserve">
+    <value>Đã sửa đổi trạng thái (chờ duyệt)</value>
+  </data>
+  <data name="textcmt8" xml:space="preserve">
+    <value>Đã sửa đổi trạng thái (chấp nhận)</value>
+  </data>
+  <data name="textcmt9" xml:space="preserve">
+    <value>Đã sửa đổi trạng thái ( từ chối)</value>
+  </data>
+  <data name="them" xml:space="preserve">
+    <value>Thêm</value>
+  </data>
+  <data name="themthucong" xml:space="preserve">
+    <value>Thêm thủ công</value>
+  </data>
+  <data name="TimeApprove" xml:space="preserve">
+    <value>Thời gian</value>
+  </data>
+  <data name="TimeSystem" xml:space="preserve">
+    <value>Giờ hệ thống</value>
+  </data>
+  <data name="titlecapnhatnghiphep" xml:space="preserve">
+    <value>Cập nhập số nghỉ phép của nhân viên</value>
+  </data>
+  <data name="TitleDelete" xml:space="preserve">
+    <value>Xoá đơn nghỉ phép</value>
+  </data>
+  <data name="titlexuatbc" xml:space="preserve">
+    <value>Xuất báo cáo nghỉ phép hàng ngày</value>
+  </data>
+  <data name="tong" xml:space="preserve">
+    <value>Tổng</value>
+  </data>
+  <data name="tongnghiphep" xml:space="preserve">
+    <value>Tổng nghỉ phép</value>
+  </data>
+  <data name="tongphep1" xml:space="preserve">
+    <value>Tổng phép (đã nghỉ)</value>
+  </data>
+  <data name="txtPassword" xml:space="preserve">
+    <value>Mật khẩu</value>
+  </data>
+  <data name="txtUserName" xml:space="preserve">
+    <value>Mã nhân viên</value>
+  </data>
+  <data name="UploadNote" xml:space="preserve">
+    <value>Lưu ý: Hệ thống tự động kiểm tra, các đơn nghỉ phép không hợp lệ sẽ bị bỏ qua mà không có cảnh báo</value>
+  </data>
+  <data name="UploadNote2" xml:space="preserve">
+    <value>Để hệ thống hoạt động chính xác nhất. File upload cần đúng theo file mẫu do phòng IT cung cấp. Dùng các mẫu khác đều không hợp lệ và có thể dẫn đến sai sót</value>
+  </data>
+  <data name="UpNote3" xml:space="preserve">
+    <value>Lấy file mẫu theo</value>
+  </data>
+  <data name="UpNote4" xml:space="preserve">
+    <value>đường dẫn này</value>
+  </data>
+  <data name="UpNote5" xml:space="preserve">
+    <value>hoặc download</value>
+  </data>
+  <data name="UpNote6" xml:space="preserve">
+    <value>tại đây</value>
+  </data>
+  <data name="UpNote7" xml:space="preserve">
+    <value>Liên hệ phòng IT để biết thêm chi tiết</value>
+  </data>
+  <data name="user" xml:space="preserve">
+    <value>Người dùng</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Phiên bản</value>
+  </data>
+  <data name="view" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="vohieuhoa" xml:space="preserve">
+    <value>Disable(Vô hiệu hóa)</value>
+  </data>
+  <data name="vohieuhoanv" xml:space="preserve">
+    <value>Vô hiệu hóa nhân viên</value>
+  </data>
+  <data name="xacnhan" xml:space="preserve">
+    <value>Xác nhận</value>
+  </data>
+  <data name="ycduyetlai" xml:space="preserve">
+    <value>Yêu cầu duyệt lại sau khi sửa chữa !</value>
+  </data>
+  <data name="ycsuachua" xml:space="preserve">
+    <value>Yêu cầu sửa chữa đơn phép</value>
+  </data>
+  <data name="language" xml:space="preserve">
+    <value>vietnamese</value>
+  </data>
+  <data name="textcmt15" xml:space="preserve">
+    <value>Đã chỉnh sửa</value>
+  </data>
+  <data name="ExportExcel" xml:space="preserve">
+    <value>Xuất Excel</value>
+  </data>
+  <data name="PerPart" xml:space="preserve">
+    <value>Bộ phận</value>
+  </data>
+  <data name="status4" xml:space="preserve">
+    <value>Duyệt Phép</value>
+  </data>
+  <data name="RequestEditLeaveToHuman" xml:space="preserve">
+    <value>Gởi yêu cầu sửa phép đến nhân sự</value>
+  </data>
+  <data name="RequestEditLeaveToManager" xml:space="preserve">
+    <value>Gởi yêu cầu sửa phép đến chủ quản</value>
+  </data>
+  <data name="ReportActual" xml:space="preserve">
+    <value>Tổng số người đi làm</value>
+  </data>
+  <data name="ReportLeaveApplied" xml:space="preserve">
+    <value>Tổng số người xin nghỉ phép</value>
+  </data>
+  <data name="ReportLeaveApproved" xml:space="preserve">
+    <value>Tổng số người được duyệt</value>
+  </data>
+  <data name="ReportMPPoolIn" xml:space="preserve">
+    <value>Tổng số người điều đến</value>
+  </data>
+  <data name="ReportMPPoolOut" xml:space="preserve">
+    <value>Tổng số người điều đi</value>
+  </data>
+  <data name="ReportSEAMP" xml:space="preserve">
+    <value>Tổng nhân viên</value>
+  </data>
+  <data name="ReportTotal" xml:space="preserve">
+    <value>Tổng cộng</value>
+  </data>
+  <data name="ReportDate" xml:space="preserve">
+    <value>Ngày</value>
+  </data>
+  <data name="ReportShow" xml:space="preserve">
+    <value>XEM BÁO CÁO</value>
+  </data>
+  <data name="FromDate" xml:space="preserve">
+    <value>Từ ngày : </value>
+  </data>
+  <data name="ToDate" xml:space="preserve">
+    <value>Đến ngày : </value>
+  </data>
+  <data name="LunchTime" xml:space="preserve">
+    <value>Thời gian nghỉ trưa</value>
+  </data>
+  <data name="OfficeHours1" xml:space="preserve">
+    <value>Ca Hành Chánh 1 (11:00~12:00)</value>
+  </data>
+  <data name="OfficeHours2" xml:space="preserve">
+    <value>Ca Hành Chánh 2 (11:30~12:30)</value>
+  </data>
+  <data name="OfficeHours3" xml:space="preserve">
+    <value>Ca Hành Chánh 3 (12:00~13:00)</value>
+  </data>
+  <data name="OfficeHours4" xml:space="preserve">
+    <value>Ca Hành Chánh 4 (12:30~13:30)</value>
+  </data>
+  <data name="SelectBreakTime" xml:space="preserve">
+    <value>Chọn giờ nghỉ giữa ca</value>
+  </data>
+  <data name="Shift5" xml:space="preserve">
+    <value>Ca 5 (Nhà ăn) (12:45~13:45)</value>
+  </data>
+  <data name="ShiftA" xml:space="preserve">
+    <value>Ca A  (10:30~11:00)</value>
+  </data>
+  <data name="ShiftB" xml:space="preserve">
+    <value>Ca B (17:30~18:00)</value>
+  </data>
+  <data name="ShiftC" xml:space="preserve">
+    <value>Ca C (Ca đêm) (01:00~01:45)</value>
+  </data>
+  <data name="NgDuocDuyet" xml:space="preserve">
+    <value>Người được duyệt</value>
+  </data>
+  <data name="lockleaver" xml:space="preserve">
+    <value>Trường hợp này phép nghỉ không đúng, mời liên hệ phòng Nhân sự để được chỉnh sửa kịp thời</value>
+  </data>
+  <data name="songaynghi" xml:space="preserve">
+    <value>Số ngày nghỉ</value>
+  </data>
+  <data name="phepnamcon" xml:space="preserve">
+    <value>Phép năm còn</value>
+  </data>
+  <data name="holiday" xml:space="preserve">
+    <value>Ngày lễ</value>
+  </data>
+</root>

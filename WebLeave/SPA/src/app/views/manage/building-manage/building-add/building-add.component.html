@@ -1,0 +1,66 @@
+<div class="animated fadeIn">
+  <div class="box-header with-border">
+    <div class="row">
+      <div class="col-lg-6 col-xs-6 col-sm-6">
+        <h4 class="box-title">{{'ManageArea_Building.CreateBuilding' | translate }}</h4>
+      </div>
+      <div class="col-lg-6 col-xs-6 col-sm-6">
+        <button type="button" class="btn btn-sm btn-primary float-end" [routerLink]="['/manage/building']"><i
+            class="{{iconButton.BACK}}"></i> {{'System.Action.Back' | translate}}</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div class="box">
+        <div class="box-header">
+          <div class="row">
+            <div class="col-sm-6">
+              <form  #AddBuildingForm="ngForm">
+                <div class="form">
+                  <input type="text" name="BuildingNameVN" [(ngModel)]="building.buildingNameVi" class="form__input form-control"
+                    autocomplete="off" placeholder=" " required>
+                  <label for="BuildingNameVN" class="form__label">{{'ManageArea_Building.BuildingName' | translate }} (VN)</label>
+                </div>
+                <div class="form">
+                  <input type="text" name="BuildingNameEN" [(ngModel)]="building.buildingNameEn" class="form__input form-control"
+                    autocomplete="off" placeholder=" " required>
+                  <label for="BuildingNameEN" class="form__label">{{'ManageArea_Building.BuildingName' | translate }} (EN)</label>
+                </div>
+                <div class="form">
+                  <input type="text" name="BuildingNameZH" [(ngModel)]="building.buildingNameZh" class="form__input form-control"
+                    autocomplete="off" placeholder=" " required>
+                  <label for="BuildingNameZH" class="form__label">{{'ManageArea_Building.BuildingName' | translate }} (TW)</label>
+                </div>
+                <div class="form">
+                  <select class="form-select" name="areaID" [(ngModel)]="building.areaID">
+                    <option *ngFor="let item of areas" [value]="item.key">{{item.value}}</option>
+                  </select>
+                </div>
+                <div class="form">
+                  <input type="number" name="number" min="0" oninput="validity.valid||(value='');" [(ngModel)]="building.number" class="form__input form-control"
+                    autocomplete="off" placeholder=" " required>
+                  <label for="number" class="form__label">{{'ManageArea_Building.Number' | translate }}</label>
+                </div>
+                <div class="form">
+                  <div class="mb-3">
+                    <select class="form-select" name="visible" [(ngModel)]="building.visible"
+                    aria-label="select example">
+                    <option [ngValue]="null">Not set</option>
+                    <option [ngValue]="true">True</option>
+                    <option [ngValue]="false">False</option>
+                  </select>
+                  </div>
+                </div>
+                <div class="form-check-button">
+                  <button type="button" class="btn btn-success" (click)="saveAdd()" [disabled]="!AddBuildingForm.valid"><i class="{{iconButton.SAVE}}"></i> {{'System.Action.Save' | translate}}</button>
+                  <button type="button" class="btn btn-danger mr-2" (click)="clear()"><i class="{{iconButton.RESET}}"></i> {{'System.Action.Reset' | translate}}</button>
+              </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

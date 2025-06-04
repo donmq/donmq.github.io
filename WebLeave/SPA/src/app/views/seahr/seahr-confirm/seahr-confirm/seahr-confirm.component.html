@@ -1,0 +1,226 @@
+<div class="animated fadeIn position-modal">
+  <div class="box-header with-border">
+    <h4 class="box-title">{{'SeaHr.SeaConfirm' | translate}}</h4>
+    <button type="button" class="btn btn-sm btn-primary float-end" (click)="back()">
+      <i [class]="iconButton.BACK"></i>
+      {{'System.Action.Back' | translate}}
+    </button>
+  </div>
+  <div class="card">
+    <div class="card-body" style="position: relative;">
+      <form #searchForm="ngForm" autocomplete="off" (submit)="search()">
+        <div class="row mt-3">
+          <div class="col-12 col-md-6 col-xl-2 mb-3">
+            <input type="text" name="empNumber" id="empNumber" class="form-control" autocomplete="off" [(ngModel)]="param.empNumber" placeholder="{{'SeaHr.SeaHrSeaConfirm.EmpNumber' | translate}}..." (keyup)="onKeyUpEmpNumber()">
+          </div>
+          <div class="col-12 col-md-6 col-xl-2 mb-3">
+            <input type="number" name="leaveDay" id="leaveDay" class="form-control" autocomplete="off" [(ngModel)]="param.leaveDay" placeholder="{{'SeaHr.SeaHrSeaConfirm.LeaveDay' | translate}}..." min="0">
+          </div>
+          <div class="col-12 col-md-6 col-xl-2 mb-3">
+            <ng-select name="cateID" id="cateID" [(ngModel)]="param.cateID" placeholder="{{'SeaHr.SeaHrSeaConfirm.Category' | translate}}..." (clear)="param.cateID = 0" [clearable]="param.cateID != 0">
+              <ng-option *ngFor="let item of categories" [value]="item.key">
+                {{item['value_' + lang.replace('-TW', '')]}}
+              </ng-option>
+            </ng-select>
+          </div>
+          <div class="col-12 col-md-6 col-xl-3 mb-3">
+            <ng-select name="deptID" id="deptID" [(ngModel)]="param.deptID" (ngModelChange)="departmentChanged()" placeholder="{{'SeaHr.SeaHrSeaConfirm.Dept' | translate}}...">
+              <ng-option *ngFor="let item of departments" [value]="item.key">
+                {{item['value_' + lang.replace('-TW', '')]}}
+              </ng-option>
+            </ng-select>
+          </div>
+          <div class="col-12 col-md-6 col-xl-3 mb-3">
+            <ng-select name="partID" id="partID" [(ngModel)]="param.partID" placeholder="{{'SeaHr.SeaHrSeaConfirm.Part' | translate}}...">
+              <ng-option *ngFor="let item of parts" [value]="item.key">
+                {{item['value_' + lang.replace('-TW', '')]}}
+              </ng-option>
+            </ng-select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6 col-xl-2 mb-3">
+            <div class="input-group">
+              <input name="fromDate" id="fromDate" type="text" [bsConfig]="bsDatepickerConfig" placeholder="{{'SeaHr.SeaHrSeaConfirm.FromDate' | translate}}..." class="form-control" bsDatepicker onkeypress="return false;" onpaste="return false;" [(ngModel)]="fromDateDate" [maxDate]="toDateDate">
+              <div lass="input-group-addon">
+                <i class="fa-solid fa-calendar-days" id="icon"></i>
+              </div>
+
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-xl-2 mb-3">
+            <div class="input-group">
+              <input name="toDate" id="toDate" type="text" [bsConfig]="bsDatepickerConfig" placeholder="{{'SeaHr.SeaHrSeaConfirm.ToDate' | translate}}..." class="form-control" bsDatepicker onkeypress="return false;" onpaste="return false;" [(ngModel)]="toDateDate" [minDate]="fromDateDate">
+              <div lass="input-group-addon">
+                <i class="fa-solid fa-calendar-days" id="icon"></i>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-12 col-xl-8 mb-3">
+            <button class="btn btn-primary me-1" type="submit">
+              <i [class]="iconButton.SEARCH"></i>
+              {{'System.Action.Search' | translate}}
+            </button>
+            <button class="btn btn-danger me-1" type="button" (click)="resetSearch()">
+              <i [class]="iconButton.CLEAR"></i>
+              {{'System.Action.Clear' | translate}}
+            </button>
+            <button class="btn btn-success me-1" type="button" (click)="exportExcel()">
+              <i [class]="iconButton.EXCEL"></i>
+              {{'System.Action.ExportExcel' | translate}}
+            </button>
+          </div>
+          <div class="col-12">
+            <div class="card">
+              <div class="card-body">
+                <div class="row">
+                  <ng-container *ngFor="let item of countEachCategory">
+                    <div class="col-3"> <b>{{ item['value_' + lang.replace('-TW', '')] }}</b>: {{ item.optional}}</div>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="d-flex justify-content-end">
+                <b>{{ 'SeaHr.SeaHrSeaConfirm.TotalRows' | translate }}</b>:  {{ pagination.totalCount }}
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <div class="row customs-responsive mt-2">
+        <div class="col-12" *ngIf="userRank != '6'">
+          <button class="btn btn-success mb-2" type="button" (click)="confirmLeaveData()">
+            <i [class]="iconButton.SUBMIT"></i>
+            {{'System.Action.Confirm' | translate}}
+          </button>
+        </div>
+        <div class="col-md-12 mt-1 table-responsive">
+          <table class="table table-striped">
+            <thead class="text-start">
+              <tr>
+                <th scope="col" *ngIf="userRank != '6'">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" [(ngModel)]="checkboxAll" id="checkboxAll" (ngModelChange)="checkboxAllChanged()">
+                    <label class="form-check-label" for="checkboxAll"></label>
+                  </div>
+                </th>
+                <th>{{'SeaHr.SeaHrSeaConfirm.EmpName' | translate}}</th>
+                <th>{{'SeaHr.SeaHrSeaConfirm.Part' | translate}}</th>
+                <th>{{'SeaHr.SeaHrSeaConfirm.Category' | translate}}</th>
+                <th>{{'SeaHr.SeaHrSeaConfirm.Created' | translate}}</th>
+                <th>{{'SeaHr.SeaHrSeaConfirm.TimeLine' | translate}}</th>
+                <th>{{'SeaHr.SeaHrSeaConfirm.LeaveDay' | translate}}</th>
+                <th  *ngIf="userRank != '6'">{{'SeaHr.SeaHrSeaConfirm.Archive' | translate}}</th>
+                <th colspan="2">{{'System.Action.Text' | translate}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of leaveData; let i = index">
+                <td *ngIf="userRank != '6'">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" [(ngModel)]="item.checkbox" [id]="'checkbox_' + i" (change)="selectItem()">
+                    <label class="form-check-label" [for]="'checkbox_' + i"></label>
+                  </div>
+                </td>
+                <td class="nowarp">
+                  <button class="btn btn-sm btn-primary darkcyan" type="button" (click)="empNumberClicked(item, true)">
+                    {{item.empNumber}}
+                  </button>
+                  <span> - {{item.empName}}</span>
+                </td>
+                <td class="nowarp"><span pTooltip="{{item.partCode}}" showDelay="50" tooltipPosition="top" tooltipStyleClass="set-width">{{item.partCodeTruncate}}</span></td>
+                <td class="nowarp">
+                  <span pTooltip="{{item['cateName_' + lang.replace('-TW', '')]}}" showDelay="50" tooltipPosition="top" tooltipStyleClass="set-width">
+                    {{item.cateSym}} - {{item['cateName_' + lang.replace('-TW', '')]}}
+                  </span>
+                  <i *ngIf="item.exhibit" pTooltip="{{'Common.NoteCategory' | translate}}" [class]="iconButton.BOOKMARK + ' bookmark'" tooltipStyleClass="set-width"></i>
+                </td>
+                <td class="nowarp"><span>{{item.created | date: 'HH:mm dd/MM/yyyy'}}</span></td>
+                <td class="nowarp"><span>{{item.timeLine}}</span></td>
+                <td class="nowarp"><span>{{item.leaveDayByString}}</span></td>
+                <td class="width-td" *ngIf="userRank != '6'">
+                  <div>
+                    <ng-select class="custom-select-dropdown" [id]="item.leaveID" [name]="'commentArchive' + item.leaveID"
+                      [items]="commentArchives" bindLabel="text" appendTo="body"
+                      bindValue="value" [(ngModel)]="item.commentLeave" (open)="onDropdownOpen(item.leaveID)"
+                      (clear)="item.commentLeave = 0" [clearable]="item.commentLeave != 0"
+                      placeholder="{{'SeaHr.SeaHrSeaConfirm.Archive' | translate}}..." (ngModelChange)="commentArchiveChanged(item)">
+                    </ng-select>
+                  </div>
+                </td>
+                <!-- <td>
+                    <button class="btn btn-sm btn-primary" type="button" (mouseenter)="empNumberClicked(item, false)">
+                      <i [class]="iconButton.VIEW"></i>
+                    </button>
+                  </td> -->
+                <td>
+                  <button type="button" (mouseover)="startHover()" (mouseleave)="cancelHover()"
+                    class="btn btn-sm btn-primary darkcyan" (click)="leaveDetail(item)" (mouseenter)="empNumberClicked(item, false)">
+                    <i [class]="iconButton.ARROW_RIGHT"></i>
+                  </button>
+                </td>
+              </tr>
+              <tr *ngIf="leaveData.length === 0">
+                <td colspan="100%" class="table-warning text-center fw-bold">
+                  {{commonConstants.COMMON_NODATA | translate}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div *ngIf="pagination.totalPage > 1" class="d-flex align-items-baseline">
+            <pagination [boundaryLinks]="true" [(ngModel)]="pagination.pageNumber" [totalItems]="pagination.totalCount" [itemsPerPage]="pagination.pageSize" [maxSize]="5" (pageChanged)="pageChanged($event)" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+            </pagination>
+            <span class="ms-2"> Page - {{pagination.pageNumber}} / {{pagination.totalPage}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #tooltipTemplate>
+  <div class="modal-container">
+    <div class="modal-header">
+      <h4 id="dialog-static-name" class="modal-title pull-left">
+        <strong>{{'SeaHr.SeaHrSeaConfirm.DeletedLeave' | translate}} </strong>
+      </h4>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-4">
+          <strong>{{'SeaHr.SeaHrSeaConfirm.EmpName' | translate}}: </strong>
+          <span>{{leaveItem.empName}}</span>
+        </div>
+        <div class="col-3">
+          <strong>{{'SeaHr.SeaHrSeaConfirm.EmpNumber' | translate}}: </strong>
+          <span>{{leaveItem.empNumber}}</span>
+        </div>
+        <div class="col-5">
+          <strong>{{'SeaHr.SeaHrSeaConfirm.Part' | translate}}: </strong>
+          <span>{{leaveItem.partCode}} - {{leaveItem['partName_' + lang.replace('-TW', '')]}}</span>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-bordered mt-1">
+          <tbody>
+            <ng-container *ngFor="let item of empDetail.leaveData; let i = index;">
+              <tr>
+                <td>{{item['cateName_' + lang.replace('-TW', '').toLowerCase()]}}</td>
+                <td>{{item.timeLine}}</td>
+              </tr>
+              <tr *ngIf="!item.status_Line">
+                <td colspan="100%">
+                  <ng-container *ngFor="let cmt of item.translatedComment?.split('-')">
+                    <p class="mb-0"><strong>{{cmt}}</strong></p>
+                  </ng-container>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</ng-template>
