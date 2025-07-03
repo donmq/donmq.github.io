@@ -1,0 +1,118 @@
+.carousel-item {
+    margin-right: 0;
+}
+
+::ng-deep .carousel-inner {
+    justify-content: center;
+}
+
+::ng-deep .carousel-control-prev,
+::ng-deep .carousel-control-next {
+    width: 60px;
+    height: 60px;
+    top: 50%;
+    margin: 0 -25px;
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        background-color: #000;
+        width: 50px;
+        height: 50px;
+        background-size: 41%;
+        border-radius: 50%;
+    }
+}
+
+table {
+    color: white;
+    font-size: 16px;
+
+    thead>tr>th {
+        padding: 0.3rem;
+        border-left: 1px solid white;
+        font-weight: 500;
+
+        &:nth-child(1) {
+            border-top: hidden;
+            border-left: hidden;
+        }
+    }
+
+    tbody>tr>td {
+        padding: 3px !important;
+        border-left: 1px solid white;
+
+        &:nth-child(1) {
+            text-align: left;
+            padding-left: 10px !important;
+            width: 100px !important;
+            border-left: hidden;
+        }
+    }
+}
+
+.line-color {
+    display: inline-block;
+    width: 40px;
+    padding: 2px;
+    margin-bottom: 3px;
+}
+
+label.btnFactory {
+    color: #fff;
+    background-color: #2f353a !important;
+    border: 1px solid #ffff;
+    cursor: pointer;
+    display: inline-block;
+    font-weight: 500;
+    text-align: center;
+    vertical-align: middle;
+    padding: 0.2rem 1.75rem;
+    font-size: 1.55rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+    &.active {
+        background-color: blue !important;
+    }
+}
+
+.date-range-group {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+select {
+    font-weight: 600;
+}
+
+.chart {
+    min-height: 420px !important;
+    display: block;
+}
+
+.card-body {
+    background-color: #262a33 !important;
+    border: 1px solid white;
+}
+
+.custom-checkbox {
+    transform: scale(1.3);
+    /* Làm to checkbox */
+    border: none;
+    /* Loại bỏ viền */
+}
+
+.ml-custom {
+    margin-left: 60px;
+}
+.multilist-margin{
+    margin-right: 0 !important;
+}
+.ng-star-inserted{
+    font-size: 15px;
+}
