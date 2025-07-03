@@ -1,0 +1,167 @@
+<next-pre-buttons [previousLink]="previousLink" [nextLink]="nextLink"></next-pre-buttons>
+<div class="row">
+  <div class="col-md-6">
+    <h2 class="titlePage">Efficiency</h2>
+  </div>
+  <div class="col-md-6 ">
+    <div class="container">
+      <div class="data-date">
+        <h2>
+          <span *ngIf="!data.firstDayOfMonth">{{data.dataDate | date:'yyyy/MM/dd'}}</span>
+          <span *ngIf="data.firstDayOfMonth">{{data.firstDayOfMonth + '-' + data.dataDate}}</span>
+        </h2>
+      </div>
+      <div class="selector">
+        <div class="selecotr-item">
+          <input type="radio" id="radio1" name="selector" (click)="search('Daily')" class="selector-item_radio" checked>
+          <label for="radio1" class="selector-item_label">Daily</label>
+        </div>
+        <div class="selecotr-item">
+          <input type="radio" id="radio2" name="selector" (click)="search('Monthly')" class="selector-item_radio">
+          <label for="radio2" class="selector-item_label">Monthly</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="ml-5 mr-5 mt-5">
+  <div class="animated fadeIn row">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body" *ngIf="data.ieAchievement; else elseBlockIEArchievement">
+          <canvas baseChart [data]="barChartDataIEArchievement" 
+            [options]="barChartOptionsIEArchievement"
+            [plugins]="barChartPlugins" [legend]="barChartLegend" [type]="barChartType"
+            (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+        </div>
+        <ng-template #elseBlockIEArchievement>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="col-12 text-center"
+                style="height: 50px; line-height: 2.5; font-weight: bold; font-size: 20px; color: #666666">
+                IE Archievement
+              </div>
+            </div>
+          </div>
+          <div class="table-warning text-center font-weight-bold col-12" style="height: 50px; line-height: 3.5;">NO
+            DATA!
+          </div>
+        </ng-template>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body" *ngIf="data.ieAchievement_STI; else elseBlockIEArchievement_STI">
+          <canvas baseChart [data]="barChartDataIEArchievement_STI" 
+            [options]="barChartOptionsIEArchievement_STI"
+            [plugins]="barChartPlugins" [legend]="barChartLegend" [type]="barChartType"
+            (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+        </div>
+        <ng-template #elseBlockIEArchievement_STI>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="col-12 text-center"
+                style="height: 50px; line-height: 2.5; font-weight: bold; font-size: 20px; color: #666666">
+                IE Archievement
+              </div>
+            </div>
+          </div>
+          <div class="table-warning text-center font-weight-bold col-12" style="height: 50px; line-height: 3.5;">NO
+            DATA!
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+  <div class="animated fadeIn row">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body" *ngIf="data.eolr; else elseBlockEOLR">
+          <canvas baseChart [data]="barChartDataEOLR"
+            [options]="barChartOptionsEOLR" [plugins]="barChartPlugins" [legend]="barChartLegend"
+            [type]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+        </div>
+        <ng-template #elseBlockEOLR>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="col-12 text-center"
+                style="height: 50px; line-height: 2.5; font-weight: bold; font-size: 20px; color: #666666;">
+                EOLR
+              </div>
+            </div>
+          </div>
+          <div class="table-warning text-center font-weight-bold col-12" style="height: 50px; line-height: 3.5;">NO
+            DATA!
+          </div>
+        </ng-template>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body" *ngIf="data.eolR_STI; else elseBlockEOLR_STI">
+          <canvas baseChart [data]="barChartDataEOLR_STI"
+            [options]="barChartOptionsEOLR_STI" [plugins]="barChartPlugins" [legend]="barChartLegend"
+            [type]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+        </div>
+        <ng-template #elseBlockEOLR_STI>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="col-12 text-center"
+                style="height: 50px; line-height: 2.5; font-weight: bold; font-size: 20px; color: #666666;">
+                EOLR
+              </div>
+            </div>
+          </div>
+          <div class="table-warning text-center font-weight-bold col-12" style="height: 50px; line-height: 3.5;">NO
+            DATA!
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+  <div class="animated fadeIn row">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="row note" style="margin-left: 12px;">
+                    <div class="col-md-2 Performance1">
+                    </div>
+                    <div class="col-md-10">
+                      <span class="fz-custom">Performance >= Target</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 ">
+                  <div class="row note">
+                    <div class="col-md-2 Performance2">
+                    </div>
+                    <div class="col-md-10">
+                      <span class="fz-custom">0 > Performance - Target >= - 3</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="row note" style="margin-left: 12px;">
+                    <div class="col-md-2 Performance3">
+                    </div>
+                    <div class="col-md-10">
+                      <span class="fz-custom">-3 > Performance - Target</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

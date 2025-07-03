@@ -1,0 +1,105 @@
+<next-pre-buttons [previousLink]="previousLink" [nextLink]="nextLink"></next-pre-buttons>
+<h2 class="titlePage">Efficiency</h2>
+<div class="animated fadeIn">
+  <div class="card-body row" *ngFor="let item of data; let i = index;">
+    <div class="col-md-2 col-sm-12 ">
+      <!-- <div class="header-efficiency background-eolr">
+        EOLR
+      </div> -->
+      <div class=" body-efficiency">
+        <div class="col-12">
+          <div class="efficiency_monthly_dept" [ngClass]="{'first_El': i === 0}" [style.background-color]="'white'">
+            <span>{{item.line_Sname}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Target -->
+    <div class="col-md-5 col-sm-12">
+      <div *ngIf="i === 0" class="header-efficiency background-target">
+        Target Achievement
+      </div>
+      <div *ngIf="i === 0" class="body body-efficiency">
+        <div class="col-4">
+          <p class="mb-0">DAILY</p>
+        </div>
+        <div class="col-4">
+          <p class="mb-0">MONTHLY</p>
+        </div>
+        <div class="col-4">
+          <p class="mb-0">TARGET</p>
+        </div>
+      </div>
+      <div class="body body-efficiency">
+        <div class="col-4">
+          <app-animated-count [digit]="item.target_Daily"></app-animated-count>
+        </div>
+        <div class="col-4">
+          <div class="efficiency_monthly" [style.background-color]="
+              item.target_Monthly >= item.target_Target
+                ? 'green'
+                : item.target_Monthly >=
+                item.target_Target - item.target_Target * 0.02
+                ? 'yellow'
+                : item.target_Monthly <
+                  item.target_Target - item.target_Target * 0.02
+                ? 'red'
+                : 'rgba(0, 0, 0, 0.2) 20%'
+            ">
+            <app-animated-count [digit]="item.target_Monthly"></app-animated-count>
+          </div>
+        </div>
+        <div class="col-4">
+          <app-animated-count [digit]="item.target_Target"></app-animated-count>
+        </div>
+      </div>
+    </div>
+    <!-- End Target -->
+
+    <!-- Performance -->
+    <div class="col-md-5 col-sm-12">
+      <div *ngIf="i === 0" class="header-efficiency background-performance">
+        {{ item.current_Date }}
+      </div>
+      <div *ngIf="i === 0" class="body body-efficiency">
+        <div class="col-4">
+          <p class="mb-0">OUTPUT</p>
+        </div>
+        <div class="col-4">
+          <p class="mb-0">EOLR</p>
+        </div>
+        <div class="col-4">
+          <p class="mb-0">PWH</p>
+        </div>
+      </div>
+      <div class="body body-efficiency">
+        <div class="col-4">
+          <app-animated-count [digit]="item.perform_Daily"></app-animated-count>
+        </div>
+        <div class="col-4">
+          <div class="efficiency_monthly" [style.background-color]="
+          item.perform_Monthly >= item.perform_Target
+                ? 'green'
+                : item.perform_Monthly >=
+                item.perform_Target - (item.perform_Target * 2) / 100
+                ? 'yellow'
+                : item.perform_Monthly <
+                  item.perform_Target - (item.perform_Target * 2) / 100
+                ? 'red'
+                : 'rgba(0, 0, 0, 0.2) 20%'
+            ">
+            <app-animated-count [digit]="item.perform_Monthly"></app-animated-count>
+          </div>
+        </div>
+        <div class="col-4">
+          <app-animated-count [digit]="item.perform_Target"></app-animated-count>
+        </div>
+      </div>
+    </div>
+    <!-- End Performance -->
+  </div>
+  <div class="container" *ngIf="data.length === 0">
+    <div class="table-warning text-center font-weight-bold col-12" style="height: 50px; line-height: 3.5;">NO DATA!
+    </div>
+  </div>
+</div>

@@ -1,0 +1,179 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <strong>2.3 HSE Result Upload</strong>
+          
+        </div>
+        <div class="card-body">
+          <form>
+            <div class="form-group row">
+              <label class="col-md-1 col-form-label" for="Year-Month"><strong
+                  class="float-right">Year-Month</strong></label>
+              <div class="col-md-2">
+                <div class="input-group">
+                  <input [(ngModel)]="_time" autocomplete="off" class="form-control" name="date" bsDatepicker
+                    [bsConfig]="{dateInputFormat: 'MM/YYYY'}" (onShown)="onOpenCalendar($event)">
+                  <span class="input-group-append">
+                    <button class="btn btn-primary" type="button" disabled><i class="fa fa-calendar"></i></button>
+                  </span>
+                </div>
+              </div>
+              <label class="col-md-1 col-form-label" for="Building"><strong class="float-right">Building</strong></label>
+              <div class="col-md-1">
+                <ng-select placeholder="Building..." name="Building"
+              (ngModelChange)="changedBuilding($event)" [cssImport]=true [(ngModel)]="building">
+              <ng-option *ngFor="let items of buildings" [value]="items.key">{{items.key}}</ng-option>
+          </ng-select>
+              </div>
+              <label class="col-md-1 col-form-label" for="deptId"><strong class="float-right">Dept ID</strong></label>
+              <div class="col-md-2">
+                <ng-select placeholder="Select Dept..." name="deptId"
+              (ngModelChange)="changeDept($event)" [cssImport]=true [(ngModel)]="deptId">
+              <ng-option *ngFor="let items of depts" [value]="items.key">{{items.key}}</ng-option>
+          </ng-select>
+              </div>
+              <div class="col-md-4">
+                <button type="button" class="btn btn-primary" (click)="search()"><i class="fa fa-search"></i>
+                  Search</button>
+                <button type="button" class="btn btn-danger ml-1" (click)="clear()"><i class="fa fa-ban"></i> Clear</button>
+                <button type="button" class="btn btn-success ml-1" (click)="getTemplate()"><i class="fa fa-download"></i> Get Template</button>
+                <label for="upload_File" class="btn btn-success ml-1" style="cursor: pointer; margin-bottom: unset">
+                  <i class="fa fa-upload"></i> Upload
+                  <input type="file" name="upload_File" id="upload_File" style="display: none"
+                    (change)="uploadExcel($event)" accept=".xlsx" />
+                </label>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="card-body">
+          <alert type="warning" *ngIf="checkImageAlert">
+            Please upload images for evaluation items in which the score are lower than the standart <span
+              (click)="searchImageAlert()" class="link-test">Click here to find out them</span>.
+          </alert>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Center</th>
+                <th>Tier Level</th>
+                <th>Section</th>
+                <th>Building ID</th>
+                <th>Line Name</th>
+                <th>Dept ID</th>
+                <th>Evaluation Category</th>
+                <th>Score</th>
+                <th>Update By</th>
+                <th>Update Time</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="dataHSEScore.length === 0">
+                <td colspan="11" class="table-warning text-center font-weight-bold">NO DATA!</td>
+            </tr>
+              <tr *ngFor="let item of dataHSEScore">
+                <td>{{item.center_Level}}</td>
+                <td>{{item.tier_Level}}</td>
+                <td>{{item.class_Level}}</td>
+                <td>{{item.building}}</td>
+                <td>{{item.line_Sname}}</td>
+                <td>{{item.dept_ID}}</td>
+                <td>{{item.evaluation}}</td>
+                <td>{{item.score}}</td>
+                <td>{{item.update_By}}</td>
+                <td>{{item.update_Time | date: 'yyyy/MM/dd hh:mm:ss'}}</td>
+                <td>
+                  <button class="btn btn-primary btn-sm" (click)="openModalEditScore(templateEditScore,item)"><i
+                      class="fa fa-edit"></i></button>
+                  <button class="btn btn-danger btn-sm ml-1" (click)="removeHseScore(item.hsE_Score_ID)"><i
+                      class="fa fa-remove"></i></button>
+                  <button *ngIf="item.action === actionHseConstants.NEED_YES" (click)="openModalImages(templateImage, item, true)" class="btn btn-success btn-sm ml-1"><i
+                      class="fa fa-image"></i></button>
+                  <button *ngIf="item.action === actionHseConstants.NEED_NO" (click)="openModalImages(templateImage, item, false)" class="btn btn-warning btn-sm ml-1"><i
+                      class="fa fa-image"></i></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="d-flex">
+            <pagination *ngIf="dataHSEScore.length > 0" [boundaryLinks]="true" [totalItems]="paginationTable.totalItems"
+              [(ngModel)]="paginationTable.currentPage" [itemsPerPage]="paginationTable.itemsPerPage"
+              (pageChanged)="pageChangedTable($event)" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
+              lastText="&raquo;" [maxSize]=5>
+            </pagination>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #templateImage>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Upload Images</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="closeModalImage()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event)">
+      <ngx-dropzone-label>
+        <div>
+          <h2>Drop files here</h2>
+        </div>
+      </ngx-dropzone-label>
+      <ngx-dropzone-image-preview *ngIf="fileRemarks.length > 0" ngProjectAs="ngx-dropzone-preview"
+        [file]="fileRemarks[paginationImage.currentPage - 1]?.image" [removable]="true"
+        (removed)="onRemove(paginationImage.currentPage -1)">
+        <ngx-dropzone-label></ngx-dropzone-label>
+      </ngx-dropzone-image-preview>
+      <!-- <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)"></ngx-dropzone-image-preview> -->
+    </div>
+
+    <textarea *ngIf="fileRemarks.length > 0" class="form-control mt-3 mb-2" placeholder="Enter Remark..."
+      [(ngModel)]="fileRemarks[paginationImage.currentPage - 1].remark" name="remark" rows="4"></textarea>
+    <pagination *ngIf="fileRemarks.length > 0" [boundaryLinks]="true" name="pageImage" [totalItems]="paginationImage.totalItems"
+      [(ngModel)]="paginationImage.currentPage" [itemsPerPage]="1"
+      (pageChanged)="pageChangedImage($event)" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
+      lastText="&raquo;">
+    </pagination>
+  </div>
+  <div class="modal-footer justify-content-end">
+    <button class="btn btn-success btn-sm" (click)="saveModalImages()">
+      <i class="fa fa-check" aria-hidden="true"></i> OK
+    </button>
+    <button class="btn btn-danger btn-sm" (click)="closeModalImage()">
+      <i class="fa fa-ban" aria-hidden="true"></i> Close
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #templateEditScore>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Edit Score</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row mb-2">
+      <label class="col-md-4 col-form-label" for="account">
+        <strong class="float-right">Score: </strong>
+      </label>
+      <div class="col-md-8">
+        <input type="number" name="score" class="form-control" oninput="validity.valid||(value='');" autocomplete="off" [(ngModel)]="hseScoreModelEdit.score"
+          required />
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer justify-content-end">
+    <button class="btn btn-success btn-sm" (click)="saveEditScore()">
+      <i class="fa fa-check" aria-hidden="true"></i> OK
+    </button>
+    <button class="btn btn-danger btn-sm" (click)="resetScoreEdit()">
+      <i class="fa fa-ban" aria-hidden="true"></i> Reset
+    </button>
+  </div>
+</ng-template>

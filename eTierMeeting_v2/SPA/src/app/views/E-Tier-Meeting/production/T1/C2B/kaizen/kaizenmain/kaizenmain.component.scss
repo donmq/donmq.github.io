@@ -1,0 +1,52 @@
+p.title {
+    font-size: 30px;
+    color: #fff;
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 50px;
+}
+
+div.row.custom {
+    text-align: center;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    padding: 20px 0;
+    cursor: pointer;
+}
+
+div.row.custom:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+div.row.custom:not(:last-child) {
+    border-bottom: solid 1px #fff;
+}
+
+div.row.custom div.score {
+    margin: 30px 0;
+    display: flex;
+    justify-content: center;
+}
+
+div.row.custom div.score span {
+    background-image: linear-gradient(90deg, #020102, #868283);
+    padding: 15px 18px;
+    border-radius: 50%;
+    font-size: 25px;
+    font-weight: 600;
+    word-wrap: break-word;
+}
+
+button.close {
+    outline: none;
+    transition: transform .5s;
+}
+
+button.close:hover {
+    transform: scale(1.5);
+}
+
+div.des h3 {
+    margin-bottom: 1.5rem;
+}

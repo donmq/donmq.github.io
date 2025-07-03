@@ -1,0 +1,21 @@
+.pre-button,
+.next-button {
+  font-size: 90px;
+  color: #aaaaaa;
+  position: absolute;
+  z-index: 99999;
+  top: 55%;
+}
+
+.pre-button:hover,
+.next-button:hover {
+  cursor: pointer;
+}
+
+.pre-button {
+  left: 0;
+}
+
+.next-button {
+  right: 0;
+}

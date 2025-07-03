@@ -1,0 +1,6 @@
+<div *ngIf="items?.length > 0" class="container">
+  <div *ngFor="let item of items" class="legend-item">
+    <div class="legend-marker" [ngStyle]="{'background-color': item.color}"></div>
+    <div class="legend-text">{{item.text}}</div>
+  </div>
+</div>

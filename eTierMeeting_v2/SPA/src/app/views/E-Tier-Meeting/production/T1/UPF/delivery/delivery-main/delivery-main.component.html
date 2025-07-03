@@ -1,0 +1,45 @@
+<next-pre-buttons [nextLink]="nextLink" [previousLink]="previousLink"></next-pre-buttons>
+<h2 class="titlePage">Delivery</h2>
+<div class="ml-5 mr-5">
+  <div class="animated fadeIn">
+    <div class="col-lg-12">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr style="color: white">
+                <th>Line</th>
+                <th>STC ETC</th>
+                <th>PO#</th>
+                <th>Model</th>
+                <th>Art#</th>
+                <th>Planned Qty</th>
+                <th>Output</th>
+                <th>Transfer Out</th>
+                <th>Balance</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="color: white; background-color: red" *ngFor="let item of deliveryList">
+                <td>{{ item.line_ID }}</td>
+                <td>{{ item.plan_End_STC | date: "MM/dd" }}</td>
+                <td>{{ item.mO_No }}{{item.mO_Seq}}</td>
+                <td>{{ item.model_Name }}</td>
+                <td>{{ item.article.split("#")[0] }}</td>
+                <td class="td-right">{{ item.plan_Qty | number:undefined:'en-US' }}</td>
+                <td class="td-right">{{ item.stC_Output | number:undefined:'en-US' }}</td>
+                <td class="td-right">{{ item.stC_Forward | number:undefined:'en-US' }}</td>
+                <td class="td-right">{{ item.balance| number:undefined:'en-US' }}</td>
+              </tr>
+              <tr *ngIf="deliveryList?.length === 0 ">
+                <td colspan="7" class="table-warning text-center font-weight-bold">
+                  NO DATA!
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

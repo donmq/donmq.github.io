@@ -1,0 +1,48 @@
+div.header-efficiency {
+    text-align: center;
+    color: #fff;
+    font-size: 40px;
+    border: 1px solid #fff;
+    padding: 15px;
+    font-weight: bold;
+}
+
+div.body {
+    display: flex;
+    text-align: center;
+    background: #fff;
+}
+
+div.body .col-4 {
+    padding: 1px !important;
+}
+
+div.body .col-4 p {
+    font-size: 40px;
+    font-weight: 400;
+}
+
+div.col-md-4.col-sm-12:not(:last-child) {
+    margin-bottom: 20px;
+}
+
+.background-target {
+    background: #1144a0;
+}
+
+.background-performance {
+    background: #7cace7;
+}
+
+.background-eolr {
+    background: #266da8;
+}
+
+canvas {
+    width: 560px !important;
+    height: 560px !important;
+}
+
+// div.container {
+//     max-width: calc(100%-100px) !important;
+// }

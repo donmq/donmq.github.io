@@ -1,0 +1,86 @@
+// Here you can add other styles
+.menu-margin a {
+  padding-left: 30px !important;
+}
+
+.modal.fade.in.show .modal-dialog.modal-lg {
+    height: 100%;
+    max-width: 90% !important;
+}
+
+.modal.fade.in.show .modal-dialog.modal-lg .modal-content .modal-body {
+  height: 100%;
+}
+
+@media screen and (min-width: 1025px) and (max-width: 1440px) {
+  .animated-digit,
+  .efficiency_monthly {
+    height: 120px !important;
+    font-size: 50px;
+  }
+}
+
+@media screen and (min-width: 1441px) {
+  .animated-digit,
+  .efficiency_monthly {
+    height: 165px !important;
+    font-size: 60px;
+  }
+}
+
+@media screen and (max-width: 1025px) {
+  .animated-digit {
+    font-size: 35px;
+  }
+  .efficiency_monthly {
+    height: 80% !important;
+  }
+
+  .efficiency_monthly .animated-digit {
+    height: 100% !important;
+  }
+}
+
+@media screen and (min-width: 1025px)
+{
+  .modal.fade.in.show .modal-dialog.modal-lg .modal-content {
+    height: 80%;
+  }
+}
+
+@media screen and (min-width: 992px) and (max-width: 1024px)
+{
+  .modal.fade.in.show .modal-dialog.modal-lg {
+    display: flex;
+    align-items: center;
+  }
+  .modal.fade.in.show .modal-dialog.modal-lg .modal-content {
+    height: 70%;
+  }
+}
+
+@media screen and (max-width: 991px)
+{
+  .modal.fade.in.show .modal-dialog.modal-lg {
+    display: flex;
+    align-items: center;
+  }
+  .modal.fade.in.show .modal-dialog.modal-lg .modal-content {
+    height: 50%;
+  }
+}
+
+.titlePage {
+  font-size: 40px !important;
+  color: yellow;
+}
+
+//Hide credits text FusionCharts 
+[pointer-events="bounding-box"] {
+  display: none;
+}
+
+timepicker .bs-timepicker-field {
+  width: 65px !important;
+  padding: .375rem .55rem;
+}

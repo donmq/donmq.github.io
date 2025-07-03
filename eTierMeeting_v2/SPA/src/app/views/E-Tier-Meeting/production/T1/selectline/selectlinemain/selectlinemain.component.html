@@ -1,0 +1,62 @@
+<table class="table">
+  <ng-container *ngIf="listData.listC2B.length > 1">
+    <tr *ngFor="let block of C2B" class="tr-border">
+      <td *ngFor="let data of getByLineNumCTB_2ndWay(block)" [attr.rowspan]="data.rowCount" class="myclass">
+        <div class="d-flex justify-content-center">
+          <ng-container *ngIf="data.level > 1; else elseTemplate">
+            <button type="button" class="btn btn btn-primary" (click)="getLine(data.tU_Code, 'CTB')">
+              {{ data.tU_Name }}
+            </button>
+          </ng-container>
+          <ng-template #elseTemplate>
+            <h3 style="color: white">
+              {{ data.class1_Level }}
+            </h3>
+          </ng-template>
+        </div>
+      </td>
+    </tr>
+  </ng-container>
+  <ng-container *ngIf="listData.listSTF.length > 1">
+    <tr>
+      <td class="border-0"></td>
+    </tr>
+    <tr *ngFor="let block of STF" class="tr-border">
+      <td *ngFor="let data of getByLineNumSTF_2ndWay(block)" [attr.rowspan]="data.rowCount" class="myclass">
+        <div class="d-flex justify-content-center">
+          <ng-container *ngIf="data.level > 1; else elseTemplate">
+            <button type="button" class="btn btn btn-primary" (click)="getLine(data.tU_Code, 'STF')">
+              {{ data.tU_Name }}
+            </button>
+          </ng-container>
+          <ng-template #elseTemplate>
+            <h3 style="color: white">
+              {{ data.class1_Level }}
+            </h3>
+          </ng-template>
+        </div>
+      </td>
+    </tr>
+  </ng-container>
+  <ng-container *ngIf="listData.listUPF.length > 1">
+  <tr>
+    <td class="border-0"></td>
+  </tr>
+  <tr *ngFor="let block of UPF" class="tr-border">
+    <td *ngFor="let data of getByLineNumUPF_2ndWay(block)" [attr.rowspan]="data.rowCount" class="myclass">
+      <div class="d-flex justify-content-center">
+        <ng-container *ngIf="data.level > 1; else elseTemplate">
+          <button type="button" class="btn btn btn-primary" (click)="getLine(data.tU_Code, 'UPF')">
+            {{ data.tU_Name }}
+          </button>
+        </ng-container>
+        <ng-template #elseTemplate>
+          <h3 style="color: white">
+            CTS
+          </h3>
+        </ng-template>
+      </div>
+    </td>
+  </tr>
+  </ng-container>
+</table>

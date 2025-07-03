@@ -1,0 +1,63 @@
+<form #form="ngForm" (submit)="saveForm()">
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Add New Meeting Time</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row mb-3">
+      <div class="col-12 col-md-4 col-form-label">
+        Building or Group <i class="text-danger">*</i>
+      </div>
+      <div class="col-12 col-md-8">
+        <ng-select name="buildingOrGroup" width="100%" placeholder="Please Select..."
+          required [(ngModel)]="newItem.tU_ID">
+          <ng-option *ngFor="let items of listBuildingOrGroup" [value]="items.key">{{items.value}}</ng-option>
+        </ng-select>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-12 col-md-4 col-form-label">
+        Meeting Date <i class="text-danger">*</i>
+      </div>
+      <div class="col-12 col-md-8">
+        <div class="input-group">
+          <input type="text" name="meetingDate" placeholder="Please Select..." class="form-control" autocomplete="off" readonly
+            bsDatepicker [bsConfig]="bsConfig" [(ngModel)]="meetingDate" required style="background-color: inherit;">
+          <span class="input-group-append">
+            <button class="btn btn-primary" type="button" disabled><i class="fa fa-calendar"></i></button>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-12 col-md-4 col-form-label">
+        Start Time <i class="text-danger">*</i>
+      </div>
+      <div class="col-12 col-md-8">
+        <timepicker [(ngModel)]="startTime" name="startTime" [hoursPlaceholder]="'hh'"
+          [minutesPlaceholder]="'mm'" [showMeridian]="false" required></timepicker>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-12 col-md-4 col-form-label">
+        End Time <i class="text-danger">*</i>
+      </div>
+      <div class="col-12 col-md-8">
+        <timepicker [(ngModel)]="endTime" name="endTime" [hoursPlaceholder]="'hh'"
+          [minutesPlaceholder]="'mm'" [showMeridian]="false" required></timepicker>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-danger mr-1" type="button" (click)="resetForm()">
+      <i class="fa fa-refresh"></i>
+      Reset
+    </button>
+    <button class="btn btn-success mr-1" type="submit" [disabled]="form.invalid">
+      <i class="fa fa-check"></i>
+      Save
+    </button>
+  </div>
+</form>

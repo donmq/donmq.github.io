@@ -1,0 +1,41 @@
+<next-pre-buttons [nextLink]="nextLink" [previousLink]="previousLink"></next-pre-buttons>
+<h2 class="titlePage">Delivery</h2>
+<div class="ml-5 mr-5">
+  <div class="animated fadeIn">
+    <div class="col-lg-12">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr style="color: white">
+                <th>ETC</th>
+                <th>PO#</th>
+                <th>Model Name</th>
+                <th>Art#</th>
+                <th>Planned Qty</th>
+                <th>Balance</th>
+                <th>Country</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr [ngStyle]="{'background-color': item.bG_Color}" *ngFor="let item of deliveryList">
+                <td>{{ item.plan_Finish_Date | date: "MM/dd" }}</td>
+                <td>{{ item.mO_No }}</td>
+                <td>{{ item.model_Name }}</td>
+                <td>{{ item.article }}</td>
+                <td class="td-right">{{ item.plan_Qty | number:undefined:'en-US' }}</td>
+                <td class="td-right">{{ item.qty | number:undefined:'en-US' }}</td>
+                <td>{{ item.nation }}</td>
+              </tr>
+              <tr *ngIf="deliveryList?.length === 0 ">
+                <td colspan="7" class="table-warning text-center font-weight-bold">
+                  NO DATA!
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

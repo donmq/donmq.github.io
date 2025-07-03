@@ -1,0 +1,56 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@services/*": [
+        "src/app/_core/_services/*"
+      ],
+      "@models/*": [
+        "src/app/_core/_models/*"
+      ],
+      "@constants/*": [
+        "src/app/_core/_constants/*"
+      ],
+      "@commons/*": [
+        "src/app/views/commons/*"
+      ],
+      "@utilities/*": [
+        "src/app/_core/_utilities/*"
+      ],
+      "@guards/*": [
+        "src/app/_core/_guards/*"
+      ],
+      "@helpers/*": [
+        "src/app/_core/_helpers/*"
+      ],
+      "@resolvers/*": [
+        "src/app/_core/_resolvers/*"
+      ],
+      "@pipes/*": [
+        "src/app/_core/_pipe/*"
+      ],
+      "@environments/*": [
+        "src/environments/*"
+      ]
+    },
+    "importHelpers": true,
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "module": "es2020",
+    "target": "ES2022",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "esnext",
+      "dom"
+    ],
+    "useDefineForClassFields": false
+  }
+}
