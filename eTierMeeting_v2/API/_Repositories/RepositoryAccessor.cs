@@ -66,6 +66,7 @@ namespace eTierV2_API._Repositories
             SM_Basic_Data_ColDesc = new Repository<SM_Basic_Data_ColDesc>(dbContext, configuration);
             CST_WorkCenter_Plan = new ciMesRepository<CST_WorkCenter_Plan>(ciMESDataContext);
             VW_Prod_T1_CTB_Delivery = new Repository<VW_Prod_T1_CTB_Delivery>(dbContext, configuration);
+            VW_Efficiency_ByBrand = new EfficiencyRepository<VW_Efficiency_ByBrand>(dbContext, configuration);
         }
 
         public IRepository<Users> Users { get; set; }
@@ -117,6 +118,7 @@ namespace eTierV2_API._Repositories
         public IRepository<SM_Basic_Data_ColDesc> SM_Basic_Data_ColDesc { get; set; }
         public IRepository<CST_WorkCenter_Plan> CST_WorkCenter_Plan { get; set; }
         public IRepository<VW_Prod_T1_CTB_Delivery> VW_Prod_T1_CTB_Delivery { get; set; }
+        public IEfficiencyRepository<VW_Efficiency_ByBrand> VW_Efficiency_ByBrand { get; set; }
 
         public async Task<bool> Save()
         {

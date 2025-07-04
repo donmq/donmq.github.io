@@ -50,6 +50,7 @@ namespace eTierV2_API.Data
         public virtual DbSet<SM_Basic_Data> SM_Basic_Data { get; set; }
         public virtual DbSet<SM_Basic_Data_ColDesc> SM_Basic_Data_ColDesc { get; set; }
         public virtual DbSet<VW_Prod_T1_CTB_Delivery> VW_Prod_T1_CTB_Delivery { get; set; }
+        public virtual DbSet<VW_Efficiency_ByBrand> VW_Efficiency_ByBrand { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<RoleUser>().HasKey(x => new { x.user_account, x.role_unique });
@@ -439,6 +440,13 @@ namespace eTierV2_API.Data
                 entity.HasKey(e => new {e.Data_Date, e.Factory_ID, e.Operation});
                 entity.Property(e => e.Factory_ID).IsUnicode(false);
                 entity.Property(e => e.Operation).IsUnicode(false);
+            });
+            modelBuilder.Entity<VW_Efficiency_ByBrand>(entity =>
+            {
+                entity.HasNoKey();
+                entity.Property(e => e.Factory_ID).IsUnicode(false);
+                entity.Property(e => e.Dept_ID).IsUnicode(false);
+                entity.Property(e => e.Kind).IsUnicode(false);
             });
 
             OnModelCreatingPartial(modelBuilder);

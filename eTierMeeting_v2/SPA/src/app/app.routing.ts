@@ -263,6 +263,18 @@ export const routes: Routes = [
                   import("./views/E-Tier-Meeting/production/T5/efficiency-ext/efficiency-ext.module").then(m => m.EfficiencyExtModule)
               }
             ]
+          },
+          {
+            path: 'T6',
+            data: { tier_Level: 'T6' },
+            children: [
+              {
+                path: "efficiency",
+                canLoad: [EfficiencyGuard],
+                loadChildren: () =>
+                  import("./views/E-Tier-Meeting/production/T6/efficiency/efficiency.module").then((m) => m.EfficiencyModule),
+              }
+            ]
           }
         ]
       },

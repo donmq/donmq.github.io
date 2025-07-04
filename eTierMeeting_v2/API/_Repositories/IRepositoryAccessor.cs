@@ -57,6 +57,7 @@ namespace eTierV2_API._Repositories
         IRepository<SM_Basic_Data_ColDesc> SM_Basic_Data_ColDesc { get; }
         IRepository<CST_WorkCenter_Plan> CST_WorkCenter_Plan { get; }
         IRepository<VW_Prod_T1_CTB_Delivery> VW_Prod_T1_CTB_Delivery { get; }
+        IEfficiencyRepository<VW_Efficiency_ByBrand> VW_Efficiency_ByBrand { get; }
 
         Task<bool> Save();
         Task<IDbContextTransaction> BeginTransactionAsync();

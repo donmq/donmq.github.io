@@ -6,6 +6,7 @@ using eTierV2_API._Services.Interfaces.Production.T1.UPF;
 using eTierV2_API._Services.Interfaces.Production.T2.C2B;
 using eTierV2_API._Services.Interfaces.Production.T2.CTB;
 using eTierV2_API._Services.Interfaces.Production.T5;
+using eTierV2_API._Services.Interfaces.Production.T6;
 using eTierV2_API._Services.Interfaces.Report;
 using eTierV2_API._Services.Services;
 using eTierV2_API._Services.Services.Production.T1.C2B;
@@ -14,6 +15,7 @@ using eTierV2_API._Services.Services.Production.T1.UPF;
 using eTierV2_API._Services.Services.Production.T2.C2B;
 using eTierV2_API._Services.Services.Production.T2.CTB;
 using eTierV2_API._Services.Services.Production.T5;
+using eTierV2_API._Services.Services.Production.T6;
 using eTierV2_API._Services.Services.Report;
 using eTierV2_API.Helpers.Utilities;
 using Microsoft.Extensions.DependencyInjection;
@@ -68,6 +70,7 @@ namespace eTierV2_API.Configurations
 
             //T5
             services.AddScoped<IEfficiencyKanbanService, EfficiencyKanbanService>();
+            services.AddScoped<IEfficiencyKanbanT6Service, EfficiencyKanbanT6Service>();
             // FunctionUtility
             services.AddScoped<IFunctionUtility, FunctionUtility>();
 

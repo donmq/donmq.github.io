@@ -1,9 +1,9 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { take, takeUntil } from 'rxjs/operators';
-import { EfficiencyKanbanParam } from '@models/production/T5/efficiency';
+import { EfficiencyKanbanParam } from '@models/production/T6/efficiency';
 import { DestroyService } from '@services/destroy.service';
-import { ProductionT5EfficiencyService } from '@services/production/T5/efficiency/production-t5-efficiency.service';
+import { ProductionT6EfficiencyService } from '@services/production/T6/efficiency/production-t6-efficiency.service';
 import { ChangeRouterService } from '@services/hubs/change-router.service';
 import { Router } from '@angular/router';
 import { interval, Subscription } from 'rxjs';
@@ -20,12 +20,13 @@ export class EfficiencymainComponent implements OnInit {
   myInterval = 0;
   subscription: Subscription;
   isShowChart: boolean = false;
-  colors: string[] = ['#3399ff', '#4d9619', '#e55353', '#a320cb','#c2cb20'];
+  colors: string[] = ['#3399ff', '#4d9619', '#e55353', '#a320cb', '#c2cb20'];
   // factories: string[] = ['all'];
   efficiencyParam: EfficiencyKanbanParam = {
     type: 'week',
     is_T5_External: false,
-    factorys: []
+    factorys: [],
+    brands: []
   };
   itemsPerSlide: number;
   dataAll: any[] = [{
@@ -55,7 +56,7 @@ export class EfficiencymainComponent implements OnInit {
   constructor(
     private destroyService: DestroyService,
     private spinner: NgxSpinnerService,
-    private service: ProductionT5EfficiencyService,
+    private service: ProductionT6EfficiencyService,
     private router: Router,
     private changeRouterService: ChangeRouterService,
     private cdr: ChangeDetectorRef) {
@@ -63,6 +64,7 @@ export class EfficiencymainComponent implements OnInit {
 
   ngOnInit() {
     this.getListFactory();
+    this.getListBrand();
     this.refresh();
     if (this.autoChangePage)
       this.myInterval = 60000; // 1 phut
@@ -101,7 +103,8 @@ export class EfficiencymainComponent implements OnInit {
     let param: EfficiencyKanbanParam = {
       type: this.efficiencyParam.type,
       is_T5_External: false,
-      factorys: this.checkAll ? this.efficiencyParam.factorys : this.efficiencyParam.factorys.filter(x => x.status)
+      factorys: this.checkAll ? this.efficiencyParam.factorys : this.efficiencyParam.factorys.filter(x => x.status),
+      brands: []
     }
     this.spinner.show();
     this.service.getData(param).subscribe({
@@ -117,29 +120,29 @@ export class EfficiencymainComponent implements OnInit {
           ],
           "dataset": []
         };
-        this.itemsPerSlide = Math.max(...res.map(x=> x.data_By_Groups.length));
+        this.itemsPerSlide = Math.max(...res.map(x => x.data_By_Groups.length));
         let newDataAll = [];
         let canvasLeftPadding = "";
         let canvasRightPadding = "";
-        res.forEach(group => { 
-          switch(param.type){
-              case "week":
-                canvasLeftPadding = group.data_By_Groups?.length < 3 ?"55" : "25";
-                canvasRightPadding = group.data_By_Groups?.length < 3 ?"15" : "5"
-                break;
-              case "month":
-                canvasLeftPadding = group.data_By_Groups?.length < 3 ? "75" : "35";
-                canvasRightPadding = group.data_By_Groups?.length < 3 ? "45" : "20"
-                break;
-              case "year":
-                canvasLeftPadding = group.data_By_Groups?.length < 3 ? "75" : "25";
-                canvasRightPadding = group.data_By_Groups?.length < 3 ? "35" : "20"
-                break;
-              default:
-                canvasLeftPadding = group.data_By_Groups?.length < 3 ? "75" : "35";
-                canvasRightPadding = group.data_By_Groups?.length < 3 ? "45" : "20"
-                break;
-            };
+        res.forEach(group => {
+          switch (param.type) {
+            case "week":
+              canvasLeftPadding = group.data_By_Groups?.length < 3 ? "55" : "25";
+              canvasRightPadding = group.data_By_Groups?.length < 3 ? "15" : "5"
+              break;
+            case "month":
+              canvasLeftPadding = group.data_By_Groups?.length < 3 ? "75" : "35";
+              canvasRightPadding = group.data_By_Groups?.length < 3 ? "45" : "20"
+              break;
+            case "year":
+              canvasLeftPadding = group.data_By_Groups?.length < 3 ? "75" : "25";
+              canvasRightPadding = group.data_By_Groups?.length < 3 ? "35" : "20"
+              break;
+            default:
+              canvasLeftPadding = group.data_By_Groups?.length < 3 ? "75" : "35";
+              canvasRightPadding = group.data_By_Groups?.length < 3 ? "45" : "20"
+              break;
+          };
           group.data_By_Groups.forEach(item => {
             newDataAll.push({
               isActive: item.isActive,
@@ -184,7 +187,7 @@ export class EfficiencymainComponent implements OnInit {
             for (let i = 1; i <= (this.itemsPerSlide - group.data_By_Groups?.length); i++) {
               if (newDataAll.length == 1) {
                 newDataAll.splice(newDataAll?.length - 1, 0, flagItemNotShow);
-              }else{
+              } else {
                 if (newDataAll[newDataAll.length - 1].isActive == newDataAll[newDataAll.length - 2].isActive)
                   newDataAll.splice(newDataAll?.length - 1, 0, flagItemNotShow);
                 else
@@ -218,6 +221,25 @@ export class EfficiencymainComponent implements OnInit {
       complete: () => this.getData()
     })
   }
+  getListBrand() {
+    this.service.getListBrand().subscribe({
+      next: (res) => {
+        this.efficiencyParam.brands = res
+        this.efficiencyParam.brands.push('Adidas')
+        this.efficiencyParam.brands.push('Moolah Kids')
+        this.efficiencyParam.brands.push('Salomon')
+        console.log('this.efficiencyParam.brands :', this.efficiencyParam.brands);
+        
+      },
+      error: (err) => console.log(err),
+      complete: () => this.getData()
+    })
+  }
+  onBrandChange(item: string) {
+    console.log('item :', item);
+
+  }
+  selectedBrand: string
   changeDateRange(target: any) {
     this.efficiencyParam.type = target;
     this.getData();

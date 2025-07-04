@@ -29,6 +29,14 @@ export const navETierMeeting: INavData[] = [
       },
       {
         name: 'T4',
+      },
+      {
+        name: 'T6',
+        url: '/#/Production/T6/efficiency/efficiencymain',
+        attributes: {
+          center_Level: 'Production',
+          tier_Level: 'T6',
+        }
       }
     ]
   },
