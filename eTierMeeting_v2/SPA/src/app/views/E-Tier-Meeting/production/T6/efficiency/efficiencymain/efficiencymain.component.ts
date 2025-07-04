@@ -72,7 +72,7 @@ export class EfficiencymainComponent implements OnInit {
     this.changeRouterService.getMessageObservable().subscribe({
       next: (router) => {
         if (router) {
-          this.router.navigate(["Production/T5/" + router]).then(() => {
+          this.router.navigate(["Production/T6/" + router]).then(() => {
             window.location.reload();
           });
         }
@@ -229,7 +229,7 @@ export class EfficiencymainComponent implements OnInit {
         this.efficiencyParam.brands.push('Moolah Kids')
         this.efficiencyParam.brands.push('Salomon')
         console.log('this.efficiencyParam.brands :', this.efficiencyParam.brands);
-        
+
       },
       error: (err) => console.log(err),
       complete: () => this.getData()

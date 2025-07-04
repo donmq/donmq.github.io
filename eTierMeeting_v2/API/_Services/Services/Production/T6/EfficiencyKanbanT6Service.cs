@@ -41,9 +41,9 @@ namespace eTierV2_API._Services.Services.Production.T6
             stopwatch.Start(); // �}�l�p��
 
             var dataResult = new List<DataGrouped>();
-            List<EfficiencyDto> data1;
-            List<EfficiencyDto> data2;
-            List<EfficiencyDto> data3;
+            List<EfficiencyByBrandDto> data1;
+            List<EfficiencyByBrandDto> data2;
+            List<EfficiencyByBrandDto> data3;
 
             // Get the required DbContext instances from each scope.
             using var scope1 = _serviceProvider.CreateScope();
@@ -110,10 +110,10 @@ namespace eTierV2_API._Services.Services.Production.T6
 
         //------------------------------------------------------------------------------------------------------------------------//
         // [SQL 1] SQL for get data of Item_ID = 'Target_Achievement'
-        public async Task<List<EfficiencyDto>> PrepareData1(DBContext context, EffiencyKanbanParam param)
+        public async Task<List<EfficiencyByBrandDto>> PrepareData1(DBContext context, EffiencyKanbanParam param)
         {
             System.Diagnostics.Debug.WriteLine("PrepareData1 Start");
-            IQueryable<EfficiencyDto> dataQuery1_group;
+            IQueryable<EfficiencyByBrandDto> dataQuery1_group;
             var pred_EfficiencyByBrand = PredicateBuilder.New<VW_Efficiency_ByBrand>(x => param.Factorys.Select(y => y.Id).Contains(x.Factory_ID.TrimEnd()));
             if (param.Type == "month")
                 pred_EfficiencyByBrand.And(x => param.Months.Select(y => y.Month).Contains(x.Data_Date.Month));
@@ -134,11 +134,10 @@ namespace eTierV2_API._Services.Services.Production.T6
             if (param.Type == "week")
             {
                 dataQuery1_group = from a in vwEfficiencyByBrand
-                                   group a by new { a.Factory_ID, a.Data_Date, a.Kind } into pg
-                                   select new EfficiencyDto()
+                                   group a by new { a.Factory_ID, a.Data_Date } into pg
+                                   select new EfficiencyByBrandDto()
                                    {
                                        Factory = pg.Key.Factory_ID.TrimEnd(),
-                                    //    Line_No = pg.Key.Line_No,
                                        Data_Date = pg.Key.Data_Date,
                                        Actual_Qty = pg.Sum(m => m.Actual_Qty),
                                        Target_Qty = pg.Sum(m => m.Target_Qty),
@@ -149,11 +148,10 @@ namespace eTierV2_API._Services.Services.Production.T6
             else
             {
                 dataQuery1_group = from data in vwEfficiencyByBrand
-                                   group data by new { data.Factory_ID, data.Data_Date.Year, data.Data_Date.Month, data.Kind } into pg
-                                   select new EfficiencyDto()
+                                   group data by new { data.Factory_ID, data.Data_Date.Year, data.Data_Date.Month } into pg
+                                   select new EfficiencyByBrandDto()
                                    {
                                        Factory = pg.Key.Factory_ID.TrimEnd(),
-                                    //    Line_No = pg.Key.Line_No,
                                        Data_Date = new DateTime(
                                                pg.Key.Year,
                                                pg.Key.Month,
@@ -173,185 +171,131 @@ namespace eTierV2_API._Services.Services.Production.T6
 
         //------------------------------------------------------------------------------------------------------------------------//
         // [SQL 2]  SQL for get data of Item_ID = ‘EOLR’
-        public async Task<List<EfficiencyDto>> PrepareData2(DBContext context, EffiencyKanbanParam param)
+        public async Task<List<EfficiencyByBrandDto>> PrepareData2(DBContext context, EffiencyKanbanParam param)
         {
             System.Diagnostics.Debug.WriteLine("PrepareData2 Start");
-            IQueryable<EfficiencyDto> dataQuery2_group;
-            var pred_EfficiencyData = PredicateBuilder.New<VW_Efficiency_ByBrand>(x => x.Kind != null && param.Factorys.Select(y => y.Id).Contains(x.Factory_ID.TrimEnd()));
+            IQueryable<EfficiencyByBrandDto> dataQuery_group;
+            var pred_EfficiencyByBrand = PredicateBuilder.New<VW_Efficiency_ByBrand>(x => x.Kind != null && param.Factorys.Select(y => y.Id).Contains(x.Factory_ID.TrimEnd()));
             if (param.Type == "month")
-                pred_EfficiencyData.And(x => param.Months.Select(y => y.Month).Contains(x.Data_Date.Month));
+                pred_EfficiencyByBrand.And(x => param.Months.Select(y => y.Month).Contains(x.Data_Date.Month));
             else if (param.Type == "year")
-                pred_EfficiencyData.And(x => param.Years.Contains(x.Data_Date.Year));
+                pred_EfficiencyByBrand.And(x => param.Years.Contains(x.Data_Date.Year));
             else if (param.Type == "week")
-                pred_EfficiencyData.And(x => param.Weeks.First().WeekStart.Date <= x.Data_Date && param.Weeks.Last().WeekFinish >= x.Data_Date);
+                pred_EfficiencyByBrand.And(x => param.Weeks.First().WeekStart.Date <= x.Data_Date && param.Weeks.Last().WeekFinish >= x.Data_Date);
             else
-                pred_EfficiencyData.And(x => param.Seasons.First().SeasonStart.Date <= x.Data_Date && param.Seasons.Last().SeasonFinish >= x.Data_Date);
+                pred_EfficiencyByBrand.And(x => param.Seasons.First().SeasonStart.Date <= x.Data_Date && param.Seasons.Last().SeasonFinish >= x.Data_Date);
 
             if(!string.IsNullOrEmpty(param.Brand))
-                pred_EfficiencyData.And(x => x.Brand == param.Brand);
-            
-            var efficiencyData2s = _repoAccessor.VW_Efficiency_ByBrand.FindAllContext(context, pred_EfficiencyData);
+                pred_EfficiencyByBrand.And(x => x.Brand == param.Brand);
 
-            var dataQuery2 = from data in efficiencyData2s
-                             select new EfficiencyDto
-                             {
-                                 Hour_IE = data.Hour_IE,
-                                 Hour_Tot = data.Hour_Tot,
-                                 Hour_Tot_All = data.Hour_Tot_All,
-                                 Hour_In = data.Hour_In,
-                                 Hour_Out = data.Hour_Out,
-                                 Hour_Learn = data.Hour_Learn,
-                                 Hour_Transfer = data.Hour_Transfer,
-                                 Hour_Ex = data.Hour_Ex,
-                                 Hour_Tot_2 = data.Hour_Tot_2,
-                                 Hour_UT005 = data.Hour_UT005,
-                                 Hour_OEM = data.Hour_OEM,
-                                 Factory = data.Factory_ID.TrimEnd(),
-                                 Data_Date = data.Data_Date,
-                                 Month = data.Data_Date.Month,
-                                 Year = data.Data_Date.Year,
-                                 Kind = data.Kind.Trim(),
-                                 IsDevCenterLines = data.Factory_ID == "C" && data.Dept_ID.StartsWith("B"),
-                                 IsQALines = data.Factory_ID == "C" && _qaLinePrefixList.Contains(data.Dept_ID.Substring(0, 2)),
-                                 IsQuantizationLines = data.Factory_ID == "C" && _quantizationPrefixList.Contains(data.Dept_ID.Substring(0, 3)),
-                                 Dept_ID = data.Dept_ID,
-                                 Actual_Qty = data.Actual_Qty
-                             };
+            var efficiencyByBrand = _repoAccessor.VW_Efficiency_ByBrand.FindAllContext(context, pred_EfficiencyByBrand);
 
+            var deptIdOfVW = efficiencyByBrand.Select(x => x.Dept_ID.Trim()).Distinct().ToList();
+            var dataHP_HP_Production_Line_ie21 = _repoAccessor.HP_Production_Line_ie21.FindAllContext(context);
+            var dataQuery = from vwdata in efficiencyByBrand
+                             join ie21 in dataHP_HP_Production_Line_ie21
+                             on new { vwdata.Dept_ID, vwdata.Factory_ID }
+                             equals new { ie21.Dept_ID, ie21.Factory_ID } into joinedData
+                             from ie21 in joinedData.DefaultIfEmpty()
+                             select new { vwdata, ie21 };
 
             if (param.Type == "week")
-            {
-                dataQuery2_group = from a in dataQuery2
-                                   group a by new { a.Factory, a.Data_Date, a.Kind, a.IsQALines, a.IsQuantizationLines } into pg
-                                   select new EfficiencyDto()
+                dataQuery_group = from data in dataQuery
+                                   group new { data.vwdata, data.ie21 } by new { data.vwdata.Factory_ID, data.vwdata.Data_Date, data.ie21.Line_No } into pg
+                                   select new EfficiencyByBrandDto()
                                    {
-                                       Factory = pg.Key.Factory.TrimEnd(),
+                                       Factory = pg.Key.Factory_ID.TrimEnd(),
+                                       Line_No = pg.Key.Line_No,
                                        Data_Date = pg.Key.Data_Date,
-                                       Kind = pg.Key.Kind,
-                                       IsQALines = pg.Key.IsQALines,
-                                       IsQuantizationLines = pg.Key.IsQuantizationLines,
-                                       Hour_IE = pg.Sum(m => m.Hour_IE ?? 0),
-                                       Hour_Tot = pg.Sum(m => m.Hour_Tot ?? 0),
-                                       Hour_In = pg.Sum(m => m.Hour_In ?? 0),
-                                       Hour_Out = pg.Sum(m => m.Hour_Out ?? 0),
-                                       Hour_Learn = pg.Sum(m => m.Hour_Learn ?? 0),
-                                       Hour_Transfer = pg.Sum(m => m.Hour_Transfer ?? 0),
-                                       Hour_Ex = pg.Sum(m => m.Hour_Ex ?? 0),
-                                       Hour_Tot_2 = pg.Sum(m => m.Hour_Tot_2 ?? 0),
-                                       Hour_UT005 = pg.Sum(m => m.Hour_UT005 ?? 0),
-                                       Hour_OEM = pg.Sum(m => m.Hour_OEM ?? 0),
-                                       Month = pg.Max(m => m.Month),
-                                       Year = pg.Max(m => m.Year),
-                                       Actual_Qty = pg.Sum(m => m.Actual_Qty ?? 0)
+                                       Actual_Qty = pg.Sum(m => m.vwdata.Actual_Qty),
+                                       Hour_Base = pg.Sum(m => m.vwdata.Hour_Base),
+                                       Hour_Overtime = pg.Sum(m => m.vwdata.Hour_Overtime),
+                                       Month = pg.Max(x => x.vwdata.Data_Date.Month),
+                                       Year = pg.Max(x => x.vwdata.Data_Date.Year)
                                    };
-            }
+            
             else
-            {
-                dataQuery2_group = from a in dataQuery2
-                                   group a by new { a.Factory, a.Kind, a.IsQALines, a.Year, a.Month, a.IsQuantizationLines } into pg
-                                   select new EfficiencyDto()
+                dataQuery_group = from data in dataQuery
+                                   group new { data.vwdata, data.ie21 } by new { data.vwdata.Factory_ID, data.vwdata.Data_Date.Month, data.vwdata.Data_Date.Year, data.ie21.Line_No } into pg
+                                   select new EfficiencyByBrandDto()
                                    {
-                                       Factory = pg.Key.Factory.TrimEnd(),
+                                       Factory = pg.Key.Factory_ID.TrimEnd(),
+                                       Line_No = pg.Key.Line_No,
                                        Data_Date = new DateTime(
-                                           pg.Key.Year,
-                                           pg.Key.Month,
-                                           1
-                                       ),
-                                       Kind = pg.Key.Kind,
-                                       IsQALines = pg.Key.IsQALines,
-                                       IsQuantizationLines = pg.Key.IsQuantizationLines,
-                                       Hour_IE = pg.Sum(m => m.Hour_IE),
-                                       Hour_Tot = pg.Sum(m => m.Hour_Tot),
-                                       Hour_In = pg.Sum(m => m.Hour_In),
-                                       Hour_Out = pg.Sum(m => m.Hour_Out),
-                                       Hour_Learn = pg.Sum(m => m.Hour_Learn),
-                                       Hour_Transfer = pg.Sum(m => m.Hour_Transfer),
-                                       Hour_Ex = pg.Sum(m => m.Hour_Ex),
-                                       Hour_Tot_2 = pg.Sum(m => m.Hour_Tot_2),
-                                       Hour_UT005 = pg.Sum(m => m.Hour_UT005),
-                                       Hour_OEM = pg.Sum(m => m.Hour_OEM),
-                                       Month = pg.Max(m => m.Month),
-                                       Year = pg.Max(m => m.Year),
-                                       Actual_Qty = pg.Sum(m => m.Actual_Qty)
+                                               pg.Key.Year,
+                                               pg.Key.Month,
+                                               1
+                                           ),
+                                       Actual_Qty = pg.Sum(m => m.vwdata.Actual_Qty),
+                                       Target_Qty = pg.Sum(m => m.vwdata.Target_Qty),
+                                       Impact_Qty = pg.Sum(m => m.vwdata.Impact_Qty),
+                                       Hour_Base = pg.Sum(m => m.vwdata.Hour_Base),
+                                       Hour_Overtime = pg.Sum(m => m.vwdata.Hour_Overtime),
+                                       Month = pg.Key.Month,
+                                       Year = pg.Key.Year
                                    };
-            }
+            
 
-            var result = await dataQuery2_group.ToListAsync();
+            var result = await dataQuery_group.ToListAsync();
             System.Diagnostics.Debug.WriteLine("PrepareData2 End");
             return result;
         }
 
         //------------------------------------------------------------------------------------------------------------------------//
         // [SQL 3]  SQL for get data of Item_ID = ‘CTB_ie_achievement’
-        public async Task<List<EfficiencyDto>> PrepareData3(DBContext context, EffiencyKanbanParam param)
+        public async Task<List<EfficiencyByBrandDto>> PrepareData3(DBContext context, EffiencyKanbanParam param)
         {
             System.Diagnostics.Debug.WriteLine("PrepareData3 Start");
-            IQueryable<EfficiencyDto> dataQueryPPH2;
-            var pred_EfficiencyData = PredicateBuilder.New<VW_eTM_HP_Efficiency_Data>(x => param.Factorys.Select(y => y.Id).Contains(x.Factory_ID.TrimEnd()));
+            IQueryable<EfficiencyByBrandDto> dataQueryCTB;
+            var pred_EfficiencyByBrand = PredicateBuilder.New<VW_Efficiency_ByBrand>(x => param.Factorys.Select(y => y.Id).Contains(x.Factory_ID.TrimEnd()));
             if (param.Type == "month")
-                pred_EfficiencyData.And(x => param.Months.Select(y => y.Month).Contains(x.Data_Date.Month));
-            
+                pred_EfficiencyByBrand.And(x => param.Months.Select(y => y.Month).Contains(x.Data_Date.Month));
             else if (param.Type == "year")
-                pred_EfficiencyData.And(x => param.Years.Contains(x.Data_Date.Year));
-            
+                pred_EfficiencyByBrand.And(x => param.Years.Contains(x.Data_Date.Year));
             else if (param.Type == "week")
-                pred_EfficiencyData.And(x => param.Weeks.First().WeekStart.Date <= x.Data_Date && param.Weeks.Last().WeekFinish >= x.Data_Date);
-            
+                pred_EfficiencyByBrand.And(x => param.Weeks.First().WeekStart.Date <= x.Data_Date && param.Weeks.Last().WeekFinish >= x.Data_Date);
             else
-                pred_EfficiencyData.And(x => param.Seasons.First().SeasonStart.Date <= x.Data_Date && param.Seasons.Last().SeasonFinish >= x.Data_Date);
+                pred_EfficiencyByBrand.And(x => param.Seasons.First().SeasonStart.Date <= x.Data_Date && param.Seasons.Last().SeasonFinish >= x.Data_Date);
+
+            if (!string.IsNullOrEmpty(param.Brand))
+                pred_EfficiencyByBrand.And(x => x.Brand == param.Brand);
             
-            var efficiencyData = _repoAccessor.VW_eTM_HP_Efficiency_Data.FindAllContext(context, pred_EfficiencyData);
-            var dataHPG01Flag = _repoAccessor.eTM_HP_G01_Flag.FindAllContext(context);
+            var efficiencyByBrand = _repoAccessor.VW_Efficiency_ByBrand.FindAllContext(context, pred_EfficiencyByBrand);
 
             if (param.Type == "week")
-            {
-                dataQueryPPH2 = from a in efficiencyData
-                                join b in dataHPG01Flag
-                                on new { a.Factory_ID, a.Dept_ID } equals new { b.Factory_ID, b.Dept_ID } into joinData
-                                from b in joinData.DefaultIfEmpty()
-                                where (
-                                    a.Factory_ID.TrimEnd() == "C" && a.Data_Date < new DateTime(2024, 02, 01) &&
-                                    !a.Dept_ID.StartsWith("QA") && a.Dept_ID != "QXP" &&
-                                    (!(a.Dept_ID.StartsWith("B") || _quantizationPrefixList.Contains(a.Dept_ID.Substring(0, 3)))) && b.Dept_ID == null
-                                ) || a.Factory_ID.TrimEnd() != "C" || a.Data_Date >= new DateTime(2024, 02, 01)
-                                group a by new { a.Factory_ID, a.Data_Date, a.Kind } into pg
-                                select new EfficiencyDto()
-                                {
-                                    Factory = pg.Key.Factory_ID.TrimEnd(),
-                                    Kind = pg.Key.Kind,
-                                    Data_Date = pg.Key.Data_Date,
-                                    Actual_Qty = pg.Sum(x => x.Kind == "5" ? x.Actual_Qty : 0),
-                                    Hour_Tot_All = pg.Sum(m => m.Hour_Tot_All)
-                                };
-            }
+                dataQueryCTB =
+                    from data in efficiencyByBrand
+                    group data by new { Factory_ID = data.Factory_ID.TrimEnd(), data.Data_Date } into pg
+                    select new EfficiencyByBrandDto()
+                    {
+                        Factory = pg.Key.Factory_ID.TrimEnd(),
+                        Data_Date = pg.Key.Data_Date,
+                        Hour_IE = pg.Sum(m => m.Hour_IE),
+                        Hour_Tot = pg.Sum(m => m.Hour_Tot),
+                        Hour_In = pg.Sum(m => m.Hour_In),
+                        Hour_Out = pg.Sum(m => m.Hour_Out),
+                        Hour_Learn = pg.Sum(m => m.Hour_Learn),
+                        Hour_Transfer = pg.Sum(m => m.Hour_Transfer),
+                    };
             else
-            {
-                dataQueryPPH2 = from a in efficiencyData
-                                join b in dataHPG01Flag
-                                on new { a.Factory_ID, a.Dept_ID } equals new { b.Factory_ID, b.Dept_ID } into joinData
-                                from p in joinData.DefaultIfEmpty()
-                                where (
-                                    a.Factory_ID == "C" && a.Data_Date < new DateTime(2024, 02, 01) &&
-                                    !a.Dept_ID.StartsWith("QA") && a.Dept_ID != "QXP" &&
-                                    (!(a.Dept_ID.StartsWith("B") || _quantizationPrefixList.Contains(a.Dept_ID.Substring(0, 3)))) && p.Dept_ID == null
-                                ) || a.Factory_ID != "C" || a.Data_Date >= new DateTime(2024, 02, 01)
-                                group a by new { a.Factory_ID, a.Data_Date.Year, a.Data_Date.Month, a.Kind } into pg
-                                select new EfficiencyDto()
-                                {
-                                    Factory = pg.Key.Factory_ID.TrimEnd(),
-                                    Kind = pg.Key.Kind,
-                                    Data_Date = new DateTime(
-                                        pg.Key.Year,
-                                        pg.Key.Month,
-                                        1
-                                    ),
-                                    Month = pg.Key.Month,
-                                    Year = pg.Key.Year,
-                                    Actual_Qty = pg.Sum(x => x.Kind == "5" ? x.Actual_Qty : 0),
-                                    Hour_Tot_All = pg.Sum(m => m.Hour_Tot_All)
-                                };
-            }
-            List<EfficiencyDto> result = await dataQueryPPH2.ToListAsync();
+                dataQueryCTB =
+                    from data in efficiencyByBrand
+                    group data by new { Factory_ID = data.Factory_ID.TrimEnd(), Data_Year = data.Data_Date.Year, Data_Month = data.Data_Date.Month } into pg
+                    select new EfficiencyByBrandDto()
+                    {
+                        Factory = pg.Key.Factory_ID.TrimEnd(),
+                        Data_Date = new DateTime(pg.Key.Data_Year, pg.Key.Data_Month, 1),
+                        Hour_IE = pg.Sum(m => m.Hour_IE),
+                        Hour_Tot = pg.Sum(m => m.Hour_Tot),
+                        Month = pg.Max(m => m.Data_Date.Month),
+                        Year = pg.Max(m => m.Data_Date.Year),
+                        Hour_In = pg.Sum(m => m.Hour_In),
+                        Hour_Out = pg.Sum(m => m.Hour_Out),
+                        Hour_Learn = pg.Sum(m => m.Hour_Learn),
+                        Hour_Transfer = pg.Sum(m => m.Hour_Transfer)
+                    };
+            
+            List<EfficiencyByBrandDto> result = await dataQueryCTB.ToListAsync();
 
             System.Diagnostics.Debug.WriteLine("PrepareData3 End");
             return result;
@@ -373,7 +317,7 @@ namespace eTierV2_API._Services.Services.Production.T6
                 x.Page_Name == Common.PAGE_NAME_EFFICIENCY &&
                 x.Is_Active);
             result.ChartTitles = dataPageItemSetting
-                .Join(_repoAccessor.SM_Basic_Data.FindAll(x => x.Basic_Class == "Prod.T5.Item.AdditionalProperty1"),
+                .Join(_repoAccessor.SM_Basic_Data.FindAll(x => x.Basic_Class == "Prod.T6.Item.AdditionalProperty1"),
                     x => x.Item_ID,
                     y => y.Column_01,
                     (x, y) => new { t1 = x, t2 = y })
@@ -389,7 +333,7 @@ namespace eTierV2_API._Services.Services.Production.T6
 
 
         #region combine query data by date range of all charts
-        private EfficiencyKanbanModel GetDataTargetAchievement(List<EfficiencyDto> dataQuery, EffiencyKanbanParam param, DataChartTitle chartTitle)
+        private EfficiencyKanbanModel GetDataTargetAchievement(List<EfficiencyByBrandDto> dataQuery, EffiencyKanbanParam param, DataChartTitle chartTitle)
         {
             var targetAchievementData = new List<FactoryDataChart>();
             foreach (var factory in param.Factorys)
@@ -465,7 +409,7 @@ namespace eTierV2_API._Services.Services.Production.T6
             };
             return result;
         }
-        private EfficiencyKanbanModel GetDataEOLRAchievement(List<EfficiencyDto> dataQuery, EffiencyKanbanParam param, DataChartTitle chartTitle)
+        private EfficiencyKanbanModel GetDataEOLRAchievement(List<EfficiencyByBrandDto> dataQuery, EffiencyKanbanParam param, DataChartTitle chartTitle)
         {
             var eOLRData = new List<FactoryDataChart>();
             foreach (var factory in param.Factorys)
@@ -531,9 +475,8 @@ namespace eTierV2_API._Services.Services.Production.T6
             };
             return result;
         }
-        private EfficiencyKanbanModel GetDataCTBIEAchievement(List<EfficiencyDto> dataQuery, EffiencyKanbanParam param, DataChartTitle chartTitle)
+        private EfficiencyKanbanModel GetDataCTBIEAchievement(List<EfficiencyByBrandDto> dataQuery, EffiencyKanbanParam param, DataChartTitle chartTitle)
         {
-            var kindCTBs = new List<string> { "8", "2", "3", "5", "7" };
             var dataQueryCTB = dataQuery.ToList();
 
             var cTBData = new List<FactoryDataChart>();
@@ -604,7 +547,7 @@ namespace eTierV2_API._Services.Services.Production.T6
 
         #region query to get data by all charts 
         // Target_Achievement
-        private decimal GetValueTarget(List<EfficiencyDto> data)
+        private decimal GetValueTarget(List<EfficiencyByBrandDto> data)
         {
             if (data == null || data.Count == 0)
                 return 0;
@@ -614,7 +557,7 @@ namespace eTierV2_API._Services.Services.Production.T6
         }
 
         // EOLR
-        private decimal GetValueEOLR(List<EfficiencyDto> data)
+        private decimal GetValueEOLR(List<EfficiencyByBrandDto> data)
         {
             if (data == null || data.Count == 0)
                 return 0;
@@ -639,7 +582,7 @@ namespace eTierV2_API._Services.Services.Production.T6
             return (decimal)Value;
         }
 
-        private decimal GetValueCTB(List<EfficiencyDto> data)
+        private decimal GetValueCTB(List<EfficiencyByBrandDto> data)
         {
             var sumHour_IE = data.Sum(x => x.Hour_IE ?? 0);
             var sumHour2 = data.Sum(x => x.Hour_Tot) + data.Sum(x => x.Hour_In) - data.Sum(x => x.Hour_Out) - data.Sum(x => x.Hour_Learn) - data.Sum(x => x.Hour_Transfer);
@@ -780,9 +723,9 @@ namespace eTierV2_API._Services.Services.Production.T6
 
             var data = weeks.OrderBy(x => x.WeekFinish).ToList();
 
-            if (data[data.Count() - 1].WeekFinish > _maxDate && data[data.Count() - 1].WeekStart <= _maxDate)
+            if (data[data.Count - 1].WeekFinish > _maxDate && data[data.Count - 1].WeekStart <= _maxDate)
             {
-                data[data.Count() - 1].WeekFinish = _maxDate;
+                data[data.Count - 1].WeekFinish = _maxDate;
             }
 
             return data.Select(m => new Week

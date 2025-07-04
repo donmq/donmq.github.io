@@ -28,14 +28,11 @@ namespace eTierV2_API.DTO.Production.T6.EfficiencyKanban
         public List<int?> ActualQty { get; set; }
     }
 
-    public class EfficiencyDto
+    public class EfficiencyByBrandDto
     {
         public string Factory { get; set; }
         public string Dept_ID { get; set; }
         public string Kind { get; set; }
-        public bool IsDevCenterLines { get; set; }
-        public bool IsQALines { get; set; }
-        public bool IsQuantizationLines { get; set; }
         public int? Actual_Qty { get; set; }
         public int? Target_Qty { get; set; }
         public int? Impact_Qty { get; set; }
@@ -47,27 +44,12 @@ namespace eTierV2_API.DTO.Production.T6.EfficiencyKanban
         public decimal? Hour_Transfer { get; set; }
         public decimal? Hour_In { get; set; }
         public decimal? Hour_Out { get; set; }
-        public decimal? Hour_Tot_All { get; set; }
         public string Line_No { get; set; }
         public DateTime? Data_Date { get; set; }
         public int Month { get; set; }
         public int Year { get; set; }
         public string Factory_ID { get; set; }
-        public decimal? Hour_Ex { get; set; }
-        public int? Qty_2 { get; set; }
-        public decimal? Total_Man { get; set; }
-        public decimal? Un_Man { get; set; }
-        public decimal? Hour_Tot_2 { get; set; }
-        public decimal? Hour_UT005 { get; set; }
-        public decimal? Hour_OEM { get; set; }
         public DateTime? Update_Time { get; set; }
-        public decimal? Hour_Tot_CMT { get; set; }
-    }
-    public class dataPPH2
-    {
-        public List<EfficiencyDto> dataEfficiency { get; set; }
-        public List<eTM_HP_Efficiency_Data_Subcon>  dataEfficiencyDataSubcon { get; set; }
-
     }
     public class FactoryInfo
     {
