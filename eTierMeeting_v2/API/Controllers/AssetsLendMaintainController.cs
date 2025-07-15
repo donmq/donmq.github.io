@@ -29,7 +29,7 @@ namespace Machine_API.Controllers
             var result = await _service.GetListLendTo();
             return Ok(result);
         }
-        [HttpPost("DownloadExcel")]
+        [HttpGet("DownloadExcel")]
         public async Task<IActionResult> DownloadExcel([FromQuery] AssetsLendMaintainParam param)
         {
             var data = await _service.DownloadExcel(param);

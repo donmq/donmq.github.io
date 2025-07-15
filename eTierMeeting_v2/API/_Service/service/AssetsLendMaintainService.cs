@@ -64,6 +64,7 @@ namespace Machine_API._Service.service
         }
         public async Task<List<AssetsLendMaintainDto>> GetData(AssetsLendMaintainParam param)
         {
+            await Task.Delay(100);
             var pred = PredicateBuilder.New<Machine_IO>(true);
             if (!string.IsNullOrWhiteSpace(param.LendDate))
                 pred = pred.And(x => x.IO_Date == Convert.ToDateTime(param.LendDate));
@@ -77,24 +78,80 @@ namespace Machine_API._Service.service
             if (!string.IsNullOrWhiteSpace(param.Return) && param.Return != "ALL")
                 pred = pred.And(x => x.Re_Confirm == param.Return);
 
-            List<AssetsLendMaintainDto> data = new List<AssetsLendMaintainDto>();
-            return data = await _repository.Machine_IO.FindAll(pred)
-                    .Select((x, i) => new AssetsLendMaintainDto
-                    {
-                        STT = i + 1,
-                        AssnoID = x.AssnoID,
-                        MachineName_EN = x.MachineName_EN,
-                        Spec = x.Spec,
-                        Supplier = x.Supplier,
-                        OwnerFty = x.OwnerFty,
-                        IO_Reason = x.IO_Reason,
-                        IO_Date = x.IO_Date,
-                        IO_Confirm = x.IO_Confirm,
-                        Re_Date = x.Re_Date,
-                        Re_Confirm = x.Re_Confirm,
-                        Remark = x.Remark
-                    })
-                    .ToListAsync();
+            List<AssetsLendMaintainDto> data = new();
+            // return data = await _repository.Machine_IO.FindAll(pred)
+            //         .Select((x, i) => new AssetsLendMaintainDto
+            //         {
+            //             STT = i + 1,
+            //             AssnoID = x.AssnoID,
+            //             MachineName_EN = x.MachineName_EN,
+            //             Spec = x.Spec,
+            //             Supplier = x.Supplier,
+            //             OwnerFty = x.OwnerFty,
+            //             IO_Reason = x.IO_Reason,
+            //             IO_Date = x.IO_Date,
+            //             IO_Confirm = x.IO_Confirm,
+            //             Re_Date = x.Re_Date,
+            //             Re_Confirm = x.Re_Confirm,
+            //             Remark = x.Remark
+            //         })
+            //         .ToListAsync();
+            var fakeData = new List<AssetsLendMaintainDto>
+            {
+                new AssetsLendMaintainDto
+                {
+                    STT = 1,
+                    AssnoID = "M001",
+                    MachineName_EN = "Machine A",
+                    Spec = "Spec A",
+                    Supplier = "Supplier A",
+                    OwnerFty = "Factory A",
+                    IO_Reason = "Reason A",
+                    IO_Date = DateTime.Now.AddDays(-10),
+                    IO_Confirm = "Y",
+                    Re_Date = DateTime.Now.AddDays(-5),
+                    Re_Confirm = "Y",
+                    Remark = "Remark A"
+                },
+                new AssetsLendMaintainDto
+                {
+                    STT = 2,
+                    AssnoID = "M002",
+                    MachineName_EN = "Machine B",
+                    Spec = "Spec B",
+                    Supplier = "Supplier B",
+                    OwnerFty = "Factory B",
+                    IO_Reason = "Reason B",
+                    IO_Date = DateTime.Now.AddDays(-15),
+                    IO_Confirm = "N",
+                    Re_Date = DateTime.Now.AddDays(-15),
+                    Re_Confirm = "N",
+                    Remark = "Remark B"
+                }
+            };
+            // Filter the fake data based on the parameters
+            // if (!string.IsNullOrWhiteSpace(param.LendDate))
+            // {
+            //     var lendDate = Convert.ToDateTime(param.LendDate);
+            //     fakeData = fakeData.Where(x => x.IO_Date.Date == lendDate.Date).ToList();
+            // }
+
+            // if (!string.IsNullOrWhiteSpace(param.MachineID))
+            // {
+            //     fakeData = fakeData.Where(x => x.AssnoID == param.MachineID).ToList();
+            // }
+
+            // if (!string.IsNullOrWhiteSpace(param.LendTo))
+            // {
+            //     fakeData = fakeData.Where(x => x.OwnerFty == param.LendTo).ToList();
+            // }
+
+            // if (!string.IsNullOrWhiteSpace(param.Return) && param.Return != "ALL")
+            // {
+            //     fakeData = fakeData.Where(x => x.Re_Confirm == param.Return).ToList();
+            // }
+            return fakeData;
+
         }
         public async Task<PageListUtility<AssetsLendMaintainDto>> GetDataPagination(PaginationParams pagination, AssetsLendMaintainParam param)
         {
