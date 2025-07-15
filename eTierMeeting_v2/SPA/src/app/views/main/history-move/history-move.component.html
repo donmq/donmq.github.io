@@ -1,0 +1,166 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row group">
+            <div class="col-md-2 col-sm-4 col-xs-6 form-group idleft">
+              <label class="badge badge-warning">{{'history.id_machine' |
+                translate }}</label>
+              <input type="text"
+                placeholder="{{'history.id_machine' | translate }}"
+                class="form-control"
+                [(ngModel)]="searchHistoryParams.machineId">
+            </div>
+            <div
+              class="col-md-2 col-sm-4 col-xs-6 form-group  building form-group">
+              <label class="badge badge-warning"
+                data-key="pdc-name">{{'history.pdc_name' | translate }}</label>
+              <ng-select2 [(ngModel)]="pdcID" [data]="pdcs" width="100%"
+                (ngModelChange)="getListBuildingByPdcID()">
+              </ng-select2>
+            </div>
+            <div
+              class="col-md-3 col-sm-4 col-xs-6 form-group building form-group">
+              <label class="badge badge-warning"
+                data-key="building-name">{{'history.building_name' | translate
+                }}</label>
+              <ng-select2 [(ngModel)]="buildingID" [data]="buildings"
+                width="100%" (ngModelChange)="getListCellByBuildingID()">
+              </ng-select2>
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-6 form-group department">
+              <label class="badge badge-warning"
+                data-key="cell">{{'history.cell' | translate }}</label>
+              <ng-select2 [(ngModel)]="cellID" [data]="cells" width="100%"
+                (ngModelChange)="getListPlnoByCellID()">
+              </ng-select2>
+            </div>
+            <div
+              class="col-md-2 col-sm-4 col-xs-6 form-group  building form-group">
+              <label class="badge badge-warning"
+                data-key="plno-name">{{'history.plno_name' | translate
+                }}</label>
+              <ng-select2 [(ngModel)]="cellPlnoID" [data]="cellPlnos"
+                width="100%" (ngModelChange)="getPlano($event)">
+              </ng-select2>
+            </div>
+
+            <div class="col-md-2 col-sm-4 col-xs-6 form-group">
+              <label class="badge badge-warning"
+                data-key="fromTime">{{'history.fromTime' | translate }}</label>
+              <input type="text" class="form-control"
+                placeholder="{{'common.please_choose_date' | translate }}"
+                [(ngModel)]="fromDate" (ngModelChange)="searchHistory()"
+                [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }" bsDatepicker
+                [outsideClick]="true" readonly>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6 form-group">
+              <label class="badge badge-warning"
+                data-key="toTime">{{'history.toTime' | translate }}</label>
+              <input type="text" class="form-control"
+                placeholder="{{'common.please_choose_date' | translate }}"
+                [(ngModel)]="toDate" (ngModelChange)="searchHistory()"
+                [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }" bsDatepicker
+                [outsideClick]="true" readonly>
+            </div>
+
+            <div class="col-md-2 col-sm-4 col-xs-6 form-group">
+              <label class="badge badge-warning">{{'common.search' | translate
+                }}</label>
+              <button class="btn btn-primary  btn-block"
+                (click)="searchHistory()">
+                <i class="fa fa-search"></i>&nbsp;{{'common.search' | translate
+                }}
+              </button>
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-2 col-sm-4 col-xs-6 form-group pull-right">
+              <label class="badge badge-warning">{{'common.export_excel' |
+                translate }}</label>
+              <button class="btn btn-success btn-block"
+                (click)="exportExcelData()">
+                <i class="fa fa-file-excel-o"></i>&nbsp;{{'common.export_excel'
+                | translate }}
+              </button>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">{{'common.stt' | translate }}</th>
+                    <th scope="col">{{'common.machine_name' | translate }}</th>
+                    <th scope="col">{{'history.switch_from' | translate }}</th>
+                    <th scope="col">{{'history.switch_to' | translate }}</th>
+                    <th scope="col">{{'history.people_moving' | translate }}
+                    </th>
+                    <th scope="col">{{'history.Time' | translate }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let dataSearch of searchHistorys; let i=index"
+                    style="text-align: center;">
+                    <td style="vertical-align: middle;">{{
+                      (pagination.currentPage - 1) * pagination.pageSize + i + 1
+                      }}
+                    </td>
+                    <td style="vertical-align: middle;">
+                      <b>{{dataSearch.ownerFty}}{{dataSearch.assnoID}}</b> -
+                      <strong class="badge badge-success">
+                        {{dataSearch.machineName_CN}}
+                      </strong>
+                    </td>
+                    <td><span><b
+                          class="badge badge-light">{{dataSearch.empNumber_Old}}</b></span>
+                      <br />
+                      <strong>
+                        {{dataSearch.position_Old}}-{{dataSearch.place_Old}}<br />
+                        {{dataSearch.cell_Old}}-{{dataSearch.cellName_Old}}
+                      </strong>
+                    </td>
+                    <td>
+                      <span><b
+                          class="badge badge-light">{{dataSearch.empNumber_New}}</b></span>
+                      <br />
+                      <strong>
+                        {{dataSearch.position_New}}-{{dataSearch.place_New}}<br />
+                        {{dataSearch.cell_New}}-{{dataSearch.cellName_New}}
+                      </strong>
+                    </td>
+                    <td style="vertical-align: middle;">
+                      <span class="badge badge-primary text-wrap">
+                        {{dataSearch.empName}}
+                      </span>
+                    </td>
+                    <td style="vertical-align: middle;">
+                      {{'common.date' | translate }}: {{dataSearch.update_Date
+                      |date: "yyyy/MM/dd"}}
+                      <br />
+                      {{'common.time' | translate }}: {{dataSearch.update_Date |
+                      date: "HH:mm:ss"}}
+                    </td>
+
+                  </tr>
+                </tbody>
+              </table>
+              <pagination class="float-right" name="pagination"
+                *ngIf="pagination.totalPage > 1"
+                [totalItems]="pagination.totalCount"
+                [(ngModel)]="pagination.currentPage"
+                (pageChanged)="pageChanged($event)"
+                [itemsPerPage]="pagination.pageSize" [rotate]="false"
+                [maxSize]="5" [boundaryLinks]="true"></pagination>
+            </div>
+          </div>
+          <div *ngIf="searchHistorys.length == 0"
+            class="alert alert-warning text-dark text-center text-bold font-weight-bold mt-0"
+            role="alert">
+            No data received!
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

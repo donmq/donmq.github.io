@@ -1,0 +1,121 @@
+label {
+  padding-top: 10px;
+  font-weight: 700;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -10px;
+  margin-left: -10px;
+}
+
+.box.box-primary {
+  border-top-color: #3c8dbc;
+  margin-top: 20px;
+}
+
+.box.box-info {
+  border-top-color: #00c0ef;
+}
+
+.box {
+  position: relative;
+  border-radius: 3px;
+  background: #ffffff;
+  border-top: 3px solid #d2d6de;
+}
+
+.box-body {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+  padding: 10px;
+}
+
+.box-header {
+  color: #444;
+  display: block;
+  padding: 10px;
+  position: relative;
+}
+
+.form-control {
+  border-radius: 0;
+  box-shadow: none;
+  border-color: #d2d6de;
+}
+
+.btn-block {
+  border-radius: 0;
+}
+
+.table-bordered.table-hover {
+  border: 1px solid #f4f4f4;
+}
+
+.table-bordered > tbody > tr > td,
+.table-bordered > tfoot > tr > td {
+  border: 1px solid #f4f4f4;
+}
+
+table thead tr {
+  background-color: #f1f1f1;
+  font-weight: bold;
+}
+
+.table thead th {
+  border: none;
+}
+
+.table tbody td {
+  border-top: none;
+}
+
+tbody tr td {
+  text-align: center;
+}
+
+.modal-footer {
+  border-top: none;
+}
+
+.modal-header {
+  border-bottom: none;
+}
+
+.modal-footer .btn-light {
+  border-color: #ddd;
+}
+
+.modal-footer .btn-warning {
+  color: #ffffff;
+}
+
+.modal-dialog {
+  width: 600px;
+}
+
+.modal-content {
+  border-radius: 0;
+  border: 0;
+}
+
+.col-sm-6 {
+  margin-bottom: 10px;
+}
+
+.col-sm-3 {
+  margin-bottom: 10px;
+}
+
+button.btn.btn-danger.edit,
+button.btn.btn-primary.edit {
+  margin-left: 5px;
+  margin-top: 5px;
+}
+
+td.text-right {
+  white-space: nowrap;
+}

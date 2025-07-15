@@ -1,0 +1,94 @@
+label {
+  padding-top: 10px;
+  font-weight: 700;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -10px;
+  margin-left: -10px;
+}
+
+.box.box-primary {
+  border-top-color: #3c8dbc;
+}
+
+.box.box-info {
+  border-top-color: #00c0ef;
+}
+
+.box {
+  position: relative;
+  border-radius: 3px;
+  background: #ffffff;
+  border-top: 3px solid #d2d6de;
+}
+
+.box-body {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+  padding: 10px;
+}
+
+.box-header {
+  color: #444;
+  display: block;
+  padding: 10px;
+  position: relative;
+}
+
+.form-control {
+  border-radius: 0;
+  box-shadow: none;
+  border-color: #d2d6de;
+}
+
+.btn-block {
+  border-radius: 0;
+}
+
+.table-bordered.table-hover {
+  border: 1px solid #f4f4f4;
+}
+
+.table-bordered > tbody > tr > td,
+.table-bordered > tfoot > tr > td {
+  border: 1px solid #f4f4f4;
+}
+
+table thead tr {
+  background-color: #f1f1f1;
+  font-weight: bold;
+}
+
+.table thead th {
+  border: none;
+}
+
+.animated.fadeIn {
+  margin-top: 20px;
+}
+
+td.text-right {
+  white-space: nowrap;
+}
+
+button.btn.btn-success.btn-sm {
+  margin: 2px;
+  margin-left: 5px;
+  font-weight: bold;
+  padding: 1px;
+}
+
+.min-2 {
+  min-width: 200px;
+}
+.min-3 {
+  min-width: 250px;
+}
+.min-4 {
+  min-width: 450px;
+}

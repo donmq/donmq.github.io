@@ -1,0 +1,195 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h4 class="box-title">{{'admin.adminuser.user_management'|translate}}
+          </h4>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 col-md-12">
+            <app-user-add (keyword)="keywordAdd($event)"></app-user-add>
+          </div>
+          <div class="col-lg-8 col-md-12">
+            <div class="box box-info">
+              <div class="box-header with-border">
+                <h4 class="box-title form-group">
+                  {{'admin.adminuser.user_list'|translate}}</h4>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="input-group">
+                      <input name="user-keyword" type="text"
+                        [formControl]="keyword"
+                        placeholder="Search by User Code or User Name ..."
+                        class="form-control">
+                      <span class="input-group-btn">
+                        <button type="button"
+                          class="btn btn-primary btn-block"><i
+                            class="fa fa-search"></i></button>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-sm-3">
+                    <button type="submit" class="btn btn-primary btn-block"
+                      (click)="clearSearch()">
+                      <i class="fa fa-close"></i>
+                      {{'admin.common.admin_cancel_filter'|translate}}
+                    </button>
+                  </div>
+                  <div class="col-sm-3">
+                    <button type="submit" class="btn btn-success btn-block"
+                      (click)="exportExcel()">
+                      <i class="fa fa-file-excel-o"></i>
+                      {{'common.export_excel'|translate}}
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="box-body">
+                <div class="table-responsive">
+                  <table class="table table-bordered table-hover">
+                    <thead>
+                      <tr>
+                        <th class="text-center">{{'admin.common.stt'|translate}}
+                        </th>
+                        <th class="text-center">
+                          {{'admin.adminuser.user_code'|translate}}</th>
+                        <th class="text-center">
+                          {{'admin.adminuser.admin_name'|translate}}</th>
+                        <th class="text-center">
+                          {{'admin.adminuser.email_address'|translate}}</th>
+                        <th class="text-center">
+                          {{'admin.adminuser.admin_action'|translate}}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of listUser; let i=index">
+                        <td [ngClass]="{'disabled-user': item.visible==false}">
+                          {{(currentPage - 1) * pagination.pageSize
+                          + i + 1}}</td>
+                        <td [ngClass]="{'disabled-user': item.visible==false}">
+                          {{item.userName}}</td>
+                        <td [ngClass]="{'disabled-user': item.visible==false}">
+                          {{item.empName}}</td>
+                        <td [ngClass]="{'disabled-user': item.visible==false}">
+                          {{item.emailAddress}}</td>
+                        <td class="text-right"
+                          *ngIf="item.visible == true; else fail">
+                          <button class="btn btn-primary edit"
+                            (click)="showChildModal(item)"><i
+                              class="fa fa-pencil"></i></button>
+                          <button class="btn btn-danger edit"
+                            (click)="removeUser(item.userName)"><i
+                              class="fa fa-trash"></i></button>
+                        </td>
+                        <ng-template #fail>
+                          <td class="text-right disabled-user">
+                            <button class="btn btn-secondary edit"
+                              (click)="restoreUser(item.userName)"><i
+                                class="fa fa-rotate-left"></i></button>
+                          </td>
+                        </ng-template>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <pagination class="float-right" name="pagination"
+                  *ngIf="pagination.totalPage > 1"
+                  [totalItems]="pagination.totalCount"
+                  [(ngModel)]="pagination.currentPage"
+                  (pageChanged)="pageChanged($event)"
+                  [itemsPerPage]="pagination.pageSize" [rotate]="false"
+                  [maxSize]="5" [boundaryLinks]="true">
+                </pagination>
+              </div>
+
+              <!-- Modal -->
+              <div bsModal #childModal="bs-modal" class="modal fade">
+                <div class="modal-dialog modal-lg">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h4 class="modal-title pull-left">
+                        {{'admin.adminuser.update_staff'|translate}}</h4>
+                      <button type="button" class="close pull-right"
+                        aria-label="Close" (click)="hideChildModal()">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="row">
+                        <div class=" col-md-6">
+                          <label>{{'admin.adminuser.user_code'|translate}}</label>
+                          <input type="email" class="form-control"
+                            placeholder="{{'admin.adminuser.user_code'|translate}}"
+                            [(ngModel)]="userUpdate.userName" readonly>
+                        </div>
+                        <div class=" col-md-6">
+                          <label>{{'admin.adminuser.admin_name'|translate}}</label>
+                          <input type="text" class="form-control"
+                            [(ngModel)]="userUpdate.empName"
+                            :placeholder="{{'admin.adminuser.admin_name'|translate}}">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label>{{'admin.adminuser.password_new'|translate}}</label>
+                        <input type="password" class="form-control"
+                          [(ngModel)]="passWord"
+                          :placeholder="{{'admin.adminuser.password_new'|translate}}">
+                        <code>{{'admin.adminuser.if_dont_change_password'|translate}}</code>
+                      </div>
+                      <div class="form-group">
+                        <label>{{'admin.adminuser.email_address'|translate}}</label>
+                        <input type="text" class="form-control"
+                          [(ngModel)]="userUpdate.emailAddress"
+                          placeholder="{{'admin.adminuser.email_address'|translate}}">
+                      </div>
+                      <div class="row form-group">
+                        <div class=" col-md-6">
+                          <label>{{'admin.adminuser.staff_update'|translate}}</label>
+                          <input type="email" class="form-control"
+                            [(ngModel)]="userUpdate.updateBy"
+                            placeholder="{{'admin.adminuser.staff_update'|translate}}"
+                            readonly>
+                        </div>
+                        <div class=" col-md-6">
+                          <label>{{'admin.adminuser.update_day'|translate}}</label>
+                          <input type="text" class="form-control"
+                            [ngModel]="userUpdate.updateDate |date: 'yyyy/MM/dd | HH:mm:ss'"
+                            placeholder="{{'admin.adminuser.update_day'|translate}}"
+                            readonly>
+                        </div>
+                      </div>
+                      <ng-container *ngFor="let document of documents">
+                        <div class="row check-box">
+                          <input type="checkbox"
+                            id="checkboxEdit{{document.id}}"
+                            name="checkboxEdit{{document.id}}"
+                            [(ngModel)]="document.checked"
+                            (change)="checkboxClicked($event, document.id)"
+                            [disabled]="document.visible" />
+                          <label for="checkboxEdit{{document.id}}"
+                            class="check-box">{{document.roleName}}</label>
+                        </div>
+                      </ng-container>
+
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" (click)="hideChildModal()"
+                        class="btn btn-light">
+                        <i class="fa fa-close"></i>
+                        {{'admin.common.admin_close' | translate }}
+                      </button>
+                      <button type="button" class="btn btn-warning"
+                        (click)="updateUser()">{{'admin.common.admin_update'|translate}}</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Modal -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

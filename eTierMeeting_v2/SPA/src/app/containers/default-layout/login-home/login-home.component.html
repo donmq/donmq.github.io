@@ -1,0 +1,39 @@
+<div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
+  <div class="modal-dialog modal-lg modal-fluid">
+    <form class="boder-light text-center p-5">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header text-center btn btn-sm btn-success">
+            <h3 class="modal-title w-100 text-uppercase font-weight-bold">{{'login.login' | translate }}&nbsp;<i
+                class="fa fa-sign-in" aria-hidden="true"></i></h3>
+            <span data-dismiss="modal" aria-label="Close" class="close" (click)="modelLogin.hide()"><img alt="exit"
+                src="assets/img/avatars/close.png"></span>
+          </div>
+          <div class="modal-body mx-3">
+            <div class="md-form mb-4">
+              <label for="input-login" class="fa fa-user lable-validate"> {{'login.username' | translate }}</label>
+              <input type="text" class=" form-control validate" [(ngModel)]="user.username" id="input-login"
+                name="username" (keyup.enter)="login()" autocomplete="off">
+            </div>
+            <div class="md-form mb-4">
+              <label class="fa fa-lock lable-validate"> {{'login.password' | translate }}</label>
+              <input type="password" class="form-control validate " [(ngModel)]="user.password" id="password-login"
+                name="password-login" (keyup.enter)="login()" autocomplete="off">
+            </div>
+            <div class="form-group">
+              <div class="checkbox">
+                <label><input type="checkbox" value="true" />{{'login.save_password' | translate }}</label>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer d-flex">
+            <button class="btn btn-info" id="btnLogin" type="button" (click)="login()">
+              <i class="fa fa-sign-in"></i>
+              {{'login.buttons.login' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

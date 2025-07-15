@@ -1,0 +1,84 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <app-inventory-options [optonsLine]="optonsLine" (checkOption)="checkOption($event)"></app-inventory-options>
+          <div class="col-12 ">
+            <div class="line-select">
+              <div class="mb-3 ">
+                <button class="btn btn-danger form-group" (click)="back(optonsLine)">
+                  <i class="fa fa-arrow-left"></i> Back
+                </button>
+              </div>
+              <button class="btn btn-lg btn-primary btn-flat">{{nameCode}}</button>
+            </div>
+            <div class="table-line table-responsive">
+              <table class="table ">
+                <thead>
+                  <tr>
+                    <th scope="col"></th>
+                    <th scope="col">{{'inventory.so_kiem' | translate }}</th>
+                    <th scope="col">{{'inventory.phuc_kiem' | translate }}</th>
+                    <th scope="col">{{'inventory.rut_kiem' | translate }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of listLine">
+                    <th scope="row">
+                      <button class="btn btn-success">{{item.plnoId}}-{{item.plnoName}}</button>
+                    </th>
+                    <!-- sơ kiểm -->
+                    <td>
+                      <ng-container *ngIf="item.timeSoKiem !==null" [ngTemplateOutlet]="buttunTimeGo"
+                        [ngTemplateOutletContext]="{ disbale:optonsLine !=1, item:item, itemTime: item.timeSoKiem, pecenMatch:item.pecenMatchSoKiem}">
+                      </ng-container>
+                      <ng-container *ngIf="item.timeSoKiem ===null" [ngTemplateOutlet]="buttunGo"
+                        [ngTemplateOutletContext]="{ disbale:optonsLine !=1 ,item:item}">
+                      </ng-container>
+                    </td>
+                    <!-- phúc kiểm -->
+                    <td>
+                      <ng-container *ngIf="item.timePhucKiem !==null" [ngTemplateOutlet]="buttunTimeGo"
+                        [ngTemplateOutletContext]="{ disbale:optonsLine !=2, item:item ,itemTime: item.timePhucKiem, pecenMatch:item.pecenMatchPhucKiem}">
+                      </ng-container>
+                      <ng-container *ngIf="item.timePhucKiem ===null" [ngTemplateOutlet]="buttunGo"
+                        [ngTemplateOutletContext]="{ disbale:optonsLine !=2 ,item:item }">
+                      </ng-container>
+                    </td>
+                    <!-- rút kiểm -->
+                    <td>
+                      <ng-container *ngIf="item.timeRutKiem !==null" [ngTemplateOutlet]="buttunTimeGo"
+                        [ngTemplateOutletContext]="{ disbale:optonsLine !=3, item:item, itemTime: item.timeRutKiem, pecenMatch:item.pecenMatchRutKiem}">
+                      </ng-container>
+                      <ng-container *ngIf="item.timeRutKiem ===null" [ngTemplateOutlet]="buttunGo"
+                        [ngTemplateOutletContext]="{ disbale:optonsLine !=3,item:item }">
+                      </ng-container>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <ng-template #buttunGo let-disbale="disbale" let-item="item">
+                <button [disabled]="disbale" class="btn btn-default" (click)="redirectToInventory(item)">
+                  Go !
+                </button>
+              </ng-template>
+              <ng-template #buttunTimeGo let-disbale="disbale" let-item="item" let-itemTime="itemTime"
+                let-pecenMatch="pecenMatch">
+                <button class="btn btn-default" [disabled]="disbale" (click)="redirectToInventory(item)">
+                  {{itemTime | date:'dd/MM/yyyy - HH:mm:ss'}}
+                  <br>
+                  <p class="percent-match" style.color="{{pecenMatch == '100' ? '#09a52c' : '#ff0000'}}"
+                    [ngClass]="{'invalid': pecenMatch == '100', 'notinvalid':pecenMatch < '100'}"
+                    [class.active]="pecenMatch=='100'">
+                    {{pecenMatch == "NaN" ? 0 : pecenMatch}}%
+                  </p>
+                </button>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

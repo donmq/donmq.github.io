@@ -1,0 +1,315 @@
+<div class="animated fadeIn">
+  <!-- /.row -->
+  <div class="row">
+    <div class="col-lg-12">
+      <!-- List home -->
+      <div class="card" *ngIf="!listView">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-3">
+              <label class="badge badge-warning"
+                data-key="fromTime">{{'common.please_choose_date' | translate
+                }}</label>
+              <input type="text" class="form-control"
+                placeholder="{{'common.please_choose_date' | translate }}"
+                [(ngModel)]="dataSearch" (ngModelChange)="getListHistory()"
+                [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }" bsDatepicker
+                [outsideClick]="true" readonly>
+            </div>
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+              <button
+                class="btn btn-warning btn-md text-capitalize pull-right mb-3"
+                (click)="backBuilding()"><i class="fa fa-reply-all"></i>&nbsp;
+                {{'historyinventory.return_list_page' | translate }}</button>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>{{'inventory.so_kiem' | translate }}</th>
+                  <th>{{'inventory.phuc_kiem' | translate }}</th>
+                  <th>{{'inventory.rut_kiem' | translate }}</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of listPlnoHistoryInventory">
+                  <td><button class="btn btn-success">{{item.plnoId}} -
+                      {{item.place}}</button></td>
+                  <td>
+                    <button
+                      *ngIf="item.timeSoKiem !=null && item.isTimeSoKiemValid == true"
+                      disabled="disabled" class="btn btn-default">
+                      {{item.timeSoKiem | date: "yyyy/MM/dd"}} -
+                      {{item.timeSoKiem | date: "HH:mm:ss"}}
+                      <br>
+                      <p class="percent-match "
+                        style.color="{{item.pecenMatchSoKiem == '100' ? '#4dbd74' : '#ff0000'}}">
+                        {{item.pecenMatchSoKiem
+                        ==null?0 :item.pecenMatchSoKiem}}%</p>
+                    </button>
+                    <ng-container
+                      *ngIf="item.timeSoKiem ==null || item.isTimeSoKiemValid == false"
+                      [ngTemplateOutlet]="empty">
+                    </ng-container>
+                  </td>
+                  <td>
+                    <button
+                      *ngIf="item.timePhucKiem !=null && item.isTimePhucKiemValid == true"
+                      disabled="disabled" class="btn btn-default">
+                      {{item.timePhucKiem | date: "yyyy/MM/dd"}} -
+                      {{item.timePhucKiem | date: "HH:mm:ss"}}
+                      <br>
+                      <p class="percent-match "
+                        style.color="{{item.pecenMatchPhucKiem == '100' ? '#4dbd74' : '#ff0000'}}">
+                        {{item.pecenMatchPhucKiem ==null?0
+                        :item.pecenMatchPhucKiem}}%</p>
+                    </button>
+                    <ng-container
+                      *ngIf="item.timePhucKiem ==null || item.isTimePhucKiemValid == false"
+                      [ngTemplateOutlet]="empty">
+                    </ng-container>
+                  </td>
+                  <td>
+                    <button
+                      *ngIf="item.timeRutKiem !=null && item.isTimeRutKiemValid == true"
+                      disabled="disabled" class="btn btn-default">
+                      {{item.timeRutKiem | date: "YYYY/MM/dd"}} -
+                      {{item.timeRutKiem | date: "HH:mm:ss"}}
+                      <br>
+                      <p class="percent-match "
+                        style.color="{{item.pecenMatchRutKiem == '100' ? '#4dbd74' : '#ff0000'}}">
+                        {{item.pecenMatchRutKiem ==null?0
+                        :item.pecenMatchRutKiem}}%</p>
+                    </button>
+                    <ng-container
+                      *ngIf="item.timeRutKiem ==null || item.isTimeRutKiemValid == false"
+                      [ngTemplateOutlet]="empty">
+                    </ng-container>
+                  </td>
+                  <td>
+                    <button class="btn btn-info btn-export"
+                      (click)="viewDetail(item)"><i
+                        class="fa fa-eye"></i></button>
+                    <button class="btn btn-warning btn-export"
+                      (click)="exportPDF(item)"><i class="fa fa-file-pdf-o"></i>
+                      PDF</button>
+                    <button class="btn btn-info btn-export"
+                      (click)="exportExcel(item)"><i
+                        class=" fa fa-file-excel-o"></i>
+                      Excel</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <ng-template #empty let-disbale="disbale" let-item="item">
+              <button disabled="disbale" class="btn btn-default">
+                {{'common.empty' | translate }}
+              </button>
+            </ng-template>
+          </div>
+          <div *ngIf="listPlnoHistoryInventory.length == 0"
+            class="alert alert-warning text-dark text-center text-bold font-weight-bold mt-0"
+            role="alert">
+            No data received!
+          </div>
+        </div>
+      </div>
+      <!-- List view -->
+      <div class="card" *ngIf="listView && listPlnoHistoryInventory.length> 0">
+        <div class="card-body">
+          <h3 style="text-align: center; margin: 50px 0;">
+            {{'historyinventory.inventory_history_detail' | translate }}
+          </h3>
+          <button class="btn btn-warning btn-md text-capitalize pull-right mb-3"
+            (click)="backline()"><i class="fa fa-reply-all"></i>&nbsp;
+            {{'historyinventory.return_list_page' | translate }}</button>
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr class="list">
+                  <th>{{'common.stt' | translate }}</th>
+                  <th>{{'common.machine_code' | translate }}</th>
+                  <th>{{'common.machine_name' | translate }}</th>
+                  <th>{{'common.suppplier' | translate }}</th>
+                  <th>{{'common.machine_position' | translate }}</th>
+                  <th>{{'common.machine_status' | translate }}</th>
+                  <th>{{'inventory.so_kiem' | translate }}</th>
+                  <th>{{'inventory.phuc_kiem' | translate }}</th>
+                  <th>{{'inventory.rut_kiem' | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="list"
+                  *ngFor="let listDetail of listReportDetailHistoryInventory.listResult; let i=index">
+                  <td>{{i + 1}}</td>
+                  <td>{{listDetail.machineID}}</td>
+                  <td>{{listDetail.machineName}}</td>
+                  <td>{{listDetail.supplier}}</td>
+                  <td>{{listDetail.place}}</td>
+                  <td>{{listDetail.state}}</td>
+                  <td>
+                    <span [class]="convertClass(listDetail.statusSoKiem)">
+                      {{listDetail.statusNameSoKiem}}
+                    </span>
+                  </td>
+                  <td>
+                    <span [class]="convertClass(listDetail.statusPhucKiem)">
+                      {{listDetail.statusNamePhucKiem}}
+                    </span>
+                  </td>
+                  <td>
+                    <span [class]="convertClass(listDetail.statusRutKiem)">
+                      {{listDetail.statusNameRutKiem}}
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="9"></td>
+                </tr>
+                <tr>
+                  <td colspan="5"> </td>
+                  <td> {{'inventory.employee_code' | translate }} </td>
+                  <td>{{detailSokiem == null ? "" : detailSokiem.empNumber}}
+                  </td>
+                  <td>{{detailPhuckiem == null ? "" : detailPhuckiem.empNumber}}
+                  </td>
+                  <td>{{detailRutkiem == null ? "" : detailRutkiem.empNumber}}
+                  </td>
+
+                </tr>
+                <tr>
+                  <td colspan="5">
+                  </td>
+                  <td>
+                    {{'inventory.employee_name' | translate }}
+                  </td>
+                  <td>{{detailSokiem == null ? "" : detailSokiem.empName}} </td>
+                  <td>{{detailPhuckiem == null ? "" : detailPhuckiem.empName}}
+                  </td>
+                  <td>{{detailRutkiem == null ? "" : detailRutkiem.empName}}
+                  </td>
+
+                </tr>
+                <tr>
+                  <td colspan="5">
+                  </td>
+                  <td>
+                    {{'inventory.quantity_total' | translate }}
+                  </td>
+                  <td>{{detailSokiem == null ? "" : detailSokiem.countMachine}}
+                  </td>
+                  <td>{{detailPhuckiem == null ? "" :
+                    detailPhuckiem.countMachine}}</td>
+                  <td>{{detailRutkiem == null ? "" :
+                    detailRutkiem.countMachine}}</td>
+                </tr>
+                <tr>
+                  <td colspan="5">
+                  </td>
+                  <td>
+                    {{'inventory.quantity_match' | translate }}
+                  </td>
+                  <td>{{detailSokiem == null ? "" : detailSokiem.countMatch}}
+                  </td>
+                  <td>{{detailPhuckiem == null ? "" :
+                    detailPhuckiem.countMatch}}</td>
+                  <td>{{detailRutkiem == null ? "" : detailRutkiem.countMatch}}
+                  </td>
+
+                </tr>
+                <tr>
+                  <td colspan="5">
+                  </td>
+                  <td>
+                    {{'inventory.quantity_wrong_position' | translate }}
+                  </td>
+                  <td>{{detailSokiem == null ? "" :
+                    detailSokiem.countWrongPosition}} </td>
+                  <td>{{detailPhuckiem == null ? "" :
+                    detailPhuckiem.countWrongPosition}}</td>
+                  <td>{{detailRutkiem == null ? "" :
+                    detailRutkiem.countWrongPosition}}</td>
+                </tr>
+                <tr>
+                  <td colspan="5">
+                  </td>
+                  <td>
+                    {{'inventory.quantity_not_scan' | translate }}
+                  </td>
+                  <td>{{detailSokiem == null ? "" : detailSokiem.countNotScan}}
+                  </td>
+                  <td>{{detailPhuckiem == null ? "" :
+                    detailPhuckiem.countNotScan}}</td>
+                  <td>{{detailRutkiem == null ? "" :
+                    detailRutkiem.countNotScan}}</td>
+                </tr>
+                <tr>
+                  <td colspan="5">
+                  </td>
+                  <td>
+                    {{'inventory.exactly' | translate }}
+                  </td>
+                  <td>{{detailSokiem == null ? "" : detailSokiem.percenMatch +
+                    '%'}} </td>
+                  <td>{{detailPhuckiem == null ? "" : detailPhuckiem.percenMatch
+                    + '%'}}</td>
+                  <td>{{detailRutkiem == null ? "" : detailRutkiem.percenMatch +
+                    '%'}}</td>
+                </tr>
+                <tr>
+                  <td colspan="5">
+                  </td>
+                  <td>
+                    {{'inventory.inventory_date_and_time' | translate }}
+                  </td>
+                  <td>{{detailSokiem == null ? "" : detailSokiem.createTime |
+                    date: "yyyy/MM/dd"}} </td>
+                  <td>{{detailPhuckiem == null ? "" : detailPhuckiem.createTime
+                    | date: "yyyy/MM/dd"}}</td>
+                  <td>{{detailRutkiem == null ? "" : detailRutkiem.createTime |
+                    date: "yyyy/MM/dd"}}</td>
+                </tr>
+                <tr>
+                  <td colspan="5">
+                  </td>
+                  <td>
+                    {{'inventory.startTimeInventory' | translate }}
+                  </td>
+                  <td>{{detailSokiem == null ? "" :
+                    detailSokiem.dateStartInventory | date: "HH:mm"}} </td>
+                  <td>{{detailPhuckiem == null ? "" :
+                    detailPhuckiem.dateStartInventory | date: "HH:mm"}}</td>
+                  <td>{{detailRutkiem == null ? "" :
+                    detailRutkiem.dateStartInventory | date: "HH:mm"}}</td>
+                </tr>
+                <tr>
+                  <td colspan="5">
+                  </td>
+                  <td>
+                    {{'inventory.endTimeInventory' | translate }}
+                  </td>
+                  <td>{{detailSokiem == null ? "" :
+                    detailSokiem.dateEndInventory | date: "HH:mm"}} </td>
+                  <td>{{detailPhuckiem == null ? "" :
+                    detailPhuckiem.dateEndInventory | date: "HH:mm"}}</td>
+                  <td>{{detailRutkiem == null ? "" :
+                    detailRutkiem.dateEndInventory | date: "HH:mm"}}</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+          <button class="btn btn-warning btn-md text-capitalize pull-right mb-3"
+            (click)="backline()"><i class="fa fa-reply-all"></i>&nbsp;
+            {{'historyinventory.return_list_page' | translate }}</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

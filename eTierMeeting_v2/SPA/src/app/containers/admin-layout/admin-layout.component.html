@@ -1,0 +1,49 @@
+<app-header [navbarBrandRouterLink]="['/home']" [fixed]="true" id="admin_default" [navbarBrandText]="{
+  icon: '<image src=assets/img/brand/syf1.png width=42 height=28></image>',
+  text: '<image src=assets/img/brand/syf1.png width=42 height=28></image> ' + factoryName}" [sidebarToggler]="'lg'"
+  [mobileAsideMenuToggler]="false" [asideMenuToggler]="false">
+  <ul class="nav navbar-nav d-md-down-none">
+  </ul>
+  <ul class="nav navbar-nav ml-auto">
+  </ul>
+  <ul class="nav navbar-nav navbar-right">
+    <li class="language">
+      <a [ngClass]="{'active': tab==='zh-TW'}" (click)="switchLang('zh-TW')">
+        中文
+      </a>
+      <a [ngClass]="{'active': tab==='en-US'}" (click)="switchLang('en-US')">
+        English
+      </a>
+      <a [ngClass]="{'active': tab===local}" (click)="switchLang(local)">
+        Local
+      </a>
+    </li>
+  </ul>
+</app-header>
+<div class="app-body" id="body_admin">
+  <app-sidebar #appSidebar [fixed]="true" [display]="'lg'" [minimized]="sidebarMinimized"
+    (minimizedChange)="toggleMinimize($event)">
+    <div class="user-panel">
+      <div class="pull-left image">
+        <img src="../../../assets/img/avatars/account.png" class="img-circle" alt="User Image">
+      </div>
+      <div class="pull-left info" *ngIf="sidebarMinimized == false">
+        <a>{{'login.hello' | translate }}</a>
+        <strong class="user-username">{{dataUser.empName}}</strong>
+      </div>
+    </div>
+    <app-sidebar-nav [navItems]="navItems" [perfectScrollbar] [disabled]="appSidebar.minimized"></app-sidebar-nav>
+    <app-sidebar-minimizer></app-sidebar-minimizer>
+  </app-sidebar>
+  <main class="main">
+    <div class="container-fluid">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>
+<app-footer>
+  <span class="nav-bottom">
+    Copyright <i class="fa fa-copyright" aria-hidden="true"></i> 2020 -
+    <a href="#">SHYANG SHIN BAO INDUSTRIAL CO., LTD All Right reserved.</a>&nbsp;</span>
+  <span class="ml-auto">Powered by IT-SSB</span> <img class="createby" alt="fire" src="assets/img/avatars/createby.gif">
+</app-footer>

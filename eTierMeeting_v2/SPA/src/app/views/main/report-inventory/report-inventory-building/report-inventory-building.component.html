@@ -1,0 +1,88 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-xl-2 col-lg-3 col-md-4 form-group">
+                    <label
+                      class="badge badge-warning">{{'historyinventory.fromTime'
+                      |
+                      translate }}</label>
+                    <input type="text" class="form-control"
+                      placeholder="{{'common.please_choose_date' | translate }}"
+                      [(ngModel)]="fromDate" [maxDate]="toDate"
+                      [bsConfig]="datePickerConfig" bsDatepicker
+                      [outsideClick]="true" readonly>
+                  </div>
+                  <div class="col-xl-2 col-lg-3 col-md-4 form-group">
+                    <label
+                      class="badge badge-warning">{{'historyinventory.toTime'
+                      | translate }}</label>
+                    <input type="text" class="form-control"
+                      placeholder="{{'common.please_choose_date' | translate }}"
+                      [(ngModel)]="toDate" [minDate]="fromDate"
+                      [bsConfig]="datePickerConfig" bsDatepicker
+                      [outsideClick]="true" readonly>
+                  </div>
+                  <div class="col-xl-2 col-lg-3 col-md-4 form-group">
+                    <div class="mt-4"></div>
+                    <button type="button"
+                      class="btn btn-success btn-export mt-1"
+                      (click)="exportExcel()"><i
+                        class=" fa fa-file-excel-o"></i>
+                      {{'inventory.downloadreport'| translate}}</button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="row mt-5 building">
+                  <div class="col-lg-6 col-md-12 table-responsive">
+
+                    <table class="table table-bordered">
+                      <tbody>
+                        <tr>
+                          <td colspan="2" class="text-center">
+                            <h1>{{'inventory.building' | translate }}</h1>
+                          </td>
+                        </tr>
+                        <tr *ngFor="let items of listBuilding">
+                          <td *ngFor="let item of items">
+                            <button class="btn btn-success btn-flat"
+                              (click)="selectBuilding(item)">{{item.buildingName}}</button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="col-lg-6 col-md-12 table-responsive">
+                    <table class="table table-bordered">
+                      <tbody>
+                        <tr>
+                          <td colspan="2" class="text-center">
+                            <h1>{{'inventory.orther' | translate }}</h1>
+                          </td>
+                        </tr>
+                        <tr *ngFor="let items of listBuildingOrther">
+                          <td *ngFor="let item of items">
+                            <button class="btn btn-success btn-flat"
+                              (click)="selectOrther(item)">{{item.cellCode}} -
+                              {{item.cellName}}</button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

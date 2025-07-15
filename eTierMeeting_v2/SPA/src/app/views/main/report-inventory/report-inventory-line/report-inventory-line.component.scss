@@ -1,0 +1,90 @@
+button.btn.btn-warning {
+  color: #ffff;
+}
+
+.form-control {
+  border-radius: 0%;
+  border: 1px solid #ccc;
+}
+
+.table-responsive {
+  margin-top: 50px;
+}
+
+.table thead th {
+  border-top: none;
+}
+
+button.btn.btn-default {
+  border: 1px solid #ccc;
+}
+
+.btn-info {
+  color: #ffff;
+}
+
+.percent-match {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+}
+
+button.btn.btn-warning {
+  color: #ffff;
+}
+
+tr.list th {
+  padding: 8px !important;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+}
+
+tr.list {
+  background-color: #ccdbcd;
+  text-align: center;
+}
+
+tr:nth-child(2n + 1).list {
+  background-color: #eee8ca;
+  text-align: center;
+}
+
+tfoot tr td {
+  border: 1px dashed #ccc;
+  text-align: center;
+}
+
+tfoot tr td:nth-child(2) {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+tfoot tr td:first-child {
+  border: none;
+}
+
+button.btn-export {
+  margin-left: 5px;
+  margin-top: 5px;
+}
+
+.btn {
+  white-space: nowrap;
+}
+
+button.btn.btn-warning {
+  background-color: #f0ad4e;
+  border-color: #eea236;
+}
+
+span.badge.badge-danger {
+  background-color: #dc3545;
+}
+
+h3 {
+  margin: 50px 0;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+}

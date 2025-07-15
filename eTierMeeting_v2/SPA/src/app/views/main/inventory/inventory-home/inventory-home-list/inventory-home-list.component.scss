@@ -1,0 +1,36 @@
+button.btn.btn-default {
+  margin-top: -7px;
+}
+
+.btn-export {
+  margin-right: 15px;
+  color: #ffff;
+  background-color: #f0ad4e;
+}
+
+.col-md-12.mt-12.col-12 {
+  padding: 0;
+}
+
+.btn-info {
+    color: #fff;
+}
+
+th {
+  padding: 8px !important;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+}
+
+td {
+  text-align: center;
+}
+
+tr {
+  background-color: #ccdbcd;
+}
+
+tr:nth-child(2n+1) {
+  background-color: #eee8ca;
+}

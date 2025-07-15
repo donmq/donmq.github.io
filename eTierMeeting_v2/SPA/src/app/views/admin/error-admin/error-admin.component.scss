@@ -1,0 +1,41 @@
+.box {
+    max-width: 70%;
+    margin: 0 auto;
+    text-align: center;
+    min-height: auto;
+  
+    .error-code {
+      font-size: 8em;
+    }
+  
+    h1#timer {
+      margin: 0 0 1rem 0;
+      font-size: 3.8em;
+      text-align: center;
+      margin-top: 20px;
+    }
+  
+    p.title-notifice {
+      font-weight: bold;
+      font-size: 25px;
+      color: #ff0000;
+    }
+  
+    p {
+      font-weight: bold;
+      font-size: 25px;
+      color: #216f79;
+    }
+  
+    p > a:hover {
+      color: #216f79;
+      text-shadow: 0 0 6px #216f79;
+    }
+    p > a {
+      border-bottom: 1px dashed #216f79;
+      font-style: italic;
+      text-decoration: none;
+      color: #216f79;
+    }
+  }
+  

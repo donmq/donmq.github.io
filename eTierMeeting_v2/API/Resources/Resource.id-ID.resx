@@ -1,0 +1,564 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!--
+    Microsoft ResX Schema
+
+    Version 2.0
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
+    associated with the data types.
+
+    Example:
+
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+
+    There are any number of "resheader" rows that contain simple
+    name/value pairs.
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
+    mimetype set.
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
+    extensible. For a given mimetype the value must be set accordingly:
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
+    read any of the formats listed below.
+
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="adminpage" xml:space="preserve">
+    <value>Halaman Admin</value>
+    <comment/>
+  </data>
+  <data name="admin_building" xml:space="preserve">
+    <value>Pengelolaan Gedung</value>
+    <comment/>
+  </data>
+  <data name="admin_cell" xml:space="preserve">
+    <value>Pengelolaan Cell</value>
+    <comment/>
+  </data>
+  <data name="admin_cell_plno" xml:space="preserve">
+    <value>Pengelolaan Cell_Plno</value>
+    <comment/>
+  </data>
+  <data name="admin_email_address" xml:space="preserve">
+    <value>Alamat Email</value>
+    <comment/>
+  </data>
+  <data name="admin_employ" xml:space="preserve">
+    <value>Pengelolaan karyawan</value>
+    <comment/>
+  </data>
+  <data name="admin_hello" xml:space="preserve">
+    <value>Selamat  datang di pengelolaan Antar Muka</value>
+    <comment/>
+  </data>
+  <data name="admin_home" xml:space="preserve">
+    <value>Rumah</value>
+    <comment/>
+  </data>
+  <data name="admin_id" xml:space="preserve">
+    <value>Nomor karyawan</value>
+    <comment/>
+  </data>
+  <data name="admin_list_cell_plno" xml:space="preserve">
+    <value>Informasi Daftar Cell_Plno</value>
+    <comment/>
+  </data>
+  <data name="admin_machine" xml:space="preserve">
+    <value>Pengelolaan mesin</value>
+    <comment/>
+  </data>
+  <data name="admin_maintain_plno" xml:space="preserve">
+    <value>Pemeliharaan lokasi</value>
+    <comment/>
+  </data>
+  <data name="admin_manager_plno" xml:space="preserve">
+    <value>Bertanggung jawab Untuk</value>
+    <comment/>
+  </data>
+  <data name="admin_name" xml:space="preserve">
+    <value>Nama lengkap</value>
+    <comment/>
+  </data>
+  <data name="admin_pdc" xml:space="preserve">
+    <value>Pengelolaan PDC</value>
+    <comment/>
+  </data>
+  <data name="admin_plno" xml:space="preserve">
+    <value>Pengelolaan lokasi</value>
+    <comment/>
+  </data>
+  <data name="admin_title_building" xml:space="preserve">
+    <value>Informasi daftar bangunan</value>
+    <comment/>
+  </data>
+  <data name="admin_title_cell" xml:space="preserve">
+    <value>Informasi daftar cell</value>
+    <comment/>
+  </data>
+  <data name="admin_title_pdc" xml:space="preserve">
+    <value>Informasi daftar PDC</value>
+    <comment/>
+  </data>
+  <data name="admin_user_code" xml:space="preserve">
+    <value>Data pengguna</value>
+    <comment/>
+  </data>
+  <data name="changepassword" xml:space="preserve">
+    <value>Ubah Pasword</value>
+    <comment/>
+  </data>
+  <data name="checkmachine" xml:space="preserve">
+    <value>Cek mesin</value>
+    <comment/>
+  </data>
+  <data name="check_date" xml:space="preserve">
+    <value>Periksa Tanggal</value>
+    <comment/>
+  </data>
+  <data name="checkmachinesafety" xml:space="preserve">
+    <value>Periksa Keamanan Mesin</value>
+    <comment/>
+  </data>
+  <data name="contactit" xml:space="preserve">
+    <value>Hubungi departement IT untuk Info lebih lanjut</value>
+    <comment/>
+  </data>
+  <data name="contact_it" xml:space="preserve">
+    <value>Hubungi departement IT untuk Info lebih lanjut</value>
+    <comment/>
+  </data>
+  <data name="date" xml:space="preserve">
+    <value>Tanggal</value>
+    <comment/>
+  </data>
+  <data name="dept_does_not_exist" xml:space="preserve">
+    <value>Departement saat ini tidak ada di cell_plno silakan Periksa lagi!</value>
+    <comment/>
+  </data>
+  <data name="do_not_scan" xml:space="preserve">
+    <value>Jangan di pindai</value>
+    <comment/>
+  </data>
+  <data name="employee_code" xml:space="preserve">
+    <value>Kode Karyawan</value>
+    <comment/>
+  </data>
+  <data name="employee_name" xml:space="preserve">
+    <value>Nama karyawan</value>
+    <comment/>
+  </data>
+  <data name="endTimeInventory" xml:space="preserve">
+    <value>Persediaan akhir waktu</value>
+    <comment/>
+  </data>
+  <data name="exactly" xml:space="preserve">
+    <value>Persis</value>
+    <comment/>
+  </data>
+  <data name="hello" xml:space="preserve">
+    <value>Halo</value>
+    <comment/>
+  </data>
+  <data name="hours" xml:space="preserve">
+    <value>Jam</value>
+    <comment/>
+  </data>
+  <data name="inventory" xml:space="preserve">
+    <value>Stock persediaan</value>
+    <comment/>
+  </data>
+  <data name="inventoryhistory" xml:space="preserve">
+    <value>sejarah stock persediaan</value>
+    <comment/>
+  </data>
+  <data name="inventoryhistory2" xml:space="preserve">
+    <value>sejarah stock persediaan2</value>
+    <comment/>
+  </data>
+  <data name="inventoryV2" xml:space="preserve">
+    <value>sejarah2</value>
+    <comment/>
+  </data>
+  <data name="inventory_calendar" xml:space="preserve">
+    <value>Persediaan kalender</value>
+    <comment/>
+  </data>
+  <data name="inventory_location" xml:space="preserve">
+    <value>persediaan lokasi</value>
+    <comment/>
+  </data>
+  <data name="inventory_report" xml:space="preserve">
+    <value>Laporan persediaan</value>
+    <comment/>
+  </data>
+  <data name="inventory_result" xml:space="preserve">
+    <value>Hasil persediaan</value>
+    <comment/>
+  </data>
+  <data name="inventory_status" xml:space="preserve">
+    <value>Status persediaan</value>
+    <comment/>
+  </data>
+  <data name="inventory_type" xml:space="preserve">
+    <value>Tipe persediaan</value>
+    <comment/>
+  </data>
+  <data name="location" xml:space="preserve">
+    <value>lokasi</value>
+    <comment/>
+  </data>
+  <data name="scan_location" xml:space="preserve">
+    <value>lokasi pindai</value>
+    <comment/>
+  </data>
+  <data name="login" xml:space="preserve">
+    <value>Masuk</value>
+    <comment/>
+  </data>
+  <data name="loginrequest" xml:space="preserve">
+    <value>Silakan masuk untuk menggunakan fungsi ini</value>
+    <comment/>
+  </data>
+  <data name="logout" xml:space="preserve">
+    <value>Keluar</value>
+    <comment/>
+  </data>
+  <data name="machinecategory" xml:space="preserve">
+    <value>Kategori mesin</value>
+    <comment/>
+  </data>
+  <data name="machinecheckhistory" xml:space="preserve">
+    <value>Sejarah pengecekan Mesin</value>
+    <comment/>
+  </data>
+  <data name="machinemove" xml:space="preserve">
+    <value>Perpindahan mesin</value>
+    <comment/>
+  </data>
+  <data name="machinetransferhistory" xml:space="preserve">
+    <value>Sejarah perpindahan mesin</value>
+    <comment/>
+  </data>
+  <data name="machine_check_results" xml:space="preserve">
+    <value>Hasil pengecekan mesin</value>
+    <comment/>
+  </data>
+  <data name="machine_code" xml:space="preserve">
+    <value>Kode mesin</value>
+    <comment/>
+  </data>
+  <data name="machine_name" xml:space="preserve">
+    <value>Nama mesin</value>
+    <comment/>
+  </data>
+  <data name="machine_report" xml:space="preserve">
+    <value>Laporan Mesin</value>
+    <comment/>
+  </data>
+  <data name="machine_transfer_locked" xml:space="preserve">
+    <value>Sistem perpindahaan mesin terkunci. Silakan Ulangi halaman ini</value>
+    <comment/>
+  </data>
+  <data name="management_location_does_not_exist" xml:space="preserve">
+    <value>Manajer Lokasi saat ini tidak ada di Cell_plno. Silakan periksa lagi.</value>
+    <comment/>
+  </data>
+  <data name="match" xml:space="preserve">
+    <value>Pertandingan</value>
+    <comment/>
+  </data>
+  <data name="match_machine" xml:space="preserve">
+    <value>Pertandingan mesin</value>
+    <comment/>
+  </data>
+  <data name="minute" xml:space="preserve">
+    <value>menit</value>
+    <comment/>
+  </data>
+  <data name="notifice" xml:space="preserve">
+    <value>Pemberitahuan dari sistem</value>
+    <comment/>
+  </data>
+  <data name="notifice_it_admin" xml:space="preserve">
+    <value>Hanya senior menejer yang memiliki akses fungsi ini</value>
+    <comment/>
+  </data>
+  <data name="notifi_blocked_machine" xml:space="preserve">
+    <value>sistem perpindahan mesin terkunci selama waktu pengecekan masin.</value>
+    <comment/>
+  </data>
+  <data name="not_found" xml:space="preserve">
+    <value>Tidak ditemukan</value>
+    <comment/>
+  </data>
+  <data name="not_scan" xml:space="preserve">
+    <value>Tidak terpindai</value>
+    <comment/>
+  </data>
+  <data name="organization" xml:space="preserve">
+    <value>Penataan</value>
+    <comment/>
+  </data>
+  <data name="percent_match" xml:space="preserve">
+    <value>Persentasi keakuratan</value>
+    <comment/>
+  </data>
+  <data name="phuc_kiem" xml:space="preserve">
+    <value>Pemeriksaan Ulang</value>
+    <comment/>
+  </data>
+  <data name="qtyNotScan" xml:space="preserve">
+    <value>Nomor mesin tidak terpindai</value>
+    <comment/>
+  </data>
+  <data name="recent_times" xml:space="preserve">
+    <value>Baru-baru ini</value>
+    <comment/>
+  </data>
+  <data name="rediacthome" xml:space="preserve">
+    <value>beberapa detik sistem akan otomatis kembali ke halaman awal</value>
+    <comment/>
+  </data>
+  <data name="report_sheet" xml:space="preserve">
+    <value>Lembar Laporan</value>
+    <comment/>
+  </data>
+  <data name="rut_kiem" xml:space="preserve">
+    <value>Pemeriksaan singkat</value>
+    <comment/>
+  </data>
+  <data name="seconds" xml:space="preserve">
+    <value>Detik</value>
+    <comment/>
+  </data>
+  <data name="seconds_return_hompage" xml:space="preserve">
+    <value>beberapa detik sistem akan otomatis kembali ke halaman awal</value>
+    <comment/>
+  </data>
+  <data name="selectinventorytype" xml:space="preserve">
+    <value>Pilih tipe pemeriksaan</value>
+    <comment/>
+  </data>
+  <data name="sokiem" xml:space="preserve">
+    <value>Pemeriksaan pendahuluan</value>
+    <comment/>
+  </data>
+  <data name="startTimeInventory" xml:space="preserve">
+    <value>Waktu mulai pemeriksaan</value>
+    <comment/>
+  </data>
+  <data name="state" xml:space="preserve">
+    <value>Negara</value>
+    <comment/>
+  </data>
+  <data name="suppplier" xml:space="preserve">
+    <value>Pemasok :</value>
+    <comment/>
+  </data>
+  <data name="the_remaining_time" xml:space="preserve">
+    <value>Waktu pengingat :</value>
+    <comment/>
+  </data>
+  <data name="total" xml:space="preserve">
+    <value>Nomor mesin tersedia</value>
+    <comment/>
+  </data>
+  <data name="totalMachine" xml:space="preserve">
+    <value>Total nomor mesin</value>
+    <comment/>
+  </data>
+  <data name="total_machine_found" xml:space="preserve">
+    <value>Total mesin di temukan</value>
+    <comment/>
+  </data>
+  <data name="total_machine_not_found" xml:space="preserve">
+    <value>Total mesin tidak di temukan</value>
+    <comment/>
+  </data>
+  <data name="total_scanned_machine" xml:space="preserve">
+    <value>Total mesin di pindai</value>
+    <comment/>
+  </data>
+  <data name="user_management" xml:space="preserve">
+    <value>Pengelolaan Pengguna</value>
+    <comment/>
+  </data>
+  <data name="wrong_position" xml:space="preserve">
+    <value>Salah posisi</value>
+    <comment/>
+  </data>
+  <data name="cellplno_cell_name" xml:space="preserve">
+    <value>Nama Cell</value>
+    <comment/>
+  </data>
+  <data name="cellplno_cell_code" xml:space="preserve">
+    <value>Kode Cell</value>
+    <comment/>
+  </data>
+  <data name="cellplno_plno" xml:space="preserve">
+    <value>Plno</value>
+    <comment/>
+  </data>
+  <data name="cellplno_place" xml:space="preserve">
+    <value>Tempat</value>
+    <comment/>
+  </data>
+  <data name="building" xml:space="preserve">
+    <value>Gedung</value>
+    <comment/>
+  </data>
+  <data name="cellplno_cell_name2" xml:space="preserve">
+    <value>Departemen</value>
+    <comment/>
+  </data>
+  <data name="cellplno_report" xml:space="preserve">
+    <value>Lokasi</value>
+    <comment/>
+  </data>
+  <data name="remark" xml:space="preserve">
+    <value>komentar</value>
+    <comment/>
+  </data>
+  <data name="not_found_in_system" xml:space="preserve">
+    <value>Tidak ditemukan dalam sistem</value>
+    <comment/>
+  </data>
+  <data name="inventory_report_all_location" xml:space="preserve">
+    <value>Laporan inventaris - SEMUA LOKASI</value>
+    <comment/>
+  </data>
+  <data name="factory-area" xml:space="preserve">
+    <value>Area Pabrik</value>
+    <comment/>
+  </data>
+  <data name="custody_department" xml:space="preserve">
+    <value>Departemen Penitipan</value>
+    <comment/>
+  </data>
+  <data name="curator_inventory" xml:space="preserve">
+    <value>Inventarisasi Kurator</value>
+    <comment/>
+  </data>
+  <data name="inventory_unit" xml:space="preserve">
+    <value>Unit Inventaris</value>
+    <comment/>
+  </data>
+  <data name="manager_code" xml:space="preserve">
+    <value>Kode Manajer</value>
+    <comment/>
+  </data>
+  <data name="supervisor_name" xml:space="preserve">
+    <value>Nama Pengawas</value>
+    <comment/>
+  </data>
+  <data name="number_of_manager" xml:space="preserve">
+    <value>Jumlah karyawan resensi</value>
+    <comment/>
+  </data>
+  <data name="restorer_name" xml:space="preserve">
+    <value>Nama pemulih</value>
+    <comment/>
+  </data>
+  <data name="management_machine_does_not_exist" xml:space="preserve">
+    <value>Machine does not exist</value>
+    <comment>Machine does not exist</comment>
+  </data>
+  <data name="machineid_invalid" xml:space="preserve">
+    <value>Machine Id Invalid</value>
+    <comment>Machine Id Invalid</comment>
+  </data>
+</root>

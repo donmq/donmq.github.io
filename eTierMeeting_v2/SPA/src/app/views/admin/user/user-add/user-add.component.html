@@ -1,0 +1,39 @@
+<div class="box box-info">
+  <div class="box-header with-border">
+    <h4 class="box-title">{{'admin.adminuser.add_new_user'|translate}}</h4>
+  </div>
+  <div class="box-body">
+    <div class="form-group">
+      <label>{{'admin.adminuser.user_code'|translate}}</label>
+      <input placeholder="{{'admin.adminuser.user_code'|translate}}" class="form-control" type="text"
+        [(ngModel)]="user.userName">
+    </div>
+    <div class="form-group">
+      <label>{{'admin.adminuser.admin_name'|translate}}</label>
+      <input placeholder="{{'admin.adminuser.admin_name'|translate}}" class="form-control" type="text"
+        [(ngModel)]="user.empName">
+    </div>
+    <div class="form-group">
+      <label>{{'admin.adminuser.password'|translate}}</label>
+      <input placeholder="{{'admin.adminuser.password'|translate}}" class="form-control" type="password"
+        [(ngModel)]="user.hashPass">
+      <code>{{'admin.adminuser.set_the_default_password'|translate}}!</code>
+    </div>
+    <div class="form-group">
+      <label>{{'admin.adminuser.email_address'|translate}}</label>
+      <input placeholder="{{'admin.adminuser.email_address'|translate}}" class="form-control" type="text"
+        [(ngModel)]="user.emailAddress">
+    </div>
+    <ng-container *ngFor="let document of documents">
+      <div class="row check-box">
+        <input type="checkbox" [id]="document.id" name="checkbox{{document.id}}" [(ngModel)]="document.checked"
+          (change)="checkboxClicked($event, document.id)" [disabled]="document.visible" />
+        <label [htmlFor]="document.id" class="check-box">{{document.roleName}}</label>
+      </div>
+    </ng-container>
+    <button type="button" class="btn btn-primary btn-block" (click)='addUser()'>
+      <i class="fa fa-plus-square"></i>
+      {{'admin.adminuser.add_new_user'|translate}}
+    </button>
+  </div>
+</div>

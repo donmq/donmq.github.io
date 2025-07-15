@@ -1,0 +1,146 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h4 class="box-title">{{'layout.admin.admin_title_cell' | translate }}</h4>
+        </div>
+        <div class="row">
+          <div class="col-lg-3 col-md-12">
+            <app-cell-add (keyword)="keywordAdd($event)"></app-cell-add>
+          </div>
+          <div class="col-lg-9 col-md-12">
+            <div class="box box-info">
+              <div class="box-header with-border">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="input-group">
+                      <input type="text" [(ngModel)]="keyword" (ngModelChange)="searchCell()"
+                        placeholder="Search by Cell Code or Cell Name ..." class="form-control">
+                      <span class="input-group-btn">
+                        <button type="button" (click)="searchCell()" class="btn btn-primary btn-block"><i
+                            class="fa fa-search"></i></button>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-sm-3">
+                    <button type="submit" (click)="clearSearch()" class="btn btn-primary btn-block">
+                      <i class="fa fa-close"></i>
+                      {{'admin.common.admin_cancel_filter' | translate }}
+                    </button>
+                  </div>
+                  <div class="col-sm-3">
+                    <button type="submit" (click)="exportExcelData()" class="btn btn-success btn-block">
+                      <i class="fa fa-file-excel-o"></i>
+                      {{'common.export_excel' | translate }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="box-body">
+                <div class="table-responsive">
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th class="text-center">STT</th>
+                        <th class="text-center">Cell ID</th>
+                        <th class="text-center">Cell Code</th>
+                        <th class="text-center">Cell Name</th>
+                        <th class="text-center">PDC Name</th>
+                        <th class="text-center">Building Name</th>
+                        <th class="text-center">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of listCells; let i=index">
+                        <td>{{(pagination.currentPage - 1) * pagination.pageSize + i + 1}}</td>
+                        <td>{{item.cellID}}</td>
+                        <td>{{item.cellCode}}</td>
+                        <td>{{item.cellName}}</td>
+                        <td>{{item.pdcName}}</td>
+                        <td>{{item.buildingName}}</td>
+                        <td class="text-right">
+                          <button class="btn btn-primary edit" (click)="showChildModal(item)"><i
+                              class="fa fa-pencil"></i></button>
+                          <button class="btn btn-danger edit" (click)="removeCell(item)"><i
+                              class="fa fa-trash"></i></button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <pagination class="float-right" name="pagination" *ngIf="pagination.totalPage > 1"
+                  [totalItems]="pagination.totalCount" [(ngModel)]="pagination.currentPage"
+                  (pageChanged)="pageChanged($event)" [itemsPerPage]="pagination.pageSize" [rotate]="false"
+                  [maxSize]="5" [boundaryLinks]="true">
+                </pagination>
+              </div>
+              <!-- Modal -->
+              <div bsModal #childModal="bs-modal" class="modal fade">
+                <div class="modal-dialog modal-lg">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h4 class="modal-title pull-left">{{'admin.common.admin_update_cell' | translate }}</h4>
+                      <button type="button" class="close pull-right" aria-label="Close" (click)="hideChildModal()">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="row"><input type="hidden">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label class="col-md-12">Cell Code</label>
+                            <div class="col-md-12">
+                              <input type="text" [(ngModel)]="cellUpdate.cellCode" class="form-control" disabled>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label class="col-md-12">PDC</label>
+                            <div class="col-md-12">
+                              <ng-select2 [(ngModel)]="cellUpdate.pdcid" [data]="pdcs" width="100%">
+                              </ng-select2>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label class="col-md-12">Cell Name</label>
+                            <div class="col-md-12">
+                              <input type="text" [(ngModel)]="cellUpdate.cellName" class=" form-control">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label class="col-md-12">Building</label>
+                            <div class="col-md-12">
+                              <ng-select2 [(ngModel)]="cellUpdate.buildingID" [data]=" buildings" width="100%">
+                              </ng-select2>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" (click)="hideChildModal()" class="btn btn-light">
+                          <i class="fa fa-close"></i>
+                          {{'admin.common.admin_close' | translate }}
+                        </button>
+                        <button type="button" (click)="updateBuilding()" class="btn btn-warning">
+                          <i class="fa fa-save"></i>
+                          {{'admin.common.admin_update' | translate }}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Modal -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

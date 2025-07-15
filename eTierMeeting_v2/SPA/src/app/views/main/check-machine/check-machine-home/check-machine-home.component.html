@@ -1,0 +1,139 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="clearfix ">
+            <div class="col-lg-12 text-left idleft">
+              <label class="badge badge-warning">{{'inventory.status_internet' | translate }}</label><br />
+              <div class="row">
+                <div class="col-md-1 col-sm-6">
+                  <input type="radio" id="checkInternetOn" name="checkInternet" value="1" [(ngModel)]="checkInternet" />
+
+                  <label class="CheckInternet" for="checkInternetOn"> Online </label>
+                </div>
+                <div class="col-md-1 col-sm-6">
+                  <input type="radio" id="checkInternetOffline" name="checkInternet" value="2"
+                    [(ngModel)]="checkInternet" />
+                  <label class="CheckInternet" for="checkInternetOffline"> Offline</label>
+                </div>
+                <div class="col-md-4 col-sm-12 showchek">
+                  <button type="button" class="btn btn-default" disabled *ngIf="checkInternet=='1'">
+                    <i class="fa fa-spin fa-refresh"></i>
+                    {{'inventory.mode_online' | translate }}
+                  </button>
+                  <button type="button" class="btn btn-default" disabled *ngIf="checkInternet=='2'">
+                    <i class="fa fa-spin fa-refresh"></i>
+                    {{'inventory.mode_offline' | translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-12 row">
+              <div class="col-sm-6 col-xs-6 text-right">
+                <button class="btn btn-success btn-lg" (click)="openScan()">{{'checkmachine.scan_qr_code' |
+                  translate }}</button>
+              </div>
+              <div class="col-sm-6 col-xs-6">
+                <button class="btn btn-danger btn-lg" (click)=" scanManually()">
+                  {{'checkmachine.manually' | translate}}</button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3"></div>
+              <div class="col-md-6">
+                <input type="text" placeholder="{{'checkmachine.Please_enter_the_machine_code' | translate }}"
+                  [(ngModel)]="machineName" (keyup.enter)="getDataMachine()" *ngIf="!scan" class="form-control valid"
+                  autofocus />
+              </div>
+              <div class="col-md-3"></div>
+            </div>
+            <div class="col-lg-12 form-group idleft" *ngIf="listCheckMachine.length>0">
+              <label class="badge badge-warning">{{'inventory.clear_data' | translate }}</label><br />
+              <div class="row btn_success">
+                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 ">
+                  <button class="btn btn-success form-control" (click)="clearData()">
+                    <i class="fa fa-leaf"></i>&nbsp; {{'inventory.clear_data' | translate }}</button>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6">
+                  <button class="btn btn-success form-control" (click)="refresh()">
+                    <i class="fa fa-spin fa-refresh"></i>&nbsp;Refresh</button>
+                </div>
+                <div class="col-lg-5 col-md-4 col-sm-6 col-xs-6 ">
+                  <label class="col-form-label" style="margin-bottom:0px; line-height: 35px;">
+                    {{'inventory.number_of_machine_scanner' | translate }}: : <b>{{listCheckMachine.length}}</b>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="row" *ngIf="listCheckMachine.length>0">
+              <div class="col-lg-12 pull-right">
+                <button id="GetDataOffline" class="btn btn-info pull-right" *ngIf="getMachine"
+                  (click)="getDataMachineOffline()">
+                  <i class="fa fa-pencil"></i>
+                  {{'inventory.get_machine' | translate }}
+                </button>
+                <button id="SubmitInvenroty" class="btn btn-success pull-right" *ngIf="!getMachine"
+                  (click)=" submitCheckMachine()">
+                  <i class="fa fa-filter"></i>
+                  {{'checkmachine.check_only' | translate }}
+                </button>
+                <button id="SubmitInvenroty" class="btn btn-success pull-right mr-3" *ngIf="!getMachine"
+                  (click)="submitCheckMachineAll()">
+                  <i class="fa fa-filter"></i>
+                  {{'checkmachine.check_all' | translate }}
+                </button>
+              </div>
+            </div>
+            <div class="col-md-12 mt-12 col-12" *ngIf="listCheckMachine.length>0">
+              <table class="table table-bordered">
+                <thead class="thead-dark">
+                  <tr>
+                    <th>{{'common.stt' | translate }}</th>
+                    <th>{{'common.machine_code' | translate }}</th>
+                    <th>{{'common.machine_name' | translate }}</th>
+                    <th>{{'common.suppplier' | translate }}</th>
+                    <th>{{'common.machine_position' | translate }}</th>
+                    <th>{{'common.machine_status' | translate }}</th>
+                    <th>{{'common.delete' | translate }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of listCheckMachine; let i=index">
+                    <td scope="row">{{ i + 1 }}</td>
+                    <td>{{item.ownerFty}}{{item.machineID}}</td>
+                    <ng-container *ngIf="item.isNull==false">
+                      <td>{{item.machineName}}</td>
+                      <td>{{item.supplier}}</td>
+                      <td>{{item.placeName }}-{{item.plnoName}}</td>
+                      <td>{{item.status}}</td>
+                    </ng-container>
+
+                    <ng-container *ngIf="item.flag==1">
+                      <td colspan="4"> <i class="fa fa-spin fa-refresh"></i>&nbsp;
+                        <b>{{'inventory.load_machine' | translate }}</b>
+                      </td>
+                    </ng-container>
+                    <ng-container *ngIf="item.isNull==true">
+                      <td colspan="4">{{'checkmachine.no_machine_data' | translate }}</td>
+                    </ng-container>
+
+                    <td> <button type="button" class="btn btn-danger btn-sm" (click)=" deleteMachine()"><i
+                          class="fa fa-trash fa-lg"></i></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div id="main-loading" *ngIf="loadingData">
+              <app-check-machine-list [listResultCheckMachine]="listResultCheckMachine"
+                [historyCheckMachine]="historyCheckMachine" [dataReport]="dataReport">
+              </app-check-machine-list>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-scan-modal #modelScan (qrResultString)="codeQr($event)"></app-scan-modal>
+</div>

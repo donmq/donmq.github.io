@@ -1,0 +1,18 @@
+th {
+  padding: 8px !important;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+}
+
+td {
+  text-align: center;
+}
+
+tr {
+  background-color: #ccdbcd;
+}
+
+tr:nth-child(2n+1) {
+  background-color: #eee8ca;
+}

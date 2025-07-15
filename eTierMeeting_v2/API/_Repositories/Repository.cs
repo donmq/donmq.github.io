@@ -1,35 +1,16 @@
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
-using API.Data;
-using eTierV2_API.Data;
+using Machine_API._Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
-namespace eTierV2_API._Repositories
+namespace Machine_API.Data
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        public string DataSeach;
-        private readonly DBContext _context;
-        private readonly CBDataContext _CBcontext;
-        // private readonly SPCDataContext _SPCcontext;
-        // private readonly TSHDataContext _TSHcontext;
-        private readonly MesDataContext _Mescontext;
-
-
-        private IConfiguration _configuration;
-
-        public Repository(DBContext context , IConfiguration configuration)
+        private readonly DataContext _context;
+        public Repository(DataContext context)
         {
             _context = context;
-            // _CBcontext = CBcontext;
-            // _SPCcontext = SPCcontext;
-            // _TSHcontext = TSHcontext;
-            _configuration = configuration;
         }
         public void Add(T entity)
         {
@@ -41,44 +22,14 @@ namespace eTierV2_API._Repositories
             _context.AddRange(entities);
         }
 
-        public IQueryable<T> FindAll(params Expression<Func<T, object>>[] includeProperties)
+        public IQueryable<T> FindAll()
         {
-            DataSeach = _configuration.GetSection("AppSettings:DataSeach").Value;
-            IQueryable<T> items = _context.Set<T>();
-            if (includeProperties != null)
-            {
-                foreach (var includeProperty in includeProperties)
-                {
-                    items = items.Include(includeProperty);
-                }
-            }
-            return items.AsQueryable();
+            return _context.Set<T>();
         }
 
-        public IQueryable<T> FindAll(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
+        public IQueryable<T> FindAll(Expression<Func<T, bool>> predicate)
         {
-            DataSeach = _configuration.GetSection("AppSettings:DataSeach").Value;
-            IQueryable<T> items = _context.Set<T>();
-            if (DataSeach.Trim() == "CB")
-            {
-                items = _CBcontext.Set<T>();
-            }
-            // if (DataSeach.Trim() == "SPC")
-            // {
-            //     items = _SPCcontext.Set<T>();
-            // }
-            // if (DataSeach.Trim() == "TSH")
-            // {
-            //     items = _TSHcontext.Set<T>();
-            // }
-            if (includeProperties != null)
-            {
-                foreach (var includeProperty in includeProperties)
-                {
-                    items = items.Include(includeProperty);
-                }
-            }
-            return items.Where(predicate).AsQueryable();
+            return _context.Set<T>().Where(predicate);
         }
 
         public async Task<T> FindById(object id)
@@ -86,14 +37,11 @@ namespace eTierV2_API._Repositories
             return await _context.Set<T>().FindAsync(id);
         }
 
-        public async Task<T> FindSingle(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
+        public async Task<T> FindSingle(Expression<Func<T, bool>> predicate)
         {
-            return await FindAll(includeProperties).FirstOrDefaultAsync(predicate);
+            return await FindAll().FirstOrDefaultAsync(predicate);
         }
-        public IQueryable<T> GetAll()
-        {
-            return _context.Set<T>().AsQueryable();
-        }
+
         public void Remove(T entity)
         {
             _context.Set<T>().Remove(entity);
@@ -107,11 +55,6 @@ namespace eTierV2_API._Repositories
         public void RemoveMultiple(List<T> entities)
         {
             _context.Set<T>().RemoveRange(entities);
-        }
-
-        public async Task<bool> SaveAll()
-        {
-            return await _context.SaveChangesAsync() > 0;
         }
 
         public void Update(T entity)
@@ -124,392 +67,254 @@ namespace eTierV2_API._Repositories
             _context.Set<T>().UpdateRange(entities);
         }
 
-        public bool Any(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
+        public bool All(Expression<Func<T, bool>> predicate)
         {
-            return QueryableEntity(includeProperties).Any(predicate);
+            return _context.Set<T>().All(predicate);
         }
 
-        public async Task<bool> AnyAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
+        public async Task<bool> AllAsync(Expression<Func<T, bool>> predicate)
         {
-            return await QueryableEntity(includeProperties).AnyAsync(predicate);
+            return await _context.Set<T>().AllAsync(predicate);
         }
 
-        public T FirstOrDefault(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
+        public bool Any()
         {
-            return QueryableEntity(includeProperties).FirstOrDefault(predicate);
+            return _context.Set<T>().Any();
         }
 
-        public async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
+        public bool Any(Expression<Func<T, bool>> predicate)
         {
-            return await QueryableEntity(includeProperties).FirstOrDefaultAsync(predicate);
+            return _context.Set<T>().Any(predicate);
         }
 
-        private IQueryable<T> QueryableEntity(params Expression<Func<T, object>>[] includeProperties)
+        public async Task<bool> AnyAsync()
         {
-            IQueryable<T> items = _context.Set<T>();
-            if (includeProperties != null)
-            {
-                foreach (var includeProperty in includeProperties)
-                {
-                    items = items.Include(includeProperty);
-                }
-            }
-            return items;
+            return await _context.Set<T>().AnyAsync();
+        }
+
+        public async Task<bool> AnyAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _context.Set<T>().AnyAsync(predicate);
+        }
+
+        public T FirstOrDefault()
+        {
+            return _context.Set<T>().FirstOrDefault();
+        }
+
+        public T FirstOrDefault(Expression<Func<T, bool>> predicate)
+        {
+            return _context.Set<T>().FirstOrDefault(predicate);
+        }
+
+        public async Task<T> FirstOrDefaultAsync()
+        {
+            return await _context.Set<T>().FirstOrDefaultAsync();
+        }
+
+        public async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _context.Set<T>().FirstOrDefaultAsync(predicate);
+        }
+
+        public int Count()
+        {
+            return _context.Set<T>().Count();
+        }
+
+        public int Count(Expression<Func<T, bool>> predicate)
+        {
+            return _context.Set<T>().Count(predicate);
+        }
+
+        public async Task<int> CountAsync()
+        {
+            return await _context.Set<T>().CountAsync();
+        }
+
+        public async Task<int> CountAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _context.Set<T>().CountAsync(predicate);
+        }
+
+        public T LastOrDefault()
+        {
+            return _context.Set<T>().LastOrDefault();
+        }
+
+        public T LastOrDefault(Expression<Func<T, bool>> predicate)
+        {
+            return _context.Set<T>().LastOrDefault(predicate);
+        }
+
+        public async Task<T> LastOrDefaultAsync()
+        {
+            return await _context.Set<T>().LastOrDefaultAsync();
+        }
+
+        public async Task<T> LastOrDefaultAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _context.Set<T>().LastOrDefaultAsync(predicate);
+        }
+
+        public decimal Sum(Expression<Func<T, decimal>> selector)
+        {
+            return _context.Set<T>().Sum(selector);
+        }
+
+        public decimal? Sum(Expression<Func<T, decimal?>> selector)
+        {
+            return _context.Set<T>().Sum(selector);
+        }
+
+        public decimal Sum(Expression<Func<T, bool>> predicate, Expression<Func<T, decimal>> selector)
+        {
+            return _context.Set<T>().Where(predicate).Sum(selector);
+        }
+
+        public decimal? Sum(Expression<Func<T, bool>> predicate, Expression<Func<T, decimal?>> selector)
+        {
+            return _context.Set<T>().Where(predicate).Sum(selector);
+        }
+
+        public async Task<decimal> SumAsync(Expression<Func<T, decimal>> selector)
+        {
+            return await _context.Set<T>().SumAsync(selector);
+        }
+
+        public async Task<decimal?> SumAsync(Expression<Func<T, decimal?>> selector)
+        {
+            return await _context.Set<T>().SumAsync(selector);
+        }
+
+        public async Task<decimal> SumAsync(Expression<Func<T, bool>> predicate, Expression<Func<T, decimal>> selector)
+        {
+            return await _context.Set<T>().Where(predicate).SumAsync(selector);
+        }
+
+        public async Task<decimal?> SumAsync(Expression<Func<T, bool>> predicate, Expression<Func<T, decimal?>> selector)
+        {
+            return await _context.Set<T>().Where(predicate).SumAsync(selector);
+        }
+
+        public int Sum(Expression<Func<T, int>> selector)
+        {
+            return _context.Set<T>().Sum(selector);
+        }
+
+        public int? Sum(Expression<Func<T, int?>> selector)
+        {
+            return _context.Set<T>().Sum(selector);
+        }
+
+        public int Sum(Expression<Func<T, bool>> predicate, Expression<Func<T, int>> selector)
+        {
+            return _context.Set<T>().Where(predicate).Sum(selector);
+        }
+
+        public int? Sum(Expression<Func<T, bool>> predicate, Expression<Func<T, int?>> selector)
+        {
+            return _context.Set<T>().Where(predicate).Sum(selector);
+        }
+
+        public async Task<int> SumAsync(Expression<Func<T, int>> selector)
+        {
+            return await _context.Set<T>().SumAsync(selector);
+        }
+
+        public async Task<int?> SumAsync(Expression<Func<T, int?>> selector)
+        {
+            return await _context.Set<T>().SumAsync(selector);
+        }
+
+        public async Task<int> SumAsync(Expression<Func<T, bool>> predicate, Expression<Func<T, int>> selector)
+        {
+            return await _context.Set<T>().Where(predicate).SumAsync(selector);
+        }
+
+        public async Task<int?> SumAsync(Expression<Func<T, bool>> predicate, Expression<Func<T, int?>> selector)
+        {
+            return await _context.Set<T>().Where(predicate).SumAsync(selector);
+        }
+
+        public long Sum(Expression<Func<T, long>> selector)
+        {
+            return _context.Set<T>().Sum(selector);
+        }
+
+        public long? Sum(Expression<Func<T, long?>> selector)
+        {
+            return _context.Set<T>().Sum(selector);
+        }
+
+        public long Sum(Expression<Func<T, bool>> predicate, Expression<Func<T, long>> selector)
+        {
+            return _context.Set<T>().Where(predicate).Sum(selector);
+        }
+
+        public long? Sum(Expression<Func<T, bool>> predicate, Expression<Func<T, long?>> selector)
+        {
+            return _context.Set<T>().Where(predicate).Sum(selector);
+        }
+
+        public async Task<long> SumAsync(Expression<Func<T, long>> selector)
+        {
+            return await _context.Set<T>().SumAsync(selector);
+        }
+
+        public async Task<long?> SumAsync(Expression<Func<T, long?>> selector)
+        {
+            return await _context.Set<T>().SumAsync(selector);
+        }
+
+        public async Task<long> SumAsync(Expression<Func<T, bool>> predicate, Expression<Func<T, long>> selector)
+        {
+            return await _context.Set<T>().Where(predicate).SumAsync(selector);
+        }
+
+        public async Task<long?> SumAsync(Expression<Func<T, bool>> predicate, Expression<Func<T, long?>> selector)
+        {
+            return await _context.Set<T>().Where(predicate).SumAsync(selector);
+        }
+
+        public float Sum(Expression<Func<T, float>> selector)
+        {
+            return _context.Set<T>().Sum(selector);
+        }
+
+        public float? Sum(Expression<Func<T, float?>> selector)
+        {
+            return _context.Set<T>().Sum(selector);
+        }
+
+        public float Sum(Expression<Func<T, bool>> predicate, Expression<Func<T, float>> selector)
+        {
+            return _context.Set<T>().Where(predicate).Sum(selector);
+        }
+
+        public float? Sum(Expression<Func<T, bool>> predicate, Expression<Func<T, float?>> selector)
+        {
+            return _context.Set<T>().Where(predicate).Sum(selector);
+        }
+
+        public async Task<float> SumAsync(Expression<Func<T, float>> selector)
+        {
+            return await _context.Set<T>().SumAsync(selector);
+        }
+
+        public async Task<float?> SumAsync(Expression<Func<T, float?>> selector)
+        {
+            return await _context.Set<T>().SumAsync(selector);
+        }
+
+        public async Task<float> SumAsync(Expression<Func<T, bool>> predicate, Expression<Func<T, float>> selector)
+        {
+            return await _context.Set<T>().Where(predicate).SumAsync(selector);
+        }
+
+        public async Task<float?> SumAsync(Expression<Func<T, bool>> predicate, Expression<Func<T, float?>> selector)
+        {
+            return await _context.Set<T>().Where(predicate).SumAsync(selector);
         }
     }
-    public class FRIRepository<T> : IRepository<T> where T : class
-    {
-        private readonly SHCQDataContext _context;
-
-        public FRIRepository(SHCQDataContext context)
-        {
-            _context = context;
-        }
-
-        public void Add(T entity)
-        {
-            _context.Add(entity);
-        }
-
-        public IQueryable<T> FindAll(params Expression<Func<T, object>>[] includeProperties)
-        {
-            IQueryable<T> items = _context.Set<T>();
-            if (includeProperties != null)
-            {
-                foreach (var includeProperty in includeProperties)
-                {
-                    items = items.Include(includeProperty);
-                }
-            }
-            return items.AsQueryable();
-        }
-
-        public IQueryable<T> FindAll(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
-        {
-            IQueryable<T> items = _context.Set<T>();
-            if (includeProperties != null)
-            {
-                foreach (var includeProperty in includeProperties)
-                {
-                    items = items.Include(includeProperty);
-                }
-            }
-            return items.Where(predicate).AsQueryable();
-        }
-        public async Task<T> FindSingle(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
-        {
-            return await FindAll(includeProperties).FirstOrDefaultAsync(predicate);
-        }
-        public async Task<T> FindById(object id)
-        {
-            return await _context.Set<T>().FindAsync(id);
-        }
-
-        public IQueryable<T> GetAll()
-        {
-            return _context.Set<T>().AsQueryable();
-        }
-
-        public void Remove(T entity)
-        {
-            _context.Set<T>().Remove(entity);
-        }
-
-        public void Remove(object id)
-        {
-            Remove(FindById(id));
-        }
-
-        public void RemoveMultiple(List<T> entities)
-        {
-            _context.Set<T>().RemoveRange(entities);
-        }
-
-        public async Task<bool> SaveAll()
-        {
-            return await _context.SaveChangesAsync() > 0;
-        }
-
-        public void Update(T entity)
-        {
-            _context.Set<T>().Update(entity);
-        }
-
-        public void AddMultiple(List<T> entities)
-        {
-            _context.Set<T>().AddRange(entities);
-        }
-
-        public void UpdateMultiple(List<T> entity)
-        {
-            _context.Set<T>().UpdateRange(entity);
-        }
-        public T FirstOrDefault(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
-        {
-            return QueryableEntity(includeProperties).FirstOrDefault(predicate);
-        }
-        public async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
-        {
-            return await QueryableEntity(includeProperties).FirstOrDefaultAsync(predicate);
-        }
-        public bool Any(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
-        {
-            return QueryableEntity(includeProperties).Any(predicate);
-        }
-        public async Task<bool> AnyAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
-        {
-            return await QueryableEntity(includeProperties).AnyAsync(predicate);
-        }
-
-        private IQueryable<T> QueryableEntity(params Expression<Func<T, object>>[] includeProperties)
-        {
-            IQueryable<T> items = _context.Set<T>();
-            if (includeProperties != null)
-            {
-                foreach (var includeProperty in includeProperties)
-                {
-                    items = items.Include(includeProperty);
-                }
-            }
-            return items;
-        }
-    }
-    public class MesRepository<T> : IRepository<T> where T : class
-    {
-        private readonly MesDataContext _context;
-
-        public MesRepository(MesDataContext context)
-        {
-            _context = context;
-        }
-
-        public void Add(T entity)
-        {
-            _context.Add(entity);
-        }
-
-        public IQueryable<T> FindAll(params Expression<Func<T, object>>[] includeProperties)
-        {
-            IQueryable<T> items = _context.Set<T>();
-            if (includeProperties != null)
-            {
-                foreach (var includeProperty in includeProperties)
-                {
-                    items = items.Include(includeProperty);
-                }
-            }
-            return items.AsQueryable();
-        }
-
-        public IQueryable<T> FindAll(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
-        {
-            IQueryable<T> items = _context.Set<T>();
-            if (includeProperties != null)
-            {
-                foreach (var includeProperty in includeProperties)
-                {
-                    items = items.Include(includeProperty);
-                }
-            }
-            return items.Where(predicate).AsQueryable();
-        }
-
-        public async Task<T> FindSingle(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
-        {
-            return await FindAll(includeProperties).FirstOrDefaultAsync(predicate);
-        }
-        public async Task<T> FindById(object id)
-        {
-            return await _context.Set<T>().FindAsync(id);
-        }
-
-        public IQueryable<T> GetAll()
-        {
-            return _context.Set<T>().AsQueryable();
-        }
-
-        public void Remove(T entity)
-        {
-            _context.Set<T>().Remove(entity);
-        }
-
-        public void Remove(object id)
-        {
-            Remove(FindById(id));
-        }
-
-        public void RemoveMultiple(List<T> entities)
-        {
-            _context.Set<T>().RemoveRange(entities);
-        }
-
-        public async Task<bool> SaveAll()
-        {
-            return await _context.SaveChangesAsync() > 0;
-        }
-
-        public void Update(T entity)
-        {
-            _context.Set<T>().Update(entity);
-        }
-
-        public void AddMultiple(List<T> entities)
-        {
-            _context.Set<T>().AddRange(entities);
-        }
-
-        public void UpdateMultiple(List<T> entity)
-        {
-            _context.Set<T>().UpdateRange(entity);
-        }
-        public T FirstOrDefault(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
-        {
-            return QueryableEntity(includeProperties).FirstOrDefault(predicate);
-        }
-        public async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
-        {
-            return await QueryableEntity(includeProperties).FirstOrDefaultAsync(predicate);
-        }
-         public bool Any(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
-        {
-            return QueryableEntity(includeProperties).Any(predicate);
-        }
-        public async Task<bool> AnyAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
-        {
-            return await QueryableEntity(includeProperties).AnyAsync(predicate);
-        }
-
-        private IQueryable<T> QueryableEntity(params Expression<Func<T, object>>[] includeProperties)
-        {
-            IQueryable<T> items = _context.Set<T>();
-            if (includeProperties != null)
-            {
-                foreach (var includeProperty in includeProperties)
-                {
-                    items = items.Include(includeProperty);
-                }
-            }
-            return items;
-        }
-    }
-
-    public class ciMesRepository<T> : IRepository<T> where T : class
-    {
-        private readonly ciMESDataContext _context;
-
-        public ciMesRepository(ciMESDataContext context)
-        {
-            _context = context;
-        }
-
-        public void Add(T entity)
-        {
-            _context.Add(entity);
-        }
-
-        public IQueryable<T> FindAll(params Expression<Func<T, object>>[] includeProperties)
-        {
-            IQueryable<T> items = _context.Set<T>();
-            if (includeProperties != null)
-            {
-                foreach (var includeProperty in includeProperties)
-                {
-                    items = items.Include(includeProperty);
-                }
-            }
-            return items.AsQueryable();
-        }
-
-        public IQueryable<T> FindAll(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
-        {
-            IQueryable<T> items = _context.Set<T>();
-            if (includeProperties != null)
-            {
-                foreach (var includeProperty in includeProperties)
-                {
-                    items = items.Include(includeProperty);
-                }
-            }
-            return items.Where(predicate).AsQueryable();
-        }
-
-        public async Task<T> FindSingle(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
-        {
-            return await FindAll(includeProperties).FirstOrDefaultAsync(predicate);
-        }
-        public async Task<T> FindById(object id)
-        {
-            return await _context.Set<T>().FindAsync(id);
-        }
-
-        public IQueryable<T> GetAll()
-        {
-            return _context.Set<T>().AsQueryable();
-        }
-
-        public void Remove(T entity)
-        {
-            _context.Set<T>().Remove(entity);
-        }
-
-        public void Remove(object id)
-        {
-            Remove(FindById(id));
-        }
-
-        public void RemoveMultiple(List<T> entities)
-        {
-            _context.Set<T>().RemoveRange(entities);
-        }
-
-        public async Task<bool> SaveAll()
-        {
-            return await _context.SaveChangesAsync() > 0;
-        }
-
-        public void Update(T entity)
-        {
-            _context.Set<T>().Update(entity);
-        }
-
-        public void AddMultiple(List<T> entities)
-        {
-            _context.Set<T>().AddRange(entities);
-        }
-
-        public void UpdateMultiple(List<T> entity)
-        {
-            _context.Set<T>().UpdateRange(entity);
-        }
-        public T FirstOrDefault(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
-        {
-            return QueryableEntity(includeProperties).FirstOrDefault(predicate);
-        }
-        public async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
-        {
-            return await QueryableEntity(includeProperties).FirstOrDefaultAsync(predicate);
-        }
-        public bool Any(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
-        {
-            return QueryableEntity(includeProperties).Any(predicate);
-        }
-        public async Task<bool> AnyAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
-        {
-            return await QueryableEntity(includeProperties).AnyAsync(predicate);
-        }
-
-        private IQueryable<T> QueryableEntity(params Expression<Func<T, object>>[] includeProperties)
-        {
-            IQueryable<T> items = _context.Set<T>();
-            if (includeProperties != null)
-            {
-                foreach (var includeProperty in includeProperties)
-                {
-                    items = items.Include(includeProperty);
-                }
-            }
-            return items;
-        }
-    }
-
 }

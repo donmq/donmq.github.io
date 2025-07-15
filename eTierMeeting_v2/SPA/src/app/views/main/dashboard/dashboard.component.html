@@ -1,0 +1,107 @@
+<div class="animated fadeIn">
+  <!-- /.row -->
+  <div class="row">
+    <!-- /.col -->
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row group clearfix">
+            <div class="col-md-2 col-sm-4 col-xs-6 form-group idleft">
+              <label class="badge badge-warning">{{'homepage.id_machine' | translate }}</label>
+              <input type="text" placeholder="{{'homepage.id_machine' | translate }}" class="form-control"
+                name="machineId" [(ngModel)]="searchMachineParams.machineId">
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6 form-group form-group">
+              <label class="badge badge-warning">{{'homepage.pdc_category' | translate }}</label>
+               <ng-select [(ngModel)]="cateID" name="cateID" width="100%" (ngModelChange)="onChangeCate()"
+                [clearable]="cateID != cateID">
+                <ng-option *ngFor="let item of categorys" value="{{ item.key }}">{{ item.value}}</ng-option>
+              </ng-select>
+            </div>
+            <!-- PDC -->
+            <div class="col-md-2 col-sm-4 col-xs-6 form-group  building form-group">
+              <label class="badge badge-warning">{{'homepage.pdc_name' | translate }}</label>
+              <ng-select [(ngModel)]="pdcID" name="pdcID" width="100%" (ngModelChange)="getListCellByPdcID()"
+                [clearable]="pdcID != pdcID">
+                <ng-option *ngFor="let item of pdcs" value="{{ item.key }}">{{ item.value}}</ng-option>
+              </ng-select>
+            </div>
+            <!-- Cell -->
+            <div class="col-md-2 col-sm-4 col-xs-6 form-group department">
+              <label class="badge badge-warning">{{'homepage.cell_name' | translate }}</label>
+             <ng-select [(ngModel)]="cellID" name="cellID" width="100%" (ngModelChange)="getListBuildingByCell()"
+                [clearable]="cellID != cellID">
+                <ng-option *ngFor="let item of cells" value="{{ item.key }}">{{ item.value}}</ng-option>
+              </ng-select>
+            </div>
+            <!-- Building -->
+            <div class="col-md-2 col-sm-4 col-xs-6 form-group building form-group">
+              <label class="badge badge-warning">{{'homepage.building_name' | translate }}</label>
+              <ng-select [(ngModel)]="buildingID" name="buildingID" width="100%"
+                (ngModelChange)="getListPlnoByBuildingID()" [clearable]="buildingID != buildingID">
+                <ng-option *ngFor="let item of buildings" value="{{ item.key }}">{{ item.value}}</ng-option>
+              </ng-select>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6 form-group form-group">
+              <label class="badge badge-warning">{{'homepage.plno_name' | translate }}</label>
+             <ng-select [(ngModel)]="cellPlnoID" name="cellPlnoID" width="100%" (ngModelChange)="getPlano($event)"
+                [clearable]="cellPlnoID != cellPlnoID">
+                <ng-option *ngFor="let item of cellPlnos" value="{{ item.key }}">{{ item.value}}</ng-option>
+              </ng-select>
+            </div>
+          </div>
+          <div class="clearboth">
+            <button type="submit" class="btn btn-primary export_btn pull-left" (click)="searchMachine()">
+              <i class="fa fa-search"> {{'common.search' | translate }}</i>
+            </button>
+            <button type="button" class="btn btn-success export_btn pull-right" (click)="exportExcelData()">
+              <i class="fa fa-file-excel-o"> {{'common.export_excel'|translate}}</i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>STT</th>
+                  <th>{{'homepage.id_machine' | translate }}</th>
+                  <th>{{'common.machine_name' | translate }}</th>
+                  <th>{{'homepage.suppplier' | translate }}</th>
+                  <th>{{'common.machine_position' | translate }}</th>
+                  <th>{{'common.machine_status' | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let searchMachine of searchMachines; let i=index">
+                  <td>
+                    {{ (pagination.currentPage - 1) * pagination.pageSize + i + 1 }}
+                  </td>
+                  <td>
+                    {{searchMachine.ownerFty}}{{searchMachine.assnoID}}
+                  </td>
+                  <td>{{checkLang ==='zh-TW' ? searchMachine.machineName_CN : checkLang ==='en-US' ?
+                    searchMachine.machineName_EN : searchMachine.machineName_Local}}</td>
+                  <td>{{searchMachine.supplier}}</td>
+                  <td>
+                    {{searchMachine.place}} - {{searchMachine.plno}}
+                  </td>
+                  <td>{{searchMachine.state}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <pagination class="float-right" name="pagination" *ngIf="pagination.totalPage > 1"
+              [totalItems]="pagination.totalCount" [(ngModel)]="pagination.currentPage"
+              (pageChanged)="pageChanged($event)" [itemsPerPage]="pagination.pageSize" [rotate]="false" [maxSize]="5"
+              [boundaryLinks]="true"></pagination>
+          </div>
+          <div *ngIf="searchMachines.length == 0"
+            class="alert alert-warning text-dark text-center text-bold font-weight-bold mt-0" role="alert">
+            No data received!
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.col -->
+  </div>
+</div>

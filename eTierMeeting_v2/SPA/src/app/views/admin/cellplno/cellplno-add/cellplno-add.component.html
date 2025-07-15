@@ -1,0 +1,21 @@
+<div class="box box-info">
+  <div class="box-header with-border">
+    <h4 class="box-title form-group">{{'admin.admincellplno.admin_add_cell_plno' | translate }}</h4>
+  </div>
+  <div class="box-body">
+    <div class="form-group">
+      <label>Cell</label>
+      <ng-select2 [(ngModel)]="cellPlno.cellID" [data]="cells" width="100%">
+      </ng-select2>
+    </div>
+    <div class="form-group">
+      <label>Plno</label>
+      <ng-select2 [(ngModel)]="cellPlno.plno" [data]="cell_Plnos" width="100%">
+      </ng-select2>
+    </div>
+    <button type="button" (click)="addCellPlno()" class="btn btn-primary btn-block">
+      <i class="fa fa-plus-square"></i>
+      {{'admin.common.admin_add' | translate }}
+    </button>
+  </div>
+</div>

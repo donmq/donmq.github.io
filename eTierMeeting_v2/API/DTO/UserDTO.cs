@@ -1,19 +1,30 @@
-using System;
+using Machine_API.Models.MachineCheckList;
 
-namespace eTierV2_API.DTO
+namespace Machine_API.DTO
 {
-    public class UserDTO
+    public class UserDto
     {
-        public string account { get; set; }
-        public string password { get; set; }
-        public string name { get; set; }
-        public string email { get; set; }
-        public bool is_active { get; set; }
-        public string update_by { get; set; }
-        public DateTime? update_time { get; set; }
-        public UserDTO()
-        {
-            this.update_time = DateTime.Now;
-        }
+        public int UserID { get; set; }
+
+        public string UserName { get; set; }
+
+        public string HashPass { get; set; }
+
+        public string HashImage { get; set; }
+
+        public string EmailAddress { get; set; }
+
+        public bool? Visible { get; set; }
+
+        public DateTime? UpdateDate { get; set; }
+
+        public string UpdateBy { get; set; }
+
+        public string EmpName { get; set; }
+
+        public List<int?> Roles { get; set; }
+
+        public List<UserRoles> ListRoles { get; set; }
+
     }
 }

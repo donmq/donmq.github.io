@@ -1,0 +1,32 @@
+<div class="box box-info">
+  <div class="box-header with-border">
+    <h4 class="box-title">{{'admin.adminemploy.admin_list_employ' | translate }}</h4>
+  </div>
+  <div class="box-body">
+    <div class="form-group">
+      <label>{{'admin.adminemploy.admin_title_employ' | translate }}</label>
+      <input placeholder="{{'admin.adminemploy.admin_title_employ' | translate }}" class="form-control" type="text"
+        [(ngModel)]="employee.empName">
+    </div>
+    <div class="form-group">
+      <label>{{'admin.adminemploy.admin_id' | translate }}</label>
+      <input placeholder="{{'admin.adminemploy.admin_id' | translate }}" class="form-control" type="text"
+        [(ngModel)]="employee.empNumber">
+    </div>
+    <div class="form-group">
+      <label>{{'admin.adminemploy.admin_manager_plno' | translate }}</label>
+      <ng-select [multiple]="true" [(ngModel)]="listValue"
+        placeholder="{{'admin.adminemploy.admin_manager_plno' | translate }}">
+        <ng-option *ngFor="let item of listPlnos" [value]="item.id">
+          <button class="btn btn-success btn-sm">
+            {{item.text}}
+          </button>
+        </ng-option>
+      </ng-select>
+    </div>
+    <button type="button" class="btn btn-primary btn-block" (click)="addEmployee()">
+      <i class="fa fa-plus-square"></i>
+      {{'admin.common.admin_add' | translate }}
+    </button>
+  </div>
+</div>

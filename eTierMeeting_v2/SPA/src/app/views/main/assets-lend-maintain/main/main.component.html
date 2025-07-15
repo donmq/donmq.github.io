@@ -1,0 +1,134 @@
+<div class="animated fadeIn">
+  <!-- /.row -->
+  <div class="row">
+    <!-- /.col -->
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row group clearfix">
+            <!-- Lend Date -->
+            <div class="col-md-3 col-sm-4 col-xs-6 form-group idleft">
+              <label class="badge badge-warning">{{'assetslendmaintain.date' |
+                translate }}</label>
+              <input type="text"
+                     class="form-control"
+                     placeholder="{{'common.please_choose_date' | translate }}"
+                     [(ngModel)]="lendDate"
+                     (ngModelChange)="dateCheck()"
+                     [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
+                     bsDatepicker
+                     [outsideClick]="true"
+                     readonly>
+            </div>
+            <!-- Machine ID -->
+            <div class="col-md-3 col-sm-4 col-xs-6 form-group idleft">
+              <label class="badge badge-warning">{{'assetslendmaintain.machineID' | translate }}</label>
+              <input type="text"
+                     placeholder="{{'assetslendmaintain.machineID' | translate }}"
+                     class="form-control"
+                     name="machineId"
+                     [(ngModel)]="param.machineID">
+            </div>
+            <!-- Lend To -->
+            <div class="col-md-3 col-sm-4 col-xs-6 form-group">
+              <label class="badge badge-warning">{{'assetslendmaintain.lendTo' | translate }}</label>
+              <ng-select [(ngModel)]="param.lendTo"
+                         name="lendTo"
+                         width="100%"
+                         placeholder="{{'assetslendmaintain.lendTo' | translate }}"
+                         [clearable]="param.lendTo != param.lendTo">
+                <ng-option *ngFor="let item of listLendTo"
+                           value="{{ item.key }}">{{ item.value}}</ng-option>
+              </ng-select>
+            </div>
+            <!-- Return -->
+            <div class="col-md-3 col-sm-4 col-xs-6 form-group idleft">
+              <label class="badge badge-warning">{{'assetslendmaintain.return'
+                | translate }}</label>
+              <select class="form-control"
+                      [(ngModel)]="param.return"
+                      id="return"
+                      name="return"
+                      required>
+                <option value="All">{{'assetslendmaintain.all' | translate }}
+                </option>
+                <option value="Y">{{'assetslendmaintain.y' | translate }}
+                </option>
+                <option value="N">{{'assetslendmaintain.n' | translate }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="clearboth">
+            <button type="submit"
+                    class="btn btn-primary export_btn pull-left"
+                    (click)="search()">
+              <i class="fa fa-search"> {{'common.search' | translate }}</i>
+            </button>
+            <button type="button"
+                    class="btn btn-success export_btn ml-2"
+                    (click)="download()">
+              <i class="fa fa-file-excel-o"> {{'common.export_excel'|translate}}</i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>STT</th>
+                  <th>{{'assetslendmaintain.machineID' | translate }}</th>
+                  <th>{{'assetslendmaintain.machineName' | translate }}</th>
+                  <th>{{'assetslendmaintain.spec' | translate }}</th>
+                  <th>{{'assetslendmaintain.supplier' | translate }}</th>
+                  <th>{{'assetslendmaintain.usingFty' | translate }}</th>
+                  <th>{{'assetslendmaintain.reason' | translate }}</th>
+                  <th>{{'assetslendmaintain.lendDate' | translate }}</th>
+                  <th>{{'assetslendmaintain.lendConfirm' | translate }}</th>
+                  <th>{{'assetslendmaintain.returnDate' | translate }}</th>
+                  <th>{{'assetslendmaintain.returnConfirm' | translate }}</th>
+                  <th>{{'assetslendmaintain.remark' | translate }}</th>
+                  <th>{{'assetslendmaintain.modify' | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of data; let i = index">
+                  <td>
+                    {{ (pagination.currentPage - 1) * pagination.pageSize + i + 1 }}
+                  </td>
+                  <td>{{item.assnoID}}</td>
+                  <td>{{item.machineName_EN}}</td>
+                  <td>{{item.spec}}</td>
+                  <td>{{item.supplier}}</td>
+                  <td>{{item.usingFty}}</td>
+                  <td>{{item.iO_Reason}}</td>
+                  <td>{{item.iO_Date}}</td>
+                  <td>{{item.iO_Confirm}}</td>
+                  <td>{{item.re_Date}}</td>
+                  <td>{{item.re_Confirm}}</td>
+                  <td>{{item.remark}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <pagination class="float-right"
+                        name="pagination"
+                        *ngIf="pagination.totalPage > 1"
+                        [totalItems]="pagination.totalCount"
+                        [(ngModel)]="pagination.currentPage"
+                        (pageChanged)="pageChanged($event)"
+                        [itemsPerPage]="pagination.pageSize"
+                        [rotate]="false"
+                        [maxSize]="5"
+                        [boundaryLinks]="true"></pagination>
+          </div>
+          <div *ngIf="data.length == 0"
+               class="alert alert-warning text-dark text-center text-bold font-weight-bold mt-0"
+               role="alert">
+            No data received!
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

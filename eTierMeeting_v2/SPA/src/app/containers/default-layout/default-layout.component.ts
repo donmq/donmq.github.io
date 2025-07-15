@@ -1,239 +1,147 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { Route, Router } from "@angular/router";
-import { ModalDirective } from "ngx-bootstrap/modal";
-import { NgxSpinnerService } from "ngx-spinner";
-import { AuthService } from "../../_core/_services/auth.service";
-import { CommonService } from "../../_core/_services/common.service";
-import { NgSnotifyService } from "../../_core/_services/ng-snotify.service";
-import { UserService } from "../../_core/_services/user.service";
-import { RecordMeetingDurationService } from "../../_core/_services/record-meeting-duration.service";
-import { NavItem, navETierMeeting } from "../../_nav";
-import { eTM_Meeting_Log } from "../../_core/_models/eTM_Meeting_Log";
-import { environment } from "../../../environments/environment";
-import { LocalStorageConstants } from "@constants/storage.constants";
-import { OperationResult } from "@utilities/operation-result";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { INavData } from '@coreui/angular';
+import { Idle } from '@ng-idle/core';
+import { TranslateService } from '@ngx-translate/core';
+import { ModalDirective } from 'ngx-bootstrap/modal';
+import { User } from '../../_core/_models/user';
+import { AuthService } from '../../_core/_services/auth.service';
+import { SignalrService } from '../../_core/_services/signalr.service';
+import { WebService } from '../../_core/_services/web.service';
+import { NavItem } from '../../_nav';
+import { navKey } from './navKey';
 
 @Component({
-  selector: "app-dashboard",
-  templateUrl: "./default-layout.component.html",
-  styleUrls: ['./default-layout.component.css']
+  selector: 'app-dashboard',
+  templateUrl: './default-layout.component.html',
+  styleUrls: ['./default-layout.component.scss'],
 })
 export class DefaultLayoutComponent implements OnInit {
-  // public sidebarMinimized = false;
-  defaultNav = navETierMeeting;
-  public navItems = [];
-  routeT5: string = ''
-  currentUser: any = JSON.parse(localStorage.getItem(LocalStorageConstants.USER));
-  oldPassword: string;
-  newPassword: string;
-  confirmPassword: string;
-  @ViewChild('modalChangePassword', { static: false }) modalEditUser: ModalDirective;
-  isFromMES: boolean = false;
-  isFromT2Selection: boolean = false;
-  // toggleMinimize(e) {
-  //   this.sidebarMinimized = e;
-  // }
-  mettingLog: eTM_Meeting_Log = <eTM_Meeting_Log>{};
-  mesKanbanUrl: string = '';
+  @ViewChild('lgModal') modelLogin: ModalDirective;
+  showLogin: boolean = true;
+  dataUser: User;
+  public sidebarMinimized = false;
+  public navItems: INavData[] = [];
+  time = new Date();
+  usersCount: number;
+  tab: any = 'tab1';
+  local: string = localStorage.getItem('local');
+  factoryName: string = localStorage.getItem('factory');
 
   constructor(
-    private authService: AuthService,
-    private router: Router,
-    private userService: UserService,
-    private spinnerService: NgxSpinnerService,
-    private snotifyService: NgSnotifyService,
-    private commonService: CommonService,
-    private recordMeetingDurationService: RecordMeetingDurationService,
-    private nav: NavItem) { }
+    private _router: Router,
+    private _authService: AuthService,
+    public translate: TranslateService,
+    private webService: WebService,
+    private idle: Idle,
+    private signalr: SignalrService,
+    private nav: NavItem
+  ) { }
 
   ngOnInit(): void {
-    this.initializeAsyncData();
-    this.recordMeetingDurationService.t2StartRecordEvent
-      .subscribe((deptId) => {
-        this.startT2Meeting(deptId);
-      });
-  }
-
-  async initializeAsyncData() {
-    //dang nhap roi moi getRouteT5 ext
-    if (this.currentUser && this.currentUser.role.includes("em.T5Efficiency"))
-      await this.getRouteT5()
-    this.navItems = this.nav.getNavETierMeeting(this.currentUser, this.routeT5)
-  }
-  getRouteT5 = () => {
-    return new Promise<void>((resolve, reject) => {
-      this.commonService.getRouteT5().subscribe({
-        next: (res) => res.success && res.data.value != null
-          ? resolve(this.routeT5 = res.data.value)
-          : resolve(this.snotifyService.error(res.message, 'Error!')),
-        error: () => reject(this.snotifyService.error('An error occurred while connecting to the server', 'Error!'))
-      });
-    })
-  };
-
-  logout() {
-    localStorage.removeItem(LocalStorageConstants.TOKEN);
-    localStorage.removeItem(LocalStorageConstants.USER);
-    this.authService.decodedToken = null;
-    this.authService.currentUser = null;
-    this.currentUser = null;
-    this.navItems = this.defaultNav;
-    this.snotifyService.info('Logged out');
-    if (this.router.url.includes('T5')) this.router.navigate(['/dashboard']);
-  }
-
-  changePassword() {
-    if (this.newPassword !== this.confirmPassword) {
-      this.snotifyService.error('Confirm password not match!');
-      return;
-    }
-    this.spinnerService.show();
-    this.userService.changePassword(this.currentUser.username, this.oldPassword, this.newPassword)
-      .subscribe(res => {
-        this.spinnerService.hide();
-        if (res.success) {
-          this.snotifyService.success(res.message);
-          this.modalEditUser.hide();
+    const lang = localStorage.getItem('lang');
+    if (lang) {
+      this.translate.use(lang);
+      if (lang === 'zh-TW') {
+        this.tab = 'zh-TW';
+      } else if (lang === 'en-US') {
+        this.tab = 'en-US';
+      } else {
+        if (this.local !== lang) {
+          localStorage.setItem('lang', this.local);
+          this.translate.use(lang);
+          location.reload();
         }
-        else {
-          this.snotifyService.error(res.message);
-        }
-      }, () => {
-        this.snotifyService.error('Fail change pasword user!');
-        this.spinnerService.hide();
-      });
-  }
-
-  goToLayout2() {
-    if (this.currentUser != null)
-      this.router.navigate(['/dashboard2']);
-    else
-      this.router.navigate(['/login']);
-  }
-
-  async checkFromMES() {
-    if (window.location.href.includes('linkFrom=MES')) {
-      this.isFromMES = true;
-      let classType = this.getClassType();
-      let tierLevel = this.getTierLevel();
-      let unitCode = this.getUnitCode();
-
-      await this.createRecordMeetingDuration(unitCode, classType, tierLevel)
-
-      if (this.mettingLog && this.mettingLog.record_ID) {
-        if (window.location.href.includes('level=building')) {
-          let building = unitCode
-          if (classType == "CTB")
-            this.mesKanbanUrl = (`${environment.ipKanban}?orgId=${building}&oleave=2`);
-          else if (classType == "STF")
-            this.mesKanbanUrl = (`${environment.ipKanbanSTF}?orgId=${building}&level=2`);
-          else if (classType == "UPF")
-            this.mesKanbanUrl = (`${environment.ipKanbanGQT}?orgId=${building}&oleave=2`);
-          else
-            this.mesKanbanUrl = (`${environment.ipKanbanSTF}?orgId=${building}&level=2`);
-        }
-        else {
-          let deptId = unitCode          
-          await this.getLineID(deptId).then((res) => {
-            if (res.success) {
-              this.mesKanbanUrl = `${environment.ipKanban}&LINE=${res.data.value}`;
-            }
-            else {
-              this.isFromMES = false;
-              this.snotifyService.error("Get LineID Failed", 'Error!')
-            }
-          })
-        }
-        //Get last record meeting duration data
-        this.mettingLog = await this.recordMeetingDurationService.get(this.mettingLog.record_ID).toPromise();
+        this.tab = this.local;
       }
+    } else {
+      localStorage.setItem('lang', this.local);
+      this.tab = this.local;
+      this.translate.use(lang);
+      location.reload();
+      this.webService.setLanguage(this.local);
     }
-  }
 
-  backToMES() {
-    if (Object.keys(this.mettingLog).length == 0)
-      return this.snotifyService.error("Cannot return to MES because the record data could not be retrieved.", 'Error!');
-    this.recordMeetingDurationService.update(this.mettingLog).subscribe(
-      () => window.location.href = this.mesKanbanUrl,
-      () => this.snotifyService.error("Update record failed, can not back to MES", 'Error!'));
-  }
-
-  /** Example:
-   * urlString = #/safety/safetymain/EA9?linkFrom=MES
-   * urlSplited[urlSplited.length - 1] = EA9?linkFrom=MES
-   * deptId = EA9
-  */
-  getUnitCode() {
-    let urlString = window.location.hash;
-    let urlSplited = urlString.split('/');
-    return urlSplited[urlSplited.length - 1].split('?')[0];
-  }
-
-  getClassType() {
-    let urlString = window.location.hash;
-    let urlSplited = urlString.split('/');
-    return urlSplited[urlSplited.length - 2].split('?')[0];
-  }
-
-  getTierLevel() {
-    let urlString = window.location.hash;
-    let urlSplited = urlString.split('/');
-    return urlSplited[urlSplited.length - 5];
-  }
-
-  linkClicked(attr: any, url: string) {
-    if (attr.tier_Level == "T5") {
-      const parts = url.split('/#/');
-      const resultUrl = parts[1];
-      this.router.navigateByUrl(resultUrl).then(() => {
-        location.reload();
+    this.translate.get(navKey.main_a).subscribe(res => {
+      let listValue = [];
+      let a = 1;
+      listValue = Object.values(res);
+      this.navItems = this.nav.getNav().map((item, index) => {
+        item.name = a + '. ' + listValue[index];
+        a++;
+        return item;
       });
+    });
+    this.translate.get(navKey.main_b).subscribe(res => {
+      let listValue = [];
+      listValue = Object.values(res);
+      let idx = 0;
+      this.navItems.map((item, index) => {
+        item.children.map((i, n) => {
+          i.name = (index + 1).toString() + '.' + (n + 1).toString() + ' ' + listValue[idx];
+          idx++;
+        });
+        return item;
+      });
+    });
+
+    setInterval(() => {
+      this.time = new Date();
+    }, 1000);
+    if (this._authService.loggedIn()) {
+      this.showLogin = false;
+      this.dataUser = JSON.parse(localStorage.getItem('user'));
+      this._authService.setTime();
     }
 
-    localStorage.setItem(LocalStorageConstants.CENTER_LEVEL, attr.center_Level);
-    localStorage.setItem(LocalStorageConstants.TIER_LEVEL, attr.tier_Level);
-  }
+    this._authService.onLoggedOut(this.autoLogOut.bind(this));
 
-  startT2Meeting(deptId: string) {
-    this.isFromT2Selection = true;
-    this.createRecordMeetingDuration(deptId, 'CTB', 'T2')
-  }
-  endT2Meeting() {
-    this.isFromT2Selection = false;
-    this.spinnerService.show();
-    this.recordMeetingDurationService.update(this.mettingLog).subscribe(() => {
-      this.router.navigateByUrl('/Production/T2/selectline/selectlinemain');
-      this.spinnerService.hide();
+    this.signalr.usersCount.subscribe((res: number) => {
+      this.usersCount = res;
     });
   }
-  createRecordMeetingDuration(unitCode: string, classType: string, tierLevel: string) {
-    return new Promise<void>((resolve, reject) => {
-      this.spinnerService.show()
-      this.recordMeetingDurationService.create(unitCode, classType, tierLevel).subscribe({
-        next: (res) => {
-          this.spinnerService.hide()
-          if (res.success) {
-            this.mettingLog = res.data;
-            resolve()
-          } else {
-            this.mettingLog = <eTM_Meeting_Log>{};
-            resolve(this.snotifyService.error(res.message, 'Error!'))
-          }
-        },
-        error: () => {
-          this.spinnerService.hide()
-          this.mettingLog = <eTM_Meeting_Log>{};
-          reject(this.snotifyService.error('An error occurred while connecting to the server', 'Error!'))
-        }
-      });
-    })
+
+  showLoginChil(value: boolean) {
+    this.showLogin = value;
   }
-  getLineID(deptId: string) {
-    return new Promise<OperationResult>((resolve, reject) => {
-      this.commonService.getLineID(deptId).subscribe({
-        next: (res) => resolve(res),
-        error: () => reject(this.snotifyService.error('An error occurred while connecting to the server', 'Error!'))
-      });
-    })
+
+  showUser(value: User) {
+    this.dataUser = value;
+  }
+
+  switchLang(lang: string) {
+    localStorage.setItem('lang', lang);
+    this.webService.setLanguage(lang).subscribe(res => {
+      location.reload();
+    });
+
+    if (lang === 'zh-TW') {
+      this.tab = 'zh-TW';
+    } else if (lang === 'en-US') {
+      this.tab = 'en-US';
+    } else {
+      this.tab = this.local;
+    }
+
+  }
+
+  toggleMinimize(e) {
+    this.sidebarMinimized = e;
+  }
+
+  autoLogOut() {
+    this.idle.stop();
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    this._authService.decodedToken = null;
+    this.showLogin = true;
+  }
+
+  logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    this._authService.decodedToken = null;
+    this.showLogin = true;
+    this._router.navigate(['/home']);
   }
 }

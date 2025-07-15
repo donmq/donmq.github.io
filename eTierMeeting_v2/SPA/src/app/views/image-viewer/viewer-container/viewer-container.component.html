@@ -1,0 +1,15 @@
+<div class="backdrop"
+     [@backdrop] (click)="close()">
+  <div class="box "
+       [@box]
+       #divRef>
+       <div [style.width.px]="imageWidth" [style.height.px]="imageHeight">
+            <img [src]="image.src" fill (click)="$event.stopPropagation()" >
+       </div>
+  </div>
+  <div class="close-footer">
+    <button type="button"
+            (click)="close()">
+    </button>
+  </div>
+</div>

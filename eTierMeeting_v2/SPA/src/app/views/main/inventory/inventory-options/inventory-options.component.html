@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="col-lg-2 col-12">
+  </div>
+  <div class="col-lg-3 mt-3 col-12" *ngIf="checkRoles.includes(3) || checkRoles.includes(2)">
+    <button class="btn btn-lg btn-primary" [class.active]="numActive==1"
+      (click)="changeOptionInvetory(1)">{{'inventory.so_kiem' | translate }}</button>
+  </div>
+  <div class="col-lg-3 mt-3 col-12" *ngIf="checkRoles.includes(4) || checkRoles.includes(2)">
+    <button class=" btn btn-lg btn-primary" [class.active]="numActive==2"
+      (click)="changeOptionInvetory(2)">{{'inventory.phuc_kiem' | translate }}</button>
+  </div>
+  <div class="col-lg-3 mt-3  col-12" *ngIf="checkRoles.includes(5) || checkRoles.includes(2)">
+    <button class="btn btn-lg btn-primary" [class.active]="numActive==3"
+      (click)="changeOptionInvetory(3)">{{'inventory.rut_kiem' | translate }}</button>
+  </div>
+  <div class="col-lg-1 col-12">
+  </div>
+</div>

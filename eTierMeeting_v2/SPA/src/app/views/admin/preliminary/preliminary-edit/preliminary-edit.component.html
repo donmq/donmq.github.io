@@ -1,0 +1,86 @@
+<div bsModal #childModal="bs-modal" class="modal fade">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">{{'preliminary.update_staff'|translate}}</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="hideChildModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row form-group">
+          <div class=" col-md-6">
+            <label>{{'preliminary.user_code'|translate}}</label>
+            <input type="text" class="form-control" [(ngModel)]="preliminary.empNumber"
+              placeholder="{{'preliminary.user_code'|translate}}" readonly>
+          </div>
+          <div class=" col-md-6">
+            <label>{{'preliminary.user_name'|translate}}</label>
+            <input type="text" class="form-control" [(ngModel)]="preliminary.empName"
+              placeholder="{{'preliminary.user_name'|translate}}" readonly>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>{{'preliminary.building_name'|translate}}</label>
+          <ng-select [multiple]="true" placeholder="{{'preliminary.building_name' | translate }}" [clearable]="false"
+            [hideSelected]="true" [(ngModel)]="listBuildingsAdd" (add)="getListPlnoByBuildingID($event)"
+            (remove)="unSelectBuildingList($event)">
+            <ng-option *ngFor="let item of listBuildings " [value]="item.id">
+              <button class="btn btn-success btn-sm">{{item.text}}</button>
+            </ng-option>
+          </ng-select>
+        </div>
+        <div class="form-group" *ngIf="cellVisible">
+          <label>{{'preliminary.cell_name'|translate}}</label>
+          <ng-select [multiple]="true" placeholder="{{'preliminary.cell_name' | translate }}" [clearable]="false"
+            [hideSelected]="true" [(ngModel)]="listCellsAdd" (add)="getPlnosAllList()"
+            (remove)="unSelectCellsList($event)" (clear)="clearAllBuiding($event)">
+            <ng-option *ngFor="let item of listCells" [value]="item.id">
+              <button class="btn btn-success btn-sm">{{item.text}} </button>
+            </ng-option>
+          </ng-select>
+        </div>
+        <div class="form-group">
+          <label>{{'preliminary.plno_name'|translate}}</label>
+          <ng-select [multiple]="true" placeholder="{{'preliminary.plno_name' | translate }}" [clearable]="false"
+            [hideSelected]="true" [(ngModel)]="listPlnosAdd">
+            <ng-option *ngFor="let item of listPlnos" [value]="item.id">
+              <button class="btn btn-success btn-sm">{{item.text}} </button>
+            </ng-option>
+          </ng-select>
+        </div>
+<!-- /// -->
+<div class="row form-group">
+  <div class=" col-md-6">
+    <input type="checkbox" [(ngModel)]="preliminary.is_Manager"
+      placeholder="{{'preliminary.is_manager'|translate}}">
+      &nbsp;
+    <label>{{'preliminary.is_manager'|translate}}</label>
+  </div>
+  <div class=" col-md-6">
+    <input type="checkbox"  [(ngModel)]="preliminary.is_Preliminary"
+      placeholder="{{'preliminary.is_preminary'|translate}}">
+      &nbsp;
+      <label>{{'preliminary.is_preminary'|translate}}</label>
+  </div>
+</div>
+
+
+
+
+
+
+        <!-- ///// -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" (click)="hideChildModal()" class="btn btn-light">
+          <i class="fa fa-close"></i>
+          {{'admin.common.admin_close' | translate }}
+        </button>
+        <button type="button" class="btn btn-warning"
+        [disabled]=" (preliminary.is_Manager === false && preliminary.is_Preliminary === false) "
+          (click)="updatePreliminaryPlnos()">{{'admin.common.admin_update'|translate}}</button>
+      </div>
+    </div>
+  </div>
+</div>

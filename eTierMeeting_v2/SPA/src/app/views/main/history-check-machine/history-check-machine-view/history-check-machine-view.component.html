@@ -1,0 +1,44 @@
+<div>
+  <div class="clearfix"></div>
+  <h3 class=" title_inventory_data text-uppercase">{{'historycheckmachine.detailed_machine_check_history' |
+    translate }}</h3>
+  <button class="btn btn-warning btn-md text-capitalize pull-right mb-3" (click)="backList()"><i
+      class="fa fa-reply-all"></i>&nbsp;{{'historycheckmachine.return_list_page' | translate }}</button>
+  <table class="table table-bordered">
+    <thead class="thead-dark">
+      <tr>
+        <th data-key="stt" scope="col">{{'common.stt' | translate }}</th>
+        <th data-key="machine-code" scope="col">{{'common.machine_code' | translate }}</th>
+        <th data-key="machine-name" scope="col">{{'common.machine_name' | translate }}</th>
+        <th data-key="suppplier" scope="col">{{'common.suppplier' | translate }}</th>
+        <th data-key="machine-position" scope="col">{{'common.machine_position' | translate }}</th>
+        <th data-key="machine-status" scope="col">{{'common.machine_status' | translate }}</th>
+        <th data-key="inventory-status" scope="col">{{'historycheckmachine.inventory_status' | translate }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of listViewCheckMachineHisstory; let i=index">
+        <td>{{i + 1}}</td>
+        <td>{{item.machineID}}</td>
+        <td>{{item.machineName}}</td>
+        <td>{{item.supplier}}</td>
+        <td>{{item.place}}</td>
+        <td>{{item.state}}</td>
+        <td>
+          <button type="button" class="btn btn-success btn-sm" *ngIf="item.statusCheckMachine ==1">
+            {{'historycheckmachine.match_machine' | translate }}
+          </button>
+          <button type="button" class="btn btn-warning btn-sm" *ngIf="item.statusCheckMachine ==-1">
+            {{'historycheckmachine.not_found' | translate }}
+          </button>
+          <button type="button" class="btn btn-danger btn-sm" *ngIf="item.statusCheckMachine ==0">
+            {{'inventory.do_not_scan' | translate }}
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <button class="btn btn-warning btn-md text-capitalize pull-right" (click)="backList()"><i
+      class="fa fa-reply-all"></i>&nbsp;{{'historycheckmachine.return_list_page' | translate }}</button>
+  <div class="clearfix"></div>
+</div>

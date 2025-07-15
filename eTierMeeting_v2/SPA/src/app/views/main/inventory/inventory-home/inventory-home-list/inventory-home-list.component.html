@@ -1,0 +1,93 @@
+<h3 class="title_inventory text-center text-uppercase mb-5 pt-5">{{'inventory.inventory_result' | translate }}</h3>
+<div class=" row">
+  <div class="form-group col-md-3">
+    <label class="badge badge-warning">{{'inventory.inventory_type' | translate }}</label>
+    <input type="text" class="form-control" placeholder="Loại"
+      [ngModel]="listReport.inventoryID == 1 ? 'Sơ kiểm' : listReport.inventoryID == 2 ?  'Phúc kiểm' :  'Rút kiểm'"
+      readonly>
+  </div>
+  <div class="form-group col-md-3">
+    <label class="badge badge-warning">{{'inventory.inventory_location' | translate }}</label>
+    <input type="text" class="form-control" placeholder="Vị trí" [(ngModel)]="listReport.place" readonly>
+  </div>
+  <div class="form-group col-md-3">
+    <label class="badge badge-warning">{{'inventory.inventory_date_and_time' | translate }}</label>
+    <input type="text" class="form-control" placeholder="Ngày giờ kiểm kê"
+      [ngModel]="listReport.startTimeInventory|date: 'dd/MM/yyyy | HH:mm:ss'" readonly>
+  </div>
+  <div class="form-group col-md-3">
+    <label class="badge badge-warning">{{'inventory.employee_code' | translate }}</label>
+    <input type="text" class="form-control" :placeholder="Mã người tạo" [(ngModel)]="dataUser.userName" readonly>
+  </div>
+  <div class="form-group col-md-3">
+    <label class="badge badge-warning">{{'inventory.employee_name' | translate }}</label>
+    <input type="text" class="form-control" placeholder="Người tạo" [(ngModel)]="dataUser.empName" readonly>
+  </div>
+  <div class="form-group col-md-3">
+    <label class="badge badge-warning">{{'inventory.quantity_total' | translate }}</label>
+    <input type="text" class="form-control" placeholder="Số lượng máy hiện có"
+      [(ngModel)]="listReport.countSuccess + listReport.countNotScan" readonly>
+  </div>
+  <div class="form-group col-md-3">
+    <label class="badge badge-warning">{{'inventory.quantity_match' | translate }}</label>
+    <input type="text" class="form-control" placeholder="Số lượng hoàn thành" [(ngModel)]="listReport.countSuccess"
+      readonly>
+  </div>
+  <div class="form-group col-md-3">
+    <label class="badge badge-warning">{{'inventory.quantity_wrong_position' | translate }}</label>
+    <input type="text" class="form-control" placeholder="Số lượng sai vị trí"
+      [(ngModel)]="listReport.countWrongPosition" readonly>
+  </div>
+  <div class="form-group col-md-3">
+    <label class="badge badge-warning">{{'inventory.quantity_not_scan' | translate }}</label>
+    <input type="text" class="form-control" placeholder="Số lượng không quét" [(ngModel)]="listReport.countNotScan"
+      readonly>
+  </div>
+  <div class="form-group col-md-3">
+    <label class="badge badge-warning">{{'inventory.startTimeInventory' | translate }}</label>
+    <input type="text" class="form-control" placeholder="Thời gian bắt đầu kiểm kê"
+      [ngModel]="listReport.startTimeInventory|date: 'dd/MM/yyyy | HH:mm:ss'" readonly>
+  </div>
+  <div class="form-group col-md-3">
+    <label class="badge badge-warning">{{'inventory.endTimeInventory' | translate }}</label>
+    <input type="text" class="form-control" placeholder="Thời gian kết thúc kiểm kê"
+      [ngModel]="listReport.endTimeInventory |date: 'dd/MM/yyyy | HH:mm:ss'" readonly>
+  </div>
+</div>
+<div class="col-md-12 mt-12 col-12">
+  <button class="btn btn-info pull-right" (click)="exportExcel()"> <i class=" fa fa-file-excel-o"></i>
+    {{'common.export_excel' | translate}}</button>
+  <button class="btn btn-warning pull-right btn-export" (click)="exportPDF()"> <i class=" fa fa-file-pdf-o"></i>
+    {{'common.export_pdf' | translate }}</button><br /><br />
+  <table class="table table-bordered">
+    <thead class="thead-dark">
+      <tr>
+        <th>{{'common.stt' | translate }}</th>
+        <th>{{'common.machine_code' | translate }}</th>
+        <th>{{'common.machine_name' | translate }}</th>
+        <th>{{'common.suppplier' | translate }}</th>
+        <th>{{'common.machine_position' | translate }}</th>
+        <th>{{'common.machine_status' | translate }}</th>
+        <th>{{'inventory.inventory_status' | translate }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of listReport.listInventory; let i=index">
+        <td>{{i+1}}</td>
+        <td>{{item.machineCode}}</td>
+        <td>{{item.machineName}}</td>
+        <td>{{item.supplier}}</td>
+        <td>{{item.placeName}} - {{item.plnoName}}</td>
+        <td>{{item.status}}</td>
+        <td>
+          <button type="button" class="btn btn-success btn-sm" *ngIf="item.statusIventory ==1">
+            {{'inventory.match' | translate }}</button>
+          <button type="button" class="btn btn-warning btn-sm" *ngIf="item.statusIventory ==-1">
+            {{'inventory.wrong_position' | translate }}</button>
+          <button type="button" class="btn btn-danger btn-sm" *ngIf="item.statusIventory ==0">
+            {{'inventory.do_not_scan'| translate }}</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

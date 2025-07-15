@@ -1,0 +1,10 @@
+.form-control.is-valid {
+  background-image: none;
+}
+
+.form-row input:focus {
+  background-color: yellow !important;
+  border-color: red !important;
+  box-shadow: 0 0 0 0.2rem rgb(167 40 40 / 25%) !important;
+  color: black !important;
+}

@@ -1,0 +1,19 @@
+<div class="box box-info">
+  <div class="box-header with-border">
+    <h5 class="box-title">{{'admin.adminbuilding.admin_add_building' | translate }}</h5>
+  </div>
+  <div class="box-body">
+    <div class="form-group">
+      <label>Building Name</label>
+      <input placeholder="Building Name" [(ngModel)]="building.buildingName" class="form-control" type="text">
+    </div>
+    <div class="form-group">
+      <label>Building Code</label>
+      <input placeholder="Building Code" [(ngModel)]="building.buildingCode" class="form-control" type="text">
+    </div>
+    <button type="button" (click)="addBuilding()" class="btn btn-primary btn-block">
+      <i class="fa fa-plus-square"></i>
+      {{'admin.common.admin_add' | translate }}
+    </button>
+  </div>
+</div>

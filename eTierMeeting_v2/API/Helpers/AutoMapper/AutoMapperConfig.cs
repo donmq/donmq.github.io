@@ -1,6 +1,6 @@
 using AutoMapper;
 
-namespace eTierV2_API.Helpers.AutoMapper
+namespace Machine_API.Helpers.AutoMapper
 {
     public class AutoMapperConfig
     {

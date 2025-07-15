@@ -1,4 +1,5 @@
-namespace eTierV2_API.Helpers.Utilities
+
+namespace Machine_API.Helpers.Utilities
 {
     public class OperationResult
     {
@@ -6,41 +7,40 @@ namespace eTierV2_API.Helpers.Utilities
         public string Message { set; get; }
         public bool Success { set; get; }
         public object Data { set; get; }
+        public List<string> ValidateData { set; get; }
 
         public OperationResult()
         {
-
+            this.Data = null;
         }
 
-        public OperationResult(string message)
-        {
-            this.Message = message;
-        }
-
-        public OperationResult(bool success)
-        {
-            this.Success = success;
-        }
-
-        public OperationResult(bool success, string message)
-        {
-            this.Message = message;
-            this.Success = success;
-        }
-
-        public OperationResult(bool success, string message, string caption)
+        public OperationResult(string caption, string message, bool success)
         {
             this.Caption = caption;
             this.Message = message;
             this.Success = success;
         }
 
-        public OperationResult(bool success, string message, string caption, object data)
+        public OperationResult(string message, bool success)
+        {
+            this.Message = message;
+            this.Success = success;
+        }
+
+        public OperationResult(string caption, string message, bool success, object data)
         {
             this.Caption = caption;
             this.Message = message;
             this.Success = success;
             this.Data = data;
+        }
+
+        public OperationResult(string caption, string message, bool success, List<string> validateData)
+        {
+            this.Caption = caption;
+            this.Message = message;
+            this.Success = success;
+            this.ValidateData = validateData;
         }
     }
 }

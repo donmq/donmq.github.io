@@ -1,0 +1,77 @@
+<div class="box box-info">
+  <div class="box-header with-border">
+    <h4 class="box-title">{{'preliminary.add_new_preliminary'|translate}}</h4>
+  </div>
+  <div class="box-body">
+    <div class="form-group">
+      <div class="form-group">
+        <label>{{'preliminary.user_code'|translate}}</label>
+        <ng-select2 placeholder="{{'preliminary.user_code'|translate}}" [data]="listUser" width="100%"
+          [(ngModel)]="userName" (ngModelChange)="getUserName(userName)">
+        </ng-select2>
+      </div>
+      <div class="form-group">
+        <label>{{'preliminary.user_name'|translate}}</label>
+        <input placeholder="{{'preliminary.user_name'|translate}}" class="form-control" type="text"
+          [ngModel]="user.empName" disabled>
+      </div>
+      <!-- <label>{{'preliminary.cell_name'|translate}}</label>
+      <ng-select [multiple]="true" placeholder="{{'preliminary.cell_name' | translate }}" [(ngModel)]="listCellsAdd"
+        (ngModelChange)="getListBuildingByCell()">
+        <ng-option *ngFor="let item of listCells" [value]="item.id">
+          <button class="btn btn-success btn-sm">{{item.text}}</button>
+        </ng-option>
+      </ng-select> -->
+
+    </div>
+    <div class="form-group">
+      <label>{{'preliminary.building_name'|translate}}</label>
+      <ng-select [multiple]="true" placeholder="{{'preliminary.building_name' | translate }}" [clearable]="false"
+        [hideSelected]="true" [(ngModel)]="listBuildingsAdd" (add)="getListPlnoByBuildingID($event)"
+        (remove)="unSelectBuildingList($event)">
+        <ng-option *ngFor="let item of listBuildings" [value]="item.id">
+          <button class="btn btn-success btn-sm">{{item.text}} </button>
+        </ng-option>
+      </ng-select>
+    </div>
+    <div class="form-group" *ngIf="cellVisible">
+      <label>{{'preliminary.cell_name'|translate}}</label>
+      <ng-select [multiple]="true" placeholder="{{'preliminary.cell_name' | translate }}" [clearable]="false"
+        [hideSelected]="true" [(ngModel)]="listCellsAdd" (add)="getPlnosAllList()"
+        (remove)="unSelectCellsList($event)" (clear)="clearAllBuiding($event)">
+        <ng-option *ngFor="let item of listCells" [value]="item.id">
+          <button class="btn btn-success btn-sm">{{item.text}} </button>
+        </ng-option>
+      </ng-select>
+    </div>
+    <div class="form-group">
+      <label>{{'preliminary.plno_name'|translate}}</label>
+      <ng-select [multiple]="true" placeholder="{{'preliminary.plno_name' | translate }}" [clearable]="false"
+        [hideSelected]="true" [(ngModel)]="listPlnosAdd">
+        <ng-option *ngFor="let item of listPlnos" [value]="item.id">
+          <button class="btn btn-success btn-sm">{{item.text}} </button>
+        </ng-option>
+      </ng-select>
+    </div>
+    <!-- add 2 checkbox /// -->
+    <div class="row form-group">
+      <div class=" col-md-5">
+        <input type="checkbox" [(ngModel)]="is_Manager"
+          placeholder="{{'preliminary.is_manager'|translate}}">
+        <label>{{'preliminary.is_manager'|translate}}</label>
+      </div>
+      <div class="col-md-5">
+        <input type="checkbox"  [(ngModel)]="is_Preliminary"
+          placeholder="{{'preliminary.is_preminary'|translate}}">
+        <label>{{'preliminary.is_preminary'|translate}}</label>
+      </div>
+    </div>
+    <!-- ///// -->
+    <button type="button" class="btn btn-primary btn-block" (click)="addPreliminary()" 
+    [disabled]=" (is_Manager === false && is_Preliminary === false) "
+    >
+      <i class="fa fa-plus-square"></i>
+      {{'preliminary.add_preliminary'|translate}}
+    </button>
+  </div>
+</div>

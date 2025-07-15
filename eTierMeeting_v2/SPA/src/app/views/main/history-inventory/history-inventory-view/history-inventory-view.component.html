@@ -1,0 +1,48 @@
+<div class="card-header">
+  <h3 style="text-align: center; padding-top: 10px;">{{'historyinventory.inventory_history_detail' | translate
+    }}</h3>
+</div>
+<div class="card-body">
+  <button class="btn btn-warning btn-md text-capitalize pull-right mb-3" (click)="backList()"><i
+      class="fa fa-reply-all"></i>&nbsp;
+    {{'historyinventory.return_list_page' | translate }}</button>
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>{{'common.stt' | translate }}</th>
+          <th>{{'common.machine_code' | translate }}</th>
+          <th>{{'common.machine_name' | translate }}</th>
+          <th>{{'common.suppplier' | translate }}</th>
+          <th>{{'common.machine_position' | translate }}</th>
+          <th>{{'common.machine_status' | translate }}</th>
+          <th>{{'historyinventory.inventory_status' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let dataHistory of dataHistoryInventorys; let i=index">
+          <td>{{i + 1}}</td>
+          <td>{{dataHistory.machineID}}</td>
+          <td>{{dataHistory.machineName}}</td>
+          <td>{{dataHistory.supplier}}</td>
+          <td>{{dataHistory.place}}</td>
+          <td>{{dataHistory.state}}</td>
+          <td>
+            <label class="badge badge-success" *ngIf="dataHistory.statusInventory ==1">
+              {{'historyinventory.match' | translate }}
+            </label>
+            <label class="badge badge-warning" *ngIf="dataHistory.statusInventory ==-1">
+              {{'historyinventory.wrong_position' | translate }}
+            </label>
+            <label class="badge badge-danger" *ngIf="dataHistory.statusInventory ==0">
+              {{'historyinventory.do_not_scan' | translate }}
+            </label>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <button class="btn btn-warning btn-md text-capitalize pull-right mb-3" (click)="backList()"><i
+      class="fa fa-reply-all"></i>&nbsp;
+    {{'historyinventory.return_list_page' | translate }}</button>
+</div>

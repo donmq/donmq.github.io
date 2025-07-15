@@ -1,0 +1,111 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h4 class="box-title">
+            {{'layout.admin.admin_inventory_calendar_management' | translate }}
+          </h4>
+        </div>
+        <div class="col-md-12">
+          <div class="box box-primary">
+            <div class="row">
+              <div class="col-lg-3 col-md-12">
+                <div class="box-body">
+                  <form role="form">
+                    <div class="form-group none-border-bottom">
+                      <label>{{'inventory_calendar.select_inventory_start_time'
+                        | translate }}</label>
+                      <input class="form-control" type="text"
+                        [(ngModel)]="fromDate" [owlDateTimeTrigger]="starTime"
+                        [owlDateTime]="starTime" name="dateFrom"
+                        [value]="fromDate">
+                      <owl-date-time [pickerType]="'both'"
+                        #starTime></owl-date-time>
+                    </div>
+                    <div class="form-group none-border-bottom">
+                      <label>{{'inventory_calendar.select_inventory_end_time' |
+                        translate }}</label>
+                      <input class="form-control" type="text"
+                        [(ngModel)]="toDate" [owlDateTimeTrigger]="endTime"
+                        [owlDateTime]="endTime" name="dateFrom"
+                        [value]="toDate">
+                      <owl-date-time [pickerType]="'both'"
+                        #endTime></owl-date-time>
+                    </div>
+                    <div class="form-group none-border-bottom">
+                      <label>{{'inventory_calendar.note' | translate }}</label>
+                      <textarea type="text" class="form-control" name="Note"
+                        [(ngModel)]="listadd.note" rows="4"
+                        placeholder="{{'inventory_calendar.note' | translate }}..."></textarea>
+                    </div>
+                    <button type="button" class="btn btn-info btn-flat"
+                      (click)="addDateInventory()">
+                      <i class="fa fa-plus-square"></i>
+                      {{'inventory_calendar.add_day' | translate }}
+                    </button>
+                  </form>
+                </div>
+              </div>
+              <div class="col-lg-9 col-md-12">
+                <div class="table-responsive">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>{{'inventory_calendar.stt' | translate }}</th>
+                        <th>{{'inventory_calendar.time_to_start' | translate }}
+                        </th>
+                        <th>{{'inventory_calendar.time_to_end' | translate }}
+                        </th>
+                        <th>{{'inventory_calendar.create_by' | translate }}</th>
+                        <th>{{'inventory_calendar.note' | translate }}</th>
+                        <th>{{'inventory_calendar.action' | translate }}</th>
+                      </tr>
+                    </thead>
+                    <tbody id="list-holiday">
+                      <tr *ngFor="let item of listDateInventory; let i=index">
+                        <td>{{(pagination.currentPage - 1) * pagination.pageSize
+                          + i + 1}}</td>
+                        <td>{{item.fromDate |date: 'yyyy/MM/dd | HH:mm:00'}}
+                        </td>
+                        <td>{{item.toDate |date: 'yyyy/MM/dd | HH:mm:59'}}</td>
+                        <td>
+                          <p>{{item.empName}}</p>
+                          <p>{{item.createTime |date: 'yyyy/MM/dd | HH:mm:ss'}}
+                          </p>
+                        </td>
+                        <td>{{item.content}}</td>
+                        <td>
+                          <button class="btn btn-danger btn-delete btn-flat"
+                            (click)="removeDateInventory(item.id)">{{'inventory_calendar.delete'
+                            | translate }}</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="6" *ngIf="listDateInventory.length<=0">
+                          <div
+                            class="alert alert-warning text-center text-uppercase text-dark font-weight-bold"
+                            role="alert">
+                            No data found !
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <pagination class="float-right" name="pagination"
+                    *ngIf="pagination.totalPage > 1"
+                    [totalItems]="pagination.totalCount"
+                    [(ngModel)]="pagination.currentPage"
+                    (pageChanged)="pageChanged($event)"
+                    [itemsPerPage]="pagination.pageSize" [rotate]="false"
+                    [maxSize]="5" [boundaryLinks]="true">
+                  </pagination>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

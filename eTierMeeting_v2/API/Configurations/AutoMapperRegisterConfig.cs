@@ -1,8 +1,7 @@
-using System;
 using AutoMapper;
-using Microsoft.Extensions.DependencyInjection;
-using eTierV2_API.Helpers.AutoMapper;
-namespace eTierV2_API.Configurations
+using Machine_API.Helpers.AutoMapper;
+
+namespace API.Configurations
 {
     public static class AutoMapperRegisterConfig
     {

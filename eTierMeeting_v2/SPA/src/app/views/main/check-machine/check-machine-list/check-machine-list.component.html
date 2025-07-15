@@ -1,0 +1,84 @@
+<h3 class="title_inventory text-center text-uppercase mb-5 pt-5">{{'checkmachine.machine_check_results' | translate }}
+</h3>
+<div class=" row">
+  <div class="form-group col-md-3">
+    <label class="badge badge-warning">{{'checkmachine.total_machine' | translate }}</label>
+    <input type="text" class="form-control" placeholder="Tổng số máy trên hệ thống"
+      [(ngModel)]="historyCheckMachine.totalMachine" readonly>
+  </div>
+  <div class="form-group col-md-3">
+    <label class="badge badge-warning">{{'checkmachine.total_scanned_machine' | translate }}</label>
+    <input type="text" class="form-control" placeholder="Số lượng máy quét"
+      [(ngModel)]="historyCheckMachine.totalScans" readonly>
+  </div>
+  <div class="form-group col-md-3">
+    <label class="badge badge-warning">{{'checkmachine.total_not_scan' | translate }}</label>
+    <input type="text" class="form-control" placeholder="Số lượng máy không quét"
+      [(ngModel)]="historyCheckMachine.totalNotScan" readonly>
+  </div>
+  <div class="form-group col-md-3">
+    <label class="badge badge-warning">{{'checkmachine.total_machine_found' | translate }}</label>
+    <input type="text" class="form-control" :placeholder="Số lượng sai vị trí"
+      [(ngModel)]="historyCheckMachine.totalExist" readonly>
+  </div>
+  <div class="form-group col-md-3">
+    <label class="badge badge-warning">{{'checkmachine.total_machine_not_found' | translate }}</label>
+    <input type="text" class="form-control" placeholder="Không tồn tại"
+      [(ngModel)]="historyCheckMachine.totalNotExist" readonly>
+  </div>
+  <div class="form-group col-md-3">
+    <label class="badge badge-warning">{{'checkmachine.employee_name' | translate }}</label>
+    <input type="text" class="form-control" placeholder="Mã người tạo" [(ngModel)]="dataUser.empName" readonly>
+  </div>
+  <div class="form-group col-md-3">
+    <label class="badge badge-warning">{{'checkmachine.employee_code' | translate }}</label>
+    <input type="text" class="form-control" placeholder="Người tạo" [(ngModel)]="dataUser.userName" readonly>
+  </div>
+  <div class="form-group col-md-3">
+    <label class="badge badge-warning">{{'checkmachine.inventory_date_and_time' | translate }}</label>
+    <input type="text" class="form-control" placeholder="Ngày giờ kiểm kê" datetime="yyyy-MM-dd HH:mm:ss"
+      [ngModel]="historyCheckMachine.createTime |date: 'dd/MM/yyyy | HH:mm:ss'" readonly>
+  </div>
+</div>
+<div class="col-md-12 mt-12 col-12">
+  <button class="btn btn-primary pull-right" (click)=" exportPDF()"> <i class=" fa fa-file-excel-o"></i> Xuất
+    PDF</button>
+  <table class="table table-bordered">
+    <thead class="thead-dark">
+      <tr>
+        <th>{{'common.stt' | translate }}</th>
+        <th>{{'common.machine_code' | translate }}</th>
+        <th>{{'common.machine_name' | translate }}</th>
+        <th>{{'common.suppplier' | translate }}</th>
+        <th>{{'common.machine_position' | translate }}</th>
+        <th>{{'common.machine_status' | translate }}</th>
+        <th>{{'historycheckmachine.inventory_status' | translate }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of listResultCheckMachine; let i=index">
+        <td>{{i+1}}</td>
+        <td>{{item.ownerFty}}{{item.machineID}}</td>
+
+        <ng-container *ngIf="item.statusCheckMachine== 1 ||item.statusCheckMachine== 0 ">
+          <td>{{item.machineName}}</td>
+          <td>{{item.supplier}}</td>
+          <td>{{item.placeName }}-{{item.plnoName}}</td>
+          <td>{{item.status}}</td>
+        </ng-container>
+
+        <ng-container *ngIf="item.statusCheckMachine==-1">
+          <td colspan="4">{{'checkmachine.no_machine_data' | translate }}</td>
+        </ng-container>
+        <td>
+          <button type="button" class="btn btn-success btn-sm" *ngIf="item.statusCheckMachine ==1">
+            {{'checkmachine.match_machine' | translate }}</button>
+          <button type="button" class="btn btn-warning btn-sm" *ngIf="item.statusCheckMachine ==-1">
+            {{'checkmachine.not_found' | translate }}</button>
+          <button type="button" class="btn btn-danger btn-sm" *ngIf="item.statusCheckMachine ==0">
+            {{'inventory.do_not_scan' | translate }}</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,30 @@
+th {
+    padding: 8px !important;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+  }
+  
+  td {
+    text-align: center;
+  }
+  
+  .row.mt-5.chart {
+    margin-top: 1rem !important;
+  }
+  
+  .col-md-6.mt-5.col-12 {
+    margin: 0 !important;
+  }
+  
+  .col-md-12 {
+    padding: 0;
+  }
+  
+  tr {
+    background-color: #ccdbcd;
+  }
+  
+  tr:nth-child(2n+1) {
+    background-color: #eee8ca;
+  }

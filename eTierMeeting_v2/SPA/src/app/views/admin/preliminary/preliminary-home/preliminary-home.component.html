@@ -1,0 +1,123 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h4 class="box-title">{{'preliminary.preliminary_management'|translate}}</h4>
+        </div>
+        <div class="row">
+          <div class="col-lg-3 col-md-12">
+            <!-- <app-preliminary-add (keyword)="keywordAdd($event)"></app-preliminary-add> -->
+            <app-preliminary-add #childAdd (keyword)="keywordAdd($event)"></app-preliminary-add>
+          </div>
+          <div class="col-lg-9 col-md-12">
+            <div class="box box-info">
+              <div class="box-header with-border">
+                <h4 class="box-title form-group">{{'preliminary.preliminary_list'|translate}}</h4>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="input-group">
+                      <input name="user-keyword" type="text" [formControl]="keyword"
+                        placeholder="Search by User Code or User Name ..." [(ngModel)]="search"
+                        (ngModelChange)="searchData()" class="form-control">
+                      <span class="input-group-btn">
+                        <button type="button" class="btn btn-primary btn-block"><i class="fa fa-search"></i></button>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-sm-3">
+                    <button type="submit" class="btn btn-primary btn-block" (click)="clearSearch()">
+                      <i class="fa fa-close"></i>
+                      {{'admin.common.admin_cancel_filter'|translate}}
+                    </button>
+                  </div>
+                  <div class="col-sm-3">
+                    <button type="submit" class="btn btn-success btn-block" (click)="exportExcel()">
+                      <i class="fa fa-file-excel-o"></i>
+                      {{'common.export_excel'|translate}}
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="box-body">
+                <div class="table-responsive">
+                  <table class="table table-bordered table-hover">
+                    <thead>
+                      <tr>
+                        <th class="text-center">{{'preliminary.common.stt'|translate}}</th>
+                        <th class="text-center">{{'preliminary.user_code'|translate}}</th>
+                        <th class="text-center">{{'preliminary.user_name'|translate}}</th>
+                        <th class="text-center min-2">{{'preliminary.building_name'|translate}}</th>
+                        <th class="text-center min-2">{{'preliminary.cell_name'|translate}}</th>
+                        <th class="text-center min-3">{{'preliminary.plno_name'|translate}}</th>
+                        <th class="text-center">{{'preliminary.is_manager'|translate}}</th>
+                        <th class="text-center">{{'preliminary.action'|translate}}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of listPreliminary; let i=index">
+                        <td>{{(pagination.currentPage - 1) * pagination.pageSize + i + 1}}</td>
+                        <td>{{item.empNumber}}</td>
+                        <td>{{item.empName}}</td>
+                        <td>
+                          <div class="row">
+                            <div class=" btn-sm col-12 m-0" *ngFor="let itemBuilding of item.listBuilding">
+                              <button type="button" class="btn btn-success">
+                                {{itemBuilding.buildingName}}
+                              </button>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class=" btn-sm col-12 m-0" *ngFor="let itemCell of item.listCell">
+                              <button type="button" class="btn btn-success col-12">{{itemCell.cellName}}</button>
+                            </div>
+                          </div>
+                        </td>
+
+                        <td>
+                          <div class="row">
+                            <div class="btn-sm col-12 col-md-12 col-lg-6 m-0" *ngFor="let itemPlno of item.listHpA15">
+                              <button class="btn btn-success col-12" type="button">{{itemPlno.place}}</button>
+                            </div>
+                          </div>
+
+                        </td>
+
+                        <td  class="text-center" >
+                          <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" type="checkbox"
+                                [checked]="item.is_Manager" placeholder="{{'preliminary.is_preminary'|translate}}"><label
+                                class="custom-control-label"></label>
+                          </div>
+                          <!-- <input type="checkbox"  [(ngModel)]="item.is_Manager" placeholder="{{'preliminary.is_preminary'|translate}}"> -->
+                        </td>
+                        <td class="text-right">
+                          <button class="btn btn-primary edit" (click)="childModal.showChildModal(item)"><i
+                              class="fa fa-pencil"></i></button>
+                          <button class="btn btn-danger edit" (click)="removeUserRole(item.empNumber)"><i
+                              class="fa fa-trash"></i></button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <pagination class="float-right" name="pagination" *ngIf="pagination.totalPage > 1"
+                  [totalItems]="pagination.totalCount" [(ngModel)]="pagination.currentPage"
+                  (pageChanged)="pageChanged($event)" [itemsPerPage]="pagination.pageSize" [rotate]="false"
+                  [maxSize]="5" [boundaryLinks]="true">
+                </pagination>
+              </div>
+
+              <!-- Modal -->
+              <app-preliminary-edit #childModal (keyword)="keywordAdd($event)"></app-preliminary-edit>
+              <!-- <app-preliminary-edit #childModal (keyword)="keywordAdd($event)"></app-preliminary-edit> -->
+              <!-- Modal -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

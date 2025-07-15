@@ -1,0 +1,156 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="clearfix ">
+            <div class="col-lg-12 row">
+              <div class="col-md-3 col-sm-6 col-xs-6 form-group idleft">
+                <label class="badge badge-warning">{{'inventory.select_inventory_type' | translate }}</label>
+                <select class="form-control ds-input border-radius height-input" disabled="disabled" readonly>
+                  <option value="1" *ngIf="optonsInventory == 1 ">{{'inventory.so_kiem' | translate }}</option>
+                  <option value="2" *ngIf="optonsInventory == 2 ">{{'inventory.phuc_kiem' | translate }}</option>
+                  <option value="3" *ngIf="optonsInventory == 3 ">{{'inventory.rut_kiem' | translate }}</option>
+                </select>
+              </div>
+              <div class="col-md-3  col-sm-6 col-xs-6 form-group idleft">
+                <label class="badge badge-warning">{{'inventory.select_building' | translate }}</label>
+                <input type="text" placeholder="{{'inventory.select_building' | translate }}" class="form-control"
+                  readonly />
+              </div>
+              <div class="col-md-3 col-sm-6 col-xs-6 form-group idleft">
+                <label class="badge badge-warning">{{'inventory.select_dept' | translate }}</label>
+                <input type="text" placeholder="{{'inventory.select_dept' | translate }}" class="form-control"
+                  readonly />
+              </div>
+              <div class="col-md-3 col-sm-6 col-xs-6 form-group idleft">
+                <label class="badge badge-warning">{{'inventory.select_location' | translate }}</label>
+                <input type="text" placeholder="{{'inventory.select_location' | translate }}" class="form-control"
+                  [(ngModel)]="lineInventory.plnoName" readonly />
+              </div>
+            </div>
+            <div class="col-lg-12 form-group idleft">
+              <label class="badge badge-warning class">{{'inventory.start_inventory' | translate }}</label><br />
+              <div class="row">
+                <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6 pl-0 ">
+                  <button class="btn btn-success button" (click)="openScan()"><i class="fa fa-qrcode"></i>&nbsp;
+                    {{'inventory.scan_qr_code' | translate }}</button>
+                </div>
+                <div class=" col-lg-2 col-md-4 col-sm-6 col-xs-6">
+                  <button class="btn btn-danger button" (click)="isCheckEnterValue = !isCheckEnterValue"><i
+                      class="fa fa-edit"></i>&nbsp; {{'inventory.manually' | translate }}</button>
+                </div>
+                <div class="col-lg-6 col-md-4 col-sm-6 col-xs-6" *ngIf="isCheckEnterValue">
+                  <input type="text" class="form-control valid input-upper"
+                    placeholder="{{'inventory.Please_enter_the_machine_code' | translate }}" [(ngModel)]="machineCode"
+                    (keydown.enter)="getDataMachine($event)" />
+                </div>
+                <div class="col-lg-6" *ngIf="!isCheckEnterValue"></div>
+                <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6" *ngIf="listDataInventory.length>0">
+                  <button class="btn btn-success button pull-right" (click)="SubmitInvenroty()">
+                    <i class="fa fa-filter"></i>
+                    {{'inventory.inventory_match' | translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-12 text-left idleft">
+              <label class="badge badge-warning class"> {{'inventory.status_internet' | translate }} </label><br />
+              <div class="row">
+                <div class="col-md-2 col-sm-6 pl-0">
+                  <input type="radio" id="checkInternetOn" name="checkInternet" value="1" [(ngModel)]="checkInternet"
+                    checked />
+                  <label class="CheckInternet" for="checkInternetOn"> Online</label>
+                </div>
+                <div class="col-md-2 col-sm-6">
+                  <input type="radio" id="checkInternetOff" name="checkInternet" value="2"
+                    [(ngModel)]="checkInternet" />
+                  <label class="CheckInternet" for="checkInternetOff"> Offline</label>
+                </div>
+                <div class="col-md-4 col-sm-12 pl-0">
+                  <button type="button" class="btn btn-default button" disabled *ngIf="checkInternet=='1'">
+                    <i class="fa fa-spin fa-refresh"></i>
+                    {{'inventory.mode_online' | translate }}
+                  </button>
+                  <button type="button" class="btn btn-default button" disabled *ngIf="checkInternet=='2'">
+                    <i class="fa fa-spin fa-refresh"></i>
+                    {{'inventory.mode_offline' | translate }}
+                  </button>
+                </div>
+                <div class="col-lg-2"></div>
+                <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6 ng-star-inserted">
+                  <button class="btn btn-info button pull-right" (click)="getDataMachineOffline()" *ngIf="getMachine">
+                    <i class="fa fa-pencil"></i>
+                    {{'inventory.get_machine' | translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-12 form-group idleft" *ngIf="listDataInventory.length>0">
+              <label class="badge badge-warning">{{'inventory.clear_data' | translate }}</label><br />
+              <div class="row btn_success">
+                <div class="col-lg-2 col-sm-3 col-xs-6">
+                  <button class="btn btn-success button form-control" (click)="clearData()">
+                    <i class="fa fa-leaf"></i>&nbsp; {{'inventory.clear_data' | translate }}</button>
+                </div>
+                <div class="col-lg-2 col-sm-3 col-xs-6">
+                  <button class="btn btn-success button form-control" (click)="refresh()">
+                    <i class="fa fa-spin fa-refresh"></i>&nbsp;Refresh</button>
+                </div>
+                <div class="col-lg-2 col-sm-6 col-xs-6 ">
+                  <label class="col-form-label" style="margin-bottom:0px; line-height: 35px;">
+                    {{'inventory.number_of_machine_scanner' | translate }}: : <b>{{listDataInventory.length===0?
+                      0:listDataInventory.length}}</b>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 mt-12 col-12" *ngIf="listDataInventory.length>0">
+              <table class="table table-bordered">
+                <thead class="thead-dark">
+                  <tr>
+                    <th>{{'common.stt' | translate }}</th>
+                    <th>{{'common.machine_code' | translate }}</th>
+                    <th>{{'common.machine_name' | translate }}</th>
+                    <th>{{'common.suppplier' | translate }}</th>
+                    <th>{{'common.machine_position' | translate }}</th>
+                    <th>{{'common.machine_status' | translate }}</th>
+                    <th>{{'common.delete' | translate }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of listDataInventory; index as i">
+                    <td>{{i+1}}</td>
+                    <td>{{item.ownerFty}}{{item.machineID}}</td>
+                    <ng-container *ngIf="item.isNull==false">
+                      <td>{{item.machineName}}</td>
+                      <td>{{item.supplier}}</td>
+                      <td>{{item.placeName}} - {{item.plno}}</td>
+                      <td>{{item.status}}</td>
+                    </ng-container>
+
+                    <ng-container *ngIf="item.flag==1">
+                      <td colspan="4"> <i class="fa fa-spin fa-refresh"></i>&nbsp;
+                        <b>{{'inventory.load_machine' | translate }}</b>
+                      </td>
+                    </ng-container>
+                    <td>
+                      <button (click)="loginDelete(i)" class=" btn btn-danger  btn-sm"><i
+                          class="fa fa-trash"></i></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- list detail -->
+            <div id="main-loading" *ngIf="loadingData">
+              <app-inventory-home-list [listReport]="listMachineInventory"></app-inventory-home-list>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-scan-modal #modelScan (qrResultString)="codeQr($event)"></app-scan-modal>
+  <app-inventory-home-login #inventoryHomeLogin (check)="check($event)"></app-inventory-home-login>
+</div>

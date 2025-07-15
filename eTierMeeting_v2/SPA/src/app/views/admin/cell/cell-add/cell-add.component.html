@@ -1,0 +1,31 @@
+<div class="box box-info">
+  <div class="box-header with-border">
+    <h5 class="box-title">{{'admin.admincell.admin_add_cell' | translate }}</h5>
+  </div>
+  <div class="box-body">
+    <div class="form-group">
+      <label>Cell Code</label>
+      <input [(ngModel)]="cell.cellCode" (keyup)="checkEmpty()" (keyup.enter)="getDataCell()" placeholder="Cell Code"
+        class="form-control" type="text">
+    </div>
+    <div class="form-group">
+      <label>Cell Name</label>
+      <input [(ngModel)]="cell.cellName" placeholder="Cell Name" class="form-control" type="text"
+        [disabled]="!checkCell">
+    </div>
+    <div class="form-group">
+      <label>PDC</label>
+      <ng-select2 [(ngModel)]="cell.pdcid" [data]="pdcs" width="100%" [disabled]="!checkCell">
+      </ng-select2>
+    </div>
+    <div class="form-group">
+      <label>Building</label>
+      <ng-select2 [(ngModel)]="cell.buildingID" [data]="buildings" width="100%">
+      </ng-select2>
+    </div>
+    <button type="button" (click)="addCell()" class="btn btn-primary btn-block">
+      <i class="fa fa-plus-square"></i>
+      {{'admin.common.admin_add' | translate }}
+    </button>
+  </div>
+</div>

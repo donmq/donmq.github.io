@@ -1,0 +1,113 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <!-- list home -->
+      <div class="card" *ngIf="!listView">
+        <div class="card-header">
+          <div class="row group clearfix">
+            <div class="col-md-4 col-sm-3 col-xs-3 form-group idleft">
+              <label
+                class="badge badge-warning">{{'historycheckmachine.inventory_staff'
+                | translate }}</label>
+              <input type="text"
+                placeholder="{{'historycheckmachine.please_enter_employee_code' | translate }}"
+                class="form-control" [(ngModel)]="userName"
+                (ngModelChange)="searchMachine()" />
+            </div>
+            <div class="col-md-4 col-sm-3 col-xs-3 form-group form-group">
+              <label
+                class="badge badge-warning">{{'historycheckmachine.fromTime' |
+                translate }}</label>
+              <input type="text" class="form-control"
+                placeholder="{{'common.please_choose_date' | translate }}"
+                [(ngModel)]="fromDate" (ngModelChange)="searchMachine()"
+                [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }" bsDatepicker
+                [outsideClick]="true" readonly>
+            </div>
+            <div class="col-md-4 col-sm-3 col-xs-3 form-group">
+              <label class="badge badge-warning">{{'historycheckmachine.toTime'
+                | translate }}</label>
+              <input type="text" class="form-control"
+                placeholder="{{'common.please_choose_date' | translate }}"
+                [(ngModel)]="toDate" (ngModelChange)="searchMachine()"
+                [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }" bsDatepicker
+                [outsideClick]="false" readonly>
+            </div>
+            <div class="col-md-2 col-sm-3 col-xs-3 clearboth">
+              <label class="badge badge-warning">{{'common.search' | translate
+                }}</label>
+              <button type="button" class="btn btn-primary export_btn pull-left"
+                (click)="searchMachine()"><i
+                  class="fa fa-search">{{'common.search' | translate
+                  }}</i></button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>{{'common.stt' | translate }}</th>
+                  <th>{{'historycheckmachine.inventory_staff' | translate }}
+                  </th>
+                  <th>{{'historycheckmachine.inventory_date_and_time' |
+                    translate }}</th>
+                  <th>{{'historycheckmachine.scanned' | translate }}</th>
+                  <th>{{'historycheckmachine.match' | translate }}</th>
+                  <th>{{'historycheckmachine.not_found' | translate }}</th>
+                  <th>{{'checkmachine.total_not_scan' | translate }}</th>
+                  <th>{{'historycheckmachine.detail' | translate }}</th>
+                  <th>{{'common.export_pdf' | translate }}</th>
+                  <th>{{'common.export_excel' | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of listCheckMachineHisstory; let i=index">
+                  <td>{{(pagination.currentPage - 1) * pagination.pageSize + i +
+                    1}}</td>
+                  <td>{{item.userName}} - {{item.createBy}}</td>
+                  <td>{{item.createTime| date: "yyyy/MM/dd | HH:mm:ss"}}</td>
+                  <td>{{item.totalScans}}</td>
+                  <td>{{item.totalExist}}</td>
+                  <td>{{item.totalNotExist}}</td>
+                  <td>{{item.totalNotScan}}</td>
+                  <td><button class="btn btn-primary"
+                      (click)="viewDetail(item)"><i
+                        class="fa fa-eye"></i></button></td>
+                  <td><button class="btn btn-warning" (click)="exportPDF(item)">
+                      <i class="fa fa-file-pdf-o"></i> {{'common.export_pdf' |
+                      translate }}</button></td>
+                  <td><button class="btn btn-primary"
+                      (click)="exportExcel(item)"><i
+                        class="fa fa-file-excel-o"></i>
+                      {{'common.export_excel' | translate }}</button></td>
+                </tr>
+              </tbody>
+            </table>
+            <pagination class="float-right" name="pagination"
+              *ngIf="pagination.totalPage > 1"
+              [totalItems]="pagination.totalCount"
+              [(ngModel)]="pagination.currentPage"
+              (pageChanged)="pageChanged($event)"
+              [itemsPerPage]="pagination.pageSize" [rotate]="false"
+              [maxSize]="5" [boundaryLinks]="true">
+            </pagination>
+            <div *ngIf="listCheckMachineHisstory.length == 0"
+              class="alert alert-warning text-dark text-center text-bold font-weight-bold mt-0"
+              role="alert">
+              No data received!
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- list view -->
+      <div class="card"
+        *ngIf="listView && listCheckMachineHisstory.length > 0 ">
+        <app-history-check-machine-view
+          [listViewCheckMachineHisstory]="listViewCheckMachineHisstory"
+          (listView)="listViewShow($event)"></app-history-check-machine-view>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+.btn-flat {
+  margin: 2px;
+  border-radius: 0;
+}
+
+.building table td {
+  padding: 4px 2px !important;
+  border: 1px solid #f8f8f8 !important;
+}
+
+.building table tr:first-child td {
+  border: 1px solid #f8f8f8 !important;
+}
+
+.building table td button {
+  width: 100%;
+}
+
+button.btn.btn-success.btn-flat {
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+}
+.dowanloadreport {
+  padding-left: 14px;
+  margin: 15px 0 0 0;
+}

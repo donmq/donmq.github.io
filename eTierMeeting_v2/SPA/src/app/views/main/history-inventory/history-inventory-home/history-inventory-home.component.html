@@ -1,0 +1,162 @@
+<div class="animated fadeIn">
+  <!--/.row-->
+  <div class="row">
+    <div class="col-lg-12">
+      <!-- list home -->
+      <div class="card" *ngIf="!listView">
+        <div class="card-header">
+          <div class="row group clearfix">
+            <div class="col-md-3 col-sm-4 col-xs-6 form-group idleft">
+              <label
+                class="badge badge-warning">{{'historyinventory.select_inventory_type'
+                | translate }}</label>
+              <select class="form-control" [(ngModel)]="inventoryID"
+                (ngModelChange)="searchHistoryInventory()" id="idInventory"
+                name="idInventory" required>
+                <option value="0">{{'historyinventory.all_types' | translate }}
+                </option>
+                <option value="1">{{'historyinventory.so_kiem' | translate }}
+                </option>
+                <option value="2">{{'historyinventory.phuc_kiem' | translate }}
+                </option>
+                <option value="3">{{'historyinventory.rut_kiem' | translate }}
+                </option>
+              </select>
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-6 form-group form-group">
+              <label
+                class="badge badge-warning">{{'historyinventory.select_dept' |
+                translate }}</label>
+              <ng-select2 [(ngModel)]="cellID" [data]="cells" width="100%"
+                (ngModelChange)="getListBuildingByCell()">
+              </ng-select2>
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-6 form-group form-group">
+              <label
+                class="badge badge-warning">{{'historyinventory.select_building'
+                | translate }}</label>
+              <ng-select2 [(ngModel)]="buildingID" [data]="buildings"
+                width="100%" (ngModelChange)="getListPlnoByBuildingID()">
+              </ng-select2>
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-6 form-group form-group">
+              <label
+                class="badge badge-warning">{{'historyinventory.select_location'
+                | translate }}</label>
+              <ng-select2 [(ngModel)]="idPlnos" [data]="cellPlnos" width="100%"
+                (ngModelChange)="getPlano($event)">
+              </ng-select2>
+            </div>
+          </div>
+          <div class="row group clearfix">
+            <div class="col-xs-6 col-sm-4 col-md-3 form-group">
+              <label class="badge badge-warning">{{'historyinventory.fromTime' |
+                translate }}</label>
+              <input type="text" class="form-control"
+                placeholder="{{'common.please_choose_date' | translate }}"
+                [(ngModel)]="fromDate"
+                (ngModelChange)="searchHistoryInventory()"
+                [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }" bsDatepicker
+                [outsideClick]="true" readonly>
+            </div>
+            <div class="col-xs-6 col-sm-4 col-md-3 form-group">
+              <label class="badge badge-warning">{{'historyinventory.toTime' |
+                translate }}</label>
+              <input type="text" class="form-control"
+                placeholder="{{'common.please_choose_date' | translate }}"
+                [(ngModel)]="toDate" (ngModelChange)="searchHistoryInventory()"
+                [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }" bsDatepicker
+                [outsideClick]="true" readonly>
+            </div>
+            <div class="col-md-6 col-sm-4 col-xs-6 form-group building">
+              <label
+                class="badge badge-warning">{{'historyinventory.export_report_by_date'
+                | translate }}</label>
+              <div class="m-0">
+                <div class="row export">
+                  <input type="text" class="col-md-8 export-pdf"
+                    placeholder="{{'common.please_choose_date' | translate }}"
+                    [(ngModel)]="checkData" (ngModelChange)="dateCheck()"
+                    [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }" bsDatepicker
+                    [outsideClick]="true" readonly>
+                  <button class="col-md-4 btn btn-primary"
+                    (click)="exportPdfByDay(checkData)"
+                    [disabled]="!isChooseDate"><i class="fa fa-file-pdf-o"></i>
+                    {{'common.export_pdf' | translate }}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>{{'common.stt' | translate }}</th>
+                  <th>{{'historyinventory.inventory_type' | translate }}</th>
+                  <th>{{'historyinventory.inventory_location' | translate }}
+                  </th>
+                  <th>{{'historyinventory.match' | translate }}</th>
+                  <th>{{'historyinventory.wrong_position' | translate }}</th>
+                  <th>{{'historyinventory.do_not_scan' | translate }}</th>
+                  <th>{{'historyinventory.inventory_staff' | translate }}</th>
+                  <th>{{'historyinventory.inventory_date_and_time' | translate
+                    }}</th>
+                  <th>{{'historyinventory.detail' | translate }}</th>
+                  <th>{{'common.export_pdf' | translate }}</th>
+                  <th>{{'common.export_excel' | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of historyInventorys; let i=index">
+                  <td> {{ (pagination.currentPage - 1) * pagination.pageSize + i
+                    + 1 }}</td>
+                  <td>{{convertInventoryType(item.inventoryType)}}</td>
+                  <td>{{item.place}}</td>
+                  <td>{{item.countComplete}}</td>
+                  <td>{{item.countWrongPosition}}</td>
+                  <td>{{item.countNotScan}}</td>
+                  <td>{{item.userName}} - {{item.empName}}</td>
+                  <td>{{item.dateTime | date: "yyyy/MM/dd | HH:mm:ss"}}</td>
+                  <td><button class="btn btn-primary"
+                      (click)="viewDetail(item.historyInventoryID)"><i
+                        class="fa fa-eye"></i></button></td>
+                  <td><button class="btn btn-warning"
+                      (click)="exportPDF(item)"><i class="fa fa-file-pdf-o"></i>
+                      PDF
+                    </button>
+                  </td>
+                  <td><button class="btn btn-primary"
+                      (click)="exportExcel(item)"><i
+                        class=" fa fa-file-excel-o"></i>
+                      Excel</button></td>
+                </tr>
+              </tbody>
+            </table>
+            <pagination class="float-right" name="pagination"
+              *ngIf="pagination.totalPage > 1"
+              [totalItems]="pagination.totalCount"
+              [(ngModel)]="pagination.currentPage"
+              (pageChanged)="pageChanged($event)"
+              [itemsPerPage]="pagination.pageSize" [rotate]="false"
+              [maxSize]="5" [boundaryLinks]="true"></pagination>
+          </div>
+          <div *ngIf="historyInventorys.length == 0"
+            class="alert alert-warning text-dark text-center text-bold font-weight-bold mt-0"
+            role="alert">
+            No data received!
+          </div>
+        </div>
+      </div>
+      <!-- list view -->
+      <div class="card" *ngIf="listView && historyInventorys.length> 0">
+        <app-history-inventory-view
+          [dataHistoryInventorys]="dataHistoryInventorys"
+          (listView)="listViewShow($event)">
+        </app-history-inventory-view>
+      </div>
+    </div>
+    <!--/.col-->
+  </div>
+</div>

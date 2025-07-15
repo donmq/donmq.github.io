@@ -5,10 +5,10 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class DestroyService implements OnDestroy {
-  public destroyed$ = new Subject<void>();
+  destroys$: Subject<void> = new Subject();
   constructor() { }
   ngOnDestroy(): void {
-    this.destroyed$.next();
-    this.destroyed$.complete();
+    this.destroys$.next();
+    this.destroys$.complete();
   }
 }

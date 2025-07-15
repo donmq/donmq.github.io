@@ -1,0 +1,560 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!--
+    Microsoft ResX Schema
+
+    Version 2.0
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
+    associated with the data types.
+
+    Example:
+
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+
+    There are any number of "resheader" rows that contain simple
+    name/value pairs.
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
+    mimetype set.
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
+    extensible. For a given mimetype the value must be set accordingly:
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
+    read any of the formats listed below.
+
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="adminpage" xml:space="preserve">
+    <value>Trang quản trị</value>
+    <comment/>
+  </data>
+  <data name="admin_building" xml:space="preserve">
+    <value>Quản lý Tòa nhà</value>
+    <comment/>
+  </data>
+  <data name="admin_cell" xml:space="preserve">
+    <value>Quản lý Cell</value>
+    <comment/>
+  </data>
+  <data name="admin_cell_plno" xml:space="preserve">
+    <value>Quản lý Cell_Plno</value>
+    <comment/>
+  </data>
+  <data name="admin_email_address" xml:space="preserve">
+    <value>Địa chỉ email</value>
+    <comment/>
+  </data>
+  <data name="admin_employ" xml:space="preserve">
+    <value>Quản lý Employee</value>
+    <comment/>
+  </data>
+  <data name="admin_hello" xml:space="preserve">
+    <value>CHÀO MỪNG BẠN ĐẾN VỚI GIAO DIỆN QUẢN LÝ</value>
+    <comment/>
+  </data>
+  <data name="admin_home" xml:space="preserve">
+    <value>Trang chủ</value>
+    <comment/>
+  </data>
+  <data name="admin_id" xml:space="preserve">
+    <value>Số thẻ</value>
+    <comment/>
+  </data>
+  <data name="admin_list_cell_plno" xml:space="preserve">
+    <value>Thông tin danh mục Cell_Plno</value>
+    <comment/>
+  </data>
+  <data name="admin_machine" xml:space="preserve">
+    <value>Quản lý máy</value>
+    <comment/>
+  </data>
+  <data name="admin_maintain_plno" xml:space="preserve">
+    <value>Vị trí quản lý</value>
+    <comment/>
+  </data>
+  <data name="admin_manager_plno" xml:space="preserve">
+    <value>Chịu trách nhiệm cho</value>
+    <comment/>
+  </data>
+  <data name="admin_name" xml:space="preserve">
+    <value>Họ và Tên</value>
+    <comment/>
+  </data>
+  <data name="admin_pdc" xml:space="preserve">
+    <value>Quản lý PDC</value>
+    <comment/>
+  </data>
+  <data name="admin_plno" xml:space="preserve">
+    <value>Quản lý Plno</value>
+    <comment/>
+  </data>
+  <data name="admin_title_building" xml:space="preserve">
+    <value>Thông tin danh mục tòa nhà</value>
+    <comment/>
+  </data>
+  <data name="admin_title_cell" xml:space="preserve">
+    <value>Thông tin danh mục Cell</value>
+    <comment/>
+  </data>
+  <data name="admin_title_pdc" xml:space="preserve">
+    <value>Danh sách PDC</value>
+    <comment/>
+  </data>
+  <data name="admin_user_code" xml:space="preserve">
+    <value>Mã nhân viên</value>
+    <comment/>
+  </data>
+  <data name="changepassword" xml:space="preserve">
+    <value>Thay đổi mật khẩu</value>
+    <comment/>
+  </data>
+  <data name="checkmachine" xml:space="preserve">
+    <value>Kiểm tra máy</value>
+    <comment/>
+  </data>
+  <data name="check_date" xml:space="preserve">
+    <value>Ngày Kiểm tra</value>
+    <comment/>
+  </data>
+  <data name="checkmachinesafety" xml:space="preserve">
+    <value>Kiểm tra an toàn máy móc</value>
+    <comment/>
+  </data>
+  <data name="contactit" xml:space="preserve">
+    <value>Liên hệ phòng IT để được hướng dẫn thêm.</value>
+    <comment/>
+  </data>
+  <data name="contact_it" xml:space="preserve">
+    <value>Liên hệ phòng IT để được hướng dẫn thêm.</value>
+    <comment/>
+  </data>
+  <data name="date" xml:space="preserve">
+    <value>Ngày</value>
+    <comment/>
+  </data>
+  <data name="dept_does_not_exist" xml:space="preserve">
+    <value>Đơn vị bảo quản hiện không tồn tại trong Cell_Plno. Vui lòng kiểm tra lại !</value>
+    <comment/>
+  </data>
+  <data name="do_not_scan" xml:space="preserve">
+    <value>Không được quét</value>
+    <comment/>
+  </data>
+  <data name="employee_code" xml:space="preserve">
+    <value>Mã Nhân Viên</value>
+    <comment/>
+  </data>
+  <data name="employee_name" xml:space="preserve">
+    <value>Họ tên người kiểm kê</value>
+    <comment/>
+  </data>
+  <data name="endTimeInventory" xml:space="preserve">
+    <value>Thời gian kết thúc kiểm kê</value>
+    <comment/>
+  </data>
+  <data name="exactly" xml:space="preserve">
+    <value>Chính xác</value>
+    <comment/>
+  </data>
+  <data name="hello" xml:space="preserve">
+    <value>Xin chào! </value>
+    <comment/>
+  </data>
+  <data name="hours" xml:space="preserve">
+    <value>giờ</value>
+    <comment/>
+  </data>
+  <data name="inventory" xml:space="preserve">
+    <value>Kiểm kê</value>
+    <comment/>
+  </data>
+  <data name="inventoryhistory" xml:space="preserve">
+    <value>Lịch sử kiểm kê</value>
+    <comment/>
+  </data>
+  <data name="inventoryhistory2" xml:space="preserve">
+    <value>Lịch sử kiểm kê 2</value>
+    <comment/>
+  </data>
+  <data name="inventoryV2" xml:space="preserve">
+    <value>Kiểm kê 2</value>
+    <comment/>
+  </data>
+  <data name="inventory_calendar" xml:space="preserve">
+    <value>Lịch kiểm kê</value>
+    <comment/>
+  </data>
+  <data name="inventory_location" xml:space="preserve">
+    <value>Vị trí kiểm kê</value>
+    <comment/>
+  </data>
+  <data name="inventory_report" xml:space="preserve">
+    <value>Báo cáo kiểm kê</value>
+    <comment/>
+  </data>
+  <data name="inventory_result" xml:space="preserve">
+    <value>KẾT QUẢ KIỂM KÊ</value>
+    <comment/>
+  </data>
+  <data name="inventory_status" xml:space="preserve">
+    <value>Trạng thái kiểm kê</value>
+    <comment/>
+  </data>
+  <data name="inventory_type" xml:space="preserve">
+    <value>Loại kiểm kê</value>
+    <comment/>
+  </data>
+  <data name="location" xml:space="preserve">
+    <value>Vị trí</value>
+    <comment/>
+  </data>
+  <data name="scan_location" xml:space="preserve">
+    <value>Vị trí quét</value>
+    <comment/>
+  </data>
+  <data name="login" xml:space="preserve">
+    <value>Đăng nhập</value>
+    <comment/>
+  </data>
+  <data name="loginrequest" xml:space="preserve">
+    <value>Vui lòng đăng nhập để sử dụng được chức này</value>
+    <comment/>
+  </data>
+  <data name="logout" xml:space="preserve">
+    <value>Đăng xuất</value>
+    <comment/>
+  </data>
+  <data name="machinecategory" xml:space="preserve">
+    <value>Danh mục máy</value>
+    <comment/>
+  </data>
+  <data name="machinecheckhistory" xml:space="preserve">
+    <value>Lịch sử kiểm tra máy</value>
+    <comment/>
+  </data>
+  <data name="machinemove" xml:space="preserve">
+    <value>Di chuyển máy</value>
+    <comment/>
+  </data>
+  <data name="machinetransferhistory" xml:space="preserve">
+    <value>Lịch sử chuyển máy</value>
+    <comment/>
+  </data>
+  <data name="machine_check_results" xml:space="preserve">
+    <value>Kết quả kiểm tra máy</value>
+    <comment/>
+  </data>
+  <data name="machine_code" xml:space="preserve">
+    <value>Mã máy</value>
+    <comment/>
+  </data>
+  <data name="machine_name" xml:space="preserve">
+    <value>Tên máy</value>
+    <comment/>
+  </data>
+  <data name="machine_report" xml:space="preserve">
+    <value>Thống Kê Máy</value>
+    <comment/>
+  </data>
+  <data name="machine_transfer_locked" xml:space="preserve">
+    <value>Hệ thống chuyển máy đang bị khóa. Vui lòng tải lại trang !</value>
+    <comment/>
+  </data>
+  <data name="management_location_does_not_exist" xml:space="preserve">
+    <value>Vị trí quản lý hiện không tồn tại trong Cell_Plno. Vui lòng kiểm tra lại !</value>
+    <comment/>
+  </data>
+  <data name="match" xml:space="preserve">
+    <value>Hoàn Thành</value>
+    <comment/>
+  </data>
+  <data name="match_machine" xml:space="preserve">
+    <value>Hợp lệ</value>
+    <comment/>
+  </data>
+  <data name="minute" xml:space="preserve">
+    <value>phút</value>
+    <comment/>
+  </data>
+  <data name="notifice" xml:space="preserve">
+    <value>Thông báo từ hệ thống:</value>
+    <comment/>
+  </data>
+  <data name="notifice_it_admin" xml:space="preserve">
+    <value>Chỉ quản lý cấp cao mới có quyền sử dụng chức năng này</value>
+    <comment/>
+  </data>
+  <data name="notifi_blocked_machine" xml:space="preserve">
+    <value>Hệ thống chuyển máy bị khóa vì trong thời gian tiến hành kiểm kê !</value>
+    <comment/>
+  </data>
+  <data name="not_found" xml:space="preserve">
+    <value>Không tìm thấy</value>
+    <comment/>
+  </data>
+  <data name="not_scan" xml:space="preserve">
+    <value>Không được quét</value>
+    <comment/>
+  </data>
+  <data name="organization" xml:space="preserve">
+    <value>Sơ đồ</value>
+    <comment/>
+  </data>
+  <data name="percent_match" xml:space="preserve">
+    <value>Phần trăm chính xác</value>
+    <comment/>
+  </data>
+  <data name="phuc_kiem" xml:space="preserve">
+    <value>Phúc kiểm</value>
+    <comment/>
+  </data>
+  <data name="qtyNotScan" xml:space="preserve">
+    <value>Số lượng máy không quét</value>
+    <comment/>
+  </data>
+  <data name="recent_times" xml:space="preserve">
+    <value>Thời gian kiểm kê gần đây nhất</value>
+    <comment/>
+  </data>
+  <data name="rediacthome" xml:space="preserve">
+    <value>Giây nữa hệ thống sẽ tự động chuyển về trang chủ!</value>
+    <comment/>
+  </data>
+  <data name="report_sheet" xml:space="preserve">
+    <value>Report Sheet</value>
+    <comment/>
+  </data>
+  <data name="rut_kiem" xml:space="preserve">
+    <value>Rút kiểm</value>
+    <comment/>
+  </data>
+  <data name="seconds" xml:space="preserve">
+    <value>giây</value>
+    <comment/>
+  </data>
+  <data name="seconds_return_hompage" xml:space="preserve">
+    <value>Giây nữa hệ thống sẽ tự động chuyển về trang chủ!</value>
+    <comment/>
+  </data>
+  <data name="selectinventorytype" xml:space="preserve">
+    <value>Chọn loại kiểm kê</value>
+    <comment/>
+  </data>
+  <data name="sokiem" xml:space="preserve">
+    <value>Sơ kiểm</value>
+    <comment/>
+  </data>
+  <data name="startTimeInventory" xml:space="preserve">
+    <value>Thời gian bắt đầu kiểm kê</value>
+    <comment/>
+  </data>
+  <data name="state" xml:space="preserve">
+    <value>Tình trạng</value>
+    <comment/>
+  </data>
+  <data name="suppplier" xml:space="preserve">
+    <value>Nhà cung cấp</value>
+    <comment/>
+  </data>
+  <data name="the_remaining_time" xml:space="preserve">
+    <value>Thời gian còn lại :</value>
+    <comment/>
+  </data>
+  <data name="total" xml:space="preserve">
+    <value>Số lượng máy hiện có</value>
+    <comment/>
+  </data>
+  <data name="totalMachine" xml:space="preserve">
+    <value>Tổng số máy trên hệ thống</value>
+    <comment/>
+  </data>
+  <data name="total_machine_found" xml:space="preserve">
+    <value>Tổng máy được tìm thấy</value>
+    <comment/>
+  </data>
+  <data name="total_machine_not_found" xml:space="preserve">
+    <value>Tổng máy không được tìm thấy</value>
+    <comment/>
+  </data>
+  <data name="total_scanned_machine" xml:space="preserve">
+    <value>Tổng máy đã quét</value>
+    <comment/>
+  </data>
+  <data name="user_management" xml:space="preserve">
+    <value>Quản lý User</value>
+    <comment/>
+  </data>
+  <data name="wrong_position" xml:space="preserve">
+    <value>Sai vị trí</value>
+    <comment/>
+  </data>
+  <data name="cellplno_cell_name" xml:space="preserve">
+    <value>Đơn vị</value>
+    <comment/>
+  </data>
+  <data name="cellplno_cell_code" xml:space="preserve">
+    <value>Khu vực</value>
+    <comment/>
+  </data>
+  <data name="cellplno_plno" xml:space="preserve">
+    <value>Plno</value>
+    <comment/>
+  </data>
+  <data name="cellplno_place" xml:space="preserve">
+    <value>Vị trí</value>
+    <comment/>
+  </data>
+  <data name="building" xml:space="preserve">
+    <value>Tòa nhà</value>
+    <comment/>
+  </data>
+  <data name="cellplno_cell_name2" xml:space="preserve">
+    <value>Đơn vị bảo quản</value>
+    <comment/>
+  </data>
+  <data name="remark" xml:space="preserve">
+    <value>nhận xét</value>
+    <comment/>
+  </data>
+  <data name="not_found_in_system" xml:space="preserve">
+    <value>Không tìm thấy trong hệ thống</value>
+    <comment/>
+  </data>
+  <data name="inventory_report_all_location" xml:space="preserve">
+    <value>Báo cáo kiểm kê - TẤT CẢ VỊ TRÍ</value>
+    <comment/>
+  </data>
+  <data name="factory-area" xml:space="preserve">
+    <value>Khu Vực Xưởng</value>
+    <comment/>
+  </data>
+  <data name="custody_department" xml:space="preserve">
+    <value>Bộ Phận Lưu ký</value>
+    <comment/>
+  </data>
+  <data name="curator_inventory" xml:space="preserve">
+    <value>Phụ Trách Kiểm Kê</value>
+    <comment/>
+  </data>
+  <data name="inventory_unit" xml:space="preserve">
+    <value>Unit Inventaris</value>
+    <comment/>
+  </data>
+  <data name="manager_code" xml:space="preserve">
+    <value>Mã người giám sát</value>
+    <comment/>
+  </data>
+  <data name="supervisor_name" xml:space="preserve">
+    <value>Tên người giám sát</value>
+    <comment/>
+  </data>
+  <data name="number_of_manager" xml:space="preserve">
+    <value>Số nhân viên của người đánh giá</value>
+    <comment/>
+  </data>
+  <data name="restorer_name" xml:space="preserve">
+    <value>Tên của người khôi phục</value>
+    <comment/>
+  </data>
+  <data name="management_machine_does_not_exist" xml:space="preserve">
+    <value>Máy hiện tại không tìm thấy</value>
+    <comment>Máy hiện tại không tìm thấy</comment>
+  </data>
+  <data name="machineid_invalid" xml:space="preserve">
+    <value>Mã máy không hợp lệ</value>
+    <comment>Mã máy không hợp lệ</comment>
+  </data>
+</root>

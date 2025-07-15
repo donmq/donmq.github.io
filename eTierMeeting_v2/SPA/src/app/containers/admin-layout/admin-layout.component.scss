@@ -1,0 +1,74 @@
+.navbar-nav .user-menu .user-image {
+  float: left;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+  margin-top: -2px;
+}
+
+.user-panel {
+  position: relative;
+  width: 100%;
+  padding: 10px;
+}
+
+.user-panel > .image > img {
+  width: 100%;
+  max-width: 45px;
+  height: auto;
+}
+
+.user-panel > .info {
+  padding: 10px 5px 5px 0px;
+  line-height: 1;
+  position: absolute;
+  left: 55px;
+}
+
+.navbar-brand-full {
+  color: #ffff;
+}
+
+span.lang {
+  color: #fff;
+}
+.app-header.navbar {
+  background-color: #364150;
+}
+
+.user-panel > .info > a {
+  text-decoration: none;
+  padding-right: 5px;
+  margin-top: 3px;
+  font-size: 11px;
+}
+
+img.createby {
+  width: 15px;
+  padding-bottom: 5px;
+  margin: 0 5px;
+}
+
+span.ml-auto {
+  font-weight: 600;
+}
+
+.sidebar {
+  background-color: #364150 !important;
+}
+
+li.language {
+  background: #fff;
+  border-radius: 12px;
+  color: #555;
+  padding: 2px 4px 2px 4px;
+  margin-right: 50px;
+}
+
+.active {
+  border-radius: 12px;
+  background: #5bc0de !important;
+  color: #fff !important;
+  padding: 0px 5px 0px 5px;
+}

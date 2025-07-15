@@ -1,0 +1,145 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="clearfix ">
+            <div class="col-lg-12 text-left idleft">
+            </div>
+            <div class="col-lg-12 row">
+              <div class="col-sm-6 col-xs-6 text-right">
+                <button class="btn btn-success btn-lg" (click)="openScan()">{{'checkmachine.scan_qr_code' |
+                  translate }}</button>
+              </div>
+              <div class="col-sm-6 col-xs-6">
+                <button class="btn btn-danger btn-lg" (click)="scanManually()">
+                  {{'checkmachine.manually' | translate}}</button>
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col-md-3"></div>
+              <div class="col-md-6">
+                <input type="text" placeholder="{{'checkmachine.Please_enter_the_machine_code' | translate }}"
+                  [(ngModel)]="machineName" (keyup.enter)="getDataMachine()" *ngIf="!scan" class="form-control valid"
+                  autofocus />
+              </div>
+              <div class="col-md-3"></div>
+            </div>
+            <div class="col-md-12 mt-12 col-12" *ngIf="itemCheckMachine">
+              <table class="table table-bordered">
+                <thead class="thead-dark">
+                  <tr>
+                    <th>{{'common.machine_code' | translate }}</th>
+                    <th>{{'common.machine_name' | translate }}</th>
+                    <th>{{'common.machine_position' | translate }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{{itemCheckMachine.ownerFty}}{{itemCheckMachine.machineID}}</td>
+                    <ng-container *ngIf="itemCheckMachine !=null">
+                      <td>{{itemCheckMachine.machineName}}</td>
+                      <td>{{itemCheckMachine.location}}</td>
+                    </ng-container>
+
+                    <ng-container *ngIf="itemCheckMachine == null">
+                      <td colspan="3">{{'checkmachine.no_machine_data' | translate }}</td>
+                    </ng-container>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="col-md-12 mt-12 col-12" *ngIf="itemCheckMachine?.machineName">
+              <h2 class="text-center">{{'checkmachineSafety.machine_safety_inspection_items' | translate }}</h2>
+
+              <div class="question">
+                <div *ngFor="let question of surveyQuestions; let i = index">
+                  <p><b>{{question.key}}.
+                      {{question.value}}</b></p>
+                  <!-- Các đáp án -->
+                  <div *ngFor="let answer of ['n/a', 'y', 'n']; let index = index" class="answer-row">
+                    <label class="container">
+                      {{ answer.toUpperCase() }}
+                      <input
+                        type="radio"
+                        [name]="i"
+                        [id]="i + '-' + answer"
+                        (change)="openWebcame(question, answer, answer === 'n' ? modalTemplate : null)"
+                      />
+                      <span class="checkmark"></span>
+                    </label>
+
+                    <!-- Hình ảnh chỉ hiển thị nếu đáp án là 'N' -->
+                    <div *ngIf="answer === 'n' && question?.image" class="image-container">
+                      <img
+                        [src]="question?.image"
+                        alt="Captured Image"
+                        class="captured-image"
+                        [hidden]="!question?.image"
+                        imageViewer
+                      />
+                    </div>
+                  </div>
+
+                  <div class="modal">
+                    <ng-template #modalTemplate>
+                      <div class="modal-header">
+                        <h4 class="modal-title pull-left"> {{'checkmachineSafety.take_a_photo_for' | translate }} "{{ currentQuestion?.value }}"</h4>
+                        <button type="button" class="close pull-right" aria-label="Confirm" (click)="modalRef.hide()">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body d-flex align-items-center justify-content-between">
+                      <!-- Webcam -->
+                      <div class="webcam-container">
+                        <webcam
+                          [height]="400"
+                          [width]="400"
+                          [trigger]="triggerObservable"
+                          (imageCapture)="handleImage($event)"
+                          *ngIf="showWebcam"
+                          [allowCameraSwitch]="allowCameraSwitch"
+                          [switchCamera]="nextWebcamObservable"
+                          [videoOptions]="videoOptions"
+                          (cameraSwitched)="cameraSwitched($event)"
+                          (initError)="handleInitError($event)"
+                        ></webcam>
+                      </div>
+
+                      <!-- Snapshot -->
+                      <div class="snapshot-container" *ngIf="currentQuestion?.image">
+                          <img [src]="currentQuestion?.image" class="captured-image-webcam" imageViewer/>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary mr-2" (click)="modalRef.hide()">{{'common.close' | translate }}</button>
+                        <button type="button" class="btn btn-primary mr-2" (click)="triggerSnapshot();">{{'checkmachineSafety.take_a_photo' | translate }}</button>
+                        <button type="button" class="btn btn-success" (click)="toggleWebcam()">{{'checkmachineSafety.toggle_camera' | translate }}</button>
+                      </div>
+                    </ng-template>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-2 fixed-buttons" *ngIf="surveyQuestions.length != 0">
+                <button type="button" class="btn btn-add-new btn-danger btn-action" (click)="clearData()">
+                  <i class="fa fa-ban"></i> {{'common.cancel' | translate }}
+                </button>
+
+                <button type="button" class="btn btn-add-new btn-success" (click)="saveMachineSafetyCheck()" [disabled]="!isSurveyCompleted()">
+                  <i class="fa fa-check"></i> {{'common.save' | translate }}
+                </button>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-scan-modal #modelScan (qrResultString)="codeQr($event)"></app-scan-modal>
+</div>
+
+

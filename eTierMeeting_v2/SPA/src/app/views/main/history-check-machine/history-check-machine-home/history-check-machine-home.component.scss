@@ -1,0 +1,43 @@
+button.btn.btn-warning {
+    color: #ffff;
+    background-color: #f0ad4e !important;
+    border-color: #eea236 !important;
+  }
+  
+  .btn{
+    white-space: nowrap;
+  }
+  
+  th {
+    background-color: #333;
+    color: #fff;
+    padding: 8px !important;
+    text-align: center;
+  }
+  tr {
+    background-color: #ccdbcd;
+  }
+  
+  tr:nth-child(2n + 1) {
+    background-color: #eee8ca;
+  }
+  
+  .export_btn {
+      width: 14%;
+  }
+  
+  td {
+    text-align: center;
+  }
+  
+  h3 {
+    margin: 50px 0;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+  
+  .export_btn{  
+    width: 100% !important;
+  }
+  

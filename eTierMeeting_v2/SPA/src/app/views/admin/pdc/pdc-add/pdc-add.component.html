@@ -1,0 +1,19 @@
+<div class="box box-info">
+  <div class="box-header with-border">
+    <h5 class="box-title">{{'admin.adminpdc.admin_add_pdc' | translate }}</h5>
+  </div>
+  <div class="box-body">
+    <div class="form-group">
+      <label>PDC Name</label>
+      <input [(ngModel)]="pdc.pdcName" placeholder="PDC Name" class="form-control" type="text">
+    </div>
+    <div class="form-group">
+      <label>PDC Code</label>
+      <input [(ngModel)]="pdc.pdcCode" placeholder="PDC Code" class="form-control" type="text">
+    </div>
+    <button type="button" (click)="addPDC()" class="btn btn-primary btn-block">
+      <i class="fa fa-plus-square"></i>
+      {{'admin.common.admin_add' | translate }}
+    </button>
+  </div>
+</div>

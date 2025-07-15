@@ -1,0 +1,119 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row form-row">
+            <div class="col-md-12 ">
+              <button class="btn btn-success mr-3 form-group" (click)="isScan = true">
+                <i class="fa fa-camera"></i> Scan QR Code
+              </button>
+              <button class="btn btn-danger mr-3 form-group" (click)="isScan = false">
+                <i class="fa fa-edit"></i>&nbsp;<span>{{'movepage.manually' | translate }}</span>
+              </button>
+              <button type="button" class="btn btn-outline-dark form-group" disabled>
+                <i class="fa fa-spin fa-refresh"></i>&nbsp;
+                <span *ngIf="isScan">
+                  {{'movepage.scan_mode' | translate }}
+                </span>
+                <span *ngIf="!isScan">
+                  {{'movepage.manual_mode' | translate }}
+                </span>
+              </button>
+            </div>
+
+          </div>
+          <div class="row form-row">
+            <div class="col-md-12 alert alert-info" role="alert">
+              <strong>{{'movepage.from' | translate }}:</strong>{{'movepage.info_old_user' | translate }}
+            </div>
+          </div>
+          <div class="row form-row">
+            <div class="col-md-4 col-sm-6 col-xs-12 mb-3">
+              <label><i class="fa fa-id-card"></i>&nbsp;{{'movepage.employ_number' | translate }}</label>
+              <form #employeeIdForm="ngForm" autocomplete="off" (ngSubmit)="getEmployee(empNumberFirst ,'first')">
+                <input type="empNumberFirst" name="employeeFirst" (click)="openModalScan('first')"
+                  [(ngModel)]="empNumberFirst" class="form-control"
+                  placeholder="{{'movepage.employ_number' | translate }}">
+              </form>
+            </div>
+            <div class="col-md-4 col-sm-6 col-xs-12 mb-3">
+              <label><i class="fa fa-info-circle"></i>&nbsp;{{'movepage.fullname' | translate }}</label>
+              <input type="text" class="form-control" placeholder="{{'movepage.fullname' | translate }}"
+                name="employeeId" [(ngModel)]="empNamefirst" readonly>
+            </div>
+            <div class="col-md-4 col-sm-6 col-xs-12 mb-3">
+              <label><i class="fa fa-building-o"></i>&nbsp;{{'movepage.plno_manager' | translate }}</label>
+              <select class="form-control is-valid" [disabled]="listPlnoFirst.length==0" [(ngModel)]="placeFirst">
+                <option *ngFor="let item of listPlnoFirst" [value]="item.id">{{item.name}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="row form-row">
+            <div class="col-md-12 alert alert-warning" role="alert">
+              <strong>{{'movepage.info_machine' | translate }}:</strong> <span data-key="info-machine"></span>
+            </div>
+          </div>
+          <div class="row form-row mb-2">
+            <div class="col-md-3 col-sm-6 col-xs-12 mb-3">
+              <label><i class="fa fa-qrcode"></i>&nbsp;{{'homepage.id_machine' | translate }}</label>
+              <form #machineIdForm="ngForm" autocomplete="off" (ngSubmit)="getMachine()">
+                <input type="idMachine" name="idMachine" [disabled]="listPlnoFirst.length==0"
+                  (click)="openModalScan('machine')" [(ngModel)]="idMachine" class="form-control is-valid"
+                  placeholder="{{'homepage.id_machine' | translate }}">
+              </form>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12 mb-3">
+              <label><i class="fa fa-desktop"></i>&nbsp;{{'common.machine_name' | translate }}</label>
+              <input type="text" class="form-control" placeholder="{{'common.machine_name' | translate }}"
+                [(ngModel)]="machineName" readonly>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12 mb-3">
+              <label><i class="fa fa-location-arrow"></i>&nbsp;{{'common.machine_position' | translate }}</label>
+              <input type="text" class="form-control" placeholder="{{'common.machine_position' | translate }}"
+                [(ngModel)]="place" readonly>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12 mb-3">
+              <label><i class="fa fa-info"></i>&nbsp;{{'common.machine_status' | translate }}</label>
+              <input type="text" class="form-control" placeholder="{{'common.machine_status' | translate }}"
+                [(ngModel)]="state" readonly>
+            </div>
+          </div>
+          <div class="row form-row">
+            <div class="col-md-12 alert alert-success" role="alert">
+              <strong>{{'movepage.to' | translate }}:</strong>{{'movepage.info_new_user' | translate }}
+            </div>
+          </div>
+          <div class="row form-row">
+            <div class="col-md-4 col-sm-6 col-xs-12 mb-3">
+              <label><i class="fa fa-id-card"></i>&nbsp;{{'movepage.employ_number' | translate }}</label>
+              <form #employeeIdForm="ngForm" autocomplete="off" (ngSubmit)="getEmployee(empNumberLast, 'last')">
+                <input type="empNumberLast" name="employeeLast" [disabled]="machineName == '' || machineName == null"
+                  (click)="openModalScan('last')" [(ngModel)]="empNumberLast" class="form-control"
+                  placeholder="{{'movepage.employ_number' | translate }}">
+              </form>
+            </div>
+            <div class="col-md-4 col-sm-6 col-xs-12 mb-3">
+              <label><i class="fa fa-info-circle"></i>&nbsp;{{'movepage.fullname' | translate }}</label>
+              <input type="text" class="form-control" placeholder="{{'movepage.fullname' | translate }}"
+                name="employeeId" [(ngModel)]="empNameLast" readonly>
+            </div>
+            <div class="col-md-4 col-sm-6 col-xs-12 mb-3">
+              <label><i class="fa fa-building-o"></i>&nbsp; {{'movepage.cell_name' | translate }}</label>
+              <select class="form-control" [(ngModel)]="placeLast">
+                <option *ngFor="let item of listPlnoLast" [value]="item.id">{{item.name}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="row pull-right mt-1 mb-2">
+            <button type="button" class="btn btn-success btn-sm" (click)="submitMove()">
+              <img src="assets/img/avatars/move.png" style="width: 25px;" />
+              {{'movepage.machine_move' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-scan-modal #modelScan (qrResultString)="codeQr($event)"></app-scan-modal>
+</div>

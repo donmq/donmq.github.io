@@ -1,0 +1,61 @@
+.line-select {
+  text-align: center;
+  margin: 50px 0;
+}
+
+.btn-lg {
+  width: 350px;
+  height: 80px;
+  font-weight: bold;
+}
+
+.table-line {
+  margin-top: 50px;
+}
+
+.btn-default {
+  color: #333;
+  background-color: #d4d4d4;
+  border-color: #8c8c8c;
+}
+
+.percent-match {
+  font-size: 16px;
+  font-weight: 600;
+  color: red;
+  margin: 0;
+
+  .active {
+    color: green;
+  }
+}
+.btn-back {
+  width: 5%;
+}
+
+.btn:disabled {
+  background-color: #fff !important;
+  border-color: #ccc !important;
+  cursor: no-drop;
+}
+.btn-primary:hover {
+  color: #fff;
+  background-color: #204d74;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #337ab7;
+}
+
+.mb-3 {
+  margin: 0 !important;
+}
+
+invalid {
+  color: #4dbd74;
+}
+
+notinvalid {
+  color: #ff0000;
+}
