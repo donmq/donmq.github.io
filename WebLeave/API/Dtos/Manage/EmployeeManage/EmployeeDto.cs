@@ -29,5 +29,13 @@
         public int? PartID { get; set; }
         public string PartName { get; set; }
     }
+    public partial class EmployeeDetalParam
+    {
+        public int EmployeeId { get; set; }
+        public int CategoryId { get; set; }
+        public int YearTo { get; set; }
+        public int YearFrom { get; set; }
+        public string lang { get; set; }
+    }
 
 }

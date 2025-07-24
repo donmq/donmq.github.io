@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from '@env/environment';
-import { Employee, ListEmployee } from '@models/manage/employee-manage/employee';
+import { Employee, EmployeeDetalParam, ListEmployee } from '@models/manage/employee-manage/employee';
 import { EmployExport } from '@models/manage/employee-manage/employExport';
 import { LeaveData } from '@models/manage/employee-manage/leaveData';
 import { KeyValuePair } from '@utilities/key-value-pair';
@@ -20,8 +20,6 @@ export class EmployeeService {
   baseUrl = environment.apiUrl;
   employeeSource= new BehaviorSubject<ListEmployee>(null);
   currentemployee = this.employeeSource.asObservable();
-  // langSource= new BehaviorSubject<string>(null);
-  // currentLang = this.langSource.asObservable();
   dataSource = new BehaviorSubject<EmployeeParam>(null)
   currentDataSource = this.dataSource.asObservable();
 
@@ -97,8 +95,8 @@ export class EmployeeService {
   }
 
   //Danh sách sau khi search
-  searchDetail(pagination: PaginationParam, EmployeeId: number,CategoryId: number,Year: number, lang: string){
-    let params = new HttpParams().appendAll({...pagination, EmployeeId, CategoryId, Year, lang})
+  searchDetail(pagination: PaginationParam, param: EmployeeDetalParam){
+    let params = new HttpParams().appendAll({...pagination, ...param})
     return this.http.get<PaginationResult<LeaveData>>(API + 'Employees/SearchDetail', { params });
   }
 

@@ -104,6 +104,7 @@ namespace API._Services.Services.SeaHr
                 TimeEnd = x.Time_End.Value.ToString("HH:mm"),
                 DateStart = x.Time_Start.Value.ToString("dd/MM/yyyy"),
                 DateEnd = x.Time_End.Value.ToString("dd/MM/yyyy"),
+                LeaveDay = x.LeaveDay,
                 LeaveDayByString = ConvertLeaveDay(x.LeaveDay.ToString()),
                 Status = GetStatus(x.Approved, paramsSearch.Lang),
                 Status_Lock = x.Status_Lock,
@@ -194,7 +195,7 @@ namespace API._Services.Services.SeaHr
             }
             var categories = await GetCategories();
 
-            categories.ForEach(item => item.Optional = data.Where(x => x.CateID == item.Key).Count());
+            categories.ForEach(item => item.Optional = data.Where(x => x.CateID == item.Key).Sum(x => Math.Round((decimal)x.LeaveDay, 5)));
 
             // categories.Insert(0, new KeyValueUtility
             // {

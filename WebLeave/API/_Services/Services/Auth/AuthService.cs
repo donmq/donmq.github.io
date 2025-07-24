@@ -47,7 +47,7 @@ namespace API._Services.Services
                 LoginDetect detect = new()
                 {
                     UserName = userForLogin.Username,
-                    Expires = DateTime.Now.AddDays(1),
+                    Expires = DateTime.Now.AddDays(30),
                     LoggedAt = DateTime.Now,
                     LoggedByIP = userForLogin.IpLocal
                 };

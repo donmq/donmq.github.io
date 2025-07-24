@@ -241,13 +241,15 @@ namespace API._Services.Services.Leave
         {
             var dataLeave = _accessorRepo.LeaveData.FindAll(x => models.Select(y => y.LeaveID).Contains(x.LeaveID), true);
             models.ForEach(x =>
-                {
-                    x.Status_Line = dataLeave.FirstOrDefault(y => y.LeaveID == x.LeaveID).Status_Line;
-                    x.Updated = DateTime.Now;
-                    x.Time_Applied = DateTime.Now;
-                    // 2: đồng ý 3: từ chối
-                    x.Approved = check ? 2 : 3;
-                });
+            {
+                x.Status_Line = dataLeave.FirstOrDefault(y => y.LeaveID == x.LeaveID).Status_Line;
+                x.Updated = DateTime.Now;
+                x.Time_Applied = DateTime.Now;
+
+                // 2: đồng ý 3: từ chối
+                // Approve bị từ chối thì bỏ qua 
+                x.Approved = dataLeave.FirstOrDefault(y => y.LeaveID == x.LeaveID).Approved == 3 ? 3 : check ? 2 : 3;
+            });
 
             // Chỉ xét duyệt các item có Status_Line = true
             models = models.Where(x => x.Status_Line == true).ToList();
@@ -274,32 +276,37 @@ namespace API._Services.Services.Leave
                 }
                 else
                 {
-                    var cateLeave = _accessorRepo.Category.FirstOrDefault(x => x.CateID == leave.CateID);
-                    if (cateLeave.CateSym.Equals("U") || cateLeave.CateSym.Equals("J"))
+                    // Nếu dữ liệu xin nghỉ phép chưa bị từ chối trước đó
+                    if (dataLeave.FirstOrDefault(y => y.LeaveID == leave.LeaveID).Approved != 3)
                     {
-                        HistoryEmp hisemp = _accessorRepo.HistoryEmp.FirstOrDefault(q => q.YearIn == leave.Time_Start.Value.Year && q.EmpID == leave.EmpID);
-                        if (hisemp.CountLeave > 0)
-                            hisemp.CountLeave -= leave.LeaveDay;
-
-                        if (hisemp.CountTotal > 0)
-                            hisemp.CountTotal -= leave.LeaveDay;
-
-                        if (cateLeave.CateSym == "J" && hisemp.CountAgent > 0)
+                        var cateLeave = _accessorRepo.Category.FirstOrDefault(x => x.CateID == leave.CateID);
+                        if (cateLeave.CateSym.Equals("U") || cateLeave.CateSym.Equals("J"))
                         {
-                            hisemp.CountAgent -= leave.LeaveDay;
-                            hisemp.CountRestAgent += leave.LeaveDay;
-                        }
-                        else if (cateLeave.CateSym == "U" && hisemp.CountArran > 0)
-                        {
-                            hisemp.CountArran -= leave.LeaveDay;
-                            hisemp.CountRestArran += leave.LeaveDay;
-                        }
 
-                        hisemp.Updated = DateTime.Now;
-                        _accessorRepo.HistoryEmp.Update(hisemp);
+                            HistoryEmp hisemp = _accessorRepo.HistoryEmp.FirstOrDefault(q => q.YearIn == leave.Time_Start.Value.Year && q.EmpID == leave.EmpID);
+                            if (hisemp.CountLeave > 0)
+                                hisemp.CountLeave -= leave.LeaveDay;
+
+                            if (hisemp.CountTotal > 0)
+                                hisemp.CountTotal -= leave.LeaveDay;
+
+                            if (cateLeave.CateSym == "J" && hisemp.CountAgent > 0)
+                            {
+                                hisemp.CountAgent -= leave.LeaveDay;
+                                hisemp.CountRestAgent += leave.LeaveDay;
+                            }
+                            else if (cateLeave.CateSym == "U" && hisemp.CountArran > 0)
+                            {
+                                hisemp.CountArran -= leave.LeaveDay;
+                                hisemp.CountRestArran += leave.LeaveDay;
+                            }
+
+                            hisemp.Updated = DateTime.Now;
+                            _accessorRepo.HistoryEmp.Update(hisemp);
+                        }
+                        var model = models.FirstOrDefault(x => x.EmpID == leave.EmpID);
+                        await SendNotitoUser(leave.EmpID, leave.LeaveID, $"bị từ chối.<br/> Lý do: {model.CommentLeave}.<br/>");
                     }
-                    var model = models.FirstOrDefault(x => x.EmpID == leave.EmpID);
-                    await SendNotitoUser(leave.EmpID, leave.LeaveID, $"bị từ chối.<br/> Lý do: {model.CommentLeave}.<br/>");
                 }
             }
 
@@ -323,7 +330,7 @@ namespace API._Services.Services.Leave
             string displaynamesmtp = EmailContentContants.displayname;
             string contentsmtp = EmailContentContants.ApprovedBySuperiorContent;
 
-            var mailto = await _accessorRepo.Users.FindAll(q => q.EmpID == empid).FirstOrDefaultAsync();
+            var mailto = await _accessorRepo.Users.FindAll(q => q.EmpID == empid && q.Visible == true).FirstOrDefaultAsync();
 
             // Truyền mã đơn xin phép động vào trong Email Content
             var body = contentsmtp.Replace("xxxxxxxx", leaveID.ToString());

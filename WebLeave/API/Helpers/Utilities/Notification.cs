@@ -67,7 +67,8 @@ namespace API.Helpers.Utilities
             .FindAll(
                 q => (q.UserRank == 3 || q.UserRank == 5) &&
                 !string.IsNullOrWhiteSpace(q.EmailAddress) &&
-                q.EmailAddress.Contains("ssbshoes.com")
+                q.EmailAddress.Contains("ssbshoes.com") &&
+                q.Visible == true
             ).AsNoTracking()
             .Join(_repositoryAccessor.RolesUser.FindAll(
                     q => q.Role.RoleSym == partsym ||

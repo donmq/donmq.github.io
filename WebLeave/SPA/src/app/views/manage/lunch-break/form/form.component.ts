@@ -76,7 +76,7 @@ export class FormComponent extends InjectBase implements OnInit {
 
   execute(method: string, success: string, error: string, type?: string) {
     this.spinnerService.show();
-
+    this.data.key = this.data.key.toUpperCase().trim();
     this.data.workTimeStart = new Date(this.workTimeStart).toStringTime('HH:mm');
     this.data.workTimeEnd = new Date(this.workTimeEnd).toStringTime('HH:mm');
     this.data.lunchTimeStart = new Date(this.lunchTimeStart).toStringTime('HH:mm');
@@ -94,7 +94,7 @@ export class FormComponent extends InjectBase implements OnInit {
               this.close("SAVE");
           }
           else {
-            this.snotifyService.error(this.translateService.instant(error), this.translateService.instant('System.Caption.Error'));
+            this.snotifyService.error(this.translateService.instant(res.error), this.translateService.instant('System.Caption.Error'));
           }
         }, error: () => {
           this.snotifyService.error(this.translateService.instant('System.Message.UnknowError'), this.translateService.instant('System.Caption.Error'));

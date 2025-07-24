@@ -72,14 +72,14 @@ namespace API.Controllers.Manage
         [HttpGet("getDataDetail")]
         public async Task<IActionResult> GetDataDetail(int EmpID, string lang)
         {
-            var data = await _service.getDataDetail(EmpID, lang);
+            var data = await _service.GetDataDetail(EmpID, lang);
             return Ok(data);
         }
 
         [HttpGet("SearchDetail")]
-        public async Task<IActionResult> SearchDetail([FromQuery] PaginationParam paginationParams, int EmployeeId, int CategoryId, int Year, string lang)
+        public async Task<IActionResult> SearchDetail([FromQuery] PaginationParam paginationParams, [FromQuery] EmployeeDetalParam param)
         {
-            var result = await _service.SearchDetail(paginationParams, EmployeeId, CategoryId, Year, lang);
+            var result = await _service.SearchDetail(paginationParams, param);
             return Ok(result);
         }
 
@@ -107,7 +107,7 @@ namespace API.Controllers.Manage
         [HttpGet("getDisable")]
         public async Task<IActionResult> GetDisabel(int empID)
         {
-            var result = await _service.changeVisible(empID);
+            var result = await _service.ChangeVisible(empID);
             return Ok(result);
         }
 

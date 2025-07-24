@@ -25,3 +25,10 @@ export interface EmployeeRedirect {
     key: string;
     url: string;
 }
+export interface EmployeeDetalParam {
+  EmployeeId: number;
+  CategoryId: number;
+  YearTo: number;
+  YearFrom: number;
+  lang: string;
+}

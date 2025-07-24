@@ -18,15 +18,7 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
 // Add services to the container.
 builder.Services.AddControllers().AddNewtonsoftJson();
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAll", policy =>
-    {
-        policy.AllowAnyOrigin()
-            .AllowAnyMethod()
-            .AllowAnyHeader();
-    });
-});
+builder.Services.AddCors();
 
 // Setting DBContexts
 builder.Services.AddDatabaseConfiguration(builder.Configuration);
@@ -75,7 +67,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors("AllowAll");
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 

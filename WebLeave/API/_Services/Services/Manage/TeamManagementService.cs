@@ -28,6 +28,8 @@ namespace API._Services.Services.Manage
             {
                 int partId = 1;
                 IQueryable<Part> checkExist = _repositoryAccessor.Part.FindAll(true);
+                if(checkExist.FirstOrDefault(x => x.PartCode == partDto.PartCode) != null)
+                    return false;
                 if (checkExist.Any())
                     partId = checkExist.Max(x => x.PartID) + 1;
 
@@ -170,6 +172,14 @@ namespace API._Services.Services.Manage
 
                 partDto.PartName = $"{partVN.PartName} - {partTW.PartName}";
 
+                var data = await _repositoryAccessor.Part.FindAll().ToListAsync();
+                if (data.FirstOrDefault(x => x.PartCode == partDto.PartCode) is not null)
+                    return false; // new OperationResult { IsSuccess = false, Error = "System.Message.DuplicateMsg" };
+                var item = data.FirstOrDefault(x => x.PartID == partDto.PartID);
+                if (item is null)
+                    return false; // new OperationResult { IsSuccess = false, Error = "'System.Message.UpdateErrorMsg'" };
+                
+                // item.part
                 Part part = _mapper.Map<Part>(partDto);
                 _repositoryAccessor.Part.Update(part);
 

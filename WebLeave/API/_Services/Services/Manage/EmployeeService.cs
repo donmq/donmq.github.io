@@ -201,7 +201,7 @@ namespace API._Services.Services.Manage
             return new OperationResult(excelResult.IsSuccess, excelResult.Error, excelResult.Result);
         }
 
-        public async Task<EmployExportDto> getDataDetail(int EmpID, string lang)
+        public async Task<EmployExportDto> GetDataDetail(int EmpID, string lang)
         {
             int year = DateTime.Now.Year;
 
@@ -263,23 +263,26 @@ namespace API._Services.Services.Manage
             return data;
         }
 
-        public async Task<PaginationUtility<LeaveDataDto>> SearchDetail(PaginationParam param, int EmployeeId, int CategoryId, int Year, string lang)
+        public async Task<PaginationUtility<LeaveDataDto>> SearchDetail(PaginationParam pagination, EmployeeDetalParam param)
         {
             var predicate = PredicateBuilder.New<LeaveData>(x => x.Status_Line == true);
 
-            if (EmployeeId != 0)
-                predicate.And(x => x.EmpID == EmployeeId);
+            if (param.EmployeeId != 0)
+                predicate.And(x => x.EmpID == param.EmployeeId);
 
-            if (Year != 0)
-                predicate.And(x => x.DateLeave.Value.Year >= Year);
+            if (param.YearFrom != 0)
+                predicate.And(x => x.DateLeave.Value.Year >= param.YearFrom);
 
-            if (CategoryId != 0)
-                predicate.And(x => x.CateID >= CategoryId);
+            if (param.YearTo != 0)
+                predicate.And(x => x.DateLeave.Value.Year <= param.YearTo);
+
+            if (param.CategoryId != 0)
+                predicate.And(x => x.CateID == param.CategoryId);
 
             // Lấy  danh sách nghỉ của nhân viên theo năm bắt đầu đến năm hiện tại, với trạng thái là true
             List<LeaveDataDto> data = await _repository.LeaveData.FindAll(predicate, true)
                 .Include(x => x.Cate)
-                    .ThenInclude(x => x.CatLangs.Where(x => x.LanguageID == lang))
+                    .ThenInclude(x => x.CatLangs.Where(x => x.LanguageID == param.lang))
                 .Select(x => new LeaveDataDto()
                 {
                     LeaveID = x.LeaveID,
@@ -287,13 +290,13 @@ namespace API._Services.Services.Manage
                     CateID = x.CateID,
                     Created = x.Created,
                     Created_day = x.Created.Value.ToString("HH:mm dd/MM/yyyy"),
-                    Category = $"{x.Cate.CateSym} - {x.Cate.CatLangs.FirstOrDefault(x => x.LanguageID == lang).CateName}",
+                    Category = $"{x.Cate.CateSym} - {x.Cate.CatLangs.FirstOrDefault(x => x.LanguageID == param.lang).CateName}",
                     TimeLine = x.TimeLine,
                     NumberDay = x.LeaveDay.ToString().ToDetailDay(),
                     StatusString = x.Approved.CheckStatus()
                 }).OrderByDescending(x => x.Created).ToListAsync();
 
-            return PaginationUtility<LeaveDataDto>.Create(data, param.PageNumber, param.PageSize);
+            return PaginationUtility<LeaveDataDto>.Create(data, pagination.PageNumber, pagination.PageSize);
 
         }
 
@@ -359,7 +362,7 @@ namespace API._Services.Services.Manage
             }
 
         }
-        public async Task<OperationResult> changeVisible(int empID)
+        public async Task<OperationResult> ChangeVisible(int empID)
         {
             Employee model = await _repository.Employee.FindById(empID);
             model.Visible = !model.Visible;

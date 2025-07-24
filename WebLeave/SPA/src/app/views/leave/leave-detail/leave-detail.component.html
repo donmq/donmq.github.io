@@ -1,11 +1,13 @@
 <div class="animated fadeIn">
   <div class="box-header with-border">
-    <div class="row">
+    <div class="row align-items-center">
       <div class="col-lg-6 col-xs-6 col-sm-6">
         <h4 class="box-title">{{'Leave.LeaveDetail.LeaveDetail' | translate}}</h4>
       </div>
       <div class="col-lg-6 col-xs-6 col-sm-6">
-        <button type="button" class="btn btn-primary btn-sm float-end mb-2" (click)="back()">
+        <button type="button"
+                class="btn btn-primary btn-sm float-end mb-2"
+                (click)="back()">
           <i class="fa-solid fa-angle-left"></i>
           {{'System.Action.Back'|translate}}
         </button>
@@ -14,7 +16,7 @@
   </div>
   <div class="card">
     <div class="card-body">
-      <section class="row mb-5">
+      <section class="row ps-3 pe-3 mb-3">
         <div class="col-12 col-md-6 col-lg-3">
           <strong>{{'Leave.LeaveDetail.FullName' | translate}}: </strong>
           <span>{{detail.leaveData.empName}}</span>
@@ -40,233 +42,249 @@
           <span>{{detail.leaveData.dateIn | date:'dd/MM/yyyy'}}</span>
         </div>
       </section>
-      <section class="viewdatadt p-4 mb-5">
-        <div class="row mb-3">
-          <div class="col-12 col-md-6 col-lg-3">
-            <strong>{{'Leave.LeaveDetail.Restorecode' | translate}}: </strong>
-            <span>{{detail.leaveData.leaveArchive}}</span>
+      <section class="viewdatadt p-3 mb-3">
+        <div class="row mb-2">
+          <div class="col-12">
+            <div class="row">
+              <div class="col-12 col-md-6 col-lg-3">
+                <strong>{{'Leave.LeaveDetail.Restorecode' | translate}}: </strong>
+                <span>{{detail.leaveData.leaveArchive}}</span>
+              </div>
+              <div class="col-12 col-md-6 col-lg-3">
+                <strong>{{'Leave.LeaveDetail.Status' | translate}}: </strong>
+                <span *ngIf="detail.leaveData.approved === 1">{{commonConstants.COMMON_STATUS1 | translate}}</span>
+                <span *ngIf="detail.leaveData.approved === 2">{{commonConstants.COMMON_STATUS2 | translate}}</span>
+                <span *ngIf="detail.leaveData.approved === 3">{{commonConstants.COMMON_STATUS3 | translate}}</span>
+                <span *ngIf="detail.leaveData.approved === 4">{{commonConstants.COMMON_STATUS4 | translate}}</span>
+              </div>
+            </div>
           </div>
-          <div class="col-12 col-md-6 col-lg-3">
-            <strong>{{'Leave.LeaveDetail.Appliedat' | translate}}: </strong>
-            <span>{{detail.leaveData.created | date:'HH:mm dd/MM/yyyy'}}</span>
-          </div>
-          <div class="col-12 col-md-6 col-lg-3 tdCategory">
-            <strong>{{'Leave.LeaveDetail.LeaveCategory' | translate}}: </strong>
-            <span *ngIf="lang == langConstants.VN">{{detail.leaveData.cateNameVN}}</span>
-            <span *ngIf="lang == langConstants.EN">{{detail.leaveData.cateNameEN}}</span>
-            <span *ngIf="lang == langConstants.ZH_TW">{{detail.leaveData.cateNameZH}}</span>
-            <i *ngIf="detail.leaveData.exhibit" pTooltip="{{'Common.NoteCategory' | translate}}" showDelay="50" class="fa-solid fa-bookmark"></i>
-          </div>
-          <div class="col-12 col-md-6 col-lg-3">
-            <strong>{{'Leave.LeaveDetail.Status' | translate}}: </strong>
-            <span *ngIf="detail.leaveData.approved === 1">{{commonConstants.COMMON_STATUS1 | translate}}</span>
-            <span *ngIf="detail.leaveData.approved === 2">{{commonConstants.COMMON_STATUS2 | translate}}</span>
-            <span *ngIf="detail.leaveData.approved === 3">{{commonConstants.COMMON_STATUS3 | translate}}</span>
-            <span *ngIf="detail.leaveData.approved === 4">{{commonConstants.COMMON_STATUS4 | translate}}</span>
-          </div>
-        </div>
-        <div class="row mb-3">
-          <div class="col-12 col-md-6 col-lg-3">
-            <strong>{{'Leave.LeaveDetail.Start' | translate}}: </strong>
-            <span>{{detail.leaveData.time_Start | date:'HH:mm dd/MM/yyyy'}}</span>
-          </div>
-          <div class="col-12 col-md-6 col-lg-3">
-            <strong>{{'Leave.LeaveDetail.Ending' | translate}}: </strong>
-            <span>{{detail.leaveData.time_End | date:'HH:mm dd/MM/yyyy'}}</span>
-          </div>
-          <div class="col-12 col-md-6 col-lg-3">
-            <strong>{{'Leave.LeaveDetail.Days' | translate}}: </strong>
-            <span>{{detail.leaveData.leaveDayByString}}</span>
-          </div>
-          <div class="col-12 col-md-6 col-lg-3">
-            <strong>{{'Leave.LeaveDetail.TimeLunch' | translate}}: </strong>
-            <span *ngIf="lang == langConstants.VN">{{detail.leaveData.lunchBreakVN}}</span>
-            <span *ngIf="lang == langConstants.EN">{{detail.leaveData.lunchBreakEN}}</span>
-            <span *ngIf="lang == langConstants.ZH_TW">{{detail.leaveData.lunchBreakZH}}</span>
-          </div>
-
-        </div>
-        <div class="row mb-3">
-          <div class="col-12 col-md-6 col-lg-3">
-            <strong>{{'Leave.LeaveDetail.Sendby' | translate}}: </strong>
-            <span>{{detail.leaveData.sendBy}}</span>
-          </div>
-          <div class="col-12 col-md-6 col-lg-3">
-            <strong>{{'Leave.LeaveDetail.Sender' | translate}}: </strong>
-            <span>{{detail.leaveData.sender}}</span>
-          </div>
-          <div class="col-12 col-md-6 col-lg-3">
-            <strong>{{'Leave.LeaveDetail.Update' | translate}}: </strong>
-            <span>{{detail.leaveData.updated | date:'HH:mm dd/MM/yyyy'}}</span>
+          <div class="col-12 col-md-6 col-lg-9">
+            <div class="row">
+              <div class="col-12 col-md-6 col-lg-4">
+                <strong>{{'Leave.LeaveDetail.Appliedat' | translate}}: </strong>
+                <span>{{detail.leaveData.created | date:'HH:mm dd/MM/yyyy'}}</span>
+              </div>
+              <div class="col-12 col-md-6 col-lg-4 tdCategory">
+                <strong>{{'Leave.LeaveDetail.LeaveCategory' | translate}}: </strong>
+                <span *ngIf="lang == langConstants.VN">{{detail.leaveData.cateNameVN}}</span>
+                <span *ngIf="lang == langConstants.EN">{{detail.leaveData.cateNameEN}}</span>
+                <span *ngIf="lang == langConstants.ZH_TW">{{detail.leaveData.cateNameZH}}</span>
+                <i *ngIf="detail.leaveData.exhibit"
+                   pTooltip="{{'Common.NoteCategory' | translate}}"
+                   showDelay="50"
+                   class="fa-solid fa-bookmark"></i>
+              </div>
+              <div class="col-12 col-md-6 col-lg-4">
+                <strong>{{'Leave.LeaveDetail.TimeLunch' | translate}}: </strong>
+                <span *ngIf="lang == langConstants.VN">{{detail.leaveData.lunchBreakVN}}</span>
+                <span *ngIf="lang == langConstants.EN">{{detail.leaveData.lunchBreakEN}}</span>
+                <span *ngIf="lang == langConstants.ZH_TW">{{detail.leaveData.lunchBreakZH}}</span>
+              </div>
+              <div class="col-12 col-md-6 col-lg-4">
+                <strong>{{'Leave.LeaveDetail.Start' | translate}}: </strong>
+                <span>{{detail.leaveData.time_Start | date:'HH:mm dd/MM/yyyy'}}</span>
+              </div>
+              <div class="col-12 col-md-6 col-lg-4">
+                <strong>{{'Leave.LeaveDetail.Ending' | translate}}: </strong>
+                <span>{{detail.leaveData.time_End | date:'HH:mm dd/MM/yyyy'}}</span>
+              </div>
+              <div class="col-12 col-md-6 col-lg-4">
+                <strong>{{'Leave.LeaveDetail.Days' | translate}}: </strong>
+                <span>{{detail.leaveData.leaveDayByString}}</span>
+              </div>
+              <div class="col-12 col-md-6 col-lg-4">
+                <strong>{{'Leave.LeaveDetail.Sendby' | translate}}: </strong>
+                <span>{{detail.leaveData.sendBy}}</span>
+              </div>
+              <div class="col-12 col-md-6 col-lg-4">
+                <strong>{{'Leave.LeaveDetail.Sender' | translate}}: </strong>
+                <span>{{detail.leaveData.sender}}</span>
+              </div>
+              <div class="col-12 col-md-6 col-lg-4">
+                <strong>{{'Leave.LeaveDetail.Update' | translate}}: </strong>
+                <span>{{detail.leaveData.updated | date:'HH:mm dd/MM/yyyy'}}</span>
+              </div>
+            </div>
           </div>
           <div class="col-12 col-md-6 col-lg-3">
             <strong>{{'Leave.LeaveDetail.Approvedpersons' | translate}}: </strong>
             <ng-container *ngFor="let person of detail.approvalPersons">
-              <p class="mb-0" *ngIf="person !== 'ADMINISTRATOR' && person !== 'VO THI DAN THAO'">{{person}}</p>
-
+              <p class="mb-0"
+                 *ngIf="person !== 'ADMINISTRATOR' && person !== 'VO THI DAN THAO'">{{person}}</p>
             </ng-container>
-          </div>
-
-        </div>
-        <div class="row">
-          <div class="col-12 col-md-6 col-lg-3"></div>
-          <div class="col-12 col-md-6 col-lg-3"></div>
-          <div class="col-12 col-md-6 col-lg-3"></div>
-          <div class="col-12 col-md-6 col-lg-3">
             <ng-container *ngIf="
               (detail.leaveData.approved === 2 || detail.leaveData.approved === 4) &&
               (detail.leaveData.userID === user.userID) &&
               (!detail.leaveData.leaveArrange)">
               <ng-container *ngIf="detail.leaveData.editRequest === 1; else seahrButtonTemplate;">
-                <button type="button" class="btn btn-sm btn-danger" disabled>
+                <button type="button"
+                        class="btn btn-sm btn-danger"
+                        disabled>
                   {{'Leave.LeaveDetail.SentRequestToManager' | translate}}
                 </button>
               </ng-container>
-
               <ng-template #seahrButtonTemplate>
                 <ng-container *ngIf="detail.leaveData.editRequest === 2; else rejectedButtonTemplate">
-                  <button type="button" class="btn btn-sm btn-danger" disabled>
+                  <button type="button"
+                          class="btn btn-sm btn-danger"
+                          disabled>
                     {{'Leave.LeaveDetail.SentRequestToHuman' | translate}}
                   </button>
                 </ng-container>
               </ng-template>
-
               <ng-template #rejectedButtonTemplate>
                 <ng-container *ngIf="detail.leaveData.editRequest === 3; else requestButtonTemplate">
-                  <button type="button" class="btn btn-sm btn-danger" disabled>
+                  <button type="button"
+                          class="btn btn-sm btn-danger"
+                          disabled>
                     {{'Leave.LeaveDetail.HrRejected' | translate}}
                   </button>
                 </ng-container>
               </ng-template>
-
-
               <!-- Text area -->
               <ng-template #requestButtonTemplate>
-
                 <ng-container *ngIf="detail.leaveData.approved === 2">
-                  <button (click)="openModal(templateReason)" class="btn btn-sm btn-danger">
+                  <button (click)="openModal(templateReason)"
+                          class="btn btn-sm btn-danger">
                     {{'Leave.LeaveDetail.RequestEditLeaveToManager' | translate}}
                   </button>
                 </ng-container>
-
                 <ng-container *ngIf="detail.leaveData.approved === 4">
-                  <button *ngIf="detail.enablePreviousMonthEditRequest" (click)="openModal(templateReason)" class="btn btn-sm btn-danger">
+                  <button *ngIf="detail.enablePreviousMonthEditRequest"
+                          (click)="openModal(templateReason)"
+                          class="btn btn-sm btn-danger">
                     {{'Leave.LeaveDetail.RequestEditLeaveToHuman' | translate}}
                   </button>
-                  <button *ngIf="!detail.enablePreviousMonthEditRequest" disabled class="btn btn-sm btn-danger">
+                  <button *ngIf="!detail.enablePreviousMonthEditRequest"
+                          disabled
+                          class="btn btn-sm btn-danger">
                     {{'Leave.LeaveDetail.RequestEditLeavePreviousMonthDisabled' | translate}}
                   </button>
                 </ng-container>
-
               </ng-template>
             </ng-container>
           </div>
         </div>
       </section>
-      <section id="time-line" class="mb-5">
-        <h5>
-          <i class="fa fa-lightbulb text-warning me-1"></i>
-          {{'Leave.LeaveDetail.Timeline' | translate}}
-        </h5>
-        <div class="px-4">
-          <ul>
-            <ng-container *ngFor="let item of listComment">
-              <li>
-                <p class="mb-0">{{item}}</p>
-              </li>
-            </ng-container>
-          </ul>
-        </div>
-      </section>
-      <section class="mb-5" *ngIf="
-          detail.deletedLeaves.length > 0 &&
-          (detail.roleApproved ||
-          user.username === '41230' ||
-          user.username === '65547' ||
-          user.username === '66661')">
-        <h5>
-          <i class="fa fa-lightbulb text-warning me-1"></i>
-          {{'Leave.LeaveDetail.DeleteLeave' | translate}}
-        </h5>
-        <div class="px-4">
-          <ul>
-            <ng-container *ngFor="let item of detail.deletedLeaves">
-              <li class="mt-3">
-                <span *ngIf="lang == langConstants.VN">
-                  {{item.cateNameVN}} <strong>({{item.timeLine}})</strong>
-                </span>
-                <span *ngIf="lang == langConstants.EN">
-                  {{item.cateNameEN}} <strong>({{item.timeLine}})</strong>
-                </span>
-                <span *ngIf="lang == langConstants.ZH_TW">
-                  {{item.cateNameZH}} <strong>({{item.timeLine}})</strong>
-                </span><br>
-                <ng-container *ngFor="let cmt of item.translatedComment?.split('-')">
-                  <p class="mb-0">{{cmt}}</p>
+      <div class="row">
+        <div class="col-12 col-lg-6">
+          <section id="time-line">
+            <h5>
+              <i class="fa fa-lightbulb text-warning me-1"></i> {{'Leave.LeaveDetail.Timeline' | translate}}
+            </h5>
+            <div class="px-4">
+              <ul>
+                <ng-container *ngFor="let item of listComment">
+                  <li>
+                    <p class="mb-0">{{item}}</p>
+                  </li>
                 </ng-container>
-              </li>
-            </ng-container>
-          </ul>
+              </ul>
+            </div>
+          </section>
+          <section *ngIf=" detail.deletedLeaves.length > 0 &&
+                   (detail.roleApproved || user.username === '41230' || user.username === '65547' || user.username === '66661')">
+            <h5>
+              <i class="fa fa-lightbulb text-warning me-1"></i> {{'Leave.LeaveDetail.DeleteLeave' | translate}}
+            </h5>
+            <div class="px-4">
+              <ul>
+                <ng-container *ngFor="let item of detail.deletedLeaves">
+                  <li>
+                    <span *ngIf="lang == langConstants.VN">
+                      {{item.cateNameVN}} <strong>({{item.timeLine}})</strong>
+                    </span>
+                    <span *ngIf="lang == langConstants.EN">
+                      {{item.cateNameEN}} <strong>({{item.timeLine}})</strong>
+                    </span>
+                    <span *ngIf="lang == langConstants.ZH_TW">
+                      {{item.cateNameZH}} <strong>({{item.timeLine}})</strong>
+                    </span><br>
+                    <ng-container *ngFor="let cmt of item.translatedComment?.split('-')">
+                      <p class="mb-0">{{cmt}}</p>
+                    </ng-container>
+                  </li>
+                </ng-container>
+              </ul>
+            </div>
+          </section>
         </div>
-      </section>
-      <section *ngIf="detail.editCommentArchive && userRank != '6'">
-        <section class="mb-5">
-          <h5>
-            <i class="fa fa-lightbulb text-warning me-1"></i>
-            {{'Leave.LeaveDetail.EditNote' | translate}}
-          </h5>
-          <div class="row">
-            <div class="col-12 col-md-6 col-lg-3">
-              <ng-select [clearable]="false" name="commentArchive" id="commentArchive" class="mb-3" bindLabel="text" bindValue="value" [(ngModel)]="leaveEditCommentArchive.commentArchiveID" placeholder="{{'System.SelectAll' | translate}}">
-                <ng-option [value]="0">{{'System.SelectAll' | translate}}</ng-option>
-                <ng-option *ngFor="let archive of commentArchives" [value]="archive.value">{{ archive.text }}</ng-option>
-              </ng-select>
-              <button class="btn btn-success" type="button" (click)="editCommentArchive()">{{'Leave.LeaveDetail.Save' |
-                translate}}</button>
-            </div>
-          </div>
-        </section>
-      </section>
-      <section *ngIf="detail.roleApproved && userRank != '6'">
-        <section>
-          <h5>
-            <i class="fa fa-lightbulb text-warning me-1"></i>
-            {{'Leave.LeaveDetail.EditLeave' | translate}}
-          </h5>
-          <div class="row">
-            <div class="col-12 col-md-6 col-lg-3">
-              <textarea name="notitext" id="notitext" placeholder="{{'Leave.LeaveDetail.EditLeave' | translate}}" [(ngModel)]="leaveEditApproval.notiText" rows="3" class="form-control mb-3"></textarea>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-12 col-md-6 col-lg-3">
-              <!-- <div *ngIf="detail.leaveData.approved===2">
-                <ng-select  name="slEditApproval" id="slEditApproval" [(ngModel)]="leaveEditApproval.slEditApproval" class="mb-3">
-                  <ng-option [value]="0">{{'Leave.LeaveDetail.status0' | translate}}</ng-option>
-                  <ng-option [value]="1">{{'Leave.LeaveDetail.status2' | translate}}</ng-option>
+        <div class="col-12 col-lg-6">
+          <section *ngIf="detail.editCommentArchive && userRank != '6'">
+            <h5>
+              <i class="fa fa-lightbulb text-warning me-1"></i> {{'Leave.LeaveDetail.EditNote' | translate}}
+            </h5>
+            <div class="row justify-content-center">
+              <div class="col">
+                <ng-select [clearable]="false"
+                           name="commentArchive"
+                           id="commentArchive"
+                           class="mb-3"
+                           bindLabel="text"
+                           bindValue="value"
+                           [(ngModel)]="leaveEditCommentArchive.commentArchiveID"
+                           placeholder="{{'System.SelectAll' | translate}}">
+                  <ng-option [value]="0">{{'System.SelectAll' | translate}}</ng-option>
+                  <ng-option *ngFor="let archive of commentArchives"
+                             [value]="archive.value">{{ archive.text }}</ng-option>
                 </ng-select>
-              </div> -->
-
-              <ng-select  name="slEditApproval" id="slEditApproval" [(ngModel)]="leaveEditApproval.slEditApproval" class="mb-3" bindLabel="text" bindValue="value">
-                <ng-container *ngIf="detail.leaveData.approved===2">
-                  <ng-option [value]="0">{{'Leave.LeaveDetail.status0' | translate}}</ng-option>
-                  <ng-option [value]="1">{{'Leave.LeaveDetail.status2' | translate}}</ng-option>
-                </ng-container>
-                <ng-container *ngIf="detail.leaveData.approved===3">
-                  <ng-option [value]="2">{{'Leave.LeaveDetail.status1' | translate}}</ng-option>
-                </ng-container>
-                <ng-container *ngIf="detail.leaveData.approved===4">
-                  <ng-option [value]="0">{{'Leave.LeaveDetail.status0' | translate}}</ng-option>
-                </ng-container>
-              </ng-select>
+              </div>
+              <div class="col-auto ps-0">
+                <button class="btn btn-success float-end"
+                        type="button"
+                        (click)="editCommentArchive()">{{'Leave.LeaveDetail.Save' | translate}}</button>
+              </div>
             </div>
-          </div>
-          <button class="btn btn-success" type="button" (click)="editApproval()">{{'Leave.LeaveDetail.Edit'
-            |
-            translate}}</button>
-          <br>
-        </section>
-      </section>
+          </section>
+          <section *ngIf="detail.roleApproved && userRank != '6'">
+            <section>
+              <h5>
+                <i class="fa fa-lightbulb text-warning me-1"></i> {{'Leave.LeaveDetail.EditLeave' | translate}}
+              </h5>
+              <div class="row">
+                <div class="col-12">
+                  <textarea name="notitext"
+                            id="notitext"
+                            placeholder="{{'Leave.LeaveDetail.EditLeave' | translate}}"
+                            [(ngModel)]="leaveEditApproval.notiText"
+                            rows="3"
+                            class="form-control mb-3"></textarea>
+                </div>
+                <div class="col-12">
+                  <div class="row justify-content-center">
+                    <div class="col">
+                      <ng-select name="slEditApproval"
+                                 id="slEditApproval"
+                                 [(ngModel)]="leaveEditApproval.slEditApproval"
+                                 class="mb-3"
+                                 bindLabel="text"
+                                 bindValue="value">
+                        <ng-container *ngIf="detail.leaveData.approved===2">
+                          <ng-option [value]="0">{{'Leave.LeaveDetail.status0' | translate}}</ng-option>
+                          <ng-option [value]="1">{{'Leave.LeaveDetail.status2' | translate}}</ng-option>
+                        </ng-container>
+                        <ng-container *ngIf="detail.leaveData.approved===3">
+                          <ng-option [value]="2">{{'Leave.LeaveDetail.status1' | translate}}</ng-option>
+                        </ng-container>
+                        <ng-container *ngIf="detail.leaveData.approved===4">
+                          <ng-option [value]="0">{{'Leave.LeaveDetail.status0' | translate}}</ng-option>
+                        </ng-container>
+                      </ng-select>
+                    </div>
+                    <div class="col-auto ps-0">
+                      <button class="btn btn-success"
+                              type="button"
+                              (click)="editApproval()">{{'Leave.LeaveDetail.Edit' | translate}}</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <br>
+            </section>
+          </section>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -274,25 +292,40 @@
 <ng-template #templateReason>
   <div class="modal-header modal-header1">
     <h4 class="modal-title pull-left">{{'Leave.LeaveDetail.ReasonAdjust' | translate}}</h4>
-    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="closeModal()">
-      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    <button type="button"
+            class="btn-close close pull-right"
+            aria-label="Close"
+            (click)="closeModal()">
+      <span aria-hidden="true"
+            class="visually-hidden">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <form autocomplete="off" #formReject="ngForm">
+    <form autocomplete="off"
+          #formReject="ngForm">
       <div class="row">
         <div class="col">
-            <textarea class="form-control" name="text" id="text"
-              placeholder="{{'Leave.LeaveDetail.ReasonAdjust' | translate}}" [(ngModel)]="detail.leaveData.reasonAdjust" rows="3" required></textarea>
+          <textarea class="form-control"
+                    name="text"
+                    id="text"
+                    placeholder="{{'Leave.LeaveDetail.ReasonAdjust' | translate}}"
+                    [(ngModel)]="detail.leaveData.reasonAdjust"
+                    rows="3"
+                    required></textarea>
 
         </div>
       </div>
       <div class="row mt-3">
         <div class="col text-end">
-          <button type="button" [disabled]="!formReject.valid" (click)="requestEditLeave()" class="btn btn-success me-3">
+          <button type="button"
+                  [disabled]="!formReject.valid"
+                  (click)="requestEditLeave()"
+                  class="btn btn-success me-3">
             <i class="{{iconButton.SAVE}}"></i> {{ 'Leave.LeaveApprove.OK' | translate}}
           </button>
-          <button type="button" (click)="closeModal()" class="btn btn-secondary">
+          <button type="button"
+                  (click)="closeModal()"
+                  class="btn btn-secondary">
             <i class="{{iconButton.CLOSE}}"></i> {{ 'Leave.LeaveApprove.Cancel' | translate}}
           </button>
         </div>

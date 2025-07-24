@@ -8,15 +8,15 @@ namespace API._Services.Interfaces.Manage
         Task<OperationResult> UpdateEmploy(EmployeeDto employee);
         Task<OperationResult> UpdateInDetail(EmployExportDto employee);
         Task<OperationResult> ExportExcelEmploy();
-        Task<EmployExportDto> getDataDetail(int EmpID, string lang);
+        Task<EmployExportDto> GetDataDetail(int EmpID, string lang);
         Task<List<KeyValuePair<string, string>>> ListGroupBase();
         Task<List<KeyValuePair<string, string>>> ListPositionID();
         Task<List<KeyValuePair<string, string>>> ListPartID(int DeptID);
         Task<List<KeyValuePair<string, string>>> ListDeptID();
-        Task<PaginationUtility<LeaveDataDto>> SearchDetail(PaginationParam param, int EmployeeId , int CategoryId , int Year, string lang);
+        Task<PaginationUtility<LeaveDataDto>> SearchDetail(PaginationParam pagination, EmployeeDetalParam param);
         Task<List<KeyValuePair<string, string>>> ListCataLog(string lang);
         Task<OperationResult> RemoveEmploy(int empID);
-        Task<OperationResult>changeVisible(int empID);
+        Task<OperationResult> ChangeVisible(int empID);
 
     }
 }

@@ -17,13 +17,13 @@ namespace API._Services.Services.Manage
 
         public async Task<OperationResult> Create(LunchBreakDto dto)
         {
-            if (await _repositoryAccessor.LunchBreak.AnyAsync(x => x.Key.Trim() == dto.Key.Trim() && x.WorkTimeStart == TimeSpan.Parse(dto.WorkTimeStart as string) && x.WorkTimeEnd == TimeSpan.Parse(dto.WorkTimeEnd as string)))
-                return new OperationResult { IsSuccess = false };
+            if (await _repositoryAccessor.LunchBreak.AnyAsync(x => x.Key.Trim() == dto.Key))
+                return new OperationResult { IsSuccess = false, Error = "System.Message.DuplicateMsg" };
 
             LunchBreak data = new()
             {
                 Id = dto.Id,
-                Key = dto.Key.Trim(),
+                Key = dto.Key,
                 WorkTimeStart = TimeSpan.Parse(dto.WorkTimeStart as string),
                 WorkTimeEnd = TimeSpan.Parse(dto.WorkTimeEnd as string),
                 LunchTimeStart = TimeSpan.Parse(dto.LunchTimeStart as string),
@@ -46,7 +46,7 @@ namespace API._Services.Services.Manage
             }
             catch
             {
-                return new OperationResult { IsSuccess = false };
+                return new OperationResult { IsSuccess = false, Error = "System.Message.CreateErrorMsg" };
             }
         }
 
@@ -134,32 +134,36 @@ namespace API._Services.Services.Manage
 
         public async Task<OperationResult> Update(LunchBreakDto dto)
         {
-            var data = await _repositoryAccessor.LunchBreak.FirstOrDefaultAsync(x => x.Id == dto.Id);
-            if (data is null)
-                return new OperationResult { IsSuccess = false, Error = "Data not existed !" };
+            var data = await _repositoryAccessor.LunchBreak.FindAll().ToListAsync();
+            if (data.FirstOrDefault(x => x.Key == dto.Key) is not null)
+                return new OperationResult { IsSuccess = false, Error = "System.Message.DuplicateMsg" };
+            var item = data.FirstOrDefault(x => x.Id == dto.Id);
+            if (item is null)
+                return new OperationResult { IsSuccess = false, Error = "'System.Message.UpdateErrorMsg'" };
 
-            data.WorkTimeStart = TimeSpan.Parse(dto.WorkTimeStart as string);
-            data.WorkTimeEnd = TimeSpan.Parse(dto.WorkTimeEnd as string);
-            data.LunchTimeStart = TimeSpan.Parse(dto.LunchTimeStart as string);
-            data.LunchTimeEnd = TimeSpan.Parse(dto.LunchTimeEnd as string);
-            data.Value_en = dto.Value_en;
-            data.Value_vi = dto.Value_vi;
-            data.Value_zh = dto.Value_zh;
-            data.Seq = dto.Seq;
-            data.Visible = dto.Visible;
-            data.UpdatedBy = dto.UpdatedBy;
-            data.UpdatedTime = DateTime.Now;
+            item.Key = dto.Key;
+            item.WorkTimeStart = TimeSpan.Parse(dto.WorkTimeStart as string);
+            item.WorkTimeEnd = TimeSpan.Parse(dto.WorkTimeEnd as string);
+            item.LunchTimeStart = TimeSpan.Parse(dto.LunchTimeStart as string);
+            item.LunchTimeEnd = TimeSpan.Parse(dto.LunchTimeEnd as string);
+            item.Value_en = dto.Value_en;
+            item.Value_vi = dto.Value_vi;
+            item.Value_zh = dto.Value_zh;
+            item.Seq = dto.Seq;
+            item.Visible = dto.Visible;
+            item.UpdatedBy = dto.UpdatedBy;
+            item.UpdatedTime = DateTime.Now;
 
             try
             {
-                _repositoryAccessor.LunchBreak.Update(data);
+                _repositoryAccessor.LunchBreak.Update(item);
                 await _repositoryAccessor.SaveChangesAsync();
 
                 return new OperationResult { IsSuccess = true };
             }
             catch
             {
-                return new OperationResult { IsSuccess = false };
+                return new OperationResult { IsSuccess = false, Error = "System.Message.UpdateErrorMsg" };
             }
         }
     }

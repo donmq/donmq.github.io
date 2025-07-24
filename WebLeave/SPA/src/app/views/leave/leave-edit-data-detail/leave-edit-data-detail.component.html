@@ -4,108 +4,116 @@
       <div class="col-lg-6 col-xs-6 col-sm-6">
         <h4 class="box-title">{{'Leave.EditLeaves.Detail' | translate}}</h4>
       </div>
-      <div class="col-lg-6 col-xs-6 col-sm-6 back">
-        <button class="btn btn-sm btn-primary float-end" (click)="back()"><i class="fa-solid fa-chevron-left"></i>
-          {{'System.Action.Back'|translate}}</button>
+      <div class="col-lg-6 col-xs-6 col-sm-6">
+        <button type="button"
+                class="btn btn-primary btn-sm float-end mb-2"
+                (click)="back()">
+          <i class="fa-solid fa-angle-left"></i>
+          {{'System.Action.Back'|translate}}
+        </button>
       </div>
     </div>
   </div>
   <div class="card">
     <div class="card-body">
-      <div class="row">
-        <div class="col-3">
+      <div class="row ps-3 pe-3 mb-3">
+        <div class="col-12 col-md-6 col-lg-3">
           <strong>{{'Leave.EditLeaves.FullName' | translate}}:</strong> {{detailEmployee.listLeave?.empName}}
         </div>
-        <div class="col-3">
+        <div class="col-12 col-md-6 col-lg-3">
           <strong>{{'Leave.EditLeaves.EmpID' | translate}}:</strong> {{detailEmployee.listLeave?.empNumber}}
         </div>
-        <div class="col-3">
+        <div class="col-12 col-md-6 col-lg-3">
           <strong>{{'Leave.EditLeaves.Dept' | translate}}:</strong> {{detailEmployee.listLeave?.deptCode}} -
           {{detailEmployee.listLeave?.partName}}
         </div>
-        <div class="col-3">
+        <div class="col-12 col-md-6 col-lg-3">
           <strong>{{'Leave.EditLeaves.DateIn' | translate}}:</strong> {{detailEmployee.listLeave?.dateIn}}
         </div>
       </div>
-      <div class="viewdatadt mt-3">
-        <div class="container">
-          <div class="row mt-4">
-            <div class="col-md-3">
-              <b>{{'Leave.EditLeaves.Restorecode' | translate}}:</b> {{detailEmployee.listLeave?.leaveArchive}}
-            </div>
-            <div class="col-md-3">
-              <b>{{'Leave.EditLeaves.Appliedat' | translate}}:</b> {{detailEmployee.listLeave?.created | date: 'HH:mm dd/MM/YYYY'}}
-            </div>
-            <div class="col-md-3">
-              <b>{{'Leave.EditLeaves.LeaveCategory' | translate}}:</b> {{lang === 'vi' ?
-              detailEmployee.listLeave?.cateNameVN : lang === 'en' ?
-              detailEmployee.listLeave?.cateNameEN: detailEmployee.listLeave?.cateNameTW}}
-              <a *ngIf="detailEmployee.listLeave?.exhibit" href="javascript:" pTooltip="{{'Leave.EditLeaves.Implement'|translate}}" showDelay="50" tooltipPosition="top">
-                <span class="dbook">
-                  <i class="fa fa-bookmark text-danger" aria-hidden="true"></i>
-                </span>
-              </a>
-            </div>
-            <div class="col-md-3">
-              <b>{{'Leave.EditLeaves.Status' | translate}}:</b> {{detailEmployee.listLeave?.approved | translate}}
-            </div>
+      <div class="viewdatadt p-3 mb-3">
+        <div class="row mb-2">
+          <div class="col-12 col-md-6 col-lg-3">
+            <b>{{'Leave.EditLeaves.Restorecode' | translate}}:</b>
+            {{detailEmployee.listLeave?.leaveArchive}}
           </div>
-          <div class="row mt-3">
-            <div class="col-md-3">
-              <b>{{'Leave.EditLeaves.Start' | translate}}:</b> {{detailEmployee.listLeave?.time_Start | date: 'HH:mm dd/MM/YYYY'}}
-            </div>
-            <div class="col-md-3">
-              <b>{{'Leave.EditLeaves.Ending' | translate}}:</b> {{detailEmployee.listLeave?.time_End | date: 'HH:mm dd/MM/YYYY'}}
-            </div>
-            <div class="col-md-3">
-              <b>{{'Leave.EditLeaves.Days' | translate}}:</b> {{detailEmployee.listLeave?.leaveDay}}
-            </div>
-
+          <div class="col-12 col-md-6 col-lg-3">
+            <b>{{'Leave.EditLeaves.Status' | translate}}:</b>
+            {{detailEmployee.listLeave?.approved | translate}}
           </div>
-          <div class="row mt-3 mb-4">
-            <div class="col-md-3">
-              <b>{{'Leave.EditLeaves.sendby' | translate}}:</b> {{detailEmployee.listLeave?.empName}}
-            </div>
-            <div class="col-md-3">
-              <b>{{'Leave.EditLeaves.sender' | translate}}:</b> {{detailEmployee.listLeave?.approvedBy}}
-            </div>
-            <div class="col-md-3">
-              <b>{{'Leave.EditLeaves.Update' | translate}}:</b> {{detailEmployee.listLeave?.time_Applied | date: 'HH:mm dd/MM/YYYY'}}
-            </div>
-
+          <div class="col-12 col-md-6 col-lg-3">
+            <b>{{'Leave.EditLeaves.Appliedat' | translate}}:</b>
+            {{detailEmployee.listLeave?.created | date: 'HH:mm dd/MM/YYYY'}}
+          </div>
+          <div class="col-12 col-md-6 col-lg-3">
+            <b>{{'Leave.EditLeaves.LeaveCategory' | translate}}:</b> {{lang === 'vi' ?
+            detailEmployee.listLeave?.cateNameVN : lang === 'en' ?
+            detailEmployee.listLeave?.cateNameEN: detailEmployee.listLeave?.cateNameTW}}
+            <a *ngIf="detailEmployee.listLeave?.exhibit"
+               href="javascript:"
+               pTooltip="{{'Leave.EditLeaves.Implement'|translate}}"
+               showDelay="50"
+               tooltipPosition="top">
+              <span class="dbook">
+                <i class="fa fa-bookmark text-danger"
+                   aria-hidden="true"></i>
+              </span>
+            </a>
+          </div>
+          <div class="col-12 col-md-6 col-lg-3">
+            <b>{{'Leave.EditLeaves.Start' | translate}}:</b>
+            {{detailEmployee.listLeave?.time_Start | date: 'HH:mm dd/MM/YYYY'}}
+          </div>
+          <div class="col-12 col-md-6 col-lg-3">
+            <b>{{'Leave.EditLeaves.Ending' | translate}}:</b>
+            {{detailEmployee.listLeave?.time_End | date: 'HH:mm dd/MM/YYYY'}}
+          </div>
+          <div class="col-12 col-md-6 col-lg-3">
+            <b>{{'Leave.EditLeaves.Days' | translate}}:</b>
+            {{detailEmployee.listLeave?.leaveDay}}
+          </div>
+          <div class="col-12 col-md-6 col-lg-3">
+          </div>
+          <div class="col-12 col-md-6 col-lg-3">
+            <b>{{'Leave.EditLeaves.sendby' | translate}}:</b>
+            {{detailEmployee.listLeave?.empName}}
+          </div>
+          <div class="col-12 col-md-6 col-lg-3">
+            <b>{{'Leave.EditLeaves.sender' | translate}}:</b>
+            {{detailEmployee.listLeave?.approvedBy}}
+          </div>
+          <div class="col-12 col-md-6 col-lg-3">
+            <b>{{'Leave.EditLeaves.Update' | translate}}:</b>
+            {{detailEmployee.listLeave?.time_Applied | date: 'HH:mm dd/MM/YYYY'}}
           </div>
         </div>
       </div>
-      <div class="row Cmttime">
-        <div class="row">
-          <div class="col-12">
+      <div class="row">
+        <div class="col-12 col-lg-6">
+          <div>
             <h5>
-            <i class="fa fa-lightbulb text-warning" aria-hidden="true"></i>{{'Leave.EditLeaves.Timeline' |
-              translate}}:
+              <i class="fa fa-lightbulb text-warning me-1"></i>
+              {{'Leave.EditLeaves.Timeline' | translate}}
             </h5>
+            <div class="px-4">
+              <ul>
+                <ng-container *ngFor="let item of listComment">
+                  <li>
+                    <p class="mb-0">{{item}}</p>
+                  </li>
+                </ng-container>
+              </ul>
+            </div>
           </div>
         </div>
-        <div class="row mt-3">
-          <div class="col-12">
-            <ul>
-              <li *ngFor="let item of listComment;let i =index">
-                {{item}}
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="row Cmttime" *ngIf="detailEmployee.listLeave?.approved == 'Common.Status2'">
-        <div class="row">
-          <div class="col-12">
-            <i class="fa fa-lightbulb text-warning"
-              aria-hidden="true"></i><strong>{{'Leave.EditLeaves.Changetheapplication' | translate}}:</strong>
-          </div>
-        </div>
-        <div class="row mt-3">
-          <div class="col-3">
-            <button class="btn btn-sm btn-success" (click)="confirmEditLeave()">{{'Leave.EditLeaves.Wait' |
-              translate}}</button>
+        <div class="col-12 col-lg-6">
+          <div class="d-flex" *ngIf="detailEmployee.listLeave?.approved == 'Common.Status2'">
+            <h5>
+              <i class="fa fa-lightbulb text-warning me-1"></i>
+              {{'Leave.EditLeaves.Changetheapplication' | translate}}
+            </h5>
+             <button class="btn btn-sm btn-success ms-2"
+                        (click)="confirmEditLeave()">{{'Leave.EditLeaves.Wait' | translate}}</button>
           </div>
         </div>
       </div>

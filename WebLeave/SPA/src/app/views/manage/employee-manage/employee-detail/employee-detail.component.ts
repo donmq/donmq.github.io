@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { BsModalRef, ModalDirective } from 'ngx-bootstrap/modal';
 import { LocalStorageConstants } from '@constants/local-storage.enum';
-import { Employee, EmployeeRedirect } from '@models/manage/employee-manage/employee';
+import { Employee, EmployeeDetalParam, EmployeeRedirect } from '@models/manage/employee-manage/employee';
 import { EmployExport } from '@models/manage/employee-manage/employExport';
 import { LeaveData } from '@models/manage/employee-manage/leaveData';
 import { EmployeeService } from '@services/manage/employee.service';
@@ -26,6 +26,7 @@ export class EmployeeDetailComponent extends InjectBase implements OnInit {
   listCateLog: KeyValuePair[] = [];
   listYear = [];
   searchList: LeaveData[] = [];
+  param: EmployeeDetalParam = <EmployeeDetalParam>{}; 
   pagination: Pagination = <Pagination>{
     pageNumber: 1,
     pageSize: 20
@@ -33,7 +34,8 @@ export class EmployeeDetailComponent extends InjectBase implements OnInit {
   EmployeeId: number;
   CategoryId: number = 0;
   dateIn: Date = null;
-  Year: number = new Date().getFullYear();
+  YearTo: number = new Date().getFullYear();
+  YearFrom: number = new Date().getFullYear();
   lang: string = localStorage.getItem(LocalStorageConstants.LANG).toLowerCase();
   listGroupBase = [];
   listPositionID = [];
@@ -249,10 +251,13 @@ export class EmployeeDetailComponent extends InjectBase implements OnInit {
   }
   //Danh sách search
   searchDetail() {
-    this.Year = this.Year === null ? 2022 : this.Year;
-    this.CategoryId = this.CategoryId === null ? 0 : this.CategoryId;
+    this.param.EmployeeId = this.detailEmployee.empID
+    this.param.YearTo = this.YearTo === null ? new Date().getFullYear() : this.YearTo;
+    this.param.YearFrom = this.YearFrom === null ? new Date().getFullYear() : this.YearFrom;
+    this.param.CategoryId = this.CategoryId === null ? 0 : this.CategoryId;
+    this.param.lang = this.lang;
     this.spinnerService.show();
-    this.employeeService.searchDetail(this.pagination, this.detailEmployee.empID, this.CategoryId, this.Year, this.lang)
+    this.employeeService.searchDetail(this.pagination, this.param)
       .subscribe(
         {
           next: (res) => {
@@ -278,8 +283,12 @@ export class EmployeeDetailComponent extends InjectBase implements OnInit {
     this.CategoryId = args
     this.searchDetail();
   }
-  changeYear(args) {
-    this.Year = args;
+  changeYearTo(args) {
+    this.YearTo = args;
+    this.searchDetail();
+  }
+  changeYearFrom(args) {
+    this.YearFrom = args;
     this.searchDetail();
   }
 

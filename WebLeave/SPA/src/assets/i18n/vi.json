@@ -22,6 +22,7 @@
       "ChangePasswordErrorMsg": "Đổi mật khẩu không thành công",
       "CreateErrorMsg": "Không thêm mới được khi lưu",
       "UpdateErrorMsg": "Không cập nhật được khi lưu",
+      "DuplicateMsg": "Khóa đã tồn tại",
       "DeleteErrorMsg": "Không thể xóa dữ liệu",
       "UploadErrorMsg": "Tải lên không thành công",
       "SendedErrorMsg": "Gửi thư không thành công",
@@ -558,7 +559,10 @@
       "Place": "Tất cả các loại phép",
       "LeaveCatalog": "Tất cả các loại phép",
       "Catalog": "Loại",
+      "Category": "Loại Phép",
       "Year": "Năm",
+      "YearFrom": "Từ Năm",
+      "YearTo": "Đến Năm",
       "No": "Stt",
       "AppliedAt": "Xin phép lúc",
       "LeaveCategory": "Loại phép",
@@ -715,6 +719,7 @@
       "WorkTime": "Thời gian làm việc",
       "LunchTime": "Thời gian nghỉ trưa",
       "Value": "Giá trị",
+      "Shift": "Ca",
       "Visible": "Hiển Thị",
       "Page": "Trang",
       "Start": "Bắt đầu",
@@ -733,7 +738,7 @@
     "ViewData": "Xem dữ liệu",
     "LeaveReport": "Báo cáo nghỉ phép",
     "PermissionRights": "Quyền cấp phép",
-    "AllowLeaveSunday":"Xin phép chủ nhật",
+    "AllowLeaveSunday": "Xin phép chủ nhật",
     "Permission": {
       "STT": "STT",
       "EmpNumber": "Mã Nhân Viên",
@@ -800,9 +805,9 @@
       "UpdateEmp": "Cập Nhật",
       "Ignore": "Ignore",
       "UploadErrorMsg": "Tải lên không thành công, vui lòng kiểm tra lại dữ liệu trong file excel",
-      "DeletedSuccessfully":"Xóa dữ liệu thành công",
-      "EmptyList":"Không có dữ liệu nào được xóa",
-      "DeletedFailed":"Xóa dữ liệu không thành công : "
+      "DeletedSuccessfully": "Xóa dữ liệu thành công",
+      "EmptyList": "Không có dữ liệu nào được xóa",
+      "DeletedFailed": "Xóa dữ liệu không thành công : "
     },
     "SeaHrSeaConfirm": {
       "EmpNumber": "Mã Nhân Viên",
@@ -896,7 +901,7 @@
       "Action": "Action",
       "Text": "Lúc"
     },
-    "SeaHrAllowLeaveSunday":{
+    "SeaHrAllowLeaveSunday": {
       "Title": "Xin phép chủ nhật",
       "Fullname": "Họ & Tên",
       "Department": "Phòng ban",

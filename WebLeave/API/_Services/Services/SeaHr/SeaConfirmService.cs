@@ -307,7 +307,7 @@ namespace API._Services.Services.SeaHr
         public async Task<OperationResult> DownloadExcel(SeaConfirmParam param, PaginationParam pagination)
         {
             var data = await Search(param, pagination, false);
-            data.LeaveData.Result = data.LeaveData.Result.OrderBy(x => x.Time_Start).ToList();
+            // data.LeaveData.Result = data.LeaveData.Result.OrderBy(x => x.Time_Start).ToList();
 
             List<ExportExcelSeaHr> exportParams = new();
 
