@@ -1,0 +1,205 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row border-title">
+            <div class="col-md-12">
+              <strong>{{ title }}</strong>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form class="form-horizontal border-shadow"
+                autocomplete="off">
+            <div class="row ">
+              <!-- Division -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+                <label class="badge badge-warning"> {{"AttendanceMaintenance.OvertimeParameterSetting.Division" | translate }} <span class="text-danger text-bold"> *</span></label>
+                <ng-select name="division"
+                           [(ngModel)]="param.division"
+                           (clear)="deleteProperty('division')"
+                           [clearable]="param.division !== ''"
+                           placeholder='{{"AttendanceMaintenance.OvertimeParameterSetting.Division" | translate }}'
+                           (ngModelChange)="onFactoryChange()">
+                  <ng-option *ngFor="let data of listDivision"
+                             [value]="data.key">{{data.value}}</ng-option>
+                </ng-select>
+              </div>
+
+              <!-- Factory -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+                <label class="badge badge-warning"> {{"AttendanceMaintenance.OvertimeParameterSetting.Factory" | translate }} <span class="text-danger text-bold"> *</span></label>
+                <ng-select name="factory"
+                           [(ngModel)]="param.factory"
+                           (clear)="deleteProperty('factory')"
+                           [clearable]="param.factory !== ''"
+                           placeholder='{{"AttendanceMaintenance.OvertimeParameterSetting.Factory" | translate }}'
+                           [disabled]="!param.division">
+                  <ng-option *ngFor="let data of listFactory"
+                             [value]="data.key">{{data.value}}</ng-option>
+                </ng-select>
+              </div>
+
+              <!-- WorkShiftType -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+                <label class="badge badge-warning"> {{"AttendanceMaintenance.OvertimeParameterSetting.WorkShiftType" | translate }} </label>
+                <ng-select name="work_Shift_Type"
+                           [(ngModel)]="param.work_Shift_Type"
+                           [clearable]="param.work_Shift_Type !== ''"
+                           (clear)="deleteProperty('work_Shift_Type')"
+                           placeholder='{{"AttendanceMaintenance.OvertimeParameterSetting.WorkShiftType" | translate }}'>
+                  <ng-option *ngFor="let data of listWorkShiftType"
+                             [value]="data.key">{{data.value}}</ng-option>
+                </ng-select>
+              </div>
+              <!-- EffectiveMonth -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+                <label class="badge badge-warning"> {{"AttendanceMaintenance.OvertimeParameterSetting.EffectiveMonth" | translate }} </label>
+                <div class="full-width">
+                  <div class="container_date">
+                    <div class="input-group mr-1">
+                      <input autocomplete="off"
+                             (keydown.backspace)="effective_Month_Value = null"
+                             onpaste="return false;"
+                             type="text"
+                             placeholder='YYYY/MM'
+                             class="form-control bg-white"
+                             name="effective_Date_value"
+                             [(ngModel)]="effective_Month_Value"
+                             bsDatepicker
+                             [bsConfig]="{ isAnimated: true,  minMode: 'month' ,dateInputFormat: 'YYYY/MM' }" />
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="col-12 p-0">
+              <label class="d-block">&nbsp;</label>
+              <button type="submit"
+                      class="btn btn-primary mt-1 mr-1"
+                      (click)="search(true)"
+                      *ngIf="functionUtility.checkFunction('Search')"
+                      [disabled]="param.division == null || param.factory == null">
+                <i class="{{ iconButton.SEARCH }}"></i> {{"System.Action.Search" | translate }}
+              </button>
+              <button type="button"
+                      class="btn btn-danger mt-1 mr-1"
+                      (click)="clear(true)">
+                <i class="{{ iconButton.CLEAR }}"></i> {{"System.Action.Clear" | translate }}
+              </button>
+              <button type="button"
+                      (click)="add()"
+                      class="btn btn-success mt-1 mr-1"
+                      *ngIf="functionUtility.checkFunction('Add')">
+                <i class="{{ iconButton.ADD }}"></i> {{"System.Action.Add" | translate }}
+              </button>
+              <label class="btn btn-success mt-1 mr-1 btn-upload"
+                     *ngIf="functionUtility.checkFunction('Upload')">
+                <i [class]="iconButton.UPLOAD"></i> {{"System.Action.Upload" | translate }}
+                <input #inputRef
+                       type="file"
+                       name="upload"
+                       (change)="upload($event)"
+                       class="input-upload">
+              </label>
+              <button type="submit"
+                      class="btn btn-success mt-1 mr-1"
+                      id="excel"
+                      (click)="download()"
+                      *ngIf="functionUtility.checkFunction('Excel')">
+                <i class="{{iconButton.EXCEL}}"></i> {{"System.Action.Excel" | translate }}
+              </button>
+              <button type="submit"
+                      class="btn btn-primary mt-1"
+                      id="excel"
+                      (click)="downloadExcelTemplate()"
+                      *ngIf="functionUtility.checkFunction('Upload')">
+                <i class="{{iconButton.EXCEL}}"></i>
+                {{'System.Action.ExcelTemplate' | translate }}
+              </button>
+            </div>
+          </form>
+          <div class="row justify-content-md-center">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th class="text-center"
+                          *ngIf="functionUtility.checkFunction('Edit')">{{"System.Action.Operation" | translate }}</th>
+                      <th class="text-center">{{"AttendanceMaintenance.OvertimeParameterSetting.WorkShiftType" | translate }}</th>
+                      <th class="text-center">{{"AttendanceMaintenance.OvertimeParameterSetting.OvertimeTime(Start)" | translate }}</th>
+                      <th class="text-center">{{"AttendanceMaintenance.OvertimeParameterSetting.OvertimeTime(End)" | translate }}</th>
+                      <th class="text-center">{{"AttendanceMaintenance.OvertimeParameterSetting.OvertimeHour(s)" | translate }}</th>
+                      <th class="text-center">{{"AttendanceMaintenance.OvertimeParameterSetting.NightHours(End)" | translate }} </th>
+                      <th class="text-center">{{"AttendanceMaintenance.OvertimeParameterSetting.EffectiveMonth" | translate }} </th>
+                      <th class="text-center">{{"AttendanceMaintenance.OvertimeParameterSetting.UpdateBy" | translate }} </th>
+                      <th class="text-center">{{"AttendanceMaintenance.OvertimeParameterSetting.UpdateTime" | translate }} </th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="data.length > 0; else dataNotFound">
+                    <tr *ngFor="let item of data">
+                      <td class="text-center"
+                          *ngIf="functionUtility.checkFunction('Edit')">
+                        <button type="button"
+                                (click)="edit(item)"
+                                class="btn btn-sm btn-warning ml-2">
+                          <i class="{{ iconButton.EDIT }}"></i> <span>{{"System.Action.Edit" | translate }}</span>
+                        </button>
+                      </td>
+                      <td class="text-center">{{ functionUtility.checkEmpty(item.work_Shift_Type_Name) ? item.work_Shift_Type : item.work_Shift_Type + '-' + item.work_Shift_Type_Name }}</td>
+                      <td class="text-center">{{ item.overtime_Start }}</td>
+                      <td class="text-center">{{ item.overtime_End }}</td>
+                      <td class="text-center">{{ item.overtime_Hours }}</td>
+                      <td class="text-center">{{ item.night_Hours }}</td>
+                      <td class="text-center">{{ item.effective_Month | date : 'yyyy/MM' }}</td>
+                      <td class="text-center">{{ item.update_By }}</td>
+                      <td class="text-center">{{ item.update_Time | date : 'yyyy/MM/dd HH:mm:ss' }}</td>
+                    </tr>
+                  </tbody>
+                  <ng-template #dataNotFound>
+                    <tbody>
+                      <tr>
+                        <td colspan="100%"
+                            class="table-warning text-center font-weight-bold">
+                          {{"System.Message.Nodata" | translate }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </ng-template>
+                </table>
+              </div>
+              <div class="row">
+                <div class="col-8">
+                  <div class="d-flex"
+                       *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                    <pagination [boundaryLinks]="true"
+                                [totalItems]="pagination.totalCount"
+                                [itemsPerPage]="pagination.pageSize"
+                                previousText="&lsaquo;"
+                                nextText="&rsaquo;"
+                                firstText="&laquo;"
+                                lastText="&raquo;"
+                                [maxSize]="5"
+                                [(ngModel)]="pagination.pageNumber"
+                                (pageChanged)="pageChanged($event)">
+                    </pagination>
+                    <span class="cs-page ml-2"> Page - {{ pagination.pageNumber }} / {{ pagination.totalPage }}</span>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <span class="cs-page float-right ">{{'System.Rows' | translate }} : {{pagination.totalCount}}</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

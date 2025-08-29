@@ -1,0 +1,406 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off"
+              #mainForm="ngForm">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">{{ title }}</strong>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row border-shadow">
+              <!-- Division -->
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3 mt-2">
+                <label class="badge badge-warning">
+                  {{"EmployeeInformationModule.ContractManagement.Division" | translate}}
+                  <span class="text-danger text-bold"> *</span>
+                </label>
+                <ng-select name="division"
+                           [(ngModel)]="param.division"
+                           (ngModelChange)="onSelectDivision()"
+                           (clear)="deleteProperty('division')"
+                           [clearable]="param.division != ''"
+                           placeholder="{{'EmployeeInformationModule.ContractManagement.Division' | translate}}"
+                           required>
+                  <ng-option *ngFor="let item of division"
+                             value="{{ item.key }}">{{ item.key }} - {{ item.value }}</ng-option>
+                </ng-select>
+              </div>
+              <!-- Factory -->
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3 mt-2">
+                <label class="badge badge-warning">
+                  {{"EmployeeInformationModule.ContractManagement.Factory" | translate}}
+                  <span class="text-danger text-bold"> *</span>
+                </label>
+                <ng-select name="factory"
+                           [(ngModel)]="param.factory"
+                           (ngModelChange)="onSelectFactory()"
+                           (clear)="deleteProperty('factory')"
+                           [clearable]="param.factory != ''"
+                           placeholder="{{'EmployeeInformationModule.ContractManagement.Factory' | translate}}"
+                           required>
+                  <ng-option *ngFor="let item of factory"
+                             value="{{ item.key }}">{{ item.key }} - {{item.value}}</ng-option>
+                </ng-select>
+              </div>
+              <!-- EmployeeID -->
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3 mt-2">
+                <label class="badge badge-warning">{{"EmployeeInformationModule.ContractManagement.EmployeeID" |
+                  translate}}</label>
+                <div class="full-width">
+                  <div class="container_date">
+                    <div class="input-group mr-1">
+                      <input autocomplete="off"
+                             type="text"
+                             placeholder="{{'EmployeeInformationModule.ContractManagement.EmployeeID' | translate}}"
+                             class="form-control"
+                             name="employeeID"
+                             maxlength="100"
+                             [(ngModel)]="param.employeeID" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- LocalFullName -->
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3 mt-2">
+                <label class="badge badge-warning">{{'EmployeeInformationModule.ContractManagement.LocalFullName' |
+                  translate}}</label>
+                <div class="full-width">
+                  <div class="container_date">
+                    <div class="input-group mr-1">
+                      <input autocomplete="off"
+                             type="text"
+                             placeholder="{{'EmployeeInformationModule.ContractManagement.LocalFullName' | translate}}"
+                             class="form-control"
+                             name="localFullName"
+                             maxlength="100"
+                             [(ngModel)]="param.localFullName" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Department -->
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3 mt-2">
+                <label class="badge badge-warning">
+                  {{"EmployeeInformationModule.ContractManagement.Department" | translate}}
+                </label>
+                <ng-select name="department"
+                           [(ngModel)]="param.department"
+                           (clear)="deleteProperty('department')"
+                           [clearable]="param.department != ''"
+                           placeholder="{{'EmployeeInformationModule.ContractManagement.Department' | translate}}">
+                  <ng-option *ngFor="let item of department"
+                             value="{{ item.key }}">{{ item.value }}</ng-option>
+                </ng-select>
+              </div>
+              <!-- ContractType -->
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3 mt-2">
+                <label class="badge badge-warning">
+                  {{"EmployeeInformationModule.ContractManagement.ContractType" | translate}}
+                </label>
+                <ng-select name="contractType"
+                           [(ngModel)]="param.contractType"
+                           (clear)="deleteProperty('contractType')"
+                           [clearable]="param.contractType != ''"
+                           placeholder="{{'EmployeeInformationModule.ContractManagement.ContractType' | translate}}">
+                  <ng-option *ngFor="let item of contractType"
+                             value="{{ item.key }}">{{ item.key }} - {{
+                    item.value}}</ng-option>
+                </ng-select>
+              </div>
+              <!-- Onboard Date -->
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3 mt-2">
+                <label class="badge badge-warning"> {{'EmployeeInformationModule.ContractManagement.OnboardDate'|translate}}</label>
+                <div class="full-width">
+                  <div class="container_input">
+                    <div class="input-group mr-1">
+                      <input type="text"
+                             autocomplete="off"
+                             class="form-control"
+                             bsDatepicker
+                             name="onboard_Date_From"
+                             [(ngModel)]="param.onboard_Date_From_Date"
+                             [bsConfig]="bsConfig"
+                             (ngModelChange)="onChangeOnboardFrom()"
+                             placeholder="YYYY/MM/DD"
+                             [maxDate]="param.onboard_Date_To_Date" />
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                      </div>
+                    </div>
+                    <div class="input-group ml-1">
+                      <input type="text"
+                             autocomplete="off"
+                             class="form-control"
+                             bsDatepicker
+                             name="onboard_Date_To"
+                             [(ngModel)]="param.onboard_Date_To_Date"
+                             [bsConfig]="bsConfig"
+                             (ngModelChange)="onChangeOnboardTo()"
+                             placeholder="YYYY/MM/DD"
+                             [minDate]="param.onboard_Date_From_Date" />
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Contract End Date -->
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3 mt-2">
+                <label class="badge badge-warning">{{'EmployeeInformationModule.ContractManagement.ContractExpirationDate'| translate}} </label>
+                <div class="full-width">
+                  <div class="container_input">
+                    <div class="input-group mr-1">
+                      <input type="text"
+                             autocomplete="off"
+                             class="form-control"
+                             bsDatepicker
+                             name="contract_End_From"
+                             [(ngModel)]="param.contract_End_From_Date"
+                             [bsConfig]="bsConfig"
+                             (blur)="onChangeContractFrom()"
+                             placeholder="YYYY/MM/DD"
+                             [maxDate]="param.contract_End_To_Date" />
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                      </div>
+                    </div>
+                    <div class="input-group ml-1">
+                      <input type="text"
+                             autocomplete="off"
+                             class="form-control"
+                             bsDatepicker
+                             name="contract_End_To"
+                             [(ngModel)]="param.contract_End_To_Date"
+                             [bsConfig]="bsConfig"
+                             (blur)="onChangeContractTo()"
+                             placeholder="YYYY/MM/DD"
+                             [minDate]="param.contract_End_From_Date" />
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Probation End Date -->
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3 mt-2">
+                <label class="badge badge-warning">{{'EmployeeInformationModule.ContractManagement.ProbationEndDate'| translate}}</label>
+                <div class="full-width">
+                  <div class="container_input">
+                    <div class="input-group mr-1">
+                      <input type="text"
+                             autocomplete="off"
+                             class="form-control"
+                             bsDatepicker
+                             name="contract_End_From"
+                             [(ngModel)]="param.probation_End_From_Date"
+                             [bsConfig]="bsConfig"
+                             (blur)="onChangeProbationFrom()"
+                             placeholder="YYYY/MM/DD"
+                             [maxDate]="param.probation_End_To_Date" />
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                      </div>
+                    </div>
+                    <div class="input-group ml-1">
+                      <input type="text"
+                             autocomplete="off"
+                             class="form-control"
+                             bsDatepicker
+                             name="contract_End_To"
+                             [(ngModel)]="param.probation_End_To_Date"
+                             [bsConfig]="bsConfig"
+                             (blur)="onChangeProbationTo()"
+                             placeholder="YYYY/MM/DD"
+                             [minDate]="param.probation_End_From_Date" />
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Effective Status -->
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3 mt-2 pb-0">
+                <label class="badge badge-warning">{{'EmployeeInformationModule.ContractManagement.EffectiveStatus' | translate}}</label>
+                <div class="row pl-3">
+                  <div *ngFor="let item of key; index as i">
+                    <label class="container">
+                      <div class="row">
+                        <div class="custom-control custom-radio pt-2">
+                          <input id="effectiveStatus-{{i}}"
+                                 class="custom-control-input"
+                                 type="radio"
+                                 name="effectiveStatus-{{i}}"
+                                 [(ngModel)]="param.effectiveStatus"
+                                 [value]="item.key" />
+                          <p class="custom-control-label"
+                             for="effectiveStatus-{{i}}"> <strong>{{ item.value | translate }} </strong></p>
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 custom-col mt-2">
+                <label class="d-block">&nbsp;</label>
+                <button type="submit"
+                        (click)="search(true)"
+                        class="btn btn-primary mr-2"
+                        [disabled]="!mainForm.valid"
+                        *ngIf="functionUtility.checkFunction('Search')">
+                  <i class="{{ iconButton.SEARCH }}"></i>
+                  {{ "System.Action.Search" | translate }}
+                </button>
+                <button type="button"
+                        (click)="clear()"
+                        class="btn btn-danger mr-2">
+                  <i class="{{ iconButton.CLEAR }}"></i>
+                  {{ "System.Action.Clear" | translate }}
+                </button>
+                <button type="button"
+                        (click)="onAdd()"
+                        class="btn btn-success"
+                        *ngIf="functionUtility.checkFunction('Add')">
+                  <i class="{{ iconButton.ADD }}"></i>
+                  {{ "System.Action.Add" | translate }}
+                </button>
+              </div>
+            </div>
+            <div class="row justify-content-md-center">
+              <div class="col-xl-12 col-xxl-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th class="text-center-vertical"
+                            [attr.colspan]="functionUtility.getColspan(['Edit','Delete'])"
+                            *ngIf="functionUtility.checkFunction('Delete') || functionUtility.checkFunction('Edit')">{{
+                          "System.Action.Operation" | translate }}
+                        </th>
+                        <th class="text-center-vertical">{{"EmployeeInformationModule.ContractManagement.EmployeeID" |
+                          translate }}</th>
+                        <th class="text-center-vertical">{{"EmployeeInformationModule.ContractManagement.LocalFullName" |
+                          translate}}</th>
+                        <th class="text-center-vertical">{{"EmployeeInformationModule.ContractManagement.OnboardDate" |
+                          translate}}</th>
+                        <th class="text-center-vertical">{{"EmployeeInformationModule.ContractManagement.Seq" |
+                          translate}}</th>
+                        <th class="text-center-vertical">{{"EmployeeInformationModule.ContractManagement.ContractType"|
+                          translate}}</th>
+                        <th class="text-center-vertical">{{"EmployeeInformationModule.ContractManagement.ContractTitle"|
+                          translate}}</th>
+                        <th class="text-center-vertical">
+                          {{"EmployeeInformationModule.ContractManagement.ContractStartDate"| translate}}</th>
+                        <th class="text-center-vertical">{{"EmployeeInformationModule.ContractManagement.ContractEndDate"|
+                          translate}}</th>
+                        <th class="text-center-vertical">{{"EmployeeInformationModule.ContractManagement.EffectiveStatus"|
+                          translate}}</th>
+                        <th class="text-center-vertical">
+                          {{"EmployeeInformationModule.ContractManagement.ProbationStartDate"| translate}}</th>
+                        <th class="text-center-vertical">
+                          {{"EmployeeInformationModule.ContractManagement.ProbationEndDate"| translate}}</th>
+                        <th class="text-center-vertical">
+                          {{"EmployeeInformationModule.ContractManagement.AssessmentResult"| translate}}</th>
+                        <th class="text-center-vertical">{{"EmployeeInformationModule.ContractManagement.ExtendTo"|
+                          translate}}</th>
+                        <th class="text-center-vertical">{{"EmployeeInformationModule.ContractManagement.Reason"|
+                          translate}}</th>
+                        <th class="text-center-vertical">{{"EmployeeInformationModule.ContractManagement.UpdateBy"|
+                          translate}}</th>
+                        <th class="text-center-vertical">{{"EmployeeInformationModule.ContractManagement.UpdateTime"|
+                          translate}}</th>
+                      </tr>
+                    </thead>
+                    <tbody *ngIf="data?.length > 0; else elseTemplate">
+                      <tr *ngFor="let item of data">
+                        <td class="text-center-vertical width-operation"
+                            *ngIf="functionUtility.checkFunction('Edit')">
+                          <button type="button"
+                                  class="btn btn-warning btn-sm"
+                                  (click)="onEdit(item)">
+                            <i class="{{ iconButton.EDIT }}"></i>
+                            {{ "System.Action.Edit" | translate }}
+                          </button>
+                        </td>
+                        <td class="text-center-vertical width-operation"
+                            *ngIf="functionUtility.checkFunction('Delete')">
+                          <button type="button"
+                                  class="btn btn-danger btn-sm"
+                                  (click)="onDelete(item)">
+                            <i class="{{iconButton.DELETE}}"></i>
+                            {{'System.Action.Delete' | translate}}
+                          </button>
+                        </td>
+                        <td class="text-center-vertical">{{ item.employee_ID }}</td>
+                        <td class="text-center-vertical">{{ item.local_Full_Name }}</td>
+                        <td class="text-center-vertical">{{ item.onboard_Date | date : "yyyy/MM/dd"}}</td>
+                        <td class="text-center-vertical">{{ item.seq }}</td>
+                        <td class="text-center-vertical">{{ item.contract_Type }}</td>
+                        <td class="text-center-vertical">{{ item.contract_Title }}</td>
+                        <td class="text-center-vertical">{{ item.contract_Start}}</td>
+                        <td class="text-center-vertical">{{ item.contract_End}}</td>
+                        <td class="text-center-vertical">{{ item.effective_Status == true ? "Y" : "N" }}</td>
+                        <td class="text-center-vertical">{{ item.probation_Start}}</td>
+                        <td class="text-center-vertical">{{ item.probation_End}}</td>
+                        <td class="text-center-vertical">{{ item.assessment_Result_Name }}</td>
+                        <td class="text-center-vertical">{{ item.extend_to}}</td>
+                        <td class="text-center-vertical">{{ item.reason }}</td>
+                        <td class="text-center-vertical">{{ item.update_By }}</td>
+                        <td class="text-center-vertical">{{ item.update_Time | date : "yyyy/MM/dd"}}</td>
+                      </tr>
+                    </tbody>
+                    <ng-template #elseTemplate>
+                      <tbody>
+                        <tr>
+                          <td colspan="100%"
+                              class="table-warning text-center-vertical font-weight-bold">
+                            {{ "System.Message.Nodata" | translate }}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </ng-template>
+                  </table>
+                </div>
+                <div class="row">
+                  <div class=" col-8">
+                    <div class="d-flex"
+                         *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                      <pagination name="pagination"
+                                  [boundaryLinks]="true"
+                                  [maxSize]="5"
+                                  [totalItems]="pagination.totalCount"
+                                  [itemsPerPage]="pagination.pageSize"
+                                  (pageChanged)="pageChanged($event)"
+                                  [(ngModel)]="pagination.pageNumber"
+                                  previousText="&lsaquo;"
+                                  nextText="&rsaquo;"
+                                  firstText="&laquo;"
+                                  lastText="&raquo;">
+                      </pagination>
+                      <span class="cs-page ml-2">
+                        Page - {{pagination.pageNumber}} / {{pagination.totalPage}}
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <span class="cs-page float-right ">{{"System.Rows" | translate}} : {{pagination.totalCount ??
+                      0}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <app-modal></app-modal>
+</div>

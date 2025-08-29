@@ -1,0 +1,8 @@
+.btn-upload {
+    cursor: pointer !important;
+    margin-bottom: 0 !important;
+}
+
+.input-upload {
+    display: none !important;
+}

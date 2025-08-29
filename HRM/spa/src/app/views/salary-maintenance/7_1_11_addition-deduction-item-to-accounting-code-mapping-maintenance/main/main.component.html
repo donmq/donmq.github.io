@@ -1,0 +1,164 @@
+<div class="animated fadeIn">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong>{{ title }}</strong>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <form class="form-horizontal border-shadow"
+                  autocomplete="off"
+                  #mainForm="ngForm">
+              <div class="row">
+                <!-- Factory -->
+                <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <label for="factory"
+                         class="badge badge-warning">
+                    {{ "SalaryMaintenance.AdditionDeductionItemToAccountingCodeMappingMaintenance.Factory" | translate }}
+                    <span class="text-danger text-bold"> *</span>
+                  </label>
+                  <ng-select id="factory"
+                             name="factory"
+                             [(ngModel)]="param.factory"
+                             placeholder="{{'SalaryMaintenance.AdditionDeductionItemToAccountingCodeMappingMaintenance.Factory' | translate }}"
+                             [clearable]="param.factory != ''"
+                             (clear)="deleteProperty('factory')"
+                             required>
+                    <ng-option *ngFor="let data of listFactory"
+                               [value]="data.key">{{ data.value }}</ng-option>
+                  </ng-select>
+                </div>
+                <!-- Button -->
+                <div class="col">
+                  <label class="d-block">&nbsp;</label>
+                  <button *ngIf="functionUtility.checkFunction('Search')"
+                          [disabled]="!mainForm.valid"
+                          type="button"
+                          class="btn btn-primary"
+                          (click)="search(true)">
+                    <i class="{{ iconButton.SEARCH }}"></i>
+                    {{ "System.Action.Search" | translate }}
+                  </button>
+                  <button type="button"
+                          class="btn btn-danger ml-1"
+                          (click)="clear()">
+                    <i class="{{ iconButton.CLEAR }}"></i>
+                    {{ "System.Action.Clear" | translate }}
+                  </button>
+                  <button *ngIf="functionUtility.checkFunction('Add')"
+                          type="button"
+                          class="btn btn-success ml-1"
+                          (click)="add()">
+                    <i class="{{ iconButton.ADD }}"></i>
+                    {{ "BasicMaintenance.2_6_GradeMaintenance.Add" | translate }}
+                  </button>
+                </div>
+              </div>
+            </form>
+            <div class="row justify-content-md-center">
+              <div class="col-12">
+                <div class="table-responsive">
+                  <drag-scroll id="dragscroll"
+                               (dragStart)="functionUtility.setTextSelector(false)"
+                               (dragEnd)="functionUtility.setTextSelector(true)">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr class="text-center">
+                          <th *ngIf="functionUtility.checkFunction('Edit') || functionUtility.checkFunction('Delete')"
+                              class="text-center"
+                              [attr.colspan]="functionUtility.getColspan(['Delete','Edit'])">
+                            {{ "System.Action.Operation" | translate }}
+                          </th>
+                          <th> {{ "SalaryMaintenance.AdditionDeductionItemToAccountingCodeMappingMaintenance.Factory"| translate}} </th>
+                          <th> {{ "SalaryMaintenance.AdditionDeductionItemToAccountingCodeMappingMaintenance.AddtionDedtionItem"| translate}} </th>
+                          <th> {{ "SalaryMaintenance.AdditionDeductionItemToAccountingCodeMappingMaintenance.MainAccount"| translate}} </th>
+                          <th> {{ "SalaryMaintenance.AdditionDeductionItemToAccountingCodeMappingMaintenance.SubAccount"| translate}} </th>
+                          <th> {{ "SalaryMaintenance.AdditionDeductionItemToAccountingCodeMappingMaintenance.UpdateBy"| translate}} </th>
+                          <th> {{ "SalaryMaintenance.AdditionDeductionItemToAccountingCodeMappingMaintenance.UpdateTime"| translate}} </th>
+                        </tr>
+                      </thead>
+                      <tbody *ngIf="dataMain?.length > 0; else elseTemplate">
+                        <tr *ngFor="let item of dataMain;let i =index"
+                            class="text-center">
+                          <!-- Item view -->
+                          <ng-container *ngIf="!item.isEdit">
+                            <td class="text-center"
+                                *ngIf="functionUtility.checkFunction('Edit')">
+                              <button type="button"
+                                      name="btnEdit"
+                                      class="btn btn-warning btn-sm text-dark"
+                                      (click)="edit(item)">
+                                <i class="{{ iconButton.EDIT }}"></i>
+                                {{ "System.Action.Edit" | translate }}
+                              </button>
+                            </td>
+                            <td class="text-center"
+                                *ngIf="functionUtility.checkFunction('Delete')">
+                              <button type="button"
+                                      name="btnDelete"
+                                      class="btn btn-danger btn-sm"
+                                      (click)="onDelete(item, true)">
+                                <i class="{{ iconButton.DELETE }}"></i>
+                                {{ "System.Action.Delete" | translate }}
+                              </button>
+                            </td>
+                            <td>{{ item?.factory }}</td>
+                            <td>{{ item?.addDed_Item_Title }}</td>
+                            <td>{{ item?.main_Acc }}</td>
+                            <td>{{ item?.sub_Acc }}</td>
+                            <td>{{ item?.update_By }}</td>
+                            <td>{{ item?.update_Time | date : "YYYY/MM/dd" }}</td>
+                          </ng-container>
+                        </tr>
+                      </tbody>
+                      <ng-template #elseTemplate>
+                        <tbody>
+                          <tr class="no-data">
+                            <td colspan="100%"
+                                class="table-warning text-center font-weight-bold">
+                              {{ "System.Message.Nodata" | translate }}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </ng-template>
+                    </table>
+                  </drag-scroll>
+                </div>
+                <div class="row  mt-3">
+                  <div class="col-8">
+                    <div class="d-flex"
+                         *ngIf="dataMain?.length > 0  && pagination.totalPage > 0">
+                      <pagination name="pagination"
+                                  [boundaryLinks]="true"
+                                  [totalItems]="pagination.totalCount"
+                                  [itemsPerPage]="pagination.pageSize"
+                                  previousText="&lsaquo;"
+                                  [(ngModel)]="pagination.pageNumber"
+                                  (pageChanged)="pageChanged($event)"
+                                  nextText="&rsaquo;"
+                                  firstText="&laquo;"
+                                  lastText="&raquo;"
+                                  [maxSize]="5">
+                      </pagination>
+                      <span class="cs-page ml-2">
+                        Page - {{ pagination.pageNumber }} /
+                        {{ pagination.totalPage }}</span>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <span class="cs-page float-right">{{ "System.Rows" | translate }} :
+                      {{ pagination.totalCount }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

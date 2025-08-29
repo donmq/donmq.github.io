@@ -1,0 +1,281 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off"
+              #mainForm="ngForm">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">{{ title }}</strong>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row border-shadow">
+              <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                <label class="badge badge-warning">{{'AttendanceMaintenance.ShiftManagementProgram.Division' | translate }}<span class="text-danger">
+                    *</span></label>
+                <ng-select name="division"
+                           [(ngModel)]="param.division"
+                           (clear)="deleteProperty('division')"
+                           (ngModelChange)="onDivisionChange()"
+                           [clearable]="param.division !== ''"
+                           placeholder="{{'AttendanceMaintenance.ShiftManagementProgram.Division' | translate }}"
+                           required>
+                  <ng-option *ngFor="let item of divisionList"
+                             [value]="item.key">{{ item.value }}</ng-option>
+                </ng-select>
+              </div>
+              <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                <label class="badge badge-warning">{{'AttendanceMaintenance.ShiftManagementProgram.Factory' | translate }}<span class="text-danger">
+                    *</span></label>
+                <ng-select name="factory"
+                           [(ngModel)]="param.factory"
+                           (clear)="deleteProperty('factory')"
+                           [clearable]="param.factory !== ''"
+                           [disabled]="!param.division"
+                           (ngModelChange)="getListDepartment()"
+                           placeholder="{{'AttendanceMaintenance.ShiftManagementProgram.Factory' | translate }}"
+                           required>
+                  <ng-option *ngFor="let item of factoryList"
+                             [value]="item.key">{{ item.value }}</ng-option>
+                </ng-select>
+              </div>
+              <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                <label class="badge badge-warning">{{'AttendanceMaintenance.ShiftManagementProgram.WorkShiftTypeNew' | translate }}</label>
+                <ng-select name="work_Shift_Type_New"
+                           [(ngModel)]="param.work_Shift_Type_New"
+                           (clear)="deleteProperty('work_Shift_Type_New')"
+                           [clearable]="param.work_Shift_Type_New !== ''"
+                           placeholder="{{'AttendanceMaintenance.ShiftManagementProgram.WorkShiftTypeNew' | translate }}">
+                  <ng-option *ngFor="let item of workShiftTypeNewList"
+                             [value]="item.key">{{ item.value }}</ng-option>
+                </ng-select>
+              </div>
+              <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                <label class="badge badge-warning">{{'AttendanceMaintenance.ShiftManagementProgram.EffectiveDate' | translate }}</label>
+                <div class="full-width">
+                  <div class="container_input">
+                    <div class="input-group ml-1">
+                      <input type="text"
+                             autocomplete="off"
+                             placeholder="YYYY/MM/DD"
+                             name="effective_Date"
+                             [bsConfig]="bsConfig"
+                             class="form-control"
+                             bsDatepicker
+                             [(ngModel)]="param.effective_Date"
+                             (ngModelChange)="onDateChange('effective_Date')"
+                             onpaste="return false" />
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Department -->
+              <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                <label for="department"
+                       class="badge badge-warning">
+                  {{ "AttendanceMaintenance.ShiftManagementProgram.Department" | translate }}
+                </label>
+                <ng-select id="department"
+                           name="department"
+                           [(ngModel)]="param.department"
+                           [clearable]="param.department != ''"
+                           placeholder="{{'AttendanceMaintenance.ShiftManagementProgram.Department' | translate }}"
+                           (clear)="deleteProperty('department')"
+                           [disabled]="!param.factory">
+                  <ng-option *ngFor="let data of departmentList"
+                             [value]="data.key">
+                    {{ data.value }}
+                  </ng-option>
+                </ng-select>
+              </div>
+              <!-- Employee ID -->
+              <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                <label for="employeeID"
+                       class="badge badge-warning">
+                  {{ "AttendanceMaintenance.ShiftManagementProgram.EmployeeID" | translate }}
+                </label>
+                <input type="text"
+                       class="form-control"
+                       id="employeeID"
+                       name="employeeID"
+                       maxlength="10"
+                       [(ngModel)]="param.employee_Id"
+                       placeholder="{{'AttendanceMaintenance.LeaveRecordModificationMaintenance.EmployeeID'| translate}}"
+                       autocomplete="off" />
+              </div>
+              <!-- Button -->
+              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <label class="d-block">&nbsp;</label>
+                <button type="submit"
+                        class="{{classButton.SEARCH}}"
+                        (click)="search()"
+                        *ngIf="functionUtility.checkFunction('Search')"
+                        [disabled]="!mainForm.valid">
+                  <i class="{{ iconButton.SEARCH }}"></i> {{'System.Action.Search' | translate }}
+                </button>
+                <button type="submit"
+                        class="{{classButton.CLEAR}}"
+                        (click)="clear()">
+                  <i class="{{ iconButton.CLEAR }}"></i> {{'System.Action.Clear' | translate }}
+                </button>
+                <button type="submit"
+                        class="{{classButton.CLEAR}}"
+                        (click)="batchDelete()"
+                        *ngIf="functionUtility.checkFunction('Delete')"
+                        [disabled]="selectedDatas.length == 0">
+                  <i class="{{ iconButton.DELETE }}"></i> {{'System.Action.BatchDelete' | translate }}
+                </button>
+                <button type="button"
+                        class="{{classButton.ADD}}"
+                        (click)="add()"
+                        *ngIf="functionUtility.checkFunction('Add')">
+                  <i class="{{ iconButton.ADD }}"></i> {{'System.Action.Add' | translate }}
+                </button>
+                <label type="button"
+                       class="{{classButton.UPLOAD}}"
+                       style="cursor: pointer; margin-bottom: 0"
+                       *ngIf="functionUtility.checkFunction('Upload')">
+                  <i [class]="iconButton.UPLOAD"></i>
+                  {{'System.Action.Upload'| translate }}
+                  <input #inputRef
+                         type="file"
+                         name="upload"
+                         style="display: none"
+                         (change)="upload($event)" />
+                </label>
+                <button type="button"
+                        class="{{ classButton.SEARCH}}"
+                        (click)="downloadTemplate()"
+                        *ngIf="functionUtility.checkFunction('Upload')">
+                  <i class="{{ iconButton.EXCEL }}"></i>
+                  {{'System.Action.ExcelTemplate' | translate }}
+                </button>
+              </div>
+            </div>
+            <div class="row justify-content-md-center">
+              <div class="col-lg-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th class="text-center"
+                            *ngIf="functionUtility.checkFunction('Delete')">
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox"
+                                   class="custom-control-input"
+                                   id="checkAll"
+                                   autocomplete="off"
+                                   name="checkAll"
+                                   [(ngModel)]="isCheckedAll"
+                                   (change)="checkAll()"
+                                   [disabled]="data.length == 0">
+                            <label class="custom-control-label"
+                                   for="checkAll"></label>
+                          </div>
+                        </th>
+                        <th class="text-center"
+                            *ngIf="functionUtility.checkFunction('Edit')">{{ "System.Action.Operation" | translate }}</th>
+                        <th class="text-center">{{'AttendanceMaintenance.ShiftManagementProgram.EmployeeID' | translate }}</th>
+                        <th class="text-center">{{'AttendanceMaintenance.ShiftManagementProgram.LocalFullName' | translate }}</th>
+                        <th class="text-center">{{'AttendanceMaintenance.ShiftManagementProgram.Department' | translate }}</th>
+                        <th class="text-center">{{'AttendanceMaintenance.ShiftManagementProgram.WorkShiftTypeOld' | translate }}</th>
+                        <th class="text-center">{{'AttendanceMaintenance.ShiftManagementProgram.WorkShiftTypeNew' | translate }}</th>
+                        <th class="text-center">{{'AttendanceMaintenance.ShiftManagementProgram.EffectiveDate' | translate }}</th>
+                        <th class="text-center">{{'AttendanceMaintenance.ShiftManagementProgram.EffectiveState' | translate }}</th>
+                        <th class="text-center">{{'AttendanceMaintenance.ShiftManagementProgram.UpdateBy' | translate }}</th>
+                        <th class="text-center">{{'AttendanceMaintenance.ShiftManagementProgram.UpdateTime' | translate }}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <ng-container *ngIf="data?.length > 0; then dataTemplate else nodata"></ng-container>
+                    </tbody>
+                    <ng-template #dataTemplate>
+                      <tr [ngClass]="{'table-warning': item.isChecked, 'table-active': item.effective_State}"
+                          *ngFor="let item of data; index as i">
+                        <td class="text-center"
+                            *ngIf="functionUtility.checkFunction('Delete')">
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox"
+                                   class="custom-control-input"
+                                   id="{{'checkBox' + i}}"
+                                   autocomplete="off"
+                                   name="{{'checkBox' + i}}"
+                                   [(ngModel)]="item.isChecked"
+                                   (change)="check()"
+                                   [disabled]="item.effective_State">
+                            <label class="custom-control-label"
+                                   for="{{'checkBox'+ i}}"></label>
+                          </div>
+                        </td>
+                        <td class="text-center"
+                            *ngIf="functionUtility.checkFunction('Edit')">
+                          <button type="button"
+                                  class="{{classButton.tEDIT}}"
+                                  [disabled]="!item.is_Editable"
+                                  (click)="edit('employee',item)"><i class="{{ iconButton.EDIT }}"></i>
+                            {{'System.Action.Edit' | translate }}
+                          </button>
+                        </td>
+                        <td class="text-center">{{ item.employee_Id }}</td>
+                        <td class="text-center">{{ item.local_Full_Name }}</td>
+                        <td class="text-center">{{ functionUtility.checkEmpty(item.department) ? '' : item.department + '-' + item.department_Name }}</td>
+                        <td class="text-center">{{ item.work_Shift_Type_Old + '-' + item.work_Shift_Type_Old_Name }}</td>
+                        <td class="text-center">{{ item.work_Shift_Type_New + '-' + item.work_Shift_Type_New_Name }}</td>
+                        <td class="text-center">{{ item.effective_Date}}</td>
+                        <td class="text-center">{{ item.effective_State
+                          ? ('AttendanceMaintenance.ShiftManagementProgram.Yes'| translate)
+                          : ('AttendanceMaintenance.ShiftManagementProgram.No' | translate) }}</td>
+                        <td class="text-center">{{ item.update_By }}</td>
+                        <td class="text-center">{{ item.update_Time | date : 'yyyy/MM/dd'}}</td>
+                      </tr>
+                    </ng-template>
+                    <ng-template #nodata>
+                      <tr>
+                        <td colspan="100%"
+                            class="table-warning text-center font-weight-bold">
+                          {{'System.Message.Nodata' | translate }}
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-8">
+                <div class="d-flex"
+                     *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                  <pagination [boundaryLinks]="true"
+                              [totalItems]="pagination.totalCount"
+                              [itemsPerPage]="pagination.pageSize"
+                              previousText="&lsaquo;"
+                              nextText="&rsaquo;"
+                              firstText="&laquo;"
+                              lastText="&raquo;"
+                              [maxSize]="5"
+                              [(ngModel)]="pagination.pageNumber"
+                              (pageChanged)="changePage($event)"
+                              [ngModelOptions]="{standalone: true}">
+                  </pagination>
+                  <span class="cs-page ml-2">
+                    Page - {{ pagination.pageNumber }} /
+                    {{ pagination.totalPage }}</span>
+                </div>
+              </div>
+              <div class="col-4">
+                <span class="cs-page float-right ">{{'AttendanceMaintenance.ShiftManagementProgram.Result' | translate }} {{pagination.totalCount}}</span>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

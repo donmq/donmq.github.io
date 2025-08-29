@@ -1,0 +1,496 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row border-title">
+            <div class="col-md-12">
+              <strong>{{ title }}</strong>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form class="form-horizontal border-shadow" autocomplete="off">
+            <div class="row ">
+              <!-- Division -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-12 col-sm-12 mt-2">
+                <label class="badge badge-warning"> {{"EmployeeInformationModule.EmployeeTransferHistory.Division" | translate }} <span class="text-danger text-bold"> *</span> </label>
+                <div class="full-width">
+                  <div class="container_date">
+                    <ng-select [(ngModel)]="param.division_After"
+                               name="division_After"
+                               (ngModelChange)="onFactoryChange()"
+                               placeholder="{{'EmployeeInformationModule.EmployeeTransferHistory.Division' | translate }}"
+                               (clear)="deleteProperty('division_After')"
+                               [clearable]="param.division_After != ''">
+                      <ng-option *ngFor="let i of listDivision"
+                                 [value]="i.key">{{i.value}}</ng-option>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+              <!-- Factory -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-12 col-sm-12 mt-2">
+                <label class="badge badge-warning"> {{"EmployeeInformationModule.EmployeeTransferHistory.Factory" | translate }} <span class="text-danger text-bold"> *</span> </label>
+                <div class="full-width">
+                  <div class="container_date">
+                    <ng-select [(ngModel)]="param.factory_After"
+                               name="factory_After"
+                               (ngModelChange)="onDepartmentChange()"
+                               placeholder="{{'EmployeeInformationModule.EmployeeTransferHistory.Factory' | translate }}"
+                               (clear)="deleteProperty('factory_After')"
+                               [clearable]="param.factory_After != ''"
+                               [disabled]="!param.division_After">
+                      <ng-option *ngFor="let i of listFactory"
+                                 [value]="i.key">{{i.value}}</ng-option>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+              <!-- EmployeeID -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-12 col-sm-12 mt-2">
+                <label class="badge badge-warning"> {{"EmployeeInformationModule.EmployeeTransferHistory.EmployeeID" | translate }} </label>
+                <div class="full-width">
+                  <div class="container_date">
+                    <div class="input-group mr-1">
+                      <input autocomplete="off"
+                             type="text"
+                             [(ngModel)]="param.employee_ID_After"
+                             placeholder="{{'EmployeeInformationModule.EmployeeTransferHistory.EmployeeID' | translate }}"
+                             class="form-control"
+                             name="EmployeeID"
+                             maxlength="9" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-12 col-sm-12 mt-2">
+                <label class="badge badge-warning"> {{"EmployeeInformationModule.EmployeeTransferHistory.LocalFullName" | translate }} </label>
+                <div class="full-width">
+                  <div class="container_date">
+                    <div class="input-group mr-1">
+                      <input autocomplete="off"
+                             type="text"
+                             [(ngModel)]="param.local_Full_Name"
+                             placeholder="{{'EmployeeInformationModule.EmployeeTransferHistory.LocalFullName' | translate }}"
+                             class="form-control"
+                             name="local_Full_Name"
+                             maxlength="50" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Department -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-12 col-sm-12 mt-2">
+                <label class="badge badge-warning"> {{"EmployeeInformationModule.EmployeeTransferHistory.Department" | translate }} </label>
+                <div class="full-width">
+                  <div class="container_date">
+                    <ng-select [(ngModel)]="param.department_After"
+                               name="department_After"
+                               placeholder="{{'EmployeeInformationModule.EmployeeTransferHistory.Department' | translate }}"
+                               (clear)="deleteProperty('department_After')"
+                               [clearable]="param.department_After != ''"
+                               [disabled]="!param.factory_After">
+                      <ng-option *ngFor="let i of listDepartment"
+                                 [value]="i.key">{{i.value}}</ng-option>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- EffectiveDate -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-12 col-sm-12 mt-2">
+                <label class="badge badge-warning"> {{"EmployeeInformationModule.EmployeeTransferHistory.EffectiveDate" | translate }} </label>
+                <div class="full-width d-flex">
+                  <div class="input-group mr-2">
+                    <input autocomplete="off"
+                           type="text"
+                           placeholder="YYYY/MM/DD"
+                           class="form-control bg-white custom-input-date"
+                           name="effective_Date_Start_value"
+                           [(ngModel)]="effective_Date_Start_value"
+                           bsDatepicker
+                           [bsConfig]="{ isAnimated: true,dateInputFormat: 'YYYY/MM/DD' }"
+                           [maxDate]="effective_Date_End_value"
+                           maxlength="10"
+                           (blur)="changeEffective_Date_Start()" />
+                    <div class="input-group-append">
+                      <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                    </div>
+                  </div>
+                  <div class="input-group">
+                    <input autocomplete="off"
+                           type="text"
+                           placeholder="YYYY/MM/DD"
+                           class="form-control bg-white"
+                           name="effective_Date_End_value"
+                           [(ngModel)]="effective_Date_End_value"
+                           bsDatepicker
+                           [bsConfig]="{ isAnimated: true,dateInputFormat: 'YYYY/MM/DD' }"
+                           [minDate]="effective_Date_Start_value"
+                           maxlength="10"
+                           (blur)="changeEffective_Date_End()" />
+                    <div class="input-group-append">
+                      <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-12 col-sm-12 mt-2">
+                <label class="badge badge-warning"> {{"EmployeeInformationModule.EmployeeTransferHistory.EffectiveStatus" | translate }} </label>
+                <div class="custom-control custom-radio mt-2">
+                  <div class="form-check form-check-inline">
+                    <input type="radio"
+                           class="custom-control-input"
+                           id="customRadio3"
+                           name="customRadio3"
+                           [value]="1"
+                           [(ngModel)]="param.effective_Status" />
+                    <label class="custom-control-label font-weight-bold"
+                           for="customRadio3">
+                      Y
+                    </label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input type="radio"
+                           class="custom-control-input"
+                           id="customRadio2"
+                           name="customRadio2"
+                           [value]="2"
+                           [(ngModel)]="param.effective_Status" />
+                    <label class="custom-control-label font-weight-bold"
+                           for="customRadio2">
+                      N
+                    </label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input type="radio"
+                           class="custom-control-input"
+                           id="customRadio1"
+                           name="customRadio1"
+                           [value]="0"
+                           [(ngModel)]="param.effective_Status" />
+                    <label class="custom-control-label font-weight-bold"
+                           for="customRadio1">
+                      ALL
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Assigned/SupportedDivision -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-12 col-sm-12 mt-2">
+                <label class="badge badge-warning"> {{"EmployeeInformationModule.EmployeeTransferHistory.Assigned/SupportedDivision" | translate }} </label>
+                <div class="full-width">
+                  <div class="container_date">
+                    <ng-select [(ngModel)]="param.assigned_Division_After"
+                               name="assigned_Division_After"
+                               (ngModelChange)="onAssignedSupportedFactoryChange()"
+                               placeholder="{{'EmployeeInformationModule.EmployeeTransferHistory.Assigned/SupportedDivision' | translate }}"
+                               (clear)="deleteProperty('assigned_Division_After')"
+                               [clearable]="param.assigned_Division_After != ''">
+                      <ng-option *ngFor="let i of listAssignedDivisionAfter"
+                                 [value]="i.key">{{i.value}}</ng-option>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Assigned/SupportedFactory -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-12 col-sm-12 mt-2">
+                <label class="badge badge-warning"> {{"EmployeeInformationModule.EmployeeTransferHistory.Assigned/SupportedFactory" | translate }} </label>
+                <div class="full-width">
+                  <div class="container_date">
+                    <ng-select [(ngModel)]="param.assigned_Factory_After"
+                               name="assigned_Factory_After"
+                               (ngModelChange)="onAssignedSupportedDepartmentChange()"
+                               placeholder="{{'EmployeeInformationModule.EmployeeTransferHistory.Assigned/SupportedFactory' | translate }}"
+                               (clear)="deleteProperty('assigned_Factory_After')"
+                               [clearable]="param.assigned_Factory_After != ''"
+                               [disabled]="!param.assigned_Division_After">
+                      <ng-option *ngFor="let i of listAssignedFactoryAfter"
+                                 [value]="i.key">{{i.value}}</ng-option>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Assigned/SupportedEmployeeID -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-12 col-sm-12 mt-2">
+                <label class="badge badge-warning"> {{"EmployeeInformationModule.EmployeeTransferHistory.Assigned/SupportedEmployeeID" | translate }} </label>
+                <div class="full-width">
+                  <div class="container_date">
+                    <div class="input-group mr-1">
+                      <input autocomplete="off"
+                             type="text"
+                             [(ngModel)]="param.assigned_Employee_ID_After"
+                             placeholder="{{'EmployeeInformationModule.EmployeeTransferHistory.Assigned/SupportedEmployeeID' | translate }}"
+                             class="form-control"
+                             name="SupportedEmployeeID"
+                             maxlength="9" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Assigned/SupportedDepartment -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-12 col-sm-12 mt-2">
+                <label class="badge badge-warning"> {{"EmployeeInformationModule.EmployeeTransferHistory.Assigned/SupportedDepartment" | translate }} </label>
+                <div class="full-width">
+                  <div class="container_date">
+                    <ng-select [(ngModel)]="param.assigned_Department_After"
+                               name="assigned_Department_After"
+                               placeholder="{{'EmployeeInformationModule.EmployeeTransferHistory.Assigned/SupportedFactory' | translate }}"
+                               (clear)="deleteProperty('assigned_Department_After')"
+                               [clearable]="param.assigned_Department_After != ''"
+                               [disabled]="!param.assigned_Factory_After">
+                      <ng-option *ngFor="let i of listAssignedDepartmentAfter"
+                                 [value]="i.key">{{i.value}}</ng-option>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Buttons -->
+              <div class="col-12 mt-2">
+                <label class="d-block">&nbsp;</label>
+                <button type="button"
+                        class="btn btn-primary"
+                        (click)="search(true)"
+                        [disabled]="!validateSearch()"
+                        *ngIf="functionUtility.checkFunction('Search')">
+                  <i class="{{ iconButton.SEARCH }}"></i> {{"System.Action.Search" | translate }}
+                </button>
+                <button type="button"
+                        class="btn btn-danger ml-1"
+                        (click)="clear(true)">
+                  <i class="{{ iconButton.CLEAR }}"></i> {{"System.Action.Clear" | translate }}
+                </button>
+                <button type="button"
+                        (click)="add('add')"
+                        class="btn btn-success ml-1"
+                        id="add"
+                        *ngIf="functionUtility.checkFunction('Add')">
+                  <i class="{{ iconButton.ADD }}"></i> {{"System.Action.Add" | translate }}
+                </button>
+                <!--  -->
+                <button type="button"
+                        (click)="add('supplementary')"
+                        class="btn btn-success ml-1"
+                        id="Supplementary"
+                        *ngIf="functionUtility.checkFunction('Add')">
+                  {{"EmployeeInformationModule.EmployeeTransferHistory.Supplementary" | translate }}
+                </button>
+                <button type="button"
+                        class="btn btn-success ml-1"
+                        (click)="download()"
+                        [disabled]="data.length == 0"
+                        *ngIf="functionUtility.checkFunction('Excel')">
+                  <i class="{{iconButton.EXCEL}}"></i> {{"System.Action.Excel" | translate }}
+                </button>
+                <button type="button"
+                        class="btn btn-danger ml-1"
+                        (click)="batchDelete()"
+                        *ngIf="functionUtility.checkFunction('Delete')"
+                        [disabled]="dataSelect.length == 0">
+                  {{"EmployeeInformationModule.EmployeeTransferHistory.BatchDelete" | translate }}
+                </button>
+                <button type="button"
+                        class="btn btn-success ml-1"
+                        (click)="effectiveConfirm()"
+                        *ngIf="functionUtility.checkFunction('Edit')"
+                        [disabled]="isDisableBtnEffectiveConfirm">
+                  {{"EmployeeInformationModule.EmployeeTransferHistory.EffectiveConfirm" | translate }}
+                </button>
+              </div>
+            </div>
+          </form>
+          <div class="row justify-content-md-center">
+            <div class="col-12">
+              <div class="table-responsive">
+                <drag-scroll id="dragscroll"
+                             (dragStart)="functionUtility.setTextSelector(false)"
+                             (dragEnd)="functionUtility.setTextSelector(true)">
+                  <table drag-scroll-item
+                         class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th class="text-center custom-th">
+                          <div class="custom-control custom-checkbox checkAll">
+                            <input type="checkbox"
+                                   class="custom-control-input"
+                                   id="checkAll"
+                                   autocomplete="off"
+                                   name="checkAll"
+                                   [(ngModel)]="selectAll"
+                                   (change)="selectMutiple()"
+                                   [disabled]="data.length == 0">
+                            <label class="custom-control-label"
+                                   for="checkAll"></label>
+                          </div>
+                        </th>
+                        <th [attr.colspan]="functionUtility.getColspan(['Edit','Delete'])"
+                            *ngIf="functionUtility.checkFunction('Delete') || functionUtility.checkFunction('Edit')"
+                            class="text-center">{{"System.Action.Operation" | translate }}</th>
+                        <th></th>
+                        <th class="text-center">{{"EmployeeInformationModule.EmployeeTransferHistory.DataSource" | translate }}</th>
+                        <th class="text-center">{{"EmployeeInformationModule.EmployeeTransferHistory.Nationality" | translate }}</th>
+                        <th class="text-center">{{"EmployeeInformationModule.EmployeeTransferHistory.IdentificationNumber" | translate }}</th>
+                        <th class="text-center">{{"EmployeeInformationModule.EmployeeTransferHistory.LocalFullName" | translate }}</th>
+                        <th class="text-center">{{"EmployeeInformationModule.EmployeeTransferHistory.Division" | translate }}</th>
+                        <th class="text-center">{{"EmployeeInformationModule.EmployeeTransferHistory.Factory" | translate }}</th>
+                        <th class="text-center">{{"EmployeeInformationModule.EmployeeTransferHistory.EmployeeID" | translate }}</th>
+                        <th class="text-center">{{"EmployeeInformationModule.EmployeeTransferHistory.Department" | translate }}</th>
+                        <th class="text-center">{{"EmployeeInformationModule.EmployeeTransferHistory.Assigned/SupportedDivision" | translate }}</th>
+                        <th class="text-center">{{"EmployeeInformationModule.EmployeeTransferHistory.Assigned/SupportedFactory" | translate }}</th>
+                        <th class="text-center">{{"EmployeeInformationModule.EmployeeTransferHistory.Assigned/SupportedEmployeeID" | translate }}</th>
+                        <th class="text-center">{{"EmployeeInformationModule.EmployeeTransferHistory.Assigned/SupportedDepartment" | translate }}</th>
+                        <th class="text-center">{{"EmployeeInformationModule.EmployeeTransferHistory.PositionGrade" | translate }}</th>
+                        <th class="text-center">{{"EmployeeInformationModule.EmployeeTransferHistory.PositionTitle" | translate }}</th>
+                        <th class="text-center">{{"EmployeeInformationModule.EmployeeTransferHistory.WorkType/Job" | translate }}</th>
+                        <th class="text-center">{{"EmployeeInformationModule.EmployeeTransferHistory.ReasonforChange" | translate }}</th>
+                        <th class="text-center">{{"EmployeeInformationModule.EmployeeTransferHistory.Seq" | translate }}</th>
+                        <th class="text-center">{{"EmployeeInformationModule.EmployeeTransferHistory.EffectiveDate" | translate }}</th>
+                        <th class="text-center">{{"EmployeeInformationModule.EmployeeTransferHistory.EffectiveStatus" | translate }}</th>
+                        <th class="text-center">{{"EmployeeInformationModule.EmployeeTransferHistory.UpdateBy" | translate }}</th>
+                        <th class="text-center">{{"EmployeeInformationModule.EmployeeTransferHistory.UpdateTime" | translate }}</th>
+                      </tr>
+                    </thead>
+                    <tbody *ngIf="data?.length > 0; else elseTemplate">
+                      <ng-container *ngFor="let item of data; index as i">
+                        <tr [ngClass]="item.checked ? 'table-warning' : 'bg-body'">
+                          <td class="text-center custom-th"
+                              rowspan="2">
+                            <div class="custom-control custom-checkbox">
+                              <input type="checkbox"
+                                     [(ngModel)]="item.checked"
+                                     (change)="selectItem()"
+                                     class="custom-control-input"
+                                     id="checkbox{{i}}"
+                                     autocomplete="off"
+                                     name="checkbox{{i}}"
+                                     [disabled]="item.effective_Status">
+                              <label class="custom-control-label custom-style-lable"
+                                     for="checkbox{{i}}"></label>
+                            </div>
+                          </td>
+                          <td class="text-center custom-td-btn"
+                              rowspan="2"
+                              *ngIf="functionUtility.checkFunction('Edit')">
+                            <button type="button"
+                                    class="{{ classButton.tEDIT }}"
+                                    (click)="edit(item)"
+                                    [disabled]="item.effective_Status">
+                              <i class="{{ iconButton.EDIT }}"></i>
+                              {{ "System.Action.Edit" | translate }}
+                            </button>
+                          </td>
+                          <td class="text-center custom-td-btn"
+                              rowspan="2"
+                              *ngIf="functionUtility.checkFunction('Delete')">
+                            <button type="button"
+                                    class="{{ classButton.tDELETE }}"
+                                    (click)="delete(item)"
+                                    [disabled]="item.effective_Status">
+                              <i class="{{ iconButton.DELETE }}"></i>
+                              {{ "System.Action.Delete" | translate }}
+                            </button>
+                          </td>
+                          <td class="lineheight-custom custom-td-before">
+                            {{ 'EmployeeInformationModule.IdentificationCardHistory.BeforeChange' | translate}}
+                          </td>
+                          <td class="text-center"></td>
+                          <td class="text-center ">{{ item.nationality_Before }}</td>
+                          <td class="text-center">{{ item.identification_Number_Before }}</td>
+                          <td class="text-center custom-text-table">{{ item.local_Full_Name_Before }}</td>
+                          <td class="text-center custom-text-table">{{ item.division_Before }}</td>
+                          <td class="text-center custom-text-table">{{ item.factory_Before }}</td>
+                          <td class="text-center">{{ item.employee_ID_Before }}</td>
+                          <td class="text-center">{{ item.department_Before == " - " ? "" : item.department_Before }}</td>
+                          <td class="text-center custom-text-table">{{ item.assigned_Division_Before == " - " ? "" : item.assigned_Division_Before}}</td>
+                          <td class="text-center custom-text-table">{{ item.assigned_Factory_Before == " - " ? "" : item.assigned_Factory_Before }}</td>
+                          <td class="text-center custom-text-table">{{ item.assigned_Employee_ID_Before }}</td>
+                          <td class="text-center">{{ item.assigned_Department_Before }}</td>
+                          <td class="text-center">{{ item.position_Grade_Before }}</td>
+                          <td class="text-center">{{ item.position_Title_Before }}</td>
+                          <td class="text-center">{{ item.work_Type_Before }}</td>
+                          <td class="text-center"></td>
+                          <td class="text-center"></td>
+                          <td class="text-center"></td>
+                          <td class="text-center"></td>
+                          <td class="text-center"></td>
+                          <td class="text-center"></td>
+                        </tr>
+                        <tr [ngClass]="item.checked ? 'table-warning' : 'bg-body'">
+                          <td class="lineheight-custom custom-td">
+                            {{ 'EmployeeInformationModule.IdentificationCardHistory.AfterChange' | translate}}
+                          </td>
+                          <td class="text-center">{{item.data_Source_Name}}</td>
+                          <td class="text-center">{{ item.nationality_After }}</td>
+                          <td class="text-center">{{ item.identification_Number_After }}</td>
+                          <td class="text-center custom-text-table">{{ item.local_Full_Name_After }}</td>
+                          <td class="text-center custom-text-table">{{ item.division_After }}</td>
+                          <td class="text-center custom-text-table">{{ item.factory_After }}</td>
+                          <td class="text-center">{{ item.employee_ID_After }}</td>
+                          <td class="text-center">{{ item.department_After == " - " ? "" : item.department_After }}</td>
+                          <td class="text-center">{{ item.assigned_Division_After == " - " ? "" : item.assigned_Division_After }}</td>
+                          <td class="text-center">{{ item.assigned_Factory_After == " - " ? "" : item.assigned_Factory_After }}</td>
+                          <td class="text-center">{{ item.assigned_Employee_ID_After }}</td>
+                          <td class="text-center">{{ item.assigned_Department_After }}</td>
+                          <td class="text-center">{{ item.position_Grade_After }}</td>
+                          <td class="text-center">{{ item.position_Title_After }}</td>
+                          <td class="text-center">{{ item.work_Type_After }}</td>
+                          <td class="text-center">{{ item.reason_for_Change }}</td>
+                          <td class="text-center">{{ item.seq }}</td>
+                          <td class="text-center">{{ item.effective_Date == "0001-01-01T00:00:00" ? "" : item.effective_Date | date : 'yyyy/MM/dd' }}</td>
+                          <td class="text-center">{{ item.effective_Status == true ? "Y" : "N" }}</td>
+                          <td class="text-center">{{ item.update_By }}</td>
+                          <td class="text-center">{{ item.update_Time | date : 'yyyy/MM/dd HH:mm:ss' }}</td>
+                        </tr>
+                      </ng-container>
+                    </tbody>
+                    <ng-template #elseTemplate>
+                      <tbody>
+                        <tr class="no-data">
+                          <td colspan="100%"
+                              class="table-warning text-center font-weight-bold">
+                            {{ "System.Message.Nodata" | translate }}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </ng-template>
+                  </table>
+                </drag-scroll>
+              </div>
+              <div class="row mt-2">
+                <div class="col-8">
+                  <div class="d-flex"
+                       *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                    <pagination name="pagination"
+                                [boundaryLinks]="true"
+                                [totalItems]="pagination.totalCount"
+                                [itemsPerPage]="pagination.pageSize"
+                                previousText="&lsaquo;"
+                                nextText="&rsaquo;"
+                                firstText="&laquo;"
+                                lastText="&raquo;"
+                                [maxSize]="5"
+                                [(ngModel)]="pagination.pageNumber"
+                                (pageChanged)="pageChanged($event)">
+                    </pagination>
+                    <span class="cs-page ml-2"> Page - {{ pagination.pageNumber }} / {{ pagination.totalPage }}</span>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <span class="cs-page float-right ">{{'System.Rows' | translate }} : {{pagination.totalCount}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

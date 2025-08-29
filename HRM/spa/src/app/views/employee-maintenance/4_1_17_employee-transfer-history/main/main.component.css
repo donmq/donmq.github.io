@@ -1,0 +1,79 @@
+.custom-td {
+  background-color: #20a8d8;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+}
+.custom-td-before {
+  background-color: #6ec6e6;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.custom-td-btn {
+  min-width: 100px; vertical-align : middle;text-align:center;
+}
+.custom-text-table {
+  white-space: nowrap;
+}
+
+.container p {
+  margin-right: 10px;
+}
+
+.centered {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.input-container {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.input-container:last-child {
+  margin-right: 0;
+}
+
+.badge-contract {
+  margin-top: 10px;
+  height: 15.75px;
+}
+.custom-input-date {
+  border-bottom-right-radius: none;
+  border-top-right-radius: none;
+}
+
+.custom-th {
+  position: relative !important;
+  min-width: 40px !important;
+}
+
+.custom-th-input-checkbox {
+  position: absolute !important;
+  top: 40% !important;
+  left: 85% !important;
+}
+
+.form-check-inline{
+  margin-right: 2rem !important;
+}
+
+.disable-selector {
+  user-select: none;
+}
+
+.custom-control-label.custom-style-lable::before {
+  top: 25px !important;
+}
+
+.custom-control-label.custom-style-lable::after {
+  top: 25px !important;
+}

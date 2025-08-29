@@ -1,0 +1,34 @@
+.container_input {
+  display: flex;
+  flex-direction: row;
+}
+
+.text-center-vertical {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.container p {
+  margin-right: 10px;
+}
+
+.custom-margin-top {
+  margin-top: 5px;
+}
+
+.vertical-align-middle {
+  vertical-align: middle;
+}
+
+.vertical-align-middle-button {
+  min-width: 100px;
+  vertical-align: middle;
+}
+
+.custom-control-label:hover {
+  cursor: pointer;
+}
+
+.custom-upload{
+  display: none;
+}

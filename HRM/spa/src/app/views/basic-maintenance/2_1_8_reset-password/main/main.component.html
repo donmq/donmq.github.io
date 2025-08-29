@@ -1,0 +1,51 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal" autocomplete="off">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">{{ title }}</strong>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="card-body">
+          <div class="row border-shadow">
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning"> {{"BasicMaintenance.ResetPassword.Account" | translate }}</label>
+                <input type="text" class="form-control" id="Account" name="Account" [(ngModel)]="model.account" [ngModelOptions]="{standalone: true}" placeholder='{{"BasicMaintenance.ResetPassword.Account" | translate }}' disabled="true" required>
+              </div>
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning"> {{"BasicMaintenance.ResetPassword.Name" | translate }}</label>
+                <input type="text" class="form-control" id="name" name="Name" [(ngModel)]="model.name" placeholder='{{"BasicMaintenance.ResetPassword.Name" | translate }}' required disabled="true">
+              </div>
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning"> {{"BasicMaintenance.ResetPassword.NewPassword" | translate }} <span class="text-danger text-bold"> *</span></label>
+                <input type="password" class="form-control" pattern="/(?=.*\d)(?=.*[a-zA-Z]).{6,}/" id="newPassword" name="newPassword" [(ngModel)]="model.newPassword" [ngModelOptions]="{standalone: true}" placeholder='{{"BasicMaintenance.ResetPassword.NewPassword" | translate }}' required maxlength="10">
+              </div>
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning"> {{"BasicMaintenance.ResetPassword.AgainNewPassword" | translate }} <span class="text-danger text-bold"> *</span></label>
+                <input type="password" class="form-control" pattern="/(?=.*\d)(?=.*[a-zA-Z]).{6,}/" id="againNewPassword" name="againNewPassword" [(ngModel)]="model.againNewPassword" [ngModelOptions]="{standalone: true}" placeholder='{{"BasicMaintenance.ResetPassword.AgainNewPassword" | translate }}' required maxlength="10">
+              </div>
+              <div class="col-12 mt-2">
+                <span>
+                  {{"BasicMaintenance.ResetPassword.Note" | translate }}
+                </span>
+              </div>
+         </div>
+         <div class="row justify-content-md-center">
+          <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="table-responsive text-right">
+              <button type="button" class="btn btn-success" [disabled]="validPassword()" (click)="resetPassword()" >
+                <i class="{{ iconButton.SAVE }}"></i> {{"System.Action.Save" | translate }}
+              </button>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

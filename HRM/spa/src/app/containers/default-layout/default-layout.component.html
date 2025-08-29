@@ -1,0 +1,82 @@
+<app-header [navbarBrandRouterLink]="['/dashboard']"
+            [fixed]="true"
+            [navbarBrandFull]="{src: 'assets/img/logo/LogoSYF.png', width: 60, height: 40, alt: 'Logo'}"
+            [navbarBrandMinimized]="{src: 'assets/img/logo/LogoSYF.png', width: 40, height: 30, alt: 'Logo'}"
+            [sidebarToggler]="'lg'"
+            [mobileAsideMenuToggler]="false"
+            [asideMenuToggler]="false">
+
+  <h4 class="app-title">HRM</h4>
+  <ul class="nav navbar-nav ml-auto">
+    <li class="btn-group">
+      <div *ngFor="let lang of translateService.langs; index as i">
+        <button type="button button-translate"
+                class="btn px-0 zoom"
+                (click)="switchLang(lang)">
+          <img class="img-translate"
+               [src]="'assets/img/icon/'+lang+'.png'"
+               [alt]="lang">
+        </button>
+      </div>
+      <!-- <button type="button button-translate" class="btn px-0 mr-2 zoom" (click)="switchLang(langConstants.VI)">
+        <img class="img-translate" src="assets/img/icon/vn.png" alt="VN">
+      </button> -->
+    </li>
+    <li class="nav-item dropdown"
+        dropdown
+        placement="bottom right">
+      <a class="nav-link"
+         data-toggle="dropdown"
+         role="button"
+         aria-haspopup="true"
+         aria-expanded="false"
+         dropdownToggle>
+        <h6 class="username">{{user?.name}}</h6>
+        <img src="assets/img/avatars/user.png"
+             class="img-avatar"
+             alt="avatar" />
+      </a>
+      <div class="dropdown-menu dropdown-menu-right"
+           *dropdownMenu
+           aria-labelledby="simple-dropdown">
+        <div class="dropdown-header text-center"><strong>Settings</strong></div>
+        <a class="dropdown-item"
+           (click)="authService.logout()"><i class="fa fa-lock"></i> Logout</a>
+      </div>
+    </li>
+  </ul>
+</app-header>
+<div #appBody
+     (scroll)="onScroll()"
+     class="app-body">
+  <app-sidebar #appSidebar
+               [fixed]="true"
+               [display]="'lg'"
+               [minimized]="sidebarMinimized"
+               (minimizedChange)="toggleMinimize($event)">
+    <app-sidebar-nav [navItems]="navItems"></app-sidebar-nav>
+    <app-sidebar-minimizer></app-sidebar-minimizer>
+  </app-sidebar>
+  <!-- Main content -->
+  <main class="main">
+    <!-- Breadcrumb -->
+    <!-- breaking change 'cui-breadcrumb' -->
+    <!-- <cui-breadcrumb></cui-breadcrumb> -->
+    <div class="container-fluid pt-30">
+      <router-outlet></router-outlet>
+    </div><!-- /.container-fluid -->
+    <button type="button"
+            class="btn scroll-top"
+            [ngClass]="{'scroll-top-show': showScroll}"
+            data-toggle="button"
+            aria-pressed="true"
+            (click)="scrollToTop()">
+      <i class="fa fa-chevron-up"></i>
+    </button>
+  </main>
+
+</div>
+<app-footer>
+  <span>Copyright &copy; 2024 <a href="javascript:;">SHYANG SHIN BAO INDUSTRIAL CO., LTD.</a> All rights reserved</span>
+  <span class="ml-auto">Powered by <a href="javascript:;">SD Team</a></span>
+</app-footer>

@@ -1,0 +1,229 @@
+<div bsModal
+     #modal="bs-modal"
+     class="modal fade"
+     tabindex="-1"
+     role="dialog"
+     (onHide)="onHide()">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <form class="form-horizontal"
+            autocomplete="off"
+            #subForm="ngForm">
+        <div class="bg-primary modal-header">
+          <h4 class="modal-title pull-left"> {{ title }} - {{'System.Action.' + id() | translate }} </h4>
+          <button type="button"
+                  class="btn-close close pull-right"
+                  aria-label="Close"
+                  (click)="close()">
+            <span aria-hidden="true"
+                  class="visually-hidden">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body header-param">
+          <div class="row">
+            <div class="col-12">
+              <div class="row">
+                <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <label class="badge badge-warning">{{'AttendanceMaintenance.LeaveApplicationMaintenance.Factory' | translate }}
+                    <span class="text-danger">*</span>
+                  </label>
+                  <ng-select name="factory"
+                             [(ngModel)]="data.factory"
+                             (clear)="deleteProperty('factory')"
+                             (ngModelChange)="onFactoryChange()"
+                             [clearable]="data.factory !== ''"
+                             placeholder="{{'AttendanceMaintenance.LeaveApplicationMaintenance.Factory' | translate }}"
+                             appendTo="body"
+                             [disabled]="id() == 'Edit'"
+                             required>
+                    <ng-option *ngFor="let item of factoryList"
+                               [value]="item.key">{{ item.value }}</ng-option>
+                  </ng-select>
+                </div>
+              </div>
+            </div>
+            <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <label class="badge badge-warning">{{'AttendanceMaintenance.LeaveApplicationMaintenance.EmployeeID' | translate }}
+                <span class="text-danger">*</span>
+              </label>
+              <input autocomplete="off"
+                     type="text"
+                     placeholder="{{'AttendanceMaintenance.LeaveApplicationMaintenance.EmployeeID' | translate }}"
+                     class="form-control"
+                     maxlength="9"
+                     name="employeeId"
+                     [(ngModel)]="data.employee_Id"
+                     typeaheadOptionField="actual_Employee_ID"
+                     [typeahead]="employeeList"
+                     (typeaheadOnSelect)="onTypehead()"
+                     (typeaheadOnBlur)="onTypehead()"
+                     (typeaheadNoResults)="onTypehead(true)"
+                     [typeaheadScrollable]="true"
+                     [typeaheadOptionsInScrollableView]="5"
+                     [disabled]="id() == 'Edit' || !data.factory"
+                     required />
+            </div>
+            <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <label class="badge badge-warning">{{'AttendanceMaintenance.LeaveApplicationMaintenance.LocalFullName' | translate }}
+                <span class="text-danger">*</span></label>
+              <input autocomplete="off"
+                     type="text"
+                     placeholder="{{'AttendanceMaintenance.LeaveApplicationMaintenance.LocalFullName' | translate }}"
+                     class="form-control"
+                     maxlength="50"
+                     name="localFullName"
+                     [ngModel]="data.local_Full_Name"
+                     readonly
+                     required />
+            </div>
+            <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <label class="badge badge-warning">{{'AttendanceMaintenance.LeaveApplicationMaintenance.Department' | translate }}
+                <span class="text-danger">*</span></label>
+              <input autocomplete="off"
+                     type="text"
+                     placeholder="{{'AttendanceMaintenance.LeaveApplicationMaintenance.Department' | translate }}"
+                     class="form-control"
+                     maxlength="50"
+                     name="department"
+                     [ngModel]="data.department_Code_Name"
+                     readonly/>
+            </div>
+            <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <label class="badge badge-warning">{{'AttendanceMaintenance.LeaveApplicationMaintenance.Leave' | translate }}
+                <span class="text-danger">*</span></label>
+              <ng-select name="leave"
+                         [(ngModel)]="data.leave_Code"
+                         (clear)="deleteProperty('leave_Code')"
+                         [clearable]="data.leave_Code !== ''"
+                         appendTo="body"
+                         placeholder="{{'AttendanceMaintenance.LeaveApplicationMaintenance.Leave' | translate }}"
+                         [disabled]="id() == 'Edit'"
+                         required>
+                <ng-option *ngFor="let item of leaveList"
+                           [value]="item.key">{{ item.value }}</ng-option>
+              </ng-select>
+            </div>
+            <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <label class="badge badge-warning">{{'AttendanceMaintenance.LeaveApplicationMaintenance.Days' | translate }}
+                <span class="text-danger">*</span></label>
+              <input autocomplete="off"
+                     type="text"
+                     placeholder="{{'AttendanceMaintenance.LeaveApplicationMaintenance.Days' | translate }}"
+                     class="form-control"
+                     name="days"
+                     [(ngModel)]="data.days"
+                     maxlength="11"
+                     mask="separator.5"
+                     decimalMarker="."
+                     [leadZero]="true"
+                     thousandSeparator=""
+                     separatorLimit="99999"
+                     required />
+            </div>
+            <div class="col-12">
+              <div class="row">
+                <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-12 col-sm-12 ">
+                  <label class="badge badge-warning">{{'AttendanceMaintenance.LeaveApplicationMaintenance.LeaveDateStart' | translate }}
+                    <span class="text-danger">*</span></label>
+                  <div class="row">
+                    <div class="col-6 align-content-center">
+                      <div class="input-group mr-2"
+                           [ngClass]="{'invalid-data': data.isErrorTime && id() == 'Add'}">
+                        <input id="leave_Start_Date_Modal"
+                               name="leave_Start_Date_Modal"
+                               type="text"
+                               autocomplete="off"
+                               placeholder="YYYY/MM/DD"
+                               class="form-control"
+                               bsDatepicker
+                               [bsConfig]="bsConfig"
+                               [maxDate]="data.leave_End_Date"
+                               [(ngModel)]="data.leave_Start_Date"
+                               (ngModelChange)="onDateStartChange()"
+                               onpaste="return false"
+                               [disabled]="id() == 'Edit'"
+                               required />
+                        <div class="input-group-append">
+                          <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-6"
+                         [ngClass]="{'invalid-data': data.isErrorTime && id() == 'Add'}">
+                      <timepicker name="leave_Start_Time_Modal"
+                                  [(ngModel)]="data.leave_Start_Time"
+                                  (ngModelChange)="onTimeStartChange()"
+                                  [showMeridian]="false"
+                                  [showSpinners]="true"
+                                  [readonlyInput]="id() == 'Edit'"
+                                  required></timepicker>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-12 col-sm-12 ">
+                  <label class="badge badge-warning">{{'AttendanceMaintenance.LeaveApplicationMaintenance.LeaveDateEnd' | translate }}
+                    <span class="text-danger">*</span>
+                  </label>
+                  <div class="row">
+                    <div class="col-6 align-content-center">
+                      <div class="input-group mr-2"
+                           [ngClass]="{'invalid-data': data.isErrorTime}">
+                        <input id="leave_End_Date_Modal"
+                               name="leave_End_Date_Modal"
+                               type="text"
+                               autocomplete="off"
+                               placeholder="YYYY/MM/DD"
+                               class="form-control"
+                               bsDatepicker
+                               [bsConfig]="bsConfig"
+                               [minDate]="data.leave_Start_Date"
+                               [(ngModel)]="data.leave_End_Date"
+                               (ngModelChange)="onDateEndChange()"
+                               onpaste="return false"
+                               required />
+                        <div class="input-group-append">
+                          <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-6"
+                         [ngClass]="{'invalid-data': data.isErrorTime}">
+                      <timepicker name="leave_End_Time_Modal"
+                                  [(ngModel)]="data.leave_End_Time"
+                                  (ngModelChange)="onTimeEndChange()"
+                                  [showMeridian]="false"
+                                  [showSpinners]="true"
+                                  required></timepicker>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button"
+                  class="btn btn-warning mr-2"
+                  (click)="save(false)"
+                  *ngIf="id() == 'Add'"
+                  [disabled]="!subForm.valid || data.isErrorTime">
+            <i class="{{ iconButton.SAVE }}"></i> {{'System.Action.SaveAndContinue' | translate }}
+          </button>
+          <button type="button"
+                  class="btn btn-success"
+                  (click)="save(true)"
+                  [disabled]="!subForm.valid || data.isErrorTime">
+            <i class="{{ iconButton.SAVE }} mr-1"
+               aria-hidden="true"> </i>{{'System.Action.Save' | translate }}
+          </button>
+          <button type="button"
+                  class="{{classButton.CLOSE}}"
+                  (click)="close()">
+            <i class="{{ iconButton.CLOSE }} mr-1"
+               aria-hidden="true"></i>{{'System.Action.Close' | translate }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,149 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off"
+              #mainForm="ngForm">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">{{ title }}</strong>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row border-shadow">
+              <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                <label class="badge badge-warning">{{'SalaryMaintenance.MonthlyExchangeRateSetting.YearMonth' | translate }}<span class="text-danger">
+                    *</span></label>
+                <div class="full-width">
+                  <div class="container_input">
+                    <div class="input-group mr-1">
+                      <input type="text"
+                             autocomplete="off"
+                             placeholder="YYYY/MM"
+                             name="month"
+                             [bsConfig]="bsConfig"
+                             class="form-control"
+                             bsDatepicker
+                             [(ngModel)]="param.rate_Month"
+                             (ngModelChange)="onDateChange()"
+                             onpaste="return false"
+                             required/>
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <label class="d-block">&nbsp;</label>
+                <button type="submit"
+                        class="{{classButton.SEARCH}}"
+                        (click)="search()"
+                        *ngIf="functionUtility.checkFunction('Search')"
+                        [disabled]="!mainForm.valid">
+                  <i class="{{ iconButton.SEARCH }}"></i> {{'System.Action.Search' | translate }}
+                </button>
+                <button type="submit"
+                        class="{{classButton.CLEAR}}"
+                        (click)="clear()">
+                  <i class="{{ iconButton.CLEAR }}"></i> {{'System.Action.Clear' | translate }}
+                </button>
+                <button type="button"
+                        class="{{classButton.ADD}}"
+                        (click)="add()"
+                        *ngIf="functionUtility.checkFunction('Add')">
+                  <i class="{{ iconButton.ADD }}"></i> {{'System.Action.Add' | translate }}
+                </button>
+              </div>
+            </div>
+            <div class="row justify-content-md-center">
+              <div class="col-lg-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th class="text-center operation-column text-nowrap"
+                            [attr.colspan]="functionUtility.getColspan(['Delete','Edit'])"
+                            *ngIf="functionUtility.checkFunction('Edit') || functionUtility.checkFunction('Delete')"> {{"System.Action.Operation" | translate }}
+                        </th>
+                        <th class="text-center">{{'SalaryMaintenance.MonthlyExchangeRateSetting.Kind' | translate }}</th>
+                        <th class="text-center">{{'SalaryMaintenance.MonthlyExchangeRateSetting.Currency' | translate }}</th>
+                        <th class="text-center">{{'SalaryMaintenance.MonthlyExchangeRateSetting.ExchangeCurrency' | translate }}</th>
+                        <th class="text-center">{{'SalaryMaintenance.MonthlyExchangeRateSetting.ExchangeRate' | translate }}</th>
+                        <th class="text-center">{{'SalaryMaintenance.MonthlyExchangeRateSetting.ExchangeRateDate' | translate }}</th>
+                        <th class="text-center">{{'SalaryMaintenance.MonthlyExchangeRateSetting.UpdateBy' | translate }}</th>
+                        <th class="text-center">{{'SalaryMaintenance.MonthlyExchangeRateSetting.UpdateTime' | translate }}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of data">
+                        <td class="text-center"
+                            *ngIf="functionUtility.checkFunction('Edit')">
+                          <button type="button"
+                                  class="{{classButton.tEDIT}}"
+                                  (click)="edit(item)"><i class="{{ iconButton.EDIT }}"></i>
+                            {{'System.Action.Edit' | translate }}
+                          </button>
+                        </td>
+                        <td class="text-center"
+                            *ngIf="functionUtility.checkFunction('Delete')">
+                          <button type="button"
+                                  class="{{classButton.tDELETE}}"
+                                  (click)="remove(item)"><i class="{{ iconButton.DELETE }}"></i>
+                            {{'System.Action.Delete' | translate }}
+                          </button>
+                        </td>
+                        <td class="text-center">{{ item.kind_Name }}</td>
+                        <td class="text-center">{{ item.currency_Name }}</td>
+                        <td class="text-center">{{ item.exchange_Currency_Name }}</td>
+                        <td class="text-center">{{ item.rate }}</td>
+                        <td class="text-center">{{ item.rate_Date }}</td>
+                        <td class="text-center">{{ item.update_By }}</td>
+                        <td class="text-center">{{ item.update_Time }}</td>
+                      </tr>
+                    </tbody>
+                    <tr *ngIf="data.length === 0">
+                      <td colspan="100%"
+                          class="table-warning text-center font-weight-bold">
+                        {{'System.Message.Nodata' | translate }}
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-8">
+                <div class="d-flex"
+                     *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                  <pagination [boundaryLinks]="true"
+                              [totalItems]="pagination.totalCount"
+                              [itemsPerPage]="pagination.pageSize"
+                              previousText="&lsaquo;"
+                              nextText="&rsaquo;"
+                              firstText="&laquo;"
+                              lastText="&raquo;"
+                              [maxSize]="5"
+                              [(ngModel)]="pagination.pageNumber"
+                              (pageChanged)="changePage($event)"
+                              [ngModelOptions]="{standalone: true}">
+                  </pagination>
+                  <span class="cs-page ml-2">
+                    Page - {{ pagination.pageNumber }} /
+                    {{ pagination.totalPage }}</span>
+                </div>
+              </div>
+              <div class="col-4">
+                <span class="cs-page float-right ">{{'SalaryMaintenance.MonthlyExchangeRateSetting.Result' | translate }} {{pagination.totalCount}}</span>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,123 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off"
+              #addForm="ngForm">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs"> {{ title }} - {{ 'System.Action.' + formType | translate }} </strong>
+                <button type="button"
+                        class="btn btn-sm btn-primary float-right"
+                        (click)="back()">
+                  <i class="{{ iconButton.BACK }}"></i> {{"System.Action.Back" | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row border-shadow">
+              <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning">{{'SalaryMaintenance.LeaveSalaryCalculationMaintenance.Factory' | translate }}<span class="text-danger">
+                    *</span></label>
+                <ng-select name="factory"
+                           [(ngModel)]="data.factory"
+                           (ngModelChange)="onValueChange()"
+                           placeholder="{{'SalaryMaintenance.LeaveSalaryCalculationMaintenance.Factory' | translate }}"
+                           [disabled]="isEdit"
+                           required>
+                  <ng-option *ngFor="let item of listFactory"
+                             [value]="item.key">{{ item.value }}</ng-option>
+                </ng-select>
+              </div>
+
+              <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning"> {{"SalaryMaintenance.LeaveSalaryCalculationMaintenance.Leave" | translate }} <span class="text-danger text-bold"> *</span></label>
+                <ng-select name="leave_Code"
+                           [(ngModel)]="data.leave_Code"
+                           (ngModelChange)="onValueChange()"
+                           [disabled]="isEdit"
+                           (clear)="data.leave_Code = ''"
+                           [clearable]="data.leave_Code !== ''"
+                           appendTo="body"
+                           required
+                           placeholder="{{'SalaryMaintenance.LeaveSalaryCalculationMaintenance.Leave' | translate }}">
+                  <ng-option *ngFor="let item of listLeaveCode"
+                             [value]="item.key">{{ item.value }}</ng-option>
+                </ng-select>
+              </div>
+
+              <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning"> {{"SalaryMaintenance.LeaveSalaryCalculationMaintenance.SalaryDeductRate" | translate }} <span class="text-danger text-bold"> *</span></label>
+                <input type="text"
+                       mask="separator.1"
+                       maxlength="4"
+                       autocomplete="off"
+                       class="form-control"
+                       placeholder='{{"SalaryMaintenance.LeaveSalaryCalculationMaintenance.SalaryDeductRate" | translate }}'
+                       name="salary_Rate"
+                       decimalMarker="."
+                       thousandSeparator=""
+                       separatorLimit="999"
+                       required
+                       [(ngModel)]="data.salary_Rate"
+                       (ngModelChange)="convertNumber(data.salary_Rate)" />
+              </div>
+              <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <label for="textDepartment"
+                       class="badge badge-warning">{{"SalaryMaintenance.BankAccountMaintenance.Update_By" | translate
+                  }}</label>
+                <input type="text"
+                       class="form-control"
+                       id="Update_By"
+                       name="Update_By"
+                       [(ngModel)]="data.update_By"
+                       placeholder='{{"SalaryMaintenance.BankAccountMaintenance.Update_By" | translate }}'
+                       disabled>
+              </div>
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <label for="textDepartment"
+                       class="badge badge-warning">{{"SalaryMaintenance.BankAccountMaintenance.Update_Time" | translate
+                  }}</label>
+                <input type="text"
+                       class="form-control"
+                       id="Update_Time"
+                       name="Update_Time"
+                       [(ngModel)]="data.update_Time"
+                       placeholder='{{"SalaryMaintenance.BankAccountMaintenance.Update_Time" | translate }}'
+                       disabled>
+              </div>
+            </div>
+            <div class="row justify-content-md-center">
+              <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="table-responsive text-right">
+                  <button type="button"
+                          [ngClass]="isEdit ? 'none' : ''"
+                          class="btn btn-warning ml-2"
+                          (click)="save(true)"
+                          [disabled]="!addForm.valid">
+                    <i class="{{ iconButton.SAVE }}"></i>
+                    {{ "System.Action.SaveAndContinue" | translate }}
+                  </button>
+                  <button type="button"
+                          class="btn btn-success ml-2"
+                          (click)="save(false)"
+                          [disabled]="!addForm.valid">
+                    <i class="{{ iconButton.SAVE }}"></i> {{"System.Action.Save" | translate }}
+                  </button>
+                  <button type="button"
+                          class="btn btn-danger ml-2"
+                          (click)="back()">
+                    <i class="{{ iconButton.CLOSE }}"></i> {{"System.Action.Close" | translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

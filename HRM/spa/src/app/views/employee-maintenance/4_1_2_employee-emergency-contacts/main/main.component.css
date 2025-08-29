@@ -1,0 +1,6 @@
+table thead tr th {
+    white-space: nowrap;
+}
+.operation-column{
+  min-width: 180px;
+}

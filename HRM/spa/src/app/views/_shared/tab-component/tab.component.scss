@@ -1,0 +1,131 @@
+#pill-tabset-animation {
+  ::ng-deep .nav {
+    display: none !important;
+    visibility: hidden !important;
+  }
+  ::ng-deep .tab-content {
+    margin: 0 !important;
+    background: #fff !important;
+    border: none !important;
+
+    .tab-pane {
+      padding: 1rem 0 0 0 !important;
+    }
+  }
+  .custom-tabset {
+    position: relative;
+  }
+  .custom-tabset .tab-container {
+    position: relative;
+    margin: 1rem !important;
+  }
+  .custom-tabset .tab-header {
+    position: relative;
+    display: flex;
+    pointer-events: none;
+    align-items: center;
+    display: flex;
+    height: 34px;
+  }
+  .custom-tabset .tab-title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    width: 100%;
+    height: 34px;
+  }
+  .custom-tabset .nav-title {
+    margin: 0 !important;
+    padding: 5px;
+    color: #73818f;
+    font-size: 16px !important;
+    border: none;
+    cursor: pointer;
+    z-index: 3;
+    position: relative;
+    flex-basis: 0;
+    flex-grow: 1;
+    text-align: center;
+    height: 34px;
+    white-space: nowrap;
+    overflow: hidden;
+    border-bottom: 2px solid;
+    transition: all 0.2s ease-in-out;
+    border-image-slice: 0% !important;
+  }
+  .custom-tabset .nav-title.hover {
+    &:hover {
+      border-image-slice: 35% !important
+    }
+    &:hover .nav-text {
+      font-weight: 400;
+      transform: scale(1.04);
+    }
+    &:not(:hover) .nav-text {
+      font-weight: normal;
+    }
+  }
+  .custom-tabset .nav-title.disabled {
+    pointer-events: none;
+    cursor: default;
+  }
+  .custom-tabset .nav-title.active {
+    pointer-events: none;
+    cursor: default;
+  }
+  .custom-tabset .nav-background {
+    margin: 0 !important;
+    padding: 5px;
+    background-color: #f0f3f5;
+    color: transparent;
+    font-size: 16px !important;
+    border: none;
+    cursor: pointer;
+    z-index: 1;
+    position: relative;
+    flex-basis: 0;
+    flex-grow: 1;
+    text-align: center;
+    height: 34px;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .custom-tabset .nav-background.first {
+    border-top-left-radius: 2rem;
+    border-bottom-left-radius: 2rem;
+    // background-image: linear-gradient(to left, #f0f3f5 90%, transparent 100%);
+    // background-color: transparent !important;
+  }
+  .custom-tabset .nav-background.last {
+    border-top-right-radius: 2rem;
+    border-bottom-right-radius: 2rem;
+    // background-image: linear-gradient(to right, #f0f3f5 90%, transparent 100%);
+    // background-color: transparent !important;
+  }
+  .custom-tabset .nav-text {
+    white-space: nowrap;
+    overflow: hidden;
+    transition: all 0.1s ease-in-out;
+  }
+  .custom-tabset .nav-text.active {
+    color: white;
+    font-weight: 500 !important;
+    transform: scale(1.04);
+  }
+  .custom-tabset .tab-indicator {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    background-color: #20a8d8;
+    z-index: 2;
+    border-top-left-radius: 2rem;
+    border-bottom-left-radius: 2rem;
+    border-top-right-radius: 2rem;
+    border-bottom-right-radius: 2rem;
+    // background-image: radial-gradient(circle,#20a8d8 60%,transparent 99%) ;
+  }
+  .custom-tabset .tab-content {
+    margin-top: 10px;
+  }
+}

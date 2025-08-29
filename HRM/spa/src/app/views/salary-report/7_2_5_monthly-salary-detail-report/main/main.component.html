@@ -1,0 +1,258 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">{{ title }}</strong>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="card-body">
+          <div class="row border-shadow">
+            <!-- Factory -->
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <div class="form-group">
+                <label for="factory"
+                       class="badge badge-warning">
+                  {{ "SalaryReport.MonthlySalaryDetailReport.Factory" | translate }}
+                  <span class="text-danger text-bold"> *</span>
+                </label>
+                <ng-select id="factory"
+                           name="factory"
+                           [(ngModel)]="param.factory"
+                           (ngModelChange)="onChangeFactory()"
+                           placeholder="{{ 'SalaryReport.MonthlySalaryDetailReport.Factory' | translate }}"
+                           [clearable]="param.factory != ''"
+                           (clear)="deleteProperty('factory')">
+                  <ng-option *ngFor="let data of listFactory"
+                             [value]="data.key">
+                    {{ data.value }}
+                  </ng-option>
+                </ng-select>
+              </div>
+            </div>
+
+            <!-- Year Month -->
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <label class="badge badge-warning">
+                {{'SalaryReport.MonthlySalaryDetailReport.YearMonth'| translate}}
+                <span class="text-danger">*</span>
+              </label>
+              <div class="full-width">
+                <div class="container_input">
+                  <div class="input-group mr-1">
+                    <input type="text"
+                           (keydown.backspace)="deleteProperty('year_Month')"
+                           autocomplete="off"
+                           placeholder="{{placeholder.YearMonth}}"
+                           name="monthSalaryGeneration"
+                           [bsConfig]="bsConfig"
+                           class="form-control"
+                           bsDatepicker
+                           (keypress)="validateYearMonth($event)"
+                           [(ngModel)]="param.year_Month"
+                           (ngModelChange)="onDateChange()"
+                           onpaste="return false" />
+                    <div class="input-group-append">
+                      <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Kind -->
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <div class="form-group">
+                <label class="badge badge-warning">
+                  {{"SalaryReport.MonthlySalaryDetailReport.Kind" | translate }}
+                  <span class="text-danger text-bold"> *</span>
+                </label>
+                <div class="row pl-3">
+                  <div *ngFor="let item of kind; index as i">
+                    <label class="container">
+                      <div class="row">
+                        <div class="custom-control custom-radio pt-2">
+                          <input [id]="'kind' + i"
+                                 class="custom-control-input"
+                                 type="radio"
+                                 checked="checked"
+                                 [name]="'kind' + i"
+                                 [(ngModel)]="param.kind"
+                                 [value]="item.key" />
+                          <p class="custom-control-label"
+                             [for]="'kind' + i">
+                            <strong>
+                              {{ item.value | translate }}
+                            </strong>
+                          </p>
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Transfer -->
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <div class="form-group">
+                <label class="badge badge-warning">
+                  {{"SalaryReport.MonthlySalaryDetailReport.Transfer" | translate }}
+                  <span class="text-danger text-bold"> *</span>
+                </label>
+                <div class="row pl-3">
+                  <div *ngFor="let item of transfer; index as i">
+                    <label class="container">
+                      <div class="row">
+                        <div class="custom-control custom-radio pt-2">
+                          <input [id]="'transfer' + i"
+                                 class="custom-control-input"
+                                 type="radio"
+                                 checked="checked"
+                                 [name]="'transfer' + i"
+                                 [(ngModel)]="param.transfer"
+                                 [value]="item.key" />
+                          <p class="custom-control-label"
+                             [for]="'transfer' + i">
+                            <strong>
+                              {{ item.value | translate }}
+                            </strong>
+                          </p>
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Department -->
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <div class="form-group">
+                <label for="department"
+                       class="badge badge-warning">
+                  {{ "SalaryReport.MonthlySalaryDetailReport.Department" | translate }}
+                </label>
+                <ng-select [disabled]="listDepartment.length == 0"
+                           id="department"
+                           name="department"
+                           [(ngModel)]="param.department"
+                           placeholder="{{ 'SalaryReport.MonthlySalaryDetailReport.Department' | translate }}"
+                           [clearable]="param.department != ''"
+                           (clear)="deleteProperty('department')">
+                  <ng-option *ngFor="let data of listDepartment"
+                             [value]="data.key">
+                    {{ data.value }}
+                  </ng-option>
+                </ng-select>
+              </div>
+            </div>
+
+            <!-- EmployeeID -->
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <label class="badge badge-warning">
+                {{"SalaryReport.MonthlySalaryDetailReport.EmployeeID" | translate}}
+              </label>
+              <input type="text"
+                     autocomplete="off"
+                     [(ngModel)]="param.employee_Id"
+                     class="form-control"
+                     maxlength="9"
+                     name="employee_ID"
+                     placeholder="{{'SalaryReport.MonthlySalaryDetailReport.EmployeeID' | translate}}" />
+            </div>
+
+            <!-- Permission Group -->
+            <div class="col-12">
+              <div class="row">
+                <div class="col-auto">
+                  <div class="form-group">
+                    <label class="badge badge-warning">
+                      {{ "SalaryReport.MonthlySalaryDetailReport.PermissionGroup" | translate }}
+                      <span class="text-danger text-bold"> *</span>
+                    </label>
+                    <ng-select [disabled]="listPermissionGroup.length == 0"
+                               id="permission_Group"
+                               name="permission_Group"
+                               [items]="listPermissionGroup"
+                               [multiple]="true"
+                               groupBy="allGroup"
+                               [selectableGroup]="true"
+                               [selectableGroupAsModel]="false"
+                               [closeOnSelect]="false"
+                               bindLabel="value"
+                               bindValue="key"
+                               [(ngModel)]="param.permission_Group"
+                               placeholder="{{ 'SalaryReport.MonthlySalaryDetailReport.PermissionGroup' | translate }}">
+                      <ng-template ng-optgroup-tmp
+                                   let-item="item"
+                                   let-item$="item$"
+                                   let-index="index">
+                        <input id="itemMonthSalary-{{ index }}"
+                               type="checkbox"
+                               name="itemMonthSalary-{{ index }}"
+                               [ngModel]="item$.selected" />
+                        {{ "System.Action.SelectAll" | translate }}</ng-template>
+                      <ng-template ng-option-tmp
+                                   let-item="item"
+                                   let-item$="item$"
+                                   let-index="index">
+                        <input id="itemMonthSalary-{{ index }}"
+                               name="itemMonthSalary-{{ index }}"
+                               type="checkbox"
+                               [ngModel]="item$.selected" />
+                        {{ item.value }}
+                      </ng-template>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 mt-2">
+              <!-- Search -->
+              <button *ngIf="functionUtility.checkFunction('Search')"
+                      type="button"
+                      [disabled]="this.checkParam()"
+                      class="{{ classButton.SEARCH }}"
+                      (click)="getTotal()">
+                <i class="{{ iconButton.SEARCH }}"></i>
+                {{ "System.Action.Search" | translate }}
+              </button>
+
+              <!-- Clear -->
+              <button *ngIf="functionUtility.checkFunction('Search')"
+                      type="button"
+                      class="{{ classButton.CLEAR }}"
+                      (click)="clear()">
+                <i class="{{ iconButton.CLEAR }}"></i>
+                {{ "System.Action.Clear" | translate }}
+              </button>
+
+              <!-- Export Excel -->
+              <button *ngIf="functionUtility.checkFunction('Excel')"
+                      type="button"
+                      [disabled]="this.checkParam()"
+                      class="{{ classButton.EXCEL }}"
+                      (click)="download()">
+                <i class="{{ iconButton.EXCEL }}"></i>
+                {{ "System.Action.Excel" | translate }}
+              </button>
+            </div>
+
+            <div class="col-12 mt-2">
+              <strong> {{ "System.Message.TotalQuery" | translate }} <span class="text-primary"> {{totalRows}} </span>{{ "System.Message.Record" | translate }}</strong>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,306 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row border-title">
+            <div class="col-md-12">
+              <strong class="title-card-cs">{{ title }} - {{ "System.Action." + formType | translate }}</strong>
+              <button type="button"
+                      class="{{classButton.BACK}}"
+                      (click)="back()">
+                <i class="{{ iconButton.BACK }}"></i> {{'System.Action.Back' | translate }}
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form class="form-horizontal"
+                autocomplete="off"
+                #form="ngForm">
+            <div class="row border-shadow">
+              <div class="col-12">
+                <div class="row">
+                  <!-- Factory -->
+                  <div class="col-xxl-3 col-xl-4 col-md-5 col-sm-12">
+                    <label class="badge badge-warning">
+                      {{ 'SalaryMaintenance.AdditionDeductionItemAndAmountSettings.Factory' | translate }}
+                      <span class="text-danger text-bold"> *</span>
+                    </label>
+                    <ng-select name="factory"
+                               [(ngModel)]="param.factory"
+                               (clear)="deleteProperty(param,'factory')"
+                               [clearable]="param.factory != ''"
+                               (ngModelChange)="onChangeFactory()"
+                               placeholder="{{'SalaryMaintenance.AdditionDeductionItemAndAmountSettings.Factory' | translate }}"
+                               [readonly]="isEdit"
+                               required>
+                      <ng-option *ngFor="let item of listFactory"
+                                 [value]="item.key">
+                        {{item.value}}
+                      </ng-option>
+                    </ng-select>
+                  </div>
+
+                  <!-- Permission Group -->
+                  <div class="col-xxl-3 col-xl-4 col-md-5 col-sm-12">
+                    <label class="badge badge-warning">{{
+                      'SalaryMaintenance.AdditionDeductionItemAndAmountSettings.PermissionGroup' | translate }}
+                      <span class="text-danger text-bold"> *</span></label>
+                    <ng-select name="permission_Group"
+                               [(ngModel)]="param.permission_Group"
+                               (clear)="deleteProperty(param,'permission_Group')"
+                               [clearable]="param.permission_Group != ''"
+                               (ngModelChange)="checkData()"
+                               placeholder="{{'SalaryMaintenance.AdditionDeductionItemAndAmountSettings.PermissionGroup' | translate }}"
+                               [readonly]="!param.factory || isEdit"
+                               required>
+                      <ng-option *ngFor="let item of listPermissionGroup"
+                                 [value]="item.key">
+                        {{item.value}}
+                      </ng-option>
+                    </ng-select>
+                  </div>
+
+                  <!-- Salary Type -->
+                  <div class="col-xxl-3 col-xl-4 col-md-5 col-sm-12">
+                    <label class="badge badge-warning">
+                      {{ 'SalaryMaintenance.AdditionDeductionItemAndAmountSettings.SalaryType' | translate }}
+                      <span class="text-danger text-bold"> *</span>
+                    </label>
+                    <ng-select name="salary_Type"
+                               [(ngModel)]="param.salary_Type"
+                               (clear)="deleteProperty(param,'salary_Type')"
+                               [clearable]="param.salary_Type != ''"
+                               (ngModelChange)="checkData()"
+                               placeholder="{{'SalaryMaintenance.AdditionDeductionItemAndAmountSettings.SalaryType' | translate }}"
+                               [readonly]="isEdit"
+                               required>
+                      <ng-option *ngFor="let item of listSalaryType"
+                                 [value]="item.key">
+                        {{item.value}}
+                      </ng-option>
+                    </ng-select>
+                  </div>
+
+                  <!-- Effective Month -->
+                  <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+                    <label class="badge badge-warning">
+                      {{"SalaryMaintenance.AdditionDeductionItemAndAmountSettings.EffectiveMonth" | translate }}
+                      <span class="text-danger text-bold"> *</span>
+                    </label>
+                    <div class="full-width">
+                      <div class="container_date">
+                        <div class="input-group mr-1">
+                          <input autocomplete="off"
+                                 (keydown.backspace)="effective_Month = null"
+                                 onpaste="return false;"
+                                 type="text"
+                                 placeholder="{{placeholder.YearMonth}}"
+                                 [class]="!isEdit ? 'form-control bg-white' : 'form-control'"
+                                 name="effective_Month"
+                                 [(ngModel)]="param.effective_Month"
+                                 (ngModelChange)="onChangeEffectiveMonth()"
+                                 [disabled]="isEdit"
+                                 bsDatepicker
+                                 [bsConfig]="bsConfig"
+                                 required />
+                          <div class="input-group-append">
+                            <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+          <form class="form-horizontal"
+                autocomplete="off"
+                #tableForm="ngForm">
+            <div class="row justify-content-md-center">
+              <div class="col-lg-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th class="text-center operation-column">
+                          {{ 'System.Action.Operation' | translate }}
+                        </th>
+                        <th class="text-center">
+                          {{ 'SalaryMaintenance.AdditionDeductionItemAndAmountSettings.AddtionDedtionType' | translate
+                          }}
+                          <span class="text-danger text-bold"> *</span>
+                        </th>
+                        <th class="text-center">
+                          {{ 'SalaryMaintenance.AdditionDeductionItemAndAmountSettings.AddtionDedtionItem' | translate
+                          }}
+                          <span class="text-danger text-bold"> *</span>
+                        </th>
+                        <th class="text-center">
+                          {{ 'SalaryMaintenance.AdditionDeductionItemAndAmountSettings.Amount' | translate }}
+                          <span class="text-danger text-bold"> *</span>
+                        </th>
+                        <th class="text-center">
+                          {{ "SalaryMaintenance.AdditionDeductionItemAndAmountSettings.OnjobPrint"| translate}}
+                        </th>
+                        <th class="text-center">
+                          {{ "SalaryMaintenance.AdditionDeductionItemAndAmountSettings.ResignedPrint"| translate}}
+                        </th>
+                        <th class="text-center">
+                          {{ 'SalaryMaintenance.IncomeTaxFreeSetting.UpdateBy' | translate }}
+                        </th>
+                        <th class="text-center">
+                          {{ 'SalaryMaintenance.IncomeTaxFreeSetting.UpdateTime' | translate }}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of data; index as i">
+                        <td class="text-center">
+                          <button type="button"
+                                  class="{{classButton.tDELETE}}"
+                                  [disabled]="isEdit && !item.isNew"
+                                  (click)="remove(i)"><i class="{{ iconButton.DELETE }}"></i>
+                            {{'System.Action.Delete' | translate }}
+                          </button>
+                        </td>
+                        <!-- Additions and Deduction Type-->
+                        <td class="text-center"
+                            [ngClass]="{'invalid-data': item.is_Duplicate}">
+                          <ng-select name="addDed_Type-{{i}}"
+                                     [(ngModel)]="item.addDed_Type"
+                                     [disabled]="isEdit && !item.isNew"
+                                     (clear)="item.addDed_Type = ''"
+                                     [clearable]="item.addDed_Type != ''"
+                                     (ngModelChange)="onKeyChange(item, true)"
+                                     placeholder="{{'SalaryMaintenance.AdditionDeductionItemAndAmountSettings.AddtionDedtionType' | translate }}"
+                                     appendTo="body"
+                                     dropdownPosition="bottom"
+                                     required>
+                            <ng-option *ngFor="let item of listAdditionsAndDeductionsType"
+                                       [value]="item.key">
+                              {{item.value}}
+                            </ng-option>
+                          </ng-select>
+                        </td>
+                        <!-- Additions and Deduction Item-->
+                        <td class="text-center"
+                            [ngClass]="{'invalid-data': item.is_Duplicate}">
+                          <ng-select name="addDed_Item-{{i}}"
+                                     [(ngModel)]="item.addDed_Item"
+                                     [disabled]="isEdit && !item.isNew"
+                                     (clear)="item.addDed_Item = ''"
+                                     [clearable]="item.addDed_Item != ''"
+                                     (ngModelChange)="onKeyChange(item, true)"
+                                     placeholder="{{'SalaryMaintenance.AdditionDeductionItemAndAmountSettings.AddtionDedtionItem' | translate }}"
+                                     appendTo="body"
+                                     dropdownPosition="bottom"
+                                     required>
+                            <ng-option *ngFor="let item of listAdditionsAndDeductionsItem"
+                                       [value]="item.key">
+                              {{item.value}}
+                            </ng-option>
+                          </ng-select>
+                        </td>
+                        <!-- Amount -->
+                        <td class="text-center">
+                          <input type="text"
+                                 class="form-control"
+                                 name="amount-{{i}}"
+                                 [(ngModel)]="item.amount"
+                                 (ngModelChange)="onDataChange(item)"
+                                 placeholder="{{'SalaryMaintenance.IncomeTaxFreeSetting.Amount' | translate}}"
+                                 mask="separator"
+                                 thousandSeparator=","
+                                 separatorLimit="10000000"
+                                 required />
+                        </td>
+                        <!-- onjob_Print -->
+                        <td class="text-center insurance-cell">
+                          <div class="custom-control custom-radio">
+                            @for (onjob of onjob_Print_List; track onjob.key) {
+                            <div class="form-check form-check-inline">
+                              <input type="radio"
+                                     class="custom-control-input"
+                                     id="{{onjob.value}}-{{i}}"
+                                     name="onjob_Print-{{i}}"
+                                     [value]="onjob.key"
+                                     [(ngModel)]="item.onjob_Print"
+                                     (ngModelChange)="onDataChange(item)"/>
+                              <label class="custom-control-label font-weight-bold"
+                                     for="{{onjob.value}}-{{i}}">{{onjob.key}}
+                              </label>
+                            </div>
+                            }
+                          </div>
+                        </td>
+                        <!-- resigned_Print -->
+                        <td class="text-center insurance-cell">
+                          <div class="custom-control custom-radio">
+                            @for (resigned of resigned_Print_List; track resigned.key) {
+                            <div class="form-check form-check-inline">
+                              <input type="radio"
+                                     class="custom-control-input"
+                                     id="{{resigned.value}}-{{i}}"
+                                     name="resigned_Print-{{i}}"
+                                     [value]="resigned.key"
+                                     [(ngModel)]="item.resigned_Print"
+                                     (ngModelChange)="onDataChange(item)" />
+                              <label class="custom-control-label font-weight-bold"
+                                     for="{{resigned.value}}-{{i}}">{{resigned.key}}
+                              </label>
+                            </div>
+                            }
+                          </div>
+                        </td>
+                        <td class="text-center">{{ item.update_By }}</td>
+                        <td class="text-center">{{ item.update_Time_Str }}</td>
+                      </tr>
+                    </tbody>
+                    <tr *ngIf="data?.length === 0"
+                        class="no-data">
+                      <td colspan="100%"
+                          class="table-warning text-center font-weight-bold">
+                        {{'System.Message.Nodata' | translate }}
+                      </td>
+                    </tr>
+                    <tr class="no-data">
+                      <td class="text-center"
+                          colspan="100%">
+                        <button type="button"
+                                class="{{classButton.tDETAIL}}"
+                                (click)="addNew()"
+                                [disabled]="!tableForm.valid || !form.valid || isDuplicated">
+                          <i class="{{ iconButton.ADD }}"></i> {{'System.Action.Add' | translate }}
+                        </button>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </form>
+          <div class="row justify-content-md-center">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="table-responsive text-right">
+                <button type="button"
+                        class="{{classButton.SAVE}}"
+                        (click)="save()"
+                        [disabled]="!tableForm.valid || !form.valid || isDuplicated || this.data.length === 0">
+                  <i class="{{ iconButton.SAVE }}"></i> {{'System.Action.Save' | translate }}
+                </button>
+                <button type="button"
+                        class="{{classButton.CLOSE}}"
+                        (click)="back()">
+                  <i class="{{ iconButton.CLOSE }}"></i> {{'System.Action.Close' | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

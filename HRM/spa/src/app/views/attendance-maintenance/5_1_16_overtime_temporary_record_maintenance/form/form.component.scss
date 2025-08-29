@@ -1,0 +1,37 @@
+.container p {
+  margin-right: 10px;
+}
+
+.container_input {
+  display: flex;
+  flex-direction: row;
+}
+
+.width-operation {
+  min-width: 100px;
+}
+
+.text-center-vertical {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.column-min {
+  min-width: 70px;
+}
+
+.column-min-text {
+  min-width: 200px;
+}
+.no-data-add {
+  height: 3.4rem;
+  td {
+    position: absolute;
+    width: calc(100% - 2rem);
+    border-top: none !important;
+    border-bottom: 1px solid #c8ced3 !important;
+  }
+}
+.table-bordered {
+    border-bottom: none !important;
+}

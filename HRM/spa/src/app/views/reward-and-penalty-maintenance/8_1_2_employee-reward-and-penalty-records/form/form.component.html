@@ -1,0 +1,287 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off"
+              #addForm="ngForm">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">
+                  {{ title }} - {{ "System.Action." + formType | translate }}
+                </strong>
+                <button type="button"
+                        class="btn btn-sm btn-primary float-right"
+                        (click)="back()">
+                  <i class="{{ iconButton.BACK }}"></i>
+                  {{ "System.Action.Back" | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row border-shadow">
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6">
+                <label class="badge badge-warning">
+                  {{ "RewardandPenaltyMaintenance.RewardAndPenaltyRecords.Factory" | translate }}
+                  <span class="text-danger text-bold"> *</span></label>
+                <ng-select id="factory"
+                           name="factory"
+                           [(ngModel)]="data.factory"
+                           (clear)="deleteProperty('factory')"
+                           (ngModelChange)="onFactoryChange()"
+                           [clearable]="data.factory !== ''"
+                           onFactoryChange
+                           placeholder="{{'RewardandPenaltyMaintenance.RewardAndPenaltyRecords.Factory'     | translate }}"
+                           [disabled]="action == 'Query' || action == 'Edit'"
+                           required>
+                  <ng-option *ngFor="let i of listFactory"
+                             [value]="i.key">{{ i.value   }}</ng-option>
+                </ng-select>
+              </div>
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning">
+                  {{ "RewardandPenaltyMaintenance.RewardAndPenaltyRecords.EmployeeID" | translate }}
+                  <span class="text-danger text-bold"> *</span></label>
+                <input autocomplete="off"
+                       type="text"
+                       placeholder="{{'RewardandPenaltyMaintenance.RewardAndPenaltyRecords.EmployeeID'     | translate }}"
+                       class="form-control"
+                       maxlength="9"
+                       name="employee_ID"
+                       [(ngModel)]="data.employee_ID"
+                       (ngModelChange)="onEmployeeChange();"
+                       typeaheadOptionField="actual_Employee_ID"
+                       [typeaheadScrollable]="true"
+                       [typeaheadOptionsInScrollableView]="5"
+                       [typeaheadAsync]="true"
+                       [typeahead]="employeeList$"
+                       (typeaheadOnSelect)="onTypehead($event)"
+                       [disabled]="action == 'Query' || action == 'Edit' || !data.factory"
+                       required />
+              </div>
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning">
+                  {{ "RewardandPenaltyMaintenance.RewardAndPenaltyRecords.LocalFullName" | translate }}
+                </label>
+                <input type="text"
+                       class="form-control"
+                       id="local_Full_Name"
+                       name="local_Full_Name"
+                       [ngModel]="data.local_Full_Name"
+                       [disabled]="action == 'Query' || action == 'Edit'"
+                       placeholder="{{'RewardandPenaltyMaintenance.RewardAndPenaltyRecords.LocalFullName'     | translate }}"
+                       autocomplete="off"
+                       readonly />
+              </div>
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning">
+                  {{ "RewardandPenaltyMaintenance.RewardAndPenaltyRecords.Department" | translate }}</label>
+                <input type="text"
+                       class="form-control"
+                       id="department"
+                       name="department"
+                       [(ngModel)]="data.department_Code_Name"
+                       [disabled]="action == 'Query' || action == 'Edit'"
+                       placeholder="{{ 'RewardandPenaltyMaintenance.RewardAndPenaltyRecords.Department' | translate }}"
+                       autocomplete="off"
+                       readonly />
+              </div>
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning">
+                  {{ "RewardandPenaltyMaintenance.RewardAndPenaltyRecords.WorkTypeJob" | translate }}</label>
+                <input type="text"
+                       class="form-control"
+                       id="work_Type"
+                       name="work_Type"
+                       [(ngModel)]="data.work_Type_Name"
+                       [disabled]="action == 'Query' || action == 'Edit'"
+                       placeholder="{{ 'RewardandPenaltyMaintenance.RewardAndPenaltyRecords.WorkTypeJob' | translate }}"
+                       autocomplete="off"
+                       readonly />
+              </div>
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6">
+                <label class="badge badge-warning">
+                  {{
+                  "RewardandPenaltyMaintenance.RewardAndPenaltyRecords.Date" | translate }}
+                  <span class="text-danger text-bold"> *</span></label>
+                <div class="full-width">
+                  <div class="container_date">
+                    <div class="input-group mr-1">
+                      <input type="text"
+                             name="date"
+                             [(ngModel)]="data.reward_Date"
+                             onpaste="return false;"
+                             autocomplete="off"
+                             class="form-control"
+                             [disabled]="action == 'Query' || action == 'Edit'"
+                             placeholder="{{ placeholder.YearMonthDay }}"
+                             (ngModelChange)="onDateChange('reward_Date')"
+                             bsDatepicker
+                             [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY/MM/DD' }"
+                             required />
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6">
+                <label class="badge badge-warning">
+                  {{ "RewardandPenaltyMaintenance.RewardAndPenaltyRecords.RewardPenaltyType" | translate }}
+                  <span class="text-danger text-bold"> *</span></label>
+                <ng-select id="reward_Penalty_Type"
+                           name="reward_Penalty_Type"
+                           [(ngModel)]="data.reward_Penalty_Type"
+                           (clear)="deleteProperty('reward_Penalty_Type')"
+                           [clearable]="data.reward_Penalty_Type !== ''"
+                           placeholder="{{ 'RewardandPenaltyMaintenance.RewardAndPenaltyRecords.RewardPenaltyType' | translate }}"
+                           [disabled]="action == 'Query' || action == 'Edit'"
+                           required>
+                  <ng-option *ngFor="let i of listReward_Type"
+                             [value]="i.key">{{ i.value }}</ng-option>
+                </ng-select>
+              </div>
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6">
+                <label class="badge badge-warning">
+                  {{ "RewardandPenaltyMaintenance.RewardAndPenaltyRecords.ReasonCode" | translate }}
+                  <span class="text-danger text-bold"> *</span></label>
+                <ng-select id="reason_Code"
+                           name="reason_Code"
+                           [(ngModel)]="data.reason_Code"
+                           (clear)="deleteProperty('reason_Code')"
+                           [clearable]="data.reason_Code !== ''"
+                           placeholder="{{ 'RewardandPenaltyMaintenance.RewardAndPenaltyRecords.ReasonCode' | translate }}"
+                           [disabled]="action == 'Query' || !data.factory"
+                           required>
+                  <ng-option *ngFor="let i of listReason_Code"
+                             [value]="i.key">{{ i.value }}</ng-option>
+                </ng-select>
+              </div>
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6">
+                <label class="badge badge-warning">
+                  {{ "RewardandPenaltyMaintenance.RewardAndPenaltyRecords.Yearly" | translate }}</label>
+                <div class="full-width">
+                  <div class="container_date">
+                    <div class="input-group mr-1">
+                      <input type="text"
+                             name="yearly_Month"
+                             [(ngModel)]="data.yearly_Month"
+                             [disabled]="action == 'Query'"
+                             onpaste="return false;"
+                             autocomplete="off"
+                             class="form-control"
+                             placeholder="{{ placeholder.YearMonth }}"
+                             (ngModelChange)="onDateChange('yearly_Month')"
+                             bsDatepicker
+                             [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY/MM',  minMode: 'month' }" />
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning">
+                  {{ "RewardandPenaltyMaintenance.RewardAndPenaltyRecords.Countsof" | translate }}
+                  <span class="text-danger text-bold"> *</span></label>
+                <input type="number"
+                       class="form-control"
+                       id="counts_of"
+                       name="counts_of"
+                       [(ngModel)]="data.counts_of"
+                       [disabled]="action == 'Query'"
+                       placeholder="{{ 'RewardandPenaltyMaintenance.RewardAndPenaltyRecords.Countsof' | translate }}"
+                       [min]="1"
+                       autocomplete="off"
+                       (input)="validateInput($event,'Counts of')"
+                       required />
+              </div>
+              <div class="col-xxl-6 col-xl-8 col-lg-12 col-md-12 col-sm-12">
+                <label class="badge badge-warning">
+                  {{ "RewardandPenaltyMaintenance.RewardAndPenaltyRecords.Remark" | translate }}</label>
+                <input type="text"
+                       class="form-control"
+                       id="remark"
+                       name="remark"
+                       [(ngModel)]="data.remark"
+                       [disabled]="action == 'Query'"
+                       placeholder="{{ 'RewardandPenaltyMaintenance.RewardAndPenaltyRecords.Remark' | translate }}"
+                       maxlength="100"
+                       autocomplete="off" />
+              </div>
+              <div class="col-12">
+                <div class="row ">
+                  <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                    <label class="d-block">&nbsp;</label>
+                    <button type="button"
+                            title="View"
+                            class="btn btn-outline-primary"
+                            (click)="attachment()">
+                      <i class="{{ iconButton.ATTACHMENT }}"></i>
+                      {{ "System.Action.Attachment" | translate }}
+                    </button>
+                  </div>
+                  <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                    <label class="badge badge-warning">
+                      {{ "RewardandPenaltyMaintenance.RewardAndPenaltyRecords.UpdateBy" | translate }}
+                    </label>
+                    <input type="text"
+                           class="form-control"
+                           [(ngModel)]="data.update_By"
+                           id="Update_By"
+                           name="Update_By"
+                           disabled />
+                  </div>
+                  <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                    <label class="badge badge-warning">
+                      {{ "RewardandPenaltyMaintenance.RewardAndPenaltyRecords.UpdateTime" | translate }}
+                    </label>
+                    <input type="text"
+                           class="form-control"
+                           [(ngModel)]="data.update_Time"
+                           name="Update_Time"
+                           disabled />
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 mt-3">
+              <div class="table-responsive text-right">
+                <button type="button"
+                        [ngClass]="isEdit ? 'none' : ''"
+                        class="btn btn-warning ml-2"
+                        (click)="save(true)"
+                        [disabled]="!addForm.valid || inputError"
+                        *ngIf="action == 'Add'">
+                  <i class="{{ iconButton.SAVE }}"></i>
+                  {{ "System.Action.SaveAndContinue" | translate }}
+                </button>
+                <button type="button"
+                        class="btn btn-success ml-2"
+                        (click)="save()"
+                        *ngIf="action != 'Query'"
+                        [disabled]="!addForm.valid || inputError">
+                  <i class="{{ iconButton.SAVE }}"></i>
+                  {{ "System.Action.Save" | translate }}
+                </button>
+                <button type="button"
+                        class="btn btn-danger ml-2"
+                        (click)="back()">
+                  <i class="{{ iconButton.CLOSE }}"></i>
+                  {{ "System.Action.Close" | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <app-modal id="modify-modal"></app-modal>
+  <app-modal id="view-modal"></app-modal>
+</div>

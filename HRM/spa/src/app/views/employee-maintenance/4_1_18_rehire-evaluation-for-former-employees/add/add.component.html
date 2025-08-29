@@ -1,0 +1,336 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off"
+              #addForm="ngForm">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">
+                  {{ title }} - {{"System.Action.Add" | translate }}
+                </strong>
+                <button type="button"
+                        class="btn btn-sm btn-primary float-right"
+                        (click)="back()">
+                  <i class="{{ iconButton.BACK }}"></i> {{"System.Action.Back" | translate }} </button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="border-shadow">
+              <div class="row">
+                <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <label class="badge badge-warning"> {{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.Nationality" | translate }}
+                    <span class="text-danger text-bold"> *</span> </label>
+                  <ng-select name="nationality"
+                             (clear)="deletePropertyEvaluation('nationality')"
+                             [clearable]="param.evaluation.nationality"
+                             [(ngModel)]="param.evaluation.nationality"
+                             placeholder='{{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.Nationality" | translate }}'
+                             (ngModelChange)="onNationalityChange()"
+                             required>
+                    <ng-option *ngFor="let i of listNationality"
+                               [value]="i.key">{{i.value}}</ng-option>
+                  </ng-select>
+                </div>
+                <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <label class="badge badge-warning"> {{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.IdentificationNumber" | translate }}
+                    <span class="text-danger text-bold"> *</span></label>
+                  <input type="text"
+                         class="form-control"
+                         autocomplete="off"
+                         id="IdentificationNumber"
+                         name="IdentificationNumber"
+                         [(ngModel)]="param.evaluation.identification_Number"
+                         [typeahead]="dataTypeahead"
+                         typeaheadOptionField="key"
+                         typeaheadScrollable="true"
+                         placeholder='{{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.IdentificationNumber" | translate }}'
+                         (blur)="checkIdentificationNumber()"
+                         required>
+                </div>
+              </div>
+              <div class="row title-line pt-4 pb-3">
+                <div class="col-auto">
+                  <strong>{{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.ResignedFactoryPersonnelData" | translate }}</strong>
+                </div>
+                <div class="col">
+                  <hr>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <label class="badge badge-warning"> {{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.Division" | translate }} </label>
+                  <ng-select name="division_Personal"
+                             [ngModel]="param.personal.division"
+                             disabled
+                             placeholder='{{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.Division" | translate }}'>
+                    <ng-option *ngFor="let i of listDivision"
+                               [value]="i.key">{{i.value}}</ng-option>
+                  </ng-select>
+                </div>
+                <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <label class="badge badge-warning"> {{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.Factory" | translate }} </label>
+                  <ng-select name="factory_Personal"
+                             [ngModel]="param.personal.factory"
+                             disabled
+                             placeholder='{{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.Factory" | translate }}'>
+                    <ng-option *ngFor="let i of listFactoryPersonal"
+                               [value]="i.key">{{i.key}} - {{i.value}}</ng-option>
+                  </ng-select>
+                </div>
+                <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <label class="badge badge-warning"> {{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.Department" | translate }} </label>
+                  <ng-select name="department_Personal"
+                             [ngModel]="param.personal.department"
+                             disabled
+                             placeholder='{{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.Department" | translate }}'>
+                    <ng-option *ngFor="let i of listDepartmentPersonal"
+                               [value]="i.key">{{i.value}}</ng-option>
+                  </ng-select>
+                </div>
+                <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <label class="badge badge-warning"> {{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.EmployeeID" | translate }} </label>
+                  <input type="text"
+                         class="form-control"
+                         id="EmployeeID_Personal"
+                         name="EmployeeID_Personal"
+                         [ngModel]="param.personal.employeeID"
+                         placeholder='{{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.EmployeeID" | translate }}'
+                         readonly
+                         required>
+                </div>
+                <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <label class="badge badge-warning"> {{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.LocalFullName" | translate }} </label>
+                  <input type="text"
+                         class="form-control"
+                         disabled
+                         id="LocalFullName_Personal"
+                         name="LocalFullName_Personal"
+                         [ngModel]="param.personal.local_Full_Name"
+                         placeholder='{{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.LocalFullName" | translate }}'>
+                </div>
+                <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <label class="badge badge-warning"> {{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.OnboardDate" | translate }} </label>
+                  <input type="text"
+                         class="form-control"
+                         disabled
+                         id="OnboardDate_Personal"
+                         name="OnboardDate_Personal"
+                         [(ngModel)]="param.personal.onboard_Date_Date"
+                         placeholder='{{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.OnboardDate" | translate }}'>
+                </div>
+                <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <label class="badge badge-warning"> {{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.DateofResignation" | translate }} </label>
+                  <input type="text"
+                         class="form-control"
+                         disabled
+                         id="DateofResignation_Personal"
+                         name="DateofResignation_Personal"
+                         [ngModel]="param.personal.date_of_Resignation_Date"
+                         placeholder='{{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.DateofResignation" | translate }}'>
+                  <span *ngIf="isResignationDate"
+                        class="text-danger text-bold">{{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.Lessthan1year" | translate }}</span>
+                </div>
+                <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <label class="badge badge-warning"> {{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.ResignationType" | translate }} </label>
+                  <ng-select name="resign_Type_Personal"
+                             disabled
+                             [ngModel]="param.personal.resign_Type"
+                             placeholder='{{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.ResignationType" | translate }}'>
+                    <ng-option *ngFor="let i of listResignationType"
+                               [value]="i.key">{{i.value}}</ng-option>
+                  </ng-select>
+                </div>
+                <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <label class="badge badge-warning"> {{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.ReasonforResignation" | translate }} </label>
+                  <ng-select name="resign_Reason_Personal"
+                             disabled
+                             [ngModel]="param.personal.resign_Reason"
+                             placeholder='{{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.ReasonforResignation" | translate }}'>
+                    <ng-option *ngFor="let i of listReasonforResignation"
+                               [value]="i.key">{{i.value}}</ng-option>
+                  </ng-select>
+                </div>
+                <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <label class="badge badge-warning"> {{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.Blacklist" | translate }} </label>
+                  <div class="custom-control custom-radio custom-backlist">
+                    <div class="form-check form-check-inline">
+                      <input type="radio"
+                             class="custom-control-input"
+                             id="Blacklist_Personal1"
+                             name="Blacklist_Personal1"
+                             disabled
+                             [value]="true"
+                             [ngModel]="param.personal.blacklist" />
+                      <label class="custom-control-label font-weight-bold"
+                             for="Blacklist_Personal1"> Y </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input type="radio"
+                             class="custom-control-input"
+                             id="Blacklist_Personal2"
+                             name="Blacklist_Personal2"
+                             disabled
+                             [value]="false"
+                             [(ngModel)]="param.personal.blacklist" />
+                      <label class="custom-control-label font-weight-bold"
+                             for="Blacklist_Personal2"> N </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row title-line pt-4 pb-3">
+                <div class="col-auto">
+                  <strong class="title-card-cs">
+                    {{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.ResignedFactoryEvaluationResults" | translate }}</strong>
+                </div>
+                <div class="col">
+                  <hr>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <label class="badge badge-warning"> {{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.EvaluationResults" | translate }}
+                    <span class="text-danger text-bold"> *</span></label>
+                  <div class="custom-control custom-radio">
+                    <div class="form-check form-check-inline">
+                      <input type="radio"
+                             class="custom-control-input"
+                             id="Results_Evaluation1"
+                             name="Results_Evaluation1"
+                             [value]="false"
+                             [(ngModel)]="param.evaluation.results" />
+                      <label class="custom-control-label font-weight-bold"
+                             for="Results_Evaluation1">
+                        {{'EmployeeInformationModule.RehireEvaluationforFormerEmployees.EmployeeNot' | translate }}
+                      </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input type="radio"
+                             class="custom-control-input"
+                             id="Results_Evaluation2"
+                             name="Results_Evaluation2"
+                             [value]="true"
+                             [(ngModel)]="param.evaluation.results" />
+                      <label class="custom-control-label font-weight-bold"
+                             for="Results_Evaluation2">
+                        {{'EmployeeInformationModule.RehireEvaluationforFormerEmployees.Employee' | translate }}
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <label class="badge badge-warning"> {{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.EvaluationExplanation" | translate }}
+                    <span class="text-danger text-bold"> *</span> </label>
+                  <input type="text"
+                         class="form-control"
+                         [(ngModel)]="param.evaluation.explanation"
+                         autocomplete="off"
+                         id="Explanation_Evaluation"
+                         name="Explanation_Evaluation"
+                         placeholder='{{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.EvaluationExplanation" | translate }}'
+                         required>
+                </div>
+                <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <label class="badge badge-warning"> {{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.Division" | translate }}
+                    @if (param.evaluation.results) { <span class="text-danger text-bold"> *</span> }
+                  </label>
+                  <ng-select name="division_Evaluation"
+                             (clear)="deletePropertyEvaluation('division')"
+                             [clearable]="param.evaluation.division != ''"
+                             [(ngModel)]="param.evaluation.division"
+                             placeholder='{{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.Division" | translate }}'
+                             (ngModelChange)="onFactoryChange()"
+                             [readonly]="!param.evaluation.results"
+                             [required]="param.evaluation.results">
+                    <ng-option *ngFor="let i of listDivision"
+                               [value]="i.key">{{i.value}}</ng-option>
+                  </ng-select>
+                </div>
+                <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <label class="badge badge-warning"> {{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.Factory" | translate }}
+                    @if (param.evaluation.results) { <span class="text-danger text-bold"> *</span> }
+                  </label>
+                  <ng-select name="factory_Evaluation"
+                             (clear)="deletePropertyEvaluation('factory')"
+                             [clearable]="param.evaluation.factory != ''"
+                             [(ngModel)]="param.evaluation.factory"
+                             placeholder='{{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.Factory" | translate }}'
+                             (ngModelChange)="onDepartmentChange()"
+                             [readonly]="!param.evaluation.results || !param.evaluation.division"
+                             [required]="param.evaluation.results">
+                    <ng-option *ngFor="let i of listFactoryEvaluation"
+                               [value]="i.key">{{i.key}} - {{i.value}}</ng-option>
+                  </ng-select>
+                </div>
+                <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <label class="badge badge-warning"> {{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.Department" | translate }}
+                    @if (param.evaluation.results) { <span class="text-danger text-bold"> *</span> }
+                  </label>
+                  <ng-select name="department_Evaluation"
+                             (clear)="deletePropertyEvaluation('department')"
+                             [clearable]="param.evaluation.department != ''"
+                             [(ngModel)]="param.evaluation.department"
+                             placeholder='{{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.Department" | translate }}'
+                             [readonly]="!param.evaluation.results || !param.evaluation.factory"
+                             [required]="param.evaluation.results">
+                    <ng-option *ngFor="let i of listDepartmentEvaluation"
+                               [value]="i.key">{{i.value}}</ng-option>
+                  </ng-select>
+                </div>
+                <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <label class="badge badge-warning"> {{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.EmployeeID" | translate }}
+                    @if (param.evaluation.results) { <span class="text-danger text-bold"> *</span> }
+                  </label>
+                  <input type="text"
+                         class="form-control"
+                         [(ngModel)]="param.evaluation.employeeID"
+                         autocomplete="off"
+                         maxlength="9"
+                         id="EmployeeID_Evaluation"
+                         name="EmployeeID_Evaluation"
+                         placeholder='{{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.EmployeeID" | translate }}'
+                         [readonly]="!param.evaluation.results"
+                         [required]="param.evaluation.results">
+                </div>
+                <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <label class="badge badge-warning"> {{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.Seq" | translate }} </label>
+                  <input type="text"
+                         class="form-control"
+                         disabled
+                         [(ngModel)]="param.evaluation.seq"
+                         pattern="^[1-9][0-9]?$"
+                         id="seq"
+                         name="seq"
+                         id="Seq"
+                         name="Seq"
+                         placeholder='{{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.Seq" | translate }}'>
+                </div>
+              </div>
+            </div>
+            <div class="row justify-content-md-center">
+              <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="table-responsive text-right">
+                  <button type="button"
+                          class="btn btn-success"
+                          (click)="save()"
+                          [disabled]="!addForm.valid">
+                    <i class="{{ iconButton.SAVE }}"></i> {{"System.Action.Save" | translate }}
+                  </button>
+                  <button type="button"
+                          class="btn btn-danger ml-2"
+                          (click)="back()">
+                    <i class="{{ iconButton.CLOSE }}"></i> {{"System.Action.Close" | translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

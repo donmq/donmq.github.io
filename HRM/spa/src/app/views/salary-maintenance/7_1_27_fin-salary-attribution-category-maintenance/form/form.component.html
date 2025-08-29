@@ -1,0 +1,185 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row border-title">
+            <div class="col-md-12">
+              <strong class="title-card-cs"> {{ title }} - {{ 'System.Action.' + formType | translate }} </strong>
+              <button type="button"
+                      class="{{classButton.BACK}}"
+                      (click)="back()">
+                <i class="{{ iconButton.BACK }}"></i> {{'System.Action.Back' | translate }}
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form class="form-horizontal"
+                autocomplete="off"
+                #paramForm="ngForm">
+            <div class="row border-shadow">
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-xxl-4 col-xl-2 col-lg-6 col-md-6 col-sm-12">
+                    <label class="badge badge-warning">{{'SalaryMaintenance.FinSalaryAttributionCategoryMaintenance.Factory' | translate }}<span class="text-danger">
+                        *</span></label>
+                    <ng-select name="factory"
+                               [(ngModel)]="param.factory"
+                               (clear)="deleteProperty('factory')"
+                               (ngModelChange)="onFactoryChange()"
+                               [clearable]="param.factory !== ''"
+                               placeholder="{{'SalaryMaintenance.FinSalaryAttributionCategoryMaintenance.Factory' | translate }}"
+                               required>
+                      <ng-option *ngFor="let item of factoryList"
+                                 [value]="item.key">{{ item.value }}</ng-option>
+                    </ng-select>
+                  </div>
+
+                  <div class="col-xxl-4 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                    <label class="badge badge-warning">{{'SalaryMaintenance.FinSalaryAttributionCategoryMaintenance.Kind' | translate }}<span class="text-danger">
+                        *</span></label>
+                    <ng-select name="kind"
+                               [(ngModel)]="param.kind"
+                               (clear)="deleteProperty('kind')"
+                               (ngModelChange)="onKindChange()"
+                               [clearable]="param.kind !== ''"
+                               placeholder="{{'SalaryMaintenance.FinSalaryAttributionCategoryMaintenance.Kind' | translate }}"
+                               required>
+                      <ng-option *ngFor="let item of kindList"
+                                 [value]="item.key">{{ item.value }}</ng-option>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+          <form class="form-horizontal"
+                autocomplete="off"
+                #tableForm="ngForm">
+            <div class="row justify-content-md-center">
+              <div class="col-lg-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th class="text-center operation-column">{{'System.Action.Operation' | translate }}</th>
+                        <th class="text-center">{{'SalaryMaintenance.FinSalaryAttributionCategoryMaintenance.Department' | translate }}
+                          <span class="text-danger">*</span>
+                        </th>
+                        <th class="text-center">{{'SalaryMaintenance.FinSalaryAttributionCategoryMaintenance.KindCode' | translate }}
+                          <span class="text-danger">*</span>
+                        </th>
+                        <th class="text-center">{{'SalaryMaintenance.FinSalaryAttributionCategoryMaintenance.SalaryCategory' | translate }}
+                          <span class="text-danger">*</span>
+                        </th>
+                        <th class="text-center">{{'SalaryMaintenance.FinSalaryAttributionCategoryMaintenance.UpdateBy' | translate }}</th>
+                        <th class="text-center">{{'SalaryMaintenance.FinSalaryAttributionCategoryMaintenance.UpdateTime' | translate }}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of data; index as i">
+                        <td class="text-center">
+                          <button type="button"
+                                  class="{{classButton.tDELETE}}"
+                                  (click)="remove(i)"><i class="{{ iconButton.DELETE }}"></i>
+                            {{'System.Action.Delete' | translate }}
+                          </button>
+                        </td>
+                        <td class="text-center"
+                            [ngClass]="{'invalid-data': item.is_Duplicate || !item.department}">
+                          <ng-select name="department-{{i}}"
+                                     [(ngModel)]="item.department"
+                                     (clear)="deleteItemProperty(item,'department')"
+                                     [clearable]="item.department !== ''"
+                                     (ngModelChange)="onKeyChange(item, true)"
+                                     appendTo="body"
+                                     dropdownPosition="bottom"
+                                     placeholder="{{'SalaryMaintenance.FinSalaryAttributionCategoryMaintenance.Department' | translate }}"
+                                     [disabled]="!param.factory"
+                                     required>
+                            <ng-option *ngFor="let item of departmentList"
+                                       [value]="item.key">{{ item.value }}</ng-option>
+                          </ng-select>
+                        </td>
+                        <td class="text-center"
+                            [ngClass]="{'invalid-data': item.is_Duplicate || !item.kind_Code}">
+                          <ng-select name="kind_Code-{{i}}"
+                                     [(ngModel)]="item.kind_Code"
+                                     (clear)="deleteItemProperty(item,'kind_Code')"
+                                     [clearable]="item.kind_Code !== ''"
+                                     (ngModelChange)="onKeyChange(item)"
+                                     appendTo="body"
+                                     dropdownPosition="bottom"
+                                     placeholder="{{'SalaryMaintenance.FinSalaryAttributionCategoryMaintenance.KindCode' | translate }}"
+                                     [disabled]="!param.kind"
+                                     required>
+                            <ng-option *ngFor="let item of kindCodeList"
+                                       [value]="item.key">{{ item.value }}</ng-option>
+                          </ng-select>
+                        </td>
+                        <td class="text-center"
+                            [ngClass]="{'invalid-data': !item.salary_Category}">
+                          <ng-select name="salary_Category-{{i}}"
+                                     [(ngModel)]="item.salary_Category"
+                                     (clear)="deleteItemProperty(item,'salary_Category')"
+                                     [clearable]="item.salary_Category !== ''"
+                                     (ngModelChange)="onValueChange(item)"
+                                     appendTo="body"
+                                     dropdownPosition="bottom"
+                                     placeholder="{{'SalaryMaintenance.FinSalaryAttributionCategoryMaintenance.SalaryCategory' | translate }}"
+                                     required>
+                            <ng-option *ngFor="let item of salaryCategoryList"
+                                       [value]="item.key">{{ item.value }}</ng-option>
+                          </ng-select>
+                        </td>
+                        <td class="text-center">{{ item.update_By }}</td>
+                        <td class="text-center">{{ item.update_Time }}</td>
+                      </tr>
+                    </tbody>
+                    <tr *ngIf="data?.length === 0"
+                        class="no-data">
+                      <td colspan="100%"
+                          class="table-warning text-center font-weight-bold">
+                        {{'System.Message.Nodata' | translate }}
+                      </td>
+                    </tr>
+                    <tr class="no-data"
+                        *ngIf="formType=='Add'">
+                      <td class="text-center"
+                          colspan="100%">
+                        <button type="button"
+                                class="{{classButton.tDETAIL}}"
+                                (click)="add()"
+                                [disabled]="!paramForm.valid || !tableForm.valid || isDuplicated">
+                          <i class="{{ iconButton.ADD }}"></i> {{'System.Action.Add' | translate }}
+                        </button>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </form>
+          <div class="row justify-content-md-center">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="table-responsive text-right">
+                <button type="button"
+                        class="{{classButton.SAVE}}"
+                        (click)="save()"
+                        [disabled]=" !paramForm.valid || !tableForm.valid  || isDuplicated">
+                  <i class="{{ iconButton.SAVE }}"></i> {{'System.Action.Save' | translate }}
+                </button>
+                <button type="button"
+                        class="{{classButton.CLOSE}}"
+                        (click)="back()">
+                  <i class="{{ iconButton.CLOSE }}"></i> {{'System.Action.Close' | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

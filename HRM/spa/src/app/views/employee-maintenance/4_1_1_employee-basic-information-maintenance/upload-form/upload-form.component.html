@@ -1,0 +1,96 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row border-title">
+            <div class="col-md-12">
+              <strong class="title-card-cs"> {{ title }} - {{ action | translate}}
+              </strong>
+              <!-- Button Back -->
+              <button type="button"
+                      class="btn btn-sm btn-primary float-right"
+                      (click)="back()">
+                <i class="fa fa-chevron-left"></i>
+                {{'System.Action.Back' | translate}}
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row justify-content-md-center">
+            <div class="col-lg-10">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th class="text-center">
+                        {{ 'EmployeeInformationModule.EmployeeBasicInformationMaintenance.Program' | translate }}
+                      </th>
+                      <th class="text-center operation-column"
+                          colspan="2">
+                        {{ 'System.Action.Operation' | translate }}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="text-center vertical-align-middle"> {{ title }} </td>
+                      <td class="text-center">
+                        <label class="btn btn-success mr-2 mb-0 custom-margin-top">
+                          <input class="custom-upload"
+                                 type="file"
+                                 (change)="upload($event, 'basic')">
+                          <i class="{{iconButton.UPLOAD}}"></i> {{"System.Action.Upload" | translate }}
+                        </label>
+                      </td>
+                      <td class="text-center">
+                        <button type="button"
+                                class="btn btn-primary mr-2 custom-margin-top"
+                                (click)="downloadTemplate('basic')">
+                          <i class="{{iconButton.EXCEL}}"></i> {{'System.Action.ExcelTemplate' | translate }}
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-center vertical-align-middle">
+                        {{ title2 }}
+                      </td>
+                      <td class="text-center">
+                        <label class="btn btn-success mr-2 mb-0 custom-margin-top">
+                          <input class="custom-upload"
+                                 type="file"
+                                 (change)="upload($event, 'emergency')">
+                          <i class="{{iconButton.UPLOAD}}"></i> {{"System.Action.Upload" | translate }}
+                        </label>
+                      </td>
+                      <td class="text-center">
+                        <button type="button"
+                                class="btn btn-primary mr-2 custom-margin-top"
+                                (click)="downloadTemplate('emergency')">
+                          <i class="{{iconButton.EXCEL}}"></i> {{'System.Action.ExcelTemplate' | translate }}
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="row justify-content-md-center">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="table-responsive text-right">
+                <button type="button"
+                        class="btn btn-danger ml-2"
+                        (click)="back()">
+                  <i class="{{ iconButton.CLOSE }}"></i> {{'System.Action.Close' | translate}}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-modal-4-1-1 id="modal-4-1-1"></app-modal-4-1-1>

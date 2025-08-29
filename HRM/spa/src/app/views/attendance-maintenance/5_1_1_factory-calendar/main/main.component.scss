@@ -1,0 +1,48 @@
+.container_input {
+  display: flex;
+  flex-direction: row;
+}
+
+.black-date {
+  color: black;
+  font-size: large;
+}
+.black-date:hover{
+  background: #ffeebc66;
+  cursor: pointer;
+}
+.red-date {
+  color: red;
+  font-size: large;
+  font-weight: 600;
+}
+.red-date:hover{
+  background: #ffeebc66;
+  cursor: pointer;
+}
+.gray-date {
+  color: lightgrey;
+  font-size: large;
+}
+.today {
+  background-color: rgb(32 168 216 / 16%);
+}
+.day-column {
+  min-width: 60px;
+  max-width: 60px;
+}
+.day-cell {
+  height: 60px;
+}
+.btn-enabled {
+  background-color: #20a8d8;
+  border-color: #20a8d8;
+  margin-bottom: 0;
+  cursor: default !important;
+}
+.btn-disabled {
+  background-color: #f86c6b;
+  border-color: #f86c6b;
+  margin-bottom: 0;
+  cursor: default !important;
+}

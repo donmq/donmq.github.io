@@ -1,0 +1,707 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off"
+              #addEditForm="ngForm">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">{{ title }} - {{ 'System.Action.' +  action | translate }}</strong>
+                <button type="button"
+                        class="{{classButton.BACK}}"
+                        (click)="back()">
+                  <i class="{{ iconButton.BACK }}"></i> {{'System.Action.Back' | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="card">
+              <div class="col-md-12">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead class="text-center">
+                      <tr>
+                        <th class="blank-cell"></th>
+                        <th class="transfer-out">
+                          {{ "EmployeeInformationModule.EmployeeTransferOperationOutbound.TransferOut"| translate }}
+                        </th>
+                        <th class="transfer-in">
+                          {{ "EmployeeInformationModule.EmployeeTransferOperationOutbound.TransferIn"| translate }}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <!-- Title -->
+                        <td class="lineheight-custom title-cell">
+                          {{ "EmployeeInformationModule.EmployeeTransferOperationOutbound.Nationality"| translate }}
+                        </td>
+                        <!-- Nationality Before -->
+                        <td>
+                          <ng-select id="nationalityBefore"
+                                     name="nationalityBefore"
+                                     placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationOutbound.Nationality'| translate}}"
+                                     [ngModel]="data.nationalityBefore"
+                                     disabled>
+                            <ng-option *ngFor="let data of listNationality"
+                                       [value]="data.key">
+                              {{ data.value }}
+                            </ng-option>
+                          </ng-select>
+                        </td>
+                        <!-- Nationality After -->
+                        <td>
+                          <ng-select id="nationalityAfter"
+                                     name="nationalityAfter"
+                                     placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationOutbound.Nationality'| translate}}"
+                                     [ngModel]="data.nationalityAfter"
+                                     disabled>
+                            <ng-option *ngFor="let data of listNationality"
+                                       [value]="data.key">
+                              {{ data.value }}
+                            </ng-option>
+                          </ng-select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <!-- Title -->
+                        <td class="lineheight-custom title-cell">
+                          {{ "EmployeeInformationModule.EmployeeTransferOperationOutbound.IdentificationNumber"| translate }}
+                        </td>
+                        <!-- Identification Number Before -->
+                        <td>
+                          <input type="text"
+                                 class="form-control"
+                                 id="identificationNumberBefore"
+                                 name="identificationNumberBefore"
+                                 maxlength="50"
+                                 [ngModel]="data.identificationNumberBefore"
+                                 placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationOutbound.IdentificationNumber'| translate}}"
+                                 disabled />
+                        </td>
+                        <!-- Identification Number After -->
+                        <td>
+                          <input type="text"
+                                 class="form-control"
+                                 id="identificationNumberAfter"
+                                 name="identificationNumberAfter"
+                                 maxlength="50"
+                                 [ngModel]="data.identificationNumberAfter"
+                                 placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationOutbound.IdentificationNumber'| translate}}"
+                                 disabled />
+                        </td>
+                      </tr>
+                      <tr>
+                        <!-- Title -->
+                        <td class="lineheight-custom title-cell">
+                          {{ "EmployeeInformationModule.EmployeeTransferOperationOutbound.LocalFullName" | translate }}
+                        </td>
+                        <!-- Local Full Name Before -->
+                        <td>
+                          <input type="text"
+                                 class="form-control"
+                                 id="localFullNameBefore"
+                                 name="localFullNameBefore"
+                                 maxlength="50"
+                                 [ngModel]="data.localFullNameBefore"
+                                 placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationOutbound.LocalFullName'| translate}}"
+                                 disabled />
+                        </td>
+                        <!-- Local Full Name After -->
+                        <td>
+                          <input type="text"
+                                 class="form-control"
+                                 id="localFullNameAfter"
+                                 name="localFullNameAfter"
+                                 maxlength="50"
+                                 [ngModel]="data.localFullNameAfter"
+                                 placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationOutbound.LocalFullName'| translate}}"
+                                 disabled />
+                        </td>
+                      </tr>
+                      <tr>
+                        <!-- Title -->
+                        <td class="lineheight-custom title-cell">
+                          {{ "EmployeeInformationModule.EmployeeTransferOperationOutbound.Division" | translate }}
+                          <span class="text-danger text-bold">*</span>
+                        </td>
+                        <!-- Division Before -->
+                        <td [ngClass]="{'invalid-data': !data.divisionBefore}">
+                          <ng-select id="divisionBefore"
+                                     name="divisionBefore"
+                                     [clearable]="data.divisionBefore != ''"
+                                     (clear)="deleteProperty('divisionBefore')"
+                                     placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationOutbound.Division'| translate}}"
+                                     [(ngModel)]="data.divisionBefore"
+                                     (ngModelChange)="onChangeDivisionBefore()"
+                                     required>
+                            <ng-option *ngFor="let data of listDivision"
+                                       [value]="data.key">
+                              {{ data.value }}
+                            </ng-option>
+                          </ng-select>
+                        </td>
+                        <!-- Division After -->
+                        <td [ngClass]="{'invalid-data': !data.divisionAfter}">
+                          <ng-select id="divisionAfter"
+                                     name="divisionAfter"
+                                     [clearable]="data.divisionAfter != ''"
+                                     (clear)="deleteProperty('divisionAfter')"
+                                     placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationOutbound.Division'| translate}}"
+                                     [(ngModel)]="data.divisionAfter"
+                                     (ngModelChange)="onChangeDivisionAfter()"
+                                     required>
+                            <ng-option *ngFor="let data of listDivision"
+                                       [value]="data.key">
+                              {{ data.value }}
+                            </ng-option>
+                          </ng-select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <!-- Title -->
+                        <td class="lineheight-custom title-cell">
+                          {{ "EmployeeInformationModule.EmployeeTransferOperationOutbound.Factory" | translate }}
+                          <span class="text-danger text-bold">*</span>
+                        </td>
+                        <!-- Factory Before -->
+                        <td [ngClass]="{'invalid-data': !data.factoryBefore}">
+                          <ng-select id="factoryBefore"
+                                     name="factoryBefore"
+                                     [clearable]="data.factoryBefore != ''"
+                                     (clear)="deleteProperty('factoryBefore')"
+                                     placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationOutbound.Factory'| translate}}"
+                                     [(ngModel)]="data.factoryBefore"
+                                     (ngModelChange)="onChangeFactoryBefore()"
+                                     required>
+                            <ng-option *ngFor="let data of listFactory"
+                                       [value]="data.key">
+                              {{ data.value }}
+                            </ng-option>
+                          </ng-select>
+                        </td>
+                        <!-- Factory After -->
+                        <td [ngClass]="{'invalid-data': !data.factoryAfter  && data.divisionAfter}">
+                          <ng-select id="factoryAfter"
+                                     name="factoryAfter"
+                                     [clearable]="data.factoryAfter != ''"
+                                     (clear)="deleteProperty('factoryAfter')"
+                                     placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationOutbound.Factory'| translate}}"
+                                     [(ngModel)]="data.factoryAfter"
+                                     (ngModelChange)="onChangeFactoryAfter()"
+                                     [disabled]="!data.divisionAfter"
+                                     required>
+                            <ng-option *ngFor="let data of listFactoryAfter"
+                                       [value]="data.key">
+                              {{ data.value }}
+                            </ng-option>
+                          </ng-select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <!-- Title -->
+                        <td class="lineheight-custom title-cell">
+                          {{ "EmployeeInformationModule.EmployeeTransferOperationOutbound.EmployeeID"| translate }}
+                          <span class="text-danger text-bold">*</span>
+                        </td>
+                        <!-- Employee ID Before -->
+                        <td [ngClass]="{'invalid-data': !data.employeeIDBefore || !isEmployeeExist}">
+                          <input type="text"
+                                 class="form-control"
+                                 id="employeeIDBefore"
+                                 name="employeeIDBefore"
+                                 maxlength="9"
+                                 [(ngModel)]="data.employeeIDBefore"
+                                 (ngModelChange)="onChangeEmployeeIDBefore()"
+                                 [typeahead]="employeeID"
+                                 typeaheadOptionField="key"
+                                 [typeaheadScrollable]="true"
+                                 [typeaheadOptionsInScrollableView]="5"
+                                 placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationOutbound.EmployeeID'| translate}}"
+                                 required />
+                        </td>
+                        <!-- Employee ID After -->
+                        <td>
+                          <input type="text"
+                                 class="form-control"
+                                 id="employeeIDAfter"
+                                 name="employeeIDAfter"
+                                 maxlength="9"
+                                 [ngModel]="data.employeeIDAfter"
+                                 placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationOutbound.EmployeeID'| translate}}"
+                                 disabled />
+                        </td>
+                      </tr>
+                      <tr>
+                        <!-- Title -->
+                        <td class="lineheight-custom title-cell">
+                          {{ "EmployeeInformationModule.EmployeeTransferOperationOutbound.Department" | translate }}
+                        </td>
+                        <!-- Department Before -->
+                        <td>
+                          <ng-select id="departmentBefore"
+                                     name="departmentBefore"
+                                     placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationOutbound.Department'| translate}}"
+                                     [ngModel]="data.departmentBefore"
+                                     disabled>
+                            <ng-option *ngFor="let data of listDepartmentBefore"
+                                       [value]="data.key">
+                              {{ data.value }}
+                            </ng-option>
+                          </ng-select>
+                        </td>
+                        <!-- Department After -->
+                        <td>
+                          <ng-select id="departmentAfter"
+                                     name="departmentAfter"
+                                     placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationOutbound.Department'| translate}}"
+                                     [ngModel]="data.departmentAfter"
+                                     disabled>
+                            <ng-option *ngFor="let data of listDepartmentAfter"
+                                       [value]="data.key">
+                              {{ data.value }}
+                            </ng-option>
+                          </ng-select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <!-- Title -->
+                        <td class="lineheight-custom title-cell">
+                          {{ "EmployeeInformationModule.EmployeeTransferOperationOutbound.Assigned/SupportedDivision" | translate }}
+                        </td>
+                        <!-- Assigned/Supported Division Before -->
+                        <td>
+                          <ng-select id="assignedDivisionBefore"
+                                     name="assignedDivisionBefore"
+                                     placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationOutbound.Assigned/SupportedDivision'| translate}}"
+                                     [ngModel]="data.assignedDivisionBefore"
+                                     disabled>
+                            <ng-option *ngFor="let data of listDivision"
+                                       [value]="data.key">
+                              {{ data.value }}
+                            </ng-option>
+                          </ng-select>
+                        </td>
+                        <!-- Assigned/Supported Division After -->
+                        <td>
+                          <ng-select id="assignedDivisionAfter"
+                                     name="assignedDivisionAfter"
+                                     placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationOutbound.Assigned/SupportedDivision'| translate}}"
+                                     [ngModel]="data.assignedDivisionAfter"
+                                     disabled>
+                            <ng-option *ngFor="let data of listDivision"
+                                       [value]="data.key">
+                              {{ data.value }}
+                            </ng-option>
+                          </ng-select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <!-- Title -->
+                        <td class="lineheight-custom title-cell">
+                          {{ "EmployeeInformationModule.EmployeeTransferOperationOutbound.Assigned/SupportedFactory" | translate }}
+                        </td>
+                        <!-- Assigned/Supported Factory Before -->
+                        <td>
+                          <ng-select id="assignedFactoryBefore"
+                                     name="assignedFactoryBefore"
+                                     placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationOutbound.Assigned/SupportedFactory'| translate}}"
+                                     [ngModel]="data.assignedFactoryBefore"
+                                     disabled>
+                            <ng-option *ngFor="let data of listFactory"
+                                       [value]="data.key">
+                              {{ data.value }}
+                            </ng-option>
+                          </ng-select>
+                        </td>
+                        <!-- Assigned/Supported Factory After -->
+                        <td>
+                          <ng-select id="assignedFactoryAfter"
+                                     name="assignedFactoryAfter"
+                                     placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationOutbound.Assigned/SupportedFactory'| translate}}"
+                                     [ngModel]="data.assignedFactoryAfter"
+                                     disabled>
+                            <ng-option *ngFor="let data of listAssignedFactoryAfter"
+                                       [value]="data.key">
+                              {{ data.value }}
+                            </ng-option>
+                          </ng-select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <!-- Title -->
+                        <td class="lineheight-custom title-cell">
+                          {{ "EmployeeInformationModule.EmployeeTransferOperationOutbound.Assigned/SupportedEmployeeID"| translate }}
+                        </td>
+                        <!-- Assigned/Supported Employee ID Before -->
+                        <td>
+                          <input type="text"
+                                 class="form-control"
+                                 id="assignedEmployeeIDBefore"
+                                 name="assignedEmployeeIDBefore"
+                                 maxlength="9"
+                                 [ngModel]="data.assignedEmployeeIDBefore"
+                                 placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationOutbound.Assigned/SupportedEmployeeID'| translate}}"
+                                 disabled />
+                        </td>
+                        <!-- Assigned/Supported Employee ID After -->
+                        <td>
+                          <input type="text"
+                                 class="form-control"
+                                 id="assignedEmployeeIDAfter"
+                                 name="assignedEmployeeIDAfter"
+                                 maxlength="9"
+                                 [ngModel]="data.assignedEmployeeIDAfter"
+                                 placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationOutbound.Assigned/SupportedEmployeeID'| translate}}"
+                                 disabled />
+                        </td>
+                      </tr>
+                      <tr>
+                        <!-- Title -->
+                        <td class="lineheight-custom title-cell">
+                          {{ "EmployeeInformationModule.EmployeeTransferOperationOutbound.Assigned/SupportedDepartment"| translate }}
+                        </td>
+                        <!-- Assigned/Supported Department Before -->
+                        <td>
+                          <ng-select id="assignedDepartmentBefore"
+                                     name="assignedDepartmentBefore"
+                                     placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationOutbound.Assigned/SupportedDepartment'| translate}}"
+                                     [ngModel]="data.assignedDepartmentBefore"
+                                     disabled>
+                            <ng-option *ngFor="let data of listAssignedDepartmentBefore"
+                                       [value]="data.key">
+                              {{ data.value }}
+                            </ng-option>
+                          </ng-select>
+                        </td>
+                        <!-- Assigned/Supported Department After -->
+                        <td>
+                          <ng-select id="assignedDepartmentAfter"
+                                     name="assignedDepartmentAfter"
+                                     placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationOutbound.Assigned/SupportedDepartment'| translate}}"
+                                     [ngModel]="data.assignedDepartmentAfter"
+                                     disabled>
+                            <ng-option *ngFor="let data of listAssignedDepartmentAfter"
+                                       [value]="data.key">
+                              {{ data.value }}
+                            </ng-option>
+                          </ng-select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <!-- Title -->
+                        <td class="lineheight-custom title-cell">
+                          {{ "EmployeeInformationModule.EmployeeTransferOperationOutbound.PositionGrade"| translate }}
+                        </td>
+                        <!-- Position Grade Before -->
+                        <td>
+                          <ng-select id="positionGradeBefore"
+                                     name="positionGradeBefore"
+                                     placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationOutbound.PositionGrade'| translate}}"
+                                     [ngModel]="data.positionGradeBefore"
+                                     disabled>
+                            <ng-option *ngFor="let data of listPositionGrade"
+                                       [value]="data.key">
+                              {{ data.value }}
+                            </ng-option>
+                          </ng-select>
+                        </td>
+                        <!-- Position Grade After -->
+                        <td>
+                          <ng-select id="positionGradeAfter"
+                                     name="positionGradeAfter"
+                                     placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationOutbound.PositionGrade'| translate}}"
+                                     [ngModel]="data.positionGradeAfter"
+                                     disabled>
+                            <ng-option *ngFor="let data of listPositionGrade"
+                                       [value]="data.key">
+                              {{ data.value }}
+                            </ng-option>
+                          </ng-select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <!-- Title -->
+                        <td class="lineheight-custom title-cell">
+                          {{ "EmployeeInformationModule.EmployeeTransferOperationOutbound.PositionTitle" | translate }}
+                        </td>
+                        <!-- Position Title Before -->
+                        <td>
+                          <ng-select id="positionTitleBefore"
+                                     name="positionTitleBefore"
+                                     placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationOutbound.PositionTitle'| translate}}"
+                                     [ngModel]="data.positionTitleBefore"
+                                     disabled>
+                            <ng-option *ngFor="let data of listPositionTitleBefore"
+                                       [value]="data.key">
+                              {{ data.value }}
+                            </ng-option>
+                          </ng-select>
+                        </td>
+                        <!-- Position Title After -->
+                        <td>
+                          <ng-select id="positionTitleAfter"
+                                     name="positionTitleAfter"
+                                     placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationOutbound.PositionTitle'| translate}}"
+                                     [ngModel]="data.positionTitleAfter"
+                                     disabled>
+                            <ng-option *ngFor="let data of listPositionTitleAfter"
+                                       [value]="data.key">
+                              {{ data.value }}
+                            </ng-option>
+                          </ng-select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <!-- Title -->
+                        <td class="lineheight-custom title-cell">
+                          {{ "EmployeeInformationModule.EmployeeTransferOperationOutbound.WorkType/Job" | translate }}
+                        </td>
+                        <!-- Work Type/Job Before -->
+                        <td>
+                          <ng-select id="workTypeBefore"
+                                     name="workTypeBefore"
+                                     placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationOutbound.WorkType/Job'| translate}}"
+                                     [ngModel]="data.workTypeBefore"
+                                     disabled>
+                            <ng-option *ngFor="let data of listWorkType"
+                                       [value]="data.key">
+                              {{ data.value }}
+                            </ng-option>
+                          </ng-select>
+                        </td>
+                        <!-- Work Type/Job After -->
+                        <td>
+                          <ng-select id="workTypeAfter"
+                                     name="workTypeAfter"
+                                     placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationOutbound.WorkType/Job'| translate}}"
+                                     [ngModel]="data.workTypeAfter"
+                                     disabled>
+                            <ng-option *ngFor="let data of listWorkType"
+                                       [value]="data.key">
+                              {{ data.value }}
+                            </ng-option>
+                          </ng-select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <!-- Title -->
+                        <td class="lineheight-custom title-cell">
+                          {{ "EmployeeInformationModule.EmployeeTransferOperationOutbound.ReasonForChange" | translate }}
+                          <span class="text-danger text-bold">*</span>
+                        </td>
+                        <!-- Reason For Change Before -->
+                        <td [ngClass]="{'invalid-data': !data.reasonForChangeBefore}">
+                          <ng-select id="reasonForChangeBefore"
+                                     name="reasonForChangeBefore"
+                                     [clearable]="data.reasonForChangeBefore != ''"
+                                     (clear)="deleteProperty('reasonForChangeBefore')"
+                                     placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationOutbound.ReasonForChange'| translate}}"
+                                     [(ngModel)]="data.reasonForChangeBefore"
+                                     appendTo="body"
+                                     required>
+                            <ng-option *ngFor="let data of listReasonChangeBefore"
+                                       [value]="data.key">
+                              {{ data.value }}
+                            </ng-option>
+                          </ng-select>
+                        </td>
+                        <!-- Reason For Change After -->
+                        <td>
+                          <ng-select id="reasonForChangeAfter"
+                                     name="reasonForChangeAfter"
+                                     placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationOutbound.ReasonForChange'| translate}}"
+                                     [ngModel]="data.reasonForChangeAfter"
+                                     disabled>
+                            <ng-option *ngFor="let data of listReasonChangeAfter"
+                                       [value]="data.key">
+                              {{ data.value }}
+                            </ng-option>
+                          </ng-select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <!-- Title -->
+                        <td class="lineheight-custom title-cell">
+                          {{ "EmployeeInformationModule.EmployeeTransferOperationOutbound.EffectiveDate"| translate }}
+                          <span class="text-danger text-bold">*</span>
+                        </td>
+                        <!-- Effective Date Before -->
+                        <td [ngClass]="{'invalid-data': !data.effectiveDateBefore}">
+                          <input autocomplete="off"
+                                 type="text"
+                                 class="form-control"
+                                 id="effectiveDateBefore"
+                                 name="effectiveDateBefore"
+                                 [(ngModel)]="data.effectiveDateBefore"
+                                 (ngModelChange)="onDateChange('effectiveDateBefore')"
+                                 bsDatepicker
+                                 [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
+                                 [maxDate]="maxEffectiveDate"
+                                 placeholder="YYYY/MM/DD"
+                                 required />
+                        </td>
+                        <!-- Effective Date After -->
+                        <td>
+                          <input autocomplete="off"
+                                 type="text"
+                                 class="form-control"
+                                 id="effectiveDateAfter"
+                                 name="effectiveDateAfter"
+                                 [ngModel]="data.effectiveDateAfter"
+                                 bsDatepicker
+                                 [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
+                                 placeholder="YYYY/MM/DD"
+                                 disabled />
+                        </td>
+                      </tr>
+                      <tr>
+                        <!-- Title -->
+                        <td class="lineheight-custom title-cell">
+                          {{ "EmployeeInformationModule.EmployeeTransferOperationOutbound.EffectiveStatus"| translate }}
+                          <span class="text-danger text-bold">*</span>
+                        </td>
+                        <!-- Effective Status Before -->
+                        <td>
+                          <div class="row pl-4">
+                            <div *ngFor="let item of effectiveStatus; index as i">
+                              <label class="container">
+                                <div class="row">
+                                  <div class="custom-control custom-radio pt-2">
+                                    <input [id]="'effectiveStatusBefore' + i"
+                                           class="custom-control-input"
+                                           type="radio"
+                                           name="effectiveStatusBefore"
+                                           [ngModel]="data.effectiveStatusBefore"
+                                           [value]="item.key"
+                                           disabled />
+                                    <p class="custom-control-label"
+                                       [for]="'effectiveStatusBefore' + i">
+                                      <strong>
+                                        {{ item.value | translate }}
+                                      </strong>
+                                    </p>
+                                  </div>
+                                </div>
+                              </label>
+                            </div>
+                          </div>
+                        </td>
+                        <!-- Effective Status After -->
+                        <td>
+                          <div class="row pl-4">
+                            <div *ngFor="let item of effectiveStatus; index as i">
+                              <label class="container">
+                                <div class="row">
+                                  <div class="custom-control custom-radio pt-2">
+                                    <input [id]="'effectiveStatusAfter' + i"
+                                           class="custom-control-input"
+                                           type="radio"
+                                           name="effectiveStatusAfter"
+                                           [ngModel]="data.effectiveStatusAfter"
+                                           [value]="item.key"
+                                           disabled />
+                                    <p class="custom-control-label"
+                                       [for]="'effectiveStatusAfter' + i">
+                                      <strong>
+                                        {{ item.value | translate }}
+                                      </strong>
+                                    </p>
+                                  </div>
+                                </div>
+                              </label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr [hidden]="action == mode.add">
+                        <!-- Title -->
+                        <td class="lineheight-custom title-cell">
+                          {{ "EmployeeInformationModule.EmployeeTransferOperationOutbound.UpdateTime" | translate }}
+                        </td>
+                        <!-- Update Time Before -->
+                        <td>
+                          <input autocomplete="off"
+                                 type="text"
+                                 class="form-control"
+                                 id="updateTimeBefore"
+                                 name="updateTimeBefore"
+                                 [ngModel]="data.updateTimeBefore"
+                                 bsDatepicker
+                                 [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD HH:mm:ss' }"
+                                 placeholder="YYYY/MM/DD"
+                                 disabled />
+                        </td>
+                        <!-- Update Time After -->
+                        <td>
+                          <input autocomplete="off"
+                                 type="text"
+                                 class="form-control"
+                                 id="updateTimeAfter"
+                                 name="updateTimeAfter"
+                                 [ngModel]="data.updateTimeAfter"
+                                 bsDatepicker
+                                 [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD HH:mm:ss' }"
+                                 placeholder="YYYY/MM/DD"
+                                 disabled />
+                        </td>
+                      </tr>
+                      <tr [hidden]="action == mode.add">
+                        <!-- Title -->
+                        <td class="lineheight-custom title-cell">
+                          {{ "EmployeeInformationModule.EmployeeTransferOperationOutbound.UpdateBy" | translate }}
+                        </td>
+                        <!-- Update By Before -->
+                        <td>
+                          <input type="text"
+                                 class="form-control"
+                                 id="updateByBefore"
+                                 name="updateByBefore"
+                                 [ngModel]="data.updateByBefore"
+                                 placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationOutbound.UpdateBy'| translate}}"
+                                 disabled />
+                        </td>
+                        <!-- Update By After -->
+                        <td>
+                          <input type="text"
+                                 class="form-control"
+                                 id="updateByAfter"
+                                 name="updateByAfter"
+                                 [ngModel]="data.updateByAfter"
+                                 placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationOutbound.UpdateBy'| translate}}"
+                                 disabled />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="row justify-content-md-center mt-3">
+              <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="table-responsive text-right">
+                  <button type="button"
+                          class="{{ classButton.SAVE }}"
+                          [disabled]="!addEditForm.valid || !isEmployeeExist"
+                          (click)="save()">
+                    <i class="{{ iconButton.SAVE }}"></i>
+                    {{ "System.Action.Save" | translate }}
+                  </button>
+                  <button type="button"
+                          class="{{ classButton.CLOSE }}"
+                          (click)="back()">
+                    <i class="{{ iconButton.CLOSE }}"></i>
+                    {{ "System.Action.Close" | translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

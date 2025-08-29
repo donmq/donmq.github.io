@@ -1,0 +1,223 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row border-title">
+            <div class="col-md-12">
+              <strong>{{ title }}</strong>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form class="form-horizontal border-shadow"
+                autocomplete="off">
+            <!-- Division -->
+            <div class="row">
+              <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6">
+                <label class="badge badge-warning">
+                  {{"EmployeeInformationModule.IdentificationCardToEmployeeIDHistory.Division" | translate}}
+                  <span class="text-danger">*</span>
+                </label>
+                <ng-select name="division"
+                           [(ngModel)]="param.division"
+                           (clear)="deleteProperty('division')"
+                           [clearable]="param.division !== ''"
+                           (ngModelChange)="onDivisionChange()"
+                           placeholder='{{"EmployeeInformationModule.IdentificationCardToEmployeeIDHistory.Division" | translate}}'>
+                  <ng-option *ngFor="let i of listDivision"
+                             [value]="i.key">{{i.value}}</ng-option>
+                </ng-select>
+              </div>
+
+              <!-- Factory -->
+              <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6">
+                <label class="badge badge-warning">
+                  {{"EmployeeInformationModule.IdentificationCardToEmployeeIDHistory.Factory" | translate}}
+                  <span class="text-danger">*</span>
+                </label>
+                <ng-select name="factory"
+                           [(ngModel)]="param.factory"
+                           (clear)="deleteProperty('factory')"
+                           [clearable]="param.factory !== ''"
+                           [disabled]="!param.division"
+                           placeholder='{{"EmployeeInformationModule.IdentificationCardToEmployeeIDHistory.Factory" | translate}}'>
+                  <ng-option *ngFor="let i of listFactory"
+                             [value]="i.key">{{i.key}} - {{i.value}}</ng-option>
+                </ng-select>
+              </div>
+              <!-- EmployeeID -->
+              <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6">
+                <label class="badge badge-warning">
+                  {{"EmployeeInformationModule.IdentificationCardToEmployeeIDHistory.EmployeeID" | translate}}
+                </label>
+                <input type="text"
+                       class="form-control"
+                       [(ngModel)]="param.employee_ID"
+                       maxlength="9"
+                       name="employee_ID"
+                       placeholder="{{'EmployeeInformationModule.IdentificationCardToEmployeeIDHistory.EmployeeID' | translate}}" />
+              </div>
+              <!-- Nationality -->
+              <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6">
+                <label class="badge badge-warning">
+                  {{"EmployeeInformationModule.IdentificationCardToEmployeeIDHistory.Nationality" | translate}}
+                </label>
+                <ng-select name="nationality"
+                           [(ngModel)]="param.nationality"
+                           (clear)="deleteProperty('nationality')"
+                           [clearable]="param.nationality !== ''"
+                           placeholder='{{"EmployeeInformationModule.IdentificationCardToEmployeeIDHistory.Nationality" | translate}}'>
+                  <ng-option *ngFor="let i of listNationality"
+                             [value]="i.key">{{i.key}} - {{i.value}}</ng-option>
+                </ng-select>
+              </div>
+              <!-- Identification Number -->
+              <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6">
+                <label class="badge badge-warning">
+                  {{"EmployeeInformationModule.IdentificationCardToEmployeeIDHistory.IdentificationNumber" | translate}}
+                </label>
+                <div class="full-width">
+                  <div class="container_date">
+                    <div class="input-group mr-1">
+                      <input autocomplete="off"
+                             type="text"
+                             [(ngModel)]="param.identification_Number"
+                             placeholder='{{"EmployeeInformationModule.IdentificationCardToEmployeeIDHistory.IdentificationNumber" | translate}}'
+                             maxlength="50"
+                             class="form-control bg-white"
+                             name="identification_Number" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Submit Button -->
+              <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6">
+                <label class="d-block">&nbsp;</label>
+                <button type="submit"
+                        class="btn btn-primary mr-2"
+                        (click)="search(true)"
+                        [disabled]="!param.division || !param.factory"
+                        *ngIf="functionUtility.checkFunction('Search')">
+                  <i class="{{ iconButton.SEARCH }}"></i> {{"System.Action.Search" | translate }}
+                </button>
+                <button type="submit"
+                        class="btn btn-danger"
+                        (click)="clear()">
+                  <i class="{{ iconButton.CLEAR }}"></i> {{"System.Action.Clear" | translate }}
+                </button>
+              </div>
+            </div>
+          </form>
+          <div class="row justify-content-md-center">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th class="text-center middle">
+                        {{"EmployeeInformationModule.IdentificationCardToEmployeeIDHistory.Nationality" | translate }}
+                      </th>
+                      <th class="text-center middle">
+                        {{"EmployeeInformationModule.IdentificationCardToEmployeeIDHistory.IdentificationNumberAfterChange" | translate }}
+                      </th>
+                      <th class="text-center middle">
+                        {{"EmployeeInformationModule.IdentificationCardToEmployeeIDHistory.LocalFullName" | translate }}
+                      </th>
+                      <th class="text-center middle">
+                        {{"EmployeeInformationModule.IdentificationCardToEmployeeIDHistory.Division" | translate }}
+                      </th>
+                      <th class="text-center middle">
+                        {{"EmployeeInformationModule.IdentificationCardToEmployeeIDHistory.Factory" | translate }}
+                      </th>
+                      <th class="text-center middle">
+                        {{"EmployeeInformationModule.IdentificationCardToEmployeeIDHistory.EmployeeID" | translate }}
+                      </th>
+                      <th class="text-center middle">
+                        {{"EmployeeInformationModule.IdentificationCardToEmployeeIDHistory.Department" | translate }}
+                      </th>
+                      <th class="text-center middle">
+                        {{"EmployeeInformationModule.IdentificationCardToEmployeeIDHistory.AssignedSupportedDivision" | translate }}
+                      </th>
+                      <th class="text-center middle">
+                        {{"EmployeeInformationModule.IdentificationCardToEmployeeIDHistory.AssignedSupportedFactory" | translate }}
+                      </th>
+                      <th class="text-center middle">
+                        {{"EmployeeInformationModule.IdentificationCardToEmployeeIDHistory.AssignedSupportedEmployeeID" | translate }}
+                      </th>
+                      <th class="text-center middle">
+                        {{"EmployeeInformationModule.IdentificationCardToEmployeeIDHistory.AssignedSupportedDepartment" | translate }}
+                      </th>
+                      <th class="text-center middle">
+                        {{"EmployeeInformationModule.IdentificationCardToEmployeeIDHistory.OnboardDate" | translate }}
+                      </th>
+                      <th class="text-center middle">
+                        {{"EmployeeInformationModule.IdentificationCardToEmployeeIDHistory.DateOfResignation" | translate }}
+                      </th>
+                      <th class="text-center middle">
+                        {{"EmployeeInformationModule.IdentificationCardToEmployeeIDHistory.UpdateBy" | translate }}
+                      </th>
+                      <th class="text-center middle">
+                        {{"EmployeeInformationModule.IdentificationCardToEmployeeIDHistory.UpdateTime" | translate }}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="data.length > 0; else dataNotFound">
+                    <tr *ngFor="let item of data">
+                      <td class="text-center middle">{{item.nationality}}</td>
+                      <td class="text-center middle">{{item.identification_Number}}</td>
+                      <td class="text-center middle">{{item.local_Full_Name}}</td>
+                      <td class="text-center middle">{{item.division}}</td>
+                      <td class="text-center middle">{{item.factory}}</td>
+                      <td class="text-center middle">{{item.employee_ID}}</td>
+                      <td class="text-center middle">{{item.department}}</td>
+                      <td class="text-center middle">{{item.assigned_Division}}</td>
+                      <td class="text-center middle">{{item.assigned_Factory}}</td>
+                      <td class="text-center middle">{{item.assigned_Employee_ID}}</td>
+                      <td class="text-center middle">{{item.assigned_Department}}</td>
+                      <td class="text-center middle">{{item.onboard_Date | date:'yyyy/MM/dd'}}</td>
+                      <td class="text-center middle">{{item.resign_Date | date:'yyyy/MM/dd'}}</td>
+                      <td class="text-center middle">{{item.update_By }}</td>
+                      <td class="text-center middle">{{item.update_Time | date:'yyyy/MM/dd'}}</td>
+                    </tr>
+                  </tbody>
+                  <ng-template #dataNotFound>
+                    <tbody>
+                      <tr class="no-data">
+                        <td colspan="100%"
+                            class="table-warning text-center font-weight-bold">
+                          {{"System.Message.Nodata" | translate }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </ng-template>
+                </table>
+              </div>
+              <div class="row">
+                <div class="col-8">
+                  <div class="d-flex"
+                       *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                    <pagination [boundaryLinks]="true"
+                                [totalItems]="pagination.totalCount"
+                                [itemsPerPage]="pagination.pageSize"
+                                previousText="&lsaquo;"
+                                nextText="&rsaquo;"
+                                firstText="&laquo;"
+                                lastText="&raquo;"
+                                [maxSize]="5"
+                                [(ngModel)]="pagination.pageNumber"
+                                (pageChanged)="pageChanged($event)">
+                    </pagination>
+                    <span class="cs-page ml-2"> Page - {{ pagination.pageNumber }} / {{ pagination.totalPage }}</span>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <span class="cs-page float-right ">{{'System.Rows' | translate }} : {{pagination.totalCount}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

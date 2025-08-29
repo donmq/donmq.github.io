@@ -1,0 +1,7 @@
+.vscode
+.history
+.vs
+dist
+.sln
+/package-lock.json
+EF_Core_Tool

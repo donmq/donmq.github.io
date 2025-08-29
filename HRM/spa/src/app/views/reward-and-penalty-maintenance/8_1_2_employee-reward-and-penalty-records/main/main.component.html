@@ -1,0 +1,411 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off"
+              #mainForm="ngForm">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">{{ title }}</strong>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="border-shadow">
+              <div class="row">
+                <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                  <label class="badge badge-warning">{{
+                    "RewardandPenaltyMaintenance.RewardAndPenaltyRecords.Factory"
+                    | translate
+                    }}<span class="text-danger"> *</span></label>
+                  <ng-select name="factory"
+                             [(ngModel)]="param.factory"
+                             (ngModelChange)="onFactoryChange()"
+                             (clear)="deleteProperty('factory')"
+                             [clearable]="param.factory !== ''"
+                             placeholder="{{
+                      'RewardandPenaltyMaintenance.RewardAndPenaltyRecords.Factory'
+                        | translate
+                    }}"
+                             required>
+                    <ng-option *ngFor="let item of factoryList"
+                               [value]="item.key">{{ item.value }}</ng-option>
+                  </ng-select>
+                </div>
+                <div class="col-xxl-.3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                  <label for="textDepartment"
+                         class="badge badge-warning">{{
+                    "RewardandPenaltyMaintenance.RewardAndPenaltyRecords.EmployeeID"
+                    | translate
+                    }}</label>
+                  <input autocomplete="off"
+                         type="text"
+                         placeholder="{{
+                      'RewardandPenaltyMaintenance.RewardAndPenaltyRecords.EmployeeID'
+                        | translate
+                    }}"
+                         class="form-control"
+                         maxlength="9"
+                         name="employeeId"
+                         [(ngModel)]="param.employee_ID" />
+                </div>
+                <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                  <label for="department"
+                         class="badge badge-warning">
+                    {{
+                    "RewardandPenaltyMaintenance.RewardAndPenaltyRecords.Department"
+                    | translate
+                    }}
+                  </label>
+                  <ng-select id="department"
+                             name="department"
+                             [(ngModel)]="param.department"
+                             placeholder="{{
+                      'RewardandPenaltyMaintenance.RewardAndPenaltyRecords.Department'
+                        | translate
+                    }}"
+                             (clear)="deleteProperty('department')"
+                             [disabled]="!param.factory">
+                    <ng-option *ngFor="let data of listDepartment"
+                               [value]="data.key">
+                      {{ data.value }}
+                    </ng-option>
+                  </ng-select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                  <label class="badge badge-warning">{{
+                    "RewardandPenaltyMaintenance.RewardAndPenaltyRecords.Date"
+                    | translate
+                    }}</label>
+                  <div class="full-width">
+                    <div class="container_input">
+                      <div class="input-group mr-1">
+                        <input type="text"
+                               autocomplete="off"
+                               placeholder="YYYY/MM/DD"
+                               name="date_Start"
+                               [maxDate]="param.date_End"
+                               [bsConfig]="{
+                            isAnimated: true,
+                            dateInputFormat: 'YYYY/MM/DD'
+                          }"
+                               class="form-control"
+                               bsDatepicker
+                               [(ngModel)]="param.date_Start"
+                               (ngModelChange)="onDateChange('date_Start')"
+                               (clear)="deleteProperty('date_Start')"
+                               [required]="param.date_Start || param.date_End" />
+                        <div class="input-group-append">
+                          <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
+                        </div>
+                      </div>
+                      <div class="input-group ml-1">
+                        <input type="text"
+                               autocomplete="off"
+                               placeholder="YYYY/MM/DD"
+                               name="date_End"
+                               [minDate]="param.date_Start"
+                               [bsConfig]="{
+                            isAnimated: true,
+                            dateInputFormat: 'YYYY/MM/DD'
+                          }"
+                               class="form-control"
+                               bsDatepicker
+                               [(ngModel)]="param.date_End"
+                               (ngModelChange)="onDateChange('date_End')"
+                               (clear)="deleteProperty('date_End')"
+                               [required]="param.date_Start || param.date_End" />
+                        <div class="input-group-append">
+                          <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                  <label class="badge badge-warning">{{
+                    "RewardandPenaltyMaintenance.RewardAndPenaltyRecords.Yearly"
+                    | translate
+                    }}</label>
+                  <div class="full-width">
+                    <div class="container_input">
+                      <div class="input-group mr-1">
+                        <input type="text"
+                               autocomplete="off"
+                               placeholder="YYYY/MM"
+                               name="yearly_Month_Start"
+                               [maxDate]="param.yearly_Month_End"
+                               [bsConfig]="bsConfig"
+                               class="form-control"
+                               bsDatepicker
+                               [(ngModel)]="param.yearly_Month_Start"
+                               (ngModelChange)="onDateChange('yearly_Month_Start')"
+                               (clear)="deleteProperty('yearly_Month_Start')"
+                               [required]="
+                            param.yearly_Month_Start || param.yearly_Month_End
+                          " />
+                        <div class="input-group-append">
+                          <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
+                        </div>
+                      </div>
+                      <div class="input-group ml-1">
+                        <input type="text"
+                               autocomplete="off"
+                               placeholder="YYYY/MM"
+                               name="certification_Valid_Period_end"
+                               [minDate]="param.yearly_Month_Start"
+                               [bsConfig]="bsConfig"
+                               class="form-control"
+                               bsDatepicker
+                               [(ngModel)]="param.yearly_Month_End"
+                               (ngModelChange)="onDateChange('yearly_Month_End')"
+                               (clear)="deleteProperty('yearly_Month_End')"
+                               [required]="
+                            param.yearly_Month_Start || param.yearly_Month_End
+                          " />
+                        <div class="input-group-append">
+                          <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                  <label class="d-block">&nbsp;</label>
+                  <button type="submit"
+                          class="{{ classButton.SEARCH + ' mt-1' }}"
+                          (click)="search()"
+                          *ngIf="functionUtility.checkFunction('Search')"
+                          [disabled]="!mainForm.valid">
+                    <i class="{{ iconButton.SEARCH }}"></i>
+                    {{ "System.Action.Search" | translate }}
+                  </button>
+                  <button type="submit"
+                          class="{{ classButton.CLEAR + ' mt-1' }}"
+                          (click)="clear()">
+                    <i class="{{ iconButton.CLEAR }}"></i>
+                    {{ "System.Action.Clear" | translate }}
+                  </button>
+                  <button type="button"
+                          class="{{ classButton.ADD + ' mt-1'}}"
+                          (click)="add()"
+                          *ngIf="functionUtility.checkFunction('Add')">
+                    <i class="{{ iconButton.ADD }}"></i>
+                    {{ "System.Action.Add" | translate }}
+                  </button>
+                  <label type="button"
+                         class="{{ classButton.UPLOAD + ' mt-1' }}"
+                         style="cursor: pointer; margin-bottom: 0"
+                         *ngIf="functionUtility.checkFunction('Upload')">
+                    <i [class]="iconButton.UPLOAD"></i>
+                    {{ "System.Action.Upload" | translate }}
+                    <input #inputRef
+                           type="file"
+                           name="upload"
+                           style="display: none"
+                           (change)="upload($event)" />
+                  </label>
+                  <button type="button"
+                          class="{{ classButton.QUERY + ' mt-1' }}"
+                          (click)="exceltemp()"
+                          *ngIf="functionUtility.checkFunction('Excel')">
+                    <i class="{{ iconButton.EXCEL }}"></i>
+                    {{ "System.Action.ExcelTemplate" | translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="row justify-content-md-center">
+              <div class="col-lg-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th class="text-center operation-column"
+                            [attr.colspan]="
+                            functionUtility.getColspan([
+                              'Query',
+                              'Edit',
+                              'Delete'
+                            ])
+                          "
+                            *ngIf="
+                            functionUtility.checkFunction('Query')||
+                            functionUtility.checkFunction('Edit') ||
+                            functionUtility.checkFunction('Delete')
+                          ">
+                          {{
+                          "RewardandPenaltyMaintenance.RewardAndPenaltyRecords.Operation"
+                          | translate
+                          }}
+                        </th>
+                        <th class="text-center">
+                          {{
+                          "RewardandPenaltyMaintenance.RewardAndPenaltyRecords.Factory"
+                          | translate
+                          }}
+                        </th>
+                        <th class="text-center">
+                          {{
+                          "RewardandPenaltyMaintenance.RewardAndPenaltyRecords.EmployeeID"
+                          | translate
+                          }}
+                        </th>
+                        <th class="text-center">
+                          {{
+                          "RewardandPenaltyMaintenance.RewardAndPenaltyRecords.LocalFullName"
+                          | translate
+                          }}
+                        </th>
+                        <th class="text-center">
+                          {{
+                          "RewardandPenaltyMaintenance.RewardAndPenaltyRecords.Department"
+                          | translate
+                          }}
+                        </th>
+                        <th class="text-center">
+                          {{
+                          "RewardandPenaltyMaintenance.RewardAndPenaltyRecords.WorkTypeJob"
+                          | translate
+                          }}
+                        </th>
+                        <th class="text-center">
+                          {{
+                          "RewardandPenaltyMaintenance.RewardAndPenaltyRecords.Date"
+                          | translate
+                          }}
+                        </th>
+                        <th class="text-center">
+                          {{
+                          "RewardandPenaltyMaintenance.RewardAndPenaltyRecords.RewardPenaltyType"
+                          | translate
+                          }}
+                        </th>
+                        <th class="text-center">
+                          {{
+                          "RewardandPenaltyMaintenance.RewardAndPenaltyRecords.ReasonCode"
+                          | translate
+                          }}
+                        </th>
+                        <th class="text-center">
+                          {{
+                          "RewardandPenaltyMaintenance.RewardAndPenaltyRecords.Yearly"
+                          | translate
+                          }}
+                        </th>
+                        <th class="text-center">
+                          {{
+                          "RewardandPenaltyMaintenance.RewardAndPenaltyRecords.Countsof"
+                          | translate
+                          }}
+                        </th>
+                        <th class="text-center">
+                          {{
+                          "RewardandPenaltyMaintenance.RewardAndPenaltyRecords.UpdateBy"
+                          | translate
+                          }}
+                        </th>
+                        <th class="text-center">
+                          {{
+                          "RewardandPenaltyMaintenance.RewardAndPenaltyRecords.UpdateTime"
+                          | translate
+                          }}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!-- <tr *ngFor="let item of data"> -->
+                      <tr *ngFor="let item of data">
+                        <td class="text-center"
+                            *ngIf="functionUtility.checkFunction('Query')">
+                          <button type="button"
+                                  class="btn btn-info btn-sm btn-sm "
+                                  (click)="query(item)"
+                                  *ngIf="functionUtility.checkFunction('Query')">
+                            <i class="{{ iconButton.VIEW }}"></i>
+                            {{ "System.Action.Query" | translate }}
+                          </button>
+                        </td>
+                        <td class="text-center "
+                            *ngIf="functionUtility.checkFunction('Edit')">
+                          <button type="button"
+                                  class="{{ classButton.tEDIT }} "
+                                  (click)="edit(item)">
+                            <i class="{{ iconButton.EDIT }}"></i>
+                            {{ "System.Action.Edit" | translate }}
+                          </button>
+                        </td>
+                        <td class="text-center "
+                            *ngIf="functionUtility.checkFunction('Delete')">
+                          <button type="button"
+                                  class="{{ classButton.tDELETE }}"
+                                  (click)="remove(item)">
+                            <i class="{{ iconButton.DELETE }}"> </i>
+                            {{ "System.Action.Delete" | translate }}
+                          </button>
+                        </td>
+
+                        <td class="text-center">{{ item.factory }}</td>
+                        <td class="text-center">{{ item.employee_ID }}</td>
+                        <td class="text-center">{{ item.local_Full_Name }}</td>
+                        <td class="text-center">{{ item.department_Code_Name }}</td>
+                        <td class="text-center">{{ item.work_Type_Name }}</td>
+                        <td class="text-center"> {{ item.reward_Date_Str  }} </td>
+                        <td class="text-center"> {{ item.reward_Penalty_Type_Name }} </td>
+                        <td class="text-center">{{ item.reason_Code_Name }}</td>
+                        <td class="text-center"> {{ item.yearly_Month_Str }} </td>
+                        <td class="text-center">{{ item.counts_of }}</td>
+                        <td class="text-center">{{ item.update_By }}</td>
+                        <td class="text-center">{{ item.update_Time }}</td>
+                      </tr>
+                    </tbody>
+                    <tr *ngIf="data.length === 0">
+                      <td colspan="100%"
+                          class="table-warning text-center font-weight-bold">
+                        {{ "System.Message.Nodata" | translate }}
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-8">
+                <div class="d-flex"
+                     *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                  <pagination [boundaryLinks]="true"
+                              [totalItems]="pagination.totalCount"
+                              [itemsPerPage]="pagination.pageSize"
+                              previousText="&lsaquo;"
+                              nextText="&rsaquo;"
+                              firstText="&laquo;"
+                              lastText="&raquo;"
+                              [maxSize]="5"
+                              [(ngModel)]="pagination.pageNumber"
+                              (pageChanged)="changePage($event)"
+                              [ngModelOptions]="{ standalone: true }">
+                  </pagination>
+                  <span class="cs-page ml-2">
+                    Page - {{ pagination.pageNumber }} /
+                    {{ pagination.totalPage }}</span>
+                </div>
+              </div>
+              <div class="col-4">
+                <span class="cs-page float-right">{{
+                  "RewardandPenaltyMaintenance.RewardAndPenaltyRecords.Rows"
+                  | translate
+                  }}: {{ pagination.totalCount }}</span>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

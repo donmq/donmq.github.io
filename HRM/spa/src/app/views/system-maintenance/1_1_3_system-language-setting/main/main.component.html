@@ -1,0 +1,101 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row border-title">
+            <div class="col-md-12">
+              <strong>{{ title }} </strong>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form class="form-horizontal border-shadow"
+                autocomplete="off"
+                *ngIf="functionUtility.checkFunction('Add')">
+            <div class="row">
+              <div class="col-xxl-6 col-xl-6 col-lg-8">
+                <button type="submit"
+                        class="btn btn-success"
+                        (click)="add()"
+                        style="margin-right: 10px;">
+                  <i class="{{ iconButton.ADD }}"></i> {{"System.Action.Add" | translate }}
+                </button>
+              </div>
+            </div>
+          </form>
+          <div class="row justify-content-md-center">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th class="text-center"
+                          *ngIf="functionUtility.checkFunction('Edit')">{{"System.Action.Operation" | translate }}</th>
+                      <th class="text-center">{{"SystemMaintenance.SystemLanguageSetting.LanguageCode" | translate }}</th>
+                      <th class="text-center">{{"SystemMaintenance.SystemLanguageSetting.LanguageName" | translate }}</th>
+                      <th class="text-center">{{"SystemMaintenance.SystemLanguageSetting.Status" | translate }}</th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="data.length > 0; else dataNotFound">
+                    <tr *ngFor="let item of data">
+                      <td class="text-center"
+                          *ngIf="functionUtility.checkFunction('Edit')">
+                        <button type="button"
+                                (click)="edit(item)"
+                                class="btn btn-sm btn-warning ml-2">
+                          <i class="{{ iconButton.EDIT }}"></i> <span>{{"System.Action.Edit" | translate }}</span>
+                        </button>
+                      </td>
+                      <td class="text-center">{{ item.language_Code }}</td>
+                      <td class="text-center">{{ item.language_Name }}</td>
+                      <td class="text-center custom-style-td">
+                        <button [disabled]="!functionUtility.checkFunction('Edit')"
+                                [class]="!item.isActive ? 'btn btn-sm btn-danger ml-2 text-white' : 'btn btn-sm btn-primary ml-2 text-white'"
+                                (click)="changeState(item)">
+                          {{(!item.isActive ? 'SystemMaintenance.SystemLanguageSetting.Disable' : 'SystemMaintenance.SystemLanguageSetting.Enabled') | translate }}
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <ng-template #dataNotFound>
+                    <tbody>
+                      <tr>
+                        <td colspan="100%"
+                            class="table-warning text-center font-weight-bold">
+                          {{"System.Message.Nodata" | translate }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </ng-template>
+                </table>
+              </div>
+              <div class="row">
+                <div class="col-8">
+                  <div class="d-flex"
+                       *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                    <pagination [boundaryLinks]="true"
+                                [totalItems]="pagination.totalCount"
+                                [itemsPerPage]="pagination.pageSize"
+                                previousText="&lsaquo;"
+                                nextText="&rsaquo;"
+                                firstText="&laquo;"
+                                lastText="&raquo;"
+                                [maxSize]="5"
+                                [(ngModel)]="pagination.pageNumber"
+                                (pageChanged)="pageChanged($event)">
+                    </pagination>
+                    <span class="cs-page ml-2"> Page - {{ pagination.pageNumber }} / {{ pagination.totalPage }}</span>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <span class="cs-page float-right ">{{'System.Rows' | translate }} : {{pagination.totalCount}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

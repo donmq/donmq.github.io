@@ -1,0 +1,237 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off"
+              #addForm="ngForm">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs"> {{ title }} - {{ 'System.Action.' + action | translate }} </strong>
+                <button type="button"
+                        class="btn btn-sm btn-primary float-right"
+                        (click)="back()">
+                  <i class="{{ iconButton.BACK }}"></i> {{"System.Action.Back" | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row border-shadow">
+
+              <!-- Factory -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6">
+                <label class="badge badge-warning"> {{"SalaryMaintenance.SalaryAdditionsAndDeductionsInput.Factory" | translate }}
+                  <span class="text-danger text-bold"> *</span></label>
+                <ng-select name="factory"
+                           [(ngModel)]="data.factory"
+                           (clear)="deleteProperty('factory')"
+                           [clearable]="data.factory !== ''"
+                           (ngModelChange)="onFactoryChange()"
+                           placeholder='{{"SalaryMaintenance.SalaryAdditionsAndDeductionsInput.Factory" | translate }}'
+                           [disabled]="isEdit"
+                           required>
+                  <ng-option *ngFor="let i of listFactory"
+                             [value]="i.key">{{i.value}}</ng-option>
+                </ng-select>
+              </div>
+
+              <!-- EmployeeID -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6">
+                <label class="badge badge-warning"> {{"SalaryMaintenance.SalaryAdditionsAndDeductionsInput.EmployeeID" | translate }} <span class="text-danger text-bold"> *</span></label>
+                <input autocomplete="off"
+                       type="text"
+                       placeholder="{{'SalaryMaintenance.SalaryAdditionsAndDeductionsInput.EmployeeID' | translate }}"
+                       class="form-control"
+                       maxlength="9"
+                       name="employee_ID"
+                       [disabled]="isEdit || !data.factory"
+                       [(ngModel)]="data.employee_ID"
+                       typeaheadScrollable="true"
+                       typeaheadOptionField="employee_ID"
+                       [typeahead]="employeeList"
+                       (typeaheadOnSelect)="onTypehead()"
+                       (typeaheadOnBlur)="onTypehead()"
+                       (typeaheadNoResults)="onTypehead(true)"
+                       required />
+              </div>
+
+              <!-- Department -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6">
+                <label class="badge badge-warning"> {{"SalaryMaintenance.SalaryAdditionsAndDeductionsInput.Department" | translate }} </label>
+                 <input type="text"
+                       class="form-control"
+                       id="department"
+                       name="department"
+                       [ngModel]="data.department_Code_Name"
+                       placeholder='{{"SalaryMaintenance.SalaryAdditionsAndDeductionsInput.Department" | translate }}'
+                       autocomplete="off"
+                       disabled>
+              </div>
+
+              <!-- Local Full Name -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6">
+                <label class="badge badge-warning"> {{"SalaryMaintenance.SalaryAdditionsAndDeductionsInput.LocalFullName" | translate }} </label>
+                <input type="text"
+                       class="form-control"
+                       id="local_Full_Name"
+                       name="local_Full_Name"
+                       [ngModel]="data.local_Full_Name"
+                       placeholder='{{"SalaryMaintenance.SalaryAdditionsAndDeductionsInput.LocalFullName" | translate }}'
+                       autocomplete="off"
+                       readonly
+                       required>
+              </div>
+
+              <!-- Sal Month -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6">
+                <label class="badge badge-warning"> {{"SalaryMaintenance.SalaryAdditionsAndDeductionsInput.SalMonth" | translate }} <span class="text-danger text-bold"> *</span></label>
+                <div class="full-width">
+                  <div class="container_date">
+                    <div class="input-group mr-1">
+                      <input type="text"
+                             name="sal_Month_Value"
+                             [(ngModel)]="data.sal_Month"
+                             (ngModelChange)="onChangeSalMonth()"
+                             onpaste="return false;"
+                             autocomplete="off"
+                             class="form-control"
+                             [disabled]="isEdit"
+                             placeholder="{{placeholder.YearMonth}}"
+                             bsDatepicker
+                             [bsConfig]="{ isAnimated: true,  minMode: 'month' ,dateInputFormat: 'YYYY/MM' }"
+                             required>
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Currency -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6">
+                <label class="badge badge-warning"> {{"SalaryMaintenance.SalaryAdditionsAndDeductionsInput.Currency" | translate }} <span class="text-danger text-bold"> *</span></label>
+                <ng-select name="currency"
+                           [(ngModel)]="data.currency"
+                           (clear)="deleteProperty('currency')"
+                           (ngModelChange)="onDataChange()"
+                           [clearable]="data.currency !== ''"
+                           placeholder='{{"SalaryMaintenance.SalaryAdditionsAndDeductionsInput.Currency" | translate }}'
+                           required>
+                  <ng-option *ngFor="let data of listCurrency"
+                             [value]="data.key">{{data.value}}</ng-option>
+                </ng-select>
+              </div>
+
+              <!-- AddDed Type -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6">
+                <label class="badge badge-warning"> {{"SalaryMaintenance.SalaryAdditionsAndDeductionsInput.AddDedType" | translate }} <span class="text-danger text-bold"> *</span></label>
+                <ng-select name="addDed_Type"
+                           [(ngModel)]="data.addDed_Type"
+                           (ngModelChange)="onDataChange()"
+                           (clear)="deleteProperty('addDed_Type')"
+                           [clearable]="data.addDed_Type !== ''"
+                           [disabled]="isEdit"
+                           placeholder='{{"SalaryMaintenance.SalaryAdditionsAndDeductionsInput.AddDedType" | translate }}'
+                           required>
+                  <ng-option *ngFor="let data of listAddDedType"
+                             [value]="data.key">{{data.value}}</ng-option>
+                </ng-select>
+              </div>
+
+              <!-- AddDed Item -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6">
+                <label class="badge badge-warning"> {{"SalaryMaintenance.SalaryAdditionsAndDeductionsInput.AddDedItem" | translate }} <span class="text-danger text-bold"> *</span></label>
+                <ng-select name="addDed_Item"
+                           [(ngModel)]="data.addDed_Item"
+                           (ngModelChange)="onDataChange()"
+                           (clear)="deleteProperty('addDed_Item')"
+                           [clearable]="data.addDed_Item !== ''"
+                           [disabled]="isEdit"
+                           placeholder='{{"SalaryMaintenance.SalaryAdditionsAndDeductionsInput.AddDedItem" | translate }}'
+                           required>
+                  <ng-option *ngFor="let data of listAddDedItem"
+                             [value]="data.key">{{data.value}}</ng-option>
+                </ng-select>
+              </div>
+
+              <!-- Amount -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+                <label class="badge badge-warning"
+                       for="amount">
+                  {{"SalaryMaintenance.SalaryAdditionsAndDeductionsInput.Amount" | translate }} <span class="text-danger text-bold"> *</span>
+                </label>
+                <input type="text"
+                       placeholder='{{"SalaryMaintenance.SalaryAdditionsAndDeductionsInput.Amount" | translate }}'
+                       class="form-control"
+                       name="amount"
+                       [(ngModel)]="data.amount"
+                       (ngModelChange)="onDataChange()"
+                       mask="separator"
+                       thousandSeparator=","
+                       separatorLimit="10000000"
+                       required />
+              </div>
+
+              <!-- Update By -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6">
+                <label for="textDepartment"
+                       class="badge badge-warning">{{"SalaryMaintenance.SalaryAdditionsAndDeductionsInput.UpdateBy" | translate
+                  }}</label>
+                <input type="text"
+                       class="form-control"
+                       id="Update_By"
+                       name="Update_By"
+                       [(ngModel)]="data.update_By"
+                       placeholder='{{"SalaryMaintenance.SalaryAdditionsAndDeductionsInput.UpdateBy" | translate }}'
+                       disabled>
+              </div>
+
+              <!-- Update Time -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6">
+                <label for="textDepartment"
+                       class="badge badge-warning">{{"SalaryMaintenance.SalaryAdditionsAndDeductionsInput.UpdateTime" | translate
+                  }}</label>
+                <input type="text"
+                       class="form-control"
+                       id="Update_Time"
+                       name="Update_Time"
+                       [(ngModel)]="data.update_Time_Str"
+                       placeholder='{{"SalaryMaintenance.SalaryAdditionsAndDeductionsInput.UpdateTime" | translate }}'
+                       disabled>
+              </div>
+
+            </div>
+            <div class="row justify-content-md-center">
+              <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="table-responsive text-right">
+                  <button type="button"
+                          [ngClass]="isEdit ? 'none' : ''"
+                          class="btn btn-warning ml-2"
+                          (click)="save(true)"
+                          [disabled]="!addForm.valid">
+                    <i class="{{ iconButton.SAVE }}"></i>
+                    {{ "System.Action.SaveAndContinue" | translate }}
+                  </button>
+                  <button type="button"
+                          class="btn btn-success ml-2"
+                          (click)="save(false)"
+                          [disabled]="!addForm.valid">
+                    <i class="{{ iconButton.SAVE }}"></i> {{"System.Action.Save" | translate }}
+                  </button>
+                  <button type="button"
+                          class="btn btn-danger ml-2"
+                          (click)="back()">
+                    <i class="{{ iconButton.CLOSE }}"></i> {{"System.Action.Close" | translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

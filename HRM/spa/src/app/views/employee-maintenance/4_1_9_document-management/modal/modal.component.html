@@ -1,0 +1,95 @@
+<div bsModal
+     id="file-modal"
+     #modal="bs-modal"
+     class="modal fade"
+     tabindex="-1"
+     role="dialog"
+     (onHide)="onHide()">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+    <div class="modal-content modalEdit">
+      <form class="form-horizontal"
+            autocomplete="off">
+        <div ngClass="bg-primary modal-header">
+          <h4 class="modal-title pull-left">{{'EmployeeInformationModule.DocumentManagement.Attachment' | translate }}</h4>
+          <button type="button"
+                  class="btn-close close pull-right"
+                  aria-label="Close"
+                  (click)="close()">
+            <span aria-hidden="true"
+                  class="visually-hidden">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body text-center">
+          <div class="card mb-2">
+            <div class="card-body">
+              <div class="row justify-content-md-center">
+                <div class="col-lg-12">
+                  <div class="table-responsive">
+                    <table class="table table-bordered">
+                      <tbody>
+                        <tr *ngFor="let item of data.file_List">
+                          <td class="id-column">{{ item.id }}</td>
+                          <td class="name-column">{{ item.name }}</td>
+                          <td class="size-column">{{ item.size | filesize }}</td>
+                          <td class="button-column">
+                            <button type="button"
+                                    title="Download"
+                                    class="{{classButton.tDOWNLOAD}}"
+                                    (click)="download(item)"
+                                    *ngIf="id() == 'view-modal'">
+                              <i class="{{ iconButton.DOWNLOAD }}"></i>
+                            </button>
+                            <button type="button"
+                                    title="Delete"
+                                    class="{{classButton.tDELETE}}"
+                                    (click)="remove(item)"
+                                    *ngIf="id() == 'modify-modal'">
+                              <i class="{{ iconButton.REMOVE }}"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tr *ngIf="data.file_List.length === 0">
+                        <td colspan="100%"
+                            class="table-warning text-center font-weight-bold no-data">
+                          {{'System.Message.Nodata' | translate }}
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <label type="button"
+                 class="{{classButton.UPLOAD}}"
+                 style="cursor: pointer; margin-bottom: 0"
+                 *ngIf="id() != 'view-modal'">
+            <i class="{{iconButton.UPLOAD}}"></i>{{'System.Action.Import' | translate }}
+            <input #inputRef
+                   multiple
+                   type="file"
+                   name="import"
+                   style="display: none"
+                   (change)="upload($event)" />
+          </label>
+        </div>
+        <div class="modal-footer">
+          <button type="button"
+                  class="btn btn-success"
+                  (click)="save()"
+                  *ngIf="id() != 'view-modal'">
+            <i class="{{ iconButton.SAVE }} mr-1"
+               aria-hidden="true"> </i>{{'System.Action.Save' | translate }}
+          </button>
+          <button type="button"
+                  class="{{classButton.CLOSE}}"
+                  (click)="close()">
+            <i class="{{ iconButton.CLOSE }} mr-1"
+               aria-hidden="true"></i>{{'System.Action.Close' | translate }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

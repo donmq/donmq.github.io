@@ -1,0 +1,152 @@
+<div bsModal
+     #modal="bs-modal"
+     class="modal fade"
+     tabindex="-1"
+     role="dialog"
+     (onHide)="onHide()">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <form #addForm="ngForm"
+            class="form-horizontal p-55px"
+            autocomplete="off">
+        <div class="modal-header bg-primary text-white">
+          <h5 name="modal-title-add"
+              class="modal-title"
+              id="modal-basic-title">
+            {{ title }} - {{"System.Action.Edit" | translate}}
+          </h5>
+          <button type="button"
+                  class="btn-close close pull-right"
+                  aria-label="Close"
+                  (click)="close()">
+            <span aria-hidden="true"
+                  class="visually-hidden">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <!-- MaintenanceDate -->
+            <div class="col-md-6">
+              <label class="badge badge-warning">
+                {{"EmployeeInformationModule.ExitEmployeesBlacklist.MaintenanceDate"|translate}}
+              </label>
+              <input type="text"
+                     name="maintenanceDate"
+                     class="form-control"
+                     bsDatepicker
+                     [bsConfig]="bsConfig"
+                     [(ngModel)]="model.maintenance_Date"
+                     disabled
+                     placeholder="{{ 'EmployeeInformationModule.ExitEmployeesBlacklist.MaintenanceDate' | translate }}...">
+            </div>
+            <!-- Nationality -->
+            <div class="col-md-6">
+              <label class="badge badge-warning">
+                {{"EmployeeInformationModule.ExitEmployeesBlacklist.Nationality" | translate}}
+              </label>
+              <input type="text"
+                     name="nationality"
+                     class="form-control"
+                     [(ngModel)]="model.nationality"
+                     disabled
+                     placeholder="{{ 'EmployeeInformationModule.ExitEmployeesBlacklist.Nationality' | translate }}...">
+            </div>
+            <!-- IdentificationNumber -->
+            <div class="col-md-6">
+              <label class="badge badge-warning">
+                {{"EmployeeInformationModule.ExitEmployeesBlacklist.IdentificationNumber" | translate }}
+              </label>
+              <input type="text"
+                     name="identificationNumber"
+                     class="form-control"
+                     [(ngModel)]="model.identification_Number"
+                     disabled
+                     placeholder="{{ 'EmployeeInformationModule.ExitEmployeesBlacklist.IdentificationNumber' | translate }}...">
+            </div>
+            <!-- LocalFullName -->
+            <div class="col-md-6">
+              <label class="badge badge-warning">
+                {{"EmployeeInformationModule.ExitEmployeesBlacklist.LocalFullName" | translate }}
+              </label>
+              <input type="text"
+                     name="localFullName"
+                     class="form-control"
+                     [(ngModel)]="model.local_Full_Name"
+                     disabled
+                     placeholder="{{ 'EmployeeInformationModule.ExitEmployeesBlacklist.LocalFullName' | translate }}...">
+            </div>
+          </div>
+          <div class="row mt-2">
+            <!-- Reason for Resignation -->
+            <div class="col-md-6">
+              <label class="badge badge-warning">
+                {{"EmployeeInformationModule.ExitEmployeesBlacklist.ReasonforResignation" | translate }}
+              </label>
+              <input type="text"
+                     name="reasonForResignation"
+                     class="form-control"
+                     [(ngModel)]="model.resign_Reason"
+                     disabled
+                     placeholder="{{ 'EmployeeInformationModule.ExitEmployeesBlacklist.ResignReason' | translate }}...">
+            </div>
+            <!-- Update By -->
+            <div class="col-md-6">
+              <label class="badge badge-warning">
+                {{"EmployeeInformationModule.ExitEmployeesBlacklist.UpdateBy" | translate }}
+              </label>
+              <input type="text"
+                     name="updateBy"
+                     class="form-control"
+                     [(ngModel)]="model.update_By"
+                     disabled
+                     placeholder="{{ 'EmployeeInformationModule.ExitEmployeesBlacklist.LocalFullName' | translate }}...">
+            </div>
+            <!-- UpdateTime -->
+            <div class="col-md-6">
+              <label class="badge badge-warning">
+                {{"EmployeeInformationModule.ExitEmployeesBlacklist.UpdateTime" | translate }}
+              </label>
+              <input type="text"
+                     name="updateTime"
+                     class="form-control"
+                     [(ngModel)]="model.update_Time"
+                     disabled
+                     bsDatepicker
+                     [bsConfig]="bsConfig"
+                     [(ngModel)]="model.update_Time"
+                     placeholder="{{ 'EmployeeInformationModule.ExitEmployeesBlacklist.LocalFullName' | translate }}... ">
+            </div>
+            <!-- Description -->
+            <div class="col-md-6">
+              <label class="badge badge-warning">
+                {{"EmployeeInformationModule.ExitEmployeesBlacklist.Description" | translate}}
+              </label>
+              <textarea type="text"
+                        name="description"
+                        class="form-control"
+                        [(ngModel)]="model.description"
+                        [maxlength]="255"
+                        required
+                        placeholder="{{ 'EmployeeInformationModule.ExitEmployeesBlacklist.Description' | translate }}...">
+              </textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button name="btnAdd"
+                  class="btn btn-success text-white"
+                  type="button"
+                  (click)="save()">
+            <i class="{{ iconButton.SAVE }}"></i> {{ "System.Action.Save" | translate }}
+          </button>
+          <button name="btnClose"
+                  class="btn btn-danger text-black"
+                  type="button"
+                  (click)="close()">
+            <i class="{{ iconButton.CLOSE }}"></i> {{ "System.Action.Close" | translate }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

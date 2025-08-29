@@ -1,0 +1,275 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row border-title">
+            <div class="col-md-12">
+              <strong> {{ title }} </strong>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form class="form-horizontal border-shadow"
+                autocomplete="off">
+            <div class="row ">
+              <div class="col-xxl-4 col-xl-4 col-lg-6 col-sm-12 col-md-6">
+                <label class="badge badge-warning"> {{"BasicMaintenance.Account/AuthorizationSetting.StatusMain" | translate }} </label>
+                <div class="custom-control custom-radio mt-2">
+                  <div class="form-check form-check-inline">
+                    <input type="radio"
+                           class="custom-control-input"
+                           id="customRadio3"
+                           name="customRadio3"
+                           [value]="2"
+                           [(ngModel)]="param.isActive" />
+                    <label class="custom-control-label font-weight-bold"
+                           for="customRadio3">
+                      {{'BasicMaintenance.Account/AuthorizationSetting.All' | translate }}
+                    </label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input type="radio"
+                           class="custom-control-input"
+                           id="customRadio2"
+                           name="customRadio2"
+                           [value]="1"
+                           [(ngModel)]="param.isActive" />
+                    <label class="custom-control-label font-weight-bold"
+                           for="customRadio2">
+                      {{'BasicMaintenance.Account/AuthorizationSetting.Enabled' | translate }}
+                    </label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input type="radio"
+                           class="custom-control-input"
+                           id="customRadio1"
+                           name="customRadio1"
+                           [value]="0"
+                           [(ngModel)]="param.isActive" />
+                    <label class="custom-control-label font-weight-bold"
+                           for="customRadio1">
+                      {{'BasicMaintenance.Account/AuthorizationSetting.Disable' | translate }}
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xxl-4 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+                <label class="badge badge-warning"> {{"BasicMaintenance.Account/AuthorizationSetting.Account" | translate }} </label>
+                <div class="full-width">
+                  <div class="container_date">
+                    <div class="input-group mr-1">
+                      <input autocomplete="off"
+                             type="text"
+                             placeholder='{{"BasicMaintenance.Account/AuthorizationSetting.Account" | translate }}'
+                             class="form-control"
+                             name="Account"
+                             maxlength="50"
+                             [(ngModel)]="param.account" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xxl-4 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+                <label class="badge badge-warning"> {{"BasicMaintenance.Account/AuthorizationSetting.Name" | translate }} </label>
+                <div class="full-width">
+                  <div class="container_date">
+                    <div class="input-group mr-1">
+                      <input autocomplete="off"
+                             type="text"
+                             placeholder='{{"BasicMaintenance.Account/AuthorizationSetting.Name" | translate }}'
+                             class="form-control"
+                             name="Name"
+                             maxlength="255"
+                             [(ngModel)]="param.name" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xxl-4 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+                <label class="badge badge-warning"> {{"BasicMaintenance.Account/AuthorizationSetting.Division" | translate }} </label>
+                <ng-select name="division"
+                           [(ngModel)]="param.division"
+                           placeholder='{{"BasicMaintenance.Account/AuthorizationSetting.Division" | translate }}'
+                           (clear)="deleteProperty('division')"
+                           [clearable]="param.division !== ''"
+                           (ngModelChange)="onChange()">
+                  <ng-option *ngFor="let data of divisionList"
+                             [value]="data.key">{{data.value}}</ng-option>
+                </ng-select>
+              </div>
+              <div class="col-xxl-4 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+                <label class="badge badge-warning"> {{"BasicMaintenance.Account/AuthorizationSetting.Factory" | translate }} </label>
+                <ng-select name="factory"
+                           [clearable]="false"
+                           (clear)="param.factory = '' "
+                           [(ngModel)]="param.factory"
+                           placeholder='{{"BasicMaintenance.Account/AuthorizationSetting.Factory" | translate }}'
+                           (clear)="deleteProperty('factory')"
+                           [clearable]="param.factory !== ''"
+                           (ngModelChange)="onChange()">
+                  <ng-option *ngFor="let data of factoryList"
+                             [value]="data.key">{{data.value}}</ng-option>
+                </ng-select>
+              </div>
+              <div class="col-xxl-4 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+                <label class="badge badge-warning"> {{"BasicMaintenance.Account/AuthorizationSetting.Department" | translate }} </label>
+                <ng-select name="departmentID"
+                           [clearable]="false"
+                           [(ngModel)]="param.department_ID"
+                           placeholder='{{"BasicMaintenance.Account/AuthorizationSetting.Department" | translate }}'
+                           [disabled]="!param.division || !param.factory"
+                           (clear)="deleteProperty('department_ID')"
+                           [clearable]="param.department_ID !== ''">
+                  <ng-option *ngFor="let data of departmentList"
+                             [value]="data.key">{{data.value}}</ng-option>
+                </ng-select>
+              </div>
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-auto">
+                    <label class="badge badge-warning"> {{"BasicMaintenance.Account/AuthorizationSetting.Role" | translate }} </label>
+                    <ng-select name="listRole"
+                               [multiple]="true"
+                               [items]="roleList"
+                               [selectableGroup]="true"
+                               [selectableGroupAsModel]="false"
+                               [closeOnSelect]="false"
+                               groupBy="allGroup"
+                               bindLabel="value"
+                               bindValue="key"
+                               (clear)="param.listRole = []"
+                               [(ngModel)]="param.listRole"
+                               placeholder="{{'BasicMaintenance.Account/AuthorizationSetting.Role' | translate }}">
+                      <ng-template ng-optgroup-tmp
+                                   let-item="item"
+                                   let-item$="item$"
+                                   let-index="index">
+                        <input id="item-{{ index }}"
+                               type="checkbox"
+                               name="item-{{ index }}"
+                               [ngModel]="item$.selected" /> {{ 'System.Action.SelectAll' | translate }}</ng-template>
+                      <ng-template ng-option-tmp
+                                   let-item="item"
+                                   let-item$="item$"
+                                   let-index="index">
+                        <input id="item-{{ index }}"
+                               name="item-{{ index }}"
+                               type="checkbox"
+                               [ngModel]="item$.selected" /> {{ item.value }} </ng-template>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 p-0">
+              <label class="d-block">&nbsp;</label>
+              <button type="submit"
+                      class="btn btn-primary"
+                      (click)="search(true)"
+                      *ngIf="functionUtility.checkFunction('Search')">
+                <i class="{{ iconButton.SEARCH }}"></i> {{"System.Action.Search" | translate }}
+              </button>
+              <button type="button"
+                      class="btn btn-danger ml-1"
+                      (click)="clear()">
+                <i class="{{ iconButton.CLEAR }}"></i> {{"System.Action.Clear" | translate }}
+              </button>
+              <button type="button"
+                      (click)="onAdd()"
+                      class="btn btn-success ml-1"
+                      id="add"
+                      *ngIf="functionUtility.checkFunction('Add')">
+                <i class="{{ iconButton.ADD }}"></i> {{"System.Action.Add" | translate }}
+              </button>
+              <button type="submit"
+                      class="btn btn-success ml-1"
+                      id="excel"
+                      (click)="download()"
+                      [disabled]="data.length == 0"
+                      *ngIf="functionUtility.checkFunction('Excel')">
+                <i class="{{iconButton.EXCEL}}"></i> {{"System.Action.Excel" | translate }}
+              </button>
+            </div>
+          </form>
+          <div class="row justify-content-md-center">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th class="text-center"
+                          *ngIf="functionUtility.checkFunction('Edit')">{{"System.Action.Operation" | translate }}</th>
+                      <th class="text-center">{{"BasicMaintenance.Account/AuthorizationSetting.StatusMain" | translate }}</th>
+                      <th class="text-center">{{"BasicMaintenance.Account/AuthorizationSetting.Account" | translate }}</th>
+                      <th class="text-center">{{"BasicMaintenance.Account/AuthorizationSetting.Name" | translate }}</th>
+                      <th class="text-center">{{"BasicMaintenance.Account/AuthorizationSetting.Division" | translate }}</th>
+                      <th class="text-center">{{"BasicMaintenance.Account/AuthorizationSetting.Factory" | translate }}</th>
+                      <th class="text-center">{{"BasicMaintenance.Account/AuthorizationSetting.Department" | translate }}</th>
+                      <th class="text-center">{{"BasicMaintenance.Account/AuthorizationSetting.Role" | translate }}</th>
+                      <th class="text-center">{{"BasicMaintenance.Account/AuthorizationSetting.UpdateBy" | translate }} </th>
+                      <th class="text-center">{{"BasicMaintenance.Account/AuthorizationSetting.UpdateTime" | translate }} </th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="data.length > 0; else dataNotFound">
+                    <tr *ngFor="let item of data">
+                      <td class="text-center"
+                          *ngIf="functionUtility.checkFunction('Edit')">
+                        <button type="button"
+                                (click)="onEdit(item)"
+                                class="btn btn-sm btn-warning ml-2">
+                          <i class="{{ iconButton.EDIT }}"></i> <span>{{"System.Action.Edit" | translate }}</span>
+                        </button>
+                      </td>
+                      <td class="text-center">{{ item.isActive ? ("BasicMaintenance.Account/AuthorizationSetting.Enabled" | translate ) : ("BasicMaintenance.Account/AuthorizationSetting.Disable" | translate ) }}</td>
+                      <td class="text-center">{{ item.account }}</td>
+                      <td class="text-center">{{ item.name}}</td>
+                      <td class="text-center">{{ item.division }}</td>
+                      <td class="text-center">{{ item.factory}}</td>
+                      <td class="text-center">{{ item.department_ID }}</td>
+                      <td class="text-center">{{ item.listRole_Str }}</td>
+                      <td class="text-center">{{ item.update_By }}</td>
+                      <td class="text-center">{{ item.update_Time | date : 'yyyy/MM/dd HH:mm:ss'}}</td>
+                    </tr>
+                  </tbody>
+                  <ng-template #dataNotFound>
+                    <tbody>
+                      <tr>
+                        <td colspan="100%"
+                            class="table-warning text-center font-weight-bold">
+                          {{"System.Message.Nodata" | translate }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </ng-template>
+                </table>
+              </div>
+              <div class="row">
+                <div class="col-8">
+                  <div class="d-flex"
+                       *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                    <pagination [boundaryLinks]="true"
+                                [totalItems]="pagination.totalCount"
+                                [itemsPerPage]="pagination.pageSize"
+                                previousText="&lsaquo;"
+                                nextText="&rsaquo;"
+                                firstText="&laquo;"
+                                lastText="&raquo;"
+                                [maxSize]="5"
+                                [(ngModel)]="pagination.pageNumber"
+                                (pageChanged)="pageChanged($event)">
+                    </pagination>
+                    <span class="cs-page ml-2"> Page - {{ pagination.pageNumber }} / {{ pagination.totalPage }}</span>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <span class="cs-page float-right ">{{'System.Rows' | translate }} : {{pagination.totalCount}}</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,232 @@
+<div class="animated fadeIn">
+  <div>
+    <div class="card">
+      <div class="card-header">
+        <div class="row border-title">
+          <div class="col-md-12">
+            <strong class="title-card-cs">{{ title }} - {{"System.Action." + method | translate}}</strong>
+            <button type="button"
+                    class="btn btn-sm btn-primary float-right"
+                    (click)="back()">
+              <i class="fa fa-chevron-left"></i> {{ 'System.Action.Back' | translate}}
+            </button>
+          </div>
+        </div>
+      </div>
+      <tab-component [tabs]="tabs"
+                   [(tabId)]="selectedTab"
+                   (tabIdChange)="onChangeTab($event)"></tab-component>
+    </div>
+  </div>
+</div>
+
+<ng-template #leaveTab>
+  <ng-container [ngTemplateOutlet]="content"></ng-container>
+</ng-template>
+
+<ng-template #allowanceTab>
+  <ng-container [ngTemplateOutlet]="content"></ng-container>
+</ng-template>
+
+<ng-template #content>
+  <form class="form-horizontal"
+        autocomplete="off"
+        #subForm="ngForm">
+    <div class="row border-shadow">
+      <!-- Factory -->
+      <div class="col-xxl-3 col-xl-4 col-md-6 col-sm-12">
+        <label class="badge badge-warning"> {{
+          'AttendanceMaintenance.MonthlyAttendanceSetting.Factory' | translate}}<span class="text-danger text-bold"> *</span></label>
+        <ng-select name="factory"
+                   [(ngModel)]="param.factory"
+                   placeholder='{{"AttendanceMaintenance.MonthlyAttendanceSetting.Factory" | translate }}'
+                   [clearable]="param.factory !== ''"
+                   (clear)="clearFactory()"
+                   [disabled]="(method === 'Query') || (method === 'Edit')"
+                   (ngModelChange)="onChangeFactory()"
+                   required>
+          <ng-option *ngFor="let factory of factorys"
+                     [value]="factory.key">{{factory.value}}</ng-option>
+        </ng-select>
+      </div>
+      <!--  Effective Month -->
+      <div class="col-xxl-3 col-xl-4 col-md-6 col-sm-12">
+        <label class="badge badge-warning"> {{
+          'AttendanceMaintenance.MonthlyAttendanceSetting.EffectiveMonth' | translate}} <span class="text-danger text-bold"> *</span></label>
+        <div class="input-group">
+          <input [disabled]="(method === 'Query') || (method === 'Edit')"
+                 autocomplete="off"
+                 type="text"
+                 class="form-control"
+                 id="effectiveMonth"
+                 name="effectiveMonth"
+                 placeholder="YYYY/MM"
+                 bsDatepicker
+                 [bsConfig]="bsConfig"
+                 [(ngModel)]="param.effective_Month"
+                 (ngModelChange)="onChangeEffectiveMonth()"
+                 onpaste="return false;"
+                 required />
+          <div class="input-group-append">
+            <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-md-center">
+      <div class="col-xxl-12 col-xl-12">
+        <div class="table-responsive">
+          <table class="table table-bordered text-center">
+            <thead>
+              <tr>
+                <th class="operation-column"
+                    *ngIf="!(method ==='Query')">
+                  {{ 'AttendanceMaintenance.MonthlyAttendanceSetting.Operation' | translate}}
+                </th>
+                <th class="seq-column">{{ 'AttendanceMaintenance.MonthlyAttendanceSetting.Seq' | translate}}
+                  <span class="text-danger text-bold"> *</span>
+                </th>
+                <th *ngIf="selectedTab == tab.leave">{{
+                  'AttendanceMaintenance.MonthlyAttendanceSetting.Leave' | translate}}
+                  <span class="text-danger text-bold"> *</span>
+                </th>
+                <th *ngIf="selectedTab == tab.allowance">{{
+                  'AttendanceMaintenance.MonthlyAttendanceSetting.Allowance' | translate}}
+                  <span class="text-danger text-bold"> *</span>
+                </th>
+                <th>{{ 'AttendanceMaintenance.MonthlyAttendanceSetting.Monthly' |
+                  translate}} <span class="text-danger text-bold"> *</span></th>
+                <th>{{ 'AttendanceMaintenance.MonthlyAttendanceSetting.Total' | translate}}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-template ngFor
+                           let-item
+                           [ngForOf]="selectedTab == tab.leave ? data.leaveData : data.allowanceData"
+                           let-i="index">
+                <tr>
+                  <td *ngIf="!(method ==='Query')"
+                      class="text-center">
+                    <button type="button"
+                            class="btn btn-danger btn-sm"
+                            (click)="onDelete(item, i)"
+                            [disabled]="item.is_Delete">
+                      <i class="{{iconButton.DELETE}}"></i> {{"System.Action.Delete" |
+                      translate }}</button>
+                  </td>
+                  <!-- seq -->
+                  <td>
+                    <input type="number"
+                           min="1"
+                           max="2147483647"
+                           (blur)="onChangeSeq(item)"
+                           class="form-control text-center"
+                           [disabled]="method === 'Query'"
+                           placeholder="{{ 'AttendanceMaintenance.MonthlyAttendanceSetting.Seq' | translate}}"
+                           [name]="'seq'+ i"
+                           [(ngModel)]="item.seq"
+                           onkeypress="return /[0-9]/i.test(event.key)"
+                           onpaste="return false;"
+                           required>
+                  </td>
+                  <!-- Leave -->
+                  <td *ngIf="selectedTab == tab.leave">
+                    <ng-select [name]="'leave_type' + i"
+                               [(ngModel)]="item.code"
+                               (ngModelChange)="onChangeCode(item)"
+                               [clearable]="false"
+                               appendTo="body"
+                               dropdownPosition="bottom"
+                               [disabled]="method === 'Query' || item.max_Effective_Month || item.is_Function_Edit"
+                               required>
+                      <ng-option [value]="''"> {{ 'System.SelectAll' | translate}}
+                      </ng-option>
+                      <ng-option *ngFor="let leave of leaveTypes"
+                                 [value]="leave.key">{{leave.value}}</ng-option>
+                    </ng-select>
+                  </td>
+                  <!-- Allowances -->
+                  <td *ngIf="selectedTab == tab.allowance">
+                    <ng-select [name]="'allowance_type' + i"
+                               [(ngModel)]="item.code"
+                               (ngModelChange)="onChangeCode(item)"
+                               [clearable]="false"
+                               appendTo="body"
+                               dropdownPosition="bottom"
+                               [disabled]="method === 'Query' || item.max_Effective_Month || item.is_Function_Edit"
+                               required>
+                      <ng-option [value]="''"> {{ 'System.SelectAll' | translate}}
+                      </ng-option>
+                      <ng-option *ngFor="let allowance of allowances"
+                                 [value]="allowance.key">{{allowance.value}}</ng-option>
+                    </ng-select>
+                  </td>
+                  <!-- Monthly -->
+                  <td class="text-center">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox"
+                             class="custom-control-input"
+                             [id]="'monthly'+ i"
+                             [name]="'monthly'+ i"
+                             [(ngModel)]="item.month_Total"
+                             [disabled]="method === 'Query' || isDisable == true">
+                      <label class="custom-control-label"
+                             [for]="'monthly'+ i"></label>
+                    </div>
+                  </td>
+                  <!-- Total -->
+                  <td class="text-center">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox"
+                             class="custom-control-input"
+                             [id]="'year_Total'+ i"
+                             [name]="'year_Total'+ i"
+                             [(ngModel)]="item.year_Total"
+                             [disabled]="method === 'Query'">
+                      <label class="custom-control-label"
+                             [for]="'year_Total'+ i"></label>
+                    </div>
+                  </td>
+                </tr>
+              </ng-template>
+              <tr *ngIf=" selectedTab == tab.leave ? data.leaveData?.length === 0 : data.allowanceData?.length === 0">
+                <td class="table-warning text-center font-weight-bold"
+                    colspan="100%">
+                  {{"System.Message.Nodata" | translate }}</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr *ngIf="!(method ==='Query')">
+                <td colspan="8">
+                  <button [disabled]="isDisableAdd()"
+                          type="button"
+                          class="btn btn-success btn-sm"
+                          (click)="onAdd()"><i class="{{iconButton.ADD}}"></i>
+                    {{'System.Action.Add' | translate }}</button>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-md-center mt-3">
+      <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="table-responsive text-right">
+          <button type="button"
+                  class="btn btn-success ml-1"
+                  [disabled]="isDisableSave()"
+                  (click)="saveChange()"
+                  *ngIf="!(method === 'Query')"><i [class]="iconButton.SAVE"></i> {{
+            'System.Action.Save' | translate}} </button>
+          <button type="button"
+                  class="btn btn-danger ml-1"
+                  (click)="back()">
+            <i class="{{ iconButton.CLOSE }}"></i> {{ 'System.Action.Close' | translate}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>

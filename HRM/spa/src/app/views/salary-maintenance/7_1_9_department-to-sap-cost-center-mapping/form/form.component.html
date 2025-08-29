@@ -1,0 +1,156 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off"
+              #addForm="ngForm">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs"> {{ title }} - {{ "System.Action." + formType | translate }}</strong>
+                <button type="button"
+                        class="btn btn-sm btn-primary float-right"
+                        (click)="back()">
+                  <i class="{{ iconButton.BACK }}"></i> {{"System.Action.Back" | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row border-shadow">
+              <!-- Factory -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+                <label class="badge badge-warning"> {{"SalaryMaintenance.DepartmentToSAPCostCenterMapping.Factory" | translate }}
+                  <span class="text-danger text-bold"> *</span></label>
+                <ng-select name="factory"
+                           [(ngModel)]="data.factory"
+                           (ngModelChange)="onSelectFactory()"
+                           (clear)="deleteProperty('factory')"
+                           [clearable]="data.factory !== ''"
+                           placeholder='{{"SalaryMaintenance.DepartmentToSAPCostCenterMapping.Factory" | translate }}'
+                           required
+                           [disabled]="formType == 'Edit'">
+                  <ng-option *ngFor="let i of listFactory"
+                             [value]="i.key">{{i.value}}</ng-option>
+                </ng-select>
+              </div>
+              <!--Cost Year-->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6">
+                <label class="badge badge-warning"
+                       for="year">
+                  {{"SalaryMaintenance.DepartmentToSAPCostCenterMapping.CostYear" | translate}}
+                  <span class="text-danger text-bold"> *</span></label>
+                <div class="full-width">
+                  <div class="container_date">
+                    <div class="input-group mr-1">
+                      <input type="text"
+                             autocomplete="off"
+                             class="form-control"
+                             bsDatepicker
+                             name="year"
+                             [(ngModel)]="data.cost_Year"
+                             (ngModelChange)="onDateChange()"
+                             [bsConfig]="bsConfig"
+                             maxlength="4"
+                             onpaste="return false;"
+                             placeholder="{{placeholder.Year}}"
+                             [disabled]="formType == 'Edit'"
+                             required />
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Cost Code -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+                <label class="badge badge-warning"> {{"SalaryMaintenance.DepartmentToSAPCostCenterMapping.CostCenter" | translate }}
+                  <span class="text-danger text-bold"> *</span></label>
+                <ng-select name="cost_Code"
+                           [(ngModel)]="data.cost_Code"
+                           (clear)="deleteProperty('cost_Code')"
+                           [clearable]="data.cost_Code !== ''"
+                           placeholder="{{'SalaryMaintenance.DepartmentToSAPCostCenterMapping.CostCenter' | translate }}"
+                           required
+                           [disabled]="!data.factory || !data.cost_Year">
+                  <ng-option *ngFor="let item of listCostCenter"
+                             [value]="item.key">{{ item.value }}</ng-option>
+                </ng-select>
+              </div>
+              <!-- Department -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+                <label class="badge badge-warning"> {{"SalaryMaintenance.DepartmentToSAPCostCenterMapping.Department" | translate }}
+                  <span class="text-danger text-bold"> *</span></label>
+                <ng-select name="department"
+                           [(ngModel)]="data.department"
+                           (clear)="deleteProperty('department')"
+                           [clearable]="data.department !== ''"
+                           placeholder='{{"SalaryMaintenance.DepartmentToSAPCostCenterMapping.Department" | translate }}'
+                           (ngModelChange)="checkDuplicate()"
+                           required
+                           [disabled]="formType == 'Edit' || !data.factory">
+                  <ng-option *ngFor="let i of listDepartment"
+                             [value]="i.key">{{i.value}}</ng-option>
+                </ng-select>
+              </div>
+              <!-- Update By -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <label for="textUpdateBy"
+                       class="badge badge-warning">{{"SalaryMaintenance.DepartmentToSAPCostCenterMapping.UpdateBy" | translate }}
+                </label>
+                <input type="text"
+                       class="form-control"
+                       id="Update_By"
+                       name="Update_By"
+                       [(ngModel)]="data.update_By"
+                       placeholder='{{"SalaryMaintenance.DepartmentToSAPCostCenterMapping.UpdateBy" | translate }}'
+                       disabled>
+              </div>
+              <!-- Update Time -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <label for="textUpdateTime"
+                       class="badge badge-warning">{{"SalaryMaintenance.DepartmentToSAPCostCenterMapping.UpdateTime" | translate
+                  }}</label>
+                <input type="text"
+                       class="form-control"
+                       id="Update_Time"
+                       name="Update_Time"
+                       [(ngModel)]="data.update_Time"
+                       placeholder='{{"SalaryMaintenance.DepartmentToSAPCostCenterMapping.UpdateTime" | translate }}'
+                       disabled>
+              </div>
+            </div>
+
+            <div class="row justify-content-md-center">
+              <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="table-responsive text-right">
+                  <button type="button"
+                          *ngIf="formType != 'Edit'"
+                          class="btn btn-warning ml-2"
+                          (click)="saveAndContinue()"
+                          [disabled]="!addForm.valid || isDuplicate">
+                    <i class="{{ iconButton.SAVE }}"></i>
+                    {{ "System.Action.SaveAndContinue" | translate }}
+                  </button>
+                  <button type="button"
+                          class="btn btn-success ml-2"
+                          (click)="save()"
+                          [disabled]="!addForm.valid || isDuplicate">
+                    <i class="{{ iconButton.SAVE }}"></i> {{"System.Action.Save" | translate }}
+                  </button>
+                  <button type="button"
+                          class="btn btn-danger ml-2"
+                          (click)="back()">
+                    <i class="{{ iconButton.CLOSE }}"></i> {{"System.Action.Close" | translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,227 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row border-title">
+            <div class="col-md-12">
+              <strong> {{ title }} </strong>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form class="form-horizontal border-shadow"
+                autocomplete="off"
+                #mainForm="ngForm">
+            <div class="row ">
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+                <label class="badge badge-warning"
+                       for="factory">
+                  {{"SalaryMaintenance.ListofChildcareSubsidyRecipientsMaintenance.Factory" | translate }}
+                  <span class="text-danger text-bold">*</span>
+                </label>
+                <ng-select name="factory"
+                           [clearable]="params.factory !== ''"
+                           [(ngModel)]="params.factory"
+                           placeholder='{{"SalaryMaintenance.ListofChildcareSubsidyRecipientsMaintenance.Factory" | translate }}'
+                           (clear)="deleteProperty('factory')"
+                           required>
+                  <ng-option *ngFor="let data of factories"
+                             [value]="data.key">{{data.value}}
+                  </ng-option>
+                </ng-select>
+              </div>
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+                <label class="badge badge-warning">
+                  {{"SalaryMaintenance.ListofChildcareSubsidyRecipientsMaintenance.EmployeeID" | translate }}
+                </label>
+                <input type="text"
+                       placeholder='{{"SalaryMaintenance.ListofChildcareSubsidyRecipientsMaintenance.EmployeeID" | translate }}'
+                       class="form-control"
+                       name="employee_ID"
+                       maxlength="9"
+                       [(ngModel)]="params.employee_ID" />
+              </div>
+            </div>
+            <div class="col-12 p-0">
+              <label class="d-block">&nbsp;</label>
+              <button type="submit"
+                      class="btn btn-primary"
+                      (click)="search(true)"
+                      *ngIf="functionUtility.checkFunction('Search')"
+                      [disabled]="!mainForm.valid">
+                <i class="{{ iconButton.SEARCH }}"></i> {{"System.Action.Search" | translate }}
+              </button>
+              <button type="button"
+                      class="btn btn-danger ml-2"
+                      (click)="clear()">
+                <i class="{{ iconButton.CLEAR }}"></i> {{"System.Action.Clear" | translate }}
+              </button>
+              <button type="button"
+                      (click)="add()"
+                      class="btn btn-success ml-2"
+                      id="add"
+                      *ngIf="functionUtility.checkFunction('Add')">
+                <i class="{{ iconButton.ADD }}"></i> {{"System.Action.Add" | translate }}
+              </button>
+              <button type="button"
+              (click)="excelExport()"
+              class="btn btn-success ml-2"
+              [disabled]="!params.factory"
+              *ngIf="functionUtility.checkFunction('Excel')">
+                <i class="{{ iconButton.EXCEL }}"></i>
+                {{ "System.Action.Excel" | translate }}
+              </button>
+              <label *ngIf="functionUtility.checkFunction('Upload')"
+                     class="btn btn-success ml-2 mb-0 custom-margin-top">
+                <input class="custom-upload"
+                       type="file"
+                       (change)="upload($event)"
+                       [accept]="accept">
+                <i class="{{iconButton.UPLOAD}}"></i> {{"System.Action.Upload" | translate }}
+              </label>
+              <button type="button"
+                      class="btn btn-primary ml-2"
+                      id="excel"
+                      (click)="download()"
+                      *ngIf="functionUtility.checkFunction('Upload')">
+                <i class="{{iconButton.EXCEL}}"></i>
+                {{'System.Action.ExcelTemplate' | translate }}
+              </button>
+            </div>
+          </form>
+          <form class="form-horizontal"
+                autocomplete="off"
+                #tableForm="ngForm">
+            <div class="row justify-content-md-center">
+              <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="table-responsive">
+                  <drag-scroll id="dragscroll"
+                               (dragStart)="functionUtility.setTextSelector(false)"
+                               (dragEnd)="functionUtility.setTextSelector(true)">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th class="text-center text-nowrap"
+                              [attr.colspan]="functionUtility.getColspan(['Delete','Edit'])">
+                            {{"System.Action.Operation" | translate }}
+                          </th>
+                          <th class="text-center text-nowrap">
+                            {{"SalaryMaintenance.ListofChildcareSubsidyRecipientsMaintenance.Factory" | translate }}
+                          </th>
+                          <th class="text-center text-nowrap">
+                            {{"SalaryMaintenance.ListofChildcareSubsidyRecipientsMaintenance.EmployeeID" | translate }}
+                          </th>
+                          <th class="text-center text-nowrap">
+                            {{"SalaryMaintenance.ListofChildcareSubsidyRecipientsMaintenance.Department" | translate }}
+                          </th>
+                          <th class="text-center text-nowrap">
+                            {{"SalaryMaintenance.ListofChildcareSubsidyRecipientsMaintenance.LocalFullName" | translate }}
+                          </th>
+                          <th class="text-center text-nowrap">
+                            {{"SalaryMaintenance.ListofChildcareSubsidyRecipientsMaintenance.BirthdayOfChild" | translate }}
+                          </th>
+                          <th class="text-center text-nowrap">
+                            {{"SalaryMaintenance.ListofChildcareSubsidyRecipientsMaintenance.YearandMonthofSubsidyStart" | translate }}
+                          </th>
+                          <th class="text-center text-nowrap">
+                            {{"SalaryMaintenance.ListofChildcareSubsidyRecipientsMaintenance.YearandMonthofSubsidyEnd" | translate }}
+                          </th>
+                          <th class="text-center text-nowrap">
+                            {{"SalaryMaintenance.ListofChildcareSubsidyRecipientsMaintenance.NumberofChildren" | translate }}
+                          </th>
+                          <th class="text-center text-nowrap">
+                            {{"SalaryMaintenance.ListofChildcareSubsidyRecipientsMaintenance.UpdateBy" | translate }}
+                          </th>
+                          <th class="text-center text-nowrap">
+                            {{"SalaryMaintenance.ListofChildcareSubsidyRecipientsMaintenance.UpdateTime" | translate }}
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <ng-container *ngIf="dataMain?.length > 0; then dataTemplate else dataNotFound"></ng-container>
+                        <ng-template #dataTemplate>
+                          <tr *ngFor="let item of dataMain; index as i">
+                            <!-- Item view -->
+                            <ng-container *ngIf="!item.isEdit">
+                              <td class="text-center text-nowrap"
+                                  *ngIf="functionUtility.checkFunction('Edit')">
+                                <button type="button"
+                                        (click)="edit(item)"
+                                        class="btn btn-sm btn-warning"
+                                        [disabled]="item.isDisabled">
+                                  <i class="{{ iconButton.EDIT }}"></i>
+                                  <span>{{"System.Action.Edit" | translate }}
+                                  </span>
+                                </button>
+                              </td>
+                              <td *ngIf="functionUtility.checkFunction('Delete')"
+                                  class="text-center text-nowrap">
+                                <button type="button"
+                                        class="btn btn-danger btn-sm"
+                                        (click)="onDelete(item)"
+                                        [disabled]="item.isDisabled">
+                                  <i class="{{ iconButton.DELETE }}"></i>
+                                  {{ "System.Action.Delete" | translate }}
+                                </button>
+                              </td>
+                              <td class="text-center">{{ item.factory }}</td>
+                              <td class="text-center">{{ item.employee_ID }}</td>
+                              <td class="text-center">{{ item.department_Code_Name}}</td>
+                              <td class="text-center text-nowrap">{{ item.local_Full_Name}}</td>
+                              <td class="text-center text-nowrap">{{ item.birthday_Child | date : "yyyy/MM/dd" }}</td>
+                              <td class="text-center">{{ item.month_Start | date : "yyyy/MM" }}</td>
+                              <td class="text-center">{{ item.month_End | date : "yyyy/MM" }}</td>
+                              <td class="text-center">{{ item.num_Children }}</td>
+                              <td class="text-center">{{ item.update_By }}</td>
+                              <td class="text-center text-nowrap">{{ item.update_Time}}</td>
+                            </ng-container>
+                          </tr>
+                        </ng-template>
+                        <ng-template #dataNotFound>
+                          <tr class="no-data">
+                            <td colspan="100%"
+                                class="table-warning text-center font-weight-bold">
+                              {{"System.Message.Nodata" | translate }}
+                            </td>
+                          </tr>
+                        </ng-template>
+                      </tbody>
+                    </table>
+                  </drag-scroll>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-8">
+                    <div class="d-flex"
+                         *ngIf="dataMain?.length > 0 && pagination.totalPage > 0">
+                      <pagination name="pagination"
+                                  [boundaryLinks]="true"
+                                  [totalItems]="pagination.totalCount"
+                                  [itemsPerPage]="pagination.pageSize"
+                                  previousText="&lsaquo;"
+                                  nextText="&rsaquo;"
+                                  firstText="&laquo;"
+                                  lastText="&raquo;"
+                                  [maxSize]="5"
+                                  [(ngModel)]="pagination.pageNumber"
+                                  (pageChanged)="pageChanged($event)">
+                      </pagination>
+                      <span class="cs-page ml-2">
+                        Page - {{ pagination.pageNumber }} / {{ pagination.totalPage }}
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <span class="cs-page float-right">
+                      {{'System.Rows' | translate }} : {{pagination.totalCount}}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

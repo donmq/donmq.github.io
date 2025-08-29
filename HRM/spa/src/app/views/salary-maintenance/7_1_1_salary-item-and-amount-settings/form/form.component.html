@@ -1,0 +1,270 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row border-title">
+            <div class="col-md-12">
+              <strong class="title-card-cs"> {{ title }} - {{ 'System.Action.' + formType | translate }} </strong>
+              <button type="button"
+                      class="{{classButton.BACK}}"
+                      (click)="back()">
+                <i class="{{ iconButton.BACK }}"></i> {{'System.Action.Back' | translate }}
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form class="form-horizontal"
+                autocomplete="off"
+                #paramForm="ngForm">
+            <div class="row border-shadow">
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-xxl-4 col-xl-2 col-lg-6 col-md-6 col-sm-12">
+                    <label class="badge badge-warning">{{'SalaryMaintenance.SalaryItemAndAmountSettings.Factory' | translate }}<span class="text-danger">
+                        *</span></label>
+                    <ng-select name="factory"
+                               [(ngModel)]="param.factory"
+                               (clear)="deleteProperty('factory')"
+                               (ngModelChange)="onPropertyChange()"
+                               [clearable]="param.factory !== ''"
+                               placeholder="{{'SalaryMaintenance.SalaryItemAndAmountSettings.Factory' | translate }}"
+                               [disabled]="formType=='Edit'"
+                               required>
+                      <ng-option *ngFor="let item of factoryList"
+                                 [value]="item.key">{{ item.value }}</ng-option>
+                    </ng-select>
+                  </div>
+                  <div class="col-xxl-4 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                    <label class="badge badge-warning">{{'SalaryMaintenance.SalaryItemAndAmountSettings.PermissionGroup' | translate }}<span class="text-danger">
+                        *</span></label>
+                    <ng-select name="permission_Group"
+                               [(ngModel)]="param.permission_Group"
+                               (clear)="deleteProperty('permission_Group')"
+                               (ngModelChange)="onPropertyChange()"
+                               [clearable]="param.permission_Group !== ''"
+                               placeholder="{{'SalaryMaintenance.SalaryItemAndAmountSettings.PermissionGroup' | translate }}"
+                               [disabled]="formType=='Edit'"
+                               required>
+                      <ng-option *ngFor="let item of permissionGroupList"
+                                 [value]="item.key">{{ item.value }}</ng-option>
+                    </ng-select>
+                  </div>
+                  <div class="col-xxl-4 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                    <label class="badge badge-warning">{{'SalaryMaintenance.SalaryItemAndAmountSettings.SalaryType' | translate }}<span class="text-danger">
+                        *</span></label>
+                    <ng-select name="salary_Type"
+                               [(ngModel)]="param.salary_Type"
+                               (clear)="deleteProperty('salary_Type')"
+                               (ngModelChange)="onPropertyChange()"
+                               [clearable]="param.salary_Type !== ''"
+                               placeholder="{{'SalaryMaintenance.SalaryItemAndAmountSettings.SalaryType' | translate }}"
+                               [disabled]="formType=='Edit'"
+                               required>
+                      <ng-option *ngFor="let item of salaryTypeList"
+                                 [value]="item.key">{{ item.value }}</ng-option>
+                    </ng-select>
+                  </div>
+                  <div class="col-xxl-4 col-xl-2 col-lg-6 col-md-6 col-sm-12">
+                    <label class="badge badge-warning">{{'SalaryMaintenance.SalaryItemAndAmountSettings.EffectiveMonth' | translate }}<span class="text-danger">
+                        *</span></label>
+                    <div class="full-width">
+                      <div class="container_input">
+                        <div class="input-group mr-1">
+                          <input type="text"
+                                 autocomplete="off"
+                                 placeholder="YYYY/MM"
+                                 name="month"
+                                 [bsConfig]="bsConfig"
+                                 class="form-control"
+                                 bsDatepicker
+                                 [(ngModel)]="param.effective_Month"
+                                 (ngModelChange)="onDateChange('effective_Month')"
+                                 [disabled]="formType=='Edit'"
+                                 required
+                                 onpaste="return false" />
+                          <div class="input-group-append">
+                            <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xxl-4 col-xl-2 col-lg-6 col-md-6 col-sm-12">
+                    <label for="textDepartment"
+                           class="badge badge-warning">{{'SalaryMaintenance.SalaryItemAndAmountSettings.PaidSalaryDays' | translate }}
+                      <span class="text-danger"> *</span></label>
+                    <input autocomplete="off"
+                           type="number"
+                           placeholder="{{'SalaryMaintenance.SalaryItemAndAmountSettings.PaidSalaryDays' | translate }}"
+                           class="form-control text-center"
+                           name="salaryDays"
+                           [(ngModel)]="param.salary_Days"
+                           mask="00"
+                           [min]="0"
+                           [max]="31"
+                           (ngModelChange)="validateSalaryDays($event)" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+          <form class="form-horizontal"
+                autocomplete="off"
+                #tableForm="ngForm">
+            <div class="row justify-content-md-center">
+              <div class="col-lg-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th class="text-center operation-column">{{'System.Action.Operation' | translate }}</th>
+                        <th class="text-center seq-column">{{'SalaryMaintenance.SalaryItemAndAmountSettings.Seq' | translate }}
+                          <span class="text-danger">*</span>
+                        </th>
+                        <th class="text-center catalog-column">{{'SalaryMaintenance.SalaryItemAndAmountSettings.SalaryItem' | translate }}
+                          <span class="text-danger">*</span>
+                        </th>
+                        <th class="text-center name-column">{{'SalaryMaintenance.SalaryItemAndAmountSettings.Kind' | translate }}
+                          <span class="text-danger">*</span>
+                        </th>
+                        <th class="text-center name-column">{{'SalaryMaintenance.SalaryItemAndAmountSettings.CalculateInsurance' | translate }}
+                        <th class="text-center score-column">{{'SalaryMaintenance.SalaryItemAndAmountSettings.Amount' | translate }}
+                          <span class="text-danger">*</span>
+                        </th>
+                        <th class="text-center">{{'SalaryMaintenance.SalaryItemAndAmountSettings.UpdateBy' | translate }}</th>
+                        <th class="text-center">{{'SalaryMaintenance.SalaryItemAndAmountSettings.UpdateTime' | translate }}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of data; index as i">
+                        <td class="text-center">
+                          <button type="button"
+                                  class="{{classButton.tDELETE}}"
+                                  (click)="remove(i)"><i class="{{ iconButton.DELETE }}"></i>
+                            {{'System.Action.Delete' | translate }}
+                          </button>
+                        </td>
+                        <td class="text-center">
+                          <input autocomplete="off"
+                                 placeholder="Seq"
+                                 type="text"
+                                 class="form-control text-center"
+                                 maxlength="50"
+                                 name="seq-{{i}}"
+                                 [(ngModel)]="item.seq"
+                                 (ngModelChange)="onValueChange(item)"
+                                 required />
+                        </td>
+                        <td class="text-center"
+                            [ngClass]="{'invalid-data': item.is_Duplicate}">
+                          <ng-select name="salary_Item-{{i}}"
+                                     [(ngModel)]="item.salary_Item"
+                                     (clear)="deleteItemProperty(item,'salary_Item')"
+                                     [clearable]="item.salary_Item !== ''"
+                                     (ngModelChange)="onKeyChange(item, true)"
+                                     appendTo="body"
+                                     dropdownPosition="bottom"
+                                     placeholder="{{'SalaryMaintenance.SalaryItemAndAmountSettings.SalaryItem' | translate }}"
+                                     [disabled]="formType=='Edit'"
+                                     required>
+                            <ng-option *ngFor="let item of salaryItemList"
+                                       [value]="item.key">{{ item.value }}</ng-option>
+                          </ng-select>
+                        </td>
+                        <td class="text-center">
+                          <ng-select name="kind-{{i}}"
+                                     [(ngModel)]="item.kind"
+                                     (clear)="deleteItemProperty(item,'kind')"
+                                     [clearable]="item.kind !== ''"
+                                     (ngModelChange)="onValueChange(item)"
+                                     appendTo="body"
+                                     dropdownPosition="bottom"
+                                     placeholder="{{'SalaryMaintenance.SalaryItemAndAmountSettings.Kind' | translate }}"
+                                     required>
+                            <ng-option *ngFor="let item of kindList"
+                                       [value]="item.key">{{ item.value }}</ng-option>
+                          </ng-select>
+                        </td>
+                        <td class="text-center insurance-cell">
+                          <div class="custom-control custom-radio">
+                            @for (insur of insuranceList; track insur.key) {
+                            <div class="form-check form-check-inline">
+                              <input type="radio"
+                                     class="custom-control-input"
+                                     id="{{insur.value}}-{{i}}"
+                                     name="insurance-{{i}}"
+                                     [value]="insur.key"
+                                     [(ngModel)]="item.insurance"
+                                     (ngModelChange)="onValueChange(item)"/>
+                              <label class="custom-control-label font-weight-bold"
+                                     for="{{insur.value}}-{{i}}">{{insur.key}}
+                              </label>
+                            </div>
+                            }
+                          </div>
+                        </td>
+                        <td class="text-center">
+                          <input autocomplete="off"
+                                 type="text"
+                                 placeholder="{{'SalaryMaintenance.SalaryItemAndAmountSettings.Amount' | translate }}"
+                                 class="form-control text-center"
+                                 name="amount-{{i}}"
+                                 [(ngModel)]="item.amount"
+                                 (ngModelChange)="onValueChange(item)"
+                                 mask="separator"
+                                 thousandSeparator=","
+                                 separatorLimit="10000000"
+                                 required />
+                        </td>
+                        <td class="text-center">{{ item.update_By }}</td>
+                        <td class="text-center">{{ item.update_Time_Str }}</td>
+                      </tr>
+                    </tbody>
+                    <tr *ngIf="data?.length === 0"
+                        class="no-data">
+                      <td colspan="100%"
+                          class="table-warning text-center font-weight-bold">
+                        {{'System.Message.Nodata' | translate }}
+                      </td>
+                    </tr>
+                    <tr class="no-data"
+                        *ngIf="formType=='Add'">
+                      <td class="text-center"
+                          colspan="100%">
+                        <button type="button"
+                                class="{{classButton.tDETAIL}}"
+                                (click)="add()"
+                                [disabled]="!paramForm.valid || !tableForm.valid || isDuplicated">
+                          <i class="{{ iconButton.ADD }}"></i> {{'System.Action.Add' | translate }}
+                        </button>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </form>
+          <div class="row justify-content-md-center">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="table-responsive text-right">
+                <button type="button"
+                        class="{{classButton.SAVE}}"
+                        (click)="save()"
+                        [disabled]=" !paramForm.valid || !tableForm.valid  || isDuplicated || !param.salary_Days">
+                  <i class="{{ iconButton.SAVE }}"></i> {{'System.Action.Save' | translate }}
+                </button>
+                <button type="button"
+                        class="{{classButton.CLOSE}}"
+                        (click)="back()">
+                  <i class="{{ iconButton.CLOSE }}"></i> {{'System.Action.Close' | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,171 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">{{ title }}</strong>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="card-body">
+          <div class="row border-shadow">
+            <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label class="badge badge-warning">
+                {{'OrganizationManagement.OrganizationChart.Division'
+                | translate }} <span class="text-danger">
+                  *</span></label>
+              <ng-select name="division"
+                         [(ngModel)]="param.division"
+                         (clear)="deleteProperty('division')"
+                         [clearable]="param.division !== null"
+                         (ngModelChange)="onDivisionChange()"
+                         placeholder=" {{'OrganizationManagement.OrganizationChart.Division' | translate }}">
+                <ng-option *ngFor="let item of divisionList"
+                           [value]="item.key">{{
+                  item.value
+                  }}</ng-option>
+              </ng-select>
+            </div>
+            <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label class="badge badge-warning">
+                {{'OrganizationManagement.OrganizationChart.Factory'
+                | translate }} <span class="text-danger">
+                  *</span></label>
+              <ng-select name="factory"
+                         [(ngModel)]="param.factory"
+                         (clear)="deleteProperty('factory');deleteProperty('department')"
+                         [clearable]="param.factory !== null"
+                         (ngModelChange)="getDepartment(true)"
+                         [disabled]="!param.division"
+                         placeholder=" {{'OrganizationManagement.OrganizationChart.Factory' | translate }}">
+                <ng-option *ngFor="let item of factoryList"
+                           [value]="item.key">{{
+                  item.value
+                  }}</ng-option>
+              </ng-select>
+            </div>
+            <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label class="badge badge-warning">
+                {{'OrganizationManagement.OrganizationChart.DepartmentCode'
+                | translate }}</label>
+              <ng-select name="department"
+                         [(ngModel)]="param.department"
+                         (clear)="deleteProperty('department')"
+                         [clearable]="param.department !== null"
+                         [disabled]="!param.factory"
+                         placeholder=" {{'OrganizationManagement.OrganizationChart.DepartmentCode' | translate }}">
+                <ng-option *ngFor="let item of departmentList"
+                           [value]="item.key">{{
+                  item.value
+                  }}</ng-option>
+              </ng-select>
+            </div>
+            <div class="col-xxl-2 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label class="badge badge-warning">
+                {{'OrganizationManagement.OrganizationChart.Level'
+                | translate }}<span class="text-danger">
+                  *</span></label>
+              <ng-select name="level"
+                         [(ngModel)]="param.level"
+                         (clear)="param.level = defaultLevel"
+                         [clearable]="param.level != defaultLevel"
+                         placeholder=" {{'OrganizationManagement.OrganizationChart.Level' | translate }}">
+                <ng-option *ngFor="let item of levelList"
+                           [value]="item.key">{{
+                  item.value
+                  }}</ng-option>
+              </ng-select>
+            </div>
+            <div class="ml-3">
+              <label class="d-block">&nbsp;</label>
+              <button type="submit"
+                      class="{{ classButton.SEARCH}}"
+                      (click)="search()"
+                      *ngIf="functionUtility.checkFunction('Search')"
+                      [disabled]="!(param.division && param.factory)">
+                <i class="{{ iconButton.SEARCH }}"></i>
+                {{'System.Action.Search'
+                | translate }}
+              </button>
+              <button type="submit"
+                      class="{{ classButton.CLEAR}}"
+                      (click)="clear()"
+                      [disabled]="!(
+                    param.division ||
+                    param.factory ||
+                    param.department ||
+                    param.level != defaultLevel ||
+                    data.length > 0)">
+                <i class="{{ iconButton.CLEAR }}"></i>
+                {{'System.Action.Clear'
+                | translate }}
+              </button>
+              <button type="button"
+                      class="{{ classButton.PDF}}"
+                      (click)="pdf(divRef)"
+                      *ngIf="functionUtility.checkFunction('Pdf')"
+                      [disabled]="!isEnabledPDF">
+                <i class="{{ iconButton.PDF }}"></i>
+                {{'System.Action.PDF' |
+                translate }}
+              </button>
+              <button type="button"
+                      class="{{ classButton.EXCEL}}"
+                      (click)="excel()"
+                      *ngIf="functionUtility.checkFunction('Excel')"
+                      [disabled]="data.length == 0">
+                <i class="{{ iconButton.EXCEL }}"></i>
+                {{'System.Action.Excel'
+                | translate }}
+              </button>
+            </div>
+          </div>
+          <div class="row justify-content-md-center">
+            <div class="control-pan"
+                 *ngIf="data.length != 0">
+              <button type="button"
+                      class="btn btn-primary btn-sm mr-2"
+                      (click)="onResetViewClicked()">
+                <i class="cil-reload"></i>
+              </button>
+              <button type="button"
+                      class="btn btn-primary btn-sm mr-2"
+                      (click)="onZoomInClicked()">
+                <i class="cil-zoom-in"></i>
+              </button>
+              <button type="button"
+                      class="btn  btn-primary btn-sm"
+                      (click)="onZoomOutClicked()">
+                <i class="cil-zoom-out"></i>
+              </button>
+            </div>
+            <div class="col-12"
+                 #divRef>
+              <div class="pan-zone"
+                   *ngIf="data.length != 0">
+                <pan-zoom [config]="panzoomConfig">
+                  <ngx-org-chart [nodes]="data"
+                                 direction="vertical"
+                                 (itemClick)="detail($event)"></ngx-org-chart>
+                </pan-zoom>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="text-center font-weight-bold"
+                   *ngIf="data.length == 0">
+                <span>{{'System.Message.Nodata'
+                  | translate }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-modal></app-modal>
+</div>

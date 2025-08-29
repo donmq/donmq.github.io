@@ -1,0 +1,114 @@
+<div bsModal
+     #modal="bs-modal"
+     class="modal fade"
+     tabindex="-1"
+     role="dialog">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <!-- Header -->
+      <div class="modal-header bg-primary">
+        <h5 class="modal-title"
+            id="modal-basic-title">
+          {{ title }} - {{ 'System.Action.' + type | translate }}
+        </h5>
+        <button type="button"
+                class="btn-close close pull-right"
+                (click)="close()">
+          <span aria-hidden="true"
+                class="visually-hidden">&times;</span>
+        </button>
+      </div>
+      <!-- Body -->
+      <div class="modal-body ">
+        <div class="row justify-content-md-center">
+          <div *ngIf="model.mode != mode.query"
+               class="col-lg-10 col-md-12 col-sm-12 ">
+            <label class="btn btn-success"
+                   style="cursor: pointer">
+              <i [class]="iconButton.UPLOAD"></i>
+              {{ 'EmployeeInformationModule.Education.SelectFiles' | translate}}
+              <input #fileInput
+                     type="file"
+                     multiple
+                     name="upload"
+                     style="display: none"
+                     (change)="onSelectFile($event)" />
+            </label>
+          </div>
+          <div class="col-lg-10 col-md-12 col-sm-12 ">
+            <!-- Nationality -->
+            <div class="table-responsive">
+              <table class="table table-bordered text-center">
+                <thead>
+                  <tr>
+                    <th>
+                      {{ 'EmployeeInformationModule.Education.No' | translate}}
+                    </th>
+                    <th>
+                      {{ 'EmployeeInformationModule.Education.FileName' | translate}}
+                    </th>
+                    <th class="align-middle"> {{ 'System.Action.Operation' | translate}} </th>
+                  </tr>
+                </thead>
+                <tbody *ngIf="model.files.length > 0; else elseTemplate">
+                  <tr *ngFor="let item of model.files; let i = index">
+                    <td>{{ i + 1 }} </td>
+                    <td class="text-left">{{ item.fileName }} </td>
+                    <td>
+                      <div class="d-flex justify-content-center">
+                        <button *ngIf="item.isDownload"
+                                type="button"
+                                class="btn btn-success btn-sm"
+                                (click)="onDownload(item)">
+                          <i class="{{iconButton.DOWNLOAD}}"></i>
+                        </button>
+
+                        <button type="button"
+                                class="btn btn-sm btn-none mr-2"
+                                *ngIf="!item.isDownload">&nbsp;</button>
+                        <button *ngIf="model.mode != mode.query"
+                                type="button"
+                                class="btn btn-danger btn-sm ml-1"
+                                (click)="onRemoveFile(i, item)">
+                          <i class="{{ iconButton.DELETE }}"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+                <ng-template #elseTemplate>
+                  <tbody>
+                    <tr>
+                      <td colspan="100%"
+                          class="table-warning text-center font-weight-bold">
+                        {{ 'System.Message.Nodata' | translate}}
+                      </td>
+                    </tr>
+                  </tbody>
+                </ng-template>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Footer -->
+      <div class="modal-footer">
+        <button *ngIf="model.mode != mode.query"
+                type="button"
+                class="btn btn-success text-white"
+                [disabled]="validateButtonSave()"
+                (click)="saveChange()">
+          <i class="{{iconButton.SAVE}}"></i>
+          {{ 'System.Action.Save' | translate}}
+        </button>
+
+        <button type="button"
+                class="btn btn-danger text-white"
+                (click)="close()">
+          <i class="{{iconButton.CLOSE}}"></i>
+          {{ 'System.Action.Close' | translate}}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

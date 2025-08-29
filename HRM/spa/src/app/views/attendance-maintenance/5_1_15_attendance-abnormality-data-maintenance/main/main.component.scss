@@ -1,0 +1,47 @@
+.container_input {
+  display: flex;
+  flex-direction: row;
+}
+
+.text-center-vertical {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.container p {
+  margin-right: 10px;
+}
+
+.custom-margin-top {
+  margin-top: 5px;
+}
+
+.vertical-align-middle {
+  vertical-align: middle;
+}
+
+.vertical-align-middle-button {
+  min-width: 100px;
+  vertical-align: middle;
+}
+
+.dragging {
+  cursor: grabbing !important;
+  user-select: none;
+}
+
+.short-width{
+  width: 110px;
+}
+
+.date-width{
+  width: 150px;
+}
+
+.custom-width{
+  width: 250px;
+}
+
+.clock-width{
+  width: 70px;
+}

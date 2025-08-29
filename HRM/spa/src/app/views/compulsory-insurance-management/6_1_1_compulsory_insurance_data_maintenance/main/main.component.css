@@ -1,0 +1,24 @@
+.btn-upload {
+    cursor: pointer !important;
+    margin-bottom: 0 !important;
+}
+
+.input-upload {
+    display: none !important;
+}
+
+.custom-td-btn {
+    min-width: 100px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.form-check-inline {
+    margin-right: 3rem !important;
+}
+
+@media (max-width: 1678px) {
+    .form-check-inline {
+        margin-right: 28px !important;
+    }
+}

@@ -1,0 +1,31 @@
+.short-width{
+  width: 110px;
+}
+
+.container_input{
+  width: 160px;
+}
+
+.custom-width{
+  min-width: 250px;
+  max-width: 400px;
+}
+
+.clock-width{
+  width: 70px;
+}
+
+.overtime-width {
+  min-width: 60px;
+}
+
+.dragging {
+  cursor: grabbing;
+}
+
+.border-top-only {
+  border-top: 1px solid #c8ced3;
+  border-left: none !important;
+  border-right: none !important;
+  border-bottom: none !important;
+}

@@ -1,0 +1,250 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row border-title">
+            <div class="col-md-12">
+              <strong>{{ title }}</strong>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form class="form-horizontal border-shadow"
+                autocomplete="off">
+            <div class="row">
+              <!-- Factory -->
+              <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 pb-2">
+                <label class="badge badge-warning">
+                  {{"AttendanceMaintenance.EmployeeLunchBreakTimeSetting.Factory" | translate}}
+                  <span class="text-danger">*</span>
+                </label>
+                <ng-select [(ngModel)]="param.factory"
+                           [ngModelOptions]="{ standalone: true }"
+                           (ngModelChange)="onFactoryChange()"
+                           [clearable]="false"
+                           placeholder='{{"AttendanceMaintenance.EmployeeLunchBreakTimeSetting.Factory" | translate}}'>
+                  <ng-option [value]="''">{{"System.SelectAll" | translate}}</ng-option>
+                  <ng-option *ngFor="let i of listFactory"
+                             [value]="i.key">{{i.value}}</ng-option>
+                </ng-select>
+              </div>
+
+              <!-- Effective Status -->
+              <div class="col-xxl-2 col-xl-6 col-lg-6 col-md-6 pb-2">
+                <label class="badge badge-warning">{{'AttendanceMaintenance.EmployeeLunchBreakTimeSetting.InService' |
+                  translate}}</label>
+                <div class="row pl-3">
+                  <div *ngFor="let item of key; let i = index">
+                    <label class="container">
+                      <div class="row">
+                        <div class="custom-control custom-radio pt-2">
+                          <input id="customRadio{{i}}"
+                                 class="custom-control-input"
+                                 type="radio"
+                                 name="example"
+                                 [(ngModel)]="selectedKey"
+                                 [value]="item.key" />
+                          <p class="custom-control-label"
+                             for="customRadio{{i}}">
+                            <strong>
+                              {{ item.value | translate }}
+                            </strong>
+                          </p>
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- EmployeeID -->
+              <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 pb-2">
+                <label class="badge badge-warning">
+                  {{"AttendanceMaintenance.EmployeeLunchBreakTimeSetting.EmployeeID" | translate}}
+                </label>
+                <input [(ngModel)]="param.employee_ID"
+                       type="text"
+                       class="form-control"
+                       maxlength="9"
+                       name="employee_ID"
+                       placeholder="{{'AttendanceMaintenance.EmployeeLunchBreakTimeSetting.EmployeeID' | translate}}" />
+              </div>
+
+              <!-- Department -->
+              <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 pb-2">
+                <label class="badge badge-warning">
+                  {{'AttendanceMaintenance.EmployeeLunchBreakTimeSetting.Department' | translate }}
+                </label>
+                <div class="row">
+                  <div class="col-6 pr-1">
+                    <ng-select [(ngModel)]="param.department_From"
+                               [ngModelOptions]="{ standalone: true }"
+                               placeholder="{{'AttendanceMaintenance.EmployeeLunchBreakTimeSetting.From' | translate}}"
+                               [clearable]="false">
+                      <ng-option [value]="''">{{'AttendanceMaintenance.EmployeeLunchBreakTimeSetting.From'|
+                        translate}}...</ng-option>
+                      <ng-option *ngFor="let i of listDepartment"
+                                 [value]="i.key">{{i.value}}</ng-option>
+                    </ng-select>
+                  </div>
+                  <div class="col-6 pl-1">
+                    <ng-select [(ngModel)]="param.department_To"
+                               [ngModelOptions]="{ standalone: true }"
+                               placeholder="{{'AttendanceMaintenance.EmployeeLunchBreakTimeSetting.To' | translate}}"
+                               [clearable]="false">
+                      <ng-option [value]="''">{{'AttendanceMaintenance.EmployeeLunchBreakTimeSetting.To'|
+                        translate}}...</ng-option>
+                      <ng-option *ngFor="let i of listDepartment"
+                                 [value]="i.key">{{i.value}}</ng-option>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <div class="col-xxl-9 col-xl-12 col-lg-12 col-md-12">
+                <!-- Search -->
+                <button *ngIf="functionUtility.checkFunction('Search')"
+                        type="submit"
+                        [disabled]="!param.factory"
+                        class="btn btn-primary mr-2 custom-margin-top"
+                        (click)="search(true)">
+                  <i class="{{iconButton.SEARCH}}"></i> {{"System.Action.Search" | translate }}
+                </button>
+                <!-- Clear -->
+                <button type="button"
+                        class="btn btn-danger mr-2 custom-margin-top"
+                        (click)="clear()">
+                  <i class="{{ iconButton.CLEAR }}"></i> {{"System.Action.Clear" | translate }}
+                </button>
+                <!-- Upload -->
+                <label *ngIf="functionUtility.checkFunction('Upload')"
+                       class="btn btn-success mr-2 mb-0 custom-margin-top">
+                  <input class="custom-upload"
+                         type="file"
+                         (change)="upload($event)">
+                  <i class="{{iconButton.UPLOAD}}"></i> {{"System.Action.Upload" | translate }}
+                </label>
+                <!-- Download -->
+                <button *ngIf="functionUtility.checkFunction('Upload')"
+                        type="button"
+                        class="btn btn-primary mr-2 custom-margin-top"
+                        (click)="downloadTemplate()">
+                  <i class="{{iconButton.EXCEL}}"></i>
+                  {{'System.Action.ExcelTemplate' | translate }}
+                </button>
+                <button type="button"
+                        *ngIf="functionUtility.checkFunction('Excel')"
+                        class="btn btn-success mr-2 custom-margin-top"
+                        (click)="download()"
+                        [disabled]="!param.factory">
+                  <i class="{{ iconButton.EXCEL }}"></i>
+                  {{'System.Action.Excel' | translate }}
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <!-- Table -->
+          <div class="row justify-content-md-center">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th *ngIf="functionUtility.checkFunction('Delete')"
+                          class="text-center vertical-align-middle">
+                        {{"AttendanceMaintenance.EmployeeLunchBreakTimeSetting.Operation" | translate }}
+                      </th>
+                      <th class="text-center vertical-align-middle">
+                        {{"AttendanceMaintenance.EmployeeLunchBreakTimeSetting.Factory" | translate }}
+                      </th>
+                      <th class="text-center vertical-align-middle">
+                        {{"AttendanceMaintenance.EmployeeLunchBreakTimeSetting.Department" | translate }}
+                      </th>
+                      <th class="text-center vertical-align-middle">
+                        {{"AttendanceMaintenance.EmployeeLunchBreakTimeSetting.EmployeeID" | translate }}
+                      </th>
+                      <th class="text-center vertical-align-middle">
+                        {{"AttendanceMaintenance.EmployeeLunchBreakTimeSetting.LocalFullName" | translate }}
+                      </th>
+                      <th class="text-center vertical-align-middle">
+                        {{"AttendanceMaintenance.EmployeeLunchBreakTimeSetting.LunchStart" | translate }}
+                      </th>
+                      <th class="text-center vertical-align-middle">
+                        {{"AttendanceMaintenance.EmployeeLunchBreakTimeSetting.LunchEnd" | translate }}
+                      </th>
+                      <th class="text-center vertical-align-middle">
+                        {{"AttendanceMaintenance.EmployeeLunchBreakTimeSetting.UpdateBy" | translate }}
+                      </th>
+                      <th class="text-center vertical-align-middle">
+                        {{"AttendanceMaintenance.EmployeeLunchBreakTimeSetting.UpdateTime" | translate }}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="data.length > 0; else dataNotFound">
+                    <tr *ngFor="let item of data">
+                      <td *ngIf="functionUtility.checkFunction('Delete')"
+                          class="text-center vertical-align-middle-button">
+                        <button class="btn btn-danger btn-sm"
+                                (click)="delete(item, true)">
+                          <i class="{{iconButton.DELETE}}"
+                             aria-hidden="true"></i>
+                          {{'System.Action.Delete' | translate}}
+                        </button>
+                      </td>
+                      <td class="text-center vertical-align-middle">{{item.factory}}</td>
+                      <td class="text-center vertical-align-middle">{{item.department_Code_Name}}</td>
+                      <td class="text-center vertical-align-middle">{{item.employee_ID}}</td>
+                      <td class="text-center vertical-align-middle">{{item.local_Full_Name}}</td>
+                      <td class="text-center vertical-align-middle">{{item.lunch_Start}}</td>
+                      <td class="text-center vertical-align-middle">{{item.lunch_End}}</td>
+                      <td class="text-center vertical-align-middle">{{item.update_By}}</td>
+                      <td class="text-center vertical-align-middle">{{item.update_Time}}</td>
+                    </tr>
+                  </tbody>
+
+                  <!-- No Data -->
+                  <ng-template #dataNotFound>
+                    <tbody>
+                      <tr>
+                        <td colspan="100%"
+                            class="table-warning text-center font-weight-bold">
+                          {{"System.Message.Nodata" | translate }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </ng-template>
+                </table>
+              </div>
+
+              <!-- Pagination -->
+              <div class="row">
+                <div class="col-8">
+                  <div class="d-flex"
+                       *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                    <pagination [boundaryLinks]="true"
+                                [totalItems]="pagination.totalCount"
+                                [itemsPerPage]="pagination.pageSize"
+                                previousText="&lsaquo;"
+                                nextText="&rsaquo;"
+                                firstText="&laquo;"
+                                lastText="&raquo;"
+                                [maxSize]="5"
+                                [(ngModel)]="pagination.pageNumber"
+                                (pageChanged)="pageChanged($event)">
+                    </pagination>
+                    <span class="cs-page ml-2"> Page - {{ pagination.pageNumber }} / {{ pagination.totalPage }}</span>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <span class="cs-page float-right ">{{'System.Rows' | translate }} : {{pagination.totalCount}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

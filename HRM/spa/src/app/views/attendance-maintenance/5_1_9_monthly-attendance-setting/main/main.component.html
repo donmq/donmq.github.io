@@ -1,0 +1,151 @@
+<div class="animated fadeIn">
+  <div class="card">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-md-10">
+          <strong>{{ title }}</strong>
+        </div>
+        <div class="col-md-2 text-right">
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <form class="form-horizontal border-shadow"
+            autocomplete="off"
+            #mainForm="ngForm">
+        <div class="row">
+          <!-- Factory -->
+          <div class="col-xxl-3 col-xl-4 col-md-6 col-sm-12">
+            <label class="badge badge-warning">{{ 'AttendanceMaintenance.MonthlyAttendanceSetting.Factory' | translate }} <span class="text-danger text-bold"> *</span></label>
+            <ng-select name="factory"
+                       [(ngModel)]="param.factory"
+                       placeholder='{{"AttendanceMaintenance.MonthlyAttendanceSetting.Factory" | translate }}'
+                       [clearable]="param.factory !== ''"
+                       (clear)="deleteProperty('factory')"
+                       required>
+              <ng-option *ngFor="let item of factorys"
+                         [value]="item.key">{{item.value}}</ng-option>
+            </ng-select>
+          </div>
+          <!-- Effective Month -->
+          <div class="col-xxl-3 col-xl-4 col-md-6 col-sm-12">
+            <label class="badge badge-warning">{{ 'AttendanceMaintenance.MonthlyAttendanceSetting.EffectiveMonth' | translate }}</label>
+            <div class="input-group">
+              <input autocomplete="off"
+                     type="text"
+                     class="form-control"
+                     id="effectiveMonth"
+                     name="effectiveMonth"
+                     placeholder="YYYY/MM"
+                     bsDatepicker
+                     [bsConfig]="bsConfig"
+                     [(ngModel)]="param.effective_Month"
+                     (ngModelChange)="onDateChange()"
+                     onpaste="return false;" />
+              <div class="input-group-append">
+                <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+              </div>
+            </div>
+          </div>
+          <!-- Button -->
+          <div class="col">
+            <label class="d-block">&nbsp;</label>
+            <button *ngIf="functionUtility.checkFunction('Search')"
+                    [disabled]="!mainForm.valid"
+                    type="button"
+                    class="btn btn-primary"
+                    (click)="search(true)"><i class="{{iconButton.SEARCH}}"></i> {{"System.Action.Search" | translate }}</button>
+            <button type="button"
+                    class="btn btn-danger ml-1"
+                    (click)="clear()"><i class="{{iconButton.CLEAR}}"></i> {{"System.Action.Clear" | translate }}</button>
+            <button *ngIf="functionUtility.checkFunction('Add')"
+                    type="button"
+                    class="btn btn-success ml-1"
+                    (click)="add()"><i class="{{iconButton.ADD}}"></i> {{"BasicMaintenance.2_6_GradeMaintenance.Add" | translate }}</button>
+          </div>
+        </div>
+      </form>
+      <div class="row justify-content-md-center">
+        <div class="col-xxl-12 col-xl-12">
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr class="text-center">
+                  <th *ngIf="functionUtility.checkFunction('Edit')
+                        || functionUtility.checkFunction('Delete')
+                        || functionUtility.checkFunction('Query')"
+                      class="text-center"
+                      colspan="3">{{"AttendanceMaintenance.MonthlyAttendanceSetting.Operation" | translate }}</th>
+                  <th>{{ 'AttendanceMaintenance.MonthlyAttendanceSetting.Factory' | translate }}</th>
+                  <th>{{ 'AttendanceMaintenance.MonthlyAttendanceSetting.EffectiveMonth' | translate }}</th>
+                  <th>{{ 'AttendanceMaintenance.MonthlyAttendanceSetting.Updateby' | translate }}</th>
+                  <th class="text-center">{{ 'AttendanceMaintenance.MonthlyAttendanceSetting.Updatetime' | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of data"
+                    class="text-center">
+                  <td class="text-center"
+                      *ngIf="functionUtility.checkFunction('Query')">
+                    <button type="button"
+                            name="btnQuery"
+                            class="btn btn-info btn-sm text-dark"
+                            (click)="onQuery(item)">
+                      <i class="{{iconButton.VIEW}}"></i> {{"System.Action.Query" | translate }}</button>
+                  </td>
+                  <td class="text-center"
+                      *ngIf="functionUtility.checkFunction('Edit')">
+                    <button type="button"
+                            name="btnEdit"
+                            class="btn btn-warning btn-sm text-dark"
+                            (click)="onEdit(item)">
+                      <i class="{{iconButton.EDIT}}"></i> {{"System.Action.Edit" | translate }}</button>
+                  </td>
+                  <td class="text-center"
+                      *ngIf="functionUtility.checkFunction('Delete')">
+                    <button type="button"
+                            name="btnDelete"
+                            class="btn btn-danger btn-sm"
+                            (click)="onDelete(item)"
+                            [disabled]="item.is_Delete">
+                      <i class="{{iconButton.DELETE}}"></i> {{"System.Action.Delete" | translate }}</button>
+                  </td>
+                  <td>{{item?.factory}}</td>
+                  <td>{{item?.effective_Month | date: 'YYYY/MM'}}</td>
+                  <td>{{item?.update_By}}</td>
+                  <td>{{item?.update_Time | date: "YYYY/MM/dd"}}</td>
+                </tr>
+                <tr *ngIf="data?.length === 0">
+                  <td class="table-warning text-center font-weight-bold"
+                      colspan="100%">{{"System.Message.Nodata" | translate }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="row">
+            <div class="col-8">
+              <div class="d-flex"
+                   *ngIf="data?.length > 0">
+                <pagination [boundaryLinks]="true"
+                            [totalItems]="pagination.totalCount"
+                            [itemsPerPage]="pagination.pageSize"
+                            previousText="&lsaquo;"
+                            [(ngModel)]="pagination.pageNumber"
+                            (pageChanged)="pageChanged($event)"
+                            nextText="&rsaquo;"
+                            firstText="&laquo;"
+                            lastText="&raquo;"
+                            [maxSize]="5">
+                </pagination>
+                <span class="cs-page ml-2"> Page - {{pagination.pageNumber}} / {{pagination.totalPage}}</span>
+              </div>
+            </div>
+            <div class="col-4">
+              <span class="cs-page float-right ">{{'System.Rows' | translate }} : {{pagination.totalCount}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

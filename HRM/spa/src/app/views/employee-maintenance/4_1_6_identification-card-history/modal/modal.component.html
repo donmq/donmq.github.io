@@ -1,0 +1,228 @@
+
+<div bsModal
+     #modal="bs-modal"
+     class="modal fade"
+     tabindex="-1"
+     role="dialog"
+     (onHide)="onHide()">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <!-- Header -->
+      <div class="modal-header bg-primary">
+        <h5 class="modal-title"
+            id="modal-basic-title">
+          {{ title }} - {{"System.Action.Add" | translate }}
+        </h5>
+        <button type="button"
+                class="btn-close close pull-right"
+                (click)="close()">
+          <span aria-hidden="true"
+                class="visually-hidden">&times;</span>
+        </button>
+      </div>
+      <!-- Body -->
+      <div class="modal-body ">
+        <form #form="ngForm"
+              autocomplete="off">
+          <div class="row box-shadow">
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <table class="table table-bordered text-center">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th> {{ 'EmployeeInformationModule.IdentificationCardHistory.BeforeChange' | translate}} </th>
+                      <th> {{ 'EmployeeInformationModule.IdentificationCardHistory.AfterChange' | translate}} </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <!-- Title -->
+                      <td class="lineheight-custom"> {{ 'EmployeeInformationModule.IdentificationCardHistory.Nationality' | translate}}</td>
+                      <!-- Before Change -->
+                      <td>
+                        <ng-select name="nationality_Before"
+                                   [(ngModel)]="param.nationality_Before"
+                                   (clear)="deleteProperty('nationality_Before')"
+                                   [clearable]="param.nationality_Before !== ''"
+                                   disabled
+                                   placeholder='{{"EmployeeInformationModule.IdentificationCardHistory.Nationality" | translate }}'>
+                          <ng-option *ngFor="let i of listNationality"
+                                     [value]="i.key">{{i.value}}</ng-option>
+                        </ng-select>
+                      </td>
+                      <!-- After Change -->
+                      <td>
+                        <ng-select name="nationality_After"
+                                   [(ngModel)]="param.nationality_After"
+                                   (clear)="deleteProperty('nationality_After')"
+                                   [clearable]="param.nationality_After !== ''"
+                                   placeholder='{{"EmployeeInformationModule.IdentificationCardHistory.Nationality" | translate }}'>
+                          <ng-option *ngFor="let i of listNationality"
+                                     [value]="i.key">{{i.value}}</ng-option>
+                        </ng-select>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <!-- Title -->
+                      <td class="lineheight-custom"> {{ 'EmployeeInformationModule.IdentificationCardHistory.IdentificationNumber' | translate}}</td>
+                      <!-- Before Change -->
+                      <td>
+                        <input type="text"
+                               class="form-control"
+                               disabled
+                               id="identification_Number_Before"
+                               name="identification_Number_Before"
+                               autocomplete="off"
+                               [(ngModel)]="param.identification_Number_Before"
+                               placeholder='{{"EmployeeInformationModule.IdentificationCardHistory.IdentificationNumber" | translate }}'
+                               required>
+                      </td>
+                      <!-- After Change -->
+                      <td>
+                        <input type="text"
+                               class="form-control"
+                               id="identification_Number_After"
+                               name="identification_Number_After"
+                               autocomplete="off"
+                               [(ngModel)]="param.identification_Number_After"
+                               placeholder='{{"EmployeeInformationModule.IdentificationCardHistory.IdentificationNumber" | translate }}'
+                               required>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <!-- Title -->
+                      <td class="lineheight-custom"> {{ 'EmployeeInformationModule.IdentificationCardHistory.LocalFullName' | translate}}</td>
+                      <!-- Before Change -->
+                      <td>
+                        <input type="text"
+                               class="form-control"
+                               disabled
+                               id="local_Full_Name_Before"
+                               name="local_Full_Name_Before"
+                               autocomplete="off"
+                               [(ngModel)]="param.local_Full_Name"
+                               placeholder='{{"EmployeeInformationModule.IdentificationCardHistory.LocalFullName" | translate }}'
+                               required>
+                      </td>
+                      <!-- After Change -->
+                      <td>
+                        <input type="text"
+                               class="form-control"
+                               id="local_Full_Name_After"
+                               name="local_Full_Name_After"
+                               disabled
+                               autocomplete="off"
+                               [(ngModel)]="param.local_Full_Name"
+                               placeholder='{{"EmployeeInformationModule.IdentificationCardHistory.LocalFullName" | translate }}'
+                               required>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <!-- Title -->
+                      <td class="lineheight-custom"> {{ 'EmployeeInformationModule.IdentificationCardHistory.IssuedDate' | translate}}</td>
+                      <!-- Before Change -->
+                      <td>
+                        <input type="text"
+                               name="effective_Date_Value_Before"
+                               [(ngModel)]="issuedDateBefore_Value"
+                               disabled
+                               onpaste="return false;"
+                               autocomplete="off"
+                               class="form-control"
+                               placeholder='YYYY/MM/DD'
+                               bsDatepicker
+                               [bsConfig]="{dateInputFormat: 'YYYY/MM/DD' }">
+                      </td>
+                      <!-- After Change -->
+                      <td>
+                        <input type="text"
+                               name="effective_Date_Value_After"
+                               [(ngModel)]="issuedDateAfter_Value"
+                               onpaste="return false;"
+                              autocomplete="off"
+                               class="form-control"
+                               placeholder='YYYY/MM/DD'
+                               bsDatepicker
+                               [bsConfig]="{dateInputFormat: 'YYYY/MM/DD' }"
+                               [minDate]="issuedDateBefore_Value">
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <!-- Title -->
+                      <td class="lineheight-custom"> {{ 'EmployeeInformationModule.IdentificationCardHistory.UpdateBy' | translate}}</td>
+                      <!-- Before Change -->
+                      <td>
+                        <input type="text"
+                               class="form-control"
+                               id="update_By1"
+                               name="update_By1"
+                               disabled
+                               [(ngModel)]="param.update_By_Before"
+                               placeholder='{{"EmployeeInformationModule.IdentificationCardHistory.UpdateBy" | translate }}'>
+                      </td>
+                      <!-- After Change -->
+                      <td>
+                        <input type="text"
+                               class="form-control"
+                               id="update_By2"
+                               name="update_By2"
+                               disabled
+                               [(ngModel)]="param.update_By_After"
+                               placeholder='{{"EmployeeInformationModule.IdentificationCardHistory.UpdateBy" | translate }}'>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <!-- Title -->
+                      <td class="lineheight-custom"> {{ 'EmployeeInformationModule.IdentificationCardHistory.UpdateTime' | translate}}</td>
+                      <!-- Before Change -->
+                      <td>
+                        <input type="text"
+                               class="form-control"
+                               id="updateTime_Value_String"
+                               name="updateTime_Value_String"
+                               disabled
+                               [(ngModel)]="updateTime_Value_String_Before"
+                               placeholder='{{"EmployeeInformationModule.IdentificationCardHistory.UpdateTime" | translate }}'>
+                      </td>
+                      <!-- After Change -->
+                      <td>
+                        <input type="text"
+                               class="form-control"
+                               id="updateTime_Value_String2"
+                               name="updateTime_Value_String2"
+                               disabled
+                               [(ngModel)]="updateTime_Value_String_After"
+                               placeholder='{{"EmployeeInformationModule.IdentificationCardHistory.UpdateTime" | translate }}'>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </div>
+      <!-- Footer -->
+      <div class="modal-footer">
+        <button type="button"
+                class="btn btn-success"
+                (click)="save()"
+                [disabled]="validateEmpty()">
+          <i class="{{ iconButton.SAVE }}"></i> {{"System.Action.Save" | translate }}
+        </button>
+        <button type="button"
+                class="btn btn-danger ml-2"
+                (click)="close()">
+          <i class="{{ iconButton.CLOSE }}"></i> {{"System.Action.Close" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,259 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row border-title">
+            <div class="col-md-12">
+              <strong>{{ title }}</strong>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form class="form-horizontal border-shadow"
+                autocomplete="off"
+                #mainForm="ngForm">
+            <div class="row ">
+              <!-- Factory -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6">
+                <label class="badge badge-warning"> {{"CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.Factory" | translate }} <span class="text-danger text-bold"> *</span></label>
+                <ng-select name="factory"
+                           [(ngModel)]="param.factory"
+                           (clear)="deleteProperty('factory')"
+                           [clearable]="param.factory !== ''"
+                           placeholder="{{'CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.Factory' | translate }}"
+                           required>
+                  <ng-option *ngFor="let data of listFactory"
+                             [value]="data.key">{{data.value}}</ng-option>
+                </ng-select>
+              </div>
+              <!-- YearMonthDeclaration -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6">
+                <label class="badge badge-warning">
+                  {{"CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.YearMonthDeclaration" | translate }}
+                  <span class="text-danger text-bold"> *</span>
+                </label>
+                <div class="full-width">
+                  <div class="container_input">
+                    <div class="input-group mr-2">
+                      <input type="text"
+                             autocomplete="off"
+                             placeholder="YYYY/MM"
+                             name="Start_Date"
+                             [maxDate]="param.end_Year_Month"
+                             [bsConfig]="bsConfig"
+                             maxlength="7"
+                             class="form-control"
+                             bsDatepicker
+                             [(ngModel)]="param.start_Year_Month"
+                             (ngModelChange)="onChangeDate('start_Year_Month')"
+                             onpaste="return false"
+                             required />
+                      <div class="input-group-append">
+                        <span class="input-group-text">
+                          <i class="{{ iconButton.CALENDAR }}"></i>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="input-group">
+                      <input type="text"
+                             autocomplete="off"
+                             placeholder="YYYY/MM"
+                             name="End_Date"
+                             [minDate]="param.start_Year_Month"
+                             [bsConfig]="bsConfig"
+                             class="form-control"
+                             maxlength="7"
+                             bsDatepicker
+                             [(ngModel)]="param.end_Year_Month"
+                             (ngModelChange)="onChangeDate('end_Year_Month')"
+                             onpaste="return false"
+                             required />
+                      <div class="input-group-append">
+                        <span class="input-group-text">
+                          <i class="{{ iconButton.CALENDAR }}"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Declaration Frequency -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6">
+                <label class="badge badge-warning"> {{"CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.DeclarationFrequency" | translate }} </label>
+                <input type="number"
+                       class="form-control"
+                       id="declaration_Seq"
+                       mask="00"
+                       [min]="1"
+                       [max]="99"
+                       name="declaration_Seq"
+                       [(ngModel)]="param.declaration_Seq"
+                       (input)="onChangeSeq($event)"
+                       placeholder="{{'CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.DeclarationFrequency' | translate }}"
+                       autocomplete="off">
+              </div>
+              <!-- Kind of Benefits -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6">
+                <label class="badge badge-warning"> {{"CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.KindofBenefits" | translate }}</label>
+                <ng-select name="benefits_Kind"
+                           [(ngModel)]="param.benefits_Kind"
+                           (clear)="deleteProperty('benefits_Kind')"
+                           [clearable]="param.benefits_Kind !== ''"
+                           placeholder="{{'CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.KindofBenefits' | translate }}">
+                  <ng-option *ngFor="let i of listBenefitsKind"
+                             [value]="i.key">{{i.value}}</ng-option>
+                </ng-select>
+              </div>
+              <!-- Employee ID -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6">
+                <label class="badge badge-warning"> {{"CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.EmployeeID" | translate }}</label>
+                <div class="input-group mr-1">
+                  <input autocomplete="off"
+                         type="text"
+                         placeholder="{{'CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.EmployeeID' | translate }}"
+                         class="form-control"
+                         maxlength="16"
+                         name="employee_ID"
+                         [disabled]="!param.factory"
+                         [(ngModel)]="param.employee_ID" />
+                </div>
+              </div>
+
+              <div class="col-12 p-0 ml-3">
+                <label class="d-block">&nbsp;</label>
+                <button type="submit"
+                        class="btn btn-primary mr-1"
+                        (click)="search(true)"
+                        [disabled]="!mainForm.valid"
+                        *ngIf="functionUtility.checkFunction('Search')">
+                  <i class="{{ iconButton.SEARCH }}"></i> {{"System.Action.Search" | translate }}
+                </button>
+                <button type="button"
+                        class="btn btn-danger  mr-1"
+                        (click)="clear()">
+                  <i class="{{ iconButton.CLEAR }}"></i> {{"System.Action.Clear" | translate }}
+                </button>
+                <button type="button"
+                        (click)="onForm()"
+                        class="btn btn-success mr-1"
+                        *ngIf="functionUtility.checkFunction('Add')">
+                  <i class="{{ iconButton.ADD }}"></i> {{"System.Action.Add" | translate }}
+                </button>
+                <button type="submit"
+                        class="btn btn-success  mr-1"
+                        id="excel"
+                        (click)="download()"
+                        [disabled]="!mainForm.valid || data?.length == 0"
+                        *ngIf="functionUtility.checkFunction('Excel')">
+                  <i class="{{iconButton.EXCEL}}"></i> {{"System.Action.Excel" | translate }}
+                </button>
+              </div>
+            </div>
+          </form>
+          <div class="row justify-content-md-center">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th class="text-center"
+                          *ngIf="functionUtility.checkFunction('Edit') || functionUtility.checkFunction('Delete')"
+                          [attr.colspan]="functionUtility.getColspan(['Delete','Edit'])">{{"System.Action.Operation" | translate }}</th>
+                      <th class="text-center text-nowrap">{{"CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.Factory" | translate }}</th>
+                      <th class="text-center text-nowrap">{{"CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.YearMonthDeclaration" | translate }}</th>
+                      <th class="text-center text-nowrap">{{"CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.DeclarationFrequency" | translate }}</th>
+                      <th class="text-center text-nowrap">{{"CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.KindofBenefits" | translate }} </th>
+                      <th class="text-center text-nowrap">{{"CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.EmployeeID" | translate }} </th>
+                      <th class="text-center text-nowrap">{{"CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.LocalFullName" | translate }} </th>
+                      <th class="text-center text-nowrap">{{"CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.CompulsoryInsuranceNumber" | translate }} </th>
+                      <th class="text-center text-nowrap">{{"CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.SpecialWorkType" | translate }} </th>
+                      <th class="text-center text-nowrap">{{"CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.BirthdayofChild" | translate }} </th>
+                      <th class="text-center text-nowrap">{{"CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.DateStart" | translate }} </th>
+                      <th class="text-center text-nowrap">{{"CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.DateEnd" | translate }} </th>
+                      <th class="text-center text-nowrap">{{"CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.CodeofBenefits" | translate }} </th>
+                      <th class="text-center text-nowrap">{{"CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.Day" | translate }} </th>
+                      <th class="text-center text-nowrap">{{"CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.AnnualAccumulatedDays" | translate }} </th>
+                      <th class="text-center text-nowrap">{{"CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.TotalAmount" | translate }} </th>
+                      <th class="text-center text-nowrap">{{"CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.UpdateBy" | translate }} </th>
+                      <th class="text-center text-nowrap">{{"CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.UpdateTime" | translate }} </th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="data.length > 0; else dataNotFound">
+                    <tr *ngFor="let item of data">
+                      <td class="text-center custom-td-btn"
+                          *ngIf="functionUtility.checkFunction('Edit')">
+                        <button type="button"
+                                (click)="onForm(item)"
+                                class="btn btn-sm btn-warning ml-2">
+                          <i class="{{ iconButton.EDIT }}"></i> <span> {{"System.Action.Edit" | translate }}</span>
+                        </button>
+                      </td>
+                      <td class="text-center custom-td-btn"
+                          *ngIf="functionUtility.checkFunction('Delete')">
+                        <button type="button"
+                                (click)="delete(item, true)"
+                                class="btn btn-sm btn-danger ml-2">
+                          <i class="{{ iconButton.DELETE }}"></i> <span> {{"System.Action.Delete" | translate }}</span>
+                        </button>
+                      </td>
+                      <td class="text-center">{{ item.factory }}</td>
+                      <td class="text-center">{{ item.declaration_Month_Str  | date : 'yyyy/MM'}}</td>
+                      <td class="text-center">{{ item.declaration_Seq }}</td>
+                      <td class="text-center">{{ item.benefits_Name }}</td>
+                      <td class="text-center">{{ item.employee_ID }}</td>
+                      <td class="text-center">{{ item.local_Full_Name }}</td>
+                      <td class="text-center">{{ item.compulsory_Insurance_Number }}</td>
+                      <td class="text-center">{{ item.special_Work_Type }}</td>
+                      <td class="text-center">{{ item.birthday_Child_Str}}</td>
+                      <td class="text-center">{{ item.benefits_Start_Str }}</td>
+                      <td class="text-center">{{ item.benefits_End_Str}}</td>
+                      <td class="text-center">{{ item.benefits_Num }}</td>
+                      <td class="text-center">{{ item.total_Days }}</td>
+                      <td class="text-center">{{ item.annual_Accumulated_Days }}</td>
+                      <td class="text-center">{{ item.amt }}</td>
+                      <td class="text-center">{{ item.update_By }}</td>
+                      <td class="text-center">{{ item.update_Time_Str}}</td>
+                    </tr>
+                  </tbody>
+                  <ng-template #dataNotFound>
+                    <tbody>
+                      <tr>
+                        <td colspan="100%"
+                            class="table-warning text-center font-weight-bold">
+                          {{"System.Message.Nodata" | translate }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </ng-template>
+                </table>
+              </div>
+              <div class="row">
+                <div class="col-8">
+                  <div class="d-flex"
+                       *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                    <pagination [boundaryLinks]="true"
+                                [totalItems]="pagination.totalCount"
+                                [itemsPerPage]="pagination.pageSize"
+                                previousText="&lsaquo;"
+                                nextText="&rsaquo;"
+                                firstText="&laquo;"
+                                lastText="&raquo;"
+                                [maxSize]="5"
+                                [(ngModel)]="pagination.pageNumber"
+                                (pageChanged)="pageChanged($event)">
+                    </pagination>
+                    <span class="cs-page ml-2"> Page - {{ pagination.pageNumber }} / {{ pagination.totalPage }}</span>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <span class="cs-page float-right ">{{'System.Rows' | translate }} : {{pagination.totalCount}}</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

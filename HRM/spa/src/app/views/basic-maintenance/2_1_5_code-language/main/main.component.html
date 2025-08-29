@@ -1,0 +1,183 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong>{{ title }}</strong>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="card-body">
+          <div class="row border-shadow">
+            <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6">
+              <label for="type_Seq"
+                     class="badge badge-warning">{{"BasicMaintenance.CodeLanguage.TypeSeq" | translate}}</label>
+              <input autocomplete="off"
+                     type="text"
+                     [(ngModel)]="param.type_Seq"
+                     placeholder="{{'BasicMaintenance.CodeLanguage.TypeSeq' | translate}}"
+                     class="form-control"
+                     maxlength="5"
+                     name="type_Seq" />
+            </div>
+            <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6">
+              <label for="type_Name"
+                     class="badge badge-warning">{{"BasicMaintenance.CodeLanguage.TypeName" | translate}}</label>
+              <input autocomplete="off"
+                     type="text"
+                     [(ngModel)]="param.type_Name"
+                     placeholder="{{'BasicMaintenance.CodeLanguage.TypeName' | translate}}"
+                     class="form-control"
+                     maxlength="50"
+                     name="type_Name" />
+            </div>
+            <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6">
+              <label for="code"
+                     class="badge badge-warning">{{"BasicMaintenance.CodeLanguage.Code" | translate}}</label>
+              <input autocomplete="off"
+                     type="text"
+                     [(ngModel)]="param.code"
+                     placeholder="{{'BasicMaintenance.CodeLanguage.Code' | translate}}"
+                     class="form-control"
+                     maxlength="5"
+                     name="code" />
+            </div>
+            <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6">
+              <label for="code_Name"
+                     class="badge badge-warning">{{"BasicMaintenance.CodeLanguage.CodeName" | translate}}</label>
+              <input autocomplete="off"
+                     type="text"
+                     [(ngModel)]="param.code_Name"
+                     placeholder="{{'BasicMaintenance.CodeLanguage.CodeName' | translate}}"
+                     class="form-control"
+                     maxlength="50"
+                     name="code_Name" />
+            </div>
+
+            <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12">
+              <label class="d-block">&nbsp;</label>
+              <button type="submit"
+                      class="btn btn-primary mr-2"
+                      (click)="search(true)"
+                      *ngIf="functionUtility.checkFunction('Search')">
+                <i class="{{ iconButton.SEARCH }}"></i> {{"System.Action.Search" | translate}}
+              </button>
+              <button type="button"
+                      class="btn btn-danger mr-2"
+                      (click)="clearSearch()">
+                <i class="{{ iconButton.CLEAR }}"></i> {{"System.Action.Clear" | translate}}
+              </button>
+              <button type="button"
+                      class="btn btn-success mr-2"
+                      (click)="onForm()"
+                      *ngIf="functionUtility.checkFunction('Add')">
+                <i class="{{ iconButton.ADD }}"></i> {{"System.Action.Add" | translate}}
+              </button>
+              <button type="button"
+                      class="btn btn-success"
+                      (click)="export()"
+                      *ngIf="functionUtility.checkFunction('Excel')">
+                <i class="{{ iconButton.EXCEL }}"></i> {{"System.Action.Excel" | translate}}
+              </button>
+            </div>
+          </div>
+          <div class="row justify-content-md-center">
+            <div class="col-xl-12 col-xxl-12">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th class="text-center"
+                          [attr.colspan]="functionUtility.getColspan(['Delete','Edit','Query'])"
+                          *ngIf="functionUtility.checkFunction('Query') || functionUtility.checkFunction('Edit') || functionUtility.checkFunction('Delete')">{{"BasicMaintenance.CodeLanguage.Operation" | translate}}</th>
+                      <th class="text-center">{{"BasicMaintenance.CodeLanguage.TypeSeq" | translate}}</th>
+                      <th class="text-center">{{"BasicMaintenance.CodeLanguage.TypeName" | translate}}</th>
+                      <th class="text-center">{{"BasicMaintenance.CodeLanguage.Code" | translate}}</th>
+                      <th class="text-center">{{"BasicMaintenance.CodeLanguage.CodeName" | translate}}</th>
+                      <th class="text-center">{{"BasicMaintenance.CodeLanguage.State" | translate}}</th>
+                      <th class="text-center">{{"BasicMaintenance.CodeLanguage.UpdateBy" | translate}}</th>
+                      <th class="text-center">{{"BasicMaintenance.CodeLanguage.UpdateTime" | translate}}</th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="listData?.length > 0; else elseTemplate">
+                    <tr *ngFor="let item of listData">
+                      <td class="text-center"
+                          *ngIf="functionUtility.checkFunction('Query')">
+                        <button class="btn btn-info btn-sm"
+                                (click)="onDetail(item)">
+                          <i class="{{iconButton.VIEW}}"
+                              aria-hidden="true"></i> {{"BasicMaintenance.CodeLanguage.Query" | translate}}
+                        </button>
+                      </td>
+                      <td class="text-center"
+                          *ngIf="functionUtility.checkFunction('Edit')">
+                        <button class="btn btn-warning btn-sm"
+                                (click)="onForm(item)">
+                          <i class="{{iconButton.EDIT}}"
+                             aria-hidden="true"></i> {{"System.Action.Edit" | translate}}
+                        </button>
+                      </td>
+                      <td class="text-center"
+                          *ngIf="functionUtility.checkFunction('Delete')">
+                        <button class="btn btn-danger btn-sm"
+                                (click)="delete(item)">
+                          <i class="{{iconButton.DELETE}}"
+                             aria-hidden="true"></i> {{"System.Action.Delete" | translate}}
+                        </button>
+                      </td>
+
+                      <td class="text-center">{{item.type_Seq}}</td>
+                      <td class="text-left">{{item.type_Name}}</td>
+                      <td class="text-left">{{item.code}}</td>
+                      <td class="text-left">{{item.code_Name}}</td>
+                      <td class="text-center">{{item.state}}</td>
+                      <td class="text-center">{{item.update_By}}</td>
+                      <td class="text-center">{{item.update_Time | date: 'yyyy/MM/dd HH:mm:ss'}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <ng-template #elseTemplate>
+                <tbody>
+                  <tr>
+                    <td colspan="100%"
+                        class="table-warning text-center font-weight-bold">
+                      {{"System.Message.Nodata" | translate}}
+                    </td>
+                  </tr>
+                </tbody>
+              </ng-template>
+              <div class="row">
+                <div class="col-8">
+                  <div class="d-flex"
+                       *ngIf="listData?.length > 0 && pagination.totalPage > 0">
+                    <pagination [boundaryLinks]="true"
+                                [totalItems]="pagination.totalCount"
+                                [itemsPerPage]="pagination.pageSize"
+                                previousText="&lsaquo;"
+                                nextText="&rsaquo;"
+                                firstText="&laquo;"
+                                lastText="&raquo;"
+                                [maxSize]="5"
+                                [(ngModel)]="pagination.pageNumber"
+                                (pageChanged)="pageChanged($event)">
+                    </pagination>
+                    <span class="cs-page ml-2"> Page - {{ pagination.pageNumber }} / {{ pagination.totalPage }}</span>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <span class="cs-page float-right ">{{'System.Rows' | translate }} : {{pagination.totalCount}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

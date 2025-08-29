@@ -1,0 +1,223 @@
+<div bsModal
+     #modal="bs-modal"
+     class="modal fade"
+     tabindex="-1"
+     role="dialog"
+     (onHide)="onHide()">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <!-- Header -->
+      <div class="modal-header bg-primary">
+        <h5 class="modal-title"
+            id="modal-basic-title">
+          {{ title }} - {{ 'System.Action.' + type | translate }}
+        </h5>
+        <button type="button"
+                class="btn-close close pull-right"
+                (click)="close()">
+          <span aria-hidden="true"
+                class="visually-hidden">&times;</span>
+        </button>
+      </div>
+      <!-- Body -->
+      <div class="modal-body ">
+        <form #form="ngForm"
+              autocomplete="off">
+
+          <div class="row">
+            <!-- Nationality -->
+            <div class="col-lg-2 col-md-6 mb-3">
+              <label class="badge badge-warning"> {{ 'EmployeeInformationModule.Education.Nationality' | translate}}<span class="text-danger text-bold"> *</span></label>
+              <input type="text"
+                     class="form-control"
+                     maxlength="10"
+                     name="nationality"
+                     [(ngModel)]="education.nationality"
+                     placeholder="{{ 'EmployeeInformationModule.Education.Nationality' | translate}}"
+                     disabled
+                     required>
+            </div>
+
+            <!-- Identification Number -->
+            <div class="col-lg-3 col-md-6 mb-3">
+              <label class="badge badge-warning"> {{ 'EmployeeInformationModule.Education.IdentificationNumber' | translate}} <span class="text-danger text-bold"> *</span></label>
+              <input type="text"
+                     class="form-control"
+                     maxlength="50"
+                     placeholder="{{ 'EmployeeInformationModule.Education.IdentificationNumber' | translate}}"
+                     name="identification_Number"
+                     [(ngModel)]="education.identification_Number"
+                     disabled
+                     required>
+            </div>
+
+            <!-- Local Full Name -->
+            <div class="col-lg-3 col-md-6 mb-3">
+              <label class="badge badge-warning"> {{ 'EmployeeInformationModule.Education.LocalFullName' | translate}} </label>
+              <input type="text"
+                     class="form-control"
+                     name="localFullName"
+                     [(ngModel)]="education.local_Full_Name"
+                     disabled
+                     placeholder="{{ 'EmployeeInformationModule.Education.LocalFullName' | translate}}">
+            </div>
+
+            <!-- Degree -->
+            <div class="col-lg-2 col-md-6 mb-3">
+              <label class="badge badge-warning"> {{ 'EmployeeInformationModule.Education.Degree' | translate}} <span class="text-danger text-bold"> *</span></label>
+              <ng-select name="degree"
+                         [(ngModel)]="education.degree"
+                         (ngModelChange)="validateSave()"
+                         placeholder="{{ 'EmployeeInformationModule.Education.Degree' | translate}}"
+                         (clear)="deleteProperty('degree')"
+                         [clearable]="education.degree != ''"
+                         [disabled]="title == 'Edit'">
+                <ng-option *ngFor="let degree of degrees"
+                           [value]="degree.key">{{degree.value}}</ng-option>
+              </ng-select>
+            </div>
+
+            <!-- Academic System -->
+            <div class="col-lg-2 col-md-6 mb-3">
+              <label class="badge badge-warning">
+                {{ 'EmployeeInformationModule.Education.AcademicSystem' | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <ng-select name="academic_System"
+                         [(ngModel)]="education.academic_System"
+                         (ngModelChange)="validateSave()"
+                         placeholder="{{ 'EmployeeInformationModule.Education.AcademicSystem' | translate}}"
+                         (clear)="deleteProperty('academic_System')"
+                         [clearable]="education.academic_System != ''">
+                <ng-option *ngFor="let academicSystem of academicSystems"
+                           [value]="academicSystem.key">{{academicSystem.value}}</ng-option>
+              </ng-select>
+            </div>
+
+            <!-- School -->
+            <div class="col-lg-5 col-md-6 mb-3">
+              <label class="badge badge-warning"> {{ 'EmployeeInformationModule.Education.School' | translate}} <span class="text-danger text-bold"> *</span></label>
+              <input type="text"
+                     name="school"
+                     [(ngModel)]="education.school"
+                     maxlength="100"
+                     class="form-control"
+                     (ngModelChange)="validateSave()"
+                     required
+                     placeholder="{{ 'EmployeeInformationModule.Education.School' | translate}}">
+            </div>
+
+            <!-- Department -->
+            <div class="col-lg-5 col-md-6 mb-3">
+              <label class="badge badge-warning"> {{ 'EmployeeInformationModule.Education.Department' | translate}} <span class="text-danger text-bold"> *</span></label>
+              <input type="text"
+                     name="department"
+                     [(ngModel)]="education.department"
+                     (ngModelChange)="validateSave()"
+                     maxlength="50"
+                     class="form-control"
+                     required
+                     placeholder="{{ 'EmployeeInformationModule.Education.Department' | translate}}">
+            </div>
+
+            <!-- Major -->
+            <div class="col-lg-2 col-md-6 mb-3">
+              <label class="badge badge-warning"> {{ 'EmployeeInformationModule.Education.Major' | translate}} <span class="text-danger text-bold"> *</span></label>
+              <ng-select name="major"
+                         [(ngModel)]="education.major"
+                         (ngModelChange)="validateSave()"
+                         placeholder="{{ 'EmployeeInformationModule.Education.Major' | translate}}"
+                         (clear)="deleteProperty('major')"
+                         [clearable]="education.major != ''">
+                <ng-option *ngFor="let major of majors"
+                           [value]="major.key">{{major.value}}</ng-option>
+              </ng-select>
+            </div>
+
+
+            <!--  Period Start -->
+            <div class="col-lg-2 col-md-6 mb-3">
+              <label class="badge badge-warning"> {{ 'EmployeeInformationModule.Education.PeriodStart' | translate}} <span class="text-danger text-bold"> *</span></label>
+              <input type="text"
+                     name="periodStartDate"
+                     maxlength="7"
+                     [(ngModel)]="periodStartDate"
+                     class="form-control"
+                     [disabled]="title == 'Edit'"
+                     [maxDate]="periodEndDate"
+                     placeholder="{{ 'EmployeeInformationModule.Education.PeriodStart' | translate}}"
+                     (ngModelChange)="onPeriodStartDateChange()"
+                     bsDatepicker
+                     [bsConfig]="{ isAnimated: true,  minMode: 'month' ,dateInputFormat: 'YYYY/MM' }">
+            </div>
+
+            <!--  Period End -->
+            <div class="col-lg-2 col-md-6 mb-3">
+              <label class="badge badge-warning"> {{ 'EmployeeInformationModule.Education.PeriodEnd' | translate}} <span class="text-danger text-bold"> *</span></label>
+              <input type="text"
+                     name="periodEndDate"
+                     maxlength="7"
+                     [(ngModel)]="periodEndDate"
+                     class="form-control"
+                     placeholder="{{ 'EmployeeInformationModule.Education.PeriodEnd' | translate}}"
+                     (ngModelChange)="onPeriodEndDateChange()"
+                     [minDate]="periodStartDate"
+                     bsDatepicker
+                     [bsConfig]="{ isAnimated: true,  minMode: 'month' ,dateInputFormat: 'YYYY/MM' }">
+            </div>
+
+            <!--  Graduation　 -->
+            <div class="col-lg-2 col-md-6 mb-3">
+              <label class="badge badge-warning"> {{ 'EmployeeInformationModule.Education.Graduation' | translate}} </label>
+
+              <div class="custom-control custom-radio mt-2">
+                <div class="form-check form-check-inline">
+                  <input type="radio"
+                         class="custom-control-input"
+                         id="enable"
+                         name="graduation"
+                         [(ngModel)]="education.graduation"
+                         [value]="true" />
+                  <label class="custom-control-label font-weight-bold"
+                         for="enable">
+                    {{ 'EmployeeInformationModule.Education.GraduationYes' | translate}}
+                  </label>
+                </div>
+                <div class="form-check form-check-inline ml-4">
+                  <input type="radio"
+                         class="custom-control-input"
+                         id="disable"
+                         name="graduation"
+                         [(ngModel)]="education.graduation"
+                         [value]="false" />
+                  <label class="custom-control-label font-weight-bold"
+                         for="disable">
+                    {{ 'EmployeeInformationModule.Education.GraduationNo' | translate}}
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </div>
+      <!-- Footer -->
+      <div class="modal-footer">
+        <button type="button"
+                class="btn btn-success text-white"
+                (click)="save()"
+                [disabled]="!isSave">
+          <i class="{{iconButton.SAVE}}"></i>
+          {{ 'System.Action.Save' | translate}}
+        </button>
+
+        <button type="button"
+                class="btn btn-danger text-white"
+                (click)="close()">
+          <i class="{{iconButton.CLOSE}}"></i>
+          {{ 'System.Action.Close' | translate}}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

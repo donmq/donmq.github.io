@@ -1,0 +1,21 @@
+html {
+  overflow: hidden !important;
+  overflow-y: hidden !important;
+
+}
+.card {
+  margin-bottom: 0rem !important;
+}
+.control-pan {
+  position: absolute;
+  padding-right: 30px;
+  padding-top: 10px;
+  right: 0;
+  z-index: 100;
+}
+.pan-zone
+{
+  border: 1px solid #c8ced3;
+  height: 61vh;
+  width: 100%;
+}

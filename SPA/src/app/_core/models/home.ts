@@ -19,6 +19,16 @@ export interface MainHomeDto {
   tocDo: number;
   sangTao: number;
   qualityAfter: Quality[];
+  phanXa: number;
+  nhanhNhen: number;
+  phanDoan: number;
+  laoRaCanPha: number;
+  giaoTiep: number;
+  nem: number;
+  da: number;
+  damBong: number;
+  tamVoi: number;
+  tapChung: number;
 }
 
 export interface DataCreate {

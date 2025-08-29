@@ -1,0 +1,148 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">{{ title }} - {{"System.Action.Add" | translate }}</strong>
+                <button type="button"
+                        class="btn btn-sm btn-primary float-right"
+                        (click)="back()">
+                  <i class="{{ iconButton.BACK }}"></i> {{"System.Action.Back" | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="card-body">
+          <div class="row border-shadow">
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+              <label class="badge badge-warning"> {{"OrganizationManagement.DirectWorkTypeAndSectionSetting.Division" | translate }} <span class="text-danger text-bold"> *</span></label>
+              <ng-select name="division"
+                         [(ngModel)]="param.division"
+                         (ngModelChange)="checkDuplicate()"
+                         placeholder='{{"OrganizationManagement.DirectWorkTypeAndSectionSetting.Division" | translate }}'
+                         (clear)="deleteProperty('division')"
+                         [clearable]="param.division !== ''">
+                <ng-option *ngFor="let i of listDivision"
+                           [value]="i.key">{{i.value}}</ng-option>
+              </ng-select>
+            </div>
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+              <label class="badge badge-warning"> {{"OrganizationManagement.DirectWorkTypeAndSectionSetting.Factory" | translate }} <span class="text-danger text-bold"> *</span></label>
+              <ng-select name="factory"
+                         [(ngModel)]="param.factory"
+                         (ngModelChange)="checkDuplicate()"
+                         placeholder='{{"OrganizationManagement.DirectWorkTypeAndSectionSetting.Factory" | translate }}'
+                         (clear)="deleteProperty('factory')"
+                         [clearable]="param.factory !== ''">
+                <ng-option *ngFor="let i of listFactory"
+                           [value]="i.key">{{i.key}} - {{i.value}}</ng-option>
+              </ng-select>
+            </div>
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+              <label class="badge badge-warning"> {{"OrganizationManagement.DirectWorkTypeAndSectionSetting.EffectiveDate" | translate }} <span class="text-danger text-bold"> *</span></label>
+              <div class="full-width">
+                <div class="container_date">
+                  <div class="input-group mr-1">
+                    <input type="text"
+                           name="effective_Date_value"
+                           [(ngModel)]="effective_Date_value"
+                           onkeypress="return false;"
+                           onpaste="return false;"
+                           autocomplete="off"
+                           (keydown.backspace)="effective_Date_value = null"
+                           class="form-control"
+                           placeholder='{{"OrganizationManagement.DirectWorkTypeAndSectionSetting.EffectiveDate" | translate }}'
+                           (ngModelChange)="onEffectiveDateChange()"
+                           bsDatepicker
+                           [bsConfig]="{ isAnimated: true,  minMode: 'month' ,dateInputFormat: 'YYYY/MM' }"
+                           required>
+                    <div class="input-group-append">
+                      <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6">
+              <label class="badge badge-warning"> {{"OrganizationManagement.DirectWorkTypeAndSectionSetting.WorkTypeCode" | translate }} <span class="text-danger text-bold"> *</span> </label>
+              <ng-select name="work_Type_Code"
+                         [(ngModel)]="param.work_Type_Code"
+                         (ngModelChange)="checkDuplicate()"
+                         placeholder='{{"OrganizationManagement.DirectWorkTypeAndSectionSetting.WorkTypeCode" | translate }}'
+                         (clear)="deleteProperty('work_Type_Code')"
+                         [clearable]="param.work_Type_Code !== ''">
+                <ng-option *ngFor="let i of listWorkType"
+                           [value]="i.key">{{i.value}}</ng-option>
+              </ng-select>
+            </div>
+
+
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+              <label class="badge badge-warning"> {{"OrganizationManagement.DirectWorkTypeAndSectionSetting.SectionCode" | translate }} <span class="text-danger text-bold"> *</span> </label>
+              <ng-select name="section_Code"
+                         [(ngModel)]="param.section_Code"
+                         [clearable]="false"
+                         (ngModelChange)="checkDuplicate()"
+                         placeholder='{{"OrganizationManagement.DirectWorkTypeAndSectionSetting.SectionCode" | translate }}'
+                         (clear)="deleteProperty('section_Code')"
+                         [clearable]="param.section_Code !== ''">
+                <ng-option *ngFor="let i of listSection"
+                           [value]="i.key">{{i.value}}</ng-option>
+              </ng-select>
+            </div>
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <div class="form-group">
+                <label class="badge badge-warning">{{"OrganizationManagement.DirectWorkTypeAndSectionSetting.DirectSection" | translate }}</label>
+                <div class="row pl-3">
+                  <div *ngFor="let item of directSections; let i">
+                    <label class="container">
+                      <div class="row">
+                        <div class="custom-control custom-radio pt-2">
+                          <input id="customRadio-{{i}}"
+                                 class="custom-control-input"
+                                 type="radio"
+                                 name="customRadio-{{i}}"
+                                 [(ngModel)]="param.direct_Section"
+                                 [value]="item.key" />
+                          <p class="custom-control-label"
+                             for="customRadio-{{i}}">
+                            <strong>
+                              {{ item.value | translate }}
+                            </strong>
+                          </p>
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row justify-content-md-center">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="table-responsive text-right">
+                <button type="button"
+                        class="btn btn-success"
+                        (click)="save()"
+                        [disabled]="!isAllow">
+                  <i class="{{ iconButton.SAVE }}"></i> {{"System.Action.Save" | translate }}
+                </button>
+                <button type="button"
+                        class="btn btn-danger ml-2"
+                        (click)="back()">
+                  <i class="{{ iconButton.CLOSE }}"></i> {{"System.Action.Close" | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

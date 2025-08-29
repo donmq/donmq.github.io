@@ -1,0 +1,81 @@
+*:hover,
+*:focus,
+*:active {
+  outline: none;
+  box-shadow: none !important;
+  appearance: none !important;
+  -webkit-appearance: none;
+}
+
+:host ::ng-deep {
+  app-header {
+    background-color: #364150;
+    color: #fff;
+
+    .app-title {
+      font-weight: unset;
+      margin-bottom: unset;
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
+
+    .navbar-nav .nav-link {
+      color: #fff;
+    }
+  }
+
+  app-sidebar-nav {
+    app-sidebar-nav-items {
+      background-color: #364150 !important;
+    }
+  }
+
+  .sidebar .nav-link:hover {
+    background: #000;
+  }
+
+  .pt-30 {
+    padding-top: 30px !important;
+  }
+
+  h6.username {
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+    color: #fff;
+  }
+}
+.img-translate {
+  width: 40px;
+  height: 40px;
+}
+.zoom:hover {
+  -ms-transform: scale(1.9);
+  -webkit-transform: scale(1.9);
+  transform: scale(1.2);
+}
+
+.scroll-top {
+  font-size: large;
+  position: fixed;
+  opacity: 0;
+  transition: all .2s ease-in-out;
+  z-index: 1030;
+  right: 30px;
+  bottom: 60px;
+  width: 30px;
+  height: 30px;
+  padding: 0px;
+  padding-bottom: 5px;
+  color: #ffffff;
+  background: #c1bfbf78;
+  border-radius: 5px;
+}
+.scroll-top:hover {
+  color: #4f4f4f;
+  background: #cdcdcd;
+}
+.scroll-top-show {
+  opacity: 1;
+  transition: all .2s ease-in-out;
+}

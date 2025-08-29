@@ -1,0 +1,215 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">{{ title }}</strong>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="card-body">
+          <div class="row border-shadow">
+            <div class="col-xxl-2 col-xl-3 col-lg-5 col-md-5 col-sm-12">
+              <label for="textDepartment"
+                     class="badge badge-warning">{{'BasicMaintenance.RoleSetting.Role' | translate }}</label>
+              <input autocomplete="off"
+                     type="text"
+                     placeholder="{{'BasicMaintenance.RoleSetting.Role' | translate }}"
+                     class="form-control"
+                     maxlength="50"
+                     name="role"
+                     [(ngModel)]="searchingParam.role" />
+            </div>
+            <div class="col-xxl-2 col-xl-3 col-lg-5 col-md-5 col-sm-12">
+              <label for="textDepartment"
+                     class="badge badge-warning">{{'BasicMaintenance.RoleSetting.Description' | translate }}</label>
+              <input autocomplete="off"
+                     type="text"
+                     placeholder="{{'BasicMaintenance.RoleSetting.Description' | translate }}"
+                     class="form-control"
+                     maxlength="50"
+                     name="description"
+                     [(ngModel)]="searchingParam.description" />
+            </div>
+            <div class="col-xxl-2 col-xl-3 col-lg-5 col-md-5 col-sm-12">
+              <label class="badge badge-warning">{{'BasicMaintenance.RoleSetting.Factory' | translate }}</label>
+              <ng-select name="factory"
+                         [(ngModel)]="searchingParam.factory"
+                         (clear)="deleteProperty('factory')"
+                         [clearable]="searchingParam.factory !== ''"
+                         placeholder="{{'BasicMaintenance.RoleSetting.Factory' | translate }}">
+                <ng-option *ngFor="let item of factoryList"
+                           [value]="item.key">{{ item.value }}</ng-option>
+              </ng-select>
+            </div>
+            <div class="col-xxl-2 col-xl-3 col-lg-5 col-md-5 col-sm-12">
+              <label class="badge badge-warning">{{'BasicMaintenance.RoleSetting.SalaryCode' | translate }}</label>
+              <ng-select name="permission_Group"
+                         [(ngModel)]="searchingParam.permission_Group"
+                         (clear)="deleteProperty('permission_Group')"
+                         [clearable]="searchingParam.permission_Group !== ''"
+                         placeholder="{{'BasicMaintenance.RoleSetting.SalaryCode' | translate }}">
+                <ng-option *ngFor="let item of salaryCodeList"
+                           [value]="item.key">{{ item.value }}</ng-option>
+              </ng-select>
+            </div>
+            <div class="col-xxl-4 col-xl-4 col-lg-5 col-md-5 col-sm-12">
+              <label for="textDepartment"
+                     class="badge badge-warning">{{'BasicMaintenance.RoleSetting.DirectIndirect' | translate }}</label>
+              <div class="custom-control custom-radio mt-2">
+                <div class="form-check form-check-inline"
+                     *ngFor="let item of directList; index as i">
+                  <input [id]="'direct' + i"
+                         class="custom-control-input"
+                         type="checkbox"
+                         [name]="'direct' + i"
+                         [(ngModel)]="item.optional"
+                         (click)="onDirectChange($event)"
+                         [value]="item.key" />
+                  <label class="custom-control-label"
+                         [for]="'direct' + i">
+                    <strong> {{ item.value | translate }} </strong>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="ml-3">
+              <label class="d-block">&nbsp;</label>
+              <button type="submit"
+                      class="{{classButton.SEARCH}}"
+                      (click)="search()"
+                      *ngIf="functionUtility.checkFunction('Search')">
+                <i class="{{ iconButton.SEARCH }}"></i> {{'System.Action.Search' | translate }}
+              </button>
+              <button type="submit"
+                      class="{{classButton.CLEAR}}"
+                      (click)="clear()">
+                <i class="{{ iconButton.CLEAR }}"></i> {{'System.Action.Clear' | translate }}
+              </button>
+              <button type="button"
+                      class="{{classButton.ADD}}"
+                      (click)="add()"
+                      *ngIf="functionUtility.checkFunction('Add')">
+                <i class="{{ iconButton.ADD }}"></i> {{'System.Action.Add' | translate }}
+              </button>
+              <button type="button"
+                      class="{{classButton.EXCEL}}"
+                      (click)="download()"
+                      *ngIf="functionUtility.checkFunction('Excel')">
+                <i class="{{ iconButton.EXCEL }}"></i> {{'System.Action.Excel' | translate }}
+              </button>
+            </div>
+          </div>
+          <div class="row justify-content-md-center">
+            <div class="col-lg-12">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th class="text-center operation-column"
+                          [attr.colspan]="functionUtility.getColspan(['Delete','Edit','Copy'])"
+                          *ngIf="functionUtility.checkFunction('Edit') || functionUtility.checkFunction('Delete')|| functionUtility.checkFunction('Copy')">{{'BasicMaintenance.RoleSetting.Operation' | translate }}</th>
+                      <th class="text-center role-column">{{'BasicMaintenance.RoleSetting.Role' | translate }}</th>
+                      <th class="text-center description-column">{{'BasicMaintenance.RoleSetting.Description' | translate }}</th>
+                      <th class="text-center">{{'BasicMaintenance.RoleSetting.Factory' | translate }}</th>
+                      <th class="text-center">{{'BasicMaintenance.RoleSetting.ProgramGroup' | translate }}</th>
+                      <th class="text-center">{{'BasicMaintenance.RoleSetting.SalaryCode' | translate }}</th>
+                      <th class="text-center">{{'BasicMaintenance.RoleSetting.GradeStart' | translate }}</th>
+                      <th class="text-center">{{'BasicMaintenance.RoleSetting.GradeEnd' | translate }}</th>
+                      <th class="text-center">{{'BasicMaintenance.RoleSetting.DirectIndirect' | translate }}</th>
+                      <th class="text-center">{{'BasicMaintenance.RoleSetting.UpdateBy' | translate }}</th>
+                      <th class="text-center time-column">{{'BasicMaintenance.RoleSetting.UpdateTime' | translate }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- <tr *ngFor="let item of dataMain"> -->
+                    <tr *ngFor="let item of dataMain ; trackBy: trackByFn">
+                      <td class="text-center"
+                          *ngIf="functionUtility.checkFunction('Edit')">
+                        <button type="button"
+                                class="{{classButton.tEDIT}}"
+                                (click)="edit(item)"><i class="{{ iconButton.EDIT }}"></i>
+                          {{'System.Action.Edit' | translate }}
+                        </button>
+                      </td>
+                      <td class="text-center"
+                          *ngIf="functionUtility.checkFunction('Delete')">
+                        <button type="button"
+                                class="{{classButton.tDELETE}}"
+                                (click)="remove(item)"><i class="{{ iconButton.DELETE }}"></i>
+                          {{'System.Action.Delete' | translate }}
+                        </button>
+                      </td>
+                      <td class="text-center"
+                          *ngIf="functionUtility.checkFunction('Copy')">
+                        <button type="button"
+                                class="{{classButton.tCOPY}}"
+                                (click)="copy(item)"><i class="{{ iconButton.COPY }}"></i>
+                          {{'System.Action.Copy' | translate }}
+                        </button>
+                      </td>
+                      <td class="text-center">{{ item.role }}</td>
+                      <td class="text-center">{{ item.description }}</td>
+                      <td class="text-center">{{ item.factory }}</td>
+                      <td class="text-center">
+                        <button type="button"
+                                class="btn btn-outline-primary btn-sm"
+                                title="View"
+                                (click)="watch(item)">
+                          <i class="{{ iconButton.SEARCH }}"></i>
+                        </button>
+                      </td>
+                      <td class="text-center">{{ item.permission_Group }}</td>
+                      <td class="text-center">{{ item.level_Start }}</td>
+                      <td class="text-center">{{ item.level_End }}</td>
+                      <td class="text-center">{{ item.direct_Str }}</td>
+                      <td class="text-center">{{ item.update_By }}</td>
+                      <td class="text-center">{{ item.update_Time_Str }}</td>
+                    </tr>
+                  </tbody>
+                  <tr class="no-data"
+                      *ngIf="dataMain.length === 0">
+                    <td colspan="100%"
+                        class="table-warning text-center font-weight-bold">
+                      {{'System.Message.Nodata' | translate }}
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-8">
+              <div class="d-flex"
+                   *ngIf="dataMain?.length > 0 && pagination.totalPage > 0">
+                <pagination [boundaryLinks]="true"
+                            [totalItems]="pagination.totalCount"
+                            [itemsPerPage]="pagination.pageSize"
+                            previousText="&lsaquo;"
+                            nextText="&rsaquo;"
+                            firstText="&laquo;"
+                            lastText="&raquo;"
+                            [maxSize]="5"
+                            [(ngModel)]="pagination.pageNumber"
+                            (pageChanged)="changePage($event)">
+                </pagination>
+                <span class="cs-page ml-2">
+                  Page - {{ pagination.pageNumber }} /
+                  {{ pagination.totalPage }}</span>
+              </div>
+            </div>
+            <div class="col-4">
+              <span class="cs-page float-right ">{{'BasicMaintenance.RoleSetting.Result' | translate }} {{pagination.totalCount}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-modal></app-modal>
+</div>

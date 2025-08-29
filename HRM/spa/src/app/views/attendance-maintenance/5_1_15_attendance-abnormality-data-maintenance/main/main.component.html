@@ -1,0 +1,372 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row border-title">
+            <div class="col-md-12">
+              <strong>{{ title }}</strong>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form class="form-horizontal border-shadow"
+                autocomplete="off"
+                #mainForm="ngForm">
+            <div class="row">
+              <!-- Factory -->
+              <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 pb-2">
+                <label class="badge badge-warning">
+                  {{"AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.Factory" | translate}}
+                  <span class="text-danger">*</span>
+                </label>
+                <ng-select name="factory"
+                           [(ngModel)]="param.factory"
+                           (ngModelChange)="onFactoryChange()"
+                           [clearable]="param.factory != ''"
+                           (clear)="deleteProperty('factory')"
+                           placeholder="{{'AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.Factory' | translate}}"
+                           required>
+                  <ng-option *ngFor="let i of listFactory"
+                             [value]="i.key">{{i.value}}</ng-option>
+                </ng-select>
+              </div>
+              <!-- Department -->
+              <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 pb-2">
+                <label class="badge badge-warning">
+                  {{"AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.Department" | translate}}
+                </label>
+                <ng-select name="department"
+                           [(ngModel)]="param.department"
+                           [clearable]="param.department != ''"
+                           (clear)="deleteProperty('department')"
+                           placeholder="{{'AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.Department' | translate}}">
+                  <ng-option *ngFor="let i of listDepartment"
+                             [value]="i.key">{{i.value}}</ng-option>
+                </ng-select>
+              </div>
+              <!-- EmployeeID -->
+              <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 pb-2">
+                <label class="badge badge-warning">
+                  {{"AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.EmployeeID" | translate}}
+                </label>
+                <input [(ngModel)]="param.employee_ID"
+                       type="text"
+                       class="form-control"
+                       maxlength="9"
+                       name="employee_ID"
+                       placeholder="{{'AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.EmployeeID' | translate}}" />
+              </div>
+              <!-- Work Shift Type -->
+              <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 pb-2">
+                <label class="badge badge-warning">
+                  {{"AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.WorkShiftType" | translate}}
+                </label>
+                <ng-select name="work_Shift_Type"
+                           [(ngModel)]="param.work_Shift_Type"
+                           [clearable]="param.work_Shift_Type != ''"
+                           (clear)="deleteProperty('work_Shift_Type')"
+                           placeholder="{{'AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.WorkShiftType' | translate}}">
+                  <ng-option *ngFor="let i of listWorkShiftType"
+                             [value]="i.key">{{i.value}}</ng-option>
+                </ng-select>
+              </div>
+              <!-- Update Reason -->
+              <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 pb-2">
+                <label class="badge badge-warning">
+                  {{"AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.UpdateReason" | translate}}
+                </label>
+                <ng-select name="reason_Code"
+                           [(ngModel)]="param.reason_Code"
+                           [clearable]="param.reason_Code != ''"
+                           (clear)="deleteProperty('reason_Code')"
+                           placeholder="{{'AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.UpdateReason' | translate}}">
+                  <ng-option *ngFor="let i of listUpdateReason"
+                             [value]="i.key">{{i.value}}</ng-option>
+                </ng-select>
+              </div>
+              <!-- Date -->
+              <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 pb-2">
+                <div>
+                  <label class="badge badge-warning">
+                    {{ "AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.Date" | translate }}
+                  </label>
+                  <div class="full-width">
+                    <div class="container_input">
+                      <div class="input-group mr-1">
+                        <input type="text"
+                               autocomplete="off"
+                               class="form-control"
+                               bsDatepicker
+                               name="dateFrom"
+                               [(ngModel)]="param.att_Date_From"
+                               (ngModelChange)="onDateChange('att_Date_From')"
+                               [bsConfig]="bsConfig"
+                               onpaste="return false;"
+                               placeholder="YYYY/MM/DD"
+                               [maxDate]="param.att_Date_To"/>
+                        <div class="input-group-append">
+                          <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                        </div>
+                      </div>
+                      <div class="input-group ml-1">
+                        <input type="text"
+                               autocomplete="off"
+                               class="form-control"
+                               bsDatepicker
+                               name="dateTo"
+                               [(ngModel)]="param.att_Date_To"
+                               (ngModelChange)="onDateChange('att_Date_To')"
+                               [bsConfig]="bsConfig"
+                               onpaste="return false;"
+                               placeholder="YYYY/MM/DD"
+                               [minDate]="param.att_Date_From"/>
+                        <div class="input-group-append">
+                          <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Attendance -->
+              <div class="col-auto">
+                <div class="form-group">
+                  <label class="badge badge-warning">{{"AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.Attendance" | translate}}</label>
+                  <ng-select name="listAttendance"
+                             [multiple]="true"
+                             [items]="listAttendance"
+                             [selectableGroup]="true"
+                             [selectableGroupAsModel]="false"
+                             [closeOnSelect]="false"
+                             groupBy="allGroup"
+                             bindLabel="value"
+                             bindValue="key"
+                             (clear)="param.list_Attendance = []"
+                             [(ngModel)]="param.list_Attendance"
+                             placeholder="{{'AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.Attendance' | translate }}">
+                    <ng-template ng-optgroup-tmp
+                                 let-item="item"
+                                 let-item$="item$"
+                                 let-index="index">
+                      <input id="item-{{ index }}"
+                             type="checkbox"
+                             name="item-{{ index }}"
+                             [ngModel]="item$.selected" /> {{'System.Action.SelectAll' | translate }}</ng-template>
+                    <ng-template ng-option-tmp
+                                 let-item="item"
+                                 let-item$="item$"
+                                 let-index="index">
+                      <input id="item-{{ index }}"
+                             name="item-{{ index }}"
+                             type="checkbox"
+                             [ngModel]="item$.selected" /> {{ item.value }} </ng-template>
+                  </ng-select>
+                </div>
+              </div>
+              <!-- Submit Button -->
+              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12">
+                <!-- Search -->
+                <button *ngIf="functionUtility.checkFunction('Search')"
+                        type="submit"
+                        class="btn btn-primary mr-2 custom-margin-top"
+                        (click)="search(true)"
+                        [disabled]="!mainForm.valid">
+                  <i class="{{iconButton.SEARCH}}"></i> {{"System.Action.Search" | translate }}
+                </button>
+                <!-- Clear -->
+                <button type="button"
+                        class="btn btn-danger mr-2 custom-margin-top"
+                        (click)="clear()">
+                  <i class="{{ iconButton.CLEAR }}"></i> {{"System.Action.Clear" | translate }}
+                </button>
+                <!-- Add -->
+                <button *ngIf="functionUtility.checkFunction('Add')"
+                        type="button"
+                        class="btn btn-success mr-2 custom-margin-top"
+                        (click)="add()">
+                  <i class="{{ iconButton.ADD }}"></i> {{"System.Action.Add" | translate }}
+                </button>
+                <button type="submit"
+                        class="btn btn-success  mr-2 custom-margin-top"
+                        id="excel"
+                        (click)="download()"
+                        [disabled]="!mainForm.valid"
+                        *ngIf="functionUtility.checkFunction('Excel')">
+                  <i class="{{iconButton.EXCEL}}"></i> {{"System.Action.Excel" | translate }}
+                </button>
+              </div>
+            </div>
+          </form>
+          <!-- Table -->
+          <div class="row justify-content-md-center">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="table-responsive">
+                <drag-scroll id="dragscroll"
+                             (mousedown)="startDrag()"
+                             (mouseup)="stopDrag()"
+                             (dragStart)="functionUtility.setTextSelector(false)"
+                             (dragEnd)="functionUtility.setTextSelector(true)">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th *ngIf="functionUtility.checkFunction('Edit') || functionUtility.checkFunction('Delete')"
+                            class="text-center vertical-align-middle"
+                            [attr.colspan]="functionUtility.getColspan(['Delete','Edit'])">
+                          {{"AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.Operation" | translate }}
+                        </th>
+                        <th class="text-center vertical-align-middle">
+                          {{"AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.Factory" | translate }}
+                        </th>
+                        <th class="text-center vertical-align-middle">
+                          {{"AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.Department" | translate }}
+                        </th>
+                        <th class="text-center vertical-align-middle">
+                          {{"AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.EmployeeID" | translate }}
+                        </th>
+                        <th class="text-center vertical-align-middle">
+                          {{"AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.LocalFullName" | translate }}
+                        </th>
+                        <th class="text-center vertical-align-middle">
+                          {{"AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.Date" | translate }}
+                        </th>
+                        <th class="text-center vertical-align-middle">
+                          {{"AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.WorkShiftType" | translate }}
+                        </th>
+                        <th class="text-center vertical-align-middle">
+                          {{"AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.Attendance" | translate }}
+                        </th>
+                        <th class="text-center vertical-align-middle">
+                          {{"AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.UpdateReason" | translate }}
+                        </th>
+                        <th class="text-center vertical-align-middle">
+                          {{"AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.ClockIn" | translate }}
+                        </th>
+                        <th class="text-center vertical-align-middle">
+                          {{"AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.ModifyClockIn" | translate }}
+                        </th>
+                        <th class="text-center vertical-align-middle">
+                          {{"AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.ClockOut" | translate }}
+                        </th>
+                        <th class="text-center vertical-align-middle">
+                          {{"AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.ModifyClockOut" | translate }}
+                        </th>
+                        <th class="text-center vertical-align-middle">
+                          {{"AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.OvertimeClockIn" | translate
+                          }}
+                        </th>
+                        <th class="text-center vertical-align-middle">
+                          {{"AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.ModifiedOvertimeClockIn" |
+                          translate }}
+                        </th>
+                        <th class="text-center vertical-align-middle">
+                          {{"AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.OvertimeClockOut" | translate
+                          }}
+                        </th>
+                        <th class="text-center vertical-align-middle">
+                          {{"AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.ModifiedOvertimeClockOut" |
+                          translate }}
+                        </th>
+                        <th class="text-center vertical-align-middle">
+                          {{"AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.Days" | translate }}
+                        </th>
+                        <th class="text-center vertical-align-middle">
+                          {{"AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.Holiday" | translate }}
+                        </th>
+                        <th class="text-center vertical-align-middle">
+                          {{"AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.UpdateBy" | translate }}
+                        </th>
+                        <th class="text-center vertical-align-middle">
+                          {{"AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.UpdateTime" | translate }}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <ng-container *ngIf="data.length > 0; then dataTemplate else dataNotFound"></ng-container>
+                      <ng-template #dataTemplate>
+                        <tr *ngFor="let item of data">
+                          <td *ngIf="functionUtility.checkFunction('Edit')"
+                              class="text-center vertical-align-middle-button">
+                            <button class="btn btn-warning btn-sm"
+                                    (click)="edit(item)">
+                              <i class="{{iconButton.EDIT}}"
+                                 aria-hidden="true"></i>
+                              {{'System.Action.Edit' | translate}}
+                            </button>
+                          </td>
+                          <td *ngIf="functionUtility.checkFunction('Delete')"
+                              class="text-center vertical-align-middle-button">
+                            <button class="btn btn-danger btn-sm"
+                                    (click)="delete(item, true)">
+                              <i class="{{iconButton.DELETE}}"
+                                 aria-hidden="true"></i>
+                              {{'System.Action.Delete' | translate}}
+                            </button>
+                          </td>
+                          <td class="text-center vertical-align-middle">{{item.factory}}</td>
+                          <td class="text-center vertical-align-middle">{{item.department_Code_Name}}</td>
+                          <td class="text-center vertical-align-middle">{{item.employee_ID}}</td>
+                          <td class="text-center vertical-align-middle">{{item.local_Full_Name}}</td>
+                          <td class="text-center vertical-align-middle">{{item.att_Date_Str}}</td>
+                          <td class="text-center vertical-align-middle">{{item.work_Shift_Type_Str}}</td>
+                          <td class="text-center vertical-align-middle">{{item.leave_Code_Str}}</td>
+                          <td class="text-center vertical-align-middle">{{item.reason_Code_Str}}</td>
+                          <td class="text-center vertical-align-middle">{{item.clock_In | mask:"00:00" }}</td>
+                          <td class="text-center vertical-align-middle">{{item.modified_Clock_In | mask:"00:00" }}</td>
+                          <td class="text-center vertical-align-middle">{{item.clock_Out | mask:"00:00" }}</td>
+                          <td class="text-center vertical-align-middle">{{item.modified_Clock_Out | mask:"00:00" }}</td>
+                          <td class="text-center vertical-align-middle">{{item.overtime_ClockIn | mask:"00:00" }}</td>
+                          <td class="text-center vertical-align-middle">{{item.modified_Overtime_ClockIn | mask:"00:00" }}</td>
+                          <td class="text-center vertical-align-middle">{{item.overtime_ClockOut | mask:"00:00" }}</td>
+                          <td class="text-center vertical-align-middle">{{item.modified_Overtime_ClockOut | mask:"00:00" }}</td>
+                          <td class="text-center vertical-align-middle">{{item.days}}</td>
+                          <td class="text-center vertical-align-middle">{{item.holiday_Str}}</td>
+                          <td class="text-center vertical-align-middle">{{item.update_By}}</td>
+                          <td class="text-center vertical-align-middle">{{item.update_Time_Str}}</td>
+                        </tr>
+                      </ng-template>
+                      <!-- No Data -->
+                      <ng-template #dataNotFound>
+                        <tr class="no-data">
+                          <td colspan="100%"
+                              class="table-warning text-center font-weight-bold">
+                            {{"System.Message.Nodata" | translate }}
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </tbody>
+                  </table>
+                </drag-scroll>
+              </div>
+
+              <!-- Pagination -->
+              <div class="row">
+                <div class="col-8">
+                  <div class="d-flex"
+                       *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                    <pagination [boundaryLinks]="true"
+                                [totalItems]="pagination.totalCount"
+                                [itemsPerPage]="pagination.pageSize"
+                                previousText="&lsaquo;"
+                                nextText="&rsaquo;"
+                                firstText="&laquo;"
+                                lastText="&raquo;"
+                                [maxSize]="5"
+                                [(ngModel)]="pagination.pageNumber"
+                                (pageChanged)="pageChanged($event)">
+                    </pagination>
+                    <span class="cs-page ml-2"> Page - {{ pagination.pageNumber }} / {{ pagination.totalPage }}</span>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <span class="cs-page float-right ">{{'System.Rows' | translate }} : {{pagination.totalCount}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-modal></app-modal>
+</div>

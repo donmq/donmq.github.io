@@ -1,0 +1,115 @@
+<div class="mb-2">
+  <!-- Add -->
+  <button *ngIf="functionUtility.checkFunction('Add')"
+          [disabled]="tranfer.mode == mode.query"
+          type="button"
+          (click)="onAdd()"
+          class="btn btn-success">
+    <i class="{{ iconButton.ADD }} "></i> {{ 'System.Action.Add' | translate }}
+  </button>
+  <!-- Upload -->
+  <button *ngIf="functionUtility.checkFunction('Upload')"
+          type="button"
+          (click)="onUploadFiles()"
+          class="btn btn-success ml-2">
+    <i class="{{ iconButton.UPLOAD }}"></i> {{ 'System.Action.Upload' | translate}}
+  </button>
+</div>
+<div class="row justify-content-md-center">
+  <div class="col-md-12 col-sm-12">
+    <div class="table-responsive">
+      <table class="table table-bordered text-center">
+        <thead>
+          <tr>
+            <th *ngIf="(functionUtility.checkFunction('Edit') || functionUtility.checkFunction('Delete'))"
+                class="text-center align-middle operation-column"
+                [attr.colspan]="functionUtility.getColspan(['Edit', 'Delete'])"> {{ 'System.Action.Operation' | translate}} </th>
+            <th class="text-center align-middle">
+              {{ 'EmployeeInformationModule.Education.Nationality' | translate}}
+            </th>
+            <th class="text-center align-middle">
+              {{ 'EmployeeInformationModule.Education.IdentificationNumber' | translate}}
+            </th>
+            <th class="text-center align-middle">
+              {{ 'EmployeeInformationModule.Education.LocalFullName' | translate}}
+            </th>
+            <th class="text-center align-middle">
+              {{ 'EmployeeInformationModule.Education.Degree' | translate}}
+            </th>
+            <th class="text-center align-middle">
+              {{ 'EmployeeInformationModule.Education.AcademicSystem' | translate}}
+            </th>
+            <th class="text-center align-middle">
+              {{ 'EmployeeInformationModule.Education.School' | translate}}
+            </th>
+            <th class="text-center align-middle">
+              {{ 'EmployeeInformationModule.Education.Department' | translate}}
+            </th>
+            <th class="text-center align-middle">
+              {{ 'EmployeeInformationModule.Education.Major' | translate}}
+            </th>
+            <th class="text-center align-middle">
+              {{ 'EmployeeInformationModule.Education.PeriodOfStudy' | translate}}
+            </th>
+            <th class="text-center align-middle">
+              {{ 'EmployeeInformationModule.Education.Graduation' | translate}}
+            </th>
+          </tr>
+        </thead>
+        <tbody *ngIf="educations?.length > 0; else elseTemplate">
+          <tr *ngFor="let item of educations">
+            <td *ngIf="functionUtility.checkFunction('Edit')">
+              <button [disabled]="tranfer.mode == mode.query"
+                      type="button"
+                      class="btn btn-warning btn-sm"
+                      (click)="onEdit(item)">
+                <i class="{{ iconButton.EDIT }}"></i> {{ 'System.Action.Edit' | translate}}
+              </button>
+            </td>
+            <td *ngIf="functionUtility.checkFunction('Delete')">
+              <button [disabled]="item.isDelete || tranfer.mode == mode.query"
+                      type="button"
+                      class="btn btn-danger btn-sm"
+                      (click)="onDelete(item)">
+                <i class="{{ iconButton.DELETE }}"></i> {{ 'System.Action.Delete' | translate}}
+              </button>
+            </td>
+
+            <td>{{ item.nationality }} </td>
+            <td>{{ item.identification_Number }} </td>
+            <td>{{ item.local_Full_Name }} </td>
+            <td>{{ item.degreeName }} </td>
+            <td>{{ item.academic_SystemName }} </td>
+            <td>{{ item.school }} </td>
+            <td>{{ item.department }} </td>
+            <td>{{ item.majorName }} </td>
+            <td>{{ item.period_Start }} <span *ngIf="item.period_End != ''">- {{ item.period_End }}</span></td>
+            <td>
+              {{ (item.graduation ? 'EmployeeInformationModule.Education.GraduationYes' : 'EmployeeInformationModule.Education.GraduationNo') | translate }}
+            </td>
+          </tr>
+        </tbody>
+        <ng-template #elseTemplate>
+          <tbody>
+            <tr>
+              <td colspan="100%"
+                  class="table-warning text-center font-weight-bold">
+                {{ 'System.Message.Nodata' | translate}}
+              </td>
+            </tr>
+          </tbody>
+        </ng-template>
+      </table>
+    </div>
+  </div>
+
+  <div class="col-md-12">
+    <div class="row">
+      <div class="col-12">
+        <span class="cs-page float-right ">{{'System.Rows' | translate }} : {{totalItems}}</span>
+      </div>
+    </div>
+  </div>
+</div>
+<app-modal-form-4-1-3 id="modal-form-4-1-3"></app-modal-form-4-1-3>
+<app-modal-upload-4-1-3 id="modal-upload-4-1-3"></app-modal-upload-4-1-3>

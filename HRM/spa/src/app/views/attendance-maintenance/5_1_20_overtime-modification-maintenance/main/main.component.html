@@ -1,0 +1,259 @@
+<div class="animated fadeIn">
+  <div class="card">
+    <form class="form-horizontal"
+          autocomplete="off"
+          #mainForm="ngForm">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-md-10"> <strong>{{ title }}</strong> </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="row border-shadow">
+          <div class="col-12">
+            <div class="row">
+              <!-- Factory -->
+              <div class="col-xxl-2 col-xl-3 col-md-6 col-sm-12">
+                <label class="badge badge-warning">{{ 'AttendanceMaintenance.OvertimeModificationMaintenance.Factory' | translate }}
+                  <span class="text-danger text-bold"> *</span></label>
+                <ng-select name="factory"
+                           [(ngModel)]="param.factory"
+                           [clearable]="param.factory != ''"
+                           (clear)="deleteProperty('factory')"
+                           (ngModelChange)="onChangeFactory()"
+                           placeholder="{{'AttendanceMaintenance.OvertimeModificationMaintenance.Factory' | translate }}"
+                           required>
+                  <ng-option *ngFor="let item of factorys"
+                             [value]="item.key">{{item.value}}</ng-option>
+                </ng-select>
+              </div>
+              <!-- Department -->
+              <div class="col-xxl-2 col-xl-3 col-md-6 col-sm-12">
+                <label class="badge badge-warning">{{ 'AttendanceMaintenance.OvertimeModificationMaintenance.Department' | translate }}
+                </label>
+                <ng-select name="department"
+                           [(ngModel)]="param.department"
+                           [clearable]="param.department != ''"
+                           (clear)="deleteProperty('department')"
+                           placeholder="{{'AttendanceMaintenance.OvertimeModificationMaintenance.Department' | translate }}"
+                           [disabled]="!param.factory">
+                  <ng-option *ngFor="let item of departments"
+                             [value]="item.key">{{item.value}}</ng-option>
+                </ng-select>
+              </div>
+              <!-- Employee ID -->
+              <div class="col-xxl-2 col-xl-3 col-md-6 col-sm-12">
+                <label class="badge badge-warning">{{ 'AttendanceMaintenance.OvertimeModificationMaintenance.EmployeeID' | translate }}
+                </label>
+                <input type="text"
+                       name="empID"
+                       autocomplete="off"
+                       class="form-control"
+                       maxlength="9"
+                       placeholder="{{ 'AttendanceMaintenance.OvertimeModificationMaintenance.EmployeeID' | translate }}"
+                       [(ngModel)]="param.employee_ID">
+              </div>
+              <!-- Work Shift Type -->
+              <div class="col-xxl-2 col-xl-3 col-md-6 col-sm-12">
+                <label class="badge badge-warning">{{ 'AttendanceMaintenance.OvertimeModificationMaintenance.WorkShiftType' | translate }}
+                </label>
+                <ng-select name="workshifttype"
+                           [(ngModel)]="param.work_Shift_Type"
+                           placeholder="{{'AttendanceMaintenance.OvertimeModificationMaintenance.WorkShiftType' | translate }}"
+                           [clearable]="param.work_Shift_Type != ''"
+                           (clear)="deleteProperty('work_Shift_Type')">
+                  <ng-option *ngFor="let item of workShiftTypes"
+                             [value]="item.key">{{item.value}}</ng-option>
+                </ng-select>
+              </div>
+              <!-- Date -->
+              <div class="col-xxl-4 col-xl-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning">{{ 'AttendanceMaintenance.OvertimeModificationMaintenance.Date' | translate }}
+                </label>
+                <div class="full-width">
+                  <div class="date_container">
+                    <div class="input-group mr-1">
+                      <input autocomplete="off"
+                             type="text"
+                             class="form-control"
+                             id="dateFrom"
+                             name="dateFrom"
+                             placeholder="YYYY/MM/DD"
+                             bsDatepicker
+                             [bsConfig]="bsConfig"
+                             [(ngModel)]="param.overtime_Date_From_Date"
+                             (ngModelChange)="onDateChange('overtime_Date_From')"
+                             onpaste="return false;"
+                             [maxDate]="param.overtime_Date_To_Date"
+                             [required]="param.overtime_Date_From_Date || param.overtime_Date_To_Date" />
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                      </div>
+                    </div>
+                    <div class="input-group ml-1">
+                      <input autocomplete="off"
+                             type="text"
+                             class="form-control"
+                             id="date_To"
+                             name="date_To"
+                             placeholder="YYYY/MM/DD"
+                             bsDatepicker
+                             [bsConfig]="bsConfig"
+                             [(ngModel)]="param.overtime_Date_To_Date"
+                             (ngModelChange)="onDateChange('overtime_Date_To')"
+                             onpaste="return false;"
+                             [minDate]="param.overtime_Date_From_Date"
+                             [required]="param.overtime_Date_From_Date || param.overtime_Date_To_Date" />
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Button -->
+          <div class="col-12">
+            <label class="d-block">&nbsp;</label>
+            <button *ngIf="functionUtility.checkFunction('Search')"
+                    [disabled]="!mainForm.valid"
+                    type="button"
+                    class="btn btn-primary"
+                    (click)="search()"><i class="{{iconButton.SEARCH}}"></i>
+              {{"System.Action.Search" | translate }}</button>
+            <button type="button"
+                    class="btn btn-danger ml-1"
+                    (click)="clear()"><i class="{{iconButton.CLEAR}}"></i>
+              {{"System.Action.Clear" | translate }}</button>
+            <button *ngIf="functionUtility.checkFunction('Add')"
+                    type="button"
+                    class="btn btn-success ml-1"
+                    (click)="add()"><i class="{{iconButton.ADD}}"></i>
+              {{"BasicMaintenance.2_6_GradeMaintenance.Add" | translate }}
+            </button>
+          </div>
+
+        </div>
+        <div class="row justify-content-md-center">
+          <div class="col-xxl-12 col-xl-12">
+            <div class="table-responsive">
+              <drag-scroll id="dragscroll"
+                           (dragStart)="functionUtility.setTextSelector(false)"
+                           (dragEnd)="functionUtility.setTextSelector(true)">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr class="text-center">
+                      @if (functionUtility.checkFunction('Edit') || functionUtility.checkFunction('Delete') ) {
+                        <th class="text-center"
+                            [attr.colspan]="functionUtility.getColspan(['Delete','Edit'])">
+                          {{"AttendanceMaintenance.OvertimeModificationMaintenance.Operation" | translate }}
+                        </th>
+                      }
+                      <th>{{ 'AttendanceMaintenance.OvertimeModificationMaintenance.Factory' | translate }}</th>
+                      <th>{{ 'AttendanceMaintenance.OvertimeModificationMaintenance.Department' | translate }}</th>
+                      <th>{{ 'AttendanceMaintenance.OvertimeModificationMaintenance.EmployeeID' | translate }}</th>
+                      <th>{{ 'AttendanceMaintenance.OvertimeModificationMaintenance.LocalFullName' | translate }}</th>
+                      <th>{{ 'AttendanceMaintenance.OvertimeModificationMaintenance.Date' | translate }}</th>
+                      <th>{{ 'AttendanceMaintenance.OvertimeModificationMaintenance.WorkShiftType' | translate }}</th>
+                      <th>{{ 'AttendanceMaintenance.OvertimeModificationMaintenance.WorkShiftTypeTime' | translate }}</th>
+                      <th>{{ 'AttendanceMaintenance.OvertimeModificationMaintenance.Clockintime' | translate }}</th>
+                      <th>{{ 'AttendanceMaintenance.OvertimeModificationMaintenance.Clockouttime' | translate }}</th>
+                      <th>{{ 'AttendanceMaintenance.OvertimeModificationMaintenance.OvertimeStart' | translate }}</th>
+                      <th>{{ 'AttendanceMaintenance.OvertimeModificationMaintenance.OvertimeEnd' | translate }}</th>
+                      <th>{{ 'AttendanceMaintenance.OvertimeModificationMaintenance.OvertimeHour' | translate }}</th>
+                      <th>{{ 'AttendanceMaintenance.OvertimeModificationMaintenance.NightHours' | translate }}</th>
+                      <th>{{ 'AttendanceMaintenance.OvertimeModificationMaintenance.Night_Overtime_Hours' | translate }} </th>
+                      <th>{{ 'AttendanceMaintenance.OvertimeModificationMaintenance.TrainingHour' | translate }}</th>
+                      <th>{{ 'AttendanceMaintenance.OvertimeModificationMaintenance.Nighteat' | translate }}</th>
+                      <th>{{ 'AttendanceMaintenance.OvertimeModificationMaintenance.Holiday' | translate }}</th>
+                      <th>{{ 'AttendanceMaintenance.OvertimeModificationMaintenance.UpdateBy' | translate }}</th>
+                      <th class="text-center">{{ 'AttendanceMaintenance.OvertimeModificationMaintenance.UpdateTime' |translate }} </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (item of data; track item; let i = $index) {
+                      <tr class="text-center">
+                        @if (functionUtility.checkFunction('Edit')) {
+                          <td class="text-center">
+                            <button type="button"
+                                    name="btnEdit"
+                                    class="btn btn-warning btn-sm text-dark"
+                                    [disabled]="item.isOvertimeDate"
+                                    (click)="onEdit(item)">
+                              <i class="{{iconButton.EDIT}}"></i> {{"System.Action.Edit" | translate }}</button>
+                          </td>
+                        }
+                        @if (functionUtility.checkFunction('Delete')) {
+                          <td class="text-center">
+                            <button type="button"
+                                    name="btnDelete"
+                                    class="btn btn-danger btn-sm"
+                                    [disabled]="item.isOvertimeDate"
+                                    (click)="onDelete(item)">
+                              <i class="{{iconButton.DELETE}}"></i> {{"System.Action.Delete" | translate }}</button>
+                          </td>
+                        }
+                        <td>{{item?.factory}}</td>
+                        <td>{{item?.department_Code_Name}}</td>
+                        <td>{{item?.employee_ID}}</td>
+                        <td>{{item?.local_Full_Name}}</td>
+                        <td>{{item?.overtime_Date | date: "YYYY/MM/dd"}}</td>
+                        <td>{{item?.work_Shift_Type_Name}}</td>
+                        <td>{{item?.work_Shift_Type_Time}}</td>
+                        <td>{{item?.clock_In_Time}}</td>
+                        <td>{{item?.clock_Out_Time}}</td>
+                        <td>{{item?.overtime_Start_Temp}}</td>
+                        <td>{{item?.overtime_End_Temp}}</td>
+                        <td>{{item?.overtime_Hours}}</td>
+                        <td>{{item?.night_Hours}}</td>
+                        <td>{{item?.night_Overtime_Hours}}</td>
+                        <td>{{item?.training_Hours}}</td>
+                        <td>{{item?.night_Eat_Times}}</td>
+                        <td>{{item?.holiday_Name}}</td>
+                        <td>{{item?.update_By}}</td>
+                        <td>{{item?.update_Time | date: "YYYY/MM/dd"}}</td>
+                      </tr>
+                    }
+                    @empty {
+                      <tr>
+                        <td class="table-warning text-center font-weight-bold"
+                            colspan="100%">{{"System.Message.Nodata" |
+                        translate }}</td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </drag-scroll>
+            </div>
+            <div class="row">
+              <div class="col-8">
+                @if (data?.length > 0) {
+                  <div class="d-flex">
+                    <pagination name="pagination"
+                                [boundaryLinks]="true"
+                                [totalItems]="pagination.totalCount"
+                                [itemsPerPage]="pagination.pageSize"
+                                previousText="&lsaquo;"
+                                [(ngModel)]="pagination.pageNumber"
+                                (pageChanged)="pageChanged($event)"
+                                nextText="&rsaquo;"
+                                firstText="&laquo;"
+                                lastText="&raquo;"
+                                [maxSize]="5">
+                    </pagination>
+                    <span class="cs-page ml-2"> Page - {{pagination.pageNumber}} / {{pagination.totalPage}}</span>
+                  </div>
+                }
+              </div>
+              <div class="col-4">
+                <span class="cs-page float-right ">{{'System.Rows' | translate }} : {{pagination.totalCount}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <app-modal></app-modal>
+</div>

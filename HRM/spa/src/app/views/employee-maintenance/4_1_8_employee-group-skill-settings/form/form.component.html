@@ -1,0 +1,170 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off"
+              #subForm="ngForm">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">{{ title }} - {{ 'System.Action.' + action | translate }}</strong>
+                <button type="button"
+                        class="{{classButton.BACK}}"
+                        (click)="back()">
+                  <i class="{{ iconButton.BACK }}"></i> {{'System.Action.Back' | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row border-shadow">
+              <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning">{{'EmployeeInformationModule.EmployeeGroupSkillSettings.Division' | translate }}<span class="text-danger">
+                    *</span></label>
+                <ng-select name="division"
+                           [(ngModel)]="selectedData.division"
+                           (clear)="deleteProperty('division')"
+                           (ngModelChange)="onDivisionChange()"
+                           [clearable]="selectedData.division !== ''"
+                           placeholder="{{'EmployeeInformationModule.EmployeeGroupSkillSettings.Division' | translate }}"
+                           [disabled]="action=='Edit'"
+                           required>
+                  <ng-option *ngFor="let item of divisionList"
+                             [value]="item.key">{{ item.value }}</ng-option>
+                </ng-select>
+              </div>
+              <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning">{{'EmployeeInformationModule.EmployeeGroupSkillSettings.Factory' | translate }}<span class="text-danger">
+                    *</span></label>
+                <ng-select name="factory"
+                           [(ngModel)]="selectedData.factory"
+                           (clear)="deleteProperty('factory')"
+                           (ngModelChange)="onFactoryChange()"
+                           [clearable]="selectedData.factory !== ''"
+                           placeholder="{{'EmployeeInformationModule.EmployeeGroupSkillSettings.Factory' | translate }}"
+                           [disabled]="action=='Edit' || !selectedData.division"
+                           required>
+                  <ng-option *ngFor="let item of factoryList"
+                             [value]="item.key">{{ item.value }}</ng-option>
+                </ng-select>
+              </div>
+              <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <label for="textEmployeeID"
+                       class="badge badge-warning">{{'EmployeeInformationModule.EmployeeGroupSkillSettings.EmployeeID' | translate }}<span class="text-danger">
+                    *</span></label>
+                <input autocomplete="off"
+                       type="text"
+                       placeholder="{{'EmployeeInformationModule.EmployeeGroupSkillSettings.EmployeeID' | translate }}"
+                       class="form-control"
+                       maxlength="9"
+                       name="employeeId"
+                       [(ngModel)]="selectedData.employee_Id"
+                       (ngModelChange)="onEmployeeChange()"
+                       [disabled]="action=='Edit' || !selectedData.factory"
+                       typeaheadOptionField="key"
+                       [typeahead]="employeeList$"
+                       (typeaheadOnSelect)="onTypehead($event)"
+                       [typeaheadScrollable]="true"
+                       [typeaheadOptionsInScrollableView]="5"
+                       [typeaheadAsync]="true"
+                       required />
+              </div>
+              <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <label for="textLocalFullName"
+                       class="badge badge-warning">{{'EmployeeInformationModule.EmployeeGroupSkillSettings.LocalFullName' | translate }}</label>
+                <input autocomplete="off"
+                       type="text"
+                       placeholder="{{'EmployeeInformationModule.EmployeeGroupSkillSettings.InvalidEmployee' | translate }}"
+                       class="form-control"
+                       maxlength="50"
+                       name="localFullName"
+                       [(ngModel)]="selectedData.local_Full_Name"
+                       [readonly]="true"
+                       required />
+              </div>
+              <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning">{{'EmployeeInformationModule.EmployeeGroupSkillSettings.ProductionLine' | translate }}<span class="text-danger">
+                    *</span></label>
+                <ng-select name="productionLine"
+                           [(ngModel)]="selectedData.production_Line"
+                           (clear)="deleteProperty('production_Line')"
+                           [clearable]="selectedData.production_Line !== ''"
+                           placeholder="{{'EmployeeInformationModule.EmployeeGroupSkillSettings.ProductionLine' | translate }}"
+                           required>
+                  <ng-option *ngFor="let item of productionList"
+                             [value]="item.key">{{ item.value }}</ng-option>
+                </ng-select>
+              </div>
+              <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning">{{'EmployeeInformationModule.EmployeeGroupSkillSettings.PerformanceCategory' | translate }}<span class="text-danger">
+                    *</span></label>
+                <ng-select name="performanceCategory"
+                           [(ngModel)]="selectedData.performance_Category"
+                           (clear)="deleteProperty('performance_Category')"
+                           [clearable]="selectedData.performance_Category !== ''"
+                           placeholder="{{'EmployeeInformationModule.EmployeeGroupSkillSettings.PerformanceCategory' | translate }}"
+                           required>
+                  <ng-option *ngFor="let item of performanceList"
+                             [value]="item.key">{{ item.value }}</ng-option>
+                </ng-select>
+              </div>
+              <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning">{{'EmployeeInformationModule.EmployeeGroupSkillSettings.TechnicalType' | translate }}<span class="text-danger">
+                    *</span></label>
+                <ng-select name="technicalType"
+                           [(ngModel)]="selectedData.technical_Type"
+                           (clear)="deleteProperty('technical_Type')"
+                           [clearable]="selectedData.technical_Type !== ''"
+                           placeholder="{{'EmployeeInformationModule.EmployeeGroupSkillSettings.TechnicalType' | translate }}"
+                           required>
+                  <ng-option *ngFor="let item of technicalList"
+                             [value]="item.key">{{ item.value }}</ng-option>
+                </ng-select>
+              </div>
+              <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning">{{'EmployeeInformationModule.EmployeeGroupSkillSettings.ExpertiseCategory' | translate }}<span class="text-danger">
+                    *</span></label>
+                <ng-select name="expertiseCategory"
+                           [(ngModel)]="selectedData.expertise_Category"
+                           (clear)="deleteProperty('expertise_Category')"
+                           [clearable]="selectedData.expertise_Category !== ''"
+                           placeholder="{{'EmployeeInformationModule.EmployeeGroupSkillSettings.ExpertiseCategory' | translate }}"
+                           required>
+                  <ng-option *ngFor="let item of expertiseList"
+                             [value]="item.key">{{ item.value }}</ng-option>
+                </ng-select>
+              </div>
+              <div class="col-12">
+                <label class="d-block">&nbsp;</label>
+                <button type="button"
+                        class="btn btn-outline-primary"
+                        (click)="skillDetail()">
+                  {{'EmployeeInformationModule.EmployeeGroupSkillSettings.SkillDetails' | translate }}
+                </button>
+              </div>
+            </div>
+            <div class="row justify-content-md-center">
+              <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="table-responsive text-right">
+                  <button type="button"
+                          class="{{classButton.SAVE}}"
+                          (click)="save()"
+                          [disabled]="!subForm.valid">
+                    <i class="{{ iconButton.SAVE }}"></i> {{'System.Action.Save' | translate }}
+                  </button>
+                  <button type="button"
+                          class="{{classButton.CLOSE}}"
+                          (click)="back()">
+                    <i class="{{ iconButton.CLOSE }}"></i> {{'System.Action.Close' | translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <app-modal id="modify-modal"></app-modal>
+</div>

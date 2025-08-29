@@ -1,0 +1,123 @@
+<form class="form-horizontal"
+      #executeForm="ngForm"
+      autocomplete="off">
+  <div class="row border-shadow">
+    <div class="col-12">
+      <div class="row">
+        <!-- Factory -->
+        <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+          <label class="badge badge-warning">
+            {{"SalaryMaintenance.MonthlySalaryGeneration.Factory" | translate }}
+            <span class="text-danger text-bold">*</span>
+          </label>
+          <ng-select name="factory"
+                     [(ngModel)]="param().factory"
+                     (ngModelChange)="onFactoryChange()"
+                     (clear)="deleteProperty('factory')"
+                     [clearable]="param().factory !== ''"
+                     placeholder="{{'SalaryMaintenance.MonthlySalaryGeneration.Factory' | translate }}"
+                     required>
+            <ng-option *ngFor="let data of listFactory"
+                       [value]="data.key">{{data.value}}
+            </ng-option>
+          </ng-select>
+        </div>
+        <!-- Year Month -->
+        <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+          <label class="badge badge-warning">{{"SalaryMaintenance.MonthlySalaryGeneration.YearMonth" | translate }}
+            <span class="text-danger text-bold">*</span>
+          </label>
+          <div class="full-width">
+            <div class="container_input">
+              <div class="input-group mr-1">
+                <input autocomplete="off"
+                       (keydown.backspace)="year_Month = null"
+                       onpaste="return false;"
+                       type="text"
+                       placeholder="{{placeholder.YearMonth}}"
+                       class="form-control"
+                       name="year_Month"
+                       [(ngModel)]="year_Month"
+                       (ngModelChange)="onYearMonthChange()"
+                       bsDatepicker
+                       [bsConfig]="bsConfig"
+                       required />
+                <div class="input-group-append">
+                  <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Employee ID -->
+        <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+          <label class="badge badge-warning">
+            {{"SalaryMaintenance.MonthlySalaryGeneration.EmployeeID" | translate }}
+          </label>
+          <input type="text"
+                 class="form-control"
+                 name="employee_ID"
+                 maxlength="9"
+                 [(ngModel)]="param().employee_ID"
+                 placeholder="{{'SalaryMaintenance.MonthlySalaryGeneration.EmployeeID' | translate }}" />
+        </div>
+        <!-- Permission Group -->
+        <div class="col-12">
+          <div class="row">
+            <div class="col-auto">
+              <label class="badge badge-warning">{{ "SalaryMaintenance.MonthlySalaryGeneration.PermissionGroup" | translate }}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <ng-select id="permission_Group"
+                         name="permission_Group"
+                         [items]="listPermissionGroup"
+                         [multiple]="true"
+                         groupBy="allGroup"
+                         [selectableGroup]="true"
+                         [selectableGroupAsModel]="false"
+                         [closeOnSelect]="false"
+                         bindLabel="value"
+                         bindValue="key"
+                         [(ngModel)]="param().permission_Group"
+                         (ngModelChange)="onPermissionChange()"
+                         [disabled]="!param().factory"
+                         required
+                         placeholder="{{ 'SalaryMaintenance.MonthlySalaryGeneration.PermissionGroup' | translate }}">
+                <ng-template ng-optgroup-tmp
+                             let-item="item"
+                             let-item$="item$"
+                             let-index="index">
+                  <input id="item-{{ index }}"
+                         type="checkbox"
+                         name="item-{{ index }}"
+                         [ngModel]="item$.selected" /> {{ 'System.Action.SelectAll' | translate }}</ng-template>
+                <ng-template ng-option-tmp
+                             let-item="item"
+                             let-item$="item$"
+                             let-index="index">
+                  <input id="item-{{ index }}"
+                         name="item-{{ index }}"
+                         type="checkbox"
+                         [ngModel]="item$.selected" /> {{ item.value }} </ng-template>
+              </ng-select>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 mt-2">
+          <button *ngIf="this.functionUtility.checkFunction('Execute')"
+                  type="button"
+                  class="{{ classButton.SAVE }}"
+                  [disabled]="!executeForm.valid"
+                  (click)="execute()">
+            {{ "System.Action.Execute" | translate }}
+          </button>
+        </div>
+        <div class="col-12 mt-2">
+          <strong >{{ "SalaryMaintenance.MonthlySalaryGeneration.Total" | translate }}
+            <span class="text-primary">{{ param().totalRows }}</span>
+          </strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

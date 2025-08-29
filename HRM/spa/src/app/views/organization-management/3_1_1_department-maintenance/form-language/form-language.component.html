@@ -1,0 +1,144 @@
+<div bsModal
+     #modal="bs-modal"
+     class="modal fade"
+     tabindex="-1"
+     role="dialog"
+     (onHide)="onHide()">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <!-- Header -->
+      <div class="modal-header bg-primary">
+        <h5>
+          {{ title }} - {{ action | translate }}
+          {{ "OrganizationManagement.DepartmentMaintenance.Language" | translate }}
+        </h5>
+        <button type="button"
+                class="btn-close close pull-right"
+                (click)="close()">
+          <span aria-hidden="true"
+                class="visually-hidden">&times;</span>
+        </button>
+      </div>
+      <!-- Body -->
+      <div class="modal-body">
+        <!-- Type No: -->
+        <form #addForm="ngForm"
+              autocomplete="off">
+          <div class="row g-3 align-items-center mb-2">
+            <div class="col-md-12">
+              <label class="a badge badge-warning">
+                {{"OrganizationManagement.DepartmentMaintenance.Division" | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <input type="text"
+                     class="form-control"
+                     value="{{ language.division}}"
+                     id="division"
+                     name="division"
+                     placeholder="{{ 'OrganizationManagement.DepartmentMaintenance.Division' | translate }}... "
+                     disabled />
+            </div>
+
+            <div class="col-md-12">
+              <label class="a badge badge-warning"> {{"OrganizationManagement.DepartmentMaintenance.Factory" | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <input type="text"
+                     class="form-control"
+                     value="{{ language.factory}}"
+                     id="factory"
+                     name="factory"
+                     placeholder="{{ 'OrganizationManagement.DepartmentMaintenance.Factory' | translate }}... "
+                     disabled
+                     required />
+            </div>
+
+            <div class="col-md-12">
+              <label class="a badge badge-warning"> {{"OrganizationManagement.DepartmentMaintenance.DepartmentCode" | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <input type="text"
+                     class="form-control"
+                     value="{{ language.department_Code }} - {{ language.department_Name }}"
+                     maxlength="3"
+                     id="department_Code"
+                     name="department_Code"
+                     placeholder="{{ 'OrganizationManagement.DepartmentMaintenance.DepartmentCode' | translate }}... "
+                     *ngIf="isEdit"
+                     disabled/>
+
+              <ng-select [searchable]="false"
+                         [(ngModel)]="language.department_Code"
+                         (ngModelChange)="onSelectChange()"
+                         [ngModelOptions]="{ standalone: true }"
+                         [clearable]="shouldShowClearButton()"
+                         (clear)="onClear()"
+                         placeholder="{{ 'OrganizationManagement.DepartmentMaintenance.DepartmentCode' | translate }}... "
+                         *ngIf="!isEdit">
+                <ng-option *ngFor="let item of department"
+                           [value]="item.key">{{ item.key }} - {{ item.value }}
+                </ng-option>
+              </ng-select>
+            </div>
+          </div>
+          <!-- Contract -->
+          <div class="col-md-12 col-xxl-12 pl-0 pr-0">
+            <table class="table">
+              <tr class="mb-0">
+                <th width="30%">
+                  <label class="a badge badge-warning">
+                    {{"OrganizationManagement.DepartmentMaintenance.Language" | translate}}
+                    <span class="text-danger text-bold"> *</span>
+                  </label>
+                </th>
+                <th width="70%">
+                  <label class="a badge badge-warning">
+                    {{"OrganizationManagement.DepartmentMaintenance.Name" | translate}}
+                    <span class="text-danger text-bold"> *</span>
+                  </label>
+                </th>
+              </tr>
+              <!-- Load Language Code + Department Name -->
+              <tbody>
+                <tr *ngFor="let item of language?.detail">
+                  <td class="pt-0">
+                    <input type="text"
+                           class="form-control"
+                           [name]="'code_' + item.language_Code"
+                           [(ngModel)]="item.language_Code"
+                           disabled />
+                  </td>
+                  <td class="text-center pt-0">
+                    <input type="text"
+                           class="form-control"
+                           [name]="'name_' + item.department_Name"
+                           [(ngModel)]="item.department_Name"
+                           maxlength="100"
+                           [placeholder]="item.language_Code + ' ...'" />
+                    <div *ngIf="item.language_Code === 'TW' && !item.department_Name"
+                         class="text-danger"> Department Name cannot be empty for TW language.
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </form>
+      </div>
+      <!-- Footer -->
+      <div class="modal-footer">
+        <button type="button"
+                class="btn btn-success text-white"
+                (click)="save()"
+                [disabled]="isSaveButtonDisabled()">
+          <i class="fa fa-check"></i> {{ "System.Action.Save" | translate }}
+        </button>
+        <button type="button"
+                class="btn btn-danger text-white"
+                (click)="close()">
+          <i class="fa fa-ban"></i> {{ "System.Action.Cancel" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

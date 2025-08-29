@@ -1,0 +1,219 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off"
+              #subForm="ngForm">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs"> {{ title }} - {{ 'System.Action.' + formType | translate }} </strong>
+                <button type="button"
+                        class="{{classButton.BACK}}"
+                        (click)="back()">
+                  <i class="{{ iconButton.BACK }}"></i> {{'System.Action.Back' | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row border-shadow">
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-xxl-4 col-xl-2 col-lg-6 col-md-6 col-sm-12">
+                    <label class="badge badge-warning">{{'SalaryMaintenance.MonthlyExchangeRateSetting.YearMonth' | translate }}<span class="text-danger">
+                        *</span></label>
+                    <div class="full-width">
+                      <div class="container_input">
+                        <div class="input-group mr-1">
+                          <input type="text"
+                                 autocomplete="off"
+                                 placeholder="YYYY/MM"
+                                 name="rate_Month"
+                                 [bsConfig]="bsConfigMonth"
+                                 class="form-control"
+                                 bsDatepicker
+                                 [(ngModel)]="param.rate_Month"
+                                 (ngModelChange)="onRateMonthChange()"
+                                 [disabled]="formType=='Edit'"
+                                 required
+                                 onpaste="return false" />
+                          <div class="input-group-append">
+                            <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row justify-content-md-center">
+              <div class="col-lg-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th class="text-center operation-column"
+                            *ngIf="formType=='Add'">{{'System.Action.Operation' | translate }}</th>
+                        <th class="text-center seq-column">{{'SalaryMaintenance.MonthlyExchangeRateSetting.Kind' | translate }}
+                          <span class="text-danger">*</span>
+                        </th>
+                        <th class="text-center catalog-column">{{'SalaryMaintenance.MonthlyExchangeRateSetting.Currency' | translate }}
+                          <span class="text-danger">*</span>
+                        </th>
+                        <th class="text-center name-column">{{'SalaryMaintenance.MonthlyExchangeRateSetting.ExchangeCurrency' | translate }}
+                          <span class="text-danger">*</span>
+                        </th>
+                        <th class="text-center score-column">{{'SalaryMaintenance.MonthlyExchangeRateSetting.ExchangeRate' | translate }}
+                          <span class="text-danger">*</span>
+                        </th>
+                        <th class="text-center score-column">{{'SalaryMaintenance.MonthlyExchangeRateSetting.ExchangeRateDate' | translate }}
+                          <span class="text-danger">*</span>
+                        </th>
+                        <th class="text-center">{{'SalaryMaintenance.MonthlyExchangeRateSetting.UpdateBy' | translate }}</th>
+                        <th class="text-center">{{'SalaryMaintenance.MonthlyExchangeRateSetting.UpdateTime' | translate }}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of data; index as i">
+                        <td class="text-center"
+                            *ngIf="formType=='Add'">
+                          <button type="button"
+                                  class="{{classButton.tDELETE}}"
+                                  (click)="remove(item)"><i class="{{ iconButton.DELETE }}"></i>
+                            {{'System.Action.Delete' | translate }}
+                          </button>
+                        </td>
+                        <td class="text-center"
+                            [ngClass]="{'invalid-data': item.is_Duplicate}">
+                          <ng-select name="kind-{{i}}"
+                                     [(ngModel)]="item.kind"
+                                     (clear)="deleteItemProperty(item,'kind')"
+                                     [clearable]="item.kind !== ''"
+                                     (ngModelChange)="onKeyChange(item)"
+                                     appendTo="body"
+                                     dropdownPosition="bottom"
+                                     placeholder="{{'SalaryMaintenance.MonthlyExchangeRateSetting.Kind' | translate }}"
+                                     [disabled]="formType=='Edit'"
+                                     required>
+                            <ng-option *ngFor="let item of kindList"
+                                       [value]="item.key">{{ item.value }}</ng-option>
+                          </ng-select>
+                        </td>
+                        <td class="text-center"
+                            [ngClass]="{'invalid-data': item.is_Duplicate}">
+                          <ng-select name="currency-{{i}}"
+                                     [(ngModel)]="item.currency"
+                                     (clear)="deleteItemProperty(item,'currency')"
+                                     [clearable]="item.currency !== ''"
+                                     (ngModelChange)="onKeyChange(item)"
+                                     appendTo="body"
+                                     dropdownPosition="bottom"
+                                     placeholder="{{'SalaryMaintenance.MonthlyExchangeRateSetting.Currency' | translate }}"
+                                     [disabled]="formType=='Edit'"
+                                     required>
+                            <ng-option *ngFor="let item of currencyList"
+                                       [value]="item.key">{{ item.value }}</ng-option>
+                          </ng-select>
+                        </td>
+                        <td class="text-center"
+                            [ngClass]="{'invalid-data': item.is_Duplicate}">
+                          <ng-select name="exchange_Currency-{{i}}"
+                                     [(ngModel)]="item.exchange_Currency"
+                                     (clear)="deleteItemProperty(item,'exchange_Currency')"
+                                     [clearable]="item.exchange_Currency !== ''"
+                                     (ngModelChange)="onKeyChange(item)"
+                                     appendTo="body"
+                                     dropdownPosition="bottom"
+                                     placeholder="{{'SalaryMaintenance.MonthlyExchangeRateSetting.ExchangeCurrency' | translate }}"
+                                     [disabled]="formType=='Edit'"
+                                     required>
+                            <ng-option *ngFor="let item of currencyList"
+                                       [value]="item.key">{{ item.value }}</ng-option>
+                          </ng-select>
+                        </td>
+                        <td class="text-center">
+                          <input type="text"
+                                 mask="separator.5"
+                                 maxlength="10"
+                                 class="form-control"
+                                 name="rate-{{i}}"
+                                 decimalMarker="."
+                                 thousandSeparator=""
+                                 [leadZero]="true"
+                                 separatorLimit="9999"
+                                 [(ngModel)]="item.rate"
+                                 (change)="onValueChange(item)"
+                                 placeholder="{{'SalaryMaintenance.MonthlyExchangeRateSetting.ExchangeRate' | translate }}"
+                                 required />
+                        </td>
+                        <td class="text-center">
+                          <div class="input-group">
+                            <input type="text"
+                                   autocomplete="off"
+                                   placeholder="YYYY/MM/DD"
+                                   name="rate_Date-{{i}}"
+                                   [bsConfig]="bsConfigDay"
+                                   class="form-control"
+                                   bsDatepicker
+                                   [(ngModel)]="item.rate_Date"
+                                   (ngModelChange)="onRateDateChange(item, 'rate_Date')"
+                                   onpaste="return false"
+                                   required />
+                            <div class="input-group-append">
+                              <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="text-center">{{ item.update_By }}</td>
+                        <td class="text-center">{{ item.update_Time_Str }}</td>
+                      </tr>
+                    </tbody>
+                    <tr *ngIf="data?.length === 0"
+                        class="no-data">
+                      <td colspan="100%"
+                          class="table-warning text-center font-weight-bold">
+                        {{'System.Message.Nodata' | translate }}
+                      </td>
+                    </tr>
+                    <tr class="no-data"
+                        *ngIf="formType=='Add'">
+                      <td class="text-center"
+                          colspan="100%">
+                        <button type="button"
+                                class="{{classButton.tDETAIL}}"
+                                (click)="add()"
+                                [disabled]="isDuplicated || !subForm.valid ">
+                          <i class="{{ iconButton.ADD }}"></i> {{'System.Action.Add' | translate }}
+                        </button>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="row justify-content-md-center">
+              <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="table-responsive text-right">
+                  <button type="button"
+                          class="{{classButton.SAVE}}"
+                          (click)="save()"
+                          [disabled]="isDuplicated || !subForm.valid ">
+                    <i class="{{ iconButton.SAVE }}"></i> {{'System.Action.Save' | translate }}
+                  </button>
+                  <button type="button"
+                          class="{{classButton.CLOSE}}"
+                          (click)="back()">
+                    <i class="{{ iconButton.CLOSE }}"></i> {{'System.Action.Close' | translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,160 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong>{{ title }}</strong>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="card-body">
+          <div class="row border-shadow">
+            <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6">
+              <label for="directory_Code"
+                     class="badge badge-warning">{{"SystemMaintenance.DirectoryMaintenance.DirectoryCode" |
+                translate}}</label>
+              <input autocomplete="off"
+                     type="text"
+                     [(ngModel)]="param.directory_Code"
+                     placeholder='{{"SystemMaintenance.DirectoryMaintenance.DirectoryCode" | translate}}'
+                     class="form-control"
+                     maxlength="50"
+                     name="directory_Code" />
+            </div>
+            <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6">
+              <label for="directory_Name"
+                     class="badge badge-warning">{{"SystemMaintenance.DirectoryMaintenance.DirectoryName" |
+                translate}}</label>
+              <input autocomplete="off"
+                     type="text"
+                     [(ngModel)]="param.directory_Name"
+                     placeholder='{{"SystemMaintenance.DirectoryMaintenance.DirectoryName" | translate}}'
+                     class="form-control"
+                     maxlength="100"
+                     name="directory_Name" />
+            </div>
+            <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6">
+              <label for="parent_Directory_Code"
+                     class="badge badge-warning">{{"SystemMaintenance.DirectoryMaintenance.ParentDirectoryCode" |
+                translate}}</label>
+              <input autocomplete="off"
+                     type="text"
+                     [(ngModel)]="param.parent_Directory_Code"
+                     placeholder='{{"SystemMaintenance.DirectoryMaintenance.ParentDirectoryCode" | translate}}'
+                     class="form-control"
+                     maxlength="50"
+                     name="parent_Directory_Code" />
+            </div>
+
+            <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12">
+              <label class="d-block">&nbsp;</label>
+              <button type="submit"
+                      class="btn btn-primary mr-2"
+                      (click)="search(true)"
+                      *ngIf="functionUtility.checkFunction('Search')">
+                <i class="{{ iconButton.SEARCH }}"></i> {{"System.Action.Search" | translate}}
+              </button>
+              <button type="submit"
+                      class="btn btn-danger mr-2"
+                      (click)="clearSearch()">
+                <i class="{{ iconButton.CLEAR }}"></i> {{"System.Action.Clear" | translate}}
+              </button>
+              <button type="button"
+                      class="btn btn-success"
+                      (click)="onAdd()"
+                      *ngIf="functionUtility.checkFunction('Add')">
+                <i class="{{ iconButton.ADD }}"></i> {{"System.Action.Add" | translate}}
+              </button>
+            </div>
+          </div>
+          <div class="row justify-content-md-center">
+            <div class="col-xl-12 col-xxl-8">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th class="text-center operation-column"
+                        [attr.colspan]="functionUtility.getColspan(['Delete','Edit'])"
+                          *ngIf="functionUtility.checkFunction('Edit') || functionUtility.checkFunction('Delete')">
+                        {{"SystemMaintenance.DirectoryMaintenance.Operation" | translate}}
+                      </th>
+                      <th class="text-center">{{"SystemMaintenance.DirectoryMaintenance.DirectoryCode" | translate}}
+                      </th>
+                      <th class="text-center">{{"SystemMaintenance.DirectoryMaintenance.DirectoryName" | translate}}
+                      </th>
+                      <th class="text-center">{{"SystemMaintenance.DirectoryMaintenance.ParentDirectoryCode" |
+                        translate}}</th>
+                      <th class="text-center">{{"SystemMaintenance.DirectoryMaintenance.Seq" | translate}}</th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="listData?.length > 0; else elseTemplate">
+                    <tr *ngFor="let item of listData">
+                      <td class="text-center"
+                          *ngIf="functionUtility.checkFunction('Edit')">
+                        <button class="btn btn-warning btn-sm mr-2"
+                                (click)="onEdit(item)">
+                          <i class="{{iconButton.EDIT}}"
+                             aria-hidden="true"></i> {{"System.Action.Edit" | translate}}
+                        </button>
+                      </td>
+                      <td class="text-center"
+                          *ngIf="functionUtility.checkFunction('Delete')">
+                        <button class="btn btn-danger btn-sm"
+                                (click)="deleteData(item.directory_Code)">
+                          <i class="{{iconButton.DELETE}}"
+                             aria-hidden="true"></i> {{"System.Action.Delete" |
+                          translate}}
+                        </button>
+                      </td>
+                      <td class="text-left">{{item.directory_Code}}</td>
+                      <td class="text-left">{{item.directory_Name}}</td>
+                      <td class="text-left">{{item.parent_Directory_Code}}</td>
+                      <td class="text-left">{{item.seq}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <ng-template #elseTemplate>
+                <tbody>
+                  <tr>
+                    <td colspan="100%"
+                        class="table-warning text-center font-weight-bold">
+                      {{"System.Message.Nodata" | translate}}
+                    </td>
+                  </tr>
+                </tbody>
+              </ng-template>
+              <div class="row">
+                <div class="col-8">
+                  <div class="d-flex"
+                       *ngIf="listData?.length > 0 && pagination.totalPage > 0">
+                    <pagination [boundaryLinks]="true"
+                                [totalItems]="pagination.totalCount"
+                                [itemsPerPage]="pagination.pageSize"
+                                previousText="&lsaquo;"
+                                nextText="&rsaquo;"
+                                firstText="&laquo;"
+                                lastText="&raquo;"
+                                [maxSize]="5"
+                                [(ngModel)]="pagination.pageNumber"
+                                (pageChanged)="pageChanged($event)">
+                    </pagination>
+                    <span class="cs-page ml-2"> Page - {{ pagination.pageNumber }} / {{ pagination.totalPage }}</span>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <span class="cs-page float-right ">{{'System.Rows' | translate }} : {{pagination.totalCount}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

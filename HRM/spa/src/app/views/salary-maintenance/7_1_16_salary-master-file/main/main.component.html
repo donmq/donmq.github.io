@@ -1,0 +1,388 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">{{ title }}</strong>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="card-body">
+          <form class="row border-shadow"
+                #mainForm="ngForm">
+            <!-- Factory -->
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <div class="form-group">
+                <label for="factory"
+                       class="badge badge-warning">
+                  {{ "SalaryMaintenance.SalaryMasterFile.Factory" |
+                  translate }}
+                  <span class="text-danger text-bold"> *</span>
+                </label>
+                <ng-select id="factory"
+                           name="factory"
+                           [(ngModel)]="param.factory"
+                           (ngModelChange)="onChangeFactory()"
+                           placeholder="{{ 'SalaryMaintenance.SalaryMasterFile.Factory' | translate }}"
+                           [clearable]="param.factory != ''"
+                           (clear)="deleteProperty('factory')"
+                           required>
+                  <ng-option *ngFor="let data of listFactory"
+                             [value]="data.key">
+                    {{ data.value }}
+                  </ng-option>
+                </ng-select>
+              </div>
+            </div>
+            <!-- Department -->
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <div class="form-group">
+                <label for="department"
+                       class="badge badge-warning">
+                  {{ "SalaryMaintenance.SalaryMasterFile.Department" | translate }}
+                </label>
+                <ng-select id="department"
+                           name="department"
+                           [(ngModel)]="param.department"
+                           placeholder="{{ 'SalaryMaintenance.SalaryMasterFile.Department' | translate }}"
+                           [clearable]="param.department != ''"
+                           (clear)="deleteProperty('department')"
+                           [disabled]="!param.factory">
+                  <ng-option *ngFor="let data of listDepartment"
+                             [value]="data.key">
+                    {{ data.value }}
+                  </ng-option>
+                </ng-select>
+              </div>
+            </div>
+            <!-- Employee ID -->
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <div class="form-group">
+                <label for="employeeID"
+                       class="badge badge-warning">
+                  {{ "SalaryMaintenance.SalaryMasterFile.EmployeeID" | translate }}
+                </label>
+                <input type="text"
+                       class="form-control"
+                       id="employeeID"
+                       name="employeeID"
+                       maxlength="16"
+                       [(ngModel)]="param.employee_ID"
+                       placeholder="{{ 'SalaryMaintenance.SalaryMasterFile.EmployeeID' | translate }}"
+                       autocomplete="off" />
+              </div>
+            </div>
+            <!-- Employment Status -->
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <div class="form-group">
+                <label for="employmentStatus"
+                       class="badge badge-warning">
+                  {{ "SalaryMaintenance.SalaryMasterFile.EmploymentStatus" | translate }}
+                </label>
+                <ng-select id="employmentStatus"
+                           name="employmentStatus"
+                           [(ngModel)]="param.employment_Status"
+                           placeholder="{{ 'SalaryMaintenance.SalaryMasterFile.EmploymentStatus' | translate }}"
+                           [clearable]="param.employment_Status != ''"
+                           (clear)="deleteProperty('employment_Status')">
+                  <ng-option *ngFor="let data of listEmploymentStatus"
+                             [value]="data.key">
+                    {{ data.value | translate }}
+                  </ng-option>
+                </ng-select>
+              </div>
+            </div>
+
+            <!-- Position Title -->
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <div class="form-group">
+                <label for="positionTitle"
+                       class="badge badge-warning">
+                  {{ "SalaryMaintenance.SalaryMasterFile.PositionTitle" | translate }}
+                </label>
+                <ng-select id="positionTitle"
+                           name="positionTitle"
+                           [(ngModel)]="param.position_Title"
+                           placeholder="{{ 'SalaryMaintenance.SalaryMasterFile.PositionTitle' | translate }}"
+                           [clearable]="param.position_Title != ''"
+                           (clear)="deleteProperty('position_Title')">
+                  <ng-option *ngFor="let data of listPositionTitle"
+                             [value]="data.key">
+                    {{ data.value }}
+                  </ng-option>
+                </ng-select>
+              </div>
+            </div>
+            <!-- Salary Type -->
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <div class="form-group">
+                <label for="salaryType"
+                       class="badge badge-warning">
+                  {{ "SalaryMaintenance.SalaryMasterFile.SalaryType" | translate }}
+                </label>
+                <ng-select id="salaryType"
+                           name="salaryType"
+                           [(ngModel)]="param.salary_Type"
+                           placeholder="{{ 'SalaryMaintenance.SalaryMasterFile.SalaryType' | translate }}"
+                           [clearable]="param.salary_Type != ''"
+                           (clear)="deleteProperty('salary_Type')">
+                  <ng-option *ngFor="let data of listSalaryType"
+                             [value]="data.key">
+                    {{ data.value }}
+                  </ng-option>
+                </ng-select>
+              </div>
+            </div>
+
+            <!-- Salary Level -->
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <label for="salaryLevel"
+                     class="badge badge-warning">
+                {{ "SalaryMaintenance.SalaryMasterFile.Salary" | translate }}
+              </label>
+              <div class="form-group">
+                <div class="container_input">
+                  <div class="input-group mr-1">
+                    <input autocomplete="off"
+                           type="text"
+                           placeholder="{{'SalaryMaintenance.SalaryMasterFile.Grade' | translate }}"
+                           class="form-control text-center"
+                           name="salaryGrade"
+                           [(ngModel)]="param.salary_Grade"
+                           (keypress)="validateDecimal($event, 15)"
+                           (paste)="preventPaste($event)" />
+                    <div class="input-group-append">
+                      <span class="input-group-text">{{'SalaryMaintenance.SalaryMasterFile.Grade' | translate }}</span>
+                    </div>
+                  </div>
+                  <div class="input-group ml-1">
+                    <input autocomplete="off"
+                           type="text"
+                           placeholder="{{'SalaryMaintenance.SalaryMasterFile.Level' | translate }}"
+                           class="form-control text-center"
+                           name="salaryLevel"
+                           [(ngModel)]="param.salary_Level"
+                           (keypress)="validateDecimal($event, 9)"
+                           (paste)="preventPaste($event)" />
+                    <div class="input-group-append">
+                      <span class="input-group-text">{{'SalaryMaintenance.SalaryMasterFile.Level' | translate }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Permission Group -->
+            <div class="col-12">
+              <div class="row">
+                <div class="col-auto">
+                  <label for="factory"
+                         class="badge badge-warning">
+                    {{ "SalaryMaintenance.SalaryMasterFile.PermissionGroup" | translate }}
+                    <span class="text-danger text-bold"> *</span>
+                  </label>
+                  <ng-select [items]="permissionGroups"
+                             [multiple]="true"
+                             name="namePermission"
+                             groupBy="allGroup"
+                             [selectableGroup]="true"
+                             [selectableGroupAsModel]="false"
+                             [closeOnSelect]="false"
+                             bindLabel="value"
+                             bindValue="key"
+                             [(ngModel)]="param.permission_Group"
+                             required
+                             [clearable]="param.permission_Group?.length > 0"
+                             (clear)="clearPermissionGroup()"
+                             placeholder="{{
+                          'SalaryMaintenance.SalaryMasterFile.PermissionGroup'
+                            | translate
+                        }}">
+                    <ng-template ng-optgroup-tmp
+                                 let-item="item"
+                                 let-item$="item$"
+                                 let-index="index">
+                      <input id="item-{{ index }}"
+                             type="checkbox"
+                             name="item-{{ index }}"
+                             [ngModel]="item$.selected" />
+                      {{ "System.Action.SelectAll" | translate }}</ng-template>
+                    <ng-template ng-option-tmp
+                                 let-item="item"
+                                 let-item$="item$"
+                                 let-index="index">
+                      <input id="item-{{ index }}"
+                             name="item-{{ index }}"
+                             type="checkbox"
+                             [ngModel]="item$.selected" />
+                      {{ item.value }}
+                    </ng-template>
+                  </ng-select>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <label class="d-block">&nbsp;</label>
+              <button *ngIf="functionUtility.checkFunction('Search')"
+                      type="button"
+                      class="{{ classButton.SEARCH }}"
+                      (click)="search(true)"
+                      [disabled]="mainForm.invalid">
+                <i class="{{ iconButton.SEARCH }}"></i>
+                {{ "System.Action.Search" | translate }}
+              </button>
+              <button type="button"
+                      class="btn btn-danger"
+                      (click)="clear()">
+                <i class="{{ iconButton.CLEAR }}"></i>
+                {{ "System.Action.Clear" | translate }}
+              </button>
+              <button type="submit"
+                      class="btn btn-success ml-2"
+                      id="excel"
+                      (click)="download()"
+                      [disabled]="mainForm.invalid"
+                      *ngIf="functionUtility.checkFunction('Excel')">
+                <i class="{{iconButton.EXCEL}}"></i> {{"System.Action.Excel" | translate }}
+              </button>
+            </div>
+          </form>
+          <div class="row justify-content-md-center">
+            <div class="col-xl-12 col-xxl-12">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th *ngIf="functionUtility.checkFunction('Query')"
+                          class="text-center"
+                          [attr.colspan]="functionUtility.getColspan(['Query'])">
+                        {{ "System.Action.Operation" | translate }}
+                      </th>
+                      <th class="text-center">
+                        {{ "SalaryMaintenance.SalaryMasterFile.Factory" | translate }}
+                      </th>
+                      <th class="text-center">
+                        {{ "SalaryMaintenance.SalaryMasterFile.Department" | translate }}
+                      </th>
+                      <th class="text-center">
+                        {{ "SalaryMaintenance.SalaryMasterFile.EmployeeID" | translate }}
+                      </th>
+                      <th class="text-center">
+                        {{ "SalaryMaintenance.SalaryMasterFile.LocalFullName" | translate }}
+                      </th>
+                      <th class="text-center">
+                        {{ "SalaryMaintenance.SalaryMasterFile.EmploymentStatus" | translate }}
+                      </th>
+                      <th class="text-center">
+                        {{ "SalaryMaintenance.SalaryMasterFile.PositionTitle" | translate }}
+                      </th>
+                      <th class="text-center">
+                        {{ "SalaryMaintenance.SalaryMasterFile.PermissionGroup" | translate }}
+                      </th>
+                      <th class="text-center">
+                        {{ "SalaryMaintenance.SalaryMasterFile.SalaryType" | translate }}
+                      </th>
+                      <th class="text-center">
+                        {{ "SalaryMaintenance.SalaryMasterFile.SalaryGrade" | translate }}
+                      </th>
+                      <th class="text-center">
+                        {{ "SalaryMaintenance.SalaryMasterFile.SalaryLevel" | translate }}
+                      </th>
+                      <th class="text-center">
+                        {{ "SalaryMaintenance.SalaryMasterFile.Currency" | translate }}
+                      </th>
+                      <th class="text-center">
+                        {{ "SalaryMaintenance.SalaryMasterFile.EffectiveDate" | translate }}
+                      </th>
+                      <th class="text-center">
+                        {{ "SalaryMaintenance.SalaryMasterFile.UpdateBy" | translate }}
+                      </th>
+                      <th class="text-center">
+                        {{ "SalaryMaintenance.SalaryMasterFile.UpdateTime" | translate }}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="data?.length > 0; else elseTemplate">
+                    <tr *ngFor="let item of data; index as i">
+                      <td *ngIf="functionUtility.checkFunction('Query')"
+                          class="text-center text-nowrap">
+                        <button type="button"
+                                class="btn btn-info btn-sm"
+                                (click)="query(item)">
+                          <i class="{{ iconButton.VIEW }}"></i>
+                          {{ "System.Action.Query" | translate }}
+                        </button>
+                      </td>
+                      <td class="text-center">{{ item.factory }}</td>
+                      <td class="text-left">{{ item.department_Str }}</td>
+                      <td class="text-left">{{ item.employee_ID }}</td>
+                      <td class="text-left">{{ item.local_Full_Name }}</td>
+                      <td class="text-center">
+                        <span *ngIf="item.employment_Status == 'Y'"> {{
+                          'SalaryMaintenance.SalaryMasterFile.Onjob' | translate }}</span>
+                        <span *ngIf="item.employment_Status == 'N'"> {{
+                          'SalaryMaintenance.SalaryMasterFile.Resigned'| translate }}</span>
+                        <span *ngIf="item.employment_Status == 'U'"> {{
+                          'SalaryMaintenance.SalaryMasterFile.Unpaid'| translate }}</span>
+                      </td>
+                      <td class="text-left">{{ item.position_Title_Str }}</td>
+                      <td class="text-left">{{ item.permission_Group_Str }}</td>
+                      <td class="text-left">{{ item.salary_Type_Str }}</td>
+                      <td class="text-center">{{ item.salary_Grade }}</td>
+                      <td class="text-center">{{ item.salary_Level }}</td>
+                      <td class="text-center">{{ item.currency }}</td>
+                      <td class="text-center">{{ item.effective_Date }}</td>
+                      <td class="text-left">{{ item.update_By }}</td>
+                      <td class="text-center">{{ item.update_Time }}
+                      </td>
+                    </tr>
+                  </tbody>
+                  <ng-template #elseTemplate>
+                    <tbody>
+                      <tr>
+                        <td colspan="100%"
+                            class="table-warning text-center font-weight-bold">
+                          {{ "System.Message.Nodata" | translate }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </ng-template>
+                </table>
+              </div>
+              <div class="row">
+                <div class="col-8">
+                  <div class="d-flex"
+                       *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                    <pagination [boundaryLinks]="true"
+                                [maxSize]="5"
+                                [totalItems]="pagination.totalCount"
+                                [itemsPerPage]="pagination.pageSize"
+                                (pageChanged)="pageChanged($event)"
+                                [(ngModel)]="pagination.pageNumber"
+                                previousText="&lsaquo;"
+                                nextText="&rsaquo;"
+                                firstText="&laquo;"
+                                lastText="&raquo;">
+                    </pagination>
+                    <span class="cs-page ml-2">
+                      Page - {{ pagination.pageNumber }} /
+                      {{ pagination.totalPage }}
+                    </span>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <span class="cs-page float-right">{{ "System.Rows" | translate }} :
+                    {{ pagination.totalCount ?? 0 }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

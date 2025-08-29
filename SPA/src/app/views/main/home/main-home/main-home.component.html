@@ -2,7 +2,8 @@
   <div class="row">
     <div class="col-lg-12">
       <div class="card">
-        <form class="form-horizontal text-center" autocomplete="off">
+        <form class="form-horizontal text-center"
+              autocomplete="off">
           <!-- <h2 class="pt-2">LẬP KẾ HOẠCH HUẤN LUYỆN</h2>
           <h4>CHO CẦU THỦ TOP ELEVEN</h4> -->
         </form>
@@ -13,10 +14,18 @@
                 <label class>Chọn cầu thủ</label>
               </div>
               <div class="col-3">
-                <ng-select name="inforId" [(ngModel)]="param.inforID" (ngModelChange)="onSelect()">
+                <ng-select name="inforId"
+                           [(ngModel)]="param.inforID"
+                           (ngModelChange)="onSelect()">
                   <ng-option *ngFor="let item of players"
-                    value="{{ item.key }}">{{ item.value }}</ng-option>
+                             value="{{ item.key }}">{{ item.value }}</ng-option>
                 </ng-select>
+              </div>
+              <div class="col-3">
+                <button type="button"
+                        (click)="isCheckGK()"
+                        class="btn btn-danger ml-1">GK
+                </button>
               </div>
             </div>
           </div>
@@ -24,21 +33,36 @@
             <div class="row col-12 mt-4">
               <div class="col-4">
                 <label class>Tên cầu thủ</label>
-                <input autocomplete="off" type="text" class="form-control" name="Name" maxlength="100" [(ngModel)]="data.name" />
+                <input autocomplete="off"
+                       type="text"
+                       class="form-control"
+                       name="Name"
+                       maxlength="100"
+                       [(ngModel)]="data.name" />
               </div>
               <div class="col-4 ml-2">
                 <label>Vị Trí</label>
-                <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.position" />
+                <input autocomplete="off"
+                       type="text"
+                       class="form-control"
+                       name="role"
+                       [(ngModel)]="data.position" />
               </div>
               <div class="col-4">
                 <div class="row">
                   <label>Tư chất</label>
                   <div class="col-9">
-                    <input autocomplete="off" type="text" class="form-control" name="personality" [(ngModel)]="data.personality" />
+                    <input autocomplete="off"
+                           type="text"
+                           class="form-control"
+                           name="personality"
+                           [(ngModel)]="data.personality" />
 
                   </div>
                   <div class="col-3">
-                    <button type="button" (click)="openTemplate('tuChat')" class="btn btn-danger ml-1">
+                    <button type="button"
+                            (click)="openTemplate('tuChat')"
+                            class="btn btn-danger ml-1">
                       <i class="fa fa-plus"></i> Tính
                     </button>
                   </div>
@@ -49,72 +73,227 @@
             </div>
             <div class="col-12 mt-4">
               <div class="row">
-                <div class="col-4 element">
+                <div *ngIf="isGK == false"
+                     class="col-4 element">
                   <div class="top">
                     <label class="col-12 text-center">Phòng Thủ</label>
                     <div class="form-group row mt-1">
                       <label class="col-4">Cản phá</label>
                       <div class="col-7">
-                        <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.canPha" />
+                        <input autocomplete="off"
+                               type="text"
+                               class="form-control"
+                               name="role"
+                               [(ngModel)]="data.canPha" />
                       </div>
                     </div>
                     <div class="form-group row mt-1">
                       <label class="col-4">Kèm người</label>
                       <div class="col-7">
-                        <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.kemNguoi" />
+                        <input autocomplete="off"
+                               type="text"
+                               class="form-control"
+                               name="role"
+                               [(ngModel)]="data.kemNguoi" />
                       </div>
                     </div>
                     <div class="form-group row mt-1">
                       <label class="col-4">Chạy chỗ</label>
                       <div class="col-7">
-                        <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.chayCho" />
+                        <input autocomplete="off"
+                               type="text"
+                               class="form-control"
+                               name="role"
+                               [(ngModel)]="data.chayCho" />
                       </div>
                     </div>
                     <div class="form-group row mt-1">
                       <label class="col-4">Đánh đầu</label>
                       <div class="col-7">
-                        <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.danhDau" />
+                        <input autocomplete="off"
+                               type="text"
+                               class="form-control"
+                               name="role"
+                               [(ngModel)]="data.danhDau" />
                       </div>
                     </div>
                     <div class="form-group row mt-1">
                       <label class="col-4">Dũng cảm</label>
                       <div class="col-7">
-                        <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.dungCam" />
+                        <input autocomplete="off"
+                               type="text"
+                               class="form-control"
+                               name="role"
+                               [(ngModel)]="data.dungCam" />
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="col-4 element">
+                <div *ngIf="isGK == false"
+                     class="col-4 element">
                   <div class="mid">
                     <label class="col-12 text-center">Tấn Công</label>
                     <div class="form-group row mt-1">
                       <label class="col-4">Chuyền bóng</label>
                       <div class="col-7">
-                        <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.chuyenBong" />
+                        <input autocomplete="off"
+                               type="text"
+                               class="form-control"
+                               name="role"
+                               [(ngModel)]="data.chuyenBong" />
                       </div>
                     </div>
                     <div class="form-group row mt-1">
                       <label class="col-4">Rê bóng</label>
                       <div class="col-7">
-                        <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.reBong" />
+                        <input autocomplete="off"
+                               type="text"
+                               class="form-control"
+                               name="role"
+                               [(ngModel)]="data.reBong" />
                       </div>
                     </div>
                     <div class="form-group row mt-1">
                       <label class="col-4">Tạt cánh</label>
                       <div class="col-7">
-                        <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.tatCanh" />
+                        <input autocomplete="off"
+                               type="text"
+                               class="form-control"
+                               name="role"
+                               [(ngModel)]="data.tatCanh" />
                       </div>
                     </div>
                     <div class="form-group row mt-1">
                       <label class="col-4">Sút mạnh</label>
                       <div class="col-7">
-                        <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.sutManh" />
+                        <input autocomplete="off"
+                               type="text"
+                               class="form-control"
+                               name="role"
+                               [(ngModel)]="data.sutManh" />
                       </div>
                     </div>
                     <div class="form-group row mt-1">
                       <label class="col-4">Dứt điểm</label>
                       <div class="col-7">
-                        <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.dutDiem" />
+                        <input autocomplete="off"
+                               type="text"
+                               class="form-control"
+                               name="role"
+                               [(ngModel)]="data.dutDiem" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Thủ môn -->
+                <div *ngIf="isGK == true"
+                     class="col-4 element">
+                  <div class="top">
+                    <label class="col-12 text-center">Huấn luyện thủ môn</label>
+                    <div class="form-group row mt-1">
+                      <label class="col-4">Phản xạ</label>
+                      <div class="col-7">
+                        <input autocomplete="off"
+                               type="text"
+                               class="form-control"
+                               name="role"
+                               [(ngModel)]="data.phanXa" />
+                      </div>
+                    </div>
+                    <div class="form-group row mt-1">
+                      <label class="col-4">Nhanh nhẹn</label>
+                      <div class="col-7">
+                        <input autocomplete="off"
+                               type="text"
+                               class="form-control"
+                               name="role"
+                               [(ngModel)]="data.nhanhNhen" />
+                      </div>
+                    </div>
+                    <div class="form-group row mt-1">
+                      <label class="col-4">Phán đoán</label>
+                      <div class="col-7">
+                        <input autocomplete="off"
+                               type="text"
+                               class="form-control"
+                               name="role"
+                               [(ngModel)]="data.phanDoan" />
+                      </div>
+                    </div>
+                    <div class="form-group row mt-1">
+                      <label class="col-4">Lao ra CP</label>
+                      <div class="col-7">
+                        <input autocomplete="off"
+                               type="text"
+                               class="form-control"
+                               name="role"
+                               [(ngModel)]="data.laoRaCanPha" />
+                      </div>
+                    </div>
+                    <div class="form-group row mt-1">
+                      <label class="col-4">Giao tiếp</label>
+                      <div class="col-7">
+                        <input autocomplete="off"
+                               type="text"
+                               class="form-control"
+                               name="role"
+                               [(ngModel)]="data.giaoTiep" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="isGK == true"
+                     class="col-4 element">
+                  <div class="mid">
+                    <label class="col-12 text-center">Huấn luyện thủ môn</label>
+                    <div class="form-group row mt-1">
+                      <label class="col-4">Ném</label>
+                      <div class="col-7">
+                        <input autocomplete="off"
+                               type="text"
+                               class="form-control"
+                               name="role"
+                               [(ngModel)]="data.nem" />
+                      </div>
+                    </div>
+                    <div class="form-group row mt-1">
+                      <label class="col-4">Đá</label>
+                      <div class="col-7">
+                        <input autocomplete="off"
+                               type="text"
+                               class="form-control"
+                               name="role"
+                               [(ngModel)]="data.da" />
+                      </div>
+                    </div>
+                    <div class="form-group row mt-1">
+                      <label class="col-4">Đấm bóng</label>
+                      <div class="col-7">
+                        <input autocomplete="off"
+                               type="text"
+                               class="form-control"
+                               name="role"
+                               [(ngModel)]="data.damBong" />
+                      </div>
+                    </div>
+                    <div class="form-group row mt-1">
+                      <label class="col-4">Tầm với</label>
+                      <div class="col-7">
+                        <input autocomplete="off"
+                               type="text"
+                               class="form-control"
+                               name="role"
+                               [(ngModel)]="data.tamVoi" />
+                      </div>
+                    </div>
+                    <div class="form-group row mt-1">
+                      <label class="col-4">Tập trung</label>
+                      <div class="col-7">
+                        <input autocomplete="off"
+                               type="text"
+                               class="form-control"
+                               name="role"
+                               [(ngModel)]="data.tapChung" />
                       </div>
                     </div>
                   </div>
@@ -125,31 +304,51 @@
                     <div class="form-group row mt-1">
                       <label class="col-4">Thể lực</label>
                       <div class="col-7">
-                        <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.theLuc" />
+                        <input autocomplete="off"
+                               type="text"
+                               class="form-control"
+                               name="role"
+                               [(ngModel)]="data.theLuc" />
                       </div>
                     </div>
                     <div class="form-group row mt-1">
                       <label class="col-4">Sức mạnh</label>
                       <div class="col-7">
-                        <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.sucManh" />
+                        <input autocomplete="off"
+                               type="text"
+                               class="form-control"
+                               name="role"
+                               [(ngModel)]="data.sucManh" />
                       </div>
                     </div>
                     <div class="form-group row mt-1">
                       <label class="col-4">Xông xáo</label>
                       <div class="col-7">
-                        <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.xongXao" />
+                        <input autocomplete="off"
+                               type="text"
+                               class="form-control"
+                               name="role"
+                               [(ngModel)]="data.xongXao" />
                       </div>
                     </div>
                     <div class="form-group row mt-1">
                       <label class="col-4">Tốc độ</label>
                       <div class="col-7">
-                        <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.tocDo" />
+                        <input autocomplete="off"
+                               type="text"
+                               class="form-control"
+                               name="role"
+                               [(ngModel)]="data.tocDo" />
                       </div>
                     </div>
                     <div class="form-group row mt-1">
                       <label class="col-4">Sáng tạo</label>
                       <div class="col-7">
-                        <input autocomplete="off" type="text" class="form-control" name="role" [(ngModel)]="data.sangTao" />
+                        <input autocomplete="off"
+                               type="text"
+                               class="form-control"
+                               name="role"
+                               [(ngModel)]="data.sangTao" />
                       </div>
                     </div>
                   </div>
@@ -159,7 +358,9 @@
             <div class="row">
               <div class="col-12">
                 <label class="d-block">&nbsp;</label>
-                <button type="button" (click)="chuyenThongTin()" class="btn btn-success ml-1">
+                <button type="button"
+                        (click)="chuyenThongTin()"
+                        class="btn btn-success ml-1">
                   <i class="fa fa-plus"></i> Chuyển thông tin
                 </button>
                 <button type="button"
@@ -167,62 +368,96 @@
                         class="btn btn-success ml-1">
                   <i class="fa fa-plus"></i> 1 Tuổi
                 </button>
-                <button type="button" (click)="save('add')" class="btn btn-danger ml-1">
+                <button type="button"
+                        (click)="save('add')"
+                        class="btn btn-danger ml-1">
                   <i class="fa fa-plus"></i> Lưu thông tin
                 </button>
-                <button type="button" (click)="save('edit')" class="btn btn-danger ml-1">
+                <button type="button"
+                        (click)="save('edit')"
+                        class="btn btn-danger ml-1">
                   <i class="fa fa-plus"></i> Sửa Thông tin
                 </button>
-                <button type="button" (click)="delete()" class="btn btn-danger ml-1">
+                <button type="button"
+                        (click)="delete()"
+                        class="btn btn-danger ml-1">
                   <i class="fa fa-plus"></i> Xóa Cầu thủ
                 </button>
               </div>
               <div class="row col-12">
                 <div class=" col-4">
                   <label class="ml-1">Điểm trung bình</label>
-                  <input autocomplete="off" type="text" class="form-control" name="diemTBTong" maxlength="100" [(ngModel)]="diemTB" />
+                  <input autocomplete="off"
+                         type="text"
+                         class="form-control"
+                         name="diemTBTong"
+                         maxlength="100"
+                         [(ngModel)]="diemTB" />
                 </div>
                 <div class=" col-4"> <!-- Thay đổi class margin-left nếu cần -->
                   <label class="ml-1">Thuộc tính</label>
-                  <ng-select id="keyAttribute" name="keyAttribute" [(ngModel)]="keyAttribute" (ngModelChange)="onChangesKey()">
-                    <ng-option *ngFor="let item of keys" value="{{ item.key }}">{{ item.key }}</ng-option>
+                  <ng-select id="keyAttribute"
+                             name="keyAttribute"
+                             [(ngModel)]="keyAttribute"
+                             (ngModelChange)="onChangesKey()">
+                    <ng-option *ngFor="let item of keys"
+                               value="{{ item.key }}">{{ item.key }}</ng-option>
                   </ng-select>
                   <div *ngFor="let item of exerciesForAttributes">{{item.value}}</div>
                 </div>
                 <div class="col-4">
                   <label class="ml-1">Phương án</label>
-                <ng-select id="plan" name="plan" [(ngModel)]="param.planID" (ngModelChange)="getData(param.planID)">
-                  <ng-option *ngFor="let item of listPlan"
-                    value="{{ item.key }}">{{ item.value }}</ng-option>
-                </ng-select>
-              </div>
+                  <ng-select id="plan"
+                             name="plan"
+                             [(ngModel)]="param.planID"
+                             (ngModelChange)="getData(param.planID)">
+                    <ng-option *ngFor="let item of listPlan"
+                               value="{{ item.key }}">{{ item.value }}</ng-option>
+                  </ng-select>
+                </div>
               </div>
             </div>
           </div>
           <div class="row justify-content-md-center">
             <div class="col-xl-12">
               <div class="table-responsive">
-                <table class="table table-bordered" style="border-collapse: separate;">
+                <table class="table table-bordered"
+                       style="border-collapse: separate;">
                   <thead>
                     <tr>
                       <th></th>
                       <th class="text-center">Bài tập</th>
                       <th class="text-center">Điểm TB</th>
-                      <th class="text-center green-border" [ngClass]="{'disabled-cell': stand[0]?.value === '0'}">Cản phá</th>
-                      <th class="text-center green-border" [ngClass]="{'disabled-cell': stand[1]?.value === '0'}">Kèm người</th>
-                      <th class="text-center green-border" [ngClass]="{'disabled-cell': stand[2]?.value === '0'}">Chạy chỗ</th>
-                      <th class="text-center green-border" [ngClass]="{'disabled-cell': stand[3]?.value === '0'}">Đánh đầu</th>
-                      <th class="text-center green-border" [ngClass]="{'disabled-cell': stand[4]?.value === '0'}">Dũng cảm</th>
-                      <th class="text-center red-border" [ngClass]="{'disabled-cell': stand[5]?.value === '0'}">Chuyền bóng</th>
-                      <th class="text-center red-border" [ngClass]="{'disabled-cell': stand[6]?.value === '0'}">Rê bóng</th>
-                      <th class="text-center red-border" [ngClass]="{'disabled-cell': stand[7]?.value === '0'}">Tạt cánh</th>
-                      <th class="text-center red-border" [ngClass]="{'disabled-cell': stand[8]?.value === '0'}">Sút mạnh</th>
-                      <th class="text-center red-border" [ngClass]="{'disabled-cell': stand[9]?.value === '0'}">Dứt điểm</th>
-                      <th class="text-center blue-border" [ngClass]="{'disabled-cell': stand[10]?.value === '0'}">Thể lực</th>
-                      <th class="text-center blue-border" [ngClass]="{'disabled-cell': stand[11]?.value === '0'}">Sức mạnh</th>
-                      <th class="text-center blue-border" [ngClass]="{'disabled-cell': stand[12]?.value === '0'}">Xông xáo</th>
-                      <th class="text-center blue-border" [ngClass]="{'disabled-cell': stand[13]?.value === '0'}">Tốc độ</th>
-                      <th class="text-center blue-border" [ngClass]="{'disabled-cell': stand[14]?.value === '0'}">Sáng tạo</th>
+                      <th class="text-center green-border"
+                          [ngClass]="{'disabled-cell': stand[0]?.value === '0'}">Cản phá</th>
+                      <th class="text-center green-border"
+                          [ngClass]="{'disabled-cell': stand[1]?.value === '0'}">Kèm người</th>
+                      <th class="text-center green-border"
+                          [ngClass]="{'disabled-cell': stand[2]?.value === '0'}">Chạy chỗ</th>
+                      <th class="text-center green-border"
+                          [ngClass]="{'disabled-cell': stand[3]?.value === '0'}">Đánh đầu</th>
+                      <th class="text-center green-border"
+                          [ngClass]="{'disabled-cell': stand[4]?.value === '0'}">Dũng cảm</th>
+                      <th class="text-center red-border"
+                          [ngClass]="{'disabled-cell': stand[5]?.value === '0'}">Chuyền bóng</th>
+                      <th class="text-center red-border"
+                          [ngClass]="{'disabled-cell': stand[6]?.value === '0'}">Rê bóng</th>
+                      <th class="text-center red-border"
+                          [ngClass]="{'disabled-cell': stand[7]?.value === '0'}">Tạt cánh</th>
+                      <th class="text-center red-border"
+                          [ngClass]="{'disabled-cell': stand[8]?.value === '0'}">Sút mạnh</th>
+                      <th class="text-center red-border"
+                          [ngClass]="{'disabled-cell': stand[9]?.value === '0'}">Dứt điểm</th>
+                      <th class="text-center blue-border"
+                          [ngClass]="{'disabled-cell': stand[10]?.value === '0'}">Thể lực</th>
+                      <th class="text-center blue-border"
+                          [ngClass]="{'disabled-cell': stand[11]?.value === '0'}">Sức mạnh</th>
+                      <th class="text-center blue-border"
+                          [ngClass]="{'disabled-cell': stand[12]?.value === '0'}">Xông xáo</th>
+                      <th class="text-center blue-border"
+                          [ngClass]="{'disabled-cell': stand[13]?.value === '0'}">Tốc độ</th>
+                      <th class="text-center blue-border"
+                          [ngClass]="{'disabled-cell': stand[14]?.value === '0'}">Sáng tạo</th>
                       <th class="text-center">Chất lượng chung</th>
                       <th class="text-center">Tổng điểm tập</th>
                       <th class="text-center"></th>
@@ -232,28 +467,43 @@
                     <tr>
                       <td>
                         <button type="button"
-                          class="btn btn-success btn-sm"
-                          (click)="addItem()">
+                                class="btn btn-success btn-sm"
+                                (click)="addItem()">
                           <i class="fa fa-plus"></i>
                         </button>
                       </td>
                       <td class="text-center">{{dataTable.name}}</td>
                       <td class="text-center">{{dataTable.position}}</td>
-                      <td class="text-center green-border" [ngClass]="{'disabled-cell': stand[0]?.value === '0'}">{{dataTable.canPha}}</td>
-                      <td class="text-center green-border" [ngClass]="{'disabled-cell': stand[1]?.value === '0'}">{{dataTable.kemNguoi}}</td>
-                      <td class="text-center green-border" [ngClass]="{'disabled-cell': stand[2]?.value === '0'}">{{dataTable.chayCho}}</td>
-                      <td class="text-center green-border" [ngClass]="{'disabled-cell': stand[3]?.value === '0'}">{{dataTable.danhDau}}</td>
-                      <td class="text-center green-border" [ngClass]="{'disabled-cell': stand[4]?.value === '0'}">{{dataTable.dungCam}}</td>
-                      <td class="text-center red-border" [ngClass]="{'disabled-cell': stand[5]?.value === '0'}">{{dataTable.chuyenBong}}</td>
-                      <td class="text-center red-border" [ngClass]="{'disabled-cell': stand[6]?.value === '0'}">{{dataTable.reBong}}</td>
-                      <td class="text-center red-border" [ngClass]="{'disabled-cell': stand[7]?.value === '0'}">{{dataTable.tatCanh}}</td>
-                      <td class="text-center red-border" [ngClass]="{'disabled-cell': stand[8]?.value === '0'}">{{dataTable.sutManh}}</td>
-                      <td class="text-center red-border" [ngClass]="{'disabled-cell': stand[9]?.value === '0'}">{{dataTable.dutDiem}}</td>
-                      <td class="text-center blue-border" [ngClass]="{'disabled-cell': stand[10]?.value === '0'}">{{dataTable.theLuc}}</td>
-                      <td class="text-center blue-border" [ngClass]="{'disabled-cell': stand[11]?.value === '0'}">{{dataTable.sucManh}}</td>
-                      <td class="text-center blue-border" [ngClass]="{'disabled-cell': stand[12]?.value === '0'}">{{dataTable.xongXao}}</td>
-                      <td class="text-center blue-border" [ngClass]="{'disabled-cell': stand[13]?.value === '0'}">{{dataTable.tocDo}}</td>
-                      <td class="text-center blue-border" [ngClass]="{'disabled-cell': stand[14]?.value === '0'}">{{dataTable.sangTao}}</td>
+                      <td class="text-center green-border"
+                          [ngClass]="{'disabled-cell': stand[0]?.value === '0'}">{{dataTable.canPha}}</td>
+                      <td class="text-center green-border"
+                          [ngClass]="{'disabled-cell': stand[1]?.value === '0'}">{{dataTable.kemNguoi}}</td>
+                      <td class="text-center green-border"
+                          [ngClass]="{'disabled-cell': stand[2]?.value === '0'}">{{dataTable.chayCho}}</td>
+                      <td class="text-center green-border"
+                          [ngClass]="{'disabled-cell': stand[3]?.value === '0'}">{{dataTable.danhDau}}</td>
+                      <td class="text-center green-border"
+                          [ngClass]="{'disabled-cell': stand[4]?.value === '0'}">{{dataTable.dungCam}}</td>
+                      <td class="text-center red-border"
+                          [ngClass]="{'disabled-cell': stand[5]?.value === '0'}">{{dataTable.chuyenBong}}</td>
+                      <td class="text-center red-border"
+                          [ngClass]="{'disabled-cell': stand[6]?.value === '0'}">{{dataTable.reBong}}</td>
+                      <td class="text-center red-border"
+                          [ngClass]="{'disabled-cell': stand[7]?.value === '0'}">{{dataTable.tatCanh}}</td>
+                      <td class="text-center red-border"
+                          [ngClass]="{'disabled-cell': stand[8]?.value === '0'}">{{dataTable.sutManh}}</td>
+                      <td class="text-center red-border"
+                          [ngClass]="{'disabled-cell': stand[9]?.value === '0'}">{{dataTable.dutDiem}}</td>
+                      <td class="text-center blue-border"
+                          [ngClass]="{'disabled-cell': stand[10]?.value === '0'}">{{dataTable.theLuc}}</td>
+                      <td class="text-center blue-border"
+                          [ngClass]="{'disabled-cell': stand[11]?.value === '0'}">{{dataTable.sucManh}}</td>
+                      <td class="text-center blue-border"
+                          [ngClass]="{'disabled-cell': stand[12]?.value === '0'}">{{dataTable.xongXao}}</td>
+                      <td class="text-center blue-border"
+                          [ngClass]="{'disabled-cell': stand[13]?.value === '0'}">{{dataTable.tocDo}}</td>
+                      <td class="text-center blue-border"
+                          [ngClass]="{'disabled-cell': stand[14]?.value === '0'}">{{dataTable.sangTao}}</td>
                       <td class="text-center"> {{dataTable.chatLuongChung}}</td>
                       <td class="text-center"></td>
                       <td></td>
@@ -261,28 +511,43 @@
                     <tr>
                       <td>
                         <button type="button"
-                          class="btn btn-success btn-sm"
-                          (click)="addItem()">
+                                class="btn btn-success btn-sm"
+                                (click)="addItem()">
                           <i class="fa fa-plus"></i>
                         </button>
                       </td>
                       <td class="text-center">Kết quả tập luyện</td>
                       <td></td>
-                      <td class="text-center green-border" [ngClass]="{'disabled-cell': stand[0]?.value === '0'}">{{dataKetQua.canPha}}</td>
-                      <td class="text-center green-border" [ngClass]="{'disabled-cell': stand[1]?.value === '0'}">{{dataKetQua.kemNguoi}}</td>
-                      <td class="text-center green-border" [ngClass]="{'disabled-cell': stand[2]?.value === '0'}">{{dataKetQua.chayCho}}</td>
-                      <td class="text-center green-border" [ngClass]="{'disabled-cell': stand[3]?.value === '0'}">{{dataKetQua.danhDau}}</td>
-                      <td class="text-center green-border" [ngClass]="{'disabled-cell': stand[4]?.value === '0'}">{{dataKetQua.dungCam}}</td>
-                      <td class="text-center red-border" [ngClass]="{'disabled-cell': stand[5]?.value === '0'}">{{dataKetQua.chuyenBong}}</td>
-                      <td class="text-center red-border" [ngClass]="{'disabled-cell': stand[6]?.value === '0'}">{{dataKetQua.reBong}}</td>
-                      <td class="text-center red-border" [ngClass]="{'disabled-cell': stand[7]?.value === '0'}">{{dataKetQua.tatCanh}}</td>
-                      <td class="text-center red-border" [ngClass]="{'disabled-cell': stand[8]?.value === '0'}">{{dataKetQua.sutManh}}</td>
-                      <td class="text-center red-border" [ngClass]="{'disabled-cell': stand[9]?.value === '0'}">{{dataKetQua.dutDiem}}</td>
-                      <td class="text-center blue-border" [ngClass]="{'disabled-cell': stand[10]?.value === '0'}">{{dataKetQua.theLuc}}</td>
-                      <td class="text-center blue-border" [ngClass]="{'disabled-cell': stand[11]?.value === '0'}">{{dataKetQua.sucManh}}</td>
-                      <td class="text-center blue-border" [ngClass]="{'disabled-cell': stand[12]?.value === '0'}">{{dataKetQua.xongXao}}</td>
-                      <td class="text-center blue-border" [ngClass]="{'disabled-cell': stand[13]?.value === '0'}">{{dataKetQua.tocDo}}</td>
-                      <td class="text-center blue-border" [ngClass]="{'disabled-cell': stand[14]?.value === '0'}">{{dataKetQua.sangTao}}</td>
+                      <td class="text-center green-border"
+                          [ngClass]="{'disabled-cell': stand[0]?.value === '0'}">{{dataKetQua.canPha}}</td>
+                      <td class="text-center green-border"
+                          [ngClass]="{'disabled-cell': stand[1]?.value === '0'}">{{dataKetQua.kemNguoi}}</td>
+                      <td class="text-center green-border"
+                          [ngClass]="{'disabled-cell': stand[2]?.value === '0'}">{{dataKetQua.chayCho}}</td>
+                      <td class="text-center green-border"
+                          [ngClass]="{'disabled-cell': stand[3]?.value === '0'}">{{dataKetQua.danhDau}}</td>
+                      <td class="text-center green-border"
+                          [ngClass]="{'disabled-cell': stand[4]?.value === '0'}">{{dataKetQua.dungCam}}</td>
+                      <td class="text-center red-border"
+                          [ngClass]="{'disabled-cell': stand[5]?.value === '0'}">{{dataKetQua.chuyenBong}}</td>
+                      <td class="text-center red-border"
+                          [ngClass]="{'disabled-cell': stand[6]?.value === '0'}">{{dataKetQua.reBong}}</td>
+                      <td class="text-center red-border"
+                          [ngClass]="{'disabled-cell': stand[7]?.value === '0'}">{{dataKetQua.tatCanh}}</td>
+                      <td class="text-center red-border"
+                          [ngClass]="{'disabled-cell': stand[8]?.value === '0'}">{{dataKetQua.sutManh}}</td>
+                      <td class="text-center red-border"
+                          [ngClass]="{'disabled-cell': stand[9]?.value === '0'}">{{dataKetQua.dutDiem}}</td>
+                      <td class="text-center blue-border"
+                          [ngClass]="{'disabled-cell': stand[10]?.value === '0'}">{{dataKetQua.theLuc}}</td>
+                      <td class="text-center blue-border"
+                          [ngClass]="{'disabled-cell': stand[11]?.value === '0'}">{{dataKetQua.sucManh}}</td>
+                      <td class="text-center blue-border"
+                          [ngClass]="{'disabled-cell': stand[12]?.value === '0'}">{{dataKetQua.xongXao}}</td>
+                      <td class="text-center blue-border"
+                          [ngClass]="{'disabled-cell': stand[13]?.value === '0'}">{{dataKetQua.tocDo}}</td>
+                      <td class="text-center blue-border"
+                          [ngClass]="{'disabled-cell': stand[14]?.value === '0'}">{{dataKetQua.sangTao}}</td>
                       <td class="text-center">{{dataKetQua.chatLuongChung}}</td>
                       <td></td>
                       <td></td>
@@ -290,29 +555,37 @@
                     <tr *ngFor="let dataItem of dataAfter; let i = index ">
                       <td>
                         <button type="button"
-                          class="btn btn-success btn-sm"
-                          (click)="addItem()">
+                                class="btn btn-success btn-sm"
+                                (click)="addItem()">
                           <i class="fa fa-plus"></i>
                         </button>
                       </td>
                       <td>
-                        <ng-select class="custom-select" [id]="'baiTap' + i" [name]="'baiTap' + i" [(ngModel)]="dataItem.exerciseID" (ngModelChange)="changeBaiTap(i, dataItem)" appendTo="ng-select">
-                          <ng-option *ngFor="let item of exercise" [value]="item.key">{{ item.value }}</ng-option>
+                        <ng-select class="custom-select"
+                                   [id]="'baiTap' + i"
+                                   [name]="'baiTap' + i"
+                                   [(ngModel)]="dataItem.exerciseID"
+                                   (ngModelChange)="changeBaiTap(i, dataItem)"
+                                   appendTo="ng-select">
+                          <ng-option *ngFor="let item of exercise"
+                                     [value]="item.key">{{ item.value }}</ng-option>
                         </ng-select>
                       </td>
                       <td>
                         <input type="number"
-                          class="form-control text-center"
-                          [name]="'diemTB' + i"
-                          min="0"
-                          max="180"
-                          pattern="^[1-9][0-9]?$"
-                          (input)="dataItem.average = (dataItem.average > 180 ? 180 : dataItem.average)"
-                          (keyup)="dataItem.average = (dataItem.average > 180 ? 180 : dataItem.average)"
-                          [(ngModel)]="dataItem.average"
-                          (ngModelChange)="changeBaiTap(i, dataItem)">
+                               class="form-control text-center"
+                               [name]="'diemTB' + i"
+                               min="0"
+                               max="180"
+                               pattern="^[1-9][0-9]?$"
+                               (input)="dataItem.average = (dataItem.average > 180 ? 180 : dataItem.average)"
+                               (keyup)="dataItem.average = (dataItem.average > 180 ? 180 : dataItem.average)"
+                               [(ngModel)]="dataItem.average"
+                               (ngModelChange)="changeBaiTap(i, dataItem)">
                       </td>
-                      <td *ngFor="let item of keys" [class]="'text-center red-border-' + i" [ngClass]="{
+                      <td *ngFor="let item of keys"
+                          [class]="'text-center red-border-' + i"
+                          [ngClass]="{
                         'green-border': item.value === '1',
                         'red-border': item.value === '2',
                         'blue-border': item.value === '3',
@@ -325,9 +598,9 @@
                       <td class="text-center">{{dataItem?.soDiemTap}}</td>
                       <td>
                         <button class="btn btn-danger btn-sm"
-                          (click)="removeItem(i)">
+                                (click)="removeItem(i)">
                           <i class="fa fa-trash-o"
-                            aria-hidden="true"></i>
+                             aria-hidden="true"></i>
                         </button>
                       </td>
                     </tr>
@@ -335,16 +608,24 @@
                 </table>
                 <div class="col-12">
                   <label class="d-block">&nbsp;</label>
-                  <button type="button" (click)="addItem()" class="btn btn-success ml-1">
+                  <button type="button"
+                          (click)="addItem()"
+                          class="btn btn-success ml-1">
                     <i class="fa fa-plus"></i> Thêm bài tập
                   </button>
-                  <button type="button" (click)="openTemplate('ketQua')" class="btn btn-danger ml-1">
+                  <button type="button"
+                          (click)="openTemplate('ketQua')"
+                          class="btn btn-danger ml-1">
                     <i class="fa fa-plus"></i> Xem kết quả
                   </button>
-                  <button type="button" (click)="createCompare()" class="btn btn-success ml-1">
+                  <button type="button"
+                          (click)="createCompare()"
+                          class="btn btn-success ml-1">
                     <i class="fa fa-plus"></i> Thêm phương án
                   </button>
-                  <button type="button" (click)="openTemplate('soSanh')" class="btn btn-danger ml-1">
+                  <button type="button"
+                          (click)="openTemplate('soSanh')"
+                          class="btn btn-danger ml-1">
                     <i class="fa fa-plus"></i> So sánh Phương án
                   </button>
                 </div>
@@ -360,11 +641,16 @@
 <ng-template #templateTuChat>
   <!-- <div class="modal-container"> -->
   <div class="modal-header">
-    <h4 id="dialog-static-name" class="modal-title pull-left">
+    <h4 id="dialog-static-name"
+        class="modal-title pull-left">
       <strong>Tư Chất </strong>
     </h4>
-    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="closeTemplate()">
-      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    <button type="button"
+            class="btn-close close pull-right"
+            aria-label="Close"
+            (click)="closeTemplate()">
+      <span aria-hidden="true"
+            class="visually-hidden">&times;</span>
     </button>
   </div>
   <div class="modal-body">
@@ -377,11 +663,16 @@
 <ng-template #templateKetQua>
   <!-- <div class="modal-container"> -->
   <div class="modal-header">
-    <h4 id="dialog-static-name" class="modal-title pull-left">
+    <h4 id="dialog-static-name"
+        class="modal-title pull-left">
       <strong>Kết Quả </strong>
     </h4>
-    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="closeTemplate()">
-      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    <button type="button"
+            class="btn-close close pull-right"
+            aria-label="Close"
+            (click)="closeTemplate()">
+      <span aria-hidden="true"
+            class="visually-hidden">&times;</span>
     </button>
   </div>
   <div class="modal-body">
@@ -390,7 +681,8 @@
         <table class="table table-bordered">
           <thead>
             <tr>
-              <th colspan="3" class="text-center">Phòng thủ</th>
+              <th colspan="3"
+                  class="text-center">Phòng thủ</th>
             </tr>
           </thead>
           <thead>
@@ -413,7 +705,8 @@
         <table class="table table-bordered">
           <thead>
             <tr>
-              <th colspan="3" class="text-center">Tấn Công</th>
+              <th colspan="3"
+                  class="text-center">Tấn Công</th>
             </tr>
           </thead>
           <thead>
@@ -436,7 +729,8 @@
         <table class="table table-bordered">
           <thead>
             <tr>
-              <th colspan="3" class="text-center">Thể Chất</th>
+              <th colspan="3"
+                  class="text-center">Thể Chất</th>
             </tr>
           </thead>
           <thead>
@@ -464,11 +758,16 @@
 <ng-template #templateSoSanh>
   <!-- <div class="modal-container"> -->
   <div class="modal-header">
-    <h4 id="dialog-static-name" class="modal-title pull-left">
+    <h4 id="dialog-static-name"
+        class="modal-title pull-left">
       <strong>So Sánh </strong>
     </h4>
-    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="closeTemplate()">
-      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    <button type="button"
+            class="btn-close close pull-right"
+            aria-label="Close"
+            (click)="closeTemplate()">
+      <span aria-hidden="true"
+            class="visually-hidden">&times;</span>
     </button>
   </div>
   <div class="modal-body">
@@ -476,24 +775,31 @@
       <table class="table table-striped-columns">
         <thead>
           <tr>
-            <th colspan="4" class="text-center">So sánh</th>
+            <th colspan="4"
+                class="text-center">So sánh</th>
           </tr>
         </thead>
         <thead>
           <tr>
             <th class="text-center">Kỹ năng</th>
-            <th class="text-center" *ngFor="let pa of listCompares; let i = index">Phương án {{i + 1}}</th>
+            <th class="text-center"
+                *ngFor="let pa of listCompares; let i = index">Phương án {{i + 1}}</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let item of keys">
             <td class="text-center">{{item.key}}</td>
-            <td class="text-center" *ngFor="let pa of listCompares">{{pa[item.key]}}</td>
+            <td class="text-center"
+                *ngFor="let pa of listCompares">{{pa[item.key]}}</td>
           </tr>
           <tr>
             <td></td>
-            <td *ngFor="let pa of listCompares; let i = index" colspan="{{listCompares.length + 1}}" class="text-center">
-              <button type="button" (click)="deleteCompare(pa)" class="btn btn-danger ml-1">
+            <td *ngFor="let pa of listCompares; let i = index"
+                colspan="{{listCompares.length + 1}}"
+                class="text-center">
+              <button type="button"
+                      (click)="deleteCompare(pa)"
+                      class="btn btn-danger ml-1">
                 <i class="fa fa-remove"></i>
               </button>
             </td>

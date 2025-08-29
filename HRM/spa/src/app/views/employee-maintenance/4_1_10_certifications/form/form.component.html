@@ -1,0 +1,310 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off"
+              #subForm="ngForm">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">{{ title }} - {{ 'System.Action.' + action | translate }}</strong>
+                <button type="button"
+                        class="{{classButton.BACK}}"
+                        (click)="back()">
+                  <i class="{{ iconButton.BACK }}"></i> {{'System.Action.Back' | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row border-shadow">
+              <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning">{{'EmployeeInformationModule.Certifications.Division' | translate }}<span class="text-danger">
+                    *</span></label>
+                <ng-select name="division"
+                           [(ngModel)]="param.division"
+                           (clear)="deleteProperty('division')"
+                           (ngModelChange)="onDivisionChange()"
+                           [clearable]="param.division !== ''"
+                           placeholder="{{'EmployeeInformationModule.Certifications.Division' | translate }}"
+                           [disabled]="action=='Edit'"
+                           required>
+                  <ng-option *ngFor="let item of divisionList"
+                             [value]="item.key">{{ item.value }}</ng-option>
+                </ng-select>
+              </div>
+              <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning">{{'EmployeeInformationModule.Certifications.Factory' | translate }}<span class="text-danger">
+                    *</span></label>
+                <ng-select name="factory"
+                           [(ngModel)]="param.factory"
+                           (clear)="deleteProperty('factory')"
+                           (ngModelChange)="onFactoryChange()"
+                           [clearable]="param.factory !== ''"
+                           placeholder="{{'EmployeeInformationModule.Certifications.Factory' | translate }}"
+                           [disabled]="action=='Edit' || !param.division"
+                           required>
+                  <ng-option *ngFor="let item of factoryList"
+                             [value]="item.key">{{ item.value }}</ng-option>
+                </ng-select>
+              </div>
+              <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <label for="textEmployeeID"
+                       class="badge badge-warning">{{'EmployeeInformationModule.Certifications.EmployeeID' | translate }}<span class="text-danger">
+                    *</span></label>
+                <input autocomplete="off"
+                       type="text"
+                       placeholder="{{'EmployeeInformationModule.Certifications.EmployeeID' | translate }}"
+                       class="form-control"
+                       maxlength="9"
+                       name="employeeId"
+                       [(ngModel)]="param.employee_Id"
+                       (ngModelChange)="onEmployeeChange()"
+                       typeaheadOptionField="key"
+                       [typeahead]="employeeList$"
+                       (typeaheadOnSelect)="onTypehead($event)"
+                       [typeaheadScrollable]="true"
+                       [typeaheadOptionsInScrollableView]="5"
+                       [typeaheadAsync]="true"
+                       [disabled]="action=='Edit' || !param.factory"
+                       required />
+              </div>
+              <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <label for="textLocalFullName"
+                       class="badge badge-warning">{{'EmployeeInformationModule.Certifications.LocalFullName' | translate }}</label>
+                <input autocomplete="off"
+                       type="text"
+                       placeholder="{{'EmployeeInformationModule.Certifications.InvalidEmployee' | translate }}"
+                       class="form-control"
+                       maxlength="50"
+                       name="localFullName"
+                       [(ngModel)]="param.local_Full_Name"
+                       [readonly]="true"
+                       required />
+              </div>
+            </div>
+            <div class="row justify-content-md-center">
+              <div class="col-lg-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th class="text-center operation-column">{{'EmployeeInformationModule.Certifications.Operation' | translate }}</th>
+                        <th class="text-center seq-column">{{'EmployeeInformationModule.Certifications.Seq' | translate }}
+                          <span class="text-danger">*</span>
+                        </th>
+                        <th class="text-center catalog-column">{{'EmployeeInformationModule.Certifications.CategoryOfCertification' | translate }}
+                          <span class="text-danger">*</span>
+                        </th>
+                        <th class="text-center name-column">{{'EmployeeInformationModule.Certifications.NameOfCertification' | translate }}
+                          <span class="text-danger">*</span>
+                        </th>
+                        <th class="text-center score-column">{{'EmployeeInformationModule.Certifications.Score' | translate }}
+                        </th>
+                        <th class="text-center level-column">{{'EmployeeInformationModule.Certifications.Level' | translate }}
+                        </th>
+                        <th class="text-center result-column">{{'EmployeeInformationModule.Certifications.Result' | translate }}
+                          <span class="text-danger">*</span>
+                        </th>
+                        <th class="text-center date-column">{{'EmployeeInformationModule.Certifications.PassingDate' | translate }}
+                          <span class="text-danger">*</span>
+                        </th>
+                        <th class="text-center date-column">{{'EmployeeInformationModule.Certifications.CertificationValidPeriod' | translate }}</th>
+                        <th class="text-center">{{'EmployeeInformationModule.Certifications.Attachment' | translate }}</th>
+                        <th class="text-center remark-column">{{'EmployeeInformationModule.Certifications.Remark' | translate }}</th>
+                        <th class="text-center">{{'EmployeeInformationModule.Certifications.UpdateBy' | translate }}</th>
+                        <th class="text-center">{{'EmployeeInformationModule.Certifications.UpdateTime' | translate }}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of data; index as i">
+                        <td class="text-center">
+                          <button type="button"
+                                  class="{{classButton.tDELETE}}"
+                                  (click)="remove(item)"><i class="{{ iconButton.DELETE }}"></i>
+                            {{'System.Action.Delete' | translate }}
+                          </button>
+                        </td>
+                        <td class="text-center">
+                          <input autocomplete="off"
+                                 placeholder="Seq"
+                                 type="text"
+                                 class="form-control text-center"
+                                 maxlength="50"
+                                 name="seq-{{i}}"
+                                 [(ngModel)]="item.seq"
+                                 disabled />
+                        </td>
+                        <td class="text-center">
+                          <ng-select name="categoryOfCertification-{{i}}"
+                                     [(ngModel)]="item.category_Of_Certification"
+                                     (clear)="item.category_Of_Certification = ''"
+                                     [clearable]="item.category_Of_Certification !== ''"
+                                     (ngModelChange)="editData(item)"
+                                     appendTo="body"
+                                     placeholder="{{'EmployeeInformationModule.Certifications.CategoryOfCertification' | translate }}">
+                            <ng-option *ngFor="let item of categoryList"
+                                       [value]="item.key">{{ item.value }}</ng-option>
+                          </ng-select>
+                        </td>
+                        <td class="text-center">
+                          <input autocomplete="off"
+                                 type="text"
+                                 class="form-control text-center"
+                                 maxlength="50"
+                                 placeholder="{{'EmployeeInformationModule.Certifications.NameOfCertification' | translate }}"
+                                 name="nameOfCertification-{{i}}"
+                                 [(ngModel)]="item.name_Of_Certification"
+                                 (ngModelChange)="editData(item)" />
+                        </td>
+                        <td class="text-center">
+                          <input autocomplete="off"
+                                 type="text"
+                                 class="form-control text-center"
+                                 maxlength="10"
+                                 placeholder="{{'EmployeeInformationModule.Certifications.Score' | translate }}"
+                                 name="score-{{i}}"
+                                 [(ngModel)]="item.score"
+                                 (ngModelChange)="editData(item)" />
+                        </td>
+                        <td class="text-center">
+                          <input autocomplete="off"
+                                 type="text"
+                                 class="form-control text-center"
+                                 maxlength="10"
+                                 placeholder="{{'EmployeeInformationModule.Certifications.Level' | translate }}"
+                                 name="level-{{i}}"
+                                 [(ngModel)]="item.level"
+                                 (ngModelChange)="editData(item)" />
+                        </td>
+                        <td class="text-center result-cell">
+                          <div class="custom-control custom-radio">
+                            <div class="form-check form-check-inline">
+                              <input type="radio"
+                                     class="custom-control-input"
+                                     id="yes-{{i}}"
+                                     name="result-{{i}}"
+                                     [value]="true"
+                                     [(ngModel)]="item.result" />
+                              <label class="custom-control-label font-weight-bold"
+                                     for="yes-{{i}}">
+                                {{'EmployeeInformationModule.Certifications.Yes' | translate }}
+                              </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <input type="radio"
+                                     class="custom-control-input"
+                                     id="no-{{i}}"
+                                     name="result-{{i}}"
+                                     [value]="false"
+                                     [(ngModel)]="item.result" />
+                              <label class="custom-control-label font-weight-bold"
+                                     for="no-{{i}}">
+                                {{'EmployeeInformationModule.Certifications.No' | translate }}
+                              </label>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="text-center">
+                          <div class="input-group">
+                            <input type="text"
+                                   autocomplete="off"
+                                   placeholder="YYYY/MM/DD"
+                                   name="passingDate-{{i}}"
+                                   [bsConfig]="bsConfig"
+                                   class="form-control"
+                                   bsDatepicker
+                                   [(ngModel)]="item.passing_Date"
+                                   (ngModelChange)="editData(item)"
+                                   onpaste="return false" />
+                            <div class="input-group-append">
+                              <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="text-center">
+                          <div class="input-group">
+                            <input type="text"
+                                   autocomplete="off"
+                                   placeholder="YYYY/MM/DD"
+                                   name="certificationValidPeriod-{{i}}"
+                                   [bsConfig]="bsConfig"
+                                   class="form-control"
+                                   bsDatepicker
+                                   [(ngModel)]="item.certification_Valid_Period"
+                                   [minDate]="item.passing_Date"
+                                   (ngModelChange)="editData(item)"
+                                   onpaste="return false" />
+                            <div class="input-group-append">
+                              <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="text-center">
+                          <button type="button"
+                                  title="View"
+                                  class="btn btn-outline-primary btn-sm"
+                                  (click)="attachment(item)">
+                            <i class="{{ iconButton.ATTACHMENT }}"></i>
+                          </button>
+                        </td>
+                        <td class="text-center">
+                          <input autocomplete="off"
+                                 type="text"
+                                 class="form-control text-center"
+                                 maxlength="50"
+                                 placeholder="{{'EmployeeInformationModule.Certifications.Remark' | translate }}"
+                                 name="remark-{{i}}"
+                                 [(ngModel)]="item.remark"
+                                 (ngModelChange)="editData(item)" />
+                        </td>
+                        <td class="text-center">{{ item.update_By }}</td>
+                        <td class="text-center">{{ item.update_Time | date : 'yyyy/MM/dd' }}</td>
+                      </tr>
+                    </tbody>
+                    <tr *ngIf="data?.length === 0"
+                        class="no-data">
+                      <td colspan="100%"
+                          class="table-warning text-center font-weight-bold">
+                        {{'System.Message.Nodata' | translate }}
+                      </td>
+                    </tr>
+                    <tr class="no-data">
+                      <td class="text-center"
+                          colspan="100%">
+                        <button type="button"
+                                class="{{classButton.tDETAIL}}"
+                                (click)="add()">
+                          <i class="{{ iconButton.ADD }}"></i> {{'System.Action.Add' | translate }}
+                        </button>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="row justify-content-md-center">
+              <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="table-responsive text-right">
+                  <button type="button"
+                          class="{{classButton.SAVE}}"
+                          (click)="save()"
+                          [disabled]="!subForm.valid || !isAllow">
+                    <i class="{{ iconButton.SAVE }}"></i> {{'System.Action.Save' | translate }}
+                  </button>
+                  <button type="button"
+                          class="{{classButton.CLOSE}}"
+                          (click)="back()">
+                    <i class="{{ iconButton.CLOSE }}"></i> {{'System.Action.Close' | translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <app-modal id="modify-modal"></app-modal>
+</div>

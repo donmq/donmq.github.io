@@ -1,0 +1,149 @@
+<div bsModal
+     #modal="bs-modal"
+     class="modal fade"
+     tabindex="-1"
+     role="dialog"
+     (onHide)="onHide()">
+  <div class="modal-dialog modal-dialog-centered modal-md">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h5>
+          {{ title }} - {{ 'System.Action.' + action | translate}}
+        </h5>
+        <button type="button"
+                class="btn-close close pull-right"
+                (click)="close()">
+          <span aria-hidden="true"
+                class="visually-hidden">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #form="ngForm"
+              autocomplete="off">
+          <div class="form-group">
+            <label class="badge badge-warning">
+              {{"AttendanceMaintenance.CardSwipingDataFormatSetting.Factory" | translate}}
+              <span class="text-danger">*</span>
+            </label>
+            <ng-select name="factory"
+                       [(ngModel)]="data.factory"
+                       [disabled]="action == 'Edit'"
+                       (clear)="deleteProperty('factory')"
+                       [clearable]="data.factory != ''"
+                       placeholder="{{'AttendanceMaintenance.CardSwipingDataFormatSetting.Factory' | translate }}"
+                       required>
+              <ng-option *ngFor="let item of factorys"
+                         [value]="item.key">{{item.value}}</ng-option>
+            </ng-select>
+          </div>
+          <!-- Employee ID / Card No. -->
+          <div class="form-group">
+            <label class="badge badge-warning">
+              {{"AttendanceMaintenance.CardSwipingDataFormatSetting.EmployeeIDCardNo" | translate}}
+              <span class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+              <input type="number"
+                     class="form-control"
+                     min="0"
+                     max="2147483647"
+                     name="employee_Start"
+                     [(ngModel)]="data.employee_Start"
+                     required
+                     id="time-start">
+              <div class="input-group-append">
+                <span class="input-group-text">~</span>
+              </div>
+              <input type="number"
+                     class="form-control"
+                     min="0"
+                     max="2147483647"
+                     name="employee_End"
+                     [(ngModel)]="data.employee_End"
+                     required
+                     id="time-end">
+              <div class="input-group-append">
+                <span class="input-group-text"> {{"AttendanceMaintenance.CardSwipingDataFormatSetting.Digit" | translate}}</span>
+              </div>
+            </div>
+          </div>
+          <!-- Time inputs -->
+          <div class="form-group">
+            <label class="badge badge-warning">
+              {{"AttendanceMaintenance.CardSwipingDataFormatSetting.Time" | translate}}
+              <span class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+              <input type="number"
+                     class="form-control"
+                     name="time_Start"
+                     min="0"
+                     max="2147483647"
+                     [(ngModel)]="data.time_Start"
+                     required
+                     id="time-start">
+              <div class="input-group-append">
+                <span class="input-group-text">~</span>
+              </div>
+              <input type="number"
+                     class="form-control"
+                     name="time_End"
+                     [(ngModel)]="data.time_End"
+                     min="0"
+                     max="2147483647"
+                     required
+                     id="time-end">
+              <div class="input-group-append">
+                <span class="input-group-text"> {{"AttendanceMaintenance.CardSwipingDataFormatSetting.Digit" | translate}}</span>
+              </div>
+            </div>
+          </div>
+          <!-- Date inputs -->
+          <div class="form-group">
+            <label class="badge badge-warning">
+              {{"AttendanceMaintenance.CardSwipingDataFormatSetting.Date" | translate}}
+              <span class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+              <input type="number"
+                     class="form-control"
+                     [(ngModel)]="data.date_Start"
+                     name="date_Start"
+                     min="0"
+                     max="2147483647"
+                     required
+                     id="date-start">
+              <div class="input-group-append">
+                <span class="input-group-text">~</span>
+              </div>
+              <input type="number"
+                     class="form-control"
+                     name="date_End"
+                     [(ngModel)]="data.date_End"
+                     min="0"
+                     max="2147483647"
+                     required
+                     id="date-end">
+              <div class="input-group-append">
+                <span class="input-group-text"> {{"AttendanceMaintenance.CardSwipingDataFormatSetting.Digit" | translate}}</span>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button"
+                class="btn btn-success"
+                [disabled]="form.invalid"
+                (click)="save()">
+          <i class="{{iconButton.SAVE}}"></i> {{ "System.Action.Save" | translate }}
+        </button>
+        <button type="button"
+                class="btn btn-danger"
+                (click)="close()">
+          <i class="{{ iconButton.CLOSE }}"></i> {{ "System.Action.Close" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

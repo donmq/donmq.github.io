@@ -41,6 +41,15 @@ export class MainHomeComponent implements OnInit {
   @ViewChild('templateSoSanh', { read: TemplateRef }) templateSoSanh!: TemplateRef<any>;
   modalRef?: BsModalRef;
 
+  isGK: boolean = false
+  isCheckGK() {
+    if (this.isGK == false)
+      this.isGK = true
+    else
+      this.isGK = false
+
+    console.log('this.isGK :', this.isGK);
+  }
   openTemplate(template: string) {
     const initialState: ModalOptions = {
       class: 'modal-lg'

@@ -1,0 +1,87 @@
+<form class="form-horizontal border-shadow"
+      #monthlyDataCloseForm="ngForm"
+      autocomplete="off">
+  <div class="row">
+    <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+      <label class="badge badge-warning">
+        {{"AttendanceMaintenance.MonthlyAttendanceDataGenerationActiveEmployees.Factory" | translate }}
+        <span class="text-danger text-bold">*</span>
+      </label>
+      <ng-select name="factory"
+                 [(ngModel)]="param.factory"
+                 (clear)="deleteProperty('factory')"
+                 [clearable]="param.factory !== ''"
+                 placeholder="{{'AttendanceMaintenance.MonthlyAttendanceDataGenerationActiveEmployees.Factory' | translate }}"
+                 required>
+        <ng-option *ngFor="let data of listFactory"
+                   [value]="data.key">{{data.value}}
+        </ng-option>
+      </ng-select>
+    </div>
+    <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+      <label class="badge badge-warning">
+        {{"AttendanceMaintenance.MonthlyAttendanceDataGenerationActiveEmployees.AttMonth" | translate }}
+        <span class="text-danger text-bold">*</span>
+      </label>
+      <div class="full-width">
+        <div class="container_date">
+          <div class="input-group mr-1">
+            <input autocomplete="off"
+                   (keydown.backspace)="att_Month = null"
+                   onpaste="return false;"
+                   type="text"
+                   placeholder='YYYY/MM'
+                   class="form-control bg-white"
+                   name="att_Month"
+                   [(ngModel)]="att_Month"
+                   (ngModelChange)="onChangeAttMonth()"
+                   bsDatepicker
+                   [bsConfig]="bsConfigMonthly"
+                   required />
+            <div class="input-group-append">
+              <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-auto">
+      <label class="badge badge-warning">
+        {{"AttendanceMaintenance.MonthlyAttendanceDataGenerationActiveEmployees.CloesStatus" | translate }}
+        <span class="text-danger text-bold">*</span>
+      </label>
+      <div class="row pl-4 pr-4">
+        <div *ngFor="let item of closeStatusCodes; index as i">
+          <label class="container">
+            <div class="row">
+              <div [ngClass]="{'mr-2': i != closeStatusCodes.length - 1}"
+                   class="custom-control custom-radio pt-2">
+                <input [id]="'pass' + i"
+                       class="custom-control-input"
+                       type="radio"
+                       name="pass"
+                       [(ngModel)]="param.pass"
+                       [value]="item.key"
+                       required />
+                <p class="custom-control-label"
+                   [for]="'pass' + i">
+                  <strong>
+                    {{ item.value | translate }}
+                  </strong>
+                </p>
+              </div>
+            </div>
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="col-auto align-self-end" *ngIf="this.functionUtility.checkFunction('Execute')">
+      <button type="button"
+              class="{{ classButton.SAVE }}"
+              [disabled]="!monthlyDataCloseForm.valid"
+              (click)="monthlyDataClose()">
+        {{ "System.Action.Execute" | translate }}
+      </button>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,147 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off"
+              #form="ngForm">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">{{ title }} - {{ "System.Action." + formType | translate }}</strong>
+                <button type="button"
+                        class="{{classButton.BACK}}"
+                        (click)="back()">
+                  <i class="{{ iconButton.BACK }}"></i> {{'System.Action.Back' | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row border-shadow">
+              <!-- Factory -->
+              <div class="col-xxl-3 col-xl-4 col-md-5 col-sm-12">
+                <label class="badge badge-warning">
+                  {{ 'SalaryMaintenance.AdditionDeductionItemToAccountingCodeMappingMaintenance.Factory' | translate }}
+                  <span class="text-danger text-bold"> *</span>
+                </label>
+                <ng-select name="factory"
+                           [(ngModel)]="data.factory"
+                           (clear)="deleteProperty('factory')"
+                           [clearable]="data.factory != ''"
+                           (ngModelChange)="onDataChange()"
+                           [disabled]="isEdit"
+                           placeholder="{{'SalaryMaintenance.AdditionDeductionItemToAccountingCodeMappingMaintenance.Factory' | translate}}"
+                           required>
+                  <ng-option *ngFor="let item of listFactory"
+                             [value]="item.key">
+                    {{item.value}}
+                  </ng-option>
+                </ng-select>
+              </div>
+              <!-- Additions and Deduction Item-->
+              <div class="col-xxl-3 col-xl-4 col-md-5 col-sm-12">
+                <label class="badge badge-warning">
+                  {{ 'SalaryMaintenance.AdditionDeductionItemToAccountingCodeMappingMaintenance.AddtionDedtionItem' | translate }}
+                  <span class="text-danger text-bold"> *</span>
+                </label>
+                <ng-select name="addDed_Item"
+                           [(ngModel)]="data.addDed_Item"
+                           (clear)="deleteProperty('addDed_Item')"
+                           [clearable]="data.addDed_Item != ''"
+                           placeholder="{{'SalaryMaintenance.AdditionDeductionItemToAccountingCodeMappingMaintenance.AddtionDedtionItem' | translate}}"
+                           (ngModelChange)="onDataChange()"
+                           [disabled]="isEdit"
+                           required>
+                  <ng-option *ngFor="let item of listAdditionsAndDeductionsItem"
+                             [value]="item.key">
+                    {{item.value}}
+                  </ng-option>
+                </ng-select>
+              </div>
+              <!-- Main Acc -->
+              <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6">
+                <label class="badge badge-warning">
+                  {{"SalaryMaintenance.AdditionDeductionItemToAccountingCodeMappingMaintenance.MainAccount" | translate}}
+                  <span class="text-danger">*</span>
+                </label>
+                <input type="text"
+                       class="form-control"
+                       name="main_Acc"
+                       [(ngModel)]="data.main_Acc"
+                       (ngModelChange)="onDataChange()"
+                       placeholder="{{'SalaryMaintenance.AdditionDeductionItemToAccountingCodeMappingMaintenance.MainAccount' | translate}}"
+                       maxlength="4"
+                       required />
+              </div>
+              <!-- Sub Acc -->
+              <div class="col-xxl-3 col-xl-4 col-md-5 col-sm-12">
+                <label class="badge badge-warning">
+                  {{ 'SalaryMaintenance.AdditionDeductionItemToAccountingCodeMappingMaintenance.SubAccount' | translate }}
+                  <span class="text-danger">*</span>
+                </label>
+                <input type="text"
+                       class="form-control"
+                       name="sub_Acc"
+                       [(ngModel)]="data.sub_Acc"
+                       (ngModelChange)="onDataChange()"
+                       placeholder="{{ 'SalaryMaintenance.AdditionDeductionItemToAccountingCodeMappingMaintenance.SubAccount' | translate }}"
+                       maxlength="4"
+                       required />
+              </div>
+              <!-- UpdateBy -->
+              <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <label for="UpdateBy"
+                       class="badge badge-warning">{{'SalaryMaintenance.AdditionDeductionItemToAccountingCodeMappingMaintenance.UpdateBy' | translate }}
+                </label>
+                <input type="text"
+                       class="form-control w-100"
+                       name="update_By"
+                       [ngModel]="data.update_By"
+                       placeholder="{{ 'SalaryMaintenance.AdditionDeductionItemToAccountingCodeMappingMaintenance.UpdateBy' | translate }}"
+                       disabled />
+              </div>
+              <!-- UpdateTime -->
+              <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <label for="UpdateTime"
+                       class="badge badge-warning">{{'SalaryMaintenance.AdditionDeductionItemToAccountingCodeMappingMaintenance.UpdateTime' | translate }}
+                </label>
+                <input type="text"
+                       class="form-control w-100"
+                       name="update_Time"
+                       [ngModel]="data.update_Time_Str"
+                       placeholder="{{ 'SalaryMaintenance.AdditionDeductionItemToAccountingCodeMappingMaintenance.UpdateTime' | translate }}"
+                       disabled />
+              </div>
+            </div>
+            <div class="row justify-content-md-center">
+              <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="table-responsive text-right">
+                  <button type="button"
+                          [disabled]="!form.valid"
+                          class="btn btn-warning mr-2"
+                          (click)="save(true)"
+                          [hidden]="isEdit">
+                    <i class="{{ iconButton.SAVE }}"></i>
+                    {{ "System.Action.SaveAndContinue" | translate }}
+                  </button>
+                  <button type="button"
+                          class="{{classButton.SAVE}}"
+                          (click)="save(false)"
+                          [disabled]="!form.valid">
+                    <i class="{{ iconButton.SAVE }}"></i> {{'System.Action.Save' | translate }}
+                  </button>
+                  <button type="button"
+                          class="{{classButton.CLOSE}}"
+                          (click)="back()">
+                    <i class="{{ iconButton.CLOSE }}"></i> {{'System.Action.Close' | translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

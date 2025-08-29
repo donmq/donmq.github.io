@@ -1,0 +1,11 @@
+.btn-light:not(:disabled):not(.disabled):active,
+.btn-light.active,
+.btn-light:not(:disabled):not(.disabled):focus {
+  color: white !important;
+  background-color: #20a8d8 !important;
+  border-color: #20a8d8 !important;
+}
+
+.container p {
+  margin-right: 10px;
+}

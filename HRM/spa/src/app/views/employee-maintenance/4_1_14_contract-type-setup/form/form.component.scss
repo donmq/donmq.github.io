@@ -1,0 +1,32 @@
+.container p {
+  margin-right: 10px;
+}
+
+.centered {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.input-container {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.input-container:last-child {
+  margin-right: 0;
+}
+
+.badge-contract {
+  margin-top: 10px;
+  height: 15.75px;
+}
+
+.custom-th-wide {
+  width: 250px;
+}

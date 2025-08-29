@@ -1,0 +1,11 @@
+.btn-upload {
+    cursor: pointer !important;
+    margin-bottom: 0 !important;
+}
+
+.input-upload {
+    display: none !important;
+}
+.operation-column {
+  min-width: 200px;
+}

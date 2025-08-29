@@ -1,0 +1,245 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off"
+              #mainForm="ngForm">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">{{ title }}</strong>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row border-shadow">
+              <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                <label class="badge badge-warning">{{'SalaryMaintenance.FinSalaryAttributionCategoryMaintenance.Factory' | translate }}<span class="text-danger">
+                    *</span></label>
+                <ng-select name="factory"
+                           [(ngModel)]="param.factory"
+                           (clear)="deleteProperty('factory')"
+                           [clearable]="param.factory !== ''"
+                           (ngModelChange)="onFactoryChange()"
+                           placeholder="{{'SalaryMaintenance.FinSalaryAttributionCategoryMaintenance.Factory' | translate }}"
+                           required>
+                  <ng-option *ngFor="let item of factoryList"
+                             [value]="item.key">{{ item.value }}</ng-option>
+                </ng-select>
+              </div>
+              <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                <label class="badge badge-warning">{{'SalaryMaintenance.FinSalaryAttributionCategoryMaintenance.Department' | translate }}</label>
+                <ng-select name="department"
+                           [(ngModel)]="param.department"
+                           (clear)="deleteProperty('department')"
+                           [clearable]="param.department !== ''"
+                           [disabled]="!param.factory"
+                           placeholder="{{'SalaryMaintenance.FinSalaryAttributionCategoryMaintenance.Department' | translate }}">
+                  <ng-option *ngFor="let item of departmentList"
+                             [value]="item.key">{{ item.value }}</ng-option>
+                </ng-select>
+              </div>
+              <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                <label class="badge badge-warning">{{'SalaryMaintenance.FinSalaryAttributionCategoryMaintenance.SalaryCategory' | translate }}</label>
+                <ng-select name="salary_Category"
+                           [(ngModel)]="param.salary_Category"
+                           (clear)="deleteProperty('salary_Category')"
+                           [clearable]="param.salary_Category !== ''"
+                           placeholder="{{'SalaryMaintenance.FinSalaryAttributionCategoryMaintenance.SalaryCategory' | translate }}">
+                  <ng-option *ngFor="let item of salaryCategoryList"
+                             [value]="item.key">{{ item.value }}</ng-option>
+                </ng-select>
+              </div>
+              <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                <label class="badge badge-warning">{{'SalaryMaintenance.FinSalaryAttributionCategoryMaintenance.Kind' | translate }}<span class="text-danger">
+                    *</span></label>
+                <ng-select name="kind"
+                           [(ngModel)]="param.kind"
+                           (clear)="deleteProperty('kind')"
+                           [clearable]="param.kind !== ''"
+                           (ngModelChange)="onKindChange()"
+                           placeholder="{{'SalaryMaintenance.FinSalaryAttributionCategoryMaintenance.Kind' | translate }}"
+                           required>
+                  <ng-option *ngFor="let item of kindList"
+                             [value]="item.key">{{ item.value }}</ng-option>
+                </ng-select>
+              </div>
+              <div class="col-8">
+                <div class="row">
+                  <div class="col-auto">
+                    <label for="factory"
+                           class="badge badge-warning"> {{ "SalaryMaintenance.FinSalaryAttributionCategoryMaintenance.KindCode" | translate }}
+                    </label>
+                    <ng-select [items]="kindCodeList"
+                               [multiple]="true"
+                               name="kind_Code_List"
+                               groupBy="allGroup"
+                               [selectableGroup]="true"
+                               [selectableGroupAsModel]="false"
+                               [closeOnSelect]="false"
+                               bindLabel="value"
+                               bindValue="key"
+                               [(ngModel)]="param.kind_Code_List"
+                               [disabled]="!param.kind"
+                               placeholder="{{'SalaryMaintenance.FinSalaryAttributionCategoryMaintenance.KindCode'| translate}}">
+                      <ng-template ng-optgroup-tmp
+                                   let-item="item"
+                                   let-item$="item$"
+                                   let-index="index">
+                        <input id="item-{{ index }}"
+                               type="checkbox"
+                               name="item-{{ index }}"
+                               [ngModel]="item$.selected" />
+                        {{ "System.Action.SelectAll" | translate }}</ng-template>
+                      <ng-template ng-option-tmp
+                                   let-item="item"
+                                   let-item$="item$"
+                                   let-index="index">
+                        <input id="item-{{ index }}"
+                               name="item-{{ index }}"
+                               type="checkbox"
+                               [ngModel]="item$.selected" />
+                        {{ item.value }}
+                      </ng-template>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <label class="d-block">&nbsp;</label>
+                <button type="submit"
+                        class="{{classButton.SEARCH}}"
+                        (click)="search()"
+                        *ngIf="functionUtility.checkFunction('Search')"
+                        [disabled]="!mainForm.valid">
+                  <i class="{{ iconButton.SEARCH }}"></i> {{'System.Action.Search' | translate }}
+                </button>
+                <button type="submit"
+                        class="{{classButton.CLEAR}}"
+                        (click)="clear()">
+                  <i class="{{ iconButton.CLEAR }}"></i> {{'System.Action.Clear' | translate }}
+                </button>
+                <button type="button"
+                        class="{{classButton.ADD}}"
+                        (click)="add()"
+                        *ngIf="functionUtility.checkFunction('Add')">
+                  <i class="{{ iconButton.ADD }}"></i> {{'System.Action.Add' | translate }}
+                </button>
+                <button *ngIf="functionUtility.checkFunction('Excel')"
+                        type="button"
+                        class="{{ classButton.EXCEL }}"
+                        [disabled]="!mainForm.valid"
+                        (click)="download()">
+                  <i class="{{ iconButton.EXCEL }}"></i>
+                  {{ "System.Action.Excel" | translate }}
+                </button>
+                <label type="button"
+                       class="{{classButton.UPLOAD}}"
+                       style="cursor: pointer; margin-bottom: 0"
+                       *ngIf="functionUtility.checkFunction('Upload')">
+                  <i [class]="iconButton.UPLOAD"></i>
+                  {{'System.Action.Upload'| translate }}
+                  <input #inputRef
+                         type="file"
+                         name="upload"
+                         style="display: none"
+                         (change)="upload($event)" />
+                </label>
+                <button type="button"
+                        class="{{ classButton.SEARCH}}"
+                        (click)="downloadTemplate()"
+                        *ngIf="functionUtility.checkFunction('Upload')">
+                  <i class="{{ iconButton.EXCEL }}"></i>
+                  {{'System.Action.ExcelTemplate' | translate }}
+                </button>
+              </div>
+            </div>
+            <div class="row justify-content-md-center">
+              <div class="col-lg-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th class="text-center operation-column text-nowrap"
+                            [attr.colspan]="functionUtility.getColspan(['Delete','Edit'])"
+                            *ngIf="functionUtility.checkFunction('Edit') || functionUtility.checkFunction('Delete')"> {{"System.Action.Operation" | translate }}
+                        </th>
+                        <th class="text-center">{{'SalaryMaintenance.FinSalaryAttributionCategoryMaintenance.Factory' | translate }}</th>
+                        <th class="text-center">{{'SalaryMaintenance.FinSalaryAttributionCategoryMaintenance.Kind' | translate }}</th>
+                        <th class="text-center">{{'SalaryMaintenance.FinSalaryAttributionCategoryMaintenance.Department' | translate }}</th>
+                        <th class="text-center">{{'SalaryMaintenance.FinSalaryAttributionCategoryMaintenance.KindCode' | translate }}</th>
+                        <th class="text-center">{{'SalaryMaintenance.FinSalaryAttributionCategoryMaintenance.SalaryCategory' | translate }}</th>
+                        <th class="text-center">{{'SalaryMaintenance.FinSalaryAttributionCategoryMaintenance.UpdateBy' | translate }}</th>
+                        <th class="text-center">{{'SalaryMaintenance.FinSalaryAttributionCategoryMaintenance.UpdateTime' | translate }}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of data">
+                        <td class="text-center"
+                            *ngIf="functionUtility.checkFunction('Edit')">
+                          <button type="button"
+                                  class="{{classButton.tEDIT}}"
+                                  (click)="edit(item)"><i class="{{ iconButton.EDIT }}"></i>
+                            {{'System.Action.Edit' | translate }}
+                          </button>
+                        </td>
+                        <td class="text-center"
+                            *ngIf="functionUtility.checkFunction('Delete')">
+                          <button type="button"
+                                  class="{{classButton.tDELETE}}"
+                                  (click)="remove(item)"><i class="{{ iconButton.DELETE }}"></i>
+                            {{'System.Action.Delete' | translate }}
+                          </button>
+                        </td>
+                        <td class="text-center">{{ item.factory }}</td>
+                        <td class="text-center">{{ item.kind_Name }}</td>
+                        <td class="text-center">{{ item.department_Code_Name }}</td>
+                        <td class="text-center">{{ item.kind_Code_Name }}</td>
+                        <td class="text-center">{{ item.salary_Category_Name }}</td>
+                        <td class="text-center">{{ item.update_By }}</td>
+                        <td class="text-center">{{ item.update_Time }}</td>
+                      </tr>
+                    </tbody>
+                    <tr *ngIf="data.length === 0">
+                      <td colspan="100%"
+                          class="table-warning text-center font-weight-bold">
+                        {{'System.Message.Nodata' | translate }}
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-8">
+                <div class="d-flex"
+                     *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                  <pagination [boundaryLinks]="true"
+                              [totalItems]="pagination.totalCount"
+                              [itemsPerPage]="pagination.pageSize"
+                              previousText="&lsaquo;"
+                              nextText="&rsaquo;"
+                              firstText="&laquo;"
+                              lastText="&raquo;"
+                              [maxSize]="5"
+                              [(ngModel)]="pagination.pageNumber"
+                              (pageChanged)="changePage($event)"
+                              [ngModelOptions]="{standalone: true}">
+                  </pagination>
+                  <span class="cs-page ml-2">
+                    Page - {{ pagination.pageNumber }} /
+                    {{ pagination.totalPage }}</span>
+                </div>
+              </div>
+              <div class="col-4">
+                <span class="cs-page float-right ">{{'SalaryMaintenance.FinSalaryAttributionCategoryMaintenance.Result' | translate }} {{pagination.totalCount}}</span>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <app-modal-7-1-27></app-modal-7-1-27>
+</div>

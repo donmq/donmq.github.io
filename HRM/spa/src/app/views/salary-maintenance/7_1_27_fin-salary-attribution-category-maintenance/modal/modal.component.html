@@ -1,0 +1,142 @@
+<div bsModal
+     #modal="bs-modal"
+     class="modal fade"
+     tabindex="-1"
+     role="dialog"
+     (onHide)="onHide()">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <form class="modal-content needs-validation"
+            #modalForm="ngForm"
+            autocomplete="off">
+        <!-- Header -->
+        <div class="modal-header bg-primary">
+          <h5 class="modal-title"
+              id="modal-basic-title">
+            {{ title }} - {{"System.Action.Edit" | translate}}
+          </h5>
+          <button type="button"
+                  class="btn-close close pull-right"
+                  (click)="close()">
+            <span aria-hidden="true"
+                  class="visually-hidden">&times;</span>
+          </button>
+        </div>
+        <!-- Body -->
+        <div class="modal-body ">
+          <div class="row">
+            <!-- Factory -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-3 col-xxl-3 mb-2">
+              <label class="badge badge-warning">
+                {{"SalaryMaintenance.FinSalaryAttributionCategoryMaintenance.Factory" | translate}}
+              </label>
+              <input autocomplete="off"
+                     type="text"
+                     class="form-control"
+                     name="factory"
+                     [ngModel]="model.factory"
+                     disabled />
+            </div>
+            <!-- Kind -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-3 col-xxl-3 mb-2">
+              <label class="badge badge-warning">
+                {{"SalaryMaintenance.FinSalaryAttributionCategoryMaintenance.Kind" | translate}}
+              </label>
+              <input autocomplete="off"
+                     type="text"
+                     class="form-control"
+                     name="factory"
+                     [ngModel]="model.kind_Name"
+                     disabled />
+            </div>
+            <!-- Department -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-3 col-xxl-3 mb-2">
+              <label class="badge badge-warning">
+                {{"SalaryMaintenance.FinSalaryAttributionCategoryMaintenance.Department" | translate}}
+              </label>
+              <input autocomplete="off"
+                     type="text"
+                     class="form-control"
+                     name="department_Code_Name"
+                     [ngModel]="model.department_Code_Name"
+                     disabled />
+            </div>
+            <!-- Kind Code -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-3 col-xxl-3 mb-2">
+              <label class="badge badge-warning">
+                {{"SalaryMaintenance.FinSalaryAttributionCategoryMaintenance.KindCode" | translate}}
+              </label>
+              <input autocomplete="off"
+                     type="text"
+                     class="form-control"
+                     name="kind_Code"
+                     [ngModel]="model.kind_Code_Name"
+                     disabled />
+            </div>
+            <!-- Salary Category -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-3 col-xxl-3 mb-2">
+              <label class="badge badge-warning">{{'SalaryMaintenance.FinSalaryAttributionCategoryMaintenance.SalaryCategory' | translate }}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <ng-select name="salary_Category"
+                         [(ngModel)]="model.salary_Category"
+                         (clear)="deleteProperty('salary_Category')"
+                         [clearable]="model.salary_Category !== ''"
+                         (ngModelChange)="onSalaryChange()"
+                         placeholder="{{'SalaryMaintenance.FinSalaryAttributionCategoryMaintenance.SalaryCategory' | translate }}"
+                         required>
+                <ng-option *ngFor="let item of salaryCategoryList"
+                           [value]="item.key">{{ item.value }}</ng-option>
+              </ng-select>
+            </div>
+            <!-- Salary Category -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-3 col-xxl-3 mb-2">
+
+            </div>
+            <!-- Update By -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-3 col-xxl-3 mb-2">
+              <label class="badge badge-warning">
+                {{"SalaryMaintenance.FinSalaryAttributionCategoryMaintenance.UpdateBy" | translate}}
+              </label>
+              <input autocomplete="off"
+                     type="text"
+                     class="form-control"
+                     name="department"
+                     [ngModel]="model.update_By"
+                     disabled />
+            </div>
+            <!-- Update Time -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-3 col-xxl-3 mb-2">
+              <label class="badge badge-warning">
+                {{"SalaryMaintenance.FinSalaryAttributionCategoryMaintenance.UpdateTime" | translate}}
+              </label>
+              <input autocomplete="off"
+                     type="text"
+                     class="form-control"
+                     name="update_Time"
+                     [ngModel]="model.update_Time"
+                     disabled />
+            </div>
+          </div>
+        </div>
+        <!-- Footer -->
+        <div class="modal-footer">
+          <button type="button"
+                  class="btn btn-success text-white"
+                  (click)="save()"
+                  [disabled]="!modalForm.valid">
+            <i class="{{iconButton.SAVE}}"></i>
+            {{ 'System.Action.Save' | translate}}
+          </button>
+
+          <button type="button"
+                  class="btn btn-danger text-white"
+                  (click)="close()">
+            <i class="{{iconButton.CLOSE}}"></i>
+            {{ 'System.Action.Close' | translate}}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

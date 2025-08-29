@@ -1,0 +1,164 @@
+<form class="form-horizontal border-shadow"
+      #monthlyAttendanceDataGenerationForm="ngForm"
+      autocomplete="off">
+  <div class="row">
+    <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+      <label class="badge badge-warning">
+        {{"AttendanceMaintenance.MonthlyAttendanceDataGenerationActiveEmployees.Factory" | translate }}
+        <span class="text-danger text-bold">*</span>
+      </label>
+      <ng-select name="factory"
+                 [(ngModel)]="param.factory"
+                 (ngModelChange)="changeFactory()"
+                 (clear)="deleteProperty('factory')"
+                 [clearable]="param.factory !== ''"
+                 placeholder="{{'AttendanceMaintenance.MonthlyAttendanceDataGenerationActiveEmployees.Factory' | translate }}"
+                 required>
+        <ng-option *ngFor="let data of listFactory"
+                   [value]="data.key">{{data.value}}
+        </ng-option>
+      </ng-select>
+    </div>
+    <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+      <label class="badge badge-warning">
+        {{"AttendanceMaintenance.MonthlyAttendanceDataGenerationActiveEmployees.AttMonth" | translate }}
+        <span class="text-danger text-bold">*</span>
+      </label>
+      <div class="full-width">
+        <div class="container_date">
+          <div class="input-group mr-1">
+            <input autocomplete="off"
+                   (keydown.backspace)="att_Month = null"
+                   onpaste="return false;"
+                   type="text"
+                   placeholder='YYYY/MM'
+                   class="form-control bg-white"
+                   name="att_Month"
+                   [(ngModel)]="att_Month"
+                   (ngModelChange)="onChangeAttMonth()"
+                   bsDatepicker
+                   [bsConfig]="bsConfigMonthly"
+                   required />
+            <div class="input-group-append">
+              <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6">
+      <label class="badge badge-warning">
+        {{"AttendanceMaintenance.MonthlyAttendanceDataGenerationActiveEmployees.Deadline" |
+        translate }}
+        <span class="text-danger text-bold">*</span>
+      </label>
+      <div class="full-width">
+        <div class="container_input">
+          <div class="input-group mr-2">
+            <input type="text"
+                   autocomplete="off"
+                   placeholder="YYYY/MM/DD"
+                   name="deadline_Start"
+                   [bsConfig]="bsConfig"
+                   class="form-control"
+                   bsDatepicker
+                   [(ngModel)]="deadline_Start"
+                   (ngModelChange)="onChangeDeadline('deadline_Start')"
+                   [minDate]="minDateStart"
+                   [maxDate]="maxDateStart"
+                   onpaste="return false"
+                   required />
+            <div class="input-group-append">
+              <span class="input-group-text">
+                <i class="{{ iconButton.CALENDAR }}"></i>
+              </span>
+            </div>
+          </div>
+          <div class="input-group">
+            <input type="text"
+                   autocomplete="off"
+                   placeholder="YYYY/MM/DD"
+                   name="deadline_End"
+                   [bsConfig]="bsConfig"
+                   class="form-control"
+                   bsDatepicker
+                   [(ngModel)]="deadline_End"
+                   (ngModelChange)="onChangeDeadline('deadline_End')"
+                   [minDate]="minDateEnd"
+                   [maxDate]="maxDateEnd"
+                   onpaste="return false"
+                   required />
+            <div class="input-group-append">
+              <span class="input-group-text">
+                <i class="{{ iconButton.CALENDAR }}"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+      <label class="badge badge-warning">
+        {{"AttendanceMaintenance.MonthlyAttendanceDataGenerationActiveEmployees.SalaryWorkDays" | translate }}
+        <span class="text-danger text-bold">*</span>
+      </label>
+      <input type="number"
+             class="form-control"
+             min="0"
+             placeholder="{{'AttendanceMaintenance.MonthlyAttendanceDataGenerationActiveEmployees.SalaryWorkDays' | translate }}"
+             name="working_Days"
+             [(ngModel)]="param.working_Days"
+             (ngModelChange)="onChangeWorkingDays()"
+             required />
+    </div>
+    <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6">
+      <label class="badge badge-warning">
+        {{"AttendanceMaintenance.MonthlyAttendanceDataGenerationActiveEmployees.EmployeeID" |
+        translate }}
+        <span class="text-danger text-bold">*</span>
+      </label>
+      <div class="full-width">
+        <div class="container_input">
+          <div class="input-group mr-2">
+            <input type="text"
+                   class="form-control"
+                   placeholder="{{'AttendanceMaintenance.MonthlyAttendanceDataGenerationActiveEmployees.From' | translate }}"
+                   name="employee_ID_Start"
+                   [(ngModel)]="param.employee_ID_Start"
+                   required />
+          </div>
+          <div class="input-group">
+            <input type="text"
+                   class="form-control"
+                   placeholder="{{'AttendanceMaintenance.MonthlyAttendanceDataGenerationActiveEmployees.To' | translate }}"
+                   name="employee_ID_End"
+                   [(ngModel)]="param.employee_ID_End"
+                   required />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+      <label class="badge badge-warning">
+        {{"AttendanceMaintenance.MonthlyAttendanceDataGenerationActiveEmployees.Department" | translate }}
+      </label>
+      <ng-select name="department"
+                 [(ngModel)]="param.department"
+                 (clear)="deleteProperty('department')"
+                 [clearable]="param.department !== ''"
+                 placeholder="{{'AttendanceMaintenance.MonthlyAttendanceDataGenerationActiveEmployees.Department' | translate }}">
+        <ng-option *ngFor="let data of listDepartment"
+                   [value]="data.key">{{data.key}} - {{data.value}}
+        </ng-option>
+      </ng-select>
+    </div>
+    <div class="col-auto align-self-end" *ngIf="this.functionUtility.checkFunction('Execute')">
+      <button type="button"
+              class="{{ classButton.SAVE }}"
+              [disabled]="!monthlyAttendanceDataGenerationForm.valid"
+              (click)="monthlyAttendanceDataGenerationExecute()">
+        {{ "System.Action.Execute" | translate }}
+      </button>
+    </div>
+  </div>
+</form>

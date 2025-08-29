@@ -1,0 +1,453 @@
+<div class="animated fadeIn">
+  <div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong>{{ title }}</strong>
+              </div>
+            </div>
+          </div>
+          <tab-component [tabs]="tabs"
+                         [(tabId)]="selectedTab"
+                         (tabIdChange)="changeTab()"></tab-component>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #salaryCloseSearchTab>
+  <form class="form-horizontal"
+        #salaryCloseSearchSubForm="ngForm"
+        autocomplete="off">
+    <div class="row border-shadow">
+      <div class="col-12">
+        <div class="row">
+          <!-- Factory -->
+          <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+            <label class="badge badge-warning">
+              {{"SalaryMaintenance.FinSalaryCloseMaintenance.Factory" | translate }}
+              <span class="text-danger text-bold">*</span>
+            </label>
+            <ng-select name="factory"
+                       [(ngModel)]="salaryCloseSearch_Param.factory"
+                       (ngModelChange)="onFactoryChange()"
+                       (clear)="deleteProperty('factory')"
+                       [clearable]="salaryCloseSearch_Param.factory !== ''"
+                       placeholder="{{'SalaryMaintenance.FinSalaryCloseMaintenance.Factory' | translate }}"
+                       required>
+              <ng-option *ngFor="let data of listFactory"
+                         [value]="data.key">{{data.value}}
+              </ng-option>
+            </ng-select>
+          </div>
+          <!-- Year Month -->
+          <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+            <label class="badge badge-warning">
+              {{'SalaryMaintenance.FinSalaryCloseMaintenance.YearMonth'| translate}}
+              <span class="text-danger">*</span>
+            </label>
+            <div class="full-width">
+              <div class="container_input">
+                <div class="input-group mr-1">
+                  <input type="text"
+                         autocomplete="off"
+                         placeholder="{{placeholder.YearMonth}}"
+                         name="year_Month"
+                         [bsConfig]="bsConfig"
+                         class="form-control"
+                         bsDatepicker
+                         (keypress)="validateYearMonth($event)"
+                         [(ngModel)]="salaryCloseSearch_yearMonth"
+                         (ngModelChange)="onDateChange()"
+                         onpaste="return false"
+                         required />
+                  <div class="input-group-append">
+                    <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Department -->
+          <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+            <label class="badge badge-warning">{{'SalaryMaintenance.FinSalaryCloseMaintenance.Department' | translate }}</label>
+            <ng-select name="department"
+                       [(ngModel)]="salaryCloseSearch_Param.department"
+                       (clear)="deleteProperty('department')"
+                       [clearable]="salaryCloseSearch_Param.department !== ''"
+                       placeholder="{{'SalaryMaintenance.FinSalaryCloseMaintenance.Department' | translate }}"
+                       [disabled]="!salaryCloseSearch_Param.factory">
+              <ng-option *ngFor="let item of listDepartment"
+                         [value]="item.key">{{ item.value }}</ng-option>
+            </ng-select>
+          </div>
+          <!-- Employee ID -->
+          <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+            <label class="badge badge-warning">
+              {{"SalaryMaintenance.FinSalaryCloseMaintenance.Employee_ID" | translate }}
+            </label>
+            <input type="text"
+                   class="form-control"
+                   name="employee_ID"
+                   maxlength="9"
+                   [(ngModel)]="salaryCloseSearch_Param.employee_ID"
+                   placeholder="{{'SalaryMaintenance.FinSalaryCloseMaintenance.Employee_ID' | translate }}" />
+          </div>
+
+          <!-- Kind -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <label for="kind"
+                       class="badge badge-warning">{{ 'AttendanceMaintenance.OvertimeHoursReport.Kind'
+                  | translate }} <span class="text-danger text-bold"> *</span></label>
+                <div class="row pl-3">
+                  <div *ngFor="let item of list_kind; let i">
+                    <label class="container">
+                      <div class="row">
+                        <div class="custom-control custom-radio pt-2 mr-3">
+                          <input [id]="'kind_' + i"
+                                 class="custom-control-input"
+                                 type="radio"
+                                 name="kind"
+                                 [(ngModel)]="salaryCloseSearch_Param.kind"
+                                 [value]="item.key" />
+                          <p class="custom-control-label"
+                             [for]="'kind' + i">
+                            {{ item.value | translate }}
+                          </p>
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+          </div>
+          <!-- Permission Group -->
+          <div class="col-12">
+            <div class="row">
+              <div class="col-auto">
+                <label class="badge badge-warning">{{ "SalaryMaintenance.MonthlySalaryGeneration.PermissionGroup" | translate }}
+                  <span class="text-danger text-bold"> *</span>
+                </label>
+                <ng-select id="permission_Group"
+                           name="permission_Group"
+                           [items]="listPermissionGroup"
+                           [multiple]="true"
+                           groupBy="allGroup"
+                           [selectableGroup]="true"
+                           [selectableGroupAsModel]="false"
+                           [closeOnSelect]="false"
+                           bindLabel="value"
+                           bindValue="key"
+                           [(ngModel)]="salaryCloseSearch_Param.permission_Group"
+                           (ngModelChange)="onPermissionChange()"
+                           [disabled]="!salaryCloseSearch_Param.factory"
+                           required
+                           placeholder="{{ 'SalaryMaintenance.MonthlySalaryGeneration.PermissionGroup' | translate }}">
+                  <ng-template ng-optgroup-tmp
+                               let-item="item"
+                               let-item$="item$"
+                               let-index="index">
+                    <input id="item-{{ index }}"
+                           type="checkbox"
+                           name="item-{{ index }}"
+                           [ngModel]="item$.selected" /> {{ 'System.Action.SelectAll' | translate }}</ng-template>
+                  <ng-template ng-option-tmp
+                               let-item="item"
+                               let-item$="item$"
+                               let-index="index">
+                    <input id="item-{{ index }}"
+                           name="item-{{ index }}"
+                           type="checkbox"
+                           [ngModel]="item$.selected" /> {{ item.value }} </ng-template>
+                </ng-select>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 mt-2 mb-2">
+            <button *ngIf="this.functionUtility.checkFunction('Search')"
+                    type="button"
+                    class="{{ classButton.SEARCH }}"
+                    [disabled]="!salaryCloseSearchSubForm.valid"
+                    (click)="search(true)">
+              <i class="{{ iconButton.SEARCH }}"></i> {{'System.Action.Search' | translate }}
+            </button>
+            <button type="button"
+                    class="{{classButton.CLEAR}}"
+                    (click)="clear()">
+              <i class="{{ iconButton.CLEAR }}"></i> {{'System.Action.Clear' | translate }}
+            </button>
+            <button type="button"
+                    (click)="download()"
+                    [disabled]="!salaryCloseSearchSubForm.valid"
+                    class="{{ classButton.DOWNLOAD }}"
+                    *ngIf="functionUtility.checkFunction('Excel')">
+              <i class="{{ iconButton.EXCEL }}"></i>
+              {{ "System.Action.Excel" | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-md-center">
+      <div class="col-lg-12">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th class="text-center operation-column text-wrap"
+                    [attr.colspan]="functionUtility.getColspan(['Edit'])"
+                    *ngIf="functionUtility.checkFunction('Edit')">{{'System.Action.Operation' | translate }}</th>
+                <th class="text-center">{{'SalaryMaintenance.FinSalaryCloseMaintenance.Factory' | translate }}</th>
+                <th class="text-center">{{'SalaryMaintenance.FinSalaryCloseMaintenance.YearMonth' | translate }}</th>
+                <th class="text-center">{{'SalaryMaintenance.FinSalaryCloseMaintenance.Department' | translate }}</th>
+                <th class="text-center">{{'SalaryMaintenance.FinSalaryCloseMaintenance.Employee_ID' | translate }}</th>
+                <th class="text-center">{{'SalaryMaintenance.FinSalaryCloseMaintenance.LocalFullName' | translate }}</th>
+                <th class="text-center">{{'SalaryMaintenance.FinSalaryCloseMaintenance.PermissionGroup' | translate }}</th>
+                <th class="text-center">{{'SalaryMaintenance.FinSalaryCloseMaintenance.CloseStatus' | translate }}</th>
+                <th class="text-center">{{'SalaryMaintenance.FinSalaryCloseMaintenance.Close_Date' | translate }}</th>
+                <th class="text-center">{{'SalaryMaintenance.FinSalaryCloseMaintenance.Onboard_Date' | translate }}</th>
+                <th class="text-center">{{'SalaryMaintenance.FinSalaryCloseMaintenance.Resign_Date' | translate }}</th>
+                <th class="text-center">{{'SalaryMaintenance.FinSalaryCloseMaintenance.Update_By' | translate }}</th>
+                <th class="text-center">{{'SalaryMaintenance.FinSalaryCloseMaintenance.Update_Time' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of salaryCloseSearch_Data">
+                <td class="text-center"
+                    *ngIf="functionUtility.checkFunction('Edit')">
+                  <button type="button"
+                          class="{{classButton.tEDIT}}"
+                          (click)="edit(item)"
+                          [disabled]="item.probation == 'Y' || item.probation == 'N' || item.isEdit"><i class="{{ iconButton.EDIT }}"></i>
+                    {{'System.Action.Edit' | translate }}
+                  </button>
+                </td>
+                <td class="text-center">{{ item.factory }}</td>
+                <td class="text-center">{{ item.year_Month_Str }}</td>
+                <td class="text-center">{{ item.department + ' - ' + item.department_Name }}</td>
+                <td class="text-center">{{ item.employee_ID }}</td>
+                <td class="text-center">{{ item.local_Full_Name }}</td>
+                <td class="text-center">{{ item.permission_Group }}</td>
+                <td class="text-center">{{ item.close_Status }}</td>
+                <td class="text-center">{{ item.close_End_Str }}</td>
+                <td class="text-center">{{ item.onboard_Date_Str }}</td>
+                <td class="text-center">{{ item.resign_Date_Str }}</td>
+                <td class="text-center">{{ item.update_By }}</td>
+                <td class="text-center">{{ item.update_Time }}</td>
+              </tr>
+            </tbody>
+            <tr *ngIf="salaryCloseSearch_Data?.length === 0">
+              <td colspan="100%"
+                  class="table-warning text-center font-weight-bold">
+                {{'System.Message.Nodata' | translate }}
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="row">
+          <div class="col-8">
+            <div class="d-flex"
+                 *ngIf="salaryCloseSearch_Data?.length > 0 && pagination?.totalPage > 0">
+              <pagination [boundaryLinks]="true"
+                          [totalItems]="pagination?.totalCount"
+                          [itemsPerPage]="pagination?.pageSize"
+                          previousText="&lsaquo;"
+                          nextText="&rsaquo;"
+                          firstText="&laquo;"
+                          lastText="&raquo;"
+                          [maxSize]="5"
+                          [(ngModel)]="pagination.pageNumber"
+                          (pageChanged)="pageChanged($event)"
+                          [ngModelOptions]="{standalone: true}">
+              </pagination>
+              <span class="cs-page ml-2">
+                Page - {{ pagination.pageNumber }} /
+                {{ pagination.totalPage }}</span>
+            </div>
+          </div>
+          <div class="col-4">
+            <span class="cs-page float-right ">{{'System.Rows' | translate }}: {{pagination?.totalCount}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>
+<ng-template #batchUpdateDataTab>
+  <form class="form-horizontal"
+        #batchUpdateDataSubForm="ngForm"
+        autocomplete="off">
+    <div class="row border-shadow">
+      <div class="col-12">
+        <div class="row">
+          <!-- Factory -->
+          <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+            <label class="badge badge-warning">
+              {{"SalaryMaintenance.FinSalaryCloseMaintenance.Factory" | translate }}
+              <span class="text-danger text-bold">*</span>
+            </label>
+            <ng-select name="factorySalary"
+                       [(ngModel)]="batchUpdateData_Param.factory"
+                       (clear)="deleteProperty('factory')"
+                       (ngModelChange)="onFactoryChange()"
+                       [clearable]="batchUpdateData_Param.factory!== ''"
+                       placeholder="{{'SalaryMaintenance.FinSalaryCloseMaintenance.Factory' | translate }}"
+                       required>
+              <ng-option *ngFor="let item of listFactory"
+                         [value]="item.key">{{ item.value }}</ng-option>
+            </ng-select>
+          </div>
+          <!-- Year Month -->
+          <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+            <label class="badge badge-warning">
+              {{'SalaryMaintenance.FinSalaryCloseMaintenance.YearMonth'| translate}}
+              <span class="text-danger">*</span>
+            </label>
+            <div class="full-width">
+              <div class="container_input">
+                <div class="input-group mr-1">
+                  <input type="text"
+                         autocomplete="off"
+                         placeholder="{{placeholder.YearMonth}}"
+                         name="year_Month"
+                         [bsConfig]="bsConfig"
+                         class="form-control"
+                         bsDatepicker
+                         (keypress)="validateYearMonth($event)"
+                         [(ngModel)]="batchUpdateData_yearMonth"
+                         (ngModelChange)="onDateChange()"
+                         onpaste="return false"
+                         required />
+                  <div class="input-group-append">
+                    <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Kind -->
+          <div class="col-xxl-2 col-xl-2 col-lg-6 col-md-6 col-sm-12">
+            <div class="row ml-2">
+              <div class="form-group">
+                <label for="kindBatchData"
+                       class="badge badge-warning">{{ 'SalaryMaintenance.FinSalaryCloseMaintenance.Kind'
+                  | translate }} <span class="text-danger text-bold"> *</span></label>
+                <div class="row pl-3">
+                  <div *ngFor="let item of list_kind_BatchData; let i">
+                    <label class="container">
+                      <div class="row">
+                        <div class="custom-control custom-radio pt-2 mr-3">
+                          <input [id]="'kindBatchData' + i"
+                                 class="custom-control-input"
+                                 type="radio"
+                                 name="kindBatchData"
+                                 [(ngModel)]="batchUpdateData_Param.kind"
+                                 [value]="item.key" />
+                          <p class="custom-control-label"
+                             [for]="'kindBatchData' + i">
+                            {{ item.value | translate }}
+                          </p>
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Close_Status -->
+          <div class="col-xxl-2 col-xl-2 col-lg-6 col-md-6 col-sm-12">
+            <div class="row ml-2">
+              <div class="form-group">
+                <label for="closeStatus"
+                       class="badge badge-warning">{{ 'SalaryMaintenance.FinSalaryCloseMaintenance.CloseStatus'
+                  | translate }} <span class="text-danger text-bold"> *</span></label>
+                <div class="row pl-3">
+                  <div *ngFor="let item of list_Close_Status; let i">
+                    <label class="container">
+                      <div class="row">
+                        <div class="custom-control custom-radio pt-2 mr-3">
+                          <input [id]="'closeStatus_' + i"
+                                 class="custom-control-input"
+                                 type="radio"
+                                 name="closeStatus_"
+                                 [(ngModel)]="batchUpdateData_Param.close_Status"
+                                 [value]="item.key" />
+                          <p class="custom-control-label"
+                             [for]="'closeStatus_' + i">
+                            {{ item.value | translate }}
+                          </p>
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Permission Group -->
+          <div class="col-12">
+            <div class="row">
+              <div class="col-auto">
+                <label class="badge badge-warning">{{ "SalaryMaintenance.FinSalaryCloseMaintenance.PermissionGroup" | translate }}
+                  <span class="text-danger text-bold"> *</span>
+                </label>
+                <ng-select id="permission_Group_BatchData"
+                           name="permission_Group_BatchData"
+                           [items]="listPermissionGroup"
+                           [multiple]="true"
+                           groupBy="allGroup"
+                           [selectableGroup]="true"
+                           [selectableGroupAsModel]="false"
+                           [closeOnSelect]="false"
+                           bindLabel="value"
+                           bindValue="key"
+                           [(ngModel)]="batchUpdateData_Param.permission_Group"
+                           (ngModelChange)="onPermissionChange()"
+                           [disabled]="!batchUpdateData_Param.factory"
+                           required
+                           placeholder="{{ 'SalaryMaintenance.FinSalaryCloseMaintenance.PermissionGroup' | translate }}">
+                  <ng-template ng-optgroup-tmp
+                               let-item="item"
+                               let-item$="item$"
+                               let-index="index">
+                    <input id="item-{{ index }}"
+                           type="checkbox"
+                           name="item-{{ index }}"
+                           [ngModel]="item$.selected" /> {{ 'System.Action.SelectAll' | translate }}</ng-template>
+                  <ng-template ng-option-tmp
+                               let-item="item"
+                               let-item$="item$"
+                               let-index="index">
+                    <input id="item-{{ index }}"
+                           name="item-{{ index }}"
+                           type="checkbox"
+                           [ngModel]="item$.selected" /> {{ item.value }} </ng-template>
+                </ng-select>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 mt-2 mb-2">
+            <button *ngIf="this.functionUtility.checkFunction('Execute')"
+                    type="button"
+                    class="{{ classButton.SAVE }}"
+                    [disabled]="!batchUpdateDataSubForm.valid"
+                    (click)="excute(true)"> {{'System.Action.Execute' | translate }}
+            </button>
+            <button type="button"
+                    class="{{classButton.CLEAR}}"
+                    (click)="clear()">
+              <i class="{{ iconButton.CLEAR }}"></i> {{'System.Action.Clear' | translate }}
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </form>
+</ng-template>

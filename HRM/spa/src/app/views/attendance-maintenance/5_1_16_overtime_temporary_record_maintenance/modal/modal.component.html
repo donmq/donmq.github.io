@@ -1,0 +1,312 @@
+<div bsModal
+     #modal="bs-modal"
+     class="modal fade"
+     tabindex="-1"
+     role="dialog"
+     (onHide)="onHide()">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <form #editForm="ngForm"
+            autocomplete="off">
+        <div class="bg-primary modal-header">
+          <h4 class="modal-title pull-left"> {{ title }} - {{ "System.Action.Edit" | translate }}</h4>
+          <button type="button"
+                  class="btn-close close pull-right"
+                  aria-label="Close"
+                  (click)="close()">
+            <span aria-hidden="true"
+                  class="visually-hidden">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body header-param">
+          <div class="row">
+            <!-- Factory -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+              <label class="badge badge-warning">
+                {{"AttendanceMaintenance.OvertimeTemporary.Factory" | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <ng-select [(ngModel)]="data.factory"
+                         name="factory"
+                         [clearable]="data.factory != ''"
+                         (clear)="data.factory = null"
+                         placeholder="{{'AttendanceMaintenance.OvertimeTemporary.Factory' | translate}}..."
+                         (ngModelChange)="getShiftTimeByWorkShift()"
+                         disabled
+                         required>
+                <ng-option *ngFor="let item of listFactory"
+                           value="{{ item.key }}">{{item.value}}</ng-option>
+              </ng-select>
+            </div>
+            <!-- EmployeeID -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+              <label class="badge badge-warning">
+                {{"AttendanceMaintenance.OvertimeTemporary.EmployeeID" | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <input autocomplete="off"
+                     placeholder="EmployeeID"
+                     type="text"
+                     class="form-control"
+                     [maxlength]="9"
+                     name="employeeID"
+                     [(ngModel)]="data.employee_ID"
+                     disabled />
+            </div>
+            <!-- LocalFullName -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+              <label class="badge badge-warning">
+                {{"AttendanceMaintenance.OvertimeTemporary.LocalFullName" | translate}}
+              </label>
+              <input autocomplete="off"
+                     type="text"
+                     class="form-control"
+                     placeholder="{{'AttendanceMaintenance.OvertimeTemporary.LocalFullName' | translate }}"
+                     name="local_Full_Name"
+                     [(ngModel)]="data.local_Full_Name"
+                     disabled />
+            </div>
+            <!-- Department -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+              <label class="badge badge-warning">
+                {{"AttendanceMaintenance.OvertimeTemporary.Department" | translate}}
+              </label>
+              <input autocomplete="off"
+                     type="text"
+                     class="form-control"
+                     placeholder="{{'AttendanceMaintenance.OvertimeTemporary.Department' | translate }}"
+                     name="department"
+                     [(ngModel)]="data.department_Code_Name"
+                     disabled />
+            </div>
+            <!-- Date -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+              <label class="badge badge-warning">
+                {{"AttendanceMaintenance.OvertimeTemporary.Date" | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <input type="text"
+                     autocomplete="off"
+                     class="form-control"
+                     bsDatepicker
+                     name="date"
+                     [(ngModel)]="data.date"
+                     [bsConfig]="bsConfig"
+                     maxlength="10"
+                     placeholder="YYYY/MM/DD"
+                     disabled
+                     onpaste="return false;"
+                     required />
+            </div>
+            <!-- Shift -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+              <label class="badge badge-warning">
+                {{"AttendanceMaintenance.OvertimeTemporary.Shift" | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <ng-select [(ngModel)]="data.work_Shift_Type"
+                         name="work_Shift_Type"
+                         appendTo="body"
+                         dropdownPosition="bottom"
+                         [clearable]="data.work_Shift_Type != ''"
+                         (clear)="data.work_Shift_Type = null"
+                         placeholder="{{'AttendanceMaintenance.OvertimeTemporary.Shift' | translate}}..."
+                         (ngModelChange)="getShiftTimeByWorkShift()"
+                         required>
+                <ng-option *ngFor="let item of workShiftType"
+                           value="{{ item.key }}">{{item.value}}</ng-option>
+              </ng-select>
+            </div>
+            <!-- ShiftTime -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+              <label class="badge badge-warning">
+                {{"AttendanceMaintenance.OvertimeTemporary.ShiftTime" | translate}}
+              </label>
+              <input autocomplete="off"
+                     type="text"
+                     class="form-control"
+                     name="shift_Time"
+                     mask="00:00 - 00:00"
+                     placeholder="{{'AttendanceMaintenance.OvertimeTemporary.ShiftTime' | translate }}"
+                     [(ngModel)]="data.shift_Time"
+                     disabled />
+            </div>
+            <!-- ClockInTime -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+              <label class="badge badge-warning">
+                {{"AttendanceMaintenance.OvertimeTemporary.ClockInTime" | translate}}
+              </label>
+              <input autocomplete="off"
+                     type="text"
+                     class="form-control"
+                     mask="00:00"
+                     placeholder="{{'AttendanceMaintenance.OvertimeTemporary.ClockInTime' | translate }}"
+                     name="clock_In_Time"
+                     [(ngModel)]="data.clock_In_Time"
+                     disabled />
+            </div>
+            <!-- ClockOutTime -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+              <label class="badge badge-warning">
+                {{"AttendanceMaintenance.OvertimeTemporary.ClockOutTime" | translate}}
+              </label>
+              <input autocomplete="off"
+                     type="text"
+                     class="form-control"
+                     mask="00:00"
+                     placeholder="{{'AttendanceMaintenance.OvertimeTemporary.ClockOutTime' | translate }}"
+                     name="clock_Out_Time"
+                     [(ngModel)]="data.clock_Out_Time"
+                     disabled />
+            </div>
+            <!-- OvertimeStart -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+              <label class="badge badge-warning">
+                {{"AttendanceMaintenance.OvertimeTemporary.OvertimeStart" | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <input [(ngModel)]="data.overtime_Start"
+                     placeholder="{{'AttendanceMaintenance.OvertimeTemporary.OvertimeStart' | translate }}"
+                     mask="00:00"
+                     (blur)="updateTime($event.target.value, 'overtime_Start')"
+                     name="overtime_Start"
+                     type="text"
+                     class="form-control "
+                     required />
+            </div>
+            <!-- OvertimeEnd -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+              <label class="badge badge-warning">
+                {{"AttendanceMaintenance.OvertimeTemporary.OvertimeEnd" | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <input [(ngModel)]="data.overtime_End"
+                     placeholder="{{'AttendanceMaintenance.OvertimeTemporary.OvertimeEnd' | translate }}"
+                     mask="00:00"
+                     (blur)="updateTime($event.target.value, 'overtime_End')"
+                     name="overtime_End"
+                     type="text"
+                     class="form-control "
+                     required />
+            </div>
+            <!-- OvertimeHours -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+              <label class="badge badge-warning">
+                {{"AttendanceMaintenance.OvertimeTemporary.OvertimeHours" | translate}}
+              </label>
+              <input autocomplete="off"
+                     type="text"
+                     class="form-control"
+                     min="0"
+                     [mask]="'separator'"
+                     [thousandSeparator]="''"
+                     (keypress)="preventNegativeInput($event)"
+                     placeholder="{{'AttendanceMaintenance.OvertimeTemporary.OvertimeHours' | translate }}"
+                     name="overtime_Hours"
+                     [(ngModel)]="data.overtime_Hours"
+                     (input)="validateInput($event,'Overtime Hours')" />
+            </div>
+            <!-- NightHours -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+              <label class="badge badge-warning">
+                {{"AttendanceMaintenance.OvertimeTemporary.NightHours" | translate}}
+              </label>
+              <input autocomplete="off"
+                     type="text"
+                     class="form-control"
+                     min="0"
+                     [mask]="'separator'"
+                     [thousandSeparator]="''"
+                     (keypress)="preventNegativeInput($event)"
+                     placeholder="{{'AttendanceMaintenance.OvertimeTemporary.NightHours' | translate }}"
+                     name="night_Hours"
+                     [(ngModel)]="data.night_Hours"
+                     (input)="validateInput($event,'Night Hours')" />
+            </div>
+            <!-- NightOvertimeHours -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+              <label class="badge badge-warning">
+                {{"AttendanceMaintenance.OvertimeTemporary.NightOvertimeHours" | translate}}
+              </label>
+              <input autocomplete="off"
+                     type="text"
+                     class="form-control"
+                     min="0"
+                     [mask]="'separator'"
+                     [thousandSeparator]="''"
+                     (keypress)="preventNegativeInput($event)"
+                     placeholder="{{'AttendanceMaintenance.OvertimeTemporary.NightOvertimeHours' | translate }}"
+                     name="night_Overtime_Hours"
+                     [(ngModel)]="data.night_Overtime_Hours"
+                     (input)="validateInput($event,'Night Overtime Hours')" />
+            </div>
+            <!-- TrainingHours -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+              <label class="badge badge-warning">
+                {{"AttendanceMaintenance.OvertimeTemporary.TrainingHours" | translate}}
+              </label>
+              <input autocomplete="off"
+                     type="text"
+                     class="form-control"
+                     min="0"
+                     [mask]="'separator'"
+                     [thousandSeparator]="''"
+                     (keypress)="preventNegativeInput($event)"
+                     placeholder="{{'AttendanceMaintenance.OvertimeTemporary.TrainingHours' | translate }}"
+                     name="training_Hours"
+                     [(ngModel)]="data.training_Hours"
+                     (input)="validateInput($event,'Training Hours')" />
+            </div>
+            <!-- NightShiftAllowanceTimes -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+              <label class="badge badge-warning">
+                {{"AttendanceMaintenance.OvertimeTemporary.NightShiftAllowanceTimes" | translate}}
+              </label>
+              <input autocomplete="off"
+                     type="number"
+                     class="form-control"
+                     min="0"
+                     onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                     placeholder="{{'AttendanceMaintenance.OvertimeTemporary.NightShiftAllowanceTimes' | translate }}"
+                     name="night_Eat"
+                     [(ngModel)]="data.night_Eat"
+                     (input)="validateInput($event,'Night Shift Allowance Times')" />
+            </div>
+            <!-- Holiday -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+              <label class="badge badge-warning">
+                {{"AttendanceMaintenance.OvertimeTemporary.Holiday" | translate}}
+              </label>
+              <ng-select [(ngModel)]="data.holiday"
+                         name="holiday"
+                         appendTo="body"
+                         dropdownPosition="bottom"
+                         [clearable]="data.holiday != 'XXX'"
+                         (clear)="data.holiday = 'XXX'"
+                         placeholder="{{'AttendanceMaintenance.OvertimeTemporary.Holiday' | translate}}...">
+                <ng-option *ngFor="let item of listHoliday"
+                           value="{{ item.key }}">{{item.value}}</ng-option>
+              </ng-select>
+            </div>
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button"
+                  class="btn btn-success"
+                  (click)="save()"
+                  [disabled]="!editForm.valid || inputError">
+            <i class="{{ iconButton.SAVE }} mr-1"
+               aria-hidden="true"> </i>{{'System.Action.Save' | translate }}
+          </button>
+          <button type="button"
+                  class="{{classButton.CLOSE}}"
+                  (click)="close()">
+            <i class="{{ iconButton.CLOSE }} mr-1"
+               aria-hidden="true"></i>{{'System.Action.Close' | translate }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

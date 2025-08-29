@@ -1,0 +1,248 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row border-title">
+            <div class="col-md-12">
+              <strong>{{ title }}</strong>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form class="form-horizontal border-shadow" autocomplete="off">
+            <div class="row">
+              <!-- Factory -->
+              <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6">
+                <label class="badge badge-warning">
+                  {{"AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.Factory" | translate}}
+                  <span class="text-danger">*</span>
+                </label>
+                <ng-select name="factory" [(ngModel)]="param.factory" (ngModelChange)="onFactoryChange()"
+                  (clear)="deleteProperty('factory')" [clearable]="param.factory !== ''"
+                  placeholder='{{"AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.Factory" | translate}}'>
+                  <ng-option *ngFor="let i of listFactory" [value]="i.key">{{i.value}}</ng-option>
+                </ng-select>
+              </div>
+
+              <!-- Year-Month of Attendance -->
+              <div class="col-xxl-6 col-xl-8 col-lg-8 col-md-6">
+                <label class="badge badge-warning">
+                  {{"AttendanceMaintenance.MonthlyAttendanceDataMaintenanceResignedEmployees.YearMonth" | translate }}
+                  <span class="text-danger text-bold">*</span>
+                </label>
+                <div class="full-width">
+                  <div class="container_input">
+                    <div class="input-group mr-3">
+                      <input type="text" autocomplete="off" placeholder="YYYY/MM" name="month_From" [maxDate]="month_To"
+                        [bsConfig]="bsConfig" class="form-control" bsDatepicker [(ngModel)]="month_From"
+                        (blur)="validateDate(month_From)" onpaste="return false" required />
+                      <div class="input-group-append">
+                        <span class="input-group-text">
+                          <i class="{{ iconButton.CALENDAR }}"></i>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="input-group ml-3">
+                      <input type="text" autocomplete="off" placeholder="YYYY/MM" name="month_To" [minDate]="month_From"
+                        [bsConfig]="bsConfig" class="form-control" bsDatepicker [(ngModel)]="month_To"
+                        (blur)="validateDate(month_To)" onpaste="return false" required />
+                      <div class="input-group-append">
+                        <span class="input-group-text">
+                          <i class="{{ iconButton.CALENDAR }}"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- EmployeeID -->
+              <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6">
+                <label class="badge badge-warning">
+                  {{"AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.EmployeeID" | translate}}
+                </label>
+                <input type="text" class="form-control" maxlength="9" name="employee_ID" [(ngModel)]="param.employee_ID"
+                  placeholder="{{'AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.EmployeeID' | translate}}" />
+              </div>
+
+              <!-- Paid Salary Days -->
+              <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6">
+                <label class="badge badge-warning">
+                  {{"AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.PaidSalaryDays" | translate}}
+                </label>
+                <input type="text" class="form-control" name="salary_Days" [(ngModel)]="param.salary_Days"
+                  (keypress)="validateDecimal($event)"
+                  placeholder="{{'AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.PaidSalaryDays' | translate}}" />
+              </div>
+
+              <!-- Department -->
+              <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6">
+                <label class="badge badge-warning">
+                  {{"AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.Department" | translate}}
+                </label>
+                <ng-select name="department" [(ngModel)]="param.department" (clear)="deleteProperty('department')"
+                  [clearable]="param.department !== ''"
+                  placeholder='{{"AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.Department" | translate}}'
+                  [disabled]="!param.factory">
+                  <ng-option *ngFor="let i of listDepartment" [value]="i.key">{{i.value}}</ng-option>
+                </ng-select>
+              </div>
+
+              <!-- Submit Button -->
+              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12">
+                <label class="d-block">&nbsp;</label>
+                <!-- Search -->
+                <button *ngIf="functionUtility.checkFunction('Search')" type="submit"
+                  [disabled]="!checkRequiredParams()" class="btn btn-primary mr-2 mb-1 " (click)="search(true)">
+                  <i class="{{iconButton.SEARCH}}"></i> {{"System.Action.Search" | translate }}
+                </button>
+                <!-- Clear -->
+                <button type="button" class="btn btn-danger mr-2 mb-1 " (click)="clear()">
+                  <i class="{{ iconButton.CLEAR }}"></i> {{"System.Action.Clear" | translate }}
+                </button>
+                <!-- Add -->
+                <button *ngIf="functionUtility.checkFunction('Add')" type="button" class="btn btn-success mr-2 mb-1 "
+                  (click)="add()">
+                  <i class="{{iconButton.ADD}}"></i> {{"System.Action.Add" | translate }}
+                </button>
+                <!-- Download -->
+                <button *ngIf="functionUtility.checkFunction('Excel')" type="button" class="btn btn-success mr-2 mb-1"
+                  [disabled]="!checkRequiredParams()" (click)="download()">
+                  <i class="{{iconButton.EXCEL}}"></i> {{"System.Action.Excel" | translate }}
+                </button>
+                <!-- Upload -->
+                <label *ngIf="functionUtility.checkFunction('Upload')" class="btn btn-success mr-2 mb-1 mb-0">
+                  <input class="custom-upload" type="file" (change)="upload($event, true)">
+                  <i class="{{iconButton.UPLOAD}}"></i> {{"System.Action.Upload" | translate }}
+                </label>
+                <!-- Download Template -->
+                <button *ngIf="functionUtility.checkFunction('Upload')" type="button" class="btn btn-primary mr-2 mb-1"
+                  (click)="download(true)">
+                  <i class="{{iconButton.EXCEL}}"></i>
+                  {{'System.Action.ExcelTemplate' | translate }}
+                </button>
+              </div>
+            </div>
+          </form>
+          <div class="row justify-content-md-center">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="table-responsive">
+                <drag-scroll id="dragscroll" (dragStart)="functionUtility.setTextSelector(false)"
+                  (dragEnd)="functionUtility.setTextSelector(true)">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th *ngIf="functionUtility.checkFunction('Query') || functionUtility.checkFunction('Edit')"
+                          class="text-center vertical-align-middle"
+                          [attr.colspan]="functionUtility.getColspan(['Query','Edit'])">
+                          {{ 'AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.Operation' | translate }}
+                        </th>
+                        <th class="text-center vertical-align-middle">
+                          {{"AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.Pass" | translate }}
+                        </th>
+                        <th class="text-center vertical-align-middle">
+                          {{"AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.Factory" | translate }}
+                        </th>
+                        <th class="text-center vertical-align-middle">
+                          {{"AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.YearMonth" | translate }}
+                        </th>
+                        <th class="text-center vertical-align-middle">
+                          {{"AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.Department" | translate }}
+                        </th>
+                        <th class="text-center vertical-align-middle">
+                          {{"AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.EmployeeID" | translate }}
+                        </th>
+                        <th class="text-center vertical-align-middle">
+                          {{"AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.LocalFullName" | translate }}
+                        </th>
+                        <th class="text-center vertical-align-middle">
+                          {{"AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.NewHiredResigned" | translate
+                          }}
+                        </th>
+                        <th class="text-center vertical-align-middle">
+                          {{"AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.PermissionGroup" | translate
+                          }}
+                        </th>
+                        <th class="text-center vertical-align-middle">
+                          {{"AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.SalaryType" | translate }}
+                        </th>
+                        <th class="text-center vertical-align-middle">
+                          {{"AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.PaidSalaryDays" | translate }}
+                        </th>
+                        <th class="text-center vertical-align-middle">
+                          {{"AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.ActualWorkDays" | translate }}
+                        </th>
+                        <th class="text-center vertical-align-middle">
+                          {{"AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.UpdateBy" | translate }}
+                        </th>
+                        <th class="text-center vertical-align-middle">
+                          {{"AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.UpdateTime" | translate }}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody *ngIf="data.length > 0; else dataNotFound">
+                      <tr *ngFor="let item of data">
+                        <td *ngIf="functionUtility.checkFunction('Query')"
+                          class="text-center vertical-align-middle-button">
+                          <button class="btn btn-info btn-sm btn-sm" (click)="query(item)">
+                            <i class="{{iconButton.VIEW}}" aria-hidden="true"></i>
+                            {{'System.Action.Query' | translate}}
+                          </button>
+                        </td>
+                        <td *ngIf="functionUtility.checkFunction('Edit')"
+                          class="text-center vertical-align-middle-button">
+                          <button class="btn btn-warning btn-sm" (click)="edit(item)" [disabled]="item.pass == true">
+                            <i class="{{iconButton.EDIT}}" aria-hidden="true"></i>
+                            {{'System.Action.Edit' | translate}}
+                          </button>
+                        </td>
+                        <td class="text-center vertical-align-middle">{{item.pass_Str}}</td>
+                        <td class="text-center vertical-align-middle">{{item.factory}}</td>
+                        <td class="text-center vertical-align-middle">{{item.att_Month}}</td>
+                        <td class="text-center vertical-align-middle">{{item.department}}</td>
+                        <td class="text-center vertical-align-middle">{{item.employee_ID}}</td>
+                        <td class="text-center vertical-align-middle">{{item.local_Full_Name}}</td>
+                        <td class="text-center vertical-align-middle">{{item.resign_Status}}</td>
+                        <td class="text-center vertical-align-middle">{{item.permission_Group}}</td>
+                        <td class="text-center vertical-align-middle">{{item.salary_Type}}</td>
+                        <td class="text-center vertical-align-middle">{{item.salary_Days}}</td>
+                        <td class="text-center vertical-align-middle">{{item.actual_Days}}</td>
+                        <td class="text-center vertical-align-middle">{{item.update_By}}</td>
+                        <td class="text-center vertical-align-middle">{{item.update_Time | date:'yyyy/MM/dd HH:mm:ss'}}
+                        </td>
+                      </tr>
+                    </tbody>
+                    <ng-template #dataNotFound>
+                      <tbody>
+                        <tr>
+                          <td colspan="100%" class="table-warning text-center font-weight-bold">
+                            {{"System.Message.Nodata" | translate }}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </ng-template>
+                  </table>
+                </drag-scroll>
+              </div>
+              <div class="row">
+                <div class="col-8">
+                  <div class="d-flex" *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                    <pagination [boundaryLinks]="true" [totalItems]="pagination.totalCount"
+                      [itemsPerPage]="pagination.pageSize" previousText="&lsaquo;" nextText="&rsaquo;"
+                      firstText="&laquo;" lastText="&raquo;" [maxSize]="5" [(ngModel)]="pagination.pageNumber"
+                      (pageChanged)="pageChanged($event)">
+                    </pagination>
+                    <span class="cs-page ml-2"> Page - {{ pagination.pageNumber }} / {{ pagination.totalPage }}</span>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <span class="cs-page float-right ">{{'System.Rows' | translate }} : {{pagination.totalCount}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

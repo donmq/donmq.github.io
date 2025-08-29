@@ -1,0 +1,44 @@
+.custom-control {
+  padding-left: 0.8rem !important;
+  .form-check-inline {
+    padding-left: 1.3rem !important;
+  }
+}
+.table {
+  td {
+    vertical-align: middle;
+  }
+  .result-cell {
+    padding-left: 0rem;
+    padding-right: 0rem;
+  }
+}
+.seq-column {
+  max-width: 100px;
+  min-width: 60px;
+  width: 80px;
+}
+.catalog-column {
+  min-width: 120px;
+}
+.name-column {
+  min-width: 240px;
+}
+.score-column {
+  min-width: 150px;
+}
+.level-column {
+  min-width: 150px;
+}
+.result-column {
+  min-width: 100px;
+}
+.date-column {
+  min-width: 180px;
+}
+.remark-column {
+  min-width: 150px;
+}
+.operation-column {
+  min-width: 100px;
+}

@@ -1,0 +1,125 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              #executeForm="ngForm"
+              autocomplete="off">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">{{ title }}</strong>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row border-shadow">
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning">
+                  {{"SalaryMaintenance.NightShiftSubsidyMaintenance.Factory" | translate }}
+                  <span class="text-danger text-bold">*</span>
+                </label>
+                <ng-select name="factory"
+                           [(ngModel)]="param.factory"
+                           (ngModelChange)="onFactoryChange()"
+                           (clear)="deleteProperty('factory')"
+                           [clearable]="param.factory !== ''"
+                           placeholder="{{'SalaryMaintenance.NightShiftSubsidyMaintenance.Factory' | translate }}"
+                           required>
+                  <ng-option *ngFor="let data of factories"
+                             [value]="data.key">{{data.value}}
+                  </ng-option>
+                </ng-select>
+              </div>
+
+              <!-- Year-Month -->
+              <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                <label class="badge badge-warning">{{'AttendanceMaintenance.FactoryCalendar.Month' | translate }}<span class="text-danger">
+                    *</span></label>
+                <div class="full-width">
+                  <div class="container_input">
+                    <div class="input-group mr-1">
+                      <input type="text"
+                             autocomplete="off"
+                             placeholder="{{placeholder.YearMonth}}"
+                             name="month"
+                             [bsConfig]="bsConfig"
+                             class="form-control custom-border"
+                             bsDatepicker
+                             [(ngModel)]="year_Month"
+                             (ngModelChange)="onYearMonthChange()"
+                             required
+                             onpaste="return false" />
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Permission Group -->
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-auto">
+                    <div class="form-group">
+                      <label class="badge badge-warning">
+                        {{ "SalaryMaintenance.NightShiftSubsidyMaintenance.PermissionGroup" | translate }}
+                        <span class="text-danger text-bold"> *</span>
+                      </label>
+                      <ng-select id="permission_Group"
+                                 name="permission_Group"
+                                 [items]="permissions"
+                                 [multiple]="true"
+                                 groupBy="allGroup"
+                                 [selectableGroup]="true"
+                                 [selectableGroupAsModel]="false"
+                                 [closeOnSelect]="false"
+                                 bindLabel="value"
+                                 bindValue="key"
+                                 [(ngModel)]="param.permission"
+                                 [clearable]="param.permission?.length > 0"
+                                 (clear)="param.permission = []"
+                                 [disabled]="!param.factory"
+                                 required
+                                 placeholder="{{ 'SalaryMaintenance.NightShiftSubsidyMaintenance.PermissionGroup' | translate }}">
+                        <ng-template ng-optgroup-tmp
+                                     let-item="item"
+                                     let-item$="item$"
+                                     let-index="index">
+                          <input id="item-{{ index }}"
+                                 type="checkbox"
+                                 name="item-{{ index }}"
+                                 [ngModel]="item$.selected" /> {{ 'System.Action.SelectAll' | translate }}</ng-template>
+                        <ng-template ng-option-tmp
+                                     let-item="item"
+                                     let-item$="item$"
+                                     let-index="index">
+                          <input id="item-{{ index }}"
+                                 name="item-{{ index }}"
+                                 type="checkbox"
+                                 [ngModel]="item$.selected" /> {{ item.value }} </ng-template>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Action -->
+              <div class="col-12 pb-2">
+                <button *ngIf="this.functionUtility.checkFunction('Execute')"
+                        type="button"
+                        class="{{ classButton.SAVE }}"
+                        [disabled]="!executeForm.valid"
+                        (click)="excuteConfirm()">
+                  {{ "System.Action.Execute" | translate }}
+                </button>
+              </div>
+              <div>
+                <strong class="title-card-cs pl-3">{{ "SalaryMaintenance.NightShiftSubsidyMaintenance.Total" | translate }}
+                  <span class="text-primary">{{ processedRecords }}</span>
+                </strong>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>

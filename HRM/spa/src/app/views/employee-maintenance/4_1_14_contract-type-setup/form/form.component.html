@@ -1,0 +1,461 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <form class="card form-horizontal needs-validation"
+            autocomplete="off">
+        <div class="form-horizontal">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">{{ title }} - {{ 'System.Action.' + formType |translate}}</strong>
+                <!-- Button Back -->
+                <button type="button"
+                        class="btn btn-sm btn-primary float-right"
+                        (click)="back()">
+                  <i class="fa fa-chevron-left"></i>
+                  {{ 'System.Action.Back' | translate}}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row border-shadow">
+            <!-- Division -->
+            <div class="col-md-3 col-sm-3 mb-3">
+              <label class="badge badge-warning">
+                {{"EmployeeInformationModule.ContractTypeSetup.Division"
+                | translate}}
+                <span class="text-danger">*</span>
+              </label>
+              <ng-select name="division"
+                         [(ngModel)]="data.division"
+                         [disabled]="formType == 'Edit'"
+                         (clear)="deleteProperty('division')"
+                         [clearable]="data.division !== ''"
+                         (ngModelChange)="onDivisionChange()"
+                         placeholder='{{"EmployeeInformationModule.ContractTypeSetup.Division" | translate}}'
+                         required>
+                <ng-option *ngFor="let i of listDivision"
+                           [value]="i.key">{{i.value}}</ng-option>
+              </ng-select>
+            </div>
+
+            <!-- Factory -->
+            <div class="col-md-3 col-sm-3 mb-3">
+              <label class="badge badge-warning">
+                {{'EmployeeInformationModule.ContractTypeSetup.Factory'|translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <ng-select name="factory"
+                         [(ngModel)]="data.factory"
+                         [disabled]="formType == 'Edit'"
+                         (clear)="deleteProperty('factory')"
+                         [clearable]="data.factory !== ''"
+                         placeholder='{{"EmployeeInformationModule.ContractTypeSetup.Factory" | translate}}'>
+                <ng-option *ngFor="let i of listFactory"
+                           [value]="i.key">{{i.key}} - {{i.value}}</ng-option>
+              </ng-select>
+            </div>
+
+            <!-- Contract Type -->
+            <div class="col-md-3 col-sm-3 mb-3">
+              <label class="badge badge-warning">
+                {{'EmployeeInformationModule.ContractTypeSetup.ContractType'|translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <input type="text"
+                     name="contract_Type"
+                     class="form-control"
+                     [(ngModel)]="data.contract_Type"
+                     [maxlength]="10"
+                     required
+                     placeholder="{{ 'EmployeeInformationModule.ContractTypeSetup.ContractType' | translate }}...">
+            </div>
+
+            <!-- Contract Title -->
+            <div class="col-md-3 col-sm-3 mb-3">
+              <label class="badge badge-warning">
+                {{'EmployeeInformationModule.ContractTypeSetup.ContractTitle'|translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <input type="text"
+                     name="contract_Title"
+                     class="form-control"
+                     [(ngModel)]="data.contract_Title"
+                     [maxlength]="50"
+                     required
+                     placeholder="{{ 'EmployeeInformationModule.ContractTypeSetup.ContractTitle' | translate }}...">
+            </div>
+
+            <!-- Probationary Period -->
+            <div class="col-md-3 col-sm-3 mb-3">
+              <label class="badge badge-warning">
+                {{'EmployeeInformationModule.ContractTypeSetup.ProbationaryPeriod'|translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <div class="row pl-3">
+                <div *ngFor="let item of probationary_Period; let i">
+                  <label class="container">
+                    <div class="row">
+                      <div class="custom-control custom-radio pt-2">
+                        <input id="probationary_Period + i"
+                               required
+                               class="custom-control-input"
+                               type="radio"
+                               checked="checked"
+                               name="period"
+                               [(ngModel)]="data.probationary_Period"
+                               [value]="item.key" />
+                        <p class="custom-control-label"
+                           for="probationary_Period + i">
+                          <strong>
+                            {{ item.value }}
+                          </strong>
+                        </p>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Alert or not -->
+            <div class="col-md-3 col-sm-3 mb-3">
+              <label class="badge badge-warning">
+                {{'EmployeeInformationModule.ContractTypeSetup.Alertornot'|translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <div class="row pl-3">
+                <div *ngFor="let item of alert; let i">
+                  <label class="container">
+                    <div class="row">
+                      <div class="custom-control custom-radio pt-2">
+                        <input id="alert + i"
+                               class="custom-control-input"
+                               required
+                               type="radio"
+                               checked="checked"
+                               name="status"
+                               (ngModelChange)="onChangeDetail()"
+                               [(ngModel)]="data.alert"
+                               [value]="item.key" />
+                        <p class="custom-control-label"
+                           for="alert + i">
+                          <strong>
+                            {{ item.value }}
+                          </strong>
+                        </p>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Contract / ProbationaryPeriod -->
+            <div class="col-md-6 col-sm-6 mb-3">
+              <div class="full-width">
+                <div class="container-date">
+                  <label class="badge badge-warning">
+                    {{'EmployeeInformationModule.ContractTypeSetup.ContractProbationaryPeriod'|translate}}
+                    <span class="text-danger text-bold"> *</span>
+                  </label>
+                  <div class="input-group mr-1">
+                    <!-- Years -->
+                    <div class="input-container d-flex">
+                      <label class="badge badge-warning badge-contract"
+                             for="yearInput">{{'EmployeeInformationModule.ContractTypeSetup.Years'|translate}}</label>
+                      <input autocomplete="off"
+                             type="number"
+                             id="yearInput"
+                             [(ngModel)]="data.probationary_Year"
+                             placeholder="{{'EmployeeInformationModule.ContractTypeSetup.Years'|translate}}"
+                             class="form-control bg-white mr-1 ml-1"
+                             name='year'
+                             min="0"
+                             max="9999"
+                             pattern="^[1-9][0-9]?$"
+                             oninput="if(this.value.length > 2) { this.value = this.value.slice(0,4);}"
+                             onkeypress="return /[0-9]/i.test(event.key)" />
+                    </div>
+                    <!-- Months -->
+                    <div class="input-container d-flex">
+                      <label class="badge badge-warning badge-contract"
+                             for="monthInput">{{'EmployeeInformationModule.ContractTypeSetup.Months'|translate}}</label>
+                      <input autocomplete="off"
+                             type="number"
+                             id="monthInput"
+                             [(ngModel)]="data.probationary_Month"
+                             min="1"
+                             max="12"
+                             oninput="if(this.value.length > 2) { this.value = this.value.slice(0,2);}"
+                             onkeypress="return /[0-9]/i.test(event.key)"
+                             placeholder="{{'EmployeeInformationModule.ContractTypeSetup.Months'|translate}}"
+                             class="form-control bg-white  mr-1 ml-1"
+                             name='month' />
+                    </div>
+                    <!-- Days -->
+                    <div class="input-container d-flex">
+                      <label class="badge badge-warning badge-contract"
+                             for="dayInput">{{'EmployeeInformationModule.ContractTypeSetup.Days'|translate}}</label>
+                      <input autocomplete="off"
+                             type="number"
+                             id="dayInput"
+                             [(ngModel)]="data.probationary_Day"
+                             min="1"
+                             max="31"
+                             oninput="if(this.value.length > 2) { this.value = this.value.slice(0,2);}"
+                             onkeypress="return /[0-9]/i.test(event.key)"
+                             placeholder="{{'EmployeeInformationModule.ContractTypeSetup.Days'|translate}}"
+                             class="form-control bg-white ml-1"
+                             name='day' />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row justify-content-md-center">
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <table class="table table-bordered ">
+                  <thead>
+                    <th class="centered">
+
+                    </th>
+                    <th colspan="2"
+                        class="text-center">
+                      {{"EmployeeInformationModule.ContractTypeSetup.ScheduleType"|translate}}
+                    </th>
+                    <th></th>
+                    <th colspan="6"
+                        class="text-center">
+                      {{"EmployeeInformationModule.ContractTypeSetup.AlertDataRange"|translate}}
+                    </th>
+                    <th></th>
+                  </thead>
+                  <thead>
+                    <tr class="text-center">
+                      <th>
+                        {{'EmployeeInformationModule.ContractTypeSetup.Operation'|translate}}
+                      </th>
+                      <th>
+                        {{'EmployeeInformationModule.ContractTypeSetup.Seq'|translate}}
+                      </th>
+                      <th>
+                        {{'EmployeeInformationModule.ContractTypeSetup.ScheduleFrequency'|translate}}
+                        <span class="text-danger text-bold"> *</span>
+                      </th>
+                      <th>
+                        {{'EmployeeInformationModule.ContractTypeSetup.DayOfMonth'|translate}}
+                      </th>
+                      <th class="custom-th-wide">
+                        {{'EmployeeInformationModule.ContractTypeSetup.AlertRules'|translate}}
+                        <span class="text-danger text-bold"> *</span>
+                      </th>
+                      <th>
+                        {{'EmployeeInformationModule.ContractTypeSetup.DaysBeforeExpiryDate'|translate}}
+                      </th>
+                      <th>
+                        {{'EmployeeInformationModule.ContractTypeSetup.MonthRangePeriod'|translate}}
+                      </th>
+                      <th>
+                        {{'EmployeeInformationModule.ContractTypeSetup.ContractExpirationDateStart'|translate}}
+                      </th>
+                      <th>
+                        {{'EmployeeInformationModule.ContractTypeSetup.ContractExpirationDateEnd'|translate}}
+                      </th>
+                      <th>
+                        {{'EmployeeInformationModule.ContractTypeSetup.UpdateBy'|translate}}
+                      </th>
+                      <th>
+                        {{'EmployeeInformationModule.ContractTypeSetup.UpdateTime'|translate}}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let itemArray of dataDetail; let i = index ">
+                      <td class="text-center">
+                        <button class="btn btn-danger btn-sm"
+                                (click)="deleteItem(i)">
+                          <i class="{{iconButton.DELETE}}"
+                             aria-hidden="true"></i>
+                          {{'System.Action.Delete' |
+                          translate}}
+                        </button>
+                      </td>
+                      <td class="text-center">
+                        <input type="text"
+                               [name]="'seq' + i"
+                               disabled
+                               class="form-control text-center"
+                               [(ngModel)]="itemArray.seq">
+                      </td>
+                      <td class="text-center">
+                        <ng-select [name]="'schedule_Frequency' + i"
+                                   [(ngModel)]="itemArray.schedule_Frequency"
+                                   [disabled]="!data.alert"
+                                   (ngModelChange)="onFieldValueChange($event, itemArray, 'schedule_Frequency', i)"
+                                   (clear)="deleteSubProperty('schedule_Frequency',i)"
+                                   [clearable]="itemArray.schedule_Frequency !== ''"
+                                   appendTo="body"
+                                   placeholder="{{'System.SelectAll'|translate}}"
+                                   required>
+                          <ng-option *ngFor="let i of listScheduleFrequency"
+                                     [value]="i.key">{{i.value}}</ng-option>
+                        </ng-select>
+                      </td>
+                      <td class="text-center">
+                        <input type="number"
+                               class="form-control text-center"
+                               [name]="'day_Of_Month' + i"
+                               [disabled]="!data.alert"
+                               min="0"
+                               max="30"
+                               pattern="^[1-9][0-9]?$"
+                               oninput="if(this.value.length > 2) { this.value = this.value.slice(0,2);}"
+                               onkeypress="return /[0-9]/i.test(event.key)"
+                               [(ngModel)]="itemArray.day_Of_Month"
+                               (ngModelChange)="isEdit ? setUpdateByAndTime(i) : null">
+                      </td>
+                      <td class="text-center">
+                        <ng-select [name]="'alert_Rules' + i"
+                                   [(ngModel)]="itemArray.alert_Rules"
+                                   min="0"
+                                   (ngModelChange)="onFieldValueChange($event, itemArray, 'alert_Rules', i)"
+                                   [disabled]="!data.alert"
+                                   (clear)="deleteSubProperty('alert_Rules',i)"
+                                   [clearable]="itemArray.alert_Rules !== ''"
+                                   appendTo="body"
+                                   placeholder="{{'System.SelectAll'|translate}}"
+                                   (ngModelChange)="isEdit ? setUpdateByAndTime(i) : null">
+                          <ng-option *ngFor="let i of listAlertRule"
+                                     [value]="i.key">{{i.value}}</ng-option>
+                        </ng-select>
+                      </td>
+                      <td class="text-center">
+                        <input type="number"
+                               class="form-control text-center"
+                               [name]="'days_Before_Expiry_Date' + i"
+                               min="0"
+                               max="99"
+                               pattern="^[1-9][0-9]?$"
+                               oninput="if(this.value.length > 2) { this.value = this.value.slice(0,2);}"
+                               onkeypress="return /[0-9]/i.test(event.key)"
+                               [disabled]="!data.alert || itemArray.schedule_Frequency == 'M'"
+                               [(ngModel)]="itemArray.days_Before_Expiry_Date"
+                               (ngModelChange)="isEdit ? setUpdateByAndTime(i) : null">
+                      </td>
+                      <td class="text-center">
+                        <input type="number"
+                               [name]="'month_Range' + i"
+                               class="form-control text-center"
+                               min="0"
+                               max="99"
+                               pattern="^[1-9][0-9]?$"
+                               oninput="if(this.value.length > 2) { this.value = this.value.slice(0,2);}"
+                               onkeypress="return /[0-9]/i.test(event.key)"
+                               [disabled]="!data.alert || itemArray.schedule_Frequency == 'D'"
+                               [(ngModel)]="itemArray.month_Range"
+                               (ngModelChange)="isEdit ? setUpdateByAndTime(i) : null">
+                      </td>
+                      <td class="text-center">
+                        <input type="number"
+                               class="form-control text-center"
+                               title="contract_Start"
+                               [disabled]="!data.alert || itemArray.schedule_Frequency == 'D'"
+                               [name]="'contract_Start' + i"
+                               pattern="^[1-9][0-9]?$"
+                               id="contract_Start"
+                               [name]="'contract_Start' + i"
+                               [(ngModel)]="itemArray.contract_Start"
+                               min="1"
+                               max="31"
+                               (keydown)="validateInput($event)"
+                               (keypress)="validateInput($event)"
+                               oninput="if(this.value.length > 2) { this.value = this.value.slice(0,2);}"
+                               onkeypress="return /[0-9]/i.test(event.key)"
+                               (ngModelChange)="isEdit ? setUpdateByAndTime(i) : null">
+                      </td>
+                      <td class="text-center">
+                        <input type="number"
+                               class="form-control text-center"
+                               title="contract_End"
+                               [disabled]="!data.alert || itemArray.schedule_Frequency == 'D'"
+                               [name]="'contract_End' + i"
+                               pattern="^[1-9][0-9]?$"
+                               id="contract_End"
+                               [name]="'contract_End' + i"
+                               [(ngModel)]="itemArray.contract_End"
+                               min="1"
+                               max="31"
+                               (keydown)="validateInput($event)"
+                               (keypress)="validateInput($event)"
+                               oninput="if(this.value.length > 2) { this.value = this.value.slice(0,2);}"
+                               onkeypress="return /[0-9]/i.test(event.key)"
+                               onpaste="return false;"
+                               (ngModelChange)="isEdit ? setUpdateByAndTime(i) : null">
+                      </td>
+                      <td class="text-center">
+                        <input type="text"
+                               [name]="'update_By' + i"
+                               disabled
+                               class="form-control text-center"
+                               [(ngModel)]="itemArray.update_By">
+                      </td>
+                      <td class="text-center">
+                        <input type="text"
+                               [name]="'update_Time' + i"
+                               disabled
+                               class="form-control text-center"
+                               bsDatepicker
+                               [bsConfig]="bsConfig"
+                               [(ngModel)]="itemArray.update_Time">
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tr class="no-data"
+                      *ngIf="dataDetail.length === 0">
+                    <td colspan="100%"
+                        class="table-warning text-center font-weight-bold">
+                      {{'System.Message.Nodata' | translate }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="text-center"
+                        colspan="100%">
+                      <button type="button"
+                              class="{{classButton.tDETAIL}}"
+                              [disabled]="!data.alert"
+                              (click)="addItem()">
+                        <i class="{{ iconButton.ADD }}"></i>
+                        {{'System.Action.Add' | translate }}
+                      </button>
+                    </td>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="row justify-content-md-center">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="table-responsive text-right">
+                <button type="submit"
+                        class="btn btn-success ml-1"
+                        [disabled]="checkValidate()"
+                        (click)="save()"><i class="{{ iconButton.SUBMIT }}"></i>
+                  {{'System.Action.Save' | translate}}</button>
+                <button type="button"
+                        class="btn btn-danger ml-1"
+                        (click)="cancel()"><i class="{{ iconButton.CLOSE }}"></i>
+                  {{'System.Action.Close' |
+                  translate}}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,229 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off"
+              #mainForm="ngForm">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">{{ title }}</strong>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row border-shadow">
+              <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                <label class="badge badge-warning">{{'AttendanceMaintenance.FactoryCalendar.Division' | translate }}<span class="text-danger">
+                    *</span></label>
+                <ng-select name="division"
+                           [(ngModel)]="param.division"
+                           (clear)="deleteProperty('division')"
+                           (ngModelChange)="onDivisionChange()"
+                           [clearable]="param.division !== ''"
+                           placeholder="{{'AttendanceMaintenance.FactoryCalendar.Division' | translate }}"
+                           required>
+                  <ng-option *ngFor="let item of divisionList"
+                             [value]="item.key">{{ item.value }}</ng-option>
+                </ng-select>
+              </div>
+              <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                <label class="badge badge-warning">{{'AttendanceMaintenance.FactoryCalendar.Factory' | translate }}<span class="text-danger">
+                    *</span></label>
+                <ng-select name="factory"
+                           [(ngModel)]="param.factory"
+                           (clear)="deleteProperty('factory')"
+                           [clearable]="param.factory !== ''"
+                           [disabled]="!param.division"
+                           placeholder="{{'AttendanceMaintenance.FactoryCalendar.Factory' | translate }}"
+                           required>
+                  <ng-option *ngFor="let item of factoryList"
+                             [value]="item.key">{{ item.value }}</ng-option>
+                </ng-select>
+              </div>
+
+              <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                <label class="badge badge-warning">{{'AttendanceMaintenance.FactoryCalendar.Month' | translate }}<span class="text-danger">
+                    *</span></label>
+                <div class="full-width">
+                  <div class="container_input">
+                    <div class="input-group mr-1">
+                      <input type="text"
+                             autocomplete="off"
+                             placeholder="YYYY/MM"
+                             name="month"
+                             [bsConfig]="bsConfig"
+                             class="form-control"
+                             bsDatepicker
+                             [(ngModel)]="param.month"
+                             (ngModelChange)="onDateChange()"
+                             [disabled]="!param.division"
+                             required
+                             onpaste="return false" />
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <label class="d-block">&nbsp;</label>
+                <button type="submit"
+                        class="{{classButton.SEARCH}}"
+                        (click)="search()"
+                        *ngIf="functionUtility.checkFunction('Search')"
+                        [disabled]="!mainForm.valid">
+                  <i class="{{ iconButton.SEARCH }}"></i> {{'System.Action.Search' | translate }}
+                </button>
+                <button type="submit"
+                        class="{{classButton.CLEAR}}"
+                        (click)="clear()">
+                  <i class="{{ iconButton.CLEAR }}"></i> {{'System.Action.Clear' | translate }}
+                </button>
+                <button type="button"
+                        class="{{classButton.ADD}}"
+                        (click)="add()"
+                        *ngIf="functionUtility.checkFunction('Add')">
+                  <i class="{{ iconButton.ADD }}"></i> {{'System.Action.Add' | translate }}
+                </button>
+                <label type="button"
+                       class="{{classButton.UPLOAD}}"
+                       style="cursor: pointer; margin-bottom: 0"
+                       *ngIf="functionUtility.checkFunction('Upload')">
+                  <i [class]="iconButton.UPLOAD"></i>
+                  {{'System.Action.Upload'| translate }}
+                  <input #inputRef
+                         type="file"
+                         name="upload"
+                         style="display: none"
+                         (change)="upload($event)" />
+                </label>
+                <button type="button"
+                        class="{{ classButton.SEARCH}}"
+                        (click)="downloadTemplate()"
+                        *ngIf="functionUtility.checkFunction('Upload')">
+                  <i class="{{ iconButton.EXCEL }}"></i>
+                  {{'System.Action.ExcelTemplate' | translate }}
+                </button>
+              </div>
+            </div>
+            <div class="row justify-content-md-center">
+              <div class="col-xxl-auto col-xl-auto col-lg-12 col-md-12 col-sm-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th class="text-center day-column">{{'AttendanceMaintenance.FactoryCalendar.Monday' | translate }}</th>
+                        <th class="text-center day-column">{{'AttendanceMaintenance.FactoryCalendar.Tuesday' | translate }}</th>
+                        <th class="text-center day-column">{{'AttendanceMaintenance.FactoryCalendar.Wednesday' | translate }}</th>
+                        <th class="text-center day-column">{{'AttendanceMaintenance.FactoryCalendar.Thursday' | translate }}</th>
+                        <th class="text-center day-column">{{'AttendanceMaintenance.FactoryCalendar.Friday' | translate }}</th>
+                        <th class="text-center day-column">{{'AttendanceMaintenance.FactoryCalendar.Saturday' | translate }}</th>
+                        <th class="text-center day-column">{{'AttendanceMaintenance.FactoryCalendar.Sunday' | translate }}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let week of data.calendar.weeks">
+                        <td [ngClass]="day.style"
+                            class="text-center day-cell"
+                            *ngFor="let day of week.days"
+                            (click)="onDateClick(day)">
+                          <label type="button"
+                                style="cursor: pointer; margin-bottom: 0"
+                                *ngIf="functionUtility.checkFunction('Upload')">{{ day.date }}
+                          </label>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tr *ngIf="data.calendar.weeks?.length === 0">
+                      <td colspan="100%"
+                          class="table-warning text-center font-weight-bold">
+                        {{'System.Message.Nodata' | translate }}
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+              <div class="col-xxl col-xl col-lg-12 col-md-12 col-sm-12">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="table-responsive">
+                      <table class="table table-bordered">
+                        <thead>
+                          <tr>
+                            <th class="text-center"
+                                [attr.colspan]="functionUtility.getColspan(['Edit','Delete'])"
+                                *ngIf="functionUtility.checkFunction('Edit') || functionUtility.checkFunction('Delete')">
+                              {{'AttendanceMaintenance.FactoryCalendar.Operation' | translate }}</th>
+                            <th class="text-center">{{'AttendanceMaintenance.FactoryCalendar.AttDate' | translate }}</th>
+                            <th class="text-center">{{'AttendanceMaintenance.FactoryCalendar.TypeCode' | translate }}</th>
+                            <th class="text-center">{{'AttendanceMaintenance.FactoryCalendar.Describe' | translate }}</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let item of data.table.result">
+                            <td class="text-center"
+                                *ngIf="functionUtility.checkFunction('Edit') || functionUtility.checkFunction('Delete')">
+                              <button type="button"
+                                      class="{{classButton.tEDIT}}"
+                                      (click)="edit(item)"><i class="{{ iconButton.EDIT }}"></i>
+                                {{'System.Action.Edit' | translate }}
+                              </button>
+                            </td>
+                            <td class="text-center custom-td-btn"
+                                *ngIf="functionUtility.checkFunction('Delete')">
+                              <button type="button"
+                                      class="{{classButton.tDELETE}}"
+                                      (click)="delete(item)"><i class="{{ iconButton.DELETE }}"></i>
+                                {{'System.Action.Delete' | translate }}
+                              </button>
+                            </td>
+                            <td class="text-center">{{ item.att_Date_Str }}</td>
+                            <td class="text-center">{{ item.type_Code + ' - ' + item.type_Code_Name}}</td>
+                            <td class="text-center">{{ item.describe }}</td>
+                          </tr>
+                        </tbody>
+                        <tr *ngIf="data.table.result?.length === 0">
+                          <td colspan="100%"
+                              class="table-warning text-center font-weight-bold">
+                            {{'System.Message.Nodata' | translate }}
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="col-8">
+                    <div class="d-flex"
+                         *ngIf="data.table.result?.length > 0 && data.table.pagination.totalPage > 0">
+                      <pagination [boundaryLinks]="true"
+                                  [totalItems]="data.table.pagination.totalCount"
+                                  [itemsPerPage]="data.table.pagination.pageSize"
+                                  previousText="&lsaquo;"
+                                  nextText="&rsaquo;"
+                                  firstText="&laquo;"
+                                  lastText="&raquo;"
+                                  [maxSize]="5"
+                                  [(ngModel)]="data.table.pagination.pageNumber"
+                                  (pageChanged)="changePage($event)"
+                                  [ngModelOptions]="{standalone: true}">
+                      </pagination>
+                      <span class="cs-page ml-2">
+                        Page - {{ data.table.pagination.pageNumber }} /
+                        {{ data.table.pagination.totalPage }}</span>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <span class="cs-page float-right ">{{'AttendanceMaintenance.FactoryCalendar.Rows' | translate }}
+                      {{data.table.pagination.totalCount}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

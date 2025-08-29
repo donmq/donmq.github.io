@@ -1,0 +1,166 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">{{ title }} - {{ 'System.Action.' + action | translate }}</strong>
+                <button type="button"
+                        class="{{classButton.BACK}}"
+                        (click)="back()">
+                  <i class="{{ iconButton.BACK }}"></i> {{'System.Action.Back' | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="card-body">
+          <div class="row border-shadow">
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <label for="textDepartment"
+                     class="badge badge-warning">{{'BasicMaintenance.RoleSetting.Role' | translate }}
+                <span class="text-danger text-bold"> *</span></label>
+              <input autocomplete="off"
+                     type="text"
+                     placeholder="{{'BasicMaintenance.RoleSetting.Role' | translate }}"
+                     class="form-control"
+                     maxlength="50"
+                     name="role"
+                     [(ngModel)]="selectedData.role_Setting.role"
+                     [disabled]="action == 'Edit'" />
+            </div>
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <label for="textDepartment"
+                     class="badge badge-warning">{{'BasicMaintenance.RoleSetting.Description' | translate }}
+                <span class="text-danger text-bold"> *</span></label>
+              <input autocomplete="off"
+                     type="text"
+                     placeholder="{{'BasicMaintenance.RoleSetting.Description' | translate }}"
+                     class="form-control"
+                     maxlength="50"
+                     name="description"
+                     [(ngModel)]="selectedData.role_Setting.description" />
+            </div>
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <label class="badge badge-warning">{{'BasicMaintenance.RoleSetting.Factory' | translate }}
+                <span class="text-danger text-bold"> *</span></label>
+              <ng-select name="factory"
+                         [(ngModel)]="selectedData.role_Setting.factory"
+                         (clear)="deleteProperty('factory')"
+                         [clearable]="selectedData.role_Setting.factory !== ''"
+                         placeholder="{{'BasicMaintenance.RoleSetting.Factory' | translate }}"
+                         [disabled]="action == 'Edit'">
+                <ng-option *ngFor="let item of factoryList"
+                           [value]="item.key">{{ item.value }}</ng-option>
+              </ng-select>
+            </div>
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <label class="badge badge-warning">{{'BasicMaintenance.RoleSetting.SalaryCode' | translate }}
+                <span class="text-danger text-bold"> *</span></label>
+              <ng-select name="salaryCode"
+                         [(ngModel)]="selectedData.role_Setting.permission_Group"
+                         (clear)="deleteProperty('permission_Group')"
+                         [clearable]="selectedData.role_Setting.permission_Group !== ''"
+                         placeholder="{{'BasicMaintenance.RoleSetting.SalaryCode' | translate }}">
+                <ng-option *ngFor="let item of salaryCodeList"
+                           [value]="item.key">{{ item.value }}</ng-option>
+              </ng-select>
+            </div>
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <label class="badge badge-warning">{{'BasicMaintenance.RoleSetting.Grade' | translate }}
+                <span class="text-danger text-bold"> *</span></label>
+              <div class="row">
+                <div class="col pr-1">
+                  <ng-select name="levelStart"
+                             [(ngModel)]="selectedData.role_Setting.level_Start"
+                             (clear)="deleteProperty('level_Start')"
+                             [clearable]="selectedData.role_Setting.level_Start !== ''"
+                             placeholder="{{'BasicMaintenance.RoleSetting.GradeStart' | translate }}"
+                             (ngModelChange)="levelChange('start', $event)">
+                    <ng-option *ngFor="let item of levelListStart"
+                               [value]="item.key">{{ item.value }}</ng-option>
+                  </ng-select>
+                </div>
+                <div class="col pl-1">
+                  <ng-select name="levelEnd"
+                             [(ngModel)]="selectedData.role_Setting.level_End"
+                             (clear)="deleteProperty('level_End')"
+                             [clearable]="selectedData.role_Setting.level_End !== ''"
+                             placeholder="{{'BasicMaintenance.RoleSetting.GradeEnd' | translate }}"
+                             (ngModelChange)="levelChange('end', $event)"
+                             [disabled]="levelList.length<=1">
+                    <ng-option *ngFor="let item of levelListEnd"
+                               [value]="item.key">{{ item.value }}</ng-option>
+                  </ng-select>
+                </div>
+              </div>
+            </div>
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <label for="textDepartment"
+                     class="badge badge-warning">{{'BasicMaintenance.RoleSetting.DirectIndirect' | translate }}
+                <span class="text-danger text-bold"> *</span></label>
+              <div class="custom-control custom-radio mt-2">
+                <div class="form-check form-check-inline"
+                     *ngFor="let item of directList; index as i">
+                  <input [id]="'direct' + i"
+                         class="custom-control-input"
+                         type="radio"
+                         name="direct"
+                         [(ngModel)]="selectedData.role_Setting.direct"
+                         [value]="item.key" />
+                  <label class="custom-control-label"
+                         [for]="'direct' + i">
+                    <strong> {{ item.value | translate }} </strong>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12">
+              <label class="d-block">&nbsp;</label>
+              <button type="button"
+                      class="btn btn-outline-primary"
+                      (click)="watch()">
+                {{'BasicMaintenance.RoleSetting.ProgramGroup' | translate }}
+              </button>
+            </div>
+          </div>
+
+          <div class="row justify-content-md-center">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="table-responsive text-right">
+                <button type="button"
+                        class="{{classButton.SAVE}}"
+                        [disabled]="
+                    action == 'Add' || action == 'Copy'
+                      ? !(
+                          selectedData.role_Setting.role &&
+                          selectedData.role_Setting.description &&
+                          selectedData.role_Setting.factory &&
+                          selectedData.role_Setting.permission_Group &&
+                          selectedData.role_Setting.level_Start &&
+                          selectedData.role_Setting.level_End &&
+                          selectedData.role_Setting.direct &&
+                          selectedData.role_List.length != 0
+                        )
+                      : false
+                  "
+                        (click)="save()">
+                  <i class="{{ iconButton.SAVE }}"></i> {{'System.Action.Save' | translate }}
+                </button>
+                <button type="button"
+                        class="{{classButton.CLOSE}}"
+                        (click)="back()">
+                  <i class="{{ iconButton.CLOSE }}"></i> {{'System.Action.Close' | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-modal></app-modal>
+</div>

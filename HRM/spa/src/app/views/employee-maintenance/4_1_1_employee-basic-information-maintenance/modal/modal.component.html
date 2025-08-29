@@ -1,0 +1,87 @@
+<div bsModal
+     #modal="bs-modal"
+     class="modal fade"
+     tabindex="-1"
+     role="dialog">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h5 class="modal-title"
+            id="modal-basic-title">
+          <span> {{ 'EmployeeInformationModule.EmployeeEmergencyContacts.UploadResult' | translate }} </span>
+        </h5>
+        <button type="button"
+                class="btn-close close pull-right"
+                (click)="close()"
+                title="Close">
+          <span aria-hidden="true"
+                class="visually-hidden">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body max-body">
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group row">
+              <label for="identificationNumber"
+                     class="col-5 col-form-label result-text">
+                {{ 'EmployeeInformationModule.EmployeeEmergencyContacts.Total' | translate }}
+              </label>
+              <div class="col-7">
+                <input type="text"
+                       class="form-control text-center"
+                       id="Total"
+                       name="Total"
+                       [ngModel]=" data.total "
+                       readonly />
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group row">
+              <label for="identificationNumber"
+                     class="col-5 col-form-label text-success result-text">
+                {{ 'EmployeeInformationModule.EmployeeEmergencyContacts.Success' | translate }}
+              </label>
+              <div class="col-7">
+                <input type="text"
+                       class="form-control text-center text-success"
+                       id="Success"
+                       name="Success"
+                       [ngModel]=" data.success "
+                       readonly />
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group row">
+              <label for="identificationNumber"
+                     class="col-5 col-form-label text-danger result-text">
+                {{ 'EmployeeInformationModule.EmployeeEmergencyContacts.Error' | translate }}
+              </label>
+              <div class="col-7">
+                <input type="text"
+                       class="form-control text-center text-danger"
+                       id="Error"
+                       name="Error"
+                       [ngModel]=" data.error "
+                       readonly />
+              </div>
+            </div>
+          </div>
+          <div class="col-12"
+               *ngIf="data.error > 0">
+            <p class="report-text">{{ '(Please check the error report)' | translate }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button"
+                class="btn btn-danger"
+                (click)="close()">
+          <i class="{{ iconButton.CLOSE }}"></i> {{ "System.Action.Close" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,251 @@
+<div bsModal
+     #modal="bs-modal"
+     class="modal fade"
+     tabindex="-1"
+     role="dialog"
+     (onHide)="onHide()">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <!-- Header -->
+      <div class="modal-header bg-primary">
+        <h5> {{ title }} - {{ 'System.Action.' + type | translate }} </h5>
+        <button type="button"
+                class="btn-close close pull-right"
+                (click)="close()">
+          <span aria-hidden="true"
+                class="visually-hidden">&times;</span>
+        </button>
+      </div>
+      <!-- Body -->
+      <div class="modal-body">
+        <!-- Type No: -->
+        <form #addForm="ngForm"
+              autocomplete="off">
+          <div class="row g-3 align-items-center mb-2">
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-6">
+              <label class="badge badge-warning">{{"EmployeeInformationModule.ExternalExperience.Nationality"|translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <input type="text"
+                     class="form-control"
+                     id="nationality"
+                     name="Nationality"
+                     [(ngModel)]="model.nationality"
+                     placeholder="{{'EmployeeInformationModule.ExternalExperience.Nationality' | translate }}"
+                     required
+                     readonly />
+            </div>
+
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-6">
+              <label class="badge badge-warning">{{
+                  'EmployeeInformationModule.ExternalExperience.IdentificationNumber'|
+                  translate }}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <input type="text"
+                     class="form-control"
+                     id="center_Code"
+                     name="center_Code"
+                     [(ngModel)]="model.identification_Number"
+                     placeholder="{{ 'EmployeeInformationModule.ExternalExperience.IdentificationNumber' | translate }}"
+                     readonly />
+            </div>
+
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-6">
+              <label class="badge badge-warning">
+                {{'EmployeeInformationModule.ExternalExperience.LocalFullName' | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <input type="text"
+                     class="form-control"
+                     id="localFullName"
+                     name="localFullName"
+                     [(ngModel)]="model.local_Full_Name"
+                     placeholder="{{'EmployeeInformationModule.ExternalExperience.LocalFullName' | translate }}"
+                     readonly />
+            </div>
+
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-6">
+              <label class="badge badge-warning">
+                {{'EmployeeInformationModule.ExternalExperience.Seq' | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <input type="number"
+                     autocomplete="off"
+                     class="form-control"
+                     disabled
+                     pattern="^[1-9][0-9]?$"
+                     id="seq"
+                     name="seq"
+                     [(ngModel)]="model.seq"
+                     min="1"
+                     max="99"
+                     required
+                     [readonly]="title == 'Edit'"
+                     oninput="if(this.value.length > 2) { this.value = this.value.slice(0,2);}"
+                     onkeypress="return /[0-9]/i.test(event.key)"
+                     onpaste="return false;"
+                     placeholder="{{'EmployeeInformationModule.ExternalExperience.Seq' | translate }}" />
+
+            </div>
+
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-6">
+              <label class="badge badge-warning">{{'EmployeeInformationModule.ExternalExperience.CompanyName'
+                  | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <input type="text"
+                     autocomplete="off"
+                     class="form-control"
+                     pattern="/^-?\d+\.?\d*$/"
+                     id="companyName"
+                     name="companyName"
+                     maxlength="50"
+                     [(ngModel)]="model.company_Name"
+                     placeholder="{{'EmployeeInformationModule.ExternalExperience.CompanyName' | translate }}"
+                     required />
+            </div>
+
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-6">
+              <label class="badge badge-warning">
+                {{'EmployeeInformationModule.ExternalExperience.DepartmentJob' |
+                  translate}}
+              </label>
+              <input type="text"
+                     autocomplete="off"
+                     class="form-control"
+                     pattern="/^-?\d+\.?\d*$/"
+                     id="DepartmentJob"
+                     name="DepartmentJob"
+                     maxlength="50"
+                     [(ngModel)]="model.department"
+                     placeholder="{{'EmployeeInformationModule.ExternalExperience.DepartmentJob' | translate }}" />
+            </div>
+
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-6">
+              <label class="badge badge-warning">
+                {{'EmployeeInformationModule.ExternalExperience.PositionTitle' |
+                  translate}}
+              </label>
+              <input type="text"
+                     autocomplete="off"
+                     class="form-control"
+                     pattern="/^-?\d+\.?\d*$/"
+                     id="Department"
+                     name="Department"
+                     maxlength="20"
+                     [(ngModel)]="model.position_Title"
+                     placeholder="{{'EmployeeInformationModule.ExternalExperience.PositionTitle' | translate }}" />
+            </div>
+
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+              <div class="form-group mb-0">
+                <label class="badge badge-warning">
+                  {{'EmployeeInformationModule.ExternalExperience.LeadershipRole' | translate}}
+                </label>
+                <div class="row pl-3">
+                  <div *ngFor="let item of key; let i = index">
+                    <label class="container">
+                      <div class="row">
+                        <div class="custom-control custom-radio pt-2">
+                          <input [id]="'leadership_Role' + i"
+                                 class="custom-control-input"
+                                 type="radio"
+                                 name="leadership_Role"
+                                 [(ngModel)]="model.leadership_Role"
+                                 [value]="item.value" />
+                          <p class="custom-control-label"
+                             [for]="'leadership_Role' + i">
+                            <strong>
+                              {{ item.key }}
+                            </strong>
+                          </p>
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-6">
+              <label class="badge badge-warning">
+                {{'EmployeeInformationModule.ExternalExperience.Tenure'|
+                  translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <div class="input-group">
+                <input type="text"
+                       autocomplete="off"
+                       class="form-control"
+                       bsDatepicker
+                       name="time_start"
+                       [(ngModel)]="time_start"
+                       [bsConfig]="bsConfig"
+                       onkeypress="return false;"
+                       onpaste="return false;"
+                       (ngModelChange)="calculateTenure()"
+                       placeholder="{{'EmployeeInformationModule.ExternalExperience.SelectDateStart' | translate }}"
+                       [maxDate]="time_end"
+                       readonly />
+                <div class="input-group-append">
+                  <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-6">
+              <label>&nbsp;</label>
+              <div class="input-group">
+                <input type="text"
+                       autocomplete="off"
+                       class="form-control"
+                       bsDatepicker
+                       name="time_end"
+                       [(ngModel)]="time_end"
+                       [bsConfig]="bsConfig"
+                       onkeypress="return false;"
+                       onpaste="return false;"
+                       (ngModelChange)="calculateTenure()"
+                       placeholder="{{'EmployeeInformationModule.ExternalExperience.SelectDateEnd' | translate }}"
+                       [minDate]="time_start"
+                       readonly />
+                <div class="input-group-append">
+                  <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-6">
+              <label class="badge badge-warning">
+                {{'EmployeeInformationModule.ExternalExperience.TenureYearly' |
+                  translate}}
+              </label>
+              <input type="text"
+                     class="form-control"
+                     id="TenureYealy"
+                     name="TenureYealy"
+                     [(ngModel)]="tenureResult"
+                     required
+                     readonly />
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- Footer -->
+      <div class="modal-footer">
+        <button type="button"
+                class="btn btn-success ml-2"
+                (click)="save()"
+                [disabled]="validateEmpty()">
+          <i class="{{ iconButton.SAVE }}"></i>
+          {{ "System.Action.Save" | translate }}
+        </button>
+        <button type="button"
+                class="btn btn-danger ml-1"
+                (click)="close()"><i class="{{iconButton.CLOSE}}"></i> {{ 'System.Action.Close' | translate}}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

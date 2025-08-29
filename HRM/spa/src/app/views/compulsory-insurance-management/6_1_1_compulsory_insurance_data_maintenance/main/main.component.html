@@ -1,0 +1,281 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row border-title">
+            <div class="col-md-12">
+              <strong>{{ title }}</strong>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form class="form-horizontal border-shadow"
+                autocomplete="off">
+            <div class="row ">
+              <!-- Factory -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6">
+                <label class="badge badge-warning"> {{"CompulsoryInsuranceManagement.CompulsoryInsuranceDataMaintenance.Factory" | translate }}
+                  <span class="text-danger text-bold"> *</span></label>
+                <ng-select name="factory"
+                           [(ngModel)]="param.factory"
+                           (clear)="deleteProperty('factory')"
+                           (ngModelChange)="getListEmployee()"
+                           [clearable]="param.factory !== ''"
+                           placeholder='{{"CompulsoryInsuranceManagement.CompulsoryInsuranceDataMaintenance.Factory" | translate }}'>
+                  <ng-option *ngFor="let data of listFactory"
+                             [value]="data.key">{{data.value}}</ng-option>
+                </ng-select>
+              </div>
+
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6">
+                <label class="badge badge-warning"> {{"CompulsoryInsuranceManagement.CompulsoryInsuranceDataMaintenance.SearchMethod" | translate }}
+                  <span class="text-danger text-bold"> *</span> </label>
+                <div class="custom-control custom-radio mt-2">
+                  <div class="form-check form-check-inline">
+                    <input type="radio"
+                           class="custom-control-input"
+                           id="customRadio3"
+                           name="customRadio3"
+                           [value]="'InsuranceDate'"
+                           [(ngModel)]="param.searchMethod"
+                           (ngModelChange)="onChangeMethod()" />
+                    <label class="custom-control-label font-weight-bold"
+                           for="customRadio3">
+                      {{'CompulsoryInsuranceManagement.CompulsoryInsuranceDataMaintenance.InsuranceDate' | translate }}
+                    </label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input type="radio"
+                           class="custom-control-input"
+                           id="customRadio2"
+                           name="customRadio2"
+                           [value]="'EmployeeID'"
+                           [(ngModel)]="param.searchMethod"
+                           (ngModelChange)="onChangeMethod()" />
+                    <label class="custom-control-label font-weight-bold"
+                           for="customRadio2">
+                      {{'CompulsoryInsuranceManagement.CompulsoryInsuranceDataMaintenance.EmployeeID' | translate }}
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6">
+                <label class="badge badge-warning">
+                  {{"CompulsoryInsuranceManagement.CompulsoryInsuranceDataMaintenance.InsuranceDate" | translate }}
+                  <span *ngIf="!isEmployeeID"
+                        class="text-danger text-bold"> *</span>
+                </label>
+                <div class="full-width">
+                  <div class="container_input">
+                    <div class="input-group mr-2">
+                      <input type="text"
+                             autocomplete="off"
+                             placeholder="YYYY/MM/DD"
+                             name="insurance_Start_Date"
+                             [maxDate]="insurance_End_Date"
+                             [bsConfig]="{ isAnimated: true ,dateInputFormat: 'YYYY/MM/DD' }"
+                             class="form-control"
+                             bsDatepicker
+                             [(ngModel)]="insurance_Start_Date"
+                             (ngModelChange)="onChangeInsurance()"
+                             onpaste="return false" />
+                      <div class="input-group-append">
+                        <span class="input-group-text">
+                          <i class="{{ iconButton.CALENDAR }}"></i>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="input-group">
+                      <input type="text"
+                             autocomplete="off"
+                             placeholder="YYYY/MM/DD"
+                             name="insurance_End_Date"
+                             [minDate]="insurance_Start_Date"
+                             [bsConfig]="{ isAnimated: true ,dateInputFormat: 'YYYY/MM/DD' }"
+                             class="form-control"
+                             bsDatepicker
+                             [(ngModel)]="insurance_End_Date"
+                             (ngModelChange)="onChangeInsurance()"
+                             onpaste="return false" />
+                      <div class="input-group-append">
+                        <span class="input-group-text">
+                          <i class="{{ iconButton.CALENDAR }}"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6">
+                <label class="badge badge-warning"> {{"CompulsoryInsuranceManagement.CompulsoryInsuranceDataMaintenance.InsuranceType" | translate }}</label>
+                <ng-select name="insurance_Type"
+                           [(ngModel)]="param.insurance_Type"
+                           (clear)="deleteProperty('insurance_Type')"
+                           [clearable]="param.insurance_Type !== ''"
+                           placeholder='{{"CompulsoryInsuranceManagement.CompulsoryInsuranceDataMaintenance.InsuranceType" | translate }}'>
+                  <ng-option *ngFor="let i of listInsuranceType"
+                             [value]="i.key">{{i.value}}</ng-option>
+                </ng-select>
+              </div>
+
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6">
+                <label class="badge badge-warning"> {{"CompulsoryInsuranceManagement.CompulsoryInsuranceDataMaintenance.EmployeeID" | translate }}
+                  <span *ngIf="isEmployeeID"
+                        class="text-danger text-bold"> *</span>
+                </label>
+                <div class="input-group mr-1">
+                  <input autocomplete="off"
+                         type="text"
+                         placeholder="{{'CompulsoryInsuranceManagement.CompulsoryInsuranceDataMaintenance.EmployeeID' | translate }}"
+                         class="form-control"
+                         maxlength="9"
+                         name="employee_ID"
+                         [disabled]="!param.factory"
+                         [(ngModel)]="param.employee_ID"
+                         typeaheadScrollable="true"
+                         typeaheadOptionField="employee_ID"
+                         [typeahead]="employeeList"
+                         required />
+                </div>
+              </div>
+
+              <div class="col-12 p-0 ml-3">
+                <label class="d-block">&nbsp;</label>
+                <button type="submit"
+                        class="btn btn-primary mr-1"
+                        (click)="search(true)"
+                        *ngIf="functionUtility.checkFunction('Search')"
+                        [disabled]="!checkRequiredParams()">
+                  <i class="{{ iconButton.SEARCH }}"></i> {{"System.Action.Search" | translate }}
+                </button>
+                <button type="button"
+                        class="btn btn-danger  mr-1"
+                        (click)="clear(true)">
+                  <i class="{{ iconButton.CLEAR }}"></i> {{"System.Action.Clear" | translate }}
+                </button>
+                <button type="button"
+                        (click)="onForm()"
+                        class="btn btn-success mr-1"
+                        *ngIf="functionUtility.checkFunction('Add')">
+                  <i class="{{ iconButton.ADD }}"></i> {{"System.Action.Add" | translate }}
+                </button>
+                <label class="btn btn-success  mr-1 btn-upload"
+                       *ngIf="functionUtility.checkFunction('Upload')">
+                  <i [class]="iconButton.UPLOAD"></i> {{"System.Action.Upload" | translate }}
+                  <input #inputRef
+                         type="file"
+                         name="upload"
+                         (change)="upload($event)"
+                         class="input-upload">
+                </label>
+                <button type="submit"
+                        class="btn btn-success  mr-1"
+                        id="excel"
+                        (click)="download()"
+                        *ngIf="functionUtility.checkFunction('Excel')">
+                  <i class="{{iconButton.EXCEL}}"></i> {{"System.Action.Excel" | translate }}
+                </button>
+                <button type="submit"
+                        class="btn btn-primary"
+                        id="excel"
+                        (click)="downloadExcelTemplate()"
+                        *ngIf="functionUtility.checkFunction('Upload')">
+                  <i class="{{iconButton.EXCEL}}"></i>
+                  {{'System.Action.ExcelTemplate' | translate }}
+                </button>
+              </div>
+            </div>
+          </form>
+          <div class="row justify-content-md-center">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th class="text-center"
+                          *ngIf="functionUtility.checkFunction('Edit') || functionUtility.checkFunction('Delete')"
+                          [attr.colspan]="functionUtility.getColspan(['Delete','Edit'])">{{"System.Action.Operation" | translate }}</th>
+                      <th class="text-center text-nowrap">{{"CompulsoryInsuranceManagement.CompulsoryInsuranceDataMaintenance.Factory" | translate }}</th>
+                      <th class="text-center text-nowrap">{{"CompulsoryInsuranceManagement.CompulsoryInsuranceDataMaintenance.EmployeeID" | translate }}</th>
+                      <th class="text-center text-nowrap">{{"CompulsoryInsuranceManagement.CompulsoryInsuranceDataMaintenance.LocalFullName" | translate }}</th>
+                      <th class="text-center text-nowrap">{{"CompulsoryInsuranceManagement.CompulsoryInsuranceDataMaintenance.InsuranceType" | translate }} </th>
+                      <th class="text-center text-nowrap">{{"CompulsoryInsuranceManagement.CompulsoryInsuranceDataMaintenance.InsuranceDateStart" | translate }} </th>
+                      <th class="text-center text-nowrap">{{"CompulsoryInsuranceManagement.CompulsoryInsuranceDataMaintenance.InsuranceDateEnd" | translate }} </th>
+                      <th class="text-center text-nowrap">{{"CompulsoryInsuranceManagement.CompulsoryInsuranceDataMaintenance.CompulsoryInsuranceNumber" | translate }} </th>
+                      <th class="text-center text-nowrap">{{"CompulsoryInsuranceManagement.CompulsoryInsuranceDataMaintenance.UpdateBy" | translate }} </th>
+                      <th class="text-center text-nowrap">{{"CompulsoryInsuranceManagement.CompulsoryInsuranceDataMaintenance.UpdateTime" | translate }} </th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="data.length > 0; else dataNotFound">
+                    <tr *ngFor="let item of data">
+                      <td class="text-center custom-td-btn"
+                          *ngIf="functionUtility.checkFunction('Edit')">
+                        <button type="button "
+                                (click)="onForm(item)"
+                                class="btn btn-sm btn-warning ml-2">
+                          <i class="{{ iconButton.EDIT }}"></i> <span> {{"System.Action.Edit" | translate }}</span>
+                        </button>
+                      </td>
+                      <td class="text-center custom-td-btn"
+                          *ngIf="functionUtility.checkFunction('Delete')">
+                        <button type="button "
+                                (click)="delete(item, true)"
+                                class="btn btn-sm btn-danger ml-2">
+                          <i class="{{ iconButton.DELETE }}"></i> <span> {{"System.Action.Delete" | translate }}</span>
+                        </button>
+                      </td>
+                      <td class="text-center">{{ item.factory }}</td>
+                      <td class="text-center">{{ item.employee_ID }}</td>
+                      <td class="text-center text-nowrap">{{ item.local_Full_Name }}</td>
+                      <td class="text-center text-nowrap">{{ item.insurance_Type_Name }}</td>
+                      <td class="text-center">{{ item.insurance_Start }}</td>
+                      <td class="text-center">{{ item.insurance_End }}</td>
+                      <td class="text-center text-nowrap">{{ item.insurance_Num }}</td>
+                      <td class="text-center">{{ item.update_By }}</td>
+                      <td class="text-center">{{ item.update_Time | date : 'yyyy/MM/dd HH:mm:ss' }}</td>
+                    </tr>
+                  </tbody>
+                  <ng-template #dataNotFound>
+                    <tbody>
+                      <tr>
+                        <td colspan="100%"
+                            class="table-warning text-center font-weight-bold">
+                          {{"System.Message.Nodata" | translate }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </ng-template>
+                </table>
+              </div>
+              <div class="row">
+                <div class="col-8">
+                  <div class="d-flex"
+                       *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                    <pagination [boundaryLinks]="true"
+                                [totalItems]="pagination.totalCount"
+                                [itemsPerPage]="pagination.pageSize"
+                                previousText="&lsaquo;"
+                                nextText="&rsaquo;"
+                                firstText="&laquo;"
+                                lastText="&raquo;"
+                                [maxSize]="5"
+                                [(ngModel)]="pagination.pageNumber"
+                                (pageChanged)="pageChanged($event)">
+                    </pagination>
+                    <span class="cs-page ml-2"> Page - {{ pagination.pageNumber }} / {{ pagination.totalPage }}</span>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <span class="cs-page float-right ">{{'System.Rows' | translate }} : {{pagination.totalCount}}</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

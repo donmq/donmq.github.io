@@ -1,0 +1,12 @@
+.title-line{
+  height: 30px;
+  line-height: 30px;
+}
+.form-check-inline {
+  margin-left: 1.5rem;
+}
+.custom-backlist{
+  display: flex;
+  align-items: center;
+  height: 50%;
+}

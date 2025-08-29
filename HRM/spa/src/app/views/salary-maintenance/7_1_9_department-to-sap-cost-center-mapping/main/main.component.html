@@ -1,0 +1,218 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off"
+              #mainForm="ngForm">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">{{ title }}</strong>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row border-shadow">
+              <!-- Factory -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning">{{'SalaryMaintenance.DepartmentToSAPCostCenterMapping.Factory' | translate }}
+                  <span class="text-danger text-bold">*</span>
+                </label>
+                <ng-select name="factory"
+                           [(ngModel)]="param.factory"
+                           (clear)="deleteProperty('factory')"
+                           (ngModelChange)="onSelectFactory()"
+                           [clearable]="param.factory !== ''"
+                           placeholder="{{'SalaryMaintenance.DepartmentToSAPCostCenterMapping.Factory' | translate }}"
+                           required>
+                  <ng-option *ngFor="let item of listFactory"
+                             [value]="item.key">{{ item.value }}</ng-option>
+                </ng-select>
+              </div>
+              <!-- Year-->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning"
+                       for="year">
+                  {{"SalaryMaintenance.DepartmentToSAPCostCenterMapping.CostYear" | translate}}
+                </label>
+                <div class="full-width">
+                  <div class="container_date">
+                    <div class="input-group mr-1">
+                      <input autocomplete="off"
+                             type="text"
+                             placeholder="{{placeholder.Year}}"
+                             class="form-control bg-white"
+                             name="year"
+                             id="year"
+                             [(ngModel)]="param.year"
+                             bsDatepicker
+                             [bsConfig]="bsConfig"
+                             (ngModelChange)="onDateChange()" />
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Department -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning">{{'SalaryMaintenance.DepartmentToSAPCostCenterMapping.Department' | translate }}</label>
+                <ng-select name="department"
+                           [(ngModel)]="param.department"
+                           (clear)="deleteProperty('department')"
+                           [clearable]="param.department !== ''"
+                           placeholder="{{'SalaryMaintenance.DepartmentToSAPCostCenterMapping.Department' | translate }}"
+                           [disabled]="!param.factory">
+                  <ng-option *ngFor="let item of listDepartment"
+                             [value]="item.key">{{ item.value }}</ng-option>
+                </ng-select>
+              </div>
+              <!-- Cost Center -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning">{{'SalaryMaintenance.DepartmentToSAPCostCenterMapping.CostCenter' | translate }}</label>
+                <ng-select name="costCenter"
+                           [(ngModel)]="param.costCenter"
+                           (clear)="deleteProperty('costCenter')"
+                           [clearable]="param.costCenter !== ''"
+                           placeholder="{{'SalaryMaintenance.DepartmentToSAPCostCenterMapping.CostCenter' | translate }}"
+                           [disabled]="!param.factory || !param.year_Str">
+                  <ng-option *ngFor="let item of listCostCenter"
+                             [value]="item.key">{{ item.value }}</ng-option>
+                </ng-select>
+              </div>
+
+              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <label class="d-block">&nbsp;</label>
+                <button type="submit"
+                        class="{{classButton.SEARCH}}"
+                        (click)="search(true)"
+                        [disabled]="!mainForm.valid"
+                        *ngIf="functionUtility.checkFunction('Search')">
+                  <i class="{{ iconButton.SEARCH }}"></i> {{'System.Action.Search' | translate }}
+                </button>
+                <button type="submit"
+                        class="{{classButton.CLEAR}}"
+                        (click)="clear()">
+                  <i class="{{ iconButton.CLEAR }}"></i> {{'System.Action.Clear' | translate }}
+                </button>
+                <button type="button"
+                        class="{{classButton.ADD}}"
+                        (click)="onForm()"
+                        *ngIf="functionUtility.checkFunction('Add')">
+                  <i class="{{ iconButton.ADD }}"></i> {{'System.Action.Add' | translate }}
+                </button>
+                <button type="button"
+                        (click)="downloadExcel()"
+                        [disabled]="!mainForm.valid"
+                        class="{{ classButton.DOWNLOAD }}"
+                        *ngIf="functionUtility.checkFunction('Excel')">
+                  <i class="{{ iconButton.EXCEL }}"></i>
+                  {{ "System.Action.Excel" | translate }}
+                </button>
+                <label type="button"
+                       class="{{classButton.UPLOAD}}"
+                       style="cursor: pointer; margin-bottom: 0;"
+                       *ngIf="functionUtility.checkFunction('Upload')">
+                  <i [class]="iconButton.UPLOAD"></i>
+                  {{'System.Action.Upload'| translate }}
+                  <input #inputRef
+                         type="file"
+                         name="upload"
+                         style="display: none"
+                         (change)="upload($event)" />
+                </label>
+                <button type="button"
+                        class="{{ classButton.SEARCH}}"
+                        (click)="downloadTemplate()"
+                        *ngIf="functionUtility.checkFunction('Upload')">
+                  <i class="{{ iconButton.EXCEL }}"></i>
+                  {{'System.Action.ExcelTemplate' | translate }}
+                </button>
+              </div>
+            </div>
+            <div class="row justify-content-md-center">
+              <div class="col-lg-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th class="text-center operation-column"
+                            [attr.colspan]="functionUtility.getColspan(['Edit','Delete'])"
+                            *ngIf="functionUtility.checkFunction('Edit') || functionUtility.checkFunction('Delete')">{{'AttendanceMaintenance.LeaveApplicationMaintenance.Operation' | translate }}</th>
+                        <th class="text-center">{{'SalaryMaintenance.DepartmentToSAPCostCenterMapping.Factory' | translate }}</th>
+                        <th class="text-center">{{'SalaryMaintenance.DepartmentToSAPCostCenterMapping.CostYear' | translate }}</th>
+                        <th class="text-center">{{'SalaryMaintenance.DepartmentToSAPCostCenterMapping.CostCenter' | translate }}</th>
+                        <th class="text-center">{{'SalaryMaintenance.DepartmentToSAPCostCenterMapping.Department' | translate }}</th>
+                        <th class="text-center">{{'SalaryMaintenance.DepartmentToSAPCostCenterMapping.UpdateBy' | translate }}</th>
+                        <th class="text-center">{{'SalaryMaintenance.DepartmentToSAPCostCenterMapping.UpdateTime' | translate }}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of data">
+                        <td class="text-center"
+                            *ngIf="functionUtility.checkFunction('Edit')">
+                          <button type="button"
+                                  class="{{classButton.tEDIT}}"
+                                  (click)="onForm(item)"><i class="{{ iconButton.EDIT }}"></i>
+                            {{'System.Action.Edit' | translate }}
+                          </button>
+                        </td>
+                        <td class="text-center"
+                            *ngIf="functionUtility.checkFunction('Delete')">
+                          <button type="button"
+                                  class="{{classButton.tDELETE}}"
+                                  (click)="delete(item)"><i class="{{ iconButton.DELETE }}"></i>
+                            {{'System.Action.Delete' | translate }}
+                          </button>
+                        </td>
+                        <td class="text-center">{{ item.factory }}</td>
+                        <td class="text-center">{{ item.cost_Year | date : 'yyyy'}}</td>
+                        <td class="text-center">{{ item.cost_Code }} - {{item.code_Name}}</td>
+                        <td class="text-center">{{ item.department }} - {{item.department_Name}}</td>
+                        <td class="text-center">{{ item.update_By }}</td>
+                        <td class="text-center">{{ item.update_Time | date : 'yyyy/MM/dd HH:mm:ss'}}</td>
+                      </tr>
+                    </tbody>
+                    <tr *ngIf="data.length === 0">
+                      <td colspan="100%"
+                          class="table-warning text-center font-weight-bold">
+                        {{'System.Message.Nodata' | translate }}
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+                <div class="row">
+                  <div class="col-8">
+                    <div class="d-flex"
+                         *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                      <pagination [boundaryLinks]="true"
+                                  [totalItems]="pagination.totalCount"
+                                  [itemsPerPage]="pagination.pageSize"
+                                  previousText="&lsaquo;"
+                                  nextText="&rsaquo;"
+                                  firstText="&laquo;"
+                                  lastText="&raquo;"
+                                  [maxSize]="5"
+                                  [(ngModel)]="pagination.pageNumber"
+                                  (pageChanged)="pageChanged($event)"
+                                  [ngModelOptions]="{standalone: true}">
+                      </pagination>
+                      <span class="cs-page ml-2">
+                        Page - {{ pagination.pageNumber }} /
+                        {{ pagination.totalPage }}</span>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <span class="cs-page float-right ">{{'AttendanceMaintenance.LeaveApplicationMaintenance.Result' | translate }} {{pagination.totalCount}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

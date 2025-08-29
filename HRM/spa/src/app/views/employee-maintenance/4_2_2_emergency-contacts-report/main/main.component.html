@@ -1,0 +1,252 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off"
+              #mainForm="ngForm">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">{{ title }}</strong>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row border-shadow">
+              <!-- Employment Status -->
+              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <div class="form-group">
+                  <label class="badge badge-warning">{{ "EmployeeInformationModule.EmployeeEmergencyContactsReport.EmploymentStatus" | translate }}
+                  </label>
+                  <div class="row pl-3">
+                    <div *ngFor="let item of employmentStatus; index as i">
+                      <label class="container">
+                        <div class="row">
+                          <div class="custom-control custom-radio pt-2">
+                            <input [id]="'employmentStatus' + i"
+                                   class="custom-control-input"
+                                   type="radio"
+                                   checked="checked"
+                                   [name]="'employmentStatus' + i"
+                                   [(ngModel)]="param.employmentStatus"
+                                   [value]="item.key" />
+                            <p class="custom-control-label"
+                               [for]="'employmentStatus' + i">
+                              <strong>
+                                {{ item.value | translate }}
+                              </strong>
+                            </p>
+                          </div>
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Division -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                  <label for="division"
+                         class="badge badge-warning">
+                    {{ "EmployeeInformationModule.EmployeeEmergencyContactsReport.Division" | translate }}
+                    <span class="text-danger text-bold"> *</span>
+                  </label>
+                  <ng-select id="division"
+                             name="division"
+                             [(ngModel)]="param.division"
+                             (ngModelChange)="onSelectDivision()"
+                             [clearable]="param.division != ''"
+                             (clear)="deleteProperty('division')"
+                             placeholder="{{ 'EmployeeInformationModule.EmployeeEmergencyContactsReport.Division' | translate }}">
+                    <ng-option *ngFor="let item of listDivision"
+                               [value]="item.key">
+                      {{ item.value }}
+                    </ng-option>
+                  </ng-select>
+                </div>
+              </div>
+              <!-- Factory -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                  <label for="factory"
+                         class="badge badge-warning">
+                    {{ "EmployeeInformationModule.EmployeeEmergencyContactsReport.Factory" | translate }}
+                    <span class="text-danger text-bold"> *</span>
+                  </label>
+                  <ng-select id="factory"
+                             name="factory"
+                             [(ngModel)]="param.factory"
+                             (ngModelChange)="onSelectFactory()"
+                             [clearable]="param.factory != ''"
+                             (clear)="deleteProperty('factory')"
+                             [disabled]="!param.division"
+                             placeholder="{{ 'EmployeeInformationModule.EmployeeEmergencyContactsReport.Factory' | translate }}">
+                    <ng-option *ngFor="let item of listFactory"
+                               [value]="item.key">
+                      {{ item.value }}
+                    </ng-option>
+                  </ng-select>
+                </div>
+              </div>
+              <!-- Employee ID -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                  <label for="employeeID"
+                         class="badge badge-warning">
+                    {{ "EmployeeInformationModule.EmployeeEmergencyContactsReport.EmployeeID" | translate }}
+                  </label>
+                  <input type="text"
+                         class="form-control"
+                         id="employeeID"
+                         name="employeeID"
+                         maxlength="9"
+                         [(ngModel)]="param.employeeID"
+                         placeholder="{{ 'EmployeeInformationModule.EmployeeEmergencyContactsReport.EmployeeID' | translate }}"
+                         autocomplete="off" />
+                </div>
+              </div>
+              <!-- Department -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                  <label for="department"
+                         class="badge badge-warning">
+                    {{ "EmployeeInformationModule.EmployeeEmergencyContactsReport.Department" | translate }}
+                  </label>
+                  <ng-select id="department"
+                             name="department"
+                             [(ngModel)]="param.department"
+                             [clearable]="param.department != ''"
+                             (clear)="deleteProperty('department')"
+                             [disabled]="!param.factory"
+                             placeholder="{{ 'EmployeeInformationModule.EmployeeEmergencyContactsReport.Department' | translate }}">
+                    <ng-option *ngFor="let item of listDepartment"
+                               [value]="item.key">
+                      {{ item.value }}
+                    </ng-option>
+                  </ng-select>
+                </div>
+              </div>
+
+              <!-- Assigned/Supported Division -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                  <label for="assignedDivision"
+                         class="badge badge-warning">
+                    {{ "EmployeeInformationModule.EmployeeEmergencyContactsReport.Assigned/SupportedDivision" | translate }}
+                  </label>
+                  <ng-select id="assignedDivision"
+                             name="assignedDivision"
+                             [(ngModel)]="param.assignedDivision"
+                             (ngModelChange)="onSelectAssignedDivision()"
+                             [clearable]="param.assignedDivision != ''"
+                             (clear)="deleteProperty('assignedDivision')"
+                             placeholder="{{'EmployeeInformationModule.EmployeeEmergencyContactsReport.Assigned/SupportedDivision' | translate }}">
+                    <ng-option *ngFor="let item of listDivision"
+                               [value]="item.key">
+                      {{ item.value }}
+                    </ng-option>
+                  </ng-select>
+                </div>
+              </div>
+              <!-- Assigned/Supported Factory -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                  <label for="assignedFactory"
+                         class="badge badge-warning">
+                    {{ "EmployeeInformationModule.EmployeeEmergencyContactsReport.Assigned/SupportedFactory" | translate }}
+                  </label>
+                  <ng-select id="assignedFactory"
+                             name="assignedFactory"
+                             [(ngModel)]="param.assignedFactory"
+                             (ngModelChange)="onSelectAssignedFactory()"
+                             [clearable]="param.assignedFactory != ''"
+                             (clear)="deleteProperty('assignedFactory')"
+                             [disabled]="!param.assignedDivision"
+                             placeholder="{{'EmployeeInformationModule.EmployeeEmergencyContactsReport.Assigned/SupportedFactory' | translate }}">
+                    <ng-option *ngFor="let item of listAssignedFactory"
+                               [value]="item.key">
+                      {{ item.value }}
+                    </ng-option>
+                  </ng-select>
+                </div>
+              </div>
+              <!-- Assigned/Supported Employee ID -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                  <label for="assignedEmployeeID"
+                         class="badge badge-warning">
+                    {{ "EmployeeInformationModule.EmployeeEmergencyContactsReport.Assigned/SupportedEmployeeID" | translate }}
+                  </label>
+                  <input type="text"
+                         class="form-control"
+                         id="assignedEmployeeID"
+                         name="assignedEmployeeID"
+                         maxlength="9"
+                         [(ngModel)]="param.assignedEmployeeID"
+                         placeholder="{{
+                      'EmployeeInformationModule.EmployeeEmergencyContactsReport.Assigned/SupportedEmployeeID'| translate }}"
+                         autocomplete="off" />
+                </div>
+              </div>
+              <!-- Assigned/Supported Department -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                  <label for="assignedDepartment"
+                         class="badge badge-warning">
+                    {{ "EmployeeInformationModule.EmployeeEmergencyContactsReport.Assigned/SupportedDepartment" | translate }}
+                  </label>
+                  <ng-select id="assignedDepartment"
+                             name="assignedDepartment"
+                             [(ngModel)]="param.assignedDepartment"
+                             [clearable]="param.assignedDepartment != ''"
+                             (clear)="deleteProperty('assignedDepartment')"
+                             [disabled]="!param.assignedFactory"
+                             placeholder="{{'EmployeeInformationModule.EmployeeEmergencyContactsReport.Assigned/SupportedDepartment' | translate }}">
+                    <ng-option *ngFor="let item of listAssignedDepartment"
+                               [value]="item.key">
+                      {{ item.value }}
+                    </ng-option>
+                  </ng-select>
+                </div>
+              </div>
+
+              <div class="col-12 pb-2">
+                <button *ngIf="functionUtility.checkFunction('Search')"
+                        type="button"
+                        class="{{ classButton.SEARCH }}"
+                        (click)="getTotalRows(true)"
+                        [disabled]="!param.division || !param.factory">
+                  <i class="{{ iconButton.SEARCH }}"></i>
+                  {{ "System.Action.Search" | translate }}
+                </button>
+                <button *ngIf="functionUtility.checkFunction('Search')"
+                        type="button"
+                        class="{{ classButton.CLEAR }}"
+                        (click)="clear()">
+                  <i class="{{ iconButton.CLEAR }}"></i>
+                  {{ "System.Action.Clear" | translate }}
+                </button>
+                <button type="button"
+                        (click)="excel()"
+                        class="btn btn-success"
+                        [disabled]="!param.division || !param.factory"
+                        *ngIf="functionUtility.checkFunction('Excel')">
+                  <i class="{{ iconButton.EXCEL }}"></i>
+                  {{ "System.Action.Excel" | translate }}
+                </button>
+              </div>
+              <div>
+                <strong class="title-card-cs pl-3">{{ "EmployeeInformationModule.EmployeeEmergencyContactsReport.Total" | translate }}
+                  <span class="text-primary">{{ totalRows }}</span>
+                  {{ "EmployeeInformationModule.EmployeeEmergencyContactsReport.Records" | translate }}
+                </strong>
+              </div>
+
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

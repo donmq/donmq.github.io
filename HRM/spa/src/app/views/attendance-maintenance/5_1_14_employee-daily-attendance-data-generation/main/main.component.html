@@ -1,0 +1,103 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">{{ title }}</strong>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row border-shadow">
+              <!-- Factories -->
+              <div class="col-xl-2 col-lg-4 col-md-6 col-sm-12 mt-2">
+                <label class="badge badge-warning"> {{ 'AttendanceMaintenance.EmployeeDailyAttendanceDataGeneration.Factory' | translate}} <span class="text-danger text-bold"> *</span></label>
+                <ng-select name="factory"
+                           [(ngModel)]="param.factory"
+                           (ngModelChange)="onFactoryChange()"
+                           placeholder="{{ 'AttendanceMaintenance.EmployeeDailyAttendanceDataGeneration.Factory' | translate }}"
+                           [clearable]="false">
+                  <ng-option [value]="''">{{ 'System.SelectAll' | translate}}</ng-option>
+                  <ng-option *ngFor="let factory of factories"
+                             [value]="factory.key">{{factory.value}}</ng-option>
+                </ng-select>
+              </div>
+              <!-- Clock Out Date of the previout Working day -->
+              <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mt-2">
+                <label class="badge badge-warning"> {{ 'AttendanceMaintenance.EmployeeDailyAttendanceDataGeneration.ClockOutDate' | translate}} <span class="text-danger text-bold"> *</span></label>
+                <input class="form-control"
+                       name="offWorkDate"
+                       placeholder="YYYY/MM/DD"
+                       [(ngModel)]="offWorkDate"
+                       (ngModelChange)="onGetHolidateAndNationalHolidays()"
+                       bsDatepicker
+                       [maxDate]="workOnDayDate"
+                       [bsConfig]="bsDatepickerConfig">
+              </div>
+              <!-- Clock In Date of the current day -->
+              <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mt-2">
+                <label class="badge badge-warning"> {{ 'AttendanceMaintenance.EmployeeDailyAttendanceDataGeneration.ClockInDate' | translate}} <span class="text-danger text-bold"> *</span></label>
+                <input class="form-control"
+                       name="workOnDayDate"
+                       placeholder="YYYY/MM/DD"
+                       [(ngModel)]="workOnDayDate"
+                       (ngModelChange)="onGetHolidateAndNationalHolidays()"
+                       bsDatepicker
+                       [bsConfig]="bsDatepickerConfig">
+              </div>
+              <!-- Holiday Date -->
+              <div class="col-xl-2 col-lg-4 col-md-6 col-sm-12 mt-2">
+                <label class="badge badge-warning"> {{ 'AttendanceMaintenance.EmployeeDailyAttendanceDataGeneration.HolidayDate' | translate}}</label>
+                <input class="form-control"
+                       name="holidayDate"
+                       [(ngModel)]="holidayDate"
+                       placeholder="YYYY/MM/DD"
+                       bsDatepicker
+                       [datesEnabled]="enabledDatesHolidays"
+                       [dateCustomClasses]="holidayCustomClass"
+                       [bsConfig]="bsDatepickerConfig">
+              </div>
+              <!--National Holiday Date -->
+              <div class="col-xl-2 col-lg-4 col-md-6 col-sm-12 mt-2">
+                <label class="badge badge-warning"> {{ 'AttendanceMaintenance.EmployeeDailyAttendanceDataGeneration.NationalHoliday' | translate}}</label>
+                <input class="form-control"
+                       name="NationalHoliday"
+                       [(ngModel)]="nationalHolidayDate"
+                       placeholder="YYYY/MM/DD"
+                       bsDatepicker
+                       [datesEnabled]="enabledDatesNationalHolidays"
+                       [dateCustomClasses]="nationalHolidayCustomClass"
+                       [bsConfig]="bsDatepickerConfig">
+              </div>
+              <div class="col-xl-2 col-lg-4 col-md-6 col-sm-12 mt-2">
+                <!-- ACTIONS -->
+                <label class="badge badge-warning"> {{ 'AttendanceMaintenance.EmployeeDailyAttendanceDataGeneration.ProcessedRecords' | translate}} </label>
+                <input type="text"
+                       class="form-control"
+                       disabled
+                       name="processedRecords"
+                       [(ngModel)]="processedRecords"
+                       placeholder="{{ 'AttendanceMaintenance.EmployeeDailyAttendanceDataGeneration.ProcessedRecords' | translate}}">
+              </div>
+              <div class="col-xl-4 col-lg-2 col-md-6 col-sm-6 mt-2"
+                   *ngIf="functionUtility.checkFunction('Execute')">
+                <label> &nbsp; </label>
+                <div>
+                  <button [disabled]="validateExcute()"
+                          class="btn btn-success"
+                          (click)="excuteConfirm()">
+                    {{ "System.Action.Execute"| translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,184 @@
+
+<div bsModal
+     #modal="bs-modal"
+     class="modal fade"
+     tabindex="-1"
+     role="dialog"
+     (onHide)="onHide()">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="bg-primary modal-header">
+        <h4 class="modal-title pull-left">{{'EmployeeInformationModule.EmployeeGroupSkillSettings.SkillDetails' | translate }}</h4>
+        <button type="button"
+                class="btn-close close pull-right"
+                aria-label="Close"
+                (click)="close()">
+          <span aria-hidden="true"
+                class="visually-hidden">&times;</span>
+        </button>
+      </div>
+      <div class="modal-header header-param">
+        <div class="row border-shadow">
+          <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+            <label for="textDepartment"
+                   class="badge badge-warning">{{'EmployeeInformationModule.EmployeeGroupSkillSettings.Division' | translate }}</label>
+            <input autocomplete="off"
+                   type="text"
+                   placeholder="{{'EmployeeInformationModule.EmployeeGroupSkillSettings.Division' | translate }}"
+                   class="form-control"
+                   maxlength="50"
+                   name="division"
+                   [(ngModel)]="paramForm.division"
+                   disabled />
+          </div>
+          <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+            <label for="textDepartment"
+                   class="badge badge-warning">{{'EmployeeInformationModule.EmployeeGroupSkillSettings.Factory' | translate }}</label>
+            <input autocomplete="off"
+                   type="text"
+                   placeholder="{{'EmployeeInformationModule.EmployeeGroupSkillSettings.Factory' | translate }}"
+                   class="form-control"
+                   maxlength="50"
+                   name="factory"
+                   [(ngModel)]="paramForm.factory"
+                   disabled />
+          </div>
+          <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+            <label for="textDepartment"
+                   class="badge badge-warning">{{'EmployeeInformationModule.EmployeeGroupSkillSettings.EmployeeID' | translate }}</label>
+            <input autocomplete="off"
+                   type="text"
+                   placeholder="{{'EmployeeInformationModule.EmployeeGroupSkillSettings.EmployeeID' | translate }}"
+                   class="form-control"
+                   maxlength="50"
+                   name="employeeID"
+                   [(ngModel)]="paramForm.employee_Id"
+                   disabled />
+          </div>
+          <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+            <label for="textDepartment"
+                   class="badge badge-warning">{{'EmployeeInformationModule.EmployeeGroupSkillSettings.LocalFullName' | translate }}</label>
+            <input autocomplete="off"
+                   type="text"
+                   placeholder="{{'EmployeeInformationModule.EmployeeGroupSkillSettings.LocalFullName' | translate }}"
+                   class="form-control"
+                   maxlength="50"
+                   name="localFullName"
+                   [(ngModel)]="paramForm.local_Full_Name"
+                   disabled />
+          </div>
+        </div>
+      </div>
+      <div class="modal-body max-body">
+        <form class="form-horizontal"
+              autocomplete="off">
+          <div class="row justify-content-md-center">
+            <div class="col-lg-12">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th class="text-center operation-column"
+                          *ngIf="id() != 'view-modal'">{{'EmployeeInformationModule.EmployeeGroupSkillSettings.Operation' | translate }}</th>
+                      <th class="text-center">{{'EmployeeInformationModule.EmployeeGroupSkillSettings.Seq' | translate }}</th>
+                      <th class="text-center">{{'EmployeeInformationModule.EmployeeGroupSkillSettings.SkillCertification' | translate }}<span class="text-danger">
+                          *</span></th>
+                      <th class="text-center">{{'EmployeeInformationModule.EmployeeGroupSkillSettings.PassingDate' | translate }}<span class="text-danger">
+                          *</span></th>
+
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of dataMain; index as i">
+                      <td class="text-center"
+                          *ngIf="id() != 'view-modal'">
+                        <button type="button"
+                                class="{{classButton.tDELETE}}"
+                                (click)="remove(item)"><i class="{{ iconButton.DELETE }}"></i>
+                          {{'System.Action.Delete' | translate }}
+                        </button>
+                      </td>
+                      <td class="text-center">
+                        <input autocomplete="off"
+                               placeholder="text"
+                               title="Seq"
+                               class="form-control text-center"
+                               maxlength="50"
+                               name="seq{{item.seq}}-{{item.skill_Certification}}-{{i}}"
+                               [(ngModel)]="item.seq"
+                               disabled />
+                      </td>
+                      <td class="text-center">
+                        <ng-select name="skillDetail{{item.seq}}-{{item.skill_Certification}}-{{i}}"
+                                   [(ngModel)]="item.skill_Certification"
+                                   (clear)="item.skill_Certification = ''"
+                                   [clearable]="item.skill_Certification !== ''"
+                                   (ngModelChange)="checkData(false)"
+                                   placeholder="{{'EmployeeInformationModule.EmployeeGroupSkillSettings.SkillDetails' | translate }}"
+                                   [disabled]="id() == 'view-modal'">
+                          <ng-option *ngFor="let item of skillList"
+                                     [value]="item.key">{{ item.value }}</ng-option>
+                        </ng-select>
+                      </td>
+                      <td class="text-center">
+                        <div class="input-group">
+                          <input type="text"
+                                 autocomplete="off"
+                                 placeholder="YYYY/MM/DD"
+                                 name="passingDate{{item.seq}}-{{item.skill_Certification}}-{{i}}"
+                                 [bsConfig]="bsConfig"
+                                 class="form-control"
+                                 bsDatepicker
+                                 [(ngModel)]="item.passing_Date"
+                                 (ngModelChange)="onDateChange(item)"
+                                 onpaste="return false"
+                                 [disabled]="id() == 'view-modal'" />
+                          <div class="input-group-append">
+                            <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tr *ngIf="dataMain?.length === 0">
+                    <td colspan="100%"
+                        class="table-warning text-center font-weight-bold">
+                      {{'System.Message.Nodata' | translate }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="text-center"
+                        colspan="100%"
+                        *ngIf="id() != 'view-modal'">
+                      <button type="button"
+                              class="{{classButton.tDETAIL}}"
+                              (click)="add()">
+                        <i class="{{ iconButton.ADD }}"></i> {{'System.Action.Add' | translate }}
+                      </button>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button"
+                class="btn btn-success"
+                (click)="save()"
+                *ngIf="id() != 'view-modal'"
+                [disabled]="!isAllow">
+          <i class="{{ iconButton.SAVE }} mr-1"
+             aria-hidden="true"> </i>{{'System.Action.Save' | translate }}
+        </button>
+        <button type="button"
+                class="{{classButton.CLOSE}}"
+                (click)="close()">
+          <i class="{{ iconButton.CLOSE }} mr-1"
+             aria-hidden="true"></i>{{'System.Action.Close' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

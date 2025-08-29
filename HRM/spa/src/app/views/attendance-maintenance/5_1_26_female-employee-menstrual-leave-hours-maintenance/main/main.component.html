@@ -1,0 +1,251 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row border-title">
+            <div class="col-md-12">
+              <strong> {{ title }} </strong>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form class="form-horizontal border-shadow"
+                autocomplete="off"
+                #mainForm="ngForm">
+            <div class="row">
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+                <label class="badge badge-warning"
+                       for="factory">
+                  {{"AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.Factory" | translate }}
+                  <span class="text-danger text-bold">*</span>
+                </label>
+                <ng-select id="factory"
+                           name="factory"
+                           [(ngModel)]="params.factory"
+                           placeholder="{{'AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.Factory' | translate }}"
+                           [clearable]="params.factory != ''"
+                           (clear)="deleteProperty('factory')"
+                           (ngModelChange)="changeFactory()"
+                           required>
+                  <ng-option *ngFor="let data of factories"
+                             [value]="data.key">{{data.value}}
+                  </ng-option>
+                </ng-select>
+              </div>
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+                <label class="badge badge-warning"
+                       for="department">
+                  {{"AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.Department" | translate }}
+                </label>
+                <ng-select id="department"
+                           name="department"
+                           [clearable]="params.department != ''"
+                           (clear)="deleteProperty('department')"
+                           [(ngModel)]="params.department"
+                           placeholder="{{'AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.Department' | translate }}"
+                           [disabled]="!params.factory">
+                  <ng-option *ngFor="let data of departments"
+                             [value]="data.key">{{data.value}}
+                  </ng-option>
+                </ng-select>
+              </div>
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+                <label class="badge badge-warning"
+                       for="att_Month">
+                  {{"AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.Month" | translate }} </label>
+                <div class="full-width">
+                  <div class="container_date">
+                    <div class="input-group mr-1">
+                      <input type="text"
+                             autocomplete="off"
+                             placeholder="YYYY/MM"
+                             name="att_Month"
+                             [bsConfig]="{ isAnimated: true, minMode: 'month' , dateInputFormat: 'YYYY/MM' }"
+                             class="form-control"
+                             bsDatepicker
+                             [(ngModel)]="params.att_Month"
+                             (ngModelChange)="onDateChange('att_Month')"
+                             onpaste="return false"
+                             [required]="params.att_Month" />
+                      <div class="input-group-append">
+                        <span class="input-group-text">
+                          <i class="{{iconButton.CALENDAR}}"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+                <label class="badge badge-warning"
+                       for="employee_ID">
+                  {{"AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.EmployeeID" | translate }}
+                </label>
+                <input type="text"
+                       placeholder="{{'AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.EmployeeID' | translate }}"
+                       class="form-control"
+                       id="employee_ID"
+                       name="employee_ID"
+                       maxlength="9"
+                       [(ngModel)]="params.employee_ID" />
+              </div>
+            </div>
+            <div class="col-12 p-0">
+              <label class="d-block">&nbsp;</label>
+              <button type="submit"
+                      class="btn btn-primary"
+                      (click)="search(true)"
+                      *ngIf="functionUtility.checkFunction('Search')"
+                      [disabled]="!mainForm.valid">
+                <i class="{{ iconButton.SEARCH }}"></i> {{"System.Action.Search" | translate }}
+              </button>
+              <button type="button"
+                      class="btn btn-danger ml-2"
+                      (click)="clear()">
+                <i class="{{ iconButton.CLEAR }}"></i> {{"System.Action.Clear" | translate }}
+              </button>
+              <button type="button"
+                      (click)="add()"
+                      class="btn btn-success ml-2"
+                      id="add"
+                      *ngIf="functionUtility.checkFunction('Add')">
+                <i class="{{ iconButton.ADD }}"></i> {{"System.Action.Add" | translate }}
+              </button>
+              <button type="submit"
+                      class="btn btn-success ml-1"
+                      id="excel"
+                      (click)="download()"
+                      [disabled]="datas?.length == 0"
+                      *ngIf="functionUtility.checkFunction('Excel')">
+                <i class="{{iconButton.EXCEL}}"></i> {{"System.Action.Excel" | translate }}
+              </button>
+            </div>
+          </form>
+          <div class="row justify-content-md-center">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="table-responsive">
+                <drag-scroll id="dragscroll"
+                             (dragStart)="functionUtility.setTextSelector(false)"
+                             (dragEnd)="functionUtility.setTextSelector(true)">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th class="text-center text-nowrap"
+                            *ngIf="functionUtility.checkFunction('Edit') || functionUtility.checkFunction('Delete')"
+                            [attr.colspan]="functionUtility.getColspan(['Delete','Edit'])">
+                          {{"System.Action.Operation" | translate }}
+                        </th>
+                        <th class="text-center text-nowrap">
+                          {{"AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.Date" | translate }}
+                        </th>
+                        <th class="text-center text-nowrap">
+                          {{"AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.EmployeeID" | translate }}
+                        </th>
+                        <th class="text-center text-nowrap">
+                          {{"AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.LocalFullName" | translate }}
+                        </th>
+                        <th class="text-center text-nowrap">
+                          {{"AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.Department" | translate }}
+                        </th>
+                        <th class="text-center text-nowrap">
+                          {{"AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.OnBoardDate" | translate }}
+                        </th>
+                        <th class="text-center text-nowrap">
+                          {{"AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.TimeStart" | translate }}
+                        </th>
+                        <th class="text-center text-nowrap">
+                          {{"AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.TimeEnd" | translate }}
+                        </th>
+                        <th class="text-center text-nowrap">
+                          {{"AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.Hour" | translate }}
+                        </th>
+                        <th class="text-center text-nowrap">
+                          {{ "AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.UpdateBy"| translate}}
+                        </th>
+                        <th class="text-center text-nowrap">
+                          {{ "AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.UpdateTime"| translate}}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody *ngIf="datas?.length > 0; else dataNotFound">
+                      <tr *ngFor="let item of datas">
+                        <td class="text-center text-nowrap"
+                            *ngIf="functionUtility.checkFunction('Edit')">
+                          <button type="button"
+                                  (click)="edit(item)"
+                                  class="btn btn-sm btn-warning">
+                            <i class="{{ iconButton.EDIT }}"></i>
+                            <span>{{"System.Action.Edit" | translate }}
+                            </span>
+                          </button>
+                        </td>
+                        <td *ngIf="functionUtility.checkFunction('Delete')"
+                            class="text-center text-nowrap">
+                          <button type="button"
+                                  class="btn btn-danger btn-sm"
+                                  (click)="delete(item)">
+                            <i class="{{ iconButton.DELETE }}"></i>
+                            {{ "System.Action.Delete" | translate }}
+                          </button>
+                        </td>
+                        <td class="text-center">{{ item.breaks_Date_Str }}</td>
+                        <td class="text-center">{{ item.employee_ID }}</td>
+                        <td class="text-nowrap">{{ item.local_Full_Name }}</td>
+                        <td class="text-nowrap">{{ item.department_Code_Name }}</td>
+                        <td class="text-center">{{ item.onboard_Date_Str }}</td>
+                        <td class="text-center">{{ item.time_Start }}</td>
+                        <td class="text-center">{{ item.time_End }}</td>
+                        <td class="text-center">{{ item.breaks_Hours }}</td>
+                        <td class="text-center">{{ item.update_By }}</td>
+                        <td class="text-center">{{ item.update_Time_Str}}</td>
+                      </tr>
+                    </tbody>
+                    <ng-template #dataNotFound>
+                      <tbody>
+                        <tr>
+                          <td colspan="100%"
+                              class="table-warning text-center font-weight-bold">
+                            {{"System.Message.Nodata" | translate }}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </ng-template>
+                  </table>
+                </drag-scroll>
+              </div>
+              <div class="row mt-3">
+                <div class="col-8">
+                  <div class="d-flex"
+                       *ngIf="datas?.length > 0 && pagination.totalPage > 0">
+                    <pagination [boundaryLinks]="true"
+                                [totalItems]="pagination.totalCount"
+                                [itemsPerPage]="pagination.pageSize"
+                                previousText="&lsaquo;"
+                                nextText="&rsaquo;"
+                                firstText="&laquo;"
+                                lastText="&raquo;"
+                                [maxSize]="5"
+                                [(ngModel)]="pagination.pageNumber"
+                                (pageChanged)="pageChanged($event)">
+                    </pagination>
+                    <span class="cs-page ml-2">
+                      Page - {{ pagination.pageNumber }} / {{ pagination.totalPage }}
+                    </span>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <span class="cs-page float-right">
+                    {{'System.Rows' | translate }} : {{pagination.totalCount}}
+                  </span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-modal></app-modal>
+</div>

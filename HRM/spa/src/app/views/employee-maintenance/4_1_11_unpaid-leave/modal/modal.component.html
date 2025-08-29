@@ -1,0 +1,362 @@
+<div bsModal
+     #modal="bs-modal"
+     class="modal fade"
+     tabindex="-1"
+     role="dialog"
+     (onHide)="onHide()">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h5 class="modal-title"
+            id="modal-basic-title">
+          {{ title }} -
+          <span>
+            {{ !this.isEdit ? ('System.Action.Add' | translate) : 'System.Action.Edit' | translate }}
+          </span>
+        </h5>
+        <button type="button"
+                class="btn-close close pull-right"
+                (click)="close()"
+                title="Close">
+          <span aria-hidden="true"
+                class="visually-hidden">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #addForm="ngForm"
+              autocomplete="off">
+          <div class="row">
+            <!-- Division -->
+            <div class="col-md-6">
+              <label class="badge badge-warning">
+                {{"EmployeeInformationModule.UnpaidLeave.Division" | translate}}
+                <span class="text-danger">*</span>
+              </label>
+              <ng-select name="division"
+                         [(ngModel)]="data.division"
+                         (clear)="deleteProperty('division')"
+                         [clearable]="data.division !== ''"
+                         (ngModelChange)="onDivisionChange()"
+                         [disabled]="isEdit"
+                         placeholder='{{"EmployeeInformationModule.UnpaidLeave.Division" | translate}}'>
+                <ng-option *ngFor="let i of listDivision"
+                           [value]="i.key">{{i.value}}</ng-option>
+              </ng-select>
+            </div>
+            <!-- Factory -->
+            <div class="col-md-6">
+              <label class="badge badge-warning">
+                {{"EmployeeInformationModule.UnpaidLeave.Factory" | translate}}
+                <span class="text-danger">*</span>
+              </label>
+              <ng-select name="factory"
+                         [(ngModel)]="data.factory"
+                         (clear)="deleteProperty('factory')"
+                         [clearable]="data.factory !== ''"
+                         [disabled]="isEdit"
+                         (ngModelChange)="onChange()"
+                         placeholder='{{"EmployeeInformationModule.UnpaidLeave.Factory" | translate}}'>
+                <ng-option *ngFor="let i of listFactory"
+                           [value]="i.key">{{i.key}} - {{i.value}}</ng-option>
+              </ng-select>
+            </div>
+            <!-- EmployeeID -->
+            <div class="col-md-6 mt-2">
+              <label class="badge badge-warning">
+                {{"EmployeeInformationModule.UnpaidLeave.EmployeeID" | translate}}
+                <span class="text-danger">*</span>
+              </label>
+              <input type="text"
+                     [(ngModel)]="data.employee_ID"
+                     class="form-control"
+                     maxlength="9"
+                     name="employee_ID"
+                     (ngModelChange)="onChange()"
+                     [disabled]="this.isEdit"
+                     [typeahead]="employee_ID"
+                     typeaheadScrollable="true"
+                     placeholder="{{'EmployeeInformationModule.UnpaidLeave.EmployeeID' | translate}}"
+                     (typeaheadOnSelect)="onTypehead($event)" />
+            </div>
+            <!-- LocalFullName -->
+            <div class="col-md-6 mt-2">
+              <label class="badge badge-warning">
+                {{"EmployeeInformationModule.UnpaidLeave.LocalFullName" | translate}}
+              </label>
+              <input type="text"
+                     [(ngModel)]="data.local_Full_Name"
+                     class="form-control"
+                     name="local_Full_Name"
+                     placeholder="{{'EmployeeInformationModule.UnpaidLeave.LocalFullName' | translate}}"
+                     disabled />
+            </div>
+            <!-- Department -->
+            <div class="col-md-6 mt-2">
+              <label class="badge badge-warning">
+                {{"EmployeeInformationModule.UnpaidLeave.Department" | translate}}
+              </label>
+              <input type="text"
+                     [(ngModel)]="data.department"
+                     class="form-control"
+                     name="department"
+                     placeholder='{{"EmployeeInformationModule.UnpaidLeave.Department" | translate}}'
+                     disabled />
+            </div>
+            <!-- Onboard Date -->
+            <div class="col-md-6 mt-2">
+              <label class="badge badge-warning">
+                {{ "EmployeeInformationModule.UnpaidLeave.OnboardDate" | translate }}
+              </label>
+              <input type="text"
+                     [(ngModel)]="data.onboard_Date"
+                     class="form-control"
+                     name="onboardDate"
+                     placeholder=" {{'EmployeeInformationModule.UnpaidLeave.OnboardDate' | translate}}"
+                     bsDatepicker
+                     [bsConfig]="bsConfig"
+                     disabled />
+            </div>
+            <!-- Ordinal Number -->
+            <div class="col-md-6 mt-2">
+              <label class="badge badge-warning">
+                {{'EmployeeInformationModule.UnpaidLeave.OrdinalNumber' | translate}}
+              </label>
+              <input type="text"
+                     class="form-control"
+                     name="ordinal_Number"
+                     [(ngModel)]="data.ordinal_Number"
+                     placeholder="{{'EmployeeInformationModule.UnpaidLeave.OrdinalNumber' | translate }}..."
+                     disabled />
+            </div>
+            <!-- Leave of Absence Reason -->
+            <div class="col-md-6 mt-2">
+              <label class="badge badge-warning">
+                {{"EmployeeInformationModule.UnpaidLeave.LeaveofAbsenceReason" | translate}}
+                <span class="text-danger">*</span>
+              </label>
+              <ng-select name="leave_Reason"
+                         [(ngModel)]="data.leave_Reason"
+                         (clear)="deleteProperty('leave_Reason')"
+                         [clearable]="data.leave_Reason !== ''"
+                         placeholder='{{"EmployeeInformationModule.UnpaidLeave.LeaveofAbsenceReason" | translate}}'>
+                <ng-option *ngFor="let i of listLeaveReason"
+                           [value]="i.key">{{i.value}}</ng-option>
+              </ng-select>
+            </div>
+            <!-- Leave Start Date -->
+            <div class="col-md-6 mt-2">
+              <div>
+                <label class="badge badge-warning">
+                  {{ "EmployeeInformationModule.UnpaidLeave.LeaveStartDate" | translate }}
+                  <span class="text-danger">*</span>
+                </label>
+                <div class="full-width">
+                  <div class="container_input">
+                    <div class="input-group mr-1">
+                      <input autocomplete="off"
+                             type="text"
+                             (keydown)="onDateInputKeyDown($event, 'leaveStartDate')"
+                             onkeypress="return false;"
+                             onpaste="return false;"
+                             [(ngModel)]="leaveStartDate"
+                             [maxDate]="leaveEndDate"
+                             placeholder="YYYY/MM/DD"
+                             class="form-control bg-white"
+                             id="startDate"
+                             name="startDate"
+                             bsDatepicker
+                             [bsConfig]="bsConfig" />
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Leave End Date -->
+            <div class="col-md-6 mt-2">
+              <div>
+                <label class="badge badge-warning">
+                  {{ "EmployeeInformationModule.UnpaidLeave.LeaveEndDate" | translate }}
+                  <span class="text-danger">*</span>
+                </label>
+                <div class="full-width">
+                  <div class="container_input">
+                    <div class="input-group mr-1">
+                      <input autocomplete="off"
+                             type="text"
+                             (keydown)="onDateInputKeyDown($event, 'leaveEndDate')"
+                             onkeypress="return false;"
+                             onpaste="return false;"
+                             [(ngModel)]="leaveEndDate"
+                             [minDate]="leaveStartDate"
+                             placeholder="YYYY/MM/DD"
+                             class="form-control bg-white"
+                             id="endDate"
+                             name="endDate"
+                             bsDatepicker
+                             [bsConfig]="bsConfig" />
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Continuation of Insurance -->
+            <div class="col-md-6 mt-2">
+              <label class="badge badge-warning">
+                {{ "EmployeeInformationModule.UnpaidLeave.ContinuationofInsurance" | translate }}
+                <span class="text-danger">*</span>
+              </label>
+              <div class="row pl-4">
+                <div *ngFor="let item of continuation_of_Insurance; index as i">
+                  <label class="container">
+                    <div class="row">
+                      <div class="custom-control custom-radio pt-2">
+                        <input [id]="'continuation_of_Insurance' + i"
+                               class="custom-control-input"
+                               type="radio"
+                               checked="item.key === false"
+                               name="continuation_of_Insurance"
+                               [(ngModel)]="data.continuation_of_Insurance"
+                               [value]="item.key"
+                               required />
+                        <p class="custom-control-label"
+                           [for]="'continuation_of_Insurance' + i">
+                          <strong>
+                            {{ item.value | translate }}
+                          </strong>
+                        </p>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <!-- Seniority Retention -->
+            <div class="col-md-6 mt-2">
+              <label class="badge badge-warning">
+                {{ "EmployeeInformationModule.UnpaidLeave.SeniorityRetention" | translate }}
+                <span class="text-danger">*</span>
+              </label>
+              <div class="row pl-4">
+                <div *ngFor="let item of seniority_Retention; index as i">
+                  <label class="container">
+                    <div class="row">
+                      <div class="custom-control custom-radio pt-2">
+                        <input [id]="'seniority_Retention' + i"
+                               class="custom-control-input"
+                               type="radio"
+                               checked="checked"
+                               name="seniority_Retention"
+                               [(ngModel)]="data.seniority_Retention"
+                               [value]="item.key"
+                               required />
+                        <p class="custom-control-label"
+                           [for]="'seniority_Retention' + i">
+                          <strong>
+                            {{ item.value | translate }}
+                          </strong>
+                        </p>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <!-- Annual Leave Seniority Retention -->
+            <div class="col-md-6 mt-2">
+              <label class="badge badge-warning">
+                {{ "EmployeeInformationModule.UnpaidLeave.AnnualLeaveSeniorityRetention" | translate }}
+                <span class="text-danger">*</span>
+              </label>
+              <div class="row pl-4">
+                <div *ngFor="let item of annual_Leave_Seniority_Retention; index as i">
+                  <label class="container">
+                    <div class="row">
+                      <div class="custom-control custom-radio pt-2">
+                        <input [id]="'annual_Leave_Seniority_Retention' + i"
+                               class="custom-control-input"
+                               type="radio"
+                               checked="checked"
+                               name="annual_Leave_Seniority_Retention"
+                               [(ngModel)]="data.annual_Leave_Seniority_Retention"
+                               [value]="item.key"
+                               required />
+                        <p class="custom-control-label"
+                           [for]="'annual_Leave_Seniority_Retention' + i">
+                          <strong>
+                            {{ item.value | translate }}
+                          </strong>
+                        </p>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <!-- Effective Status -->
+            <div class="col-md-6 mt-2">
+              <label class="badge badge-warning">
+                {{ "EmployeeInformationModule.UnpaidLeave.EffectiveStatus" | translate }}
+                <span class="text-danger">*</span>
+              </label>
+              <div class="row pl-4">
+                <div *ngFor="let item of effective_Status; index as i">
+                  <label class="container">
+                    <div class="row">
+                      <div class="custom-control custom-radio pt-2">
+                        <input [id]="'effective_Status' + i"
+                               class="custom-control-input"
+                               type="radio"
+                               checked="checked"
+                               name="effective_Status"
+                               [(ngModel)]="data.effective_Status"
+                               [value]="item.key"
+                               required />
+                        <p class="custom-control-label"
+                           [for]="'effective_Status' + i">
+                          <strong>
+                            {{ item.value | translate }}
+                          </strong>
+                        </p>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <!-- Remarks -->
+            <div class="col-md-6 mt-2">
+              <label class="badge badge-warning">
+                {{"EmployeeInformationModule.UnpaidLeave.Remarks" | translate}}
+              </label>
+              <input type="text"
+                     [(ngModel)]="data.remark"
+                     class="form-control"
+                     maxlength="50"
+                     name="remark"
+                     placeholder="{{'EmployeeInformationModule.UnpaidLeave.Remarks' | translate}}" />
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button"
+                class="btn btn-success"
+                [disabled]="checkEmpty() || !checkSelected()"
+                (click)="save()">
+          <i class="{{iconButton.SAVE}}"></i> {{ "System.Action.Save" | translate }}
+        </button>
+        <button type="button"
+                class="btn btn-danger"
+                (click)="close()">
+          <i class="{{ iconButton.CLOSE }}"></i> {{ "System.Action.Close" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,212 @@
+.example-radio-group {
+  display: inline-flex;
+  flex-direction: row;
+}
+
+.example-radio-button {
+  margin: 5px;
+}
+
+.example-selected-value {
+  margin: 15px 0;
+}
+
+::-webkit-scrollbar {
+  width: 14px;
+}
+
+::-webkit-scrollbar-thumb {
+  border: 4px solid rgba(0, 0, 0, 0);
+  background-clip: padding-box;
+  border-radius: 9999px;
+  background-color: #AAAAAA;
+}
+::ng-deep .modal-dialog {
+  margin: 1.5rem auto;
+  .modal-content {
+    .modal-body {
+      margin: 1.5rem;
+      border: 2px solid #4f546c;
+      border-radius: 10px;
+      max-height: calc(100vh - 20rem);
+      min-height: 50vh;
+      padding: 0.5rem 1rem 1rem 1rem;
+      height: fit-content;
+      overflow-x: hidden;
+      animation: padIn 1.5s linear;
+      animation-fill-mode: forwards;
+    }
+  }
+}
+::ng-deep .modal-default {
+  max-width: fit-content;
+  min-width: 40vw;
+}
+::ng-deep ngx-treeview {
+  ngx-treeview-item {
+    display: flex !important;
+    position: relative;
+    background: white;
+  }
+  .form-check-input {
+    opacity: 0 !important;
+    width: 0px;
+    height: 0px;
+  }
+  .form-check-input ~ {
+    .form-check-label {
+      background: transparent;
+      font-weight: 500;
+      display: flex;
+      transition: 0.2s linear;
+      transform-origin: center left;
+    }
+    .form-check-label:hover {
+      cursor: pointer;
+    }
+    .form-check-label::before {
+      width: 16px !important;
+      height: 16px !important;
+      content: "";
+      background: #fff;
+      border-radius: 0.21428571rem;
+      -webkit-transition: all 0.1s ease;
+      transition: all 0.1s ease;
+      border: 1px solid #d4d4d5;
+      margin-right: 5px;
+    }
+    .form-check-label:hover::before {
+      margin-right: 10px;
+      box-shadow: 0 0 3px 1px #6ecdf0;
+    }
+  }
+  .form-check-input:disabled ~ {
+    .form-check-label:hover {
+      cursor: default;
+      transform: scale(1);
+    }
+    .form-check-label::before {
+      background: #fff;
+      margin-right: 5px;
+      box-shadow: none !important;
+    }
+    .form-check-label:hover::before {
+      transform: scale(1);
+      transition: 0.15s linear;
+      box-shadow: none !important;
+    }
+  }
+  .form-check-input:checked ~ {
+    .form-check-label::before {
+      background-color: #20a8d8;
+      background-image: url(../../../../../assets/img/icon/check.svg);
+      background-position: center;
+      background-repeat: no-repeat;
+      color: #20a8d8 !important;
+    }
+  }
+  .treeview-container {
+    overflow-y: hidden !important;
+    height: 100% !important;
+    max-height: none !important;
+    padding-top: 5px !important;
+  }
+  .title-tree {
+    position: absolute;
+    left: 2rem;
+    top: -1.1rem;
+    padding: 0 0.5rem;
+    color: #2a324b;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: text;
+    transition: top 200ms ease-in, left 200ms ease-in, font-size 200ms ease-in;
+    background-color: #ffffff;
+  }
+  .form-inline.row-item.ng-star-inserted {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    margin-left: 5px !important;
+    margin-bottom: 2px !important;
+    margin-top: 2px !important;
+    .bi-caret-down-fill {
+      scale: 1;
+      animation: rotateDown 0.1s linear;
+      animation-fill-mode: forwards;
+      transition: 0.2s linear;
+    }
+    .bi-caret-down-fill:hover {
+      scale: 1.3;
+    }
+    .bi-caret-right-fill {
+      scale: 1;
+      animation: rotateRight 0.1s linear;
+      animation-fill-mode: forwards;
+      transition: 0.2s linear;
+    }
+    .bi-caret-right-fill:hover {
+      scale: 1.3;
+    }
+  }
+  .treeview-item > .ng-star-inserted:not(.form-inline) {
+    border-left: 1px solid #aaa;
+    margin-left: 4px !important;
+    animation: slidein 0.5s linear !important;
+  }
+  .row-item:not(.treeview-container > .row-item:first-child)::before {
+    display: block;
+    content: " ";
+    width: 25px;
+    height: 1px;
+    border-bottom: 1px solid #aaa;
+    top: 0.6em;
+    left: -14px;
+    margin-right: 6px;
+    margin-left: -33px;
+  }
+  .treeview-header .row-all .bi {
+    font-size: large;
+  }
+}
+@keyframes rotateDown {
+  0% {
+    transform: rotate(-90deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+@keyframes rotateRight {
+  0% {
+    transform: rotate(90deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+@keyframes padIn {
+  0% {
+    overflow-y: hidden;
+  }
+  60% {
+    overflow-y: hidden;
+  }
+  100% {
+    overflow-y: auto;
+  }
+}
+@keyframes slidein {
+  0% {
+    opacity: 0;
+    max-height: 0;
+  }
+  30% {
+    opacity: 1;
+    max-height: 300px;
+  }
+  100% {
+    opacity: 1;
+    max-height: 1000px;
+  }
+}

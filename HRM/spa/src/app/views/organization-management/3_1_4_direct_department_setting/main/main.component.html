@@ -1,0 +1,163 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong>{{ title }}</strong>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="card-body">
+          <div class="row border-shadow">
+            <div class="col-xxl-2 col-xl-4 col-lg-4 col-md-6 col-sm-12">
+              <label class="badge badge-warning"> {{'OrganizationManagement.DirectDepartmentSetting.Division'|translate}} </label>
+              <ng-select name="division"
+                         [(ngModel)]="param.division"
+                         (ngModelChange)="getListFactory()"
+                         placeholder="{{ 'OrganizationManagement.DirectDepartmentSetting.Division' | translate}}"
+                         (clear)="deleteProperty('division')"
+                         [clearable]="param.division !== ''">
+                <ng-option *ngFor="let items of listDivision"
+                           [value]="items.key">{{items.key}}-{{items.value}}</ng-option>
+              </ng-select>
+            </div>
+            <div class="col-xxl-2 col-xl-4 col-lg-4 col-md-6 col-sm-12">
+              <label class="badge badge-warning"> {{'OrganizationManagement.DirectDepartmentSetting.Factory'|translate}} </label>
+              <ng-select name="factory"
+                         [(ngModel)]="param.factory"
+                         placeholder="{{ 'OrganizationManagement.DirectDepartmentSetting.Factory' | translate}}"
+                         (clear)="deleteProperty('factory')"
+                         [clearable]="param.factory !== ''">
+                <ng-option *ngFor="let items of listFactory"
+                           [value]="items.key">{{items.key}}-{{items.value}}</ng-option>
+              </ng-select>
+            </div>
+            <div class="col-xxl-2 col-xl-4 col-lg-4 col-md-6 col-sm-12">
+              <label class="badge badge-warning"> {{'OrganizationManagement.DirectDepartmentSetting.Department'|translate}} </label>
+              <ng-select name="department_Code"
+                         [(ngModel)]="param.department_Code"
+                         placeholder="{{ 'OrganizationManagement.DirectDepartmentSetting.Department' | translate}}"
+                         (clear)="deleteProperty('department_Code')"
+                         [clearable]="param.department_Code !== ''">
+                <ng-option *ngFor="let items of listDepartment"
+                           [value]="items.key">{{items.key}}-{{items.value}}</ng-option>
+              </ng-select>
+            </div>
+            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+              <label class="d-block">&nbsp;</label>
+              <button type="submit"
+                      class="btn btn-primary"
+                      *ngIf="functionUtility.checkFunction('Search')"
+                      (click)="search(true)">
+                <i class="{{ iconButton.SEARCH }}"></i> {{'System.Action.Search' | translate}}
+              </button>
+              <button type="button"
+                      class="btn btn-danger ml-2"
+                      (click)="clear()">
+                <i class="{{ iconButton.CLEAR }}"></i> {{'System.Action.Clear' | translate}}
+              </button>
+              <button type="button"
+                      *ngIf="functionUtility.checkFunction('Add')"
+                      class="btn btn-success ml-2"
+                      (click)="onForm()">
+                <i class="{{ iconButton.ADD }}"></i> {{'System.Action.Add' | translate}}
+              </button>
+              <button type="button"
+                      *ngIf="functionUtility.checkFunction('Upload')"
+                      class="btn btn-success ml-2"
+                      (click)="onExcel()">
+                <i class="{{ iconButton.EXCEL }}"></i> {{'System.Action.Excel' | translate}}
+              </button>
+            </div>
+          </div>
+          <div class="row justify-content-md-center">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr class="text-center">
+                      <th [attr.colspan]="functionUtility.getColspan(['Delete','Edit'])"
+                          *ngIf="functionUtility.checkFunction('Edit') || functionUtility.checkFunction('Delete')">{{'OrganizationManagement.DirectDepartmentSetting.Operation'|translate}}</th>
+                      <th>{{'OrganizationManagement.DirectDepartmentSetting.Division'|translate}}</th>
+                      <th>{{'OrganizationManagement.DirectDepartmentSetting.Factory'|translate}}</th>
+                      <th>{{'OrganizationManagement.DirectDepartmentSetting.DepartmentCode'|translate}}</th>
+                      <th>{{'OrganizationManagement.DirectDepartmentSetting.DepartmentName'|translate}}</th>
+                      <th>{{'OrganizationManagement.DirectDepartmentSetting.LineCode'|translate}}</th>
+                      <th>{{'OrganizationManagement.DirectDepartmentSetting.LineName'|translate}}</th>
+                      <th>{{'OrganizationManagement.DirectDepartmentSetting.SectionCode'|translate}}</th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="data?.length > 0; else elseTemplate">
+                    <tr *ngFor="let item of data"
+                        class="text-left">
+                      <td class="text-center"
+                          *ngIf="functionUtility.checkFunction('Edit')">
+                        <button class="btn btn-warning btn-sm"
+                                (click)="onForm(item)">
+                          <i class="{{iconButton.EDIT}}"
+                             aria-hidden="true"></i> {{'System.Action.Edit' | translate}}
+                        </button>
+                      </td>
+                      <td class="text-center"
+                          *ngIf="functionUtility.checkFunction('Delete')">
+                        <button class="btn btn-danger btn-sm"
+                                (click)="deleteItem(item)">
+                          <i class="{{iconButton.DELETE}}"
+                             aria-hidden="true"></i> {{'System.Action.Delete' | translate}}
+                        </button>
+                      </td>
+                      <td>{{item.division}}</td>
+                      <td>{{item.factory}}</td>
+                      <td>{{item.department_Code}} </td>
+                      <td>{{item.department_Name}} </td>
+                      <td>{{item.line_Code}}</td>
+                      <td>{{item.line_Name}}</td>
+                      <td>{{item.direct_Department_Attribute}} - {{item.direct_Department_Attribute_Name}} </td>
+                    </tr>
+                  </tbody>
+                  <ng-template #elseTemplate>
+                    <tbody>
+                      <tr>
+                        <td colspan="100%"
+                            class="table-warning text-center font-weight-bold">
+                          {{'System.Message.Nodata' | translate}}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </ng-template>
+                </table>
+              </div>
+              <div class="row">
+                <div class="col-8">
+                  <div class="d-flex"
+                       *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                    <pagination [boundaryLinks]="true"
+                                [totalItems]="pagination.totalCount"
+                                [itemsPerPage]="pagination.pageSize"
+                                previousText="&lsaquo;"
+                                nextText="&rsaquo;"
+                                firstText="&laquo;"
+                                lastText="&raquo;"
+                                [maxSize]="5"
+                                [(ngModel)]="pagination.pageNumber"
+                                (pageChanged)="pageChanged($event)">
+                    </pagination>
+                    <span class="cs-page ml-2"> Page - {{ pagination.pageNumber }} / {{ pagination.totalPage }}</span>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <span class="cs-page float-right ">{{'System.Rows' | translate }} : {{ data?.length > 0 ? pagination.totalCount : 0}} </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

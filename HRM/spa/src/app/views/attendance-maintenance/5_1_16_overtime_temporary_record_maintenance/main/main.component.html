@@ -1,0 +1,315 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off"
+              #mainForm="ngForm">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">{{ title }}</strong>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row border-shadow">
+              <!-- Factory -->
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+                <label class="badge badge-warning">
+                  {{"AttendanceMaintenance.OvertimeTemporary.Factory" | translate}}
+                  <span class="text-danger text-bold"> *</span>
+                </label>
+                <ng-select name="factory"
+                           [(ngModel)]="param.factory"
+                           [clearable]="param.factory != ''"
+                           (clear)="deleteProperty('factory')"
+                           (ngModelChange)="onSelectFactory()"
+                           placeholder="{{'AttendanceMaintenance.OvertimeTemporary.Factory' | translate}}"
+                           required>
+                  <ng-option *ngFor="let item of factory"
+                             value="{{ item.key }}">{{item.value}}</ng-option>
+                </ng-select>
+              </div>
+              <!-- Department -->
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+                <label class="badge badge-warning">
+                  {{"AttendanceMaintenance.OvertimeTemporary.Department" | translate}}
+                </label>
+                <ng-select name="department"
+                           [(ngModel)]="param.department"
+                           [clearable]="param.department != ''"
+                           (clear)="deleteProperty('department')"
+                           placeholder="{{'AttendanceMaintenance.OvertimeTemporary.Department' | translate}}"
+                           [disabled]="!param.factory">
+                  <ng-option *ngFor="let item of department"
+                             value="{{ item.key }}">{{item.value}}</ng-option>
+                </ng-select>
+              </div>
+              <!-- Employee ID -->
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+                <label class="badge badge-warning">{{"AttendanceMaintenance.OvertimeTemporary.EmployeeID" |
+                  translate}}</label>
+                <div class="full-width">
+                  <div class="container_date">
+                    <div class="input-group mr-1">
+                      <input autocomplete="off"
+                             type="text"
+                             placeholder="{{'AttendanceMaintenance.OvertimeTemporary.EmployeeID' | translate}}"
+                             class="form-control"
+                             name="Name"
+                             maxlength="100"
+                             [(ngModel)]="param.employee_ID" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Work Shift Type -->
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+                <label class="badge badge-warning">
+                  {{"AttendanceMaintenance.OvertimeTemporary.Shift" | translate}}
+                </label>
+                <ng-select name="shift"
+                           [(ngModel)]="param.shift"
+                           [clearable]="param.shift != ''"
+                           (clear)="deleteProperty('shift')"
+                           placeholder="{{'AttendanceMaintenance.OvertimeTemporary.Shift' | translate}}">
+                  <ng-option *ngFor="let item of workShiftType"
+                             value="{{ item.key }}">{{item.value}}</ng-option>
+                </ng-select>
+              </div>
+              <!-- Onboard Date -->
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+                <label class="badge badge-warning">
+                  {{'AttendanceMaintenance.OvertimeTemporary.Date'|
+                  translate}}
+                </label>
+                <div class="full-width">
+                  <div class="container_input">
+                    <div class="input-group mr-1">
+                      <input type="text"
+                             autocomplete="off"
+                             class="form-control"
+                             bsDatepicker
+                             name="Date_From"
+                             [(ngModel)]="param.dateFrom_Date"
+                             (ngModelChange)="onDateChange('dateFrom')"
+                             [bsConfig]="bsConfig"
+                             onpaste="return false;"
+                             placeholder="YYYY/MM/DD"
+                             [maxDate]="param.dateTo_Date"/>
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                      </div>
+                    </div>
+                    <div class="input-group ml-1">
+                      <input type="text"
+                             autocomplete="off"
+                             class="form-control"
+                             bsDatepicker
+                             name="Date_To"
+                             [(ngModel)]="param.dateTo_Date"
+                             (ngModelChange)="onDateChange('dateTo')"
+                             [bsConfig]="bsConfig"
+                             onpaste="return false;"
+                             placeholder="YYYY/MM/DD"
+                             [minDate]="param.dateFrom_Date"/>
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xxl-9 col-xl-12 col-lg-12 col-md-12 custom-col">
+                <label class="d-block">&nbsp;</label>
+                <button type="submit"
+                        (click)="search(true)"
+                        class="btn btn-primary mr-2"
+                        *ngIf="functionUtility.checkFunction('Search')"
+                        [disabled]="!mainForm.valid">
+                  <i class="{{ iconButton.SEARCH }}"></i>
+                  {{ "System.Action.Search" | translate }}
+                </button>
+                <button type="button"
+                        (click)="clear(true)"
+                        class="btn btn-danger mr-2">
+                  <i class="{{ iconButton.CLEAR }}"></i>
+                  {{ "System.Action.Clear" | translate }}
+                </button>
+                <button type="button"
+                        (click)="onAdd()"
+                        class="btn btn-success mr-2"
+                        *ngIf="functionUtility.checkFunction('Add')">
+                  <i class="{{ iconButton.ADD }}"></i>
+                  {{ "System.Action.Add" | translate }}
+                </button>
+                <button type="submit"
+                        class="btn btn-success"
+                        id="excel"
+                        (click)="download()"
+                        [disabled]="!mainForm.valid"
+                        *ngIf="functionUtility.checkFunction('Excel')">
+                  <i class="{{iconButton.EXCEL}}"></i> {{"System.Action.Excel" | translate }}
+                </button>
+              </div>
+            </div>
+            <div class="row justify-content-md-center">
+              <div class="col-xl-12 col-xxl-12">
+                <div class="table-responsive">
+                  <drag-scroll id="dragscroll"
+                               (mousedown)="startDrag()"
+                               (mouseup)="stopDrag()"
+                               (dragStart)="functionUtility.setTextSelector(false)"
+                               (dragEnd)="functionUtility.setTextSelector(true)">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th class="text-center-vertical text-nowrap"
+                              *ngIf="functionUtility.checkFunction('Edit') || functionUtility.checkFunction('Delete')"
+                              [attr.colspan]="functionUtility.getColspan(['Delete','Edit'])">{{"System.Action.Operation" | translate
+                            }}</th>
+                          <th class="text-center-vertical text-nowrap">{{"AttendanceMaintenance.OvertimeTemporary.Factory"
+                            | translate }}</th>
+                          <th class="text-center-vertical text-nowrap">
+                            {{"AttendanceMaintenance.OvertimeTemporary.Department" | translate}}
+                          </th>
+                          <th class="text-center-vertical text-nowrap">
+                            {{"AttendanceMaintenance.OvertimeTemporary.EmployeeID" | translate}}
+                          </th>
+                          <th class="text-center-vertical text-nowrap">
+                            {{"AttendanceMaintenance.OvertimeTemporary.LocalFullName" | translate}}
+                          </th>
+                          <th class="text-center-vertical text-nowrap">{{"AttendanceMaintenance.OvertimeTemporary.Date" |
+                            translate}}</th>
+                          <th class="text-center-vertical text-nowrap">{{"AttendanceMaintenance.OvertimeTemporary.Shift" |
+                            translate}}</th>
+                          <th class="text-center-vertical text-nowrap">
+                            {{"AttendanceMaintenance.OvertimeTemporary.ShiftTime" | translate}}
+                          </th>
+                          <th class="text-center-vertical text-nowrap">
+                            {{"AttendanceMaintenance.OvertimeTemporary.ClockInTime" |translate}}
+                          </th>
+                          <th class="text-center-vertical text-nowrap">
+                            {{"AttendanceMaintenance.OvertimeTemporary.ClockOutTime" | translate}}
+                          </th>
+                          <th class="text-center-vertical text-nowrap">
+                            {{"AttendanceMaintenance.OvertimeTemporary.OvertimeStart" | translate}}
+                          </th>
+                          <th class="text-center-vertical text-nowrap">
+                            {{"AttendanceMaintenance.OvertimeTemporary.OvertimeEnd" | translate}}
+                          </th>
+                          <th class="text-center-vertical text-nowrap">
+                            {{"AttendanceMaintenance.OvertimeTemporary.OvertimeHours" | translate}}
+                          </th>
+                          <th class="text-center-vertical text-nowrap">
+                            {{"AttendanceMaintenance.OvertimeTemporary.NightHours" | translate}}
+                          </th>
+                          <th class="text-center-vertical text-nowrap">
+                            {{"AttendanceMaintenance.OvertimeTemporary.NightOvertimeHours" | translate}}
+                          </th>
+                          <th class="text-center-vertical text-nowrap">
+                            {{"AttendanceMaintenance.OvertimeTemporary.TrainingHours" | translate}}
+                          </th>
+                          <th class="text-center-vertical text-nowrap">
+                            {{"AttendanceMaintenance.OvertimeTemporary.NightShiftAllowanceTimes" | translate}}
+                          </th>
+                          <th class="text-center-vertical text-nowrap">{{"AttendanceMaintenance.OvertimeTemporary.Holiday"
+                            | translate}}</th>
+                          <th class="text-center-vertical text-nowrap">
+                            {{"AttendanceMaintenance.OvertimeTemporary.UpdateBy" | translate}}
+                          </th>
+                          <th class="text-center-vertical text-nowrap">
+                            {{"AttendanceMaintenance.OvertimeTemporary.UpdateTime" | translate}}
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody *ngIf="data?.length > 0; else elseTemplate">
+                        <tr *ngFor="let item of data; let i = index">
+                          <td class="text-center-vertical width-operation"
+                              *ngIf="functionUtility.checkFunction('Edit')">
+                            <button type="button"
+                                    class="btn btn-warning btn-sm"
+                                    (click)="onEdit(item)">
+                              <i class="{{ iconButton.EDIT }}"></i>
+                              {{ "System.Action.Edit" | translate }}
+                            </button>
+                          </td>
+                          <td class="text-center-vertical width-operation"
+                              *ngIf="functionUtility.checkFunction('Delete')">
+                            <button type="button"
+                                    class="btn btn-danger btn-sm"
+                                    (click)="onDelete(item)">
+                              <i class="{{iconButton.DELETE}}"></i>
+                              {{'System.Action.Delete' | translate}}
+                            </button>
+                          </td>
+                          <td class="text-center-vertical">{{ item.factory }}</td>
+                          <td class="text-center-vertical">{{ item.department_Code_Name }}</td>
+                          <td class="text-center-vertical">{{ item.employee_ID }}</td>
+                          <td class="text-center-vertical">{{ item.local_Full_Name }}</td>
+                          <td class="text-center-vertical">{{ item.date | date : "yyyy/MM/dd"}}</td>
+                          <td class="text-center-vertical">{{ item.work_Shift_Type_Str }}</td>
+                          <td class="text-center-vertical text-nowrap">{{ item.shift_Time | mask:'00:00 - 00:00' }}</td>
+                          <td class="text-center-vertical">{{ item.clock_In_Time | mask:'00:00' }}</td>
+                          <td class="text-center-vertical">{{ item.clock_Out_Time | mask:'00:00' }}</td>
+                          <td class="text-center-vertical">{{ item.overtime_Start | mask:'00:00' }}</td>
+                          <td class="text-center-vertical">{{ item.overtime_End | mask:'00:00' }}</td>
+                          <td class="text-center-vertical">{{ item.overtime_Hours }}</td>
+                          <td class="text-center-vertical">{{ item.night_Hours }}</td>
+                          <td class="text-center-vertical">{{ item.night_Overtime_Hours }}</td>
+                          <td class="text-center-vertical">{{ item.training_Hours }}</td>
+                          <td class="text-center-vertical">{{ item.night_Eat }}</td>
+                          <td class="text-center-vertical">{{ item.holiday_Str }}</td>
+                          <td class="text-center-vertical">{{ item.update_By }}</td>
+                          <td class="text-center-vertical">{{ item.update_Time_Str}}</td>
+                        </tr>
+                      </tbody>
+                      <ng-template #elseTemplate>
+                        <tbody>
+                          <tr class="no-data">
+                            <td colspan="100%"
+                                class="table-warning text-center-vertical font-weight-bold">
+                              {{ "System.Message.Nodata" | translate }}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </ng-template>
+                    </table>
+                  </drag-scroll>
+                </div>
+                <div class="row">
+                  <div class=" col-8">
+                    <div class="d-flex"
+                         *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                      <pagination [boundaryLinks]="true"
+                                  [maxSize]="5"
+                                  name="page"
+                                  [totalItems]="pagination.totalCount"
+                                  [itemsPerPage]="pagination.pageSize"
+                                  (pageChanged)="pageChanged($event)"
+                                  [(ngModel)]="pagination.pageNumber"
+                                  previousText="&lsaquo;"
+                                  nextText="&rsaquo;"
+                                  firstText="&laquo;"
+                                  lastText="&raquo;">
+                      </pagination>
+                      <span class="cs-page ml-2">
+                        Page - {{pagination.pageNumber}} / {{pagination.totalPage}}
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <span class="cs-page float-right ">{{"System.Rows" | translate}} : {{pagination.totalCount ??
+                      0}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <app-modal></app-modal>
+</div>

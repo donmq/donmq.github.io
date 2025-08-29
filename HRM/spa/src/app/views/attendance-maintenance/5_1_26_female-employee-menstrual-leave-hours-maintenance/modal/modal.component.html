@@ -1,0 +1,192 @@
+<div bsModal
+     #modal="bs-modal"
+     class="modal fade"
+     tabindex="-1"
+     role="dialog"
+     (onHide)="onHide()">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <form class="modal-content needs-validation"
+            #modalForm="ngForm"
+            autocomplete="off">
+        <!-- Header -->
+        <div class="modal-header bg-primary">
+          <h5 class="modal-title"
+              id="modal-basic-title">
+            {{ title }} - {{"System.Action.Edit" | translate}}
+          </h5>
+          <button type="button"
+                  class="btn-close close pull-right"
+                  (click)="close()">
+            <span aria-hidden="true"
+                  class="visually-hidden">&times;</span>
+          </button>
+        </div>
+        <!-- Body -->
+        <div class="modal-body ">
+          <div class="row">
+            <!-- Factory -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-4 mb-2">
+              <label class="badge badge-warning">
+                {{"AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.Factory" | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <input autocomplete="off"
+                     type="text"
+                     class="form-control"
+                     name="factory"
+                     [ngModel]="model.factory"
+                     disabled />
+            </div>
+
+            <!-- Month -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-4 mb-2">
+              <label class="badge badge-warning">
+                {{"AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.Month" | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <input autocomplete="off"
+                     type="text"
+                     class="form-control"
+                     name="att_Month"
+                     [ngModel]="model.att_Month_Str | date: 'YYYY/MM'"
+                     disabled />
+            </div>
+
+            <!-- Breaks_Date -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-4 mb-2">
+              <label class="badge badge-warning">
+                {{"AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.Date" | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <input autocomplete="off"
+                     type="text"
+                     class="form-control"
+                     name="breaks_Date"
+                     [ngModel]="model.breaks_Date_Str"
+                     disabled />
+            </div>
+
+            <!-- EmployeeID -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-4 mb-2">
+              <label class="badge badge-warning">
+                {{"AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.EmployeeID" | translate }}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <input autocomplete="off"
+                     placeholder="{{'AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.EmployeeID' | translate }}"
+                     type="text"
+                     class="form-control"
+                     name="employee_ID"
+                     [ngModel]="model.employee_ID"
+                     disabled />
+            </div>
+
+            <!-- LocalFullName -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-4 mb-2">
+              <label class="badge badge-warning">
+                {{"AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.LocalFullName" | translate}}
+              </label>
+              <input autocomplete="off"
+                     type="text"
+                     class="form-control"
+                     placeholder="{{'AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.LocalFullName' | translate }}"
+                     name="local_Full_Name"
+                     [ngModel]="model.local_Full_Name"
+                     disabled />
+            </div>
+            <!-- Department -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-4 mb-2">
+              <label class="badge badge-warning">
+                {{"AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.Department" | translate}}
+              </label>
+              <input autocomplete="off"
+                     type="text"
+                     class="form-control"
+                     name="department"
+                     [ngModel]="model.department_Name"
+                     placeholder="{{'AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.Department' | translate }}"
+                     disabled />
+            </div>
+
+            <!-- Onboard Date -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-4 mb-2">
+              <label class="badge badge-warning">
+                {{"AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.OnBoardDate" | translate}}
+              </label>
+              <input autocomplete="off"
+                     type="text"
+                     class="form-control"
+                     name="onboard_Date"
+                     [ngModel]="model.onboard_Date"
+                     disabled />
+            </div>
+
+            <!-- Time Start -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-4 mb-2">
+              <label class="badge badge-warning">
+                {{"AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.TimeStart" | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <input type="text"
+                     class="form-control"
+                     name="time_Start"
+                     [ngModel]="model.time_Start"
+                     maxlength="5"
+                     mask="00:00"
+                     min="0"
+                     disabled />
+            </div>
+            <!-- Time End  -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-4 mb-2">
+              <label class="badge badge-warning">
+                {{"AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.TimeEnd" | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <input type="text"
+                     class="form-control"
+                     name="Time_End"
+                     [(ngModel)]="model.time_End"
+                     maxlength="5"
+                     mask="00:00"
+                     min="0"
+                     required />
+            </div>
+            <!-- Hours  -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-4 mb-2">
+              <label class="badge badge-warning">
+                {{"AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.Hour" | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <input type="number"
+                     class="form-control"
+                     name="breaks_Hours"
+                     [(ngModel)]="model.breaks_Hours"
+                     min="-9999.99999"
+                     max="9999.99999"
+                     required />
+            </div>
+
+          </div>
+        </div>
+        <!-- Footer -->
+        <div class="modal-footer">
+          <button type="button"
+                  class="btn btn-success text-white"
+                  (click)="save()"
+                  [disabled]="!modalForm.valid">
+            <i class="{{iconButton.SAVE}}"></i>
+            {{ 'System.Action.Save' | translate}}
+          </button>
+
+          <button type="button"
+                  class="btn btn-danger text-white"
+                  (click)="close()">
+            <i class="{{iconButton.CLOSE}}"></i>
+            {{ 'System.Action.Close' | translate}}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

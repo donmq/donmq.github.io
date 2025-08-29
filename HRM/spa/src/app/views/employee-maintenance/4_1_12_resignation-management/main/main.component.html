@@ -1,0 +1,287 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row border-title">
+            <div class="col-md-12">
+              <strong>{{ title }}</strong>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form class="form-horizontal border-shadow"
+                autocomplete="off">
+            <!-- Division -->
+            <div class="row">
+              <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 pb-2">
+                <label class="badge badge-warning">
+                  {{"EmployeeInformationModule.ResignationManagement.Division" | translate}}
+                  <span class="text-danger">*</span>
+                </label>
+                <ng-select name="division"
+                           [(ngModel)]="param.division"
+                           (clear)="deleteProperty('division')"
+                           [clearable]="param.division !== ''"
+                           (ngModelChange)="onDivisionChange()"
+                           placeholder='{{"EmployeeInformationModule.ResignationManagement.Division" | translate}}'>
+                  <ng-option *ngFor="let i of listDivision"
+                             [value]="i.key">{{i.value}}</ng-option>
+                </ng-select>
+              </div>
+              <!-- Factory -->
+              <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 pb-2">
+                <label class="badge badge-warning">
+                  {{"EmployeeInformationModule.ResignationManagement.Factory" | translate}}
+                  <span class="text-danger">*</span>
+                </label>
+                <ng-select name="factory"
+                           [(ngModel)]="param.factory"
+                           (clear)="deleteProperty('factory')"
+                           [clearable]="param.factory !== ''"
+                           [disabled]="!param.division"
+                           placeholder='{{"EmployeeInformationModule.ResignationManagement.Factory" | translate}}'>
+                  <ng-option *ngFor="let i of listFactory"
+                             [value]="i.key">{{i.value}}</ng-option>
+                </ng-select>
+              </div>
+              <!-- EmployeeID -->
+              <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 pb-2">
+                <label class="badge badge-warning">
+                  {{"EmployeeInformationModule.ResignationManagement.EmployeeID" | translate}}
+                </label>
+                <input type="text"
+                       [(ngModel)]="param.employee_ID"
+                       class="form-control"
+                       maxlength="9"
+                       name="employee_ID"
+                       placeholder="{{'EmployeeInformationModule.ResignationManagement.EmployeeID' | translate}}" />
+              </div>
+              <!-- LocalFullName -->
+              <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 pb-2">
+                <label class="badge badge-warning">
+                  {{"EmployeeInformationModule.ResignationManagement.LocalFullName" | translate}}
+                </label>
+                <input type="text"
+                       [(ngModel)]="param.local_Full_Name"
+                       class="form-control"
+                       name="local_Full_Name"
+                       placeholder="{{'EmployeeInformationModule.ResignationManagement.LocalFullName' | translate}}" />
+              </div>
+
+              <!-- Date of Resignation -->
+              <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 pb-2">
+                <label class="badge badge-warning">
+                  {{'EmployeeInformationModule.ResignationManagement.DateofResignation'|
+                  translate}}
+                </label>
+                <div class="full-width">
+                  <div class="container_input">
+                    <div class="input-group mr-1">
+                      <input type="text"
+                             autocomplete="off"
+                             class="form-control"
+                             bsDatepicker
+                             name="startDate"
+                             (keydown.backspace)="startDate = null"
+                             [(ngModel)]="startDate"
+                             [bsConfig]="bsConfig"
+                             onkeypress="return false;"
+                             onpaste="return false;"
+                             [maxDate]="endDate"
+                             placeholder="YYYY/MM/DD"
+                             readonly />
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                      </div>
+                    </div>
+                    <div class="input-group ml-1">
+                      <input type="text"
+                             autocomplete="off"
+                             class="form-control"
+                             bsDatepicker
+                             name="endDate"
+                             (keydown.backspace)="endDate = null"
+                             [(ngModel)]="endDate"
+                             [bsConfig]="bsConfig"
+                             onkeypress="return false;"
+                             onpaste="return false;"
+                             [minDate]="startDate"
+                             placeholder="YYYY/MM/DD"
+                             readonly />
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <div class="col-xxl-9 col-xl-12 col-lg-12 col-md-12">
+                <label class="d-block">&nbsp;</label>
+                <button *ngIf="functionUtility.checkFunction('Search')"
+                        type="submit"
+                        class="btn btn-primary mr-2 custom-margin-bottom"
+                        (click)="search(true)"
+                        [disabled]="!param.division || !param.factory">
+                  <i class="{{iconButton.SEARCH}}"></i> {{"System.Action.Search" | translate }}
+                </button>
+                <button type="button"
+                        class="btn btn-danger mr-2 custom-margin-bottom"
+                        (click)="clear()">
+                  <i class="{{ iconButton.CLEAR }}"></i> {{"System.Action.Clear" | translate }}
+                </button>
+                <button *ngIf="functionUtility.checkFunction('Add')"
+                        type="button"
+                        class="btn btn-success mr-2 custom-margin-bottom"
+                        (click)="add()">
+                  <i class="{{iconButton.ADD}}"></i> {{"System.Action.Add" | translate }}
+                </button>
+                <button *ngIf="functionUtility.checkFunction('Excel')"
+                        type="button"
+                        class="btn btn-success mr-2 custom-margin-bottom"
+                        (click)="download()"
+                        [disabled]="!param.division || !param.factory">
+                  <i class="{{iconButton.EXCEL}}"></i> {{"System.Action.Excel" | translate }}
+                </button>
+              </div>
+            </div>
+          </form>
+          <div class="row justify-content-md-center">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th *ngIf="functionUtility.checkFunction('Query') || functionUtility.checkFunction('Edit') || functionUtility.checkFunction('Delete')"
+                          class="text-center vertical-align-middle"
+                          [attr.colspan]="functionUtility.getColspan(['Query','Edit','Delete'])">
+                        {{ 'EmployeeInformationModule.UnpaidLeave.Operation' | translate }}
+                      </th>
+                      <th class="text-center vertical-align-middle">
+                        {{"EmployeeInformationModule.ResignationManagement.Division" | translate }}
+                      </th>
+                      <th class="text-center vertical-align-middle">
+                        {{"EmployeeInformationModule.ResignationManagement.Factory" | translate }}
+                      </th>
+                      <th class="text-center vertical-align-middle">
+                        {{"EmployeeInformationModule.ResignationManagement.Nationality" | translate }}
+                      </th>
+                      <th class="text-center vertical-align-middle">
+                        {{"EmployeeInformationModule.ResignationManagement.EmployeeID" | translate }}
+                      </th>
+                      <th class="text-center vertical-align-middle">
+                        {{"EmployeeInformationModule.ResignationManagement.LocalFullName" | translate }}
+                      </th>
+                      <th class="text-center vertical-align-middle">
+                        {{"EmployeeInformationModule.ResignationManagement.DateofResignation" | translate }}
+                      </th>
+                      <th class="text-center vertical-align-middle">
+                        {{"EmployeeInformationModule.ResignationManagement.ResignationType" | translate }}
+                      </th>
+                      <th class="text-center vertical-align-middle">
+                        {{"EmployeeInformationModule.ResignationManagement.ReasonforResignation" | translate }}
+                      </th>
+                      <th class="text-center vertical-align-middle">
+                        {{"EmployeeInformationModule.ResignationManagement.Blacklist" | translate }}
+                      </th>
+                      <th class="text-center vertical-align-middle">
+                        {{"EmployeeInformationModule.ResignationManagement.Verifier" | translate }}
+                      </th>
+                      <th class="text-center vertical-align-middle">
+                        {{"EmployeeInformationModule.ResignationManagement.VerifierName" | translate }}
+                      </th>
+                      <th class="text-center vertical-align-middle">
+                        {{"EmployeeInformationModule.ResignationManagement.UpdateBy" | translate }}
+                      </th>
+                      <th class="text-center vertical-align-middle">
+                        {{"EmployeeInformationModule.ResignationManagement.UpdateTime" | translate }}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="data.length > 0; else dataNotFound">
+                    <tr *ngFor="let item of data">
+                      <td *ngIf="functionUtility.checkFunction('Query')"
+                          class="text-center vertical-align-middle-button">
+                        <button class="btn btn-info btn-sm btn-sm"
+                                (click)="query(item)">
+                          <i class="{{iconButton.VIEW}}"
+                             aria-hidden="true"></i>
+                          {{'System.Action.Query' | translate}}
+                        </button>
+                      </td>
+                      <td *ngIf="functionUtility.checkFunction('Edit')"
+                          class="text-center vertical-align-middle-button">
+                        <button class="btn btn-warning btn-sm"
+                                (click)="edit(item)">
+                          <i class="{{iconButton.EDIT}}"
+                             aria-hidden="true"></i>
+                          {{'System.Action.Edit' | translate}}
+                        </button>
+                      </td>
+                      <td *ngIf="functionUtility.checkFunction('Delete')"
+                          class="text-center vertical-align-middle-button">
+                        <button class="btn btn-danger btn-sm"
+                                (click)="delete(item)"
+                                [disabled]="item.blacklist">
+                          <i class="{{iconButton.DELETE}}"
+                             aria-hidden="true"></i>
+                          {{'System.Action.Delete' | translate}}
+                        </button>
+                      </td>
+                      <td class="text-center vertical-align-middle">{{item.division}}</td>
+                      <td class="text-center vertical-align-middle">{{item.factory}}</td>
+                      <td class="text-center vertical-align-middle">{{item.nationality}}</td>
+                      <td class="text-center vertical-align-middle">{{item.employee_ID}}</td>
+                      <td class="text-center vertical-align-middle">{{item.local_Full_Name}}</td>
+                      <td class="text-center vertical-align-middle">{{item.resign_Date | date:'yyyy/MM/dd'}}</td>
+                      <td class="text-center vertical-align-middle">{{item.resignation_Type_Str}}</td>
+                      <td class="text-center vertical-align-middle">{{item.resign_Reason_Str}}</td>
+                      <td class="text-center vertical-align-middle">{{item.blacklist_Str}}</td>
+                      <td class="text-center vertical-align-middle">{{item.verifier}}</td>
+                      <td class="text-center vertical-align-middle">{{item.verifier_Name}}</td>
+                      <td class="text-center vertical-align-middle">{{item.update_By}}</td>
+                      <td class="text-center vertical-align-middle">{{item.update_Time | date:'yyyy/MM/dd'}}</td>
+                    </tr>
+                  </tbody>
+                  <ng-template #dataNotFound>
+                    <tbody>
+                      <tr>
+                        <td colspan="100%"
+                            class="table-warning text-center font-weight-bold">
+                          {{"System.Message.Nodata" | translate }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </ng-template>
+                </table>
+              </div>
+              <div class="row">
+                <div class="col-8">
+                  <div class="d-flex"
+                       *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                    <pagination [boundaryLinks]="true"
+                                [totalItems]="pagination.totalCount"
+                                [itemsPerPage]="pagination.pageSize"
+                                previousText="&lsaquo;"
+                                nextText="&rsaquo;"
+                                firstText="&laquo;"
+                                lastText="&raquo;"
+                                [maxSize]="5"
+                                [(ngModel)]="pagination.pageNumber"
+                                (pageChanged)="pageChanged($event)">
+                    </pagination>
+                    <span class="cs-page ml-2"> Page - {{ pagination.pageNumber }} / {{ pagination.totalPage }}</span>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <span class="cs-page float-right ">{{'System.Rows' | translate }} : {{pagination.totalCount}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

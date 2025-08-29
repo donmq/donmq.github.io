@@ -1,0 +1,167 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <form class="card form-horizontal needs-validation"
+            #form="ngForm"
+            autocomplete="off">
+        <div class="form-horizontal">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong>{{ title }} - {{ formType === "Add" ? ("System.Action.Add" | translate) : ("System.Action.Edit" | translate)}}</strong>
+                <!-- Button Back -->
+                <button type="button"
+                        class="btn btn-sm btn-primary float-right"
+                        (click)="back()">
+                  <i class="fa fa-chevron-left"></i>
+                  {{ 'System.Action.Back' | translate}}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row border-shadow">
+            <!-- Factory -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3 mb-2">
+              <label class="badge badge-warning">
+                {{"SalaryMaintenance.SalaryItemtToAccountingCodeMappingMaintenance.Factory" | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <ng-select [(ngModel)]="model.factory"
+                         name="factory"
+                         placeholder="{{'SalaryMaintenance.SalaryItemtToAccountingCodeMappingMaintenance.Factory' | translate}}"
+                         required
+                         [clearable]="false"
+                         [disabled]="formType === 'Edit'"
+                         (ngModelChange)="onFactoryChange()">
+                <ng-option *ngFor="let item of factorys"
+                           value="{{ item.key }}">{{item.value}}</ng-option>
+              </ng-select>
+            </div>
+            <!-- Salary Item -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3 mb-2">
+              <label class="badge badge-warning">
+                {{"SalaryMaintenance.SalaryItemtToAccountingCodeMappingMaintenance.SalaryItem" | translate }}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <ng-select [(ngModel)]="model.salary_Item"
+                         name="salary_Item"
+                         placeholder="{{'SalaryMaintenance.SalaryItemtToAccountingCodeMappingMaintenance.SalaryItem' | translate}}"
+                         required
+                         [clearable]="false"
+                         [disabled]="formType === 'Edit'"
+                         (ngModelChange)="onSalaryItemChange()">
+                <ng-option *ngFor="let item of salaryItems"
+                           value="{{ item.key }}">{{item.value}}</ng-option>
+              </ng-select>
+            </div>
+            <!-- Main Account -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3 mb-2">
+              <label class="badge badge-warning">
+                {{"SalaryMaintenance.SalaryItemtToAccountingCodeMappingMaintenance.MainAccount" | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <input autocomplete="off"
+                     type="text"
+                     class="form-control"
+                     placeholder="{{'SalaryMaintenance.SalaryItemtToAccountingCodeMappingMaintenance.MainAccount' | translate }}"
+                     name="main_Acc"
+                     [(ngModel)]="model.main_Acc"
+                     (ngModelChange)="onValueChange()"
+                     required
+                     [maxlength]="4"
+                     (keypress)="patternCheck($event)" />
+            </div>
+            <!-- Sub Account -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3 mb-2">
+              <label class="badge badge-warning">
+                {{"SalaryMaintenance.SalaryItemtToAccountingCodeMappingMaintenance.SubAccount" | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <input autocomplete="off"
+                     type="text"
+                     class="form-control"
+                     placeholder="{{'SalaryMaintenance.SalaryItemtToAccountingCodeMappingMaintenance.SubAccount' | translate }}"
+                     name="sub_Acc"
+                     [(ngModel)]="model.sub_Acc"
+                     (ngModelChange)="onValueChange()"
+                     required
+                     [maxlength]="4"
+                     (keypress)="patternCheck($event)" />
+            </div>
+            <!-- D & C -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3 mb-2">
+              <label class="badge badge-warning">
+                {{"SalaryMaintenance.SalaryItemtToAccountingCodeMappingMaintenance.DebitAndCredit" | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <input autocomplete="off"
+                     type="text"
+                     class="form-control input-upper"
+                     placeholder="{{'SalaryMaintenance.SalaryItemtToAccountingCodeMappingMaintenance.DebitAndCredit' | translate }}"
+                     name="dC_Code"
+                     [(ngModel)]="model.dC_Code"
+                     required
+                     [maxlength]="1"
+                     (ngModelChange)="changeDC_Code()"
+                     [disabled]="formType === 'Edit'" />
+            </div>
+            <!-- Update By -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3 mb-2">
+              <label class="badge badge-warning">
+                {{"SalaryMaintenance.SalaryItemtToAccountingCodeMappingMaintenance.UpdateBy" | translate}}
+              </label>
+              <input autocomplete="off"
+                     type="text"
+                     class="form-control"
+                     name="update_By"
+                     placeholder="{{'SalaryMaintenance.SalaryItemtToAccountingCodeMappingMaintenance.UpdateBy' | translate }}"
+                     [ngModel]="model.update_By"
+                     disabled />
+            </div>
+            <!-- Update Time -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3 mb-2">
+              <label class="badge badge-warning">
+                {{"SalaryMaintenance.SalaryItemtToAccountingCodeMappingMaintenance.UpdateTime" | translate}}
+              </label>
+              <input autocomplete="off"
+                     type="text"
+                     class="form-control"
+                     name="update_Time"
+                     placeholder="{{'SalaryMaintenance.SalaryItemtToAccountingCodeMappingMaintenance.UpdateTime' | translate }}"
+                     [(ngModel)]="model.update_Time_Str"
+                     disabled />
+            </div>
+          </div>
+          <div class="row justify-content-md-center">
+            <div class="col-lg-12 col-md-12 col-sm-12 mt-2">
+              <div class="table-responsive text-right">
+                <button *ngIf="!(formType === 'Edit')"
+                        type="button"
+                        [disabled]="!form.valid || !isValidCode"
+                        class="btn btn-warning"
+                        (click)="save(true)">
+                  <i class="{{ iconButton.SAVE }}"></i>
+                  {{ "System.Action.SaveAndContinue" | translate }}
+                </button>
+                <button type="submit"
+                        class="btn btn-success ml-2"
+                        [disabled]="!form.valid || !isValidCode"
+                        (click)="save()"><i class="{{ iconButton.SUBMIT }}"></i>
+                  {{'System.Action.Save' | translate}}
+                </button>
+                <button type="button"
+                        class="btn btn-danger ml-2"
+                        (click)="back()"><i class="{{ iconButton.CLOSE }}"></i>
+                  {{'System.Action.Close' |
+                  translate}}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

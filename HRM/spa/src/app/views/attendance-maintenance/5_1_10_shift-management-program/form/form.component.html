@@ -1,0 +1,546 @@
+<div class="animated fadeIn">
+  <div>
+    <div class="card">
+      <div class="card-header">
+        <div class="row border-title">
+          <div class="col-md-12">
+            <strong class="title-card-cs"> {{ title }} - {{'System.Action.' + action | translate }}</strong>
+            <button type="button"
+              class="{{classButton.BACK}}"
+              (click)="back()">
+              <i class="{{ iconButton.BACK }}"></i> {{'System.Action.Back' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+      <tab-component [tabs]="tabs"
+                   [(tabId)]="selectedTab"
+                   (tabIdChange)="changeTab($event)"></tab-component>
+    </div>
+  </div>
+</div>
+
+<ng-template #employeeTab>
+  <form class="form-horizontal"
+    autocomplete="off"
+    #subForm="ngForm">
+    <div class="row border-shadow">
+      <div class="col-12">
+        <div class="row">
+          <!-- Division -->
+          <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <label class="badge badge-warning">{{'AttendanceMaintenance.ShiftManagementProgram.Division' | translate }}<span class="text-danger">
+                *</span></label>
+            <ng-select name="division"
+              [ngModel]="dataEmployee.division"
+              (clear)="deleteProperty('division')"
+              (ngModelChange)="dataEmployee.division = $event"
+              (change)="onDivisionChange()"
+              [clearable]="dataEmployee.division !== ''"
+              placeholder="{{'AttendanceMaintenance.ShiftManagementProgram.Division' | translate }}"
+              [disabled]="action=='Edit'"
+              required>
+              <ng-option *ngFor="let item of divisionList_Empployee"
+                [value]="item.key">{{ item.value }}</ng-option>
+            </ng-select>
+          </div>
+          <!-- Factory -->
+          <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <label class="badge badge-warning">{{'AttendanceMaintenance.ShiftManagementProgram.Factory' | translate }}<span class="text-danger">
+                *</span></label>
+            <ng-select name="factory"
+              [ngModel]="dataEmployee.factory"
+              (clear)="deleteProperty('factory')"
+              (ngModelChange)="dataEmployee.factory = $event"
+              (change)="onFactoryChange()"
+              [clearable]="dataEmployee.factory!== ''"
+              placeholder="{{'AttendanceMaintenance.ShiftManagementProgram.Factory' | translate }}"
+              [disabled]="action=='Edit' || !dataEmployee.division"
+              required>
+              <ng-option *ngFor="let item of factoryList_Empployee"
+                [value]="item.key">{{ item.value }}</ng-option>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="row">
+          <!-- Employee ID -->
+          <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <label for="textEmployeeID"
+              class="badge badge-warning">{{'AttendanceMaintenance.ShiftManagementProgram.EmployeeID' | translate }}<span class="text-danger">
+                *</span></label>
+            <input autocomplete="off"
+              type="text"
+              placeholder="{{'AttendanceMaintenance.ShiftManagementProgram.EmployeeID' | translate }}"
+              class="form-control"
+              maxlength="9"
+              name="employeeId"
+              [disabled]="action=='Edit' || !dataEmployee.factory"
+              [(ngModel)]="dataEmployee.employee_Id"
+              (ngModelChange)="onEmployeeChange()"
+              typeaheadOptionField="key"
+              [typeahead]="employeeList$"
+              (typeaheadOnSelect)="onTypehead($event)"
+              [typeaheadScrollable]="true"
+              [typeaheadOptionsInScrollableView]="5"
+              [typeaheadAsync]="true"
+              required />
+          </div>
+          <!-- Local Full Name -->
+          <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <label for="textLocalFullName"
+              class="badge badge-warning">{{'AttendanceMaintenance.ShiftManagementProgram.LocalFullName' | translate }}<span class="text-danger">
+                *</span></label>
+            <input autocomplete="off"
+              type="text"
+              placeholder="{{'AttendanceMaintenance.ShiftManagementProgram.LocalFullName' | translate }}"
+              class="form-control"
+              maxlength="50"
+              name="localFullName"
+              [(ngModel)]="dataEmployee.local_Full_Name"
+              readonly
+              required />
+          </div>
+          <!-- Department Emp  -->
+          <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <label class="badge badge-warning">{{'AttendanceMaintenance.ShiftManagementProgram.Department' | translate }}<span class="text-danger">
+                *</span></label>
+            <ng-select name="empDepartment"
+              [ngModel]="dataEmployee.department"
+              placeholder="{{'AttendanceMaintenance.ShiftManagementProgram.Department' | translate }}"
+              disabled
+              required>
+              <ng-option *ngFor="let item of departmentList_Empployee"
+                [value]="item.key">{{ item.value }}</ng-option>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Work Shift Type Old -->
+      <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+        <label class="badge badge-warning">{{'AttendanceMaintenance.ShiftManagementProgram.WorkShiftTypeOld' | translate }}<span class="text-danger">
+            *</span></label>
+        <ng-select name="workShiftTypeOld"
+          [(ngModel)]="dataEmployee.work_Shift_Type_Old"
+          (clear)="deleteProperty('work_Shift_Type_Old')"
+          (change)="editData()"
+          [clearable]="dataEmployee.work_Shift_Type_Old!== ''"
+          placeholder="{{'AttendanceMaintenance.ShiftManagementProgram.WorkShiftTypeOld' | translate }}"
+          disabled>
+          <ng-option *ngFor="let item of workShiftTypeOldList_Empployee"
+            [value]="item.key">{{ item.value }}</ng-option>
+        </ng-select>
+      </div>
+
+      <!-- Work Shift Type New -->
+      <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+        <label class="badge badge-warning">{{'AttendanceMaintenance.ShiftManagementProgram.WorkShiftTypeNew' | translate }}<span class="text-danger">
+            *</span></label>
+        <ng-select name="workShiftTypeNew"
+          [(ngModel)]="dataEmployee.work_Shift_Type_New"
+          (clear)="deleteProperty('work_Shift_Type_New')"
+          (change)="editData()"
+          [clearable]="dataEmployee.work_Shift_Type_New!== ''"
+          placeholder="{{'AttendanceMaintenance.ShiftManagementProgram.WorkShiftTypeNew' | translate }}"
+          [disabled]="!dataEmployee.division"
+          required>
+          <ng-option *ngFor="let item of workShiftTypeNewList_Empployee"
+            [value]="item.key">{{ item.value }}</ng-option>
+        </ng-select>
+      </div>
+      <!-- Effective Date -->
+      <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+
+        <label class="badge badge-warning">{{'AttendanceMaintenance.ShiftManagementProgram.EffectiveDate' | translate }}<span class="text-danger">
+            *</span></label>
+        <div class="full-width">
+          <div class="container_input">
+            <div class="input-group mr-1">
+              <input type="text"
+                autocomplete="off"
+                placeholder="YYYY/MM/DD"
+                name="effectiveDate"
+                [bsConfig]="bsConfig"
+                class="form-control"
+                bsDatepicker
+                [(ngModel)]="dataEmployee.effective_Date"
+                (ngModelChange)="onDateChange('effective_Date')"
+                required
+                [disabled]="!dataEmployee.division
+                      || !dataEmployee.factory
+                      || !dataEmployee.department"
+                onpaste="return false" />
+              <div class="input-group-append">
+                <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Effective State -->
+      <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+        <label class="badge badge-warning">{{'AttendanceMaintenance.ShiftManagementProgram.EffectiveState' | translate }}</label>
+        <ng-select name="effectiveState"
+          [ngModel]="dataEmployee.effective_State"
+          placeholder="{{'AttendanceMaintenance.ShiftManagementProgram.EffectiveState' | translate }}"
+          disabled>
+          <ng-option *ngFor="let item of effectiveStateList"
+            [value]="item.key">{{'AttendanceMaintenance.ShiftManagementProgram.' + item.value | translate }}</ng-option>
+        </ng-select>
+      </div>
+      <!-- Update By -->
+      <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+        <label for="updateBy"
+          class="badge badge-warning">{{'AttendanceMaintenance.ShiftManagementProgram.UpdateBy' | translate }}</label>
+        <input autocomplete="off"
+          type="text"
+          placeholder="{{'AttendanceMaintenance.ShiftManagementProgram.UpdateBy' | translate }}"
+          class="form-control"
+          maxlength="50"
+          name="updateBy"
+          [ngModel]="dataEmployee.update_By"
+          [readonly]="true"
+          required />
+      </div>
+      <!-- Update Time -->
+      <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+        <label for="updateTime"
+          class="badge badge-warning">{{'AttendanceMaintenance.ShiftManagementProgram.UpdateTime' | translate }}</label>
+        <input autocomplete="off"
+          type="text"
+          placeholder="{{'AttendanceMaintenance.ShiftManagementProgram.UpdateTime' | translate }}"
+          class="form-control"
+          maxlength="50"
+          name="updateTime"
+          [ngModel]="dataEmployee.update_Time_Str"
+          [readonly]="true"
+          required />
+      </div>
+    </div>
+    <div class="row justify-content-md-center">
+      <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="table-responsive text-right">
+          <button type="button"
+            class="btn btn-warning mr-2"
+            (click)="save(false)"
+            *ngIf="action=='Add'"
+            [disabled]="!subForm.valid">
+            <i class="{{ iconButton.SAVE }}"></i> {{'System.Action.SaveAndContinue' | translate }}
+          </button>
+          <button type="button"
+            class="{{classButton.SAVE}}"
+            (click)="save(true)"
+            [disabled]="!subForm.valid">
+            <i class="{{ iconButton.SAVE }}"></i> {{'System.Action.Save' | translate }}
+          </button>
+          <button type="button"
+            class="{{classButton.CLOSE}}"
+            (click)="back()">
+            <i class="{{ iconButton.CLOSE }}"></i> {{'System.Action.Close' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #departmentTab>
+  <form class="form-horizontal" autocomplete="off" #subForm="ngForm">
+    <div class="card-body">
+      <div class="row border-shadow">
+        <div class="col-12">
+          <div class="row">
+            <!-- Division -->
+            <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+              <label class="badge badge-warning">{{'AttendanceMaintenance.ShiftManagementProgram.Division' | translate }}<span class="text-danger">
+                  *</span></label>
+              <ng-select name="division"
+                [ngModel]="dataDepartment.division"
+                (clear)="deleteProperty('division')"
+                (ngModelChange)="dataDepartment.division = $event"
+                (change)="onDivisionChange()"
+                [clearable]="dataDepartment.division !== ''"
+                placeholder="{{'AttendanceMaintenance.ShiftManagementProgram.Division' | translate }}"
+                [disabled]="action=='Edit'"
+                required>
+                <ng-option *ngFor="let item of divisionList_Department"
+                  [value]="item.key">{{ item.value }}</ng-option>
+              </ng-select>
+            </div>
+            <!-- Factory -->
+            <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+              <label class="badge badge-warning">{{'AttendanceMaintenance.ShiftManagementProgram.Factory' | translate }}<span class="text-danger">
+                  *</span></label>
+              <ng-select name="factory"
+                [ngModel]="dataDepartment.factory"
+                (clear)="deleteProperty('factory')"
+                (ngModelChange)="dataDepartment.factory = $event"
+                (change)="onFactoryChange()"
+                [clearable]="dataDepartment.factory!== ''"
+                placeholder="{{'AttendanceMaintenance.ShiftManagementProgram.Factory' | translate }}"
+                [disabled]="action=='Edit' || !dataDepartment.division"
+                required>
+                <ng-option *ngFor="let item of factoryList_Department"
+                  [value]="item.key">{{ item.value }}</ng-option>
+              </ng-select>
+            </div>
+            <!-- Department  -->
+            <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 col-sm-12"
+              *ngIf="this.selectedTab == 'department'">
+              <label class="badge badge-warning">{{'AttendanceMaintenance.ShiftManagementProgram.Department' | translate }}<span class="text-danger">
+                  *</span></label>
+              <ng-select name="department"
+                [(ngModel)]="dataDepartment.department"
+                (clear)="deleteProperty('department')"
+                (ngModelChange)="onDepartmentChange()"
+                [clearable]="dataDepartment.department !== ''"
+                placeholder="{{'AttendanceMaintenance.ShiftManagementProgram.Department' | translate }}"
+                [disabled]="action=='Edit' || !dataDepartment.factory"
+                required>
+                <ng-option *ngFor="let item of departmentList_Department"
+                  [value]="item.key">{{ item.value }}</ng-option>
+              </ng-select>
+            </div>
+            <!-- Work Shift Type New -->
+            <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+              <label class="badge badge-warning">{{'AttendanceMaintenance.ShiftManagementProgram.WorkShiftTypeNew' | translate }}<span class="text-danger">
+                  *</span></label>
+              <ng-select name="workShiftTypeNew"
+                [(ngModel)]="dataDepartment.work_Shift_Type_New"
+                (clear)="deleteProperty('work_Shift_Type_New')"
+                (change)="getEmployeeDetail()"
+                [clearable]="dataDepartment.work_Shift_Type_New!== ''"
+                placeholder="{{'AttendanceMaintenance.ShiftManagementProgram.WorkShiftTypeNew' | translate }}"
+                [disabled]="!dataDepartment.division || !dataDepartment.factory || !dataDepartment.department"
+                required>
+                <ng-option *ngFor="let item of workShiftTypeNewList_Department"
+                  [value]="item.key">{{ item.value }}</ng-option>
+              </ng-select>
+            </div>
+            <!-- Effective Date -->
+            <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+              <label class="badge badge-warning">{{'AttendanceMaintenance.ShiftManagementProgram.EffectiveDate' | translate }}<span class="text-danger">
+                  *</span></label>
+              <div class="full-width">
+                <div class="container_input">
+                  <div class="input-group mr-1">
+                    <input type="text"
+                      autocomplete="off"
+                      placeholder="YYYY/MM/DD"
+                      name="effectiveDate"
+                      [bsConfig]="bsConfig"
+                      class="form-control"
+                      bsDatepicker
+                      [(ngModel)]="dataDepartment.effective_Date"
+                      (ngModelChange)="onDateChange('effective_Date', 'department')"
+                      required
+                      [disabled]="!dataDepartment.division
+                      || !dataDepartment.factory
+                      || !dataDepartment.department"
+                      onpaste="return false" />
+                    <div class="input-group-append">
+                      <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row justify-content-md-center">
+        <div class="col-12">
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th class="text-center operation-column">
+                    {{ 'System.Action.Operation' | translate }}
+                  </th>
+                  <th class="text-center text-nowrap minwidth-date">
+                    {{'AttendanceMaintenance.ShiftManagementProgram.EmployeeID' | translate }}
+                    <span class="text-danger text-bold"> *</span>
+                  </th>
+                  <th class="text-center text-nowrap minwidth-name">
+                    {{'AttendanceMaintenance.ShiftManagementProgram.LocalFullName' | translate }}
+                    <span class="text-danger text-bold"> *</span>
+                  </th>
+                  <th class="text-center text-nowrap">
+                    {{'AttendanceMaintenance.ShiftManagementProgram.Department' | translate }}
+                    <span class="text-danger text-bold"> *</span>
+                  </th>
+                  <th class="text-center text-nowrap">
+                    {{'AttendanceMaintenance.ShiftManagementProgram.WorkShiftTypeOld' | translate }}
+                    <span class="text-danger text-bold"> *</span>
+                  </th>
+                  <th class="text-center text-nowrap">
+                    {{'AttendanceMaintenance.ShiftManagementProgram.WorkShiftTypeNew' | translate }}
+                    <span class="text-danger text-bold"> *</span>
+                  </th>
+                  <th class="text-center text-nowrap minwidth-date">
+                    {{'AttendanceMaintenance.ShiftManagementProgram.EffectiveDate' | translate }}
+                    <span class="text-danger text-bold"> *</span>
+                  </th>
+                  <th class="text-center text-nowrap">
+                    {{'AttendanceMaintenance.ShiftManagementProgram.EffectiveState' | translate }}
+                    <span class="text-danger text-bold"> *</span>
+                  </th>
+                  <th class="text-center text-nowrap">
+                    {{ 'SalaryMaintenance.IncomeTaxBracketSetting.UpdateBy' | translate }}
+                  </th>
+                  <th class="text-center text-nowrap">
+                    {{ 'SalaryMaintenance.IncomeTaxBracketSetting.UpdateTime' | translate }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of subData; index as i">
+                  <td class="text-center" [hidden]="isEdit">
+                    <button type="button"
+                      class="{{classButton.tDELETE}}"
+                      (click)="remove(i)"><i class="{{ iconButton.DELETE }}"></i>
+                      {{'System.Action.Delete' | translate }}
+                    </button>
+                  </td>
+                  <!-- EmployeeID -->
+                  <td [ngClass]="{'invalid-data': item.is_Duplicate}">
+                    <input autocomplete="off"
+                      type="text"
+                      placeholder="{{'AttendanceMaintenance.ShiftManagementProgram.EmployeeID' | translate }}"
+                      class="form-control"
+                      maxlength="9"
+                      name="employeeId-{{i}}"
+                      [disabled]="action=='Edit'"
+                      [(ngModel)]="item.employee_Id"
+                      (ngModelChange)="onEmployeeChange(); setTypehead(i);"
+                      typeaheadOptionField="key"
+                      [typeahead]="employeeList$"
+                      (typeaheadOnSelect)="onTypehead($event, i)"
+                      [typeaheadScrollable]="true"
+                      [typeaheadOptionsInScrollableView]="5"
+                      [typeaheadAsync]="true"
+                      required />
+                  </td>
+                  <!-- Local Full Name -->
+                  <td>
+                    <input autocomplete="off"
+                      type="text"
+                      placeholder="{{'AttendanceMaintenance.ShiftManagementProgram.LocalFullName' | translate }}"
+                      class="form-control"
+                      maxlength="50"
+                      name="localFullName-{{i}}"
+                      [(ngModel)]="item.local_Full_Name"
+                      readonly
+                      required />
+                  </td>
+                  <!-- Department  -->
+                  <td>
+                    <ng-select name="department-{{i}}"
+                      [(ngModel)]="item.department"
+                      (clear)="item.department = ''"
+                      [clearable]="item.department !== ''"
+                      placeholder="{{'AttendanceMaintenance.ShiftManagementProgram.Department' | translate }}"
+                      disabled
+                      required>
+                      <ng-option *ngFor="let dept of departmentList_Department"
+                        [value]="dept.key">{{ dept.value }}</ng-option>
+                    </ng-select>
+                  </td>
+                  <!-- Work Shift Type Old -->
+                  <td>
+                    <ng-select name="workShiftTypeOld-{{i}}"
+                      [(ngModel)]="item.work_Shift_Type_Old"
+                      (clear)="item.work_Shift_Type_Old = ''"
+                      [clearable]="item.work_Shift_Type_Old !== ''"
+                      placeholder="{{'AttendanceMaintenance.ShiftManagementProgram.WorkShiftTypeOld' | translate }}"
+                      disabled>
+                      <ng-option *ngFor="let work of workShiftTypeOldList_Department"
+                        [value]="work.key">{{ work.value }}</ng-option>
+                    </ng-select>
+                  </td>
+                  <!-- Work Shift Type New -->
+                  <td>
+                    <ng-select
+                      name="workShiftTypeNew-{{i}}"
+                      [(ngModel)]="item.work_Shift_Type_New"
+                      (clear)="item.work_Shift_Type_New = ''"
+                      [clearable]="item.work_Shift_Type_New !== ''"
+                      placeholder="{{'AttendanceMaintenance.ShiftManagementProgram.WorkShiftTypeNew' | translate }}"
+                      (change)="editData()"
+                      appendTo="body"
+                      dropdownPosition="bottom"
+                      required>
+                      <ng-option *ngFor="let work of workShiftTypeNewList_Department"
+                        [value]="work.key">{{ work.value | translate }}</ng-option>
+                    </ng-select>
+                  </td>
+                  <!-- Effective Date -->
+                  <td>
+                    <div class="full-width">
+                      <div class="container_input">
+                        <div class="input-group mr-1">
+                          <input type="text"
+                            autocomplete="off"
+                            placeholder="YYYY/MM/DD"
+                            name="effectiveDate-{{i}}"
+                            [bsConfig]="bsConfig"
+                            class="form-control"
+                            bsDatepicker
+                            [(ngModel)]="item.effective_Date"
+                            (ngModelChange)="editData()"
+                            required
+                            onpaste="return false" />
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <!-- Effective State -->
+                  <td>
+                    <ng-select name="effectiveState-{{i}}"
+                      [ngModel]="item.effective_State"
+                      placeholder="{{'AttendanceMaintenance.ShiftManagementProgram.EffectiveState' | translate }}"
+                      disabled>
+                      <ng-option *ngFor="let effctive of effectiveStateList"
+                        [value]="effctive.key">{{'AttendanceMaintenance.ShiftManagementProgram.' + effctive.value | translate }}</ng-option>
+                    </ng-select>
+                  </td>
+                  <!-- Update By -->
+                  <td class="text-center">{{item.update_By}}</td>
+                  <!-- Update Time -->
+                  <td class="text-center text-nowrap">{{item.update_Time_Str}}</td>
+                </tr>
+              </tbody>
+              <tr *ngIf="subData?.length === 0"
+                class="no-data">
+                <td colspan="100%"
+                  class="table-warning text-center font-weight-bold">
+                  {{'System.Message.Nodata' | translate }}
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="row justify-content-md-center">
+        <div class="col-lg-12 col-md-12 col-sm-12 text-right">
+          <button type="button"
+            class="{{classButton.SAVE}}"
+            (click)="save(true)"
+            [disabled]="!subForm.valid || isDuplicate">
+            <i class="{{ iconButton.SAVE }}"></i> {{'System.Action.Save' | translate }}
+          </button>
+          <button type="button"
+            class="{{classButton.CLOSE}}"
+            (click)="back()">
+            <i class="{{ iconButton.CLOSE }}"></i> {{'System.Action.Close' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>

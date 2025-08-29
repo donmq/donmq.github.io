@@ -1,0 +1,107 @@
+<div class="animated fadeIn">
+  <div class="card">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-md-12">
+          <strong>{{ title }}</strong>
+        </div>
+        <div class="col-md-2 text-right">
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row border-shadow">
+        <!-- Factory -->
+        <div class="col-xxl-3 col-xl-4 col-md-5 col-sm-12">
+          <label class="badge badge-warning">{{ 'AttendanceMaintenance.CardSwipingDataFormatSetting.Factory' | translate }}
+            <span class="text-danger text-bold"> *</span></label>
+          <ng-select name="factory"
+                     [(ngModel)]="factory"
+                     (clear)="deleteProperty('factory')"
+                     [clearable]="factory != ''"
+                     placeholder="{{'AttendanceMaintenance.CardSwipingDataFormatSetting.Factory' | translate }}">
+            <ng-option *ngFor="let item of factorys"
+                       [value]="item.key">{{item.value}}</ng-option>
+          </ng-select>
+        </div>
+        <!-- Button -->
+        <div class="col">
+          <label class="d-block">&nbsp;</label>
+          <button *ngIf="functionUtility.checkFunction('Search')"
+                  type="button"
+                  [disabled]="!factory"
+                  class="btn btn-primary"
+                  (click)="search(true)"><i class="{{iconButton.SEARCH}}"></i> {{"System.Action.Search" | translate }}</button>
+          <button type="button"
+                  class="btn btn-danger ml-1"
+                  (click)="clear()"><i class="{{iconButton.CLEAR}}"></i> {{"System.Action.Clear" | translate }}</button>
+          <button *ngIf="functionUtility.checkFunction('Add')"
+                  type="button"
+                  class="btn btn-success ml-1"
+                  (click)="onAdd()"><i class="{{iconButton.ADD}}"></i> {{"BasicMaintenance.2_6_GradeMaintenance.Add" | translate }}</button>
+        </div>
+      </div>
+      <div class="row justify-content-md-center">
+        <div class="col-xxl-12 col-xl-12">
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th class="text-center"
+                      *ngIf="functionUtility.checkFunction('Edit')">{{"System.Action.Operation" | translate }}</th>
+                  <th class="text-center">{{ 'AttendanceMaintenance.CardSwipingDataFormatSetting.Factory' | translate }}</th>
+                  <th class="text-center">{{ 'AttendanceMaintenance.CardSwipingDataFormatSetting.EmployeeIDCardNo' | translate }}</th>
+                  <th class="text-center">{{ 'AttendanceMaintenance.CardSwipingDataFormatSetting.Time' | translate }}</th>
+                  <th class="text-center">{{ 'AttendanceMaintenance.CardSwipingDataFormatSetting.Date' | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of data"
+                    class="text-center">
+                  <td class="text-center"
+                      *ngIf="functionUtility.checkFunction('Edit')">
+                    <button type="button"
+                            class="btn btn-warning btn-sm text-dark"
+                            (click)="onEdit(item.factory)">
+                      <i class="{{iconButton.EDIT}}"></i> {{"System.Action.Edit" | translate }}</button>
+                  </td>
+                  <td>{{item?.factory}}</td>
+                  <td>{{item?.employee_Id_Card_No}}</td>
+                  <td>{{item?.time}}</td>
+                  <td>{{item?.date}}</td>
+                </tr>
+                <tr *ngIf="data?.length === 0">
+                  <td class="table-warning text-center font-weight-bold"
+                      colspan="100%">{{"System.Message.Nodata" | translate }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="row">
+            <div class="col-8">
+              <div class="d-flex"
+                   *ngIf="data?.length > 0">
+                <pagination [boundaryLinks]="true"
+                            [totalItems]="pagination.totalCount"
+                            [itemsPerPage]="pagination.pageSize"
+                            previousText="&lsaquo;"
+                            [(ngModel)]="pagination.pageNumber"
+                            (pageChanged)="pageChanged($event)"
+                            nextText="&rsaquo;"
+                            firstText="&laquo;"
+                            lastText="&raquo;"
+                            [maxSize]="5">
+                </pagination>
+                <span class="cs-page ml-2"> Page - {{pagination.pageNumber}} / {{pagination.totalPage}}</span>
+              </div>
+            </div>
+            <div class="col-4">
+              <span class="cs-page float-right ">{{'System.Rows' | translate }} : {{(data?.length > 0) ?(pagination.totalCount) : '0'}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-modal></app-modal>
+</div>

@@ -1,0 +1,244 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <form class="card form-horizontal needs-validation"
+            #form="ngForm"
+            autocomplete="off">
+        <div class="form-horizontal">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong> {{ title }} - {{"System.Action.Add" | translate}}</strong>
+                <!-- Button Back -->
+                <button type="button"
+                        class="btn btn-sm btn-primary float-right"
+                        (click)="back()">
+                  <i class="fa fa-chevron-left"></i>
+                  {{ 'System.Action.Back' | translate}}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row border-shadow">
+            <!-- Factory -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3 mb-2">
+              <label class="badge badge-warning">
+                {{"AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.Factory" | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <ng-select name="factory"
+                         [(ngModel)]="model.factory"
+                         (ngModelChange)="onChangeFactory()"
+                         [clearable]="model.factory != ''"
+                         (clear)="deleteProperty('factory')"
+                         placeholder="{{'AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.Factory' | translate}}"
+                         required>
+                <ng-option *ngFor="let item of factories"
+                           value="{{ item.key }}">{{item.value}}
+                </ng-option>
+              </ng-select>
+            </div>
+
+            <!-- Month -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3 mb-2">
+              <label class="badge badge-warning">
+                {{"AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.Month" | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <div class="input-group mr-1">
+                <input type="text"
+                       autocomplete="off"
+                       placeholder="YYYY/MM"
+                       id="att_Month"
+                       name="att_Month"
+                       [bsConfig]="{isAnimated: true, minMode: 'month' , dateInputFormat: 'YYYY/MM'}"
+                       class="form-control"
+                       bsDatepicker
+                       [(ngModel)]="model.att_Month"
+                       (ngModelChange)="onDateChange('att_Month')"
+                       onpaste="return false"
+                       required />
+                <div class="input-group-append">
+                  <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Breaks_Date -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3 mb-2">
+              <label class="badge badge-warning">
+                {{"AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.Date" | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <div class="input-group mr-1">
+                <input type="text"
+                       autocomplete="off"
+                       placeholder="YYYY/MM/DD"
+                       name="breaks_Date"
+                       [bsConfig]="{isAnimated: true, dateInputFormat: 'YYYY/MM/DD'}"
+                       class="form-control"
+                       bsDatepicker
+                       [minDate]="minBreakDate"
+                       [maxDate]="maxBreakDate"
+                       [(ngModel)]="model.breaks_Date"
+                       (ngModelChange)="onDateChange('breaks_Date')"
+                       onpaste="return false"
+                       required />
+                <div class="input-group-append">
+                  <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3 mb-2">
+            </div>
+
+            <!-- EmployeeID -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3 mb-2">
+              <label class="badge badge-warning">
+                {{"AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.EmployeeID" | translate }}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <input autocomplete="off"
+                     placeholder="{{'AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.EmployeeID' | translate }}"
+                     type="text"
+                     class="form-control"
+                     [maxlength]="9"
+                     name="employee_ID"
+                     [(ngModel)]="model.employee_ID"
+                     [typeaheadScrollable]="true"
+                     [typeaheadOptionsInScrollableView]="6"
+                     typeaheadOptionField="actual_Employee_ID"
+                     [typeahead]="employeeList"
+                     (typeaheadOnSelect)="onTypehead()"
+                     (typeaheadOnBlur)="onTypehead()"
+                     (typeaheadNoResults)="onTypehead(true)"
+                     [disabled]="!model.factory"
+                     required />
+            </div>
+
+            <!-- LocalFullName -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3 mb-2">
+              <label class="badge badge-warning">
+                {{"AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.LocalFullName" | translate}}
+              </label>
+              <input autocomplete="off"
+                     type="text"
+                     class="form-control"
+                     placeholder="{{'AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.LocalFullName' | translate }}"
+                     name="local_Full_Name"
+                     [(ngModel)]="model.local_Full_Name"
+                     required
+                     readonly />
+            </div>
+
+            <!-- Department -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3 mb-2">
+              <label class="badge badge-warning">
+                {{"AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.Department" | translate}}
+              </label>
+              <input autocomplete="off"
+                     type="text"
+                     class="form-control"
+                     name="department"
+                     [(ngModel)]="model.department_Code_Name"
+                     placeholder="{{'AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.Department' | translate }}"
+                     disabled />
+            </div>
+
+            <!-- Onboard Date -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3 mb-2">
+              <label class="badge badge-warning">
+                {{"AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.OnBoardDate" | translate}}
+              </label>
+              <input autocomplete="off"
+                     type="text"
+                     class="form-control"
+                     name="onboard_Date"
+                     [(ngModel)]="model.onboard_Date_Str"
+                     placeholder="{{'AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.OnBoardDate' | translate }}"
+                     disabled />
+            </div>
+
+            <!-- Time Start -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3 mb-2">
+              <label class="badge badge-warning">
+                {{"AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.TimeStart" | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <input type="text"
+                     class="form-control"
+                     name="time_Start"
+                     placeholder="HH:MM"
+                     [(ngModel)]="model.time_Start"
+                     maxlength="5"
+                     mask="00:00"
+                     min="0"
+                     required />
+            </div>
+            <!-- Time End  -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3 mb-2">
+              <label class="badge badge-warning">
+                {{"AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.TimeEnd" | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <input type="text"
+                     class="form-control"
+                     name="Time_End"
+                     placeholder="HH:MM"
+                     [(ngModel)]="model.time_End"
+                     maxlength="5"
+                     mask="00:00"
+                     min="0"
+                     required />
+            </div>
+            <!-- Hours  -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3 mb-2">
+              <label class="badge badge-warning">
+                {{"AttendanceMaintenance.FemaleEmployeeMenstrualLeaveHoursMaintenance.Hour" | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <input type="number"
+                     class="form-control"
+                     name="breaks_Hours"
+                     [(ngModel)]="model.breaks_Hours"
+                     min="-9999.99999"
+                     max="9999.99999"
+                     required />
+            </div>
+
+          </div>
+          <div class="row justify-content-md-center">
+            <div class="col-lg-12 col-md-12 col-sm-12 mt-2">
+              <div class="table-responsive text-right">
+                <!-- Save & Next -->
+                <button type="button"
+                        [disabled]="!form.valid"
+                        class="btn btn-warning mr-2"
+                        (click)="save(true)">
+                  <i class="{{ iconButton.SAVE }}"></i>
+                  {{ "System.Action.SaveAndContinue" | translate }}
+                </button>
+                <!-- Save -->
+                <button type="submit"
+                        class="btn btn-success ml-1"
+                        [disabled]="!form.valid"
+                        (click)="save()"><i class="{{ iconButton.SUBMIT }}"></i>
+                  {{'System.Action.Save' | translate}}</button>
+
+                <!-- Cancel -->
+                <button type="button"
+                        class="btn btn-danger ml-1"
+                        (click)="back()"><i class="{{ iconButton.CLOSE }}"></i>
+                  {{'System.Action.Close' | translate}}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

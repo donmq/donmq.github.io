@@ -1,0 +1,162 @@
+<form class="form-horizontal border-shadow"
+      #searchAlreadyDeadlineDataForm="ngForm"
+      autocomplete="off">
+  <div class="row">
+    <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+      <label class="badge badge-warning">
+        {{"AttendanceMaintenance.MonthlyAttendanceDataGenerationActiveEmployees.Factory" | translate }}
+        <span class="text-danger text-bold">*</span>
+      </label>
+      <ng-select name="factory"
+                 [(ngModel)]="param.factory"
+                 (clear)="deleteProperty('factory')"
+                 [clearable]="param.factory !== ''"
+                 placeholder="{{'AttendanceMaintenance.MonthlyAttendanceDataGenerationActiveEmployees.Factory' | translate }}"
+                 required>
+        <ng-option *ngFor="let data of listFactory"
+                   [value]="data.key">{{data.value}}
+        </ng-option>
+      </ng-select>
+    </div>
+    <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6">
+      <label class="badge badge-warning">
+        {{"AttendanceMaintenance.MonthlyAttendanceDataGenerationActiveEmployees.AttMonth" |
+        translate }}
+        <span class="text-danger text-bold">*</span>
+      </label>
+      <div class="full-width">
+        <div class="container_input">
+          <div class="input-group mr-2">
+            <input type="text"
+                   autocomplete="off"
+                   placeholder="YYYY/MM"
+                   name="att_Month_Start"
+                   [maxDate]="att_Month_End"
+                   [bsConfig]="bsConfigMonthly"
+                   class="form-control"
+                   bsDatepicker
+                   [(ngModel)]="att_Month_Start"
+                   (ngModelChange)="onChangeDate('att_Month_Start')"
+                   onpaste="return false"
+                   required />
+            <div class="input-group-append">
+              <span class="input-group-text">
+                <i class="{{ iconButton.CALENDAR }}"></i>
+              </span>
+            </div>
+          </div>
+          <div class="input-group">
+            <input type="text"
+                   autocomplete="off"
+                   placeholder="YYYY/MM"
+                   name="att_Month_End"
+                   [minDate]="att_Month_Start"
+                   [bsConfig]="bsConfigMonthly"
+                   class="form-control"
+                   bsDatepicker
+                   [(ngModel)]="att_Month_End"
+                   (ngModelChange)="onChangeDate('att_Month_End')"
+                   onpaste="return false"
+                   required />
+            <div class="input-group-append">
+              <span class="input-group-text">
+                <i class="{{ iconButton.CALENDAR }}"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 p-0">
+    <label class="d-block">&nbsp;</label>
+    <button type="submit"
+            class="btn btn-primary"
+            (click)="search()"
+            *ngIf="functionUtility.checkFunction('Search')"
+            [disabled]="!searchAlreadyDeadlineDataForm.valid">
+      <i class="{{ iconButton.SEARCH }}"></i> {{"System.Action.Search" | translate }}
+    </button>
+    <button type="button"
+            class="btn btn-danger ml-1"
+            (click)="clear()">
+      <i class="{{ iconButton.CLEAR }}"></i> {{"System.Action.Clear" | translate }}
+    </button>
+  </div>
+</form>
+<div class="row justify-content-md-center">
+  <div class="col-12">
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th class="text-center text-nowrap">
+              {{"AttendanceMaintenance.MonthlyAttendanceDataGenerationActiveEmployees.Factory" | translate }}
+            </th>
+            <th class="text-center text-nowrap">
+              {{"AttendanceMaintenance.MonthlyAttendanceDataGenerationActiveEmployees.AttMonth" | translate }}
+            </th>
+            <th class="text-center text-nowrap">
+              {{"AttendanceMaintenance.MonthlyAttendanceDataGenerationActiveEmployees.DeadlineStart" | translate }}
+            </th>
+            <th class="text-center text-nowrap">
+              {{"AttendanceMaintenance.MonthlyAttendanceDataGenerationActiveEmployees.DeadlineEnd" | translate }}
+            </th>
+            <th class="text-center text-nowrap">
+              {{"AttendanceMaintenance.MonthlyAttendanceDataGenerationActiveEmployees.UpdateBy" | translate }}
+            </th>
+            <th class="text-center text-nowrap">
+              {{"AttendanceMaintenance.MonthlyAttendanceDataGenerationActiveEmployees.UpdateTime" | translate }}
+            </th>
+          </tr>
+        </thead>
+        <tbody *ngIf="data?.length > 0; else dataNotFound">
+          <tr *ngFor="let item of data">
+            <td class="text-center">{{ item.factory }}</td>
+            <td class="text-center">{{ item.att_Month }}</td>
+            <td class="text-center">{{ item.deadline_Start }}</td>
+            <td class="text-center">{{ item.deadline_End }}</td>
+            <td class="text-center">{{ item.update_By }}</td>
+            <td class="text-center">{{ item.update_Time }}</td>
+          </tr>
+        </tbody>
+        <ng-template #dataNotFound>
+          <tbody>
+            <tr>
+              <td colspan="100%"
+                  class="table-warning text-center font-weight-bold">
+                {{"System.Message.Nodata" | translate }}
+              </td>
+            </tr>
+          </tbody>
+        </ng-template>
+      </table>
+    </div>
+    <div class="row mt-3">
+      <div class="col-8">
+        <div class="d-flex"
+             *ngIf="data?.length > 0 && pagination.totalPage > 0">
+          <pagination [boundaryLinks]="true"
+                      [totalItems]="pagination.totalCount"
+                      [itemsPerPage]="pagination.pageSize"
+                      previousText="&lsaquo;"
+                      nextText="&rsaquo;"
+                      firstText="&laquo;"
+                      lastText="&raquo;"
+                      [maxSize]="5"
+                      [(ngModel)]="pagination.pageNumber"
+                      (pageChanged)="pageChanged($event)">
+          </pagination>
+          <span class="cs-page ml-2">
+            Page - {{ pagination.pageNumber }} / {{ pagination.totalPage }}
+          </span>
+        </div>
+      </div>
+      <div class="col-4">
+        <span class="cs-page float-right">
+          {{'System.Rows' | translate }} : {{pagination.totalCount}}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

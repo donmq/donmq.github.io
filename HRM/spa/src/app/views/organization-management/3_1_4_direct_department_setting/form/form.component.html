@@ -1,0 +1,169 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <form class="card form-horizontal needs-validation"
+            #form="ngForm"
+            (ngSubmit)="saveChange()"
+            autocomplete="off">
+        <div class="form-horizontal">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">{{ title }} - {{ action | translate }}</strong>
+                <!-- Button Back -->
+                <button type="button"
+                        class="btn btn-sm btn-primary float-right"
+                        (click)="back()">
+                  <i class="fa fa-chevron-left"></i>
+                  {{ 'System.Action.Back' | translate}}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row border-shadow">
+            <!-- Division -->
+            <div class="col-md-4 col-sm-4 mb-4">
+              <label class="badge badge-warning">
+                {{'OrganizationManagement.DirectDepartmentSetting.Division'|translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <ng-select (clear)="deleteProperty('division')"
+                         [clearable]="param.division!== null"
+                         [(ngModel)]="param.division"
+                         name="division"
+                         (ngModelChange)="getListFactory()"
+                         placeholder="{{'OrganizationManagement.DirectDepartmentSetting.Division'|translate}}"
+                         [disabled]="formType == 'Edit'">
+                <ng-option *ngFor="let items of listDivision"
+                           [value]="items.key">{{items.key}}-{{items.value}}
+                </ng-option>
+              </ng-select>
+            </div>
+            <!-- Factory -->
+            <div class="col-md-4 col-sm-4 mb-4">
+              <label class="badge badge-warning">
+                {{'OrganizationManagement.DirectDepartmentSetting.Factory'|translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <ng-select (clear)="deleteProperty('factory')"
+                         [clearable]="param.factory !== null"
+                         [(ngModel)]="param.factory"
+                         name="factory"
+                         [disabled]="param.division== null||param.division == '' || formType == 'Edit'"
+                         placeholder=" {{'OrganizationManagement.DirectDepartmentSetting.Factory'|translate}}"
+                         (ngModelChange)=" clear()">
+                <ng-option *ngFor="let items of listFactory"
+                           [value]="items.key">{{items.key}}-{{items.value}}
+                </ng-option>
+              </ng-select>
+            </div>
+            <!-- Department -->
+            <div class="col-md-4 col-sm-4 mb-4">
+              <label class="badge badge-warning">
+                {{'OrganizationManagement.DirectDepartmentSetting.DepartmentCode'|translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <ng-select id="Department_Code"
+                         (clear)="deleteProperty('department_Code')"
+                         [clearable]="param.department_Code !== null"
+                         [disabled]="param.factory== null || param.factory== '' || param.division== null ||param.division== ''|| formType == 'Edit'"
+                         [(ngModel)]="param.department_Code"
+                         name="department_Code"
+                         placeholder="{{'OrganizationManagement.DirectDepartmentSetting.DepartmentCode'|translate}}">
+                <ng-option *ngFor="let items of listDepartment"
+                           [value]="items.key">{{items.key}}-{{items.value}} </ng-option>
+              </ng-select>
+            </div>
+          </div>
+          <div class="row justify-content-md-center">
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <table class="table table-bordered ">
+                  <thead>
+                    <tr class="text-center">
+                      <th> {{'OrganizationManagement.DirectDepartmentSetting.LineCode'|translate}}
+                        <span class="text-danger text-bold"> *</span>
+                      </th>
+                      <th> {{'OrganizationManagement.DirectDepartmentSetting.SectionCode'|translate}}
+                        <span class="text-danger text-bold"> *</span>
+                      </th>
+                      <th> {{'OrganizationManagement.DirectDepartmentSetting.Operation'|translate}} </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let itemArray of paramArray; let i = index">
+                      <td>
+                        <ng-select (clear)="paramArray[i].line_Code = null"
+                                   [clearable]="itemArray.line_Code !== null"
+                                   appendTo="body"
+                                   [disabled]="param.factory== null||param.factory== '' || param.division== null || param.division== '' || param.department_Code== null || param.department_Code== '' "
+                                   [(ngModel)]="itemArray.line_Code"
+                                   [name]="'line_Code' + i"
+                                   (ngModelChange)="onLineCodeChange(itemArray)"
+                                   placeholder="{{'OrganizationManagement.DirectDepartmentSetting.LineCode'|translate}}">
+                          <ng-option *ngFor="let items of listLine"
+                                     [value]="items.key">{{items.key}}-{{items.value}}</ng-option>
+                        </ng-select>
+                      </td>
+                      <td>
+                        <ng-select (clear)="paramArray[i].direct_Department_Attribute = null"
+                                   [clearable]="itemArray.direct_Department_Attribute !== null"
+                                   appendTo="body"
+                                   [(ngModel)]="itemArray.direct_Department_Attribute"
+                                   [name]="'direct_Department_Attribute' + i"
+                                   placeholder="{{'OrganizationManagement.DirectDepartmentSetting.SectionCode'|translate}}">
+                          <ng-option *ngFor="let items of listDirectDepartmentAttribute"
+                                     [value]="items.key">{{items.key}}-{{items.value}}</ng-option>
+                        </ng-select>
+                      </td>
+                      <td class="text-center">
+                        <button type="button"
+                                class="btn btn-danger btn-sm"
+                                (click)="deleteItem(i)">
+                          <i class="{{iconButton.DELETE}}"
+                             aria-hidden="true"></i> {{'System.Action.Delete' | translate}}
+                        </button>
+                      </td>
+                    </tr>
+                    <tr *ngIf="paramArray?.length === 0">
+                      <td colspan="100%"
+                          class="table-warning text-center font-weight-bold">
+                        {{'System.Message.Nodata' | translate }}
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td colspan="4"
+                          class="text-center">
+                        <label class="btn btn-success btn-sm"
+                               (click)="AddItem()">
+                          <i class="{{ iconButton.ADD }}"></i> {{'System.Action.Add' | translate}}
+                        </label>
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="row justify-content-md-center">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="table-responsive text-right">
+                <button type="submit"
+                        class="btn btn-success ml-1"
+                        [disabled]="checkParam()"><i class="{{ iconButton.SUBMIT }}"></i> {{'System.Action.Save' | translate}}</button>
+                <button type="button"
+                        class="btn btn-danger ml-1"
+                        (click)="back()"><i class="{{ iconButton.CLOSE }}"></i> {{'System.Action.Close' | translate}}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

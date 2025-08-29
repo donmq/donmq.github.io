@@ -1,0 +1,173 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row border-title">
+            <div class="col-md-12">
+              <strong>{{ title }}</strong>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form class="form-horizontal border-shadow"
+                autocomplete="off">
+            <div class="row ">
+              <div class="col-xxl-4 col-xl-4 col-lg-3 col-sm-12 col-md-3 ">
+                <label class="badge badge-warning"> {{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.Nationality" | translate }}
+                  <span class="text-danger text-bold"> *</span> </label>
+                <ng-select [(ngModel)]="param.nationality"
+                           [ngModelOptions]="{standalone: true}"
+                           [clearable]="false"
+                           placeholder='{{"EmployeeInformationModule.IdentificationCardHistory.Nationality" | translate }}'
+                           (ngModelChange)="getListTypeHeadIdentificationNumber()">
+                  <ng-option *ngFor="let i of listNationality"
+                             [value]="i.key">{{i.value}}</ng-option>
+                </ng-select>
+              </div>
+              <div class="col-xxl-4 col-xl-4 col-lg-3 col-sm-12 col-md-3 ">
+                <label class="badge badge-warning"> {{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.IdentificationNumber" | translate }}
+                  <span class="text-danger text-bold"> *</span></label>
+                <input autocomplete="off"
+                       type="text"
+                       placeholder='{{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.IdentificationNumber" | translate }}'
+                       class="form-control"
+                       name="Name"
+                       [typeahead]="dataTypeahead"
+                       typeaheadScrollable="true"
+                       [(ngModel)]="param.identification_Number" />
+              </div>
+
+              <div class="col-xxl-4 col-xl-4 col-lg-6 col-sm-12 col-md-6 pl-3 p-0">
+                <label class="d-block">&nbsp;</label>
+                <button type="submit"
+                        class="btn btn-primary"
+                        (click)="search(true)"
+                        [disabled]="validateSearch()"
+                        *ngIf="functionUtility.checkFunction('Search')">
+                  <i class="{{ iconButton.SEARCH }}"></i> {{"System.Action.Search" | translate }}
+                </button>
+                <button type="button"
+                        class="btn btn-danger ml-1"
+                        (click)="clear(true)">
+                  <i class="{{ iconButton.CLEAR }}"></i> {{"System.Action.Clear" | translate }}
+                </button>
+                <button type="button"
+                        (click)="add()"
+                        class="btn btn-success ml-1"
+                        *ngIf="functionUtility.checkFunction('Add')">
+                  <i class="{{ iconButton.ADD }}"></i> {{"System.Action.Add" | translate }}
+                </button>
+              </div>
+            </div>
+          </form>
+          <div class="row justify-content-md-center">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <th [attr.colspan]="functionUtility.getColspan(['Edit','Query'])"
+                        *ngIf="functionUtility.checkFunction('Query') || functionUtility.checkFunction('Edit')"
+                        class="text-center"></th>
+                    <th colspan="8"
+                        class="text-center">
+                      {{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.ResignedFactoryPersonnelData" | translate }}</th>
+                    <th colspan="6"
+                        class="text-center">
+                      {{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.ResignedFactoryEvaluationResults" | translate }}</th>
+                  </thead>
+                  <thead>
+                    <tr>
+                      <th [attr.colspan]="functionUtility.getColspan(['Edit','Query'])"
+                          *ngIf="functionUtility.checkFunction('Query') || functionUtility.checkFunction('Edit')"
+                          class="text-center">{{"System.Action.Operation" | translate }}</th>
+                      <th class="text-center">{{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.Nationality" | translate }}</th>
+                      <th class="text-center">{{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.IdentificationNumber" | translate }}</th>
+                      <th class="text-center">{{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.Division" | translate }}</th>
+                      <th class="text-center">{{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.Factory" | translate }}</th>
+                      <th class="text-center">{{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.EmployeeID" | translate }}</th>
+                      <th class="text-center">{{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.LocalFullName" | translate }}</th>
+                      <th class="text-center">{{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.DateofResignation" | translate }}</th>
+                      <th class="text-center">{{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.EvaluationResults" | translate }}</th>
+                      <th class="text-center">{{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.Division" | translate }}</th>
+                      <th class="text-center">{{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.Factory" | translate }}</th>
+                      <th class="text-center">{{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.EmployeeID" | translate }}</th>
+                      <th class="text-center">{{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.Seq" | translate }}</th>
+                      <th class="text-center">{{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.UpdateBy" | translate }}</th>
+                      <th class="text-center">{{"EmployeeInformationModule.RehireEvaluationforFormerEmployees.UpdateTime" | translate }}</th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="data.length > 0; else dataNotFound">
+                    <tr *ngFor="let item of data">
+                      <td class="text-center"
+                          *ngIf="functionUtility.checkFunction('Query')">
+                        <button type="button"
+                                class="btn btn-info btn-sm btn-custom"
+                                (click)="detail(item)">
+                          <i class="{{ iconButton.VIEW }}"></i> {{ 'System.Action.Query' | translate}}
+                        </button>
+                      </td>
+                      <td class="text-center"
+                          *ngIf="functionUtility.checkFunction('Edit')">
+                        <button type="button"
+                                class="btn btn-warning btn-sm btn-custom "
+                                (click)="edit(item)">
+                          <i class="{{ iconButton.EDIT }}"></i> {{ 'System.Action.Edit' | translate}}
+                        </button>
+                      </td>
+                      <td class="text-center">{{ item.evaluation.nationality }}</td>
+                      <td class="text-center">{{ item.evaluation.identification_Number }}</td>
+                      <td class="text-center">{{ item.personal.division }}</td>
+                      <td class="text-center">{{ item.personal.factory}}</td>
+                      <td class="text-center">{{ item.personal.employeeID }}</td>
+                      <td class="text-center">{{ item.personal.local_Full_Name }}</td>
+                      <td class="text-center">{{ item.personal.date_of_Resignation | date : 'yyyy/MM/dd'}}</td>
+                      <td class="text-center">{{ item.evaluation.results == true ? "Y.Employee" : "N.Employee Not"}}</td>
+                      <td class="text-center">{{ item.evaluation.division }}</td>
+                      <td class="text-center">{{ item.evaluation.factory }}</td>
+                      <td class="text-center">{{ item.evaluation.employeeID }}</td>
+                      <td class="text-center">{{ item.evaluation.seq }}</td>
+                      <td class="text-center">{{ item.evaluation.update_By}}</td>
+                      <td class="text-center">{{ item.evaluation.update_Time | date : 'yyyy/MM/dd'}}</td>
+                    </tr>
+                  </tbody>
+                  <ng-template #dataNotFound>
+                    <tbody>
+                      <tr>
+                        <td colspan="100%"
+                            class="table-warning text-center font-weight-bold">
+                          {{"System.Message.Nodata" | translate }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </ng-template>
+                </table>
+              </div>
+              <div class="row">
+                <div class="col-8">
+                  <div class="d-flex"
+                       *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                    <pagination [boundaryLinks]="true"
+                                [totalItems]="pagination.totalCount"
+                                [itemsPerPage]="pagination.pageSize"
+                                previousText="&lsaquo;"
+                                nextText="&rsaquo;"
+                                firstText="&laquo;"
+                                lastText="&raquo;"
+                                [maxSize]="5"
+                                [(ngModel)]="pagination.pageNumber"
+                                (pageChanged)="pageChanged($event)">
+                    </pagination>
+                    <span class="cs-page ml-2"> Page - {{ pagination.pageNumber }} / {{ pagination.totalPage }}</span>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <span class="cs-page float-right ">{{'System.Rows' | translate }} : {{pagination.totalCount}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

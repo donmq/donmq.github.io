@@ -1,0 +1,199 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">{{ title }}</strong>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="card-body">
+          <div class="row border-shadow">
+            <!-- DIVISIONS -->
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 mt-2">
+              <label class="badge badge-warning"> {{ 'OrganizationManagement.WorkTypeHeadcountMaintenance.Division' | translate}}</label>
+              <ng-select name="division"
+                         [(ngModel)]="param.division"
+                         (ngModelChange)="onDivisionChange()"
+                         placeholder="{{ 'OrganizationManagement.WorkTypeHeadcountMaintenance.Division' | translate}}"
+                         (clear)="deleteProperty('division')"
+                         [clearable]="param.division !== ''">
+                <ng-option *ngFor="let division of divisions"
+                           [value]="division.key">{{division.value}}</ng-option>
+              </ng-select>
+            </div>
+            <!-- FACTORIES -->
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 mt-2">
+              <label class="badge badge-warning"> {{ 'OrganizationManagement.WorkTypeHeadcountMaintenance.Factory' | translate}}</label>
+              <ng-select name="Factory"
+                         [(ngModel)]="param.factory"
+                         (ngModelChange)="onFactoryChange()"
+                         placeholder="{{ 'OrganizationManagement.WorkTypeHeadcountMaintenance.Factory' | translate}}"
+                         (clear)="deleteProperty('factory')"
+                         [clearable]="param.factory !== ''">
+                <ng-option *ngFor="let factory of factories"
+                           [value]="factory.key">{{factory.value}}</ng-option>
+              </ng-select>
+            </div>
+            <!-- DEPARTMENT -->
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 mt-2">
+              <label class="badge badge-warning"> {{ 'OrganizationManagement.WorkTypeHeadcountMaintenance.Department' | translate}}</label>
+              <ng-select [disabled]="(param.division == '' && param.factory == '')"
+                         name="department_Code"
+                         [(ngModel)]="param.department_Code"
+                         placeholder="{{ 'OrganizationManagement.WorkTypeHeadcountMaintenance.Department' | translate}}"
+                         (clear)="deleteProperty('department_Code')"
+                         [clearable]="param.department_Code !== ''">
+                <ng-option *ngFor="let department of departments"
+                           [value]="department.key">{{department.value}}</ng-option>
+              </ng-select>
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 mt-2">
+              <label class="badge badge-warning"> {{ 'OrganizationManagement.WorkTypeHeadcountMaintenance.EffectiveDate' | translate}}</label>
+              <input autocomplete="off"
+                     type="text"
+                     placeholder="{{ 'OrganizationManagement.WorkTypeHeadcountMaintenance.EffectiveDate' | translate}}"
+                     maxlength="7"
+                     class="form-control bg-white"
+                     name="effective_Date_value"
+                     [(ngModel)]="effective_Date_value"
+                     bsDatepicker
+                     [bsConfig]="{ isAnimated: true,  minMode: 'month' ,dateInputFormat: 'YYYY/MM' }" />
+            </div>
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+              <label class="d-block">&nbsp;</label>
+              <button type="submit"
+                      *ngIf="functionUtility.checkFunction('Search')"
+                      class="btn btn-primary mb-2"
+                      (click)="search(true)">
+                <i class="{{ iconButton.SEARCH }}"></i> {{ 'System.Action.Search' | translate}}
+              </button>
+              <button type="button"
+                      (click)="clear()"
+                      class="btn btn-danger ml-2 mb-2">
+                <i class="{{ iconButton.CLEAR }}"></i> {{ 'System.Action.Clear' | translate}}
+              </button>
+              <button type="button"
+                      *ngIf="functionUtility.checkFunction('Add')"
+                      (click)="onAdd()"
+                      class="btn btn-success ml-2 mb-2">
+                <i class="{{ iconButton.ADD }}"></i> {{ 'System.Action.Add' | translate}}
+              </button>
+              <button type="button"
+                      *ngIf="functionUtility.checkFunction('Excel')"
+                      (click)="excel()"
+                      class="btn btn-success ml-2 mb-2">
+                <i class="{{ iconButton.EXCEL }}"></i> {{'System.Action.Excel' | translate}}
+              </button>
+            </div>
+          </div>
+          <div class="row justify-content-md-center">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="table-responsive">
+                <table class="table table-bordered text-center">
+                  <thead>
+                    <tr>
+                      <th *ngIf="(functionUtility.checkFunction('Edit') || functionUtility.checkFunction('Delete'))"
+                          class="align-middle operation-column"
+                          [attr.colspan]="functionUtility.getColspan(['Delete','Edit'])"> {{ 'System.Action.Operation' | translate}} </th>
+
+                      <th>
+                        {{ 'OrganizationManagement.WorkTypeHeadcountMaintenance.Department' | translate}}
+                      </th>
+                      <th>
+                        {{ 'OrganizationManagement.WorkTypeHeadcountMaintenance.WorkTypeCode' | translate}}
+                      </th>
+                      <th>
+                        {{ 'OrganizationManagement.WorkTypeHeadcountMaintenance.WorkTypeName' | translate}}
+                      </th>
+                      <th>
+                        {{ 'OrganizationManagement.WorkTypeHeadcountMaintenance.ApprovedHeadcount' | translate}}
+                      </th>
+                      <th>
+                        {{ 'OrganizationManagement.WorkTypeHeadcountMaintenance.ActualHeadcount' | translate}}
+                      </th>
+                      <th>
+                        {{ 'OrganizationManagement.WorkTypeHeadcountMaintenance.EffectiveDate' | translate}}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="workTypeHeads?.length > 0; else elseTemplate">
+                    <tr *ngFor="let item of workTypeHeads">
+                      <!-- Operations -->
+                      <td *ngIf="functionUtility.checkFunction('Edit')">
+                        <button type="button"
+                                class="btn btn-warning btn-sm"
+                                (click)="onEdit(item)">
+                          <i class="{{ iconButton.EDIT }}"></i> {{ 'System.Action.Edit' | translate}}
+                        </button>
+                      </td>
+                      <td *ngIf="functionUtility.checkFunction('Delete')">
+                        <button [disabled]="item.isDelete"
+                                type="button"
+                                class="btn btn-danger btn-sm"
+                                (click)="onDelete(item)">
+                          <i class="{{ iconButton.DELETE }}"></i> {{ 'System.Action.Delete' | translate}}
+                        </button>
+                      </td>
+                      <td>{{ item.department_Code }} - {{item.department_Name}}</td>
+                      <td>{{ item.work_Type_Code }}</td>
+                      <td>{{ item.work_Type_Name }}</td>
+                      <td>{{ item.approved_Headcount }}</td>
+                      <td>{{ item.actual_Headcount }}</td>
+                      <td>{{ item.effective_Date }}</td>
+                    </tr>
+                  </tbody>
+                  <ng-template #elseTemplate>
+                    <tbody>
+                      <tr>
+                        <td colspan="100%"
+                            class="table-warning text-center font-weight-bold">
+                          {{ 'System.Message.Nodata' | translate}}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </ng-template>
+                  <tfoot>
+                    <tr>
+                      <td colspan="8">
+                        <span class="mr-3">{{ 'OrganizationManagement.WorkTypeHeadcountMaintenance.TotalApprovedHeadcount' | translate}}: <strong> {{totalHeadCount}}</strong></span>
+                        <span>{{ 'OrganizationManagement.WorkTypeHeadcountMaintenance.TotalActualHeadcount' | translate}}: <strong> {{totalActualNumber}}</strong></span>
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <div class="row">
+                <div class="col-8">
+                  <div class="d-flex"
+                       *ngIf="workTypeHeads?.length > 0 && pagination.totalPage > 0">
+                    <pagination [boundaryLinks]="true"
+                                [totalItems]="pagination.totalCount"
+                                [itemsPerPage]="pagination.pageSize"
+                                previousText="&lsaquo;"
+                                nextText="&rsaquo;"
+                                firstText="&laquo;"
+                                lastText="&raquo;"
+                                [maxSize]="5"
+                                [(ngModel)]="pagination.pageNumber"
+                                (pageChanged)="pageChanged($event)">
+                    </pagination>
+                    <span class="cs-page ml-2"> Page - {{ pagination.pageNumber }} / {{ pagination.totalPage }}</span>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <span class="cs-page float-right ">{{'System.Rows' | translate }} : {{pagination.totalCount}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

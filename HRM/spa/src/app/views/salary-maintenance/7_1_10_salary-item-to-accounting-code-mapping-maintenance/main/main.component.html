@@ -1,0 +1,111 @@
+<div class="animated fadeIn">
+    <div class="card">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-md-10">
+            <strong>{{ title }}</strong>
+          </div>
+          <div class="col-md-2 text-right">
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="row border-shadow">
+          <div class="col-xxl-3 col-xl-4 col-md-5 col-sm-12">
+            <label class="badge badge-warning">{{"SalaryMaintenance.SalaryItemtToAccountingCodeMappingMaintenance.Factory" | translate }} <span class="text-danger text-bold"> *</span></label>
+            <ng-select name="typeCode"
+                       [(ngModel)]="param.factory"
+                       placeholder="{{ 'SalaryMaintenance.SalaryItemtToAccountingCodeMappingMaintenance.Factory' | translate }}"
+                       [clearable]="false">
+              <ng-option *ngFor="let item of factoryList"
+                         [value]="item.key">{{item.value}}</ng-option>
+            </ng-select>
+          </div>
+          <div class="col">
+            <label class="d-block">&nbsp;</label>
+            <button *ngIf="functionUtility.checkFunction('Search')"
+                    type="button"
+                    class="btn btn-primary"
+                    [disabled]="!param.factory"
+                    (click)="search(true)"><i class="{{iconButton.SEARCH}}"></i> {{"System.Action.Search" | translate }}</button>
+            <button type="button"
+                    class="btn btn-danger ml-1"
+                    (click)="clear()"><i class="{{iconButton.CLEAR}}"></i> {{"System.Action.Clear" | translate }}</button>
+            <button *ngIf="functionUtility.checkFunction('Add')"
+                    type="button"
+                    class="btn btn-success ml-1"
+                    (click)="onForm()"><i class="{{iconButton.ADD}}"></i> {{"System.Action.Add" | translate }}</button>
+          </div>
+        </div>
+        <div class="row justify-content-md-center">
+          <div class="col-xxl-10 col-xl-12">
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr class="text-center">
+                    <th *ngIf="functionUtility.checkFunction('Edit') || functionUtility.checkFunction('Delete')"
+                        [attr.colspan]="functionUtility.getColspan(['Delete','Edit'])"
+                        class="text-center">{{"System.Action.Operation" | translate }}</th>
+                    <th>{{"SalaryMaintenance.SalaryItemtToAccountingCodeMappingMaintenance.SalaryItem" | translate }}</th>
+                    <th>{{"SalaryMaintenance.SalaryItemtToAccountingCodeMappingMaintenance.MainAccount" | translate }}</th>
+                    <th>{{"SalaryMaintenance.SalaryItemtToAccountingCodeMappingMaintenance.SubAccount" | translate }}</th>
+                    <th class="text-center">{{"SalaryMaintenance.SalaryItemtToAccountingCodeMappingMaintenance.DebitAndCredit" | translate }}</th>
+                    <th class="text-center">{{"SalaryMaintenance.SalaryItemtToAccountingCodeMappingMaintenance.UpdateBy" | translate }}</th>
+                    <th class="text-center">{{"SalaryMaintenance.SalaryItemtToAccountingCodeMappingMaintenance.UpdateTime" | translate }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of data"
+                      class="text-center">
+                    <!-- Operation -->
+                    <td class="text-center"
+                        *ngIf="functionUtility.checkFunction('Edit')">
+                      <button type="button"
+                              class="btn btn-warning btn-sm text-dark"
+                              (click)="onForm(item)"><i class="{{iconButton.EDIT}}"></i> {{"System.Action.Edit" | translate }}</button>
+                    </td>
+                    <td class="text-center" *ngIf="functionUtility.checkFunction('Delete')">
+                      <button type="button" name="btnDelete" class="btn btn-danger btn-sm" (click)="onDelete(item)">
+                        <i class="{{iconButton.DELETE}}"></i> {{"System.Action.Delete" | translate }}</button>
+                    </td>
+                    <td class="text-left">{{item?.salary_Item_Name}}</td>
+                    <td>{{item?.main_Acc}}</td>
+                    <td>{{item?.sub_Acc}}</td>
+                    <td>{{item?.dC_Code}}</td>
+                    <td>{{item?.update_By}}</td>
+                    <td>{{item?.update_Time_Str}}</td>
+                  </tr>
+                  <tr *ngIf="data?.length === 0">
+                    <td class="table-warning text-center font-weight-bold"
+                        colspan="100%">{{"System.Message.Nodata" | translate }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="row">
+              <div class="col-8">
+                <div class="d-flex"
+                     *ngIf="data?.length > 0">
+                  <pagination [boundaryLinks]="true"
+                              [totalItems]="pagination.totalCount"
+                              [itemsPerPage]="pagination.pageSize"
+                              previousText="&lsaquo;"
+                              [(ngModel)]="pagination.pageNumber"
+                              (pageChanged)="pageChanged($event)"
+                              nextText="&rsaquo;"
+                              firstText="&laquo;"
+                              lastText="&raquo;"
+                              [maxSize]="5">
+                  </pagination>
+                  <span class="cs-page ml-2"> Page - {{pagination.pageNumber}} / {{pagination.totalPage}}</span>
+                </div>
+              </div>
+              <div class="col-4">
+                <span class="cs-page float-right ">{{'System.Rows' | translate }} : {{pagination.totalCount}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

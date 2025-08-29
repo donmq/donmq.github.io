@@ -1,0 +1,18 @@
+.container_input {
+  display: flex;
+  flex-direction: row;
+}
+
+.button-container {
+  margin-bottom: 5px;
+}
+
+.text-center-vertical {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.operation-cell {
+  min-width: 100px;
+  vertical-align: middle;
+}

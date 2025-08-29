@@ -1,0 +1,249 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row border-title">
+            <div class="col-md-12">
+              <strong>{{ title }}</strong>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form class="form-horizontal border-shadow"
+                autocomplete="off"
+                #mainForm="ngForm">
+            <div class="row ">
+              <!-- Factory -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning"> {{"SalaryMaintenance.MonthlySalaryMaintenance.Factory" | translate }} <span class="text-danger text-bold"> *</span></label>
+                <ng-select name="factory"
+                           [(ngModel)]="param.factory"
+                           (clear)="deleteProperty('factory')"
+                           (ngModelChange)="onFactoryChange()"
+                           [clearable]="param.factory !== ''"
+                           placeholder='{{"SalaryMaintenance.MonthlySalaryMaintenance.Factory" | translate }}'
+                           required>
+                  <ng-option *ngFor="let data of listFactory"
+                             [value]="data.key">{{data.value}}</ng-option>
+                </ng-select>
+              </div>
+
+              <!-- Sal Month -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning"> {{"SalaryMaintenance.SalaryAdditionsAndDeductionsInput.SalMonth" | translate }} <span class="text-danger text-bold"> *</span></label>
+                <div class="full-width">
+                  <div class="container_date">
+                    <div class="input-group mr-1">
+                      <input autocomplete="off"
+                             (keydown.backspace)="sal_Month_Value = null"
+                             onpaste="return false;"
+                             type="text"
+                             placeholder="{{placeholder.YearMonth}}"
+                             class="form-control bg-white"
+                             name="sal_Month_Value"
+                             [(ngModel)]="sal_Month_Value"
+                             (ngModelChange)="onChangeSalMonth()"
+                             bsDatepicker
+                             [bsConfig]="{ isAnimated: true,  minMode: 'month' ,dateInputFormat: 'YYYY/MM' }"
+                             required />
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Department -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning"> {{"SalaryMaintenance.SalaryAdditionsAndDeductionsInput.Department" | translate }} </label>
+                <ng-select name="department"
+                           [(ngModel)]="param.department"
+                           (clear)="deleteProperty('department')"
+                           [clearable]="param.department !== ''"
+                           [disabled]="!param.factory"
+                           placeholder='{{"SalaryMaintenance.SalaryAdditionsAndDeductionsInput.Department" | translate }}'>
+                  <ng-option *ngFor="let data of listDepartment"
+                             [value]="data.key">{{data.value}}</ng-option>
+                </ng-select>
+              </div>
+              <!-- EmployeeID -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning"> {{"SalaryMaintenance.MonthlySalaryMaintenance.EmployeeID" | translate }}</label>
+                <div class="input-group mr-1">
+                  <input autocomplete="off"
+                         type="text"
+                         placeholder="{{'SalaryMaintenance.MonthlySalaryMaintenance.EmployeeID' | translate }}"
+                         class="form-control"
+                         maxlength="16"
+                         name="employee_ID"
+                         [(ngModel)]="param.employee_ID" />
+                </div>
+              </div>
+              <!-- Permission Group -->
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-auto">
+                    <div class="form-group">
+                      <label class="badge badge-warning">
+                        {{ "SalaryMaintenance.MenstrualLeaveHoursAllowance.PermissionGroup" | translate }}
+                        <span class="text-danger text-bold"> *</span>
+                      </label>
+                      <ng-select id="permission_Group"
+                                 name="permission_Group"
+                                 [items]="listPermissionGroup"
+                                 [multiple]="true"
+                                 groupBy="allGroup"
+                                 [selectableGroup]="true"
+                                 [selectableGroupAsModel]="false"
+                                 [closeOnSelect]="false"
+                                 bindLabel="value"
+                                 bindValue="key"
+                                 [(ngModel)]="param.permission_Group"
+                                 [disabled]="functionUtility.checkEmpty(param.factory)"
+                                 required
+                                 placeholder="{{ 'SalaryMaintenance.MenstrualLeaveHoursAllowance.PermissionGroup' | translate }}">
+                        <ng-template ng-optgroup-tmp
+                                     let-item="item"
+                                     let-item$="item$"
+                                     let-index="index">
+                          <input id="item-{{ index }}"
+                                 type="checkbox"
+                                 name="item-{{ index }}"
+                                 [ngModel]="item$.selected" /> {{ 'System.Action.SelectAll' | translate }}</ng-template>
+                        <ng-template ng-option-tmp
+                                     let-item="item"
+                                     let-item$="item$"
+                                     let-index="index">
+                          <input id="item-{{ index }}"
+                                 name="item-{{ index }}"
+                                 type="checkbox"
+                                 [ngModel]="item$.selected" /> {{ item.value }} </ng-template>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 p-0 ml-3">
+                <button type="submit"
+                        class="btn btn-primary mr-1"
+                        (click)="search(true)"
+                        *ngIf="functionUtility.checkFunction('Search')"
+                        [disabled]="!mainForm.valid">
+                  <i class="{{ iconButton.SEARCH }}"></i> {{"System.Action.Search" | translate }}
+                </button>
+                <button type="button"
+                        class="btn btn-danger  mr-1"
+                        (click)="clear()">
+                  <i class="{{ iconButton.CLEAR }}"></i> {{"System.Action.Clear" | translate }}
+                </button>
+              </div>
+            </div>
+          </form>
+          <div class="row justify-content-md-center">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th class="text-center"
+                          *ngIf="functionUtility.checkFunction('Edit') || functionUtility.checkFunction('Query') || functionUtility.checkFunction('Delete')"
+                          [attr.colspan]="functionUtility.getColspan(['Query','Edit','Delete'])">{{"System.Action.Operation" | translate }}</th>
+                      <th class="text-center">{{"SalaryMaintenance.MonthlySalaryMaintenance.Probation" | translate }}</th>
+                      <th class="text-center">{{"SalaryMaintenance.MonthlySalaryMaintenance.SalaryLock" | translate }}</th>
+                      <th class="text-center">{{"SalaryMaintenance.MonthlySalaryMaintenance.YearMonth" | translate }}</th>
+                      <th class="text-center">{{"SalaryMaintenance.MonthlySalaryMaintenance.Factory" | translate }}</th>
+                      <th class="text-center">{{"SalaryMaintenance.MonthlySalaryMaintenance.Department" | translate }}</th>
+                      <th class="text-center">{{"SalaryMaintenance.MonthlySalaryMaintenance.EmployeeID" | translate }}</th>
+                      <th class="text-center">{{"SalaryMaintenance.MonthlySalaryMaintenance.LocalFullName" | translate }}</th>
+                      <th class="text-center">{{"SalaryMaintenance.MonthlySalaryMaintenance.PermissionGroup" | translate }}</th>
+                      <th class="text-center">{{"SalaryMaintenance.MonthlySalaryMaintenance.SalaryType" | translate }} </th>
+                      <th class="text-center">{{"SalaryMaintenance.MonthlySalaryMaintenance.FINPassStatus" | translate }} </th>
+                      <th class="text-center">{{"SalaryMaintenance.MonthlySalaryMaintenance.Update_By" | translate }} </th>
+                      <th class="text-center">{{"SalaryMaintenance.MonthlySalaryMaintenance.Update_Time" | translate }} </th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="data.length > 0; else dataNotFound">
+                    <tr *ngFor="let item of data">
+                      <td class="text-center custom-td-btn"
+                          *ngIf="functionUtility.checkFunction('Query')">
+                        <button type="button"
+                                (click)="onForm('query', item)"
+                                class="btn btn-info btn-sm ml-2">
+                          <i class="{{ iconButton.VIEW }}"></i> <span> {{"System.Action.Query" | translate }}</span>
+                        </button>
+                      </td>
+                      <td class="text-center custom-td-btn"
+                          *ngIf="functionUtility.checkFunction('Edit')">
+                        <button type="button"
+                                [disabled]="item.probation == 'Y' || item.probation == 'N'"
+                                (click)="onForm('edit', item)"
+                                class="btn btn-sm btn-warning ml-2">
+                          <i class="{{ iconButton.EDIT }}"></i> <span> {{"System.Action.Edit" | translate }}</span>
+                        </button>
+                      </td>
+                      <td class="text-center custom-td-btn"
+                          *ngIf="functionUtility.checkFunction('Delete')">
+                        <button type="button"
+                                [disabled]="item.probation == 'Y' || item.probation == 'N' || item.isDelete"
+                                (click)="delete(item, true)"
+                                class="btn btn-sm btn-danger ml-2">
+                          <i class="{{ iconButton.DELETE }}"></i> <span>{{"System.Action.Delete" | translate }}</span>
+                        </button>
+                      </td>
+                      <td class="text-center">{{ item.probation }}</td>
+                      <td class="text-center">{{ item.lock }}</td>
+                      <td class="text-center">{{ item.sal_Month | date : 'yyyy/MM'}}</td>
+                      <td class="text-center">{{ item.factory }}</td>
+                      <td class="text-center">{{ item.department + ' - ' + item.departmentName }}</td>
+                      <td class="text-center">{{ item.employee_ID }}</td>
+                      <td class="text-center">{{ item.local_Full_Name }}</td>
+                      <td class="text-center">{{ item.permission_Group }}</td>
+                      <td class="text-center">{{ item.salary_Type }}</td>
+                      <td class="text-center">{{ item.fiN_Pass_Status }}</td>
+                      <td class="text-center">{{ item.update_By }}</td>
+                      <td class="text-center">{{ item.update_Time | date : 'yyyy/MM/dd HH:mm:ss' }}</td>
+                    </tr>
+                  </tbody>
+                  <ng-template #dataNotFound>
+                    <tbody>
+                      <tr>
+                        <td colspan="100%"
+                            class="table-warning text-center font-weight-bold">
+                          {{"System.Message.Nodata" | translate }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </ng-template>
+                </table>
+              </div>
+              <div class="row">
+                <div class="col-8">
+                  <div class="d-flex"
+                       *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                    <pagination [boundaryLinks]="true"
+                                [totalItems]="pagination.totalCount"
+                                [itemsPerPage]="pagination.pageSize"
+                                previousText="&lsaquo;"
+                                nextText="&rsaquo;"
+                                firstText="&laquo;"
+                                lastText="&raquo;"
+                                [maxSize]="5"
+                                [(ngModel)]="pagination.pageNumber"
+                                (pageChanged)="pageChanged($event)">
+                    </pagination>
+                    <span class="cs-page ml-2"> Page - {{ pagination.pageNumber }} / {{ pagination.totalPage }}</span>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <span class="cs-page float-right ">{{'System.Rows' | translate }} : {{pagination.totalCount}}</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

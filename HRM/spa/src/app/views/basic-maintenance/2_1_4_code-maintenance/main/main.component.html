@@ -1,0 +1,187 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">{{ title }}</strong>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="card-body">
+          <div class="row border-shadow">
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 mt-2">
+              <label class="badge badge-warning"> {{ 'BasicMaintenance.CodeMaintain.TypeSeq' | translate}} </label>
+              <ng-select name="type_Seq"
+                         [(ngModel)]="codeMaintenanceParam.type_Seq"
+                         placeholder="{{ 'BasicMaintenance.CodeMaintain.TypeSeq' | translate }}"
+                         (clear)="deleteProperty('type_Seq')"
+                         [clearable]="codeMaintenanceParam.type_Seq !== ''">
+                <ng-option *ngFor="let typeSeq of typeSeqs"
+                           [value]="typeSeq.key">{{typeSeq.value}}</ng-option>
+              </ng-select>
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 mt-2">
+              <label class="badge badge-warning"> {{ 'BasicMaintenance.CodeMaintain.TypeName' | translate}}</label>
+              <input autocomplete="off"
+                     type="text"
+                     placeholder="{{ 'BasicMaintenance.CodeMaintain.TypeName' | translate}}"
+                     class="form-control bg-white"
+                     name="type_Name"
+                     [(ngModel)]="codeMaintenanceParam.type_Name" />
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 mt-2">
+              <label class="badge badge-warning"> {{ 'BasicMaintenance.CodeMaintain.Code' | translate}} </label>
+              <input autocomplete="off"
+                     type="text"
+                     maxlength="5"
+                     mask="A*"
+                     placeholder="{{ 'BasicMaintenance.CodeMaintain.Code' | translate}}"
+                     class="form-control bg-white"
+                     name="code"
+                     [(ngModel)]="codeMaintenanceParam.code" />
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 mt-2">
+              <label class="badge badge-warning"> {{ 'BasicMaintenance.CodeMaintain.CodeName' | translate}} </label>
+              <input autocomplete="off"
+                     type="text"
+                     placeholder="{{ 'BasicMaintenance.CodeMaintain.CodeName' | translate}}"
+                     class="form-control bg-white"
+                     name="code_Name"
+                     [(ngModel)]="codeMaintenanceParam.code_Name" />
+            </div>
+            <!-- ACTIONS -->
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+              <label class="d-block">&nbsp;</label>
+              <button type="submit"
+                      *ngIf="functionUtility.checkFunction('Search')"
+                      class="btn btn-primary mb-2"
+                      (click)="search(true)">
+                <i class="{{ iconButton.SEARCH }}"></i> {{ 'System.Action.Search' | translate}}
+              </button>
+              <button type="button"
+                      (click)="clear()"
+                      [class]="functionUtility.checkFunction('Search') ? 'btn btn-danger ml-2 mb-2' : 'btn btn-danger mb-2'">
+                <i class="{{ iconButton.CLEAR }}"></i> {{ 'System.Action.Clear' | translate}}
+              </button>
+              <button type="button"
+                      *ngIf="functionUtility.checkFunction('Add')"
+                      (click)="onAdd()"
+                      class="btn btn-success ml-2 mb-2">
+                <i class="{{ iconButton.ADD }}"></i> {{ 'System.Action.Add' | translate}}
+              </button>
+              <button type="button"
+                      *ngIf="functionUtility.checkFunction('Excel')"
+                      (click)="onExport()"
+                      class="btn btn-success ml-2 mb-2">
+                <i class="{{ iconButton.EXCEL }}"></i> {{ 'System.Action.Excel' | translate}}
+              </button>
+            </div>
+          </div>
+          <div class="row justify-content-md-center">
+            <div class="col-md-12 col-sm-12">
+              <div class="table-responsive">
+                <table class="table table-bordered text-center">
+                  <thead>
+                    <tr>
+                      <th *ngIf="(functionUtility.checkFunction('Edit') || functionUtility.checkFunction('Delete') || functionUtility.checkFunction('Query'))"
+                          class="align-middle"
+                          [attr.colspan]="functionUtility.getColspan(['Delete','Edit','Query'])">
+                        {{ 'System.Action.Operation' | translate}}
+                      </th>
+                      <th>
+                        {{ 'BasicMaintenance.CodeMaintain.TypeSeq' | translate}}
+                      </th>
+                      <th>
+                        {{ 'BasicMaintenance.CodeMaintain.Seq' | translate}}
+                      </th>
+                      <th>
+                        {{ 'BasicMaintenance.CodeMaintain.Code' | translate}}
+                      </th>
+                      <th>
+                        {{ 'BasicMaintenance.CodeMaintain.CodeName' | translate}}
+                      </th>
+                      <th>
+                        {{ 'BasicMaintenance.CodeMaintain.Status' | translate}}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="codeMaintenances?.length > 0; else elseTemplate">
+                    <tr *ngFor="let item of codeMaintenances">
+                      <!-- Operation -->
+                      <td *ngIf="functionUtility.checkFunction('Query')">
+                        <button type="button"
+                                class="btn btn-info btn-sm"
+                                (click)="onDetail(item)">
+                          <i class="{{ iconButton.VIEW }}"></i> {{ 'System.Action.Query' | translate}}
+                        </button>
+                      </td>
+                      <td *ngIf="functionUtility.checkFunction('Edit')">
+                        <button type="button"
+                                class="btn btn-warning btn-sm"
+                                (click)="onEdit(item)">
+                          <i class="{{ iconButton.EDIT }}"></i> {{ 'System.Action.Edit' | translate}}
+                        </button>
+                      </td>
+                      <td *ngIf="functionUtility.checkFunction('Delete')">
+                        <button type="button"
+                                class="btn btn-danger btn-sm"
+                                (click)="onDelete(item.type_Seq, item.code)">
+                          <i class="{{ iconButton.DELETE }}"></i> {{ 'System.Action.Delete' | translate}}
+                        </button>
+                      </td>
+                      <td>{{ item.type_Seq }}</td>
+                      <td>{{ item.seq }}</td>
+                      <td>{{ item.code }}</td>
+                      <td>{{ item.code_Name }}</td>
+                      <td>
+                        <span *ngIf="item.state == 'Y'"> {{ 'BasicMaintenance.CodeMaintain.Enabled' | translate }}</span>
+                        <span *ngIf="item.state == 'N'"> {{ 'BasicMaintenance.CodeMaintain.Disabled'| translate }}</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <ng-template #elseTemplate>
+                    <tbody>
+                      <tr>
+                        <td colspan="100%"
+                            class="table-warning text-center font-weight-bold">
+                          {{ 'System.Message.Nodata' | translate }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </ng-template>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-8">
+              <div class="d-flex"
+                   *ngIf="codeMaintenances?.length > 0 && pagination.totalPage > 0">
+                <pagination [boundaryLinks]="true"
+                            [totalItems]="pagination.totalCount"
+                            [itemsPerPage]="pagination.pageSize"
+                            previousText="&lsaquo;"
+                            nextText="&rsaquo;"
+                            firstText="&laquo;"
+                            lastText="&raquo;"
+                            [maxSize]="5"
+                            [(ngModel)]="pagination.pageNumber"
+                            (pageChanged)="pageChanged($event)">
+                </pagination>
+                <span class="cs-page ml-2"> Page - {{ pagination.pageNumber }} / {{ pagination.totalPage }}</span>
+              </div>
+            </div>
+            <div class="col-4">
+              <span class="cs-page float-right ">{{'System.Rows' | translate }} : {{pagination.totalCount}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

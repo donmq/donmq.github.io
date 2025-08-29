@@ -1,0 +1,54 @@
+<div id="pill-tabset-animation">
+  <tabset #tabset
+          class="custom-tabset">
+    <div class="tab-container"
+         *ngIf="tabs() && tabs()?.length > 0">
+      <div class="tab-header"
+           #header>
+        <ng-container *ngFor="let tab of tabs(); index as i">
+          <a class="row nav-background"
+             [class.first]="i == 0"
+             [class.last]="i == tabs().length -1">
+            <a class="col nav-text">
+              {{tab.title}}
+            </a>
+            <span class="col-auto"
+                  [hidden]="tab.isEnable"> <i class="{{ iconButton.LOCK }}"></i></span>
+          </a>
+        </ng-container>
+        <div class="tab-indicator"
+             [ngStyle]="{'background': tabStyle().indicatorColor}"
+             #indicator>
+        </div>
+      </div>
+      <div class="tab-title">
+        <ng-container *ngFor="let tab of tabs(); index as i">
+          <div class="row nav-title"
+               [class.disabled]="!tab.isEnable"
+               [class.active]="_tabId == tab.id"
+               [class.hover]="tabStyle().isHoverEffect"
+               [ngStyle]="{'border-image': getBorderImage()}"
+               (click)="onTabChange(tab.id)">
+            <a class="col nav-text"
+               [class.active]="_tabId == tab.id">
+              {{tab.title}}
+            </a>
+            <span class="col-auto"
+                  [hidden]="tab.isEnable"> <i class="{{ iconButton.LOCK }}"></i></span>
+          </div>
+        </ng-container>
+      </div>
+      <div class="tab-content">
+        <tab *ngFor="let tab of tabs()"
+             [id]="tab.id"
+             [active]="_tabId == tab.id">
+          @if (tab.content.component) {
+            <ng-container *ngComponentOutlet="tab.content.component; inputs: tab.content.inputs;"> </ng-container>
+          } @else {
+            <ng-container *ngTemplateOutlet="tab.content"> </ng-container>
+          }
+        </tab>
+      </div>
+    </div>
+  </tabset>
+</div>

@@ -1,0 +1,186 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off"
+              #form="ngForm">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs"> {{ title }} - {{"System.Action.Add" | translate}} </strong>
+                <button type="button"
+                        class="{{classButton.BACK}}"
+                        (click)="back()">
+                  <i class="{{ iconButton.BACK }}"></i> {{'System.Action.Back' | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row border-shadow">
+              <!-- Factory -->
+              <div class="col-xxl-3 col-xl-4 col-md-5 col-sm-12">
+                <label class="badge badge-warning">{{ 'AttendanceMaintenance.LeaveRecordModificationMaintenance.Factory' | translate }}
+                  <span class="text-danger text-bold"> *</span></label>
+                <ng-select name="destination_Limit"
+                           [(ngModel)]="dataMain.factory"
+                           (ngModelChange)="onFactoryChange()"
+                           (clear)="deleteProperty('factory')"
+                           [clearable]="dataMain.factory != ''"
+                           placeholder="{{ 'AttendanceMaintenance.LeaveRecordModificationMaintenance.Factory' | translate }}"
+                           required>
+                  <ng-option *ngFor="let item of listFactory"
+                             [value]="item.key">{{item.value}}</ng-option>
+                </ng-select>
+              </div>
+              <!-- EmployeeID -->
+              <div class="col-xxl-3 col-xl-4 col-md-5 col-sm-12">
+                <label class="badge badge-warning">{{ 'AttendanceMaintenance.LeaveRecordModificationMaintenance.EmployeeID' | translate }}
+                  <span class="text-danger text-bold"> *</span></label>
+                <input type="text"
+                       class="form-control"
+                       [name]="'employee_ID'"
+                       [(ngModel)]="dataMain.employee_ID"
+                       placeholder="{{ 'AttendanceMaintenance.LeaveRecordModificationMaintenance.EmployeeID' | translate }}"
+                       typeaheadScrollable="true"
+                       typeaheadOptionField="actual_Employee_ID"
+                       [typeahead]="employeeList"
+                       (typeaheadOnSelect)="onTypehead()"
+                       (typeaheadOnBlur)="onTypehead()"
+                       (typeaheadNoResults)="onTypehead(true)"
+                       [disabled]="!dataMain.factory"
+                       required />
+              </div>
+              <!-- LocalFullName -->
+              <div class="col-xxl-3 col-xl-4 col-md-5 col-sm-12">
+                <label class="badge badge-warning">{{ 'AttendanceMaintenance.LeaveRecordModificationMaintenance.LocalFullName' | translate }}
+                </label>
+                <input type="text"
+                       class="form-control"
+                       [name]="'local_Full_Name'"
+                       [(ngModel)]="dataMain.local_Full_Name"
+                       placeholder="{{ 'AttendanceMaintenance.LeaveRecordModificationMaintenance.LocalFullName' | translate }}"
+                       required
+                       readonly />
+              </div>
+              <!-- Department  -->
+              <div class="col-xxl-3 col-xl-4 col-md-5 col-sm-12">
+                <label class="badge badge-warning">{{ 'AttendanceMaintenance.LeaveRecordModificationMaintenance.Department' | translate }}</label>
+                <input type="text"
+                       class="form-control"
+                       [name]="'department'"
+                       [(ngModel)]="dataMain.department_Code_Name"
+                       placeholder="{{ 'AttendanceMaintenance.LeaveRecordModificationMaintenance.Department' | translate }}"
+                       disabled />
+              </div>
+              <!-- Date  -->
+              <div class="col-xxl-3 col-xl-4 col-md-5 col-sm-12">
+                <label class="badge badge-warning">{{ 'AttendanceMaintenance.LeaveRecordModificationMaintenance.Date' | translate }}
+                  <span class="text-danger text-bold"> *</span></label>
+                <div class="input-group">
+                  <input type="text"
+                         autocomplete="off"
+                         placeholder="YYYY/MM/DD"
+                         [name]="'leave_Date'"
+                         [minDate]="minDate"
+                         [maxDate]="maxDate"
+                         [bsConfig]="bsConfig"
+                         class="form-control"
+                         bsDatepicker
+                         [(ngModel)]="dataMain.leave_Date"
+                         (ngModelChange)="onDateChange()"
+                         onpaste="return false"
+                         required />
+                  <div class="input-group-append">
+                    <span class="input-group-text">
+                      <i class="{{ iconButton.CALENDAR }}"></i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <!-- WorkShiftType -->
+              <div class="col-xxl-3 col-xl-4 col-md-5 col-sm-12">
+                <label class="badge badge-warning">{{ 'AttendanceMaintenance.LeaveRecordModificationMaintenance.WorkShiftType' | translate }}
+                  <span class="text-danger text-bold"> *</span></label>
+                <ng-select class="select-column"
+                           name="work_Shift_Type"
+                           [(ngModel)]="dataMain.work_Shift_Type"
+                           (clear)="deleteProperty('work_Shift_Type')"
+                           [clearable]="dataMain.work_Shift_Type != ''"
+                           placeholder="{{ 'AttendanceMaintenance.LeaveRecordModificationMaintenance.WorkShiftType' | translate }}"
+                           appendTo="body"
+                           dropdownPosition="bottom"
+                           [disabled]="!dataMain.factory || !dataMain.employee_ID || !dataMain.leave_Date"
+                           required>
+                  <ng-option *ngFor="let data of listWorkShiftType"
+                             [value]="data.key">{{data.value}}
+                  </ng-option>
+                </ng-select>
+              </div>
+              <!-- Leave  -->
+              <div class="col-xxl-3 col-xl-4 col-md-5 col-sm-12">
+                <label class="badge badge-warning">{{ 'AttendanceMaintenance.LeaveRecordModificationMaintenance.Leave' | translate }}
+                  <span class="text-danger text-bold"> *</span></label>
+                <ng-select class="select-column"
+                           name="leave_Code"
+                           [(ngModel)]="dataMain.leave_Code"
+                           (clear)="deleteProperty('leave_Code')"
+                           [clearable]="dataMain.leave_Code != ''"
+                           placeholder="{{ 'AttendanceMaintenance.LeaveRecordModificationMaintenance.Leave' | translate }}"
+                           appendTo="body"
+                           dropdownPosition="bottom"
+                           required>
+                  <ng-option *ngFor="let data of listAttendance"
+                             [value]="data.key">{{data.value}}
+                  </ng-option>
+                </ng-select>
+              </div>
+              <!-- Days -->
+              <div class="col-xxl-3 col-xl-4 col-md-5 col-sm-12">
+                <label class="badge badge-warning">{{ 'AttendanceMaintenance.LeaveRecordModificationMaintenance.Days' | translate }}
+                  <span class="text-danger text-bold"> *</span>
+                </label>
+                <input type="text"
+                       mask="separator.5"
+                       maxlength="11"
+                       class="form-control"
+                       [name]="'days'"
+                       decimalMarker="."
+                       thousandSeparator
+                       [leadZero]="true"
+                       separatorLimit="99999"
+                       [(ngModel)]="dataMain.days"
+                       required />
+              </div>
+            </div>
+            <div class="row justify-content-md-center">
+              <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="table-responsive text-right">
+                  <button type="button"
+                          [disabled]="form.invalid"
+                          class="btn btn-warning mr-2"
+                          (click)="save(true)">
+                    <i class="{{ iconButton.SAVE }}"></i>
+                    {{ "System.Action.SaveAndContinue" | translate }}
+                  </button>
+                  <button type="button"
+                          class="{{classButton.SAVE}}"
+                          (click)="save(false)"
+                          [disabled]="form.invalid">
+                    <i class="{{ iconButton.SAVE }}"></i> {{'System.Action.Save' | translate }}
+                  </button>
+                  <button type="button"
+                          class="{{classButton.CLOSE}}"
+                          (click)="back()">
+                    <i class="{{ iconButton.CLOSE }}"></i> {{'System.Action.Close' | translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

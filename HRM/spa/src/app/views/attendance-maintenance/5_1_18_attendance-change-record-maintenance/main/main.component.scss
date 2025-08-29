@@ -1,0 +1,41 @@
+.container_input {
+  display: flex;
+  flex-direction: row;
+}
+
+.custom-margin-bottom {
+  margin-bottom: 5px;
+}
+
+.vertical-align-middle {
+  vertical-align: middle;
+}
+
+.vertical-align-middle-button {
+  min-width: 100px;
+  vertical-align: middle;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+.table {
+  width: 100%;
+}
+thead th,
+th.sticky-column,
+td.sticky-column {
+  position: sticky;
+  z-index: 2;
+}
+thead th {
+  top: 0;
+}
+th.sticky-column,
+td.sticky-column {
+  left: 0;
+  z-index: 1;
+}
+th.sticky-column {
+  z-index: 3;
+}

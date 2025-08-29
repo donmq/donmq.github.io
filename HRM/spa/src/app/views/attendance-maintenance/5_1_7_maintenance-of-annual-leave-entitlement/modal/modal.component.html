@@ -1,0 +1,275 @@
+<div bsModal
+     #modal="bs-modal"
+     class="modal fade"
+     tabindex="-1"
+     role="dialog"
+     (onHide)="onHide()">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <form #form="ngForm"
+            autocomplete="off">
+        <div class="bg-primary modal-header">
+          <h4 class="modal-title pull-left">
+            {{ title }} -
+            <span>
+              {{ !this.isEdit ? ('System.Action.Add' | translate) : 'System.Action.Edit' | translate }}
+            </span>
+          </h4>
+          <button type="button"
+                  class="btn-close close pull-right"
+                  aria-label="Close"
+                  (click)="close()">
+            <span aria-hidden="true"
+                  class="visually-hidden">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body header-param">
+          <div class="row">
+            <!-- Factory -->
+            <div class="col-xxl-3 col-xl-3 col-lg-6 col-sm-12 col-md-6 ">
+              <label class="badge badge-warning"
+                     for="factory">
+                {{"AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.Factory" | translate }}
+                <span class="text-danger text-bold">*</span>
+              </label>
+              <ng-select name="factory"
+                         [(ngModel)]="dataMain.factory"
+                         (clear)="deleteProperty('factory')"
+                         [clearable]="dataMain.factory !== ''"
+                         (ngModelChange)="onFactoryChange()"
+                         [disabled]="isEdit"
+                         placeholder="{{'EmployeeInformationModule.UnpaidLeave.Factory' | translate}}"
+                         required>
+                <ng-option *ngFor="let i of factoryList"
+                           [value]="i.key">{{i.value}}</ng-option>
+              </ng-select>
+            </div>
+
+            <!-- Department -->
+            <div class="col-xxl-3 col-xl-3 col-lg-6 col-sm-12 col-md-6 ">
+              <label class="badge badge-warning"
+                     for="department">
+                {{"AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.Department" | translate }}
+              </label>
+              <input autocomplete="off"
+                     type="text"
+                     class="form-control"
+                     maxlength="50"
+                     name="department"
+                     placeholder="{{'AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.Department' | translate }}"
+                     [ngModel]="dataMain.department_Code_Name"
+                     disabled />
+            </div>
+
+            <!-- Date End From -->
+            <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label class="badge badge-warning">{{'AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.AvailableRangeStart' | translate }}
+                <span class="text-danger text-bold">*</span>
+              </label>
+              <div class="full-width">
+                <div class="container_input">
+                  <div class="input-group mr-1">
+                    <input type="text"
+                           autocomplete="off"
+                           placeholder="YYYY/MM/DD"
+                           name="dateEnd_from"
+                           [maxDate]="dataMain.annual_End_Date"
+                           [bsConfig]="bsConfig"
+                           class="form-control"
+                           bsDatepicker
+                           [(ngModel)]="dataMain.annual_Start_Date"
+                           (ngModelChange)="onDateChange()"
+                           onpaste="return false"
+                           [disabled]="isEdit"
+                           required />
+                    <div class="input-group-append">
+                      <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Date End To -->
+            <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label class="badge badge-warning">{{'AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.AvailableRangeEnd' | translate }}
+                <span class="text-danger text-bold">*</span>
+              </label>
+              <div class="full-width">
+                <div class="container_input">
+                  <div class="input-group ml-1">
+                    <input type="text"
+                           autocomplete="off"
+                           placeholder="YYYY/MM/DD"
+                           name="dateEnd_to"
+                           [minDate]="dataMain.annual_Start_Date"
+                           [bsConfig]="bsConfig"
+                           class="form-control"
+                           bsDatepicker
+                           [(ngModel)]="dataMain.annual_End_Date"
+                           (ngModelChange)="onDateChange()"
+                           onpaste="return false"
+                           required />
+                    <div class="input-group-append">
+                      <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Employee ID -->
+            <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label for="employee_ID"
+                     class="badge badge-warning">{{'AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.EmployeeID' | translate }}
+                <span class="text-danger text-bold">*</span></label>
+              <input type="text"
+                     class="form-control"
+                     maxlength="50"
+                     name="employee_ID"
+                     placeholder="{{'AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.EmployeeID' | translate }}"
+                     typeaheadScrollable="true"
+                     [(ngModel)]="dataMain.employee_ID"
+                     typeaheadOptionField="actual_Employee_ID"
+                     [typeahead]="employeeList"
+                     (typeaheadOnSelect)="onTypehead()"
+                     (typeaheadOnBlur)="onTypehead()"
+                     (typeaheadNoResults)="onTypehead(true)"
+                     [disabled]="isEdit || !dataMain.factory"
+                     required />
+            </div>
+
+            <!-- Local Full Name -->
+            <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label for="local_Full_Name"
+                     class="badge badge-warning">{{'AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.LocalFullName' | translate }}</label>
+              <input autocomplete="off"
+                     type="text"
+                     class="form-control"
+                     maxlength="50"
+                     name="local_Full_Name"
+                     placeholder="{{'AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.LocalFullName' | translate }}"
+                     [ngModel]="dataMain.local_Full_Name"
+                     readonly
+                     required />
+            </div>
+
+            <!-- Leave Code -->
+            <div class="col-xxl-6 col-xl-6 col-lg-6 col-sm-12 col-md-6 ">
+              <label class="badge badge-warning"
+                     for="leave_Code">
+                {{"AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.Leave" | translate }}
+                <span class="text-danger text-bold">*</span>
+              </label>
+              <ng-select name="leave_Code"
+                         [(ngModel)]="dataMain.leave_Code"
+                         placeholder="{{'AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.Leave' | translate }}"
+                         (clear)="deleteProperty('leave_Code')"
+                         (ngModelChange)="onLeaveCodeChange()"
+                         [clearable]="dataMain.leave_Code !== ''"
+                         required>
+                <ng-option *ngFor="let data of leaveCodeList"
+                           [value]="data.key">{{data.value}}
+                </ng-option>
+              </ng-select>
+            </div>
+
+            <!-- Previous Hours -->
+            <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label for="previous_Hours"
+                     class="badge badge-warning">{{'AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.PreviousHours' | translate }}
+                <span class="text-danger text-bold">*</span></label>
+              <input autocomplete="off"
+                     type="text"
+                     class="form-control"
+                     name="previous_Hours"
+                     [(ngModel)]="dataMain.previous_Hours"
+                     (ngModelChange)="changeDayTime()"
+                     placeholder="{{'AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.PreviousHours' | translate }}"
+                     maxlength="11"
+                     mask="separator.5"
+                     decimalMarker="."
+                     [leadZero]="true"
+                     thousandSeparator=""
+                     separatorLimit="99999"
+                     required />
+            </div>
+
+            <!-- Year Hour -->
+            <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label for="year_Hours"
+                     class="badge badge-warning">{{'AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.YearlyHours' | translate }}
+                <span class="text-danger text-bold">*</span></label>
+              <input autocomplete="off"
+                     type="text"
+                     class="form-control"
+                     name="year_Hours"
+                     [(ngModel)]="dataMain.year_Hours"
+                     (ngModelChange)="changeDayTime()"
+                     placeholder="{{'AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.YearlyHours' | translate }}"
+                     maxlength="11"
+                     mask="separator.5"
+                     decimalMarker="."
+                     [leadZero]="true"
+                     thousandSeparator=""
+                     separatorLimit="99999"
+                     required />
+            </div>
+
+            <!-- Total Hours -->
+            <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label for="total_Hours"
+                     class="badge badge-warning">{{'AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.TotalHours' | translate }}
+                <span class="text-danger text-bold">*</span></label>
+              <input autocomplete="off"
+                     type="text"
+                     placeholder="{{'AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.TotalHours' | translate }}"
+                     class="form-control"
+                     maxlength="50"
+                     name="total_Hours"
+                     [(ngModel)]="dataMain.total_Hours"
+                     disabled />
+            </div>
+
+            <!-- Total Days -->
+            <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label for="total_Days"
+                     class="badge badge-warning">{{'AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.TotalDays' | translate }}</label>
+              <input autocomplete="off"
+                     type="text"
+                     placeholder="{{'AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.TotalDays' | translate }}"
+                     class="form-control"
+                     maxlength="50"
+                     name="total_Days"
+                     [(ngModel)]="dataMain.total_Days"
+                     disabled />
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button *ngIf="!isEdit"
+                  type="button"
+                  [disabled]="!form.valid"
+                  class="btn btn-warning mr-2"
+                  (click)="save(true)">
+            <i class="{{ iconButton.SAVE }}"></i>
+            {{ "System.Action.SaveAndContinue" | translate }}
+          </button>
+          <button type="button"
+                  class="btn btn-success"
+                  (click)="save(false)"
+                  [disabled]="!form.valid">
+            <i class="{{ iconButton.SAVE }} mr-1"
+               aria-hidden="true"> </i>{{'System.Action.Save' | translate }}
+          </button>
+          <button type="button"
+                  class="{{classButton.CLOSE}}"
+                  (click)="close()">
+            <i class="{{ iconButton.CLOSE }} mr-1"
+               aria-hidden="true"></i>{{'System.Action.Close' | translate }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

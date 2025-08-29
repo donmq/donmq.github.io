@@ -1,0 +1,195 @@
+<div bsModal
+     #modal="bs-modal"
+     class="modal fade"
+     tabindex="-1"
+     role="dialog"
+     (onHide)="onHide()">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <form #addForm="ngForm"
+            autocomplete="off">
+        <div class="modal-header bg-primary text-white">
+          <h5 name="modal-title"
+              class="modal-title"
+              id="modal-basic-title">
+            {{ title }} - {{ 'System.Action.' + type | translate}}
+          </h5>
+          <button type="button"
+                  class="btn-close close pull-right"
+                  aria-label="Close"
+                  (click)="close()">
+            <span aria-hidden="true"
+                  class="visually-hidden">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <!-- Nationality -->
+            <div class="col-md-6">
+              <label for="textDepartment"
+                     class="badge badge-warning">{{"EmployeeInformationModule.DependentInformation.Nationality" | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <input type="text"
+                     class="form-control"
+                     maxlength="10"
+                     name="nationality"
+                     [(ngModel)]="param.nationality"
+                     placeholder="{{ 'EmployeeInformationModule.DependentInformation.Nationality' | translate}}"
+                     disabled
+                     required>
+            </div>
+            <!-- IdentificationNumber -->
+            <div class="col-md-6">
+              <label for="textDepartment"
+                     class="badge badge-warning">{{"EmployeeInformationModule.DependentInformation.IdentificationNumber" | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <input type="text"
+                     class="form-control"
+                     pattern="/^-?\d+\.?\d*$/"
+                     maxlength="50"
+                     [(ngModel)]="param.identification_Number"
+                     name="identification_Number"
+                     placeholder="{{'EmployeeInformationModule.DependentInformation.IdentificationNumber' | translate }}"
+                     readonly
+                     required />
+            </div>
+          </div>
+          <div class="row mt-2">
+            <!-- LocalFullName -->
+            <div class="col-md-6">
+              <label for="textDepartment"
+                     class="badge badge-warning">{{"EmployeeInformationModule.DependentInformation.LocalFullName" | translate}}
+                <span class="text-danger text-bold"></span>
+              </label>
+              <input type="text"
+                     class="form-control"
+                     pattern="/^-?\d+\.?\d*$/"
+                     maxlength="100"
+                     [(ngModel)]="param.local_Full_Name"
+                     name="local_Full_Name"
+                     placeholder="{{'EmployeeInformationModule.DependentInformation.LocalFullName' | translate }}"
+                     readonly />
+            </div>
+            <!-- seq -->
+            <div class="col-md-6">
+              <label for="textDepartment"
+                     class="badge badge-warning">{{"EmployeeInformationModule.DependentInformation.Seq" | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <div class="input-group">
+                <input type="number"
+                       class="form-control"
+                       min="1"
+                       max="99"
+                       oninput="if(this.value.length > 2) { this.value = this.value.slice(0,2);}"
+                       onkeypress="return /[0-9]/i.test(event.key)"
+                       onpaste="return false;"
+                       [(ngModel)]="param.seq"
+                       name="seq"
+                       placeholder="{{'EmployeeInformationModule.DependentInformation.Seq'| translate }}"
+                       disabled
+                       required />
+              </div>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <!-- Name -->
+            <div class="col-md-6">
+              <label for="textDepartment"
+                     class="badge badge-warning">{{"EmployeeInformationModule.DependentInformation.Name" | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <input type="text"
+                     class="form-control"
+                     pattern="/^-?\d+\.?\d*$/"
+                     maxlength="50"
+                     [(ngModel)]="param.name"
+                     name="name"
+                     placeholder="{{'EmployeeInformationModule.DependentInformation.Name'| translate }}"
+                     required />
+            </div>
+            <!-- Relationship -->
+            <div class="col-md-6">
+              <label class="badge badge-warning"> {{"EmployeeInformationModule.DependentInformation.Relationship" | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <ng-select [(ngModel)]="param.relationship"
+                         name="relationship"
+                         placeholder="{{'EmployeeInformationModule.DependentInformation.Relationship' | translate}}"
+                         (clear)="deleteProperty('relationship')"
+                         [clearable]="param.relationship != ''"
+                         required>
+                <ng-option *ngFor="let item of listRelationship"
+                           value="{{ item.key }}">{{ item.key }} - {{ item.value }}</ng-option>
+              </ng-select>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <!-- occupation -->
+
+            <div class="col-md-6">
+              <label for="textDepartment"
+                     class="badge badge-warning">{{"EmployeeInformationModule.DependentInformation.Occupation"| translate}}
+              </label>
+              <input type="text"
+                     class="form-control"
+                     pattern="/^-?\d+\.?\d*$/"
+                     maxlength="50"
+                     [(ngModel)]="param.occupation"
+                     name="occupation"
+                     placeholder="{{'EmployeeInformationModule.DependentInformation.Occupation'| translate }}" />
+            </div>
+            <!-- Dependents -->
+
+            <div class="col-md-6">
+              <label class="badge badge-warning"> {{ 'EmployeeInformationModule.DependentInformation.Dependents'| translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <div class="custom-control custom-radio mt-2">
+                <div class="form-check form-check-inline">
+                  <input type="radio"
+                         class="custom-control-input"
+                         id="customRadio1"
+                         name="customRadio1"
+                         [value]="true"
+                         [(ngModel)]="param.dependents" />
+                  <label class="custom-control-label font-weight-bold"
+                         for="customRadio1">{{'EmployeeInformationModule.DependentInformation.DependentsY' | translate }}</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input type="radio"
+                         class="custom-control-input"
+                         id="customRadio2"
+                         name="customRadio2"
+                         [value]="false"
+                         [(ngModel)]="param.dependents" />
+                  <label class="custom-control-label font-weight-bold"
+                         for="customRadio2">{{'EmployeeInformationModule.DependentInformation.DependentsN' | translate }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button name="btnAdd"
+                  class="btn btn-success text-white"
+                  type="button"
+                  (click)="save()"
+                  [disabled]="checkEmpty()">
+            <i class="{{ iconButton.SAVE }}"></i> {{ "System.Action.Save" | translate }}
+          </button>
+          <button name="btnClose"
+                  class="btn btn-danger text-black"
+                  type="button"
+                  (click)="close()">
+            <i class="{{ iconButton.CLOSE }}"></i> {{ "System.Action.Close" | translate }}
+          </button>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

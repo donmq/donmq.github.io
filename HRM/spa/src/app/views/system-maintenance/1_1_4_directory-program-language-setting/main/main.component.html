@@ -1,0 +1,168 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">{{ title }}</strong>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="card-body">
+          <div class="row border-shadow">
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-4 col-xxl-3">
+              <div class="form-group">
+                <label class="badge badge-warning">{{ "SystemMaintenance.DirectoryProgramLanguageSetting.Kind" | translate }}</label>
+                <div class="row pl-3">
+                  <div *ngFor="let item of key; let i">
+                    <label class="container">
+                      <div class="row">
+                        <div class="custom-control custom-radio pt-2">
+                          <input [id]="'kind_' + i"
+                                 class="custom-control-input"
+                                 type="radio"
+                                 name="kind"
+                                 [(ngModel)]="param.kind"
+                                 [value]="item.key" />
+
+                          <p class="custom-control-label"
+                             [for]="'kind_' + i">
+                            <strong> {{ item.value | translate }} </strong>
+                          </p>
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+              <label class="badge badge-warning"> {{ "SystemMaintenance.DirectoryProgramLanguageSetting.Code" | translate }} </label>
+              <input autocomplete="off"
+                     type="text"
+                     placeholder="{{ 'SystemMaintenance.DirectoryProgramLanguageSetting.Code' | translate}}"
+                     class="form-control bg-white"
+                     name="code"
+                     [(ngModel)]="param.code" />
+            </div>
+
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+              <label class="badge badge-warning"> {{ "SystemMaintenance.DirectoryProgramLanguageSetting.Name" | translate }}
+              </label>
+              <input autocomplete="off"
+                     type="text"
+                     placeholder="{{ 'SystemMaintenance.DirectoryProgramLanguageSetting.Name' | translate }}"
+                     class="form-control bg-white"
+                     name="name"
+                     [(ngModel)]="param.name" />
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-4 col-xxl-3">
+              <label class="d-block">&nbsp;</label>
+              <button type="submit"
+                      class="btn btn-primary mr-2"
+                      (click)="search(true)"
+                      *ngIf="functionUtility.checkFunction('Search')">
+                <i class="{{ iconButton.SEARCH }}"></i>
+                {{ "System.Action.Search" | translate }}
+              </button>
+              <button type="button"
+                      class="btn btn-danger mr-2"
+                      (click)="clear()">
+                <i class="{{ iconButton.CLEAR }}"></i>
+                {{ "System.Action.Clear" | translate }}
+              </button>
+              <button type="button"
+                      (click)="onAdd()"
+                      class="btn btn-success"
+                      *ngIf="functionUtility.checkFunction('Add')">
+                <i class="{{ iconButton.ADD }}"></i>
+                {{ "System.Action.Add" | translate }}
+              </button>
+            </div>
+          </div>
+          <div class="row justify-content-md-center">
+            <div class="col-xxl-8 col-xl-12">
+              <div class="table-responsive">
+                <table class="table table-bordered text-center">
+                  <thead>
+                    <tr>
+                      <th class="text-center operation-column"
+                          [attr.colspan]="functionUtility.getColspan(['Delete','Edit'])"
+                          *ngIf="functionUtility.checkFunction('Edit') || functionUtility.checkFunction('Delete')">{{
+                        "System.Action.Operation" | translate }}</th>
+                      <th>{{"SystemMaintenance.DirectoryProgramLanguageSetting.Kind" | translate}}</th>
+                      <th>{{"SystemMaintenance.DirectoryProgramLanguageSetting.Code" | translate}}</th>
+                      <th>{{"SystemMaintenance.DirectoryProgramLanguageSetting.Name" | translate}}</th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="data?.length > 0; else elseTemplate">
+                    <tr *ngFor="let item of data">
+                      <td class="text-center"
+                          *ngIf="functionUtility.checkFunction('Edit')">
+                        <button type="button"
+                                class="btn btn-warning btn-sm"
+                                (click)="onEdit(item)">
+                          <i class="{{ iconButton.EDIT }}"></i>{{ "System.Action.Edit" | translate }}
+                        </button>
+                      </td>
+                      <td class="text-center"
+                          *ngIf="functionUtility.checkFunction('Delete')">
+                        <button type="button"
+                                class="btn btn-danger btn-sm"
+                                (click)="onDelete(item.kind, item.code)">
+                          <i class="{{ iconButton.DELETE }}"></i>
+                          {{ "System.Action.Delete" | translate }}
+                        </button>
+                      </td>
+                      <td class="text-center">{{ item.kind }}</td>
+                      <td class="text-center">{{ item.code }}</td>
+                      <td class="text-center">{{ item.name }}</td>
+                    </tr>
+                  </tbody>
+                  <ng-template #elseTemplate>
+                    <tbody>
+                      <tr>
+                        <td colspan="100%"
+                            class="table-warning text-center font-weight-bold">
+                          {{ "System.Message.Nodata" | translate }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </ng-template>
+                </table>
+              </div>
+              <div class="row">
+                <div class=" col-8">
+                  <div class="d-flex"
+                       *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                    <pagination [boundaryLinks]="true"
+                                [maxSize]="5"
+                                [totalItems]="pagination.totalCount"
+                                [itemsPerPage]="pagination.pageSize"
+                                (pageChanged)="pageChanged($event)"
+                                [(ngModel)]="pagination.pageNumber"
+                                previousText="&lsaquo;"
+                                nextText="&rsaquo;"
+                                firstText="&laquo;"
+                                lastText="&raquo;">
+                    </pagination>
+                    <span class="cs-page ml-2">
+                      Page - {{pagination.pageNumber}} / {{pagination.totalPage}}
+                    </span>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <span class="cs-page float-right ">{{"System.Rows" | translate}} : {{pagination.totalCount}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,343 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <form class="card form-horizontal needs-validation" autocomplete="off">
+        <div class="form-horizontal">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">
+                  {{ title }} - {{ 'System.Action.' + action | translate }}
+                </strong>
+                <!-- Button Back -->
+                <button type="button" class="btn btn-sm btn-primary float-right" (click)="back()">
+                  <i class="fa fa-chevron-left"></i>
+                  {{'System.Action.Back' | translate}}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form #form="ngForm" class="form-horizontal border-shadow" autocomplete="off">
+            <div class="row">
+              <!-- Factory -->
+              <div class="col-xl-3 col-lg-6 col-md-6 pb-2">
+                <label class="badge badge-warning">
+                  {{"AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.Factory" | translate}}
+                  <span class="text-danger">*</span>
+                </label>
+                <ng-select name="factory" [(ngModel)]="data.factory" [clearable]="false"
+                  (ngModelChange)="onFactoryChange()"
+                  placeholder='{{"AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.Factory" | translate}}'
+                  [disabled]="isEdit || isQuery">
+                  <ng-option [value]="''">{{"System.SelectAll" | translate}}</ng-option>
+                  <ng-option *ngFor="let i of listFactory" [value]="i.key">{{i.value}}</ng-option>
+                </ng-select>
+              </div>
+              <!-- Year-Month of Attendance -->
+              <div class="col-xl-3 col-lg-6 col-md-6 pb-2">
+                <label class="badge badge-warning">
+                  {{'AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.YearMonth'| translate}}
+                  <span class="text-danger">*</span>
+                </label>
+                <div class="full-width">
+                  <div class="container_input">
+                    <div class="input-group mr-1">
+                      <input type="text" autocomplete="off" class="form-control" bsDatepicker name="att_Month"
+                        [(ngModel)]="att_Month" (blur)="validateDate(att_Month)" (ngModelChange)="onChange()"
+                        [bsConfig]="bsConfig" onpaste="return false;" placeholder="YYYY/MM"
+                        [disabled]="isEdit || isQuery" />
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Pass Status -->
+              <div class="col-xl-3 col-lg-6 col-md-6 pb-2">
+                <label class="badge badge-warning">
+                  {{ "AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.Pass" | translate }}
+                </label>
+                <div class="row pl-3">
+                  <div *ngFor="let item of pass; index as i">
+                    <label class="container">
+                      <div class="row">
+                        <div class="custom-control custom-radio pt-2">
+                          <input [id]="'pass' + i" class="custom-control-input" type="radio"
+                            [checked]="item.key === data.pass" name="pass" [(ngModel)]="data.pass" [value]="item.key"
+                            disabled />
+                          <p class="custom-control-label" [for]="'pass' + i">
+                            <strong>
+                              {{ item.value | translate }}
+                            </strong>
+                          </p>
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-3"></div>
+              <!-- EmployeeID -->
+              <div class="col-xl-3 col-lg-6 col-md-6 pb-2">
+                <label class="badge badge-warning">
+                  {{"AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.EmployeeID" | translate}}
+                  <span class="text-danger">*</span>
+                </label>
+                <input [(ngModel)]="data.employee_ID" name="employeeID" type="text" class="form-control"
+                  [typeahead]="employee_ID" typeaheadScrollable="true" (ngModelChange)="onEmployeeIDChange($event)"
+                  (blur)="onBlur()" (typeaheadOnSelect)="onTypehead($event)"
+                  placeholder="{{'AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.EmployeeID' | translate}}"
+                  [disabled]="isEdit || isQuery" maxlength="9" />
+              </div>
+              <!-- Local Full Name -->
+              <div class="col-xl-3 col-lg-6 col-md-6 pb-2">
+                <label class="badge badge-warning">
+                  {{"AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.LocalFullName" |
+                  translate}}
+                </label>
+                <input [(ngModel)]="data.local_Full_Name" name="local_Full_Name" type="text" class="form-control"
+                  placeholder="{{'AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.LocalFullName' | translate}}"
+                  disabled />
+              </div>
+              <!-- Department -->
+              <div class="col-xl-3 col-lg-6 col-md-6 pb-2">
+                <label class="badge badge-warning">
+                  {{"AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.Department" | translate}}
+                </label>
+                <input [(ngModel)]="data.department" name="department" type="text" class="form-control"
+                  placeholder="{{'AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.Department' | translate}}"
+                  disabled />
+              </div>
+              <!-- New-Hired/Resigned -->
+              <div class="col-xl-3 col-lg-6 col-md-6 pb-2">
+                <label class="badge badge-warning">
+                  {{ "AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.NewHiredResigned" |
+                  translate }}
+                  <span class="text-danger">*</span>
+                </label>
+                <div class="row pl-3">
+                  <div *ngFor="let item of resign_Status; index as i">
+                    <label class="container">
+                      <div class="row">
+                        <div class="custom-control custom-radio pt-2">
+                          <input [id]="'resign_Status' + i" class="custom-control-input" type="radio"
+                            [checked]="item.key === data.resign_Status" name="resign_Status"
+                            [(ngModel)]="data.resign_Status" [value]="item.key" [disabled]="isQuery" />
+                          <p class="custom-control-label" [for]="'resign_Status' + i">
+                            <strong>
+                              {{ item.value | translate }}
+                            </strong>
+                          </p>
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <!-- Paid Salary Days -->
+              <div class="col-xl-3 col-lg-6 col-md-6 pb-2">
+                <label class="badge badge-warning">
+                  {{"AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.PaidSalaryDays" |
+                  translate}}
+                  <span class="text-danger">*</span>
+                </label>
+                <input [(ngModel)]="data.salary_Days" name="salary_Days" type="text" class="form-control"
+                  (keypress)="validateDecimal($event)" (focus)="onFocusNumber('salary_Days')"
+                  (blur)="onBlurNumber('salary_Days')"
+                  placeholder="{{'AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.PaidSalaryDays' | translate}}"
+                  [disabled]="isQuery" />
+              </div>
+              <!-- Actual Work Days -->
+              <div class="col-xl-3 col-lg-6 col-md-6 pb-2">
+                <label class="badge badge-warning">
+                  {{"AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.ActualWorkDays" |
+                  translate}}
+                  <span class="text-danger">*</span>
+                </label>
+                <input [(ngModel)]="data.actual_Days" name="actual_Days" type="text" class="form-control"
+                  (keypress)="validateDecimal($event)" (focus)="onFocusNumber('actual_Days')"
+                  (blur)="onBlurNumber('actual_Days')"
+                  placeholder="{{'AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.ActualWorkDays' | translate}}"
+                  [disabled]="isQuery" />
+              </div>
+              <!-- Permission Group -->
+              <div class="col-xl-3 col-lg-6 col-md-6 pb-2">
+                <label class="badge badge-warning">
+                  {{"AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.PermissionGroup" | translate}}
+                </label>
+                <input [(ngModel)]="data.permission_Group" name="permission_Group" type="text" class="form-control"
+                  placeholder="{{'AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.PermissionGroup' | translate}}"
+                  disabled />
+              </div>
+              <!-- Salary Type -->
+              <div class="col-xl-3 col-lg-6 col-md-6 pb-2">
+                <label class="badge badge-warning">
+                  {{"AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.SalaryType" | translate}}
+                </label>
+                <input [(ngModel)]="data.salary_Type" name="salary_Type" type="text" class="form-control"
+                  placeholder="{{'AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.SalaryType' | translate}}"
+                  disabled />
+              </div>
+              <!-- Delay/Early -->
+              <div class="col-xl-3 col-lg-6 col-md-6 pb-2">
+                <label class="badge badge-warning">
+                  {{"AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.DelayEarly" |
+                  translate}}
+                  <span class="text-danger">*</span>
+                </label>
+                <input [(ngModel)]="data.delay_Early" name="delay_Early" type="text" class="form-control"
+                  (keypress)="validateNumber($event)" (focus)="onFocusNumber('delay_Early')"
+                  (blur)="onBlurNumber('delay_Early')"
+                  placeholder="{{'AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.DelayEarly' | translate}}"
+                  [disabled]="isQuery" />
+              </div>
+              <!-- No Swip Card -->
+              <div class="col-xl-3 col-lg-6 col-md-6 pb-2">
+                <label class="badge badge-warning">
+                  {{"AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.NoSwipCard" |
+                  translate}}
+                  <span class="text-danger">*</span>
+                </label>
+                <input [(ngModel)]="data.no_Swip_Card" name="no_Swip_Card" type="text" class="form-control"
+                  (keypress)="validateNumber($event)" (focus)="onFocusNumber('no_Swip_Card')"
+                  (blur)="onBlurNumber('no_Swip_Card')"
+                  placeholder="{{'AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.NoSwipCard' | translate}}"
+                  [disabled]="isQuery" />
+              </div>
+              <!-- Meal Fee Times -->
+              <div class="col-xl-3 col-lg-6 col-md-6 pb-2">
+                <label class="badge badge-warning">
+                  {{"AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.MealFeeTimes" |
+                  translate}}
+                  <span class="text-danger">*</span>
+                </label>
+                <input [(ngModel)]="data.food_Expenses" name="food_Expenses" type="text" class="form-control"
+                  (keypress)="validateNumber($event)" (focus)="onFocusNumber('food_Expenses')"
+                  (blur)="onBlurNumber('food_Expenses')"
+                  placeholder="{{'AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.MealFeeTimes' | translate}}"
+                  [disabled]="isQuery" />
+              </div>
+              <!-- Night Shift Allowance Times -->
+              <div class="col-xl-3 col-lg-6 col-md-6 pb-2">
+                <label class="badge badge-warning">
+                  {{"AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.NightShiftAllowanceTimes" |
+                  translate}}
+                  <span class="text-danger">*</span>
+                </label>
+                <input [(ngModel)]="data.night_Eat_Times" name="night_Eat_Times" type="text" class="form-control"
+                  (keypress)="validateNumber($event)" (focus)="onFocusNumber('night_Eat_Times')"
+                  (blur)="onBlurNumber('night_Eat_Times')"
+                  placeholder="{{'AttendanceMaintenance.LoanedMonthlyAttendanceDataMaintenance.NightShiftAllowanceTimes' | translate}}"
+                  [disabled]="isQuery" />
+              </div>
+            </div>
+            <hr class="hr" />
+            <div class="row mb-3">
+              <div class="col-6">
+                <div class="table-responsive">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th class="text-center text-nowrap">
+                          {{"AttendanceMaintenance.MonthlyAttendanceDataMaintenanceResignedEmployees.Leave"
+                          | translate }}
+                        </th>
+                        <th class="text-center text-nowrap">
+                          {{"AttendanceMaintenance.MonthlyAttendanceDataMaintenanceResignedEmployees.MonthlyDays"
+                          | translate }}
+                        </th>
+                        <th class="text-center text-nowrap">
+                          {{"AttendanceMaintenance.MonthlyAttendanceDataMaintenanceResignedEmployees.Total"
+                          | translate }}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody *ngIf="data.leaves?.length > 0; else dataNotFound">
+                      <tr *ngFor="let item of data.leaves">
+                        <td class="text-center">{{ item.codeName }}</td>
+                        <td class="text-center">
+                          <input [id]="'leave' + item.code" class="form-control" type="text"
+                            [name]="'leave' + item.code" [(ngModel)]="item.days" [disabled]="isQuery"
+                            (keypress)="validateDecimal($event)" (focus)="onFocusNumber('days', item)"
+                            (blur)="onBlurNumber('days', item)" />
+                        </td>
+                        <td class="text-center">
+                          <input [id]="'leave_Total' + item.code" class="form-control" type="number"
+                            [name]="'leave_Total' + item.code" [(ngModel)]="item.total" disabled />
+                        </td>
+                      </tr>
+                    </tbody>
+                    <ng-template #dataNotFound>
+                      <tbody>
+                        <tr>
+                          <td colspan="100%" class="table-warning text-center font-weight-bold">
+                            {{"System.Message.Nodata" | translate }}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </ng-template>
+                  </table>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="table-responsive">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th class="text-center text-nowrap">
+                          {{"AttendanceMaintenance.MonthlyAttendanceDataMaintenanceResignedEmployees.Allowance"
+                          | translate }}
+                        </th>
+                        <th class="text-center text-nowrap">
+                          {{"AttendanceMaintenance.MonthlyAttendanceDataMaintenanceResignedEmployees.MonthlyHours"
+                          | translate }}
+                        </th>
+                        <th class="text-center text-nowrap">
+                          {{"AttendanceMaintenance.MonthlyAttendanceDataMaintenanceResignedEmployees.Total"
+                          | translate }}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody *ngIf="data.allowances?.length > 0; else dataNotFound">
+                      <tr *ngFor="let item of data.allowances">
+                        <td class="text-center">{{ item.codeName }}</td>
+                        <td class="text-center">
+                          <input [id]="'allowance' + item.code" class="form-control" type="text"
+                            (keypress)="validateDecimal($event)" (focus)="onFocusNumber('days', item)"
+                            (blur)="onBlurNumber('days', item)" [name]="'allowance' + item.code" [(ngModel)]="item.days"
+                            [disabled]="isQuery" />
+                        </td>
+                        <td class="text-center">
+                          <input [id]="'allowance_Total' + item.code" class="form-control" type="number"
+                            [name]="'allowance_Total' + item.code" [(ngModel)]="item.total" disabled />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </form>
+          <div class="row justify-content-md-center">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="mt-2 text-right">
+                <button *ngIf="!isQuery" type="button" [disabled]="checkEmpty()" (click)="save()"
+                  class="{{ classButton.SAVE }}">
+                  <i class="{{ iconButton.SAVE }}"></i>
+                  {{ "System.Action.Save" | translate }}
+                </button>
+                <button type="button" class="{{ classButton.CLOSE }}" (click)="back()">
+                  <i class="{{ iconButton.CLOSE }}"></i>
+                  {{ "System.Action.Close" | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

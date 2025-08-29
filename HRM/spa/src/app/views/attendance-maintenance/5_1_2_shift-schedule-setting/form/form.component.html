@@ -1,0 +1,339 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <form class="card form-horizontal needs-validation"
+            #form="ngForm"
+            (ngSubmit)="form.valid && save()"
+            autocomplete="off">
+        <div class="form-horizontal">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">
+                  {{ title }} - {{ 'System.Action.' + formType |translate}}
+                </strong>
+
+                <!-- Button Back -->
+                <button type="button"
+                        class="btn btn-sm btn-primary float-right"
+                        (click)="back()">
+                  <i class="fa fa-chevron-left"></i>
+                  {{ 'System.Action.Back' | translate}}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row border-shadow">
+            <!-- Division -->
+            <div class="col-xxl-4 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label class="badge badge-warning"> {{ 'AttendanceMaintenance.ShiftScheduleSetting.Division' | translate}}
+                <span class="text-danger text-bold"> *</span></label>
+              <ng-select [disabled]="formType == 'Edit'"
+                         name="division"
+                         [(ngModel)]="workShift.division"
+                         (ngModelChange)="onDivisionChange()"
+                         required
+                         placeholder="{{ 'AttendanceMaintenance.ShiftScheduleSetting.Division' | translate }}"
+                         (clear)="deleteProperty('division')"
+                         [clearable]="workShift.division !== ''">
+                <ng-option *ngFor="let division of divisions"
+                           [value]="division.key">{{division.value}}</ng-option>
+              </ng-select>
+            </div>
+
+            <!-- Factories -->
+            <div class="col-xxl-4 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label class="badge badge-warning">
+                {{ 'AttendanceMaintenance.ShiftScheduleSetting.Factory' | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <ng-select [disabled]="formType == 'Edit' || (formType == 'Add' && factories.length == 0 )"
+                         name="factory"
+                         [(ngModel)]="workShift.factory"
+                         (change)="editData()"
+                         required
+                         placeholder="{{ 'AttendanceMaintenance.ShiftScheduleSetting.Factory' | translate }}"
+                         (clear)="deleteProperty('factory')"
+                         [clearable]="workShift.factory !== ''">
+                <ng-option *ngFor="let factory of factories"
+                           [value]="factory.key">{{factory.value}}</ng-option>
+              </ng-select>
+            </div>
+
+            <!-- Work Shift Types -->
+            <div class="col-xxl-4 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label class="badge badge-warning">
+                {{ 'AttendanceMaintenance.ShiftScheduleSetting.WorkShiftType' | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+
+              <ng-select [disabled]="formType == 'Edit'"
+                         name="work_Shift_Type"
+                         [(ngModel)]="workShift.work_Shift_Type"
+                         (change)="editData()"
+                         required
+                         placeholder="{{ 'AttendanceMaintenance.ShiftScheduleSetting.WorkShiftType' | translate }}"
+                         (clear)="deleteProperty('work_Shift_Type')"
+                         [clearable]="workShift.work_Shift_Type !== ''">
+                <ng-option *ngFor="let workShiftType of workShiftTypes"
+                           [value]="workShiftType.key">{{workShiftType.value}}</ng-option>
+              </ng-select>
+            </div>
+
+            <!-- Week -->
+            <div class="col-xxl-4 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label class="badge badge-warning"> {{ 'AttendanceMaintenance.ShiftScheduleSetting.Week' | translate}}
+                <span class="text-danger text-bold"> *</span></label>
+              <input type="number"
+                     min="0"
+                     max="6"
+                     [disabled]="formType == 'Edit'"
+                     name="week"
+                     [(ngModel)]="workShift.week"
+                     (ngModelChange)="editData()"
+                     (keyup)="onCheckWeek($event)"
+                     required
+                     class="form-control"
+                     placeholder="{{ 'AttendanceMaintenance.ShiftScheduleSetting.Week' | translate}}" />
+            </div>
+
+            <!-- Clock In -->
+            <div class="col-xxl-4 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label class="badge badge-warning"> {{ 'AttendanceMaintenance.ShiftScheduleSetting.ClockIn' | translate}}
+                <span class="text-danger text-bold"> *</span></label>
+              <input type="text"
+                     minlength="4"
+                     maxlength="4"
+                     name="clock_In"
+                     [(ngModel)]="workShift.clock_In"
+                     (ngModelChange)="editData()"
+                     required
+                     class="form-control"
+                     (keydown)="validateInput($event)"
+                     placeholder="{{ 'AttendanceMaintenance.ShiftScheduleSetting.ClockIn' | translate}}" />
+            </div>
+
+            <!-- Clock Out -->
+            <div class="col-xxl-4 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label class="badge badge-warning"> {{ 'AttendanceMaintenance.ShiftScheduleSetting.ClockOut' | translate}}
+                <span class="text-danger text-bold"> *</span></label>
+              <input type="text"
+                     minlength="4"
+                     maxlength="4"
+                     name="clock_Out"
+                     [(ngModel)]="workShift.clock_Out"
+                     (ngModelChange)="editData()"
+                     required
+                     class="form-control"
+                     (keydown)="validateInput($event)"
+                     placeholder="{{ 'AttendanceMaintenance.ShiftScheduleSetting.ClockOut' | translate}}" />
+            </div>
+
+            <!-- OverTime Clock In-->
+            <div class="col-xxl-4 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label class="badge badge-warning"> {{ 'AttendanceMaintenance.ShiftScheduleSetting.OvertimeClockIn' | translate}}
+
+              </label>
+              <input type="text"
+                     minlength="4"
+                     maxlength="4"
+                     name="overtime_ClockIn"
+                     [(ngModel)]="workShift.overtime_ClockIn"
+                     (ngModelChange)="editData()"
+                     class="form-control"
+                     (keydown)="validateInput($event)"
+                     placeholder=" {{ 'AttendanceMaintenance.ShiftScheduleSetting.OvertimeClockIn' | translate}} ">
+            </div>
+
+            <!-- Overtime Clock Out -->
+            <div class="col-xxl-4 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label class="badge badge-warning"> {{ 'AttendanceMaintenance.ShiftScheduleSetting.OverTimeClockOut' | translate}}
+
+              </label>
+              <input type="text"
+                     minlength="4"
+                     maxlength="4"
+                     name="overtime_ClockOut"
+                     [(ngModel)]="workShift.overtime_ClockOut"
+                     (ngModelChange)="editData()"
+                     class="form-control"
+                     (keydown)="validateInput($event)"
+                     placeholder="{{ 'AttendanceMaintenance.ShiftScheduleSetting.OverTimeClockOut' | translate}}">
+            </div>
+            <!-- Lunch Start -->
+            <div class="col-xxl-4 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label class="badge badge-warning"> {{ 'AttendanceMaintenance.ShiftScheduleSetting.LunchTimeStart' | translate}}
+                <span class="text-danger text-bold"> *</span></label>
+
+              <input type="text"
+                     maxlength="4"
+                     name="lunch_Start"
+                     [(ngModel)]="workShift.lunch_Start"
+                     (ngModelChange)="editData()"
+                     required
+                     class="form-control"
+                     (keydown)="validateInput($event)"
+                     placeholder=" {{ 'AttendanceMaintenance.ShiftScheduleSetting.LunchTimeStart' | translate}}" />
+            </div>
+
+            <!-- Lunch End -->
+            <div class="col-xxl-4 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label class="badge badge-warning"> {{ 'AttendanceMaintenance.ShiftScheduleSetting.LunchTimeEnd' | translate}}
+                <span class="text-danger text-bold"> *</span></label>
+              <input type="text"
+                     minlength="4"
+                     maxlength="4"
+                     name="lunch_End"
+                     [(ngModel)]="workShift.lunch_End"
+                     (ngModelChange)="editData()"
+                     required
+                     class="form-control"
+                     (keydown)="validateInput($event)"
+                     placeholder=" {{ 'AttendanceMaintenance.ShiftScheduleSetting.LunchTimeEnd' | translate}}" />
+            </div>
+
+            <!-- Overnight -->
+            <div class="col-xxl-4 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label class="badge badge-warning">
+                {{'AttendanceMaintenance.ShiftScheduleSetting.Overnight'|translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <div class="row pl-3">
+                <div *ngFor="let item of overnights; index as i">
+                  <label class="container">
+                    <div class="row">
+                      <div class="custom-control custom-radio pt-2">
+                        <input id="overnight-{{i}}"
+                               required
+                               class="custom-control-input"
+                               type="radio"
+                               checked="checked"
+                               name="overnight-{{i}}"
+                               [(ngModel)]="workShift.overnight"
+                               (ngModelChange)="editData()"
+                               [value]="item.value" />
+                        <p class="custom-control-label"
+                           for="overnight-{{i}}">
+                          <strong>
+                            {{ item.value }}
+                          </strong>
+                        </p>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Work Hours -->
+            <div class="col-xxl-4 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label class="badge badge-warning"> {{ 'AttendanceMaintenance.ShiftScheduleSetting.WorkHours' | translate}}
+                <span class="text-danger text-bold"> *</span></label>
+              <input autocomplete="off"
+                     type="text"
+                     placeholder="{{'AttendanceMaintenance.ShiftScheduleSetting.WorkHours' | translate }}"
+                     class="form-control"
+                     name="work_Hours"
+                     [(ngModel)]="workShift.work_Hours"
+                     (change)="editData()"
+                     maxlength="11"
+                     mask="separator.5"
+                     decimalMarker="."
+                     [leadZero]="true"
+                     thousandSeparator=""
+                     separatorLimit="99999"
+                     required />
+            </div>
+
+            <!-- Work Days -->
+            <div class="col-xxl-4 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label class="badge badge-warning"> {{ 'AttendanceMaintenance.ShiftScheduleSetting.WorkDays' | translate}}
+                <span class="text-danger text-bold"> *</span></label>
+              <input autocomplete="off"
+                     type="text"
+                     placeholder="{{'AttendanceMaintenance.ShiftScheduleSetting.WorkDays' | translate }}"
+                     class="form-control"
+                     name="work_Days"
+                     [(ngModel)]="workShift.work_Days"
+                     (change)="editData()"
+                     maxlength="11"
+                     mask="separator.5"
+                     decimalMarker="."
+                     [leadZero]="true"
+                     thousandSeparator=""
+                     separatorLimit="99999"
+                     required />
+            </div>
+
+            <!-- Update By -->
+            <div class="col-xxl-4 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label class="badge badge-warning">{{ 'AttendanceMaintenance.ShiftScheduleSetting.UpdateBy' | translate}} </label>
+              <input type="text"
+                     name="update_By"
+                     [ngModel]="workShift.update_By"
+                     class="form-control"
+                     disabled
+                     placeholder="{{ 'AttendanceMaintenance.ShiftScheduleSetting.UpdateBy' | translate}}">
+            </div>
+
+            <!-- Update Time -->
+            <div class="col-xxl-4 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label class="badge badge-warning"> {{ 'AttendanceMaintenance.ShiftScheduleSetting.UpdateTime' | translate}} </label>
+              <input type="text"
+                     name="update_Time"
+                     class="form-control"
+                     disabled
+                     [ngModel]="workShift.update_Time | date: 'yyyy-MM-dd HH:mm:ss'"
+                     placeholder="{{ 'AttendanceMaintenance.ShiftScheduleSetting.UpdateTime' | translate}}">
+            </div>
+
+            <div class="col-12">
+              <div class="row">
+                <!-- State -->
+                <div class="col-xxl-4 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                  <label class="badge badge-warning"> {{ 'AttendanceMaintenance.ShiftScheduleSetting.EffectiveState' | translate}}
+                    <span class="text-danger text-bold"> *</span></label>
+                  <div class="custom-control custom-checkbox mt-2">
+                    <input class="custom-control-input"
+                           type="checkbox"
+                           id="defaultCheck1"
+                           name="effective_State"
+                           [(ngModel)]="workShift.effective_State">
+                    <label class="custom-control-label"
+                           for="defaultCheck1">
+                      <!-- {{ (workShift.effective_State ?
+                                  'AttendanceMaintenance.ShiftScheduleSetting.EffectiveEnabled':
+                                  'AttendanceMaintenance.ShiftScheduleSetting.EffectiveDisabled') | translate }} -->
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row justify-content-md-center">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="table-responsive text-right">
+                <button *ngIf="formType == 'Add'"
+                        type="button"
+                        class="btn btn-warning"
+                        (click)="save(true)"
+                        [disabled]="form.invalid">
+                  <i class="{{ iconButton.SAVE }}"></i>
+                  {{ "System.Action.SaveAndContinue" | translate }}
+                </button>
+                <button type="submit"
+                        class="btn btn-success ml-1"
+                        [disabled]="form.invalid"><i [class]="iconButton.SAVE"></i> {{ 'System.Action.Save' | translate}} </button>
+                <button type="button"
+                        class="btn btn-danger ml-1"
+                        (click)="cancel()"><i class="fa fa-ban"></i> {{ 'System.Action.Cancel' | translate}} </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,92 @@
+<div bsModal
+     #modal="bs-modal"
+     class="modal fade"
+     tabindex="-1"
+     role="dialog">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h5 class="title-card-cs"
+            *ngIf="!isEdit">{{'BasicMaintenance.CodeTypeMaintenance.CodeLanguageTitleAdd' | translate}}</h5>
+        <h5 class="title-card-cs"
+            *ngIf="isEdit">{{'BasicMaintenance.CodeTypeMaintenance.CodeLanguageTitleEdit' | translate}}</h5>
+
+        <button type="button"
+                class="btn-close close pull-right"
+                (click)="close()">
+          <span aria-hidden="true"
+                class="visually-hidden">&times;</span>
+        </button>
+      </div>
+      <!-- Body -->
+      <div class="modal-body">
+        <form #addForm="ngForm"
+              autocomplete="off">
+          <div class="row g-3 align-items-center mb-0">
+            <div class="col-md-12">
+              <label class="a badge badge-warning mb-3 ml-3">
+                {{'BasicMaintenance.CodeTypeMaintenance.TypeSeq' | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <div class="col-md-10 col-xxl-10 pl-0 pr-0 ml-3">
+                <input type="text"
+                       class="form-control"
+                       [ngModel]="data.type_Seq + '-' + data.type_Name"
+                       id="type_Seq"
+                       name="type_Seq"
+                       readonly
+                       required />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12 col-xxl-12 pl-0 pr-0">
+            <table class="table">
+              <tr class="mb-0">
+                <th width="40%">
+                  <label class="a badge badge-warning">{{'BasicMaintenance.CodeTypeMaintenance.LanguageCode' | translate}} </label>
+                </th>
+                <th width="60%">
+                  <label class="a badge badge-warning">{{'BasicMaintenance.CodeTypeMaintenance.TypeName' | translate}} </label>
+                </th>
+              </tr>
+              <!-- Load Language Code + Language Name -->
+              <tbody>
+                <tr *ngFor="let item of language?.detail_Dto; let i = index">
+                  <td class="pt-0">
+                    <input type="text"
+                           class="form-control"
+                           [name]="'language_Code' + i"
+                           [(ngModel)]="item.language_Code"
+                           disabled />
+                  </td>
+                  <td class="text-center pt-0">
+                    <input type="text"
+                           class="form-control"
+                           [name]="'type_Name' + i"
+                           [(ngModel)]="item.type_Name"
+                           maxlength="50"
+                           placeholder="{{'BasicMaintenance.CodeTypeMaintenance.Name'  | translate}} {{item.language_Code}}" />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </form>
+      </div>
+      <!-- Footer -->
+      <div class="modal-footer">
+        <button type="button"
+                class="btn btn-success text-white"
+                (click)="save()"
+                [disabled]="checknullTW()">
+          <i class="fa fa-check"></i> {{'System.Action.Save' | translate}}
+        </button>
+        <button type="button"
+                class="btn btn-danger text-white"
+                (click)="close()">
+          <i class="fa fa-ban"></i> {{'System.Action.Cancel' | translate}}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

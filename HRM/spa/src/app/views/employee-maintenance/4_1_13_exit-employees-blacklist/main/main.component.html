@@ -1,0 +1,175 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row border-title">
+            <div class="col-md-12">
+              <strong>{{ title }}</strong>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form class="form-horizontal border-shadow"
+                autocomplete="off">
+            <div class="row">
+              <!-- Nationality -->
+              <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6">
+                <label class="badge badge-warning">
+                  {{"EmployeeInformationModule.ExitEmployeesBlacklist.Nationality" | translate}}
+                </label>
+                <ng-select name="nationality"
+                           [(ngModel)]="param.nationality"
+                           (clear)="deleteProperty('nationality')"
+                           [clearable]="param.nationality !== ''"
+                           placeholder='{{"EmployeeInformationModule.ExitEmployeesBlacklist.Nationality" | translate}}'>
+                  <ng-option *ngFor="let i of listNationality"
+                             [value]="i.key">{{i.key}} - {{i.value}}</ng-option>
+                </ng-select>
+              </div>
+
+              <!-- Identification Number -->
+              <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6">
+                <label class="badge badge-warning">
+                  {{"EmployeeInformationModule.ExitEmployeesBlacklist.IdentificationNumber" | translate}}
+                </label>
+                <div class="full-width">
+                  <div class="container_date">
+                    <div class="input-group mr-1">
+                      <input autocomplete="off"
+                             type="text"
+                             [(ngModel)]="param.identification_Number"
+                             [typeahead]="identificationNumber"
+                             typeaheadOptionField="key"
+                             [typeaheadScrollable]="true"
+                             [typeaheadOptionsInScrollableView]="6"
+                             placeholder='{{"EmployeeInformationModule.ExitEmployeesBlacklist.IdentificationNumber" | translate}}'
+                             maxlength="50"
+                             class="form-control bg-white"
+                             name="identification_Number" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6">
+                <label class="d-block">&nbsp;</label>
+                <button type="submit"
+                        class="{{classButton.SEARCH}} custom-margin-bottom"
+                        *ngIf="functionUtility.checkFunction('Search')"
+                        (click)="search(true)">
+                  <i class="{{ iconButton.SEARCH }}"></i>
+                  {{"System.Action.Search" | translate }}
+                </button>
+                <button type="submit"
+                        class="{{classButton.CLEAR}} custom-margin-bottom"
+                        (click)="clear()">
+                  <i class="{{ iconButton.CLEAR }}"></i>
+                  {{"System.Action.Clear" | translate }}
+                </button>
+              </div>
+            </div>
+          </form>
+          <div class="row justify-content-md-center">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="table-responsive">
+                <!-- Search -->
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th class="text-center vertical-align-middle"
+                          *ngIf="functionUtility.checkFunction('Edit')">
+                        {{"EmployeeInformationModule.ExitEmployeesBlacklist.Operation"|translate}}
+                      </th>
+                      <th class="text-center vertical-align-middle">
+                        {{"EmployeeInformationModule.ExitEmployeesBlacklist.MaintenanceDate"|translate}}
+                      </th>
+                      <th class="text-center vertical-align-middle">
+                        {{"EmployeeInformationModule.ExitEmployeesBlacklist.Nationality"|translate}}
+                      </th>
+                      <th class="text-center vertical-align-middle">
+                        {{"EmployeeInformationModule.ExitEmployeesBlacklist.IdentificationNumber"|translate}}
+                      </th>
+                      <th class="text-center vertical-align-middle">
+                        {{"EmployeeInformationModule.ExitEmployeesBlacklist.LocalFullName"|translate}}
+                      </th>
+                      <th class="text-center vertical-align-middle">
+                        {{"EmployeeInformationModule.ExitEmployeesBlacklist.ReasonforResignation"|translate}}
+                      </th>
+                      <th class="text-center vertical-align-middle">
+                        {{"EmployeeInformationModule.ExitEmployeesBlacklist.Description"|translate}}
+                      </th>
+                      <th class="text-center vertical-align-middle">
+                        {{"EmployeeInformationModule.ExitEmployeesBlacklist.UpdateBy"|translate}}
+                      </th>
+                      <th class="text-center vertical-align-middle">
+                        {{"EmployeeInformationModule.ExitEmployeesBlacklist.UpdateTime"|translate}}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="data.length > 0; else dataNotFound">
+                    <tr *ngFor="let item of data">
+                      <td class="text-center vertical-align-middle-button"
+                          *ngIf="functionUtility.checkFunction('Edit')">
+                        <button class="btn btn-warning btn-sm"
+                                (click)="onEdit(item)">
+                          <i class="{{iconButton.EDIT}}"
+                             aria-hidden="true"></i>
+                          {{'System.Action.Edit' | translate}}
+                        </button>
+                      </td>
+                      <td class="text-center"> {{item.maintenance_Date | date:'yyyy/MM/dd'}} </td>
+                      <td class="text-center"> {{item.nationality}} </td>
+                      <td class="text-center"> {{item.identification_Number}} </td>
+                      <td class="text-center"> {{item.local_Full_Name}} </td>
+                      <td class="text-center"> {{item.resign_Reason}} </td>
+                      <td class="text-center"> {{item.description}} </td>
+                      <td class="text-center"> {{item.update_By }} </td>
+                      <td class="text-center"> {{item.update_Time | date:'yyyy/MM/dd'}} </td>
+                    </tr>
+                  </tbody>
+                  <ng-template #dataNotFound>
+                    <tbody>
+                      <tr>
+                        <td colspan="100%"
+                            class="table-warning text-center font-weight-bold">
+                          {{"System.Message.Nodata" | translate }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </ng-template>
+                </table>
+              </div>
+              <div class="row">
+                <div class="col-8">
+                  <div class="d-flex"
+                       *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                    <pagination [boundaryLinks]="true"
+                                [totalItems]="pagination.totalCount"
+                                [itemsPerPage]="pagination.pageSize"
+                                previousText="&lsaquo;"
+                                nextText="&rsaquo;"
+                                firstText="&laquo;"
+                                lastText="&raquo;"
+                                [maxSize]="5"
+                                [(ngModel)]="pagination.pageNumber"
+                                (pageChanged)="pageChanged($event)">
+                    </pagination>
+                    <span class="cs-page ml-2"> Page - {{ pagination.pageNumber
+                      }} / {{ pagination.totalPage }}</span>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <span class="cs-page float-right ">{{'System.Rows' | translate
+                    }} : {{pagination.totalCount}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-modal></app-modal>
+</div>

@@ -1,0 +1,304 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <form class="card form-horizontal needs-validation"
+            #addCriticalForm="ngForm"
+            (ngSubmit)="addCriticalForm.valid && save()"
+            autocomplete="off">
+        <div class="form-horizontal">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs"> {{ title }} - {{ 'System.Action.' + formType | translate }}</strong>
+                <!-- Button Back -->
+                <button type="button"
+                        class="btn btn-sm btn-primary float-right"
+                        (click)="back()">
+                  <i class="fa fa-chevron-left"></i>
+                  {{ 'System.Action.Back' | translate}}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row border-shadow">
+            <div class="col-12">
+              <div class="row">
+                <!-- Type Seq -->
+                <div class="col-md-2 col-sm-6 mb-3">
+                  <label class="badge badge-warning"> {{ 'BasicMaintenance.CodeMaintain.TypeSeq' | translate}} <span class="text-danger text-bold"> *</span></label>
+                  <ng-select [disabled]="formType != 'Add'"
+                             name="type_Seq"
+                             [(ngModel)]="codeMaintenance.type_Seq"
+                             placeholder="{{ 'BasicMaintenance.CodeMaintain.TypeSeq' | translate }}"
+                             (clear)="deleteProperty('type_Seq')"
+                             [clearable]="codeMaintenance.type_Seq !== ''">
+                    <ng-option *ngFor="let typeSeq of typeSeqs"
+                               [value]="typeSeq.key">{{typeSeq.value}}</ng-option>
+                  </ng-select>
+                </div>
+                <!-- Code -->
+                <div class="col-md-2 col-sm-6 mb-3">
+                  <label class="badge badge-warning"> {{ 'BasicMaintenance.CodeMaintain.Code' | translate}} <span class="text-danger text-bold"> *</span></label>
+                  <input type="text"
+                         maxlength="5"
+                         [disabled]="formType != 'Add'"
+                         name="code"
+                         [(ngModel)]="codeMaintenance.code"
+                         class="form-control"
+                         required
+                         placeholder=" {{ 'BasicMaintenance.CodeMaintain.Code' | translate}}" />
+                </div>
+                <!-- Code Name -->
+                <div class="col-md-2 col-sm-6 mb-3">
+                  <label class="badge badge-warning"> {{ 'BasicMaintenance.CodeMaintain.CodeName' | translate}} </label>
+                  <input type="text"
+                         maxlength="50"
+                         name="code_Name"
+                         [(ngModel)]="codeMaintenance.code_Name"
+                         [disabled]="formType == 'Query'"
+                         class="form-control"
+                         placeholder="{{ 'BasicMaintenance.CodeMaintain.CodeName' | translate}}" />
+                </div>
+              </div>
+            </div>
+            <!-- Seq -->
+            <div class="col-md-2 col-sm-6 mb-3">
+              <label class="badge badge-warning"> {{ 'BasicMaintenance.CodeMaintain.Seq' | translate}} <span class="text-danger text-bold"></span></label>
+              <input type="text"
+                     maxlength="3"
+                     name="seq"
+                     [(ngModel)]="codeMaintenance.seq"
+                     [disabled]="formType == 'Query'"
+                     class="form-control"
+                     placeholder="{{ 'BasicMaintenance.CodeMaintain.Seq' | translate}}" />
+            </div>
+            <!-- Char 1 -->
+            <div class="col-md-2 col-sm-6 mb-3">
+              <label class="badge badge-warning"> {{ 'BasicMaintenance.CodeMaintain.Char1' | translate}} </label>
+              <input type="text"
+                     name="char1"
+                     maxlength="255"
+                     mask="A*"
+                     [(ngModel)]="codeMaintenance.char1"
+                     [disabled]="formType == 'Query'"
+                     class="form-control"
+                     placeholder=" {{ 'BasicMaintenance.CodeMaintain.Char1' | translate}} ">
+            </div>
+            <!-- Char 2 -->
+            <div class="col-md-2 col-sm-6 mb-3">
+              <label class="badge badge-warning"> {{ 'BasicMaintenance.CodeMaintain.Char2' | translate}} </label>
+              <input type="text"
+                     name="char2"
+                     maxlength="255"
+                     mask="A*"
+                     [(ngModel)]="codeMaintenance.char2"
+                     [disabled]="formType == 'Query'"
+                     class="form-control"
+                     placeholder="{{ 'BasicMaintenance.CodeMaintain.Char2' | translate}}">
+            </div>
+            <!-- Date 1 -->
+            <div class="col-md-2 col-sm-6 mb-3">
+              <label class="badge badge-warning"> {{ 'BasicMaintenance.CodeMaintain.Date1' | translate}} </label>
+              <input type="text"
+                     name="date1"
+                     [(ngModel)]="date1"
+                     readonly
+                     [disabled]="formType == 'Query'"
+                     class="form-control"
+                     bsDatepicker
+                     [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
+                     placeholder=" {{ 'BasicMaintenance.CodeMaintain.Date1' | translate}}" />
+            </div>
+            <!-- Date 2 -->
+            <div class="col-md-2 col-sm-6 mb-3">
+              <label class="badge badge-warning"> {{ 'BasicMaintenance.CodeMaintain.Date2' | translate}} </label>
+              <input type="text"
+                     name="date2"
+                     [(ngModel)]="date2"
+                     readonly
+                     [disabled]="formType == 'Query'"
+                     class="form-control"
+                     bsDatepicker
+                     [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
+                     placeholder=" {{ 'BasicMaintenance.CodeMaintain.Date2' | translate}}" />
+            </div>
+            <!-- Date 3 -->
+            <div class="col-md-2 col-sm-6 mb-3">
+              <label class="badge badge-warning"> {{ 'BasicMaintenance.CodeMaintain.Date3' | translate}} </label>
+              <input type="text"
+                     name="date3"
+                     [(ngModel)]="date3"
+                     readonly
+                     [disabled]="formType == 'Query'"
+                     class="form-control"
+                     bsDatepicker
+                     [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
+                     placeholder="{{ 'BasicMaintenance.CodeMaintain.Date3' | translate}}" />
+            </div>
+            <!-- Int 1 -->
+            <div class="col-md-2 col-sm-6 mb-3">
+              <label class="badge badge-warning"> {{ 'BasicMaintenance.CodeMaintain.INT1' | translate}} </label>
+              <!-- <input type="text" name="int1" [(ngModel)]="codeMaintenance.int1" [disabled]="formType == 'Query'" mask="0*" (keyup)="onNumberKeyup($event,1)" class="form-control" placeholder="{{ 'BasicMaintenance.CodeMaintain.INT1' | translate}}"> -->
+              <input type="number"
+                     name="int1"
+                     [(ngModel)]="codeMaintenance.int1"
+                     [disabled]="formType == 'Query'"
+                     (keyup)="onNumberKeyup($event,1)"
+                     class="form-control"
+                     placeholder="{{ 'BasicMaintenance.CodeMaintain.INT1' | translate}}">
+            </div>
+            <!-- Int 2 -->
+            <div class="col-md-2 col-sm-6 mb-3">
+              <label class="badge badge-warning"> {{ 'BasicMaintenance.CodeMaintain.INT2' | translate}} </label>
+              <!-- <input type="text" name="int2" [(ngModel)]="codeMaintenance.int2" [disabled]="formType == 'Query'" mask="0*" (keyup)="onNumberKeyup($event,2)" class="form-control" placeholder="{{ 'BasicMaintenance.CodeMaintain.INT2' | translate}}"> -->
+              <input type="number"
+                     name="int2"
+                     [(ngModel)]="codeMaintenance.int2"
+                     [disabled]="formType == 'Query'"
+                     (keyup)="onNumberKeyup($event,2)"
+                     class="form-control"
+                     placeholder="{{ 'BasicMaintenance.CodeMaintain.INT2' | translate}}">
+            </div>
+            <!-- Int 3 -->
+            <div class="col-md-2 col-sm-6 mb-3">
+              <label class="badge badge-warning"> {{ 'BasicMaintenance.CodeMaintain.INT3' | translate}} </label>
+              <!-- <input type="text" name="int3" [(ngModel)]="codeMaintenance.int3" [disabled]="formType == 'Query'" mask="0*" (keyup)="onNumberKeyup($event,3)" class="form-control" placeholder="{{ 'BasicMaintenance.CodeMaintain.INT3' | translate}}"> -->
+              <input type="number"
+                     name="int3"
+                     [(ngModel)]="codeMaintenance.int3"
+                     [disabled]="formType == 'Query'"
+                     (keyup)="onNumberKeyup($event,3)"
+                     class="form-control"
+                     placeholder="{{ 'BasicMaintenance.CodeMaintain.INT3' | translate}}">
+            </div>
+            <!-- Number 1 -->
+            <div class="col-md-2 col-sm-6 mb-3">
+              <label class="badge badge-warning"> {{ 'BasicMaintenance.CodeMaintain.NUMBER1' | translate}} </label>
+              <!-- <input type="text" name="decimal1" [(ngModel)]="codeMaintenance.decimal1" [disabled]="formType == 'Query'" mask="separator,5" separatorLimit="99999999999" class="form-control" placeholder="{{ 'BasicMaintenance.CodeMaintain.NUMBER1' | translate}}"> -->
+              <input type="number"
+                     name="decimal1"
+                     step="0.00001"
+                     [(ngModel)]="codeMaintenance.decimal1"
+                     [disabled]="formType == 'Query'"
+                     class="form-control"
+                     placeholder="{{ 'BasicMaintenance.CodeMaintain.NUMBER1' | translate}}">
+            </div>
+            <!-- Number 2 -->
+            <div class="col-md-2 col-sm-6 mb-3">
+              <label class="badge badge-warning">{{ 'BasicMaintenance.CodeMaintain.NUMBER2' | translate}}</label>
+              <!-- <input type="text" name="decimal2"  [(ngModel)]="codeMaintenance.decimal2" [disabled]="formType == 'Query'" mask="separator,5" separatorLimit="99999999999" class="form-control" placeholder="{{ 'BasicMaintenance.CodeMaintain.NUMBER2' | translate}}"> -->
+              <input type="number"
+                     name="decimal2"
+                     step="0.00001"
+                     [(ngModel)]="codeMaintenance.decimal2"
+                     [disabled]="formType == 'Query'"
+                     class="form-control"
+                     placeholder="{{ 'BasicMaintenance.CodeMaintain.NUMBER2' | translate}}">
+            </div>
+            <!-- Number 3 -->
+            <div class="col-md-2 col-sm-6 mb-3">
+              <label class="badge badge-warning">{{ 'BasicMaintenance.CodeMaintain.NUMBER3' | translate}} </label>
+              <!-- <input type="text" name="decimal3" [(ngModel)]="codeMaintenance.decimal3" [disabled]="formType == 'Query'" mask="separator,5" separatorLimit="99999999999" class="form-control" placeholder="{{ 'BasicMaintenance.CodeMaintain.NUMBER3' | translate}}"> -->
+              <input type="number"
+                     name="decimal3"
+                     step="0.00001"
+                     [(ngModel)]="codeMaintenance.decimal3"
+                     [disabled]="formType == 'Query'"
+                     class="form-control"
+                     placeholder="{{ 'BasicMaintenance.CodeMaintain.NUMBER3' | translate}}">
+            </div>
+            <!-- Remark -->
+            <div class="col-md-2 col-sm-6 mb-3">
+              <label class="badge badge-warning"> {{ 'BasicMaintenance.CodeMaintain.Remark' | translate}} </label>
+              <input type="text"
+                     name="remark"
+                     [(ngModel)]="codeMaintenance.remark"
+                     [disabled]="formType == 'Query'"
+                     class="form-control"
+                     placeholder="{{ 'BasicMaintenance.CodeMaintain.Remark' | translate}}">
+            </div>
+            <!-- Remark Code -->
+            <div class="col-md-2 col-sm-6 mb-3">
+              <label class="badge badge-warning"> {{ 'BasicMaintenance.CodeMaintain.RemarkCode' | translate}} </label>
+              <input type="text"
+                     name="remark_Code"
+                     [(ngModel)]="codeMaintenance.remark_Code"
+                     [disabled]="formType == 'Query'"
+                     maxlength="5"
+                     class="form-control"
+                     placeholder="{{ 'BasicMaintenance.CodeMaintain.RemarkCode' | translate}}">
+            </div>
+            <!-- Update By -->
+            <div class="col-md-2 col-sm-6 mb-3"
+                 *ngIf="formType == 'Add'">
+              <label class="badge badge-warning">{{ 'BasicMaintenance.CodeMaintain.UpdateBy' | translate}} </label>
+              <input type="text"
+                     name="update_By"
+                     [(ngModel)]="codeMaintenance.update_By"
+                     class="form-control"
+                     disabled
+                     placeholder="{{ 'BasicMaintenance.CodeMaintain.UpdateBy' | translate}}">
+            </div>
+            <!-- Update Time -->
+            <div class="col-md-2 col-sm-6 mb-3"
+                 *ngIf="formType == 'Add'">
+              <label class="badge badge-warning"> {{ 'BasicMaintenance.CodeMaintain.UpdateTime' | translate}} </label>
+              <input type="text"
+                     name="update_Time_String"
+                     [(ngModel)]="codeMaintenance.update_Time_String"
+                     class="form-control"
+                     disabled
+                     placeholder="{{ 'BasicMaintenance.CodeMaintain.UpdateTime' | translate}}">
+            </div>
+            <!-- State -->
+            <div class="col-md-6 col-sm-6 mb-3">
+              <label class="badge badge-warning"> {{ 'BasicMaintenance.CodeMaintain.Status' | translate}} </label>
+              <div class="custom-control custom-radio mt-2">
+                <div class="form-check form-check-inline">
+                  <input type="radio"
+                         class="custom-control-input"
+                         id="enable"
+                         name="isActive"
+                         [(ngModel)]="codeMaintenance.isActive"
+                         [disabled]="formType == 'Query'"
+                         [value]="true" />
+                  <label class="custom-control-label font-weight-bold"
+                         for="enable">
+                    {{ 'BasicMaintenance.CodeMaintain.Enabled' | translate}}
+                  </label>
+                </div>
+                <div class="form-check form-check-inline ml-4">
+                  <input type="radio"
+                         class="custom-control-input"
+                         id="disable"
+                         name="isActive"
+                         [(ngModel)]="codeMaintenance.isActive"
+                         [disabled]="formType == 'Query'"
+                         [value]="false" />
+                  <label class="custom-control-label font-weight-bold"
+                         for="disable">
+                    {{ 'BasicMaintenance.CodeMaintain.Disabled' | translate}}
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row justify-content-md-center">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="table-responsive text-right">
+                <button type="submit"
+                        class="btn btn-success ml-1"
+                        [disabled]="addCriticalForm.invalid"><i [class]="iconButton.SAVE"></i> {{ 'System.Action.Save' | translate}} </button>
+                <button type="button"
+                        class="btn btn-danger ml-1"
+                        (click)="cancel()"><i class="fa fa-ban"></i> {{ 'System.Action.Cancel' | translate}} </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

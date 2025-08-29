@@ -1,0 +1,284 @@
+<div class="animated fadeIn">
+  <div>
+    <div class="card">
+      <div class="card-header">
+        <div class="row border-title">
+          <div class="col-md-12">
+            <strong class="title-card-cs"> {{title }}</strong>
+          </div>
+        </div>
+      </div>
+      <tab-component [tabs]="tabs"
+                     [(tabId)]="selectedTab"
+                     (tabIdChange)="changeTab()"></tab-component>
+
+    </div>
+  </div>
+</div>
+
+<ng-template #generationForm>
+  <form class="form-horizontal"
+        autocomplete="off"
+        #generationSubForm="ngForm">
+    <div class="row border-shadow">
+      <div class="col-12">
+        <div class="row">
+          <!-- Factory -->
+          <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+            <label class="badge badge-warning">{{'CompulsoryInsuranceManagement.NewEmployeesCompulsoryInsurancePremium.Factory' | translate }}
+              <span class="text-danger"> *</span></label>
+            <ng-select name="factoryGeneration"
+                       [(ngModel)]="generation_Param.factory"
+                       (clear)="deleteProperty('factory')"
+                       (ngModelChange)="onFactoryChange()"
+                       [clearable]="generation_Param.factory !== null"
+                       placeholder="{{'CompulsoryInsuranceManagement.NewEmployeesCompulsoryInsurancePremium.Factory' | translate }}"
+                       required>
+              <ng-option *ngFor="let item of factoryList"
+                         [value]="item.key">{{ item.value }}</ng-option>
+            </ng-select>
+          </div>
+          <!-- Year Month -->
+          <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+            <label class="badge badge-warning">{{'CompulsoryInsuranceManagement.NewEmployeesCompulsoryInsurancePremium.YearMonth' | translate }}
+              <span class="text-danger"> *</span></label>
+            <div class="full-width">
+              <div class="container_input">
+                <div class="input-group mr-1">
+                  <input type="text"
+                         autocomplete="off"
+                         placeholder="YYYY/MM"
+                         name="yearMonthGeneration"
+                         [bsConfig]="bsConfig"
+                         class="form-control"
+                         bsDatepicker
+                         [(ngModel)]="generation_Param.year_Month"
+                         (ngModelChange)="onDateChange()"
+                         onpaste="return false"
+                         required />
+                  <div class="input-group-append">
+                    <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Paid Salary Days -->
+          <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+            <label for="paidSalaryDaysGeneration"
+                   class="badge badge-warning">{{'CompulsoryInsuranceManagement.NewEmployeesCompulsoryInsurancePremium.PaidSalaryDays' | translate }}
+              <span class="text-danger"> *</span></label>
+            <input autocomplete="off"
+                   type="number"
+                   placeholder="{{'CompulsoryInsuranceManagement.NewEmployeesCompulsoryInsurancePremium.PaidSalaryDays' | translate }}"
+                   class="form-control text-center"
+                   name="paidSalaryDaysGeneration"
+                   [(ngModel)]="generation_Param.paid_Salary_Days"
+                   mask="00"
+                   [min]="minSalaryDays"
+                   [max]="maxSalaryDays"
+                   (keyup)="onPaidSalaryDaysChange()"
+                   required />
+          </div>
+          <!-- Permission Group -->
+          <div class="col-12">
+            <div class="row">
+              <div class="col-auto">
+                <label for="namePermissionGeneration"
+                       class="badge badge-warning"> {{ "CompulsoryInsuranceManagement.NewEmployeesCompulsoryInsurancePremium.PermissionGroup" | translate }}
+                  <span class="text-danger text-bold"> *</span>
+                </label>
+                <ng-select [items]="generation_PermissionGroupList"
+                           [multiple]="true"
+                           name="namePermissionGeneration"
+                           groupBy="allGroup"
+                           [selectableGroup]="true"
+                           [selectableGroupAsModel]="false"
+                           [closeOnSelect]="false"
+                           bindLabel="value"
+                           bindValue="key"
+                           [(ngModel)]="generation_Param.permission_Group"
+                           [disabled]="functionUtility.checkEmpty(generation_Param.factory)"
+                           required
+                           placeholder="{{'CompulsoryInsuranceManagement.NewEmployeesCompulsoryInsurancePremium.PermissionGroup'| translate}}">
+                  <ng-template ng-optgroup-tmp
+                               let-item="item"
+                               let-item$="item$"
+                               let-index="index">
+                    <input id="itemGeneration-{{ index }}"
+                           type="checkbox"
+                           name="itemGeneration-{{ index }}"
+                           [ngModel]="item$.selected" />
+                    {{ "System.Action.SelectAll" | translate }}</ng-template>
+                  <ng-template ng-option-tmp
+                               let-item="item"
+                               let-item$="item$"
+                               let-index="index">
+                    <input id="itemGeneration-{{ index }}"
+                           name="itemGeneration-{{ index }}"
+                           type="checkbox"
+                           [ngModel]="item$.selected" />
+                    {{ item.value }}
+                  </ng-template>
+                </ng-select>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 mt-2">
+            <button *ngIf="this.functionUtility.checkFunction('Execute')"
+                    type="button"
+                    class="{{ classButton.SAVE }}"
+                    [disabled]="!generationSubForm.valid"
+                    (click)="callFunction('execute')">
+              {{ "System.Action.Execute" | translate }}
+            </button>
+          </div>
+          <div class="col-12 mt-2">
+            <strong>
+              {{ "CompulsoryInsuranceManagement.NewEmployeesCompulsoryInsurancePremium.Total" | translate }}
+              <span class="text-primary"> {{generation_Param.total_Rows}} </span>
+              {{ "CompulsoryInsuranceManagement.NewEmployeesCompulsoryInsurancePremium.Records" | translate }}
+            </strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #reportForm>
+  <form class="form-horizontal"
+        autocomplete="off"
+        #reportSubForm="ngForm">
+    <div class="row border-shadow">
+      <div class="col-12">
+        <div class="row">
+          <!-- Factory -->
+          <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+            <label class="badge badge-warning">{{'CompulsoryInsuranceManagement.NewEmployeesCompulsoryInsurancePremium.Factory' | translate }}
+              <span class="text-danger"> *</span></label>
+            <ng-select name="factoryReport"
+                       [(ngModel)]="report_Param.factory"
+                       (clear)="deleteProperty('factory')"
+                       (ngModelChange)="onFactoryChange()"
+                       [clearable]="report_Param.factory !== null"
+                       placeholder="{{'CompulsoryInsuranceManagement.NewEmployeesCompulsoryInsurancePremium.Factory' | translate }}"
+                       required>
+              <ng-option *ngFor="let item of factoryList"
+                         [value]="item.key">{{ item.value }}</ng-option>
+            </ng-select>
+          </div>
+          <!-- Year Month -->
+          <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+            <label class="badge badge-warning">{{'CompulsoryInsuranceManagement.NewEmployeesCompulsoryInsurancePremium.YearMonth' | translate }}
+              <span class="text-danger"> *</span></label>
+            <div class="full-width">
+              <div class="container_input">
+                <div class="input-group mr-1">
+                  <input type="text"
+                         autocomplete="off"
+                         placeholder="YYYY/MM"
+                         name="yearMonthReport"
+                         [bsConfig]="bsConfig"
+                         class="form-control"
+                         bsDatepicker
+                         [(ngModel)]="report_Param.year_Month"
+                         (ngModelChange)="onDateChange()"
+                         onpaste="return false"
+                         required />
+                  <div class="input-group-append">
+                    <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Paid Salary Days -->
+          <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+            <label for="paidSalaryDaysReport"
+                   class="badge badge-warning">{{'CompulsoryInsuranceManagement.NewEmployeesCompulsoryInsurancePremium.PaidSalaryDays' | translate }}
+              <span class="text-danger"> *</span></label>
+            <input autocomplete="off"
+                   type="number"
+                   placeholder="{{'CompulsoryInsuranceManagement.NewEmployeesCompulsoryInsurancePremium.PaidSalaryDays' | translate }}"
+                   class="form-control text-center"
+                   name="paidSalaryDaysReport"
+                   [(ngModel)]="report_Param.paid_Salary_Days"
+                   mask="00"
+                   [min]="minSalaryDays"
+                   [max]="maxSalaryDays"
+                   (keyup)="onPaidSalaryDaysChange()"
+                   required />
+          </div>
+          <!-- Permission Group -->
+          <div class="col-12">
+            <div class="row">
+              <div class="col-auto">
+                <label for="namePermissionReport"
+                       class="badge badge-warning"> {{ "CompulsoryInsuranceManagement.NewEmployeesCompulsoryInsurancePremium.PermissionGroup" | translate }}
+                  <span class="text-danger text-bold"> *</span>
+                </label>
+                <ng-select [items]="report_PermissionGroupList"
+                           [multiple]="true"
+                           name="namePermissionReport"
+                           groupBy="allGroup"
+                           [selectableGroup]="true"
+                           [selectableGroupAsModel]="false"
+                           [closeOnSelect]="false"
+                           bindLabel="value"
+                           bindValue="key"
+                           [(ngModel)]="report_Param.permission_Group"
+                           [disabled]="functionUtility.checkEmpty(report_Param.factory)"
+                           required
+                           placeholder="{{'CompulsoryInsuranceManagement.NewEmployeesCompulsoryInsurancePremium.PermissionGroup'| translate}}">
+                  <ng-template ng-optgroup-tmp
+                               let-item="item"
+                               let-item$="item$"
+                               let-index="index">
+                    <input id="itemReport-{{ index }}"
+                           type="checkbox"
+                           name="itemReport-{{ index }}"
+                           [ngModel]="item$.selected" />
+                    {{ "System.Action.SelectAll" | translate }}</ng-template>
+                  <ng-template ng-option-tmp
+                               let-item="item"
+                               let-item$="item$"
+                               let-index="index">
+                    <input id="itemReport-{{ index }}"
+                           name="itemReport-{{ index }}"
+                           type="checkbox"
+                           [ngModel]="item$.selected" />
+                    {{ item.value }}
+                  </ng-template>
+                </ng-select>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 mt-2">
+            <button type="submit"
+                    class="{{ classButton.SEARCH}}"
+                    (click)="callFunction('search')"
+                    *ngIf="functionUtility.checkFunction('Search')"
+                    [disabled]="!reportSubForm.valid">
+              <i class="{{ iconButton.SEARCH }}"></i> {{'System.Action.Search' | translate }}
+            </button>
+            <button type="button"
+                    class="{{ classButton.EXCEL}}"
+                    (click)="callFunction('excel')"
+                    *ngIf="functionUtility.checkFunction('Excel')"
+                    [disabled]="!reportSubForm.valid">
+              <i class="{{ iconButton.EXCEL }}"></i> {{'System.Action.Excel' | translate }}
+            </button>
+          </div>
+          <div class="col-12 mt-2">
+            <strong>
+              {{ "CompulsoryInsuranceManagement.NewEmployeesCompulsoryInsurancePremium.Total" | translate }}
+              <span class="text-primary"> {{report_Param.total_Rows}} </span>
+              {{ "CompulsoryInsuranceManagement.NewEmployeesCompulsoryInsurancePremium.Records" | translate }}
+            </strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>

@@ -1,0 +1,338 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row border-title">
+            <div class="col-md-12">
+              <strong>{{ title }}</strong>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form class="form-horizontal border-shadow"
+                autocomplete="off"
+                #mainForm="ngForm">
+            <div class="row ">
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+                <label class="badge badge-warning">
+                  {{"AttendanceMaintenance.PregnancyAndMaternityData.Factory" | translate }}
+                  <span class="text-danger text-bold">*</span>
+                </label>
+                <ng-select name="factory"
+                           [(ngModel)]="params.factory"
+                           placeholder="{{'AttendanceMaintenance.PregnancyAndMaternityData.Factory' | translate }}"
+                           (clear)="deleteProperty('factory')"
+                           [clearable]="params.factory !== ''"
+                           (ngModelChange)="changeFactory()"
+                           required>
+                  <ng-option *ngFor="let data of factories"
+                             [value]="data.key">{{data.value}}
+                  </ng-option>
+                </ng-select>
+              </div>
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+                <label class="badge badge-warning">
+                  {{"AttendanceMaintenance.PregnancyAndMaternityData.Department" | translate }}
+                </label>
+                <ng-select name="department_Code"
+                           [clearable]="params.department_Code !== ''"
+                           (clear)="deleteProperty('department_Code')"
+                           [(ngModel)]="params.department_Code"
+                           placeholder="{{'AttendanceMaintenance.PregnancyAndMaternityData.Department' | translate }}"
+                           [disabled]="!params.factory">
+                  <ng-option *ngFor="let data of departments"
+                             [value]="data.key">{{data.value}}
+                  </ng-option>
+                </ng-select>
+              </div>
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+                <label class="badge badge-warning">
+                  {{"AttendanceMaintenance.PregnancyAndMaternityData.EmployeeID" | translate }}
+                </label>
+                <input type="text"
+                       placeholder="{{'AttendanceMaintenance.PregnancyAndMaternityData.EmployeeID' | translate }}"
+                       class="form-control"
+                       name="employee_ID"
+                       maxlength="9"
+                       [(ngModel)]="params.employee_ID" />
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-md-6 col-sm-12">
+                <label class="badge badge-warning">
+                  {{"AttendanceMaintenance.PregnancyAndMaternityData.DueDate" | translate }}
+                </label>
+                <div class="full-width">
+                  <div class="container_input">
+                    <div class="input-group mr-3">
+                      <input type="text"
+                             autocomplete="off"
+                             placeholder="YYYY/MM/DD"
+                             name="dueDate_Start"
+                             [maxDate]="params.dueDate_End"
+                             [bsConfig]="bsConfig"
+                             class="form-control"
+                             bsDatepicker
+                             [(ngModel)]="params.dueDate_Start"
+                             (ngModelChange)="onDateChange('dueDate_Start')"
+                             onpaste="return false"
+                             [required]="params.dueDate_Start || params.dueDate_End" />
+                      <div class="input-group-append">
+                        <span class="input-group-text">
+                          <i class="{{ iconButton.CALENDAR }}"></i>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="input-group ml-3">
+                      <input type="text"
+                             autocomplete="off"
+                             placeholder="YYYY/MM/DD"
+                             name="dueDate_End"
+                             [minDate]="params.dueDate_Start"
+                             [bsConfig]="bsConfig"
+                             class="form-control"
+                             bsDatepicker
+                             [(ngModel)]="params.dueDate_End"
+                             (ngModelChange)="onDateChange('dueDate_End')"
+                             onpaste="return false"
+                             [required]="params.dueDate_Start || params.dueDate_End" />
+                      <div class="input-group-append">
+                        <span class="input-group-text">
+                          <i class="{{ iconButton.CALENDAR }}"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-sm-12">
+                <label class="badge badge-warning">
+                  {{"AttendanceMaintenance.PregnancyAndMaternityData.MaternityLeave" | translate }}
+                </label>
+                <div class="full-width">
+                  <div class="container_input">
+                    <div class="input-group mr-3">
+                      <input type="text"
+                             autocomplete="off"
+                             placeholder="YYYY/MM/DD"
+                             name="maternityLeave_Start"
+                             [maxDate]="params.maternityLeave_End"
+                             [bsConfig]="bsConfig"
+                             class="form-control"
+                             bsDatepicker
+                             [(ngModel)]="params.maternityLeave_Start"
+                             (ngModelChange)="onDateChange('maternityLeave_Start')"
+                             onpaste="return false"
+                             [required]="params.maternityLeave_Start || params.maternityLeave_End" />
+                      <div class="input-group-append">
+                        <span class="input-group-text">
+                          <i class="{{ iconButton.CALENDAR }}"></i>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="input-group ml-3">
+                      <input type="text"
+                             autocomplete="off"
+                             placeholder="YYYY/MM/DD"
+                             name="maternityLeave_End"
+                             [minDate]="params.maternityLeave_Start"
+                             [bsConfig]="bsConfig"
+                             class="form-control"
+                             bsDatepicker
+                             [(ngModel)]="params.maternityLeave_End"
+                             (ngModelChange)="onDateChange('maternityLeave_End')"
+                             onpaste="return false"
+                             [required]="params.maternityLeave_Start || params.maternityLeave_End" />
+                      <div class="input-group-append">
+                        <span class="input-group-text">
+                          <i class="{{ iconButton.CALENDAR }}"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 p-0">
+              <label class="d-block">&nbsp;</label>
+              <button type="submit"
+                      class="btn btn-primary"
+                      (click)="search(true)"
+                      *ngIf="functionUtility.checkFunction('Search')"
+                      [disabled]="!mainForm.valid">
+                <i class="{{ iconButton.SEARCH }}"></i> {{"System.Action.Search" | translate }}
+              </button>
+              <button type="button"
+                      class="btn btn-danger ml-1"
+                      (click)="clear()">
+                <i class="{{ iconButton.CLEAR }}"></i> {{"System.Action.Clear" | translate }}
+              </button>
+              <button type="button"
+                      (click)="add()"
+                      class="btn btn-success ml-1"
+                      id="add"
+                      *ngIf="functionUtility.checkFunction('Add')">
+                <i class="{{ iconButton.ADD }}"></i> {{"System.Action.Add" | translate }}
+              </button>
+              <button type="submit"
+                      class="btn btn-success ml-1"
+                      id="excel"
+                      (click)="download()"
+                      [disabled]="datas?.length == 0"
+                      *ngIf="functionUtility.checkFunction('Excel')">
+                <i class="{{iconButton.EXCEL}}"></i> {{"System.Action.Excel" | translate }}
+              </button>
+            </div>
+          </form>
+          <div class="row justify-content-md-center">
+            <div class="col-12">
+              <div class="table-responsive">
+                <drag-scroll id="dragscroll"
+                             (dragStart)="functionUtility.setTextSelector(false)"
+                             (dragEnd)="functionUtility.setTextSelector(true)">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th class="text-center-vertical text-nowrap"
+                            *ngIf="functionUtility.checkFunction('Edit') || functionUtility.checkFunction('Delete') || functionUtility.checkFunction('Query')"
+                            [attr.colspan]="functionUtility.getColspan(['Edit','Delete','Query'])">{{"System.Action.Operation" | translate
+                            }}</th>
+                        <th class="text-center text-nowrap">
+                          {{"AttendanceMaintenance.PregnancyAndMaternityData.EmployeeID" | translate }}
+                        </th>
+                        <th class="text-center text-nowrap">
+                          {{"AttendanceMaintenance.PregnancyAndMaternityData.LocalFullName" | translate }}
+                        </th>
+                        <th class="text-center text-nowrap">
+                          {{"AttendanceMaintenance.PregnancyAndMaternityData.Department" | translate }}
+                        </th>
+                        <th class="text-center text-nowrap">
+                          {{"AttendanceMaintenance.PregnancyAndMaternityData.WorkShiftType" | translate }}
+                        </th>
+                        <th class="text-center text-nowrap">
+                          {{"AttendanceMaintenance.PregnancyAndMaternityData.DueDate" | translate }}
+                        </th>
+                        <th class="text-center text-nowrap">
+                          {{"AttendanceMaintenance.PregnancyAndMaternityData.SevenHourShift" | translate }}
+                        </th>
+                        <th class="text-center text-nowrap">
+                          {{"AttendanceMaintenance.PregnancyAndMaternityData.EightHour" | translate }}
+                        </th>
+                        <th class="text-center text-nowrap">
+                          {{"AttendanceMaintenance.PregnancyAndMaternityData.36Weeks" | translate }}
+                        </th>
+                        <th class="text-center text-nowrap">
+                          {{"AttendanceMaintenance.PregnancyAndMaternityData.MaternityLeaveStart" | translate }}
+                        </th>
+                        <th class="text-center text-nowrap">
+                          {{"AttendanceMaintenance.PregnancyAndMaternityData.MaternityLeaveEnd" | translate }}
+                        </th>
+                        <th class="text-center text-nowrap">
+                          {{"AttendanceMaintenance.PregnancyAndMaternityData.ReturnToWorkDate" | translate }}
+                        </th>
+                        <th class="text-center text-nowrap">
+                          {{"AttendanceMaintenance.PregnancyAndMaternityData.Close" | translate }}
+                        </th>
+                        <th class="text-center text-nowrap">
+                          {{"AttendanceMaintenance.PregnancyAndMaternityData.UpdateBy" | translate }}
+                        </th>
+                        <th class="text-center text-nowrap">
+                          {{"AttendanceMaintenance.PregnancyAndMaternityData.UpdateTime" | translate }}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody *ngIf="datas?.length > 0; else dataNotFound">
+                      <tr *ngFor="let item of datas">
+                        <td *ngIf="functionUtility.checkFunction('Query')"
+                            class="text-center text-nowrap">
+                          <button type="button"
+                                  class="btn btn-info btn-sm"
+                                  (click)="detail(item)">
+                            <i class="{{ iconButton.VIEW }}"></i>
+                            {{ "AttendanceMaintenance.PregnancyAndMaternityData.Detail" | translate }}
+                          </button>
+                        </td>
+                        <td class="text-center text-nowrap"
+                            *ngIf="functionUtility.checkFunction('Edit')">
+                          <button type="button"
+                                  (click)="edit(item)"
+                                  class="btn btn-sm btn-warning">
+                            <i class="{{ iconButton.EDIT }}"></i>
+                            <span>{{"AttendanceMaintenance.PregnancyAndMaternityData.Edit" | translate }}
+                            </span>
+                          </button>
+                        </td>
+                        <td *ngIf="functionUtility.checkFunction('Delete')"
+                            class="text-center text-nowrap">
+                          <button type="button"
+                                  class="btn btn-danger btn-sm"
+                                  (click)="delete(item)">
+                            <i class="{{ iconButton.DELETE }}"></i>
+                            {{ "AttendanceMaintenance.PregnancyAndMaternityData.Delete" | translate }}
+                          </button>
+                        </td>
+                        <td class="text-center">{{ item.employee_ID }}</td>
+                        <td class="text-nowrap">{{ item.local_Full_Name }}</td>
+                        <td class="text-nowrap">{{ item.department_Code_Name}}</td>
+                        <td class="text-center">{{ item.work_Shift_Type_Name }}</td>
+                        <td class="text-center">{{ item.due_Date_Str}}</td>
+                        <td class="text-center">{{ item.work7hours_Str }}</td>
+                        <td class="text-center">{{ item.work8hours_Str }}</td>
+                        <td class="text-center">{{ item.pregnancy36Weeks_Str }}</td>
+                        <td class="text-center">{{ item.maternity_Start_Str }}</td>
+                        <td class="text-center">{{ item.maternity_End_Str }}</td>
+                        <td class="text-center">{{ item.goWork_Date_Str }}</td>
+                        <td class="text-center">{{ item.close_Case_Str }}</td>
+                        <td class="text-center">{{ item.update_By }}</td>
+                        <td class="text-center text-nowrap">{{ item.update_Time_Str }}</td>
+                      </tr>
+                    </tbody>
+                    <ng-template #dataNotFound>
+                      <tbody>
+                        <tr>
+                          <td colspan="100%"
+                              class="table-warning text-center font-weight-bold">
+                            {{"System.Message.Nodata" | translate }}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </ng-template>
+                  </table>
+                </drag-scroll>
+              </div>
+              <div class="row mt-3">
+                <div class="col-8">
+                  <div class="d-flex"
+                       *ngIf="datas?.length > 0 && pagination.totalPage > 0">
+                    <pagination [boundaryLinks]="true"
+                                [totalItems]="pagination.totalCount"
+                                [itemsPerPage]="pagination.pageSize"
+                                previousText="&lsaquo;"
+                                nextText="&rsaquo;"
+                                firstText="&laquo;"
+                                lastText="&raquo;"
+                                [maxSize]="5"
+                                [(ngModel)]="pagination.pageNumber"
+                                (pageChanged)="pageChanged($event)">
+                    </pagination>
+                    <span class="cs-page ml-2">
+                      Page - {{ pagination.pageNumber }} / {{ pagination.totalPage }}
+                    </span>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <span class="cs-page float-right">
+                    {{'System.Rows' | translate }} : {{pagination.totalCount}}
+                  </span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

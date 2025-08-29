@@ -1,0 +1,288 @@
+<div class="animated fadeIn">
+  <div>
+    <div class="card">
+      <div class="card-header">
+        <div class="row border-title">
+          <div class="col-md-12">
+            <strong class="title-card-cs"> {{title }}</strong>
+          </div>
+        </div>
+      </div>
+      <tab-component [tabs]="tabs"
+                     [(tabId)]="selectedTab"
+                     (tabIdChange)="changeTab()"></tab-component>
+    </div>
+  </div>
+</div>
+
+<ng-template #salaryGenerationTab>
+  <form class="form-horizontal"
+        autocomplete="off"
+        #salaryGenerationSubForm="ngForm">
+    <div class="row border-shadow">
+      <div class="col-12">
+        <div class="row">
+          <!-- Factory -->
+          <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+            <label class="badge badge-warning">{{'SalaryMaintenance.MonthlySalaryGenerationExitedEmployees.Factory' | translate }}
+              <span class="text-danger"> *</span></label>
+            <ng-select name="factoryMonthSalary"
+                       [(ngModel)]="salaryGeneration_Param.factory"
+                       (clear)="deleteProperty('factory')"
+                       (ngModelChange)="onFactoryChange()"
+                       [clearable]="salaryGeneration_Param.factory!== ''"
+                       placeholder="{{'SalaryMaintenance.MonthlySalaryGenerationExitedEmployees.Factory' | translate }}"
+                       required>
+              <ng-option *ngFor="let item of factoryList"
+                         [value]="item.key">{{ item.value }}</ng-option>
+            </ng-select>
+          </div>
+          <!-- Year Month -->
+          <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+            <label class="badge badge-warning">{{'SalaryMaintenance.MonthlySalaryGenerationExitedEmployees.YearMonth' | translate }}
+              <span class="text-danger"> *</span></label>
+            <div class="full-width">
+              <div class="container_input">
+                <div class="input-group mr-1">
+                  <input type="text"
+                         autocomplete="off"
+                         placeholder="YYYY/MM"
+                         name="monthSalaryGeneration"
+                         [bsConfig]="bsConfig"
+                         class="form-control"
+                         bsDatepicker
+                         [(ngModel)]="salaryGeneration_Param.year_Month"
+                         (ngModelChange)="onDateChange()"
+                         onpaste="return false"
+                         required />
+                  <div class="input-group-append">
+                    <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Employee ID -->
+          <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+            <label for="textDepartment"
+                   class="badge badge-warning">{{'SalaryMaintenance.MonthlySalaryGenerationExitedEmployees.EmployeeID' | translate }}
+            </label>
+            <input autocomplete="off"
+                   type="text"
+                   placeholder="{{'SalaryMaintenance.MonthlySalaryGenerationExitedEmployees.EmployeeID' | translate }}"
+                   class="form-control"
+                   maxlength="16"
+                   name="employeeID"
+                   [(ngModel)]="salaryGeneration_Param.employee_Id" />
+          </div>
+          <!-- Paid Salary Days -->
+          <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+            <label for="textDepartment"
+                   class="badge badge-warning">{{'SalaryMaintenance.MonthlySalaryGenerationExitedEmployees.SalaryDays' | translate }}
+              <span class="text-danger"> *</span>
+            </label>
+            <input autocomplete="off"
+                   type="text"
+                   placeholder="{{'SalaryMaintenance.MonthlySalaryGenerationExitedEmployees.SalaryDays' | translate }}"
+                   class="form-control"
+                   (keypress)="validateDecimal($event)"
+                   (paste)="onDecimalPaste($event)"
+                   name="salary_Days"
+                   [(ngModel)]="salaryGeneration_Param.salary_Days"
+                   required />
+          </div>
+          <!-- Permission Group -->
+          <div class="col-12">
+            <div class="row">
+              <div class="col-auto">
+                <label for="namePermissionMonthSalary"
+                       class="badge badge-warning"> {{ "SalaryMaintenance.MonthlySalaryGenerationExitedEmployees.PermissionGroup" | translate }}
+                  <span class="text-danger text-bold"> *</span>
+                </label>
+                <ng-select [items]="permissionGroupList"
+                           [multiple]="true"
+                           name="namePermissionMonthSalary"
+                           groupBy="allGroup"
+                           [selectableGroup]="true"
+                           [selectableGroupAsModel]="false"
+                           [closeOnSelect]="false"
+                           bindLabel="value"
+                           bindValue="key"
+                           [(ngModel)]="salaryGeneration_Param.permission_Group"
+                           [disabled]="!salaryGeneration_Param.factory"
+                           required
+                           placeholder="{{'SalaryMaintenance.MonthlySalaryGenerationExitedEmployees.PermissionGroup'| translate}}">
+                  <ng-template ng-optgroup-tmp
+                               let-item="item"
+                               let-item$="item$"
+                               let-index="index">
+                    <input id="itemMonthSalary-{{ index }}"
+                           type="checkbox"
+                           name="itemMonthSalary-{{ index }}"
+                           [ngModel]="item$.selected" />
+                    {{ "System.Action.SelectAll" | translate }}</ng-template>
+                  <ng-template ng-option-tmp
+                               let-item="item"
+                               let-item$="item$"
+                               let-index="index">
+                    <input id="itemMonthSalary-{{ index }}"
+                           name="itemMonthSalary-{{ index }}"
+                           type="checkbox"
+                           [ngModel]="item$.selected" />
+                    {{ item.value }}
+                  </ng-template>
+                </ng-select>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 mt-2">
+            <button *ngIf="this.functionUtility.checkFunction('Execute')"
+                    type="button"
+                    class="{{ classButton.SAVE }}"
+                    [disabled]="!salaryGenerationSubForm.valid"
+                    (click)="execute()">
+              {{ "System.Action.Execute" | translate }}
+            </button>
+          </div>
+          <div class="col-12 mt-2">
+            <strong> {{ "SalaryMaintenance.MonthlySalaryGenerationExitedEmployees.Total" | translate }}
+              <span class="text-primary"> {{salaryGeneration_Param.total_Rows}} </span>
+            </strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #dataLockTab>
+  <form class="form-horizontal"
+        autocomplete="off"
+        #dataLockFormSubForm="ngForm">
+    <div class="row border-shadow">
+      <div class="col-12">
+        <div class="row">
+          <!-- Factory -->
+          <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+            <label class="badge badge-warning">{{'SalaryMaintenance.MonthlySalaryGenerationExitedEmployees.Factory' | translate }}
+              <span class="text-danger"> *</span></label>
+            <ng-select name="factoryDataLock"
+                       [(ngModel)]="dataLock_Param.factory"
+                       (clear)="deleteProperty('factory')"
+                       (ngModelChange)="onFactoryChange()"
+                       [clearable]="dataLock_Param.factory!== ''"
+                       placeholder="{{'SalaryMaintenance.MonthlySalaryGenerationExitedEmployees.Factory' | translate }}"
+                       required>
+              <ng-option *ngFor="let item of factoryList"
+                         [value]="item.key">{{ item.value }}</ng-option>
+            </ng-select>
+          </div>
+          <!-- Year Month -->
+          <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+            <label class="badge badge-warning">{{'SalaryMaintenance.MonthlySalaryGenerationExitedEmployees.YearMonth' | translate }}
+              <span class="text-danger"> *</span></label>
+            <div class="full-width">
+              <div class="container_input">
+                <div class="input-group mr-1">
+                  <input type="text"
+                         autocomplete="off"
+                         placeholder="YYYY/MM"
+                         name="monthDataLock"
+                         [bsConfig]="bsConfig"
+                         class="form-control"
+                         bsDatepicker
+                         [(ngModel)]="dataLock_Param.year_Month"
+                         (ngModelChange)="onDateChange()"
+                         onpaste="return false"
+                         required />
+                  <div class="input-group-append">
+                    <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Salary Lock -->
+          <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+            <label class="badge badge-warning">{{'SalaryMaintenance.MonthlySalaryGenerationExitedEmployees.SalaryLock' | translate }}
+              <span class="text-danger"> *</span></label>
+            <div class="custom-control custom-radio  mt-2">
+              @for (item of salaryLockList; track item.key; let i = $index) {
+              <div class="form-check form-check-inline">
+                <input type="checkbox"
+                       class="custom-control-input"
+                       id="salaryLock-{{i}}"
+                       name="salaryLock-{{i}}"
+                       [value]="item.key"
+                       [(ngModel)]="item.optional"
+                       (click)="onRadioChange($event)" />
+                <label class="custom-control-label font-weight-bold"
+                       for="salaryLock-{{i}}">{{item.key}}
+                </label>
+              </div>
+              }
+            </div>
+          </div>
+          <!-- Permission Group -->
+          <div class="col-12">
+            <div class="row">
+              <div class="col-auto">
+                <label for="namePermissionDataLock"
+                       class="badge badge-warning"> {{ "SalaryMaintenance.MonthlySalaryGenerationExitedEmployees.PermissionGroup" | translate }}
+                  <span class="text-danger text-bold"> *</span>
+                </label>
+                <ng-select [items]="permissionGroupList"
+                           [multiple]="true"
+                           name="namePermissionDataLock"
+                           groupBy="allGroup"
+                           [selectableGroup]="true"
+                           [selectableGroupAsModel]="false"
+                           [closeOnSelect]="false"
+                           bindLabel="value"
+                           bindValue="key"
+                           [(ngModel)]="dataLock_Param.permission_Group"
+                           [disabled]="!dataLock_Param.factory"
+                           required
+                           placeholder="{{'SalaryMaintenance.MonthlySalaryGenerationExitedEmployees.PermissionGroup'| translate}}">
+                  <ng-template ng-optgroup-tmp
+                               let-item="item"
+                               let-item$="item$"
+                               let-index="index">
+                    <input id="itemDataLock-{{ index }}"
+                           type="checkbox"
+                           name="itemDataLock-{{ index }}"
+                           [ngModel]="item$.selected" />
+                    {{ "System.Action.SelectAll" | translate }}</ng-template>
+                  <ng-template ng-option-tmp
+                               let-item="item"
+                               let-item$="item$"
+                               let-index="index">
+                    <input id="itemDataLock-{{ index }}"
+                           name="itemDataLock-{{ index }}"
+                           type="checkbox"
+                           [ngModel]="item$.selected" />
+                    {{ item.value }}
+                  </ng-template>
+                </ng-select>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 mt-2">
+            <button *ngIf="this.functionUtility.checkFunction('Execute')"
+                    type="button"
+                    class="{{ classButton.SAVE }}"
+                    [disabled]="!dataLockFormSubForm.valid || functionUtility.checkEmpty(dataLock_Param.salary_Lock)"
+                    (click)="execute()">
+              {{ "System.Action.Execute" | translate }}
+            </button>
+          </div>
+          <div class="col-12 mt-2">
+            <strong> {{ "SalaryMaintenance.MonthlySalaryGenerationExitedEmployees.Total" | translate }}
+              <span class="text-primary"> {{dataLock_Param.total_Rows}} </span>
+            </strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>

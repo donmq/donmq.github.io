@@ -1,0 +1,337 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off"
+              #addForm="ngForm">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs"> {{ title }} - {{ 'System.Action.' + action | translate }} </strong>
+                <button type="button"
+                        class="btn btn-sm btn-primary float-right"
+                        (click)="back()">
+                  <i class="{{ iconButton.BACK }}"></i> {{"System.Action.Back" | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row border-shadow">
+              <!-- Factory -->
+              <div class="col-xxl-3 col-xl-3 col-lg-6 col-sm-12 col-md-6 ">
+                <label class="badge badge-warning"> {{"CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.Factory" | translate }}
+                  <span class="text-danger text-bold"> *</span></label>
+                <ng-select name="factory"
+                           [(ngModel)]="data.factory"
+                           (clear)="deleteProperty('factory')"
+                           [clearable]="data.factory !== ''"
+                           placeholder="{{'CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.Factory' | translate }}"
+                           (ngModelChange)="onChangeFactory()"
+                           [disabled]="isEdit"
+                           required>
+                  <ng-option *ngFor="let i of listFactory"
+                             [value]="i.key">{{i.value}}</ng-option>
+                </ng-select>
+              </div>
+              <!-- Year-Month Declaration -->
+              <div class="col-xxl-3 col-xl-3 col-lg-6 col-sm-12 col-md-6 ">
+                <label class="badge badge-warning"> {{"CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.YearMonthDeclaration" | translate }} <span class="text-danger text-bold"> *</span></label>
+                <div class="full-width">
+                  <div class="container_date">
+                    <div class="input-group mr-1">
+                      <input type="text"
+                             autocomplete="off"
+                             placeholder="YYYY/MM"
+                             name="year_Month_Declaration"
+                             [bsConfig]="{ isAnimated: true,dateInputFormat: 'YYYY/MM', minMode: 'month' }"
+                             class="form-control"
+                             bsDatepicker
+                             [(ngModel)]="data.declaration_Month"
+                             (ngModelChange)="onChangeDate('declaration_Month')"
+                             [disabled]="isEdit"
+                             onpaste="return false"
+                             required>
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Declaration Frequency -->
+              <div class="col-xxl-3 col-xl-3 col-lg-6 col-sm-12 col-md-6">
+                <label class="badge badge-warning"> {{"CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.DeclarationFrequency" | translate }} <span class="text-danger text-bold"> *</span></label>
+                <input type="number"
+                       class="form-control"
+                       id="declaration_Seq"
+                       mask="00"
+                       [min]="1"
+                       [max]="99"
+                       name="declaration_Seq"
+                       [(ngModel)]="data.declaration_Seq"
+                       placeholder="{{'CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.DeclarationFrequency' | translate }}"
+                       autocomplete="off"
+                       (input)="onChangeSeq($event)"
+                       [disabled]="isEdit"
+                       required>
+              </div>
+              <!-- Kind of Benefits -->
+              <div class="col-xxl-3 col-xl-3 col-lg-6 col-sm-12 col-md-6 ">
+                <label class="badge badge-warning"> {{"CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.KindofBenefits" | translate }}
+                  <span class="text-danger text-bold"> *</span></label>
+                <ng-select name="benefits_Kind"
+                           [(ngModel)]="data.benefits_Kind"
+                           (clear)="deleteProperty('benefits_Kind')"
+                           [clearable]="data.benefits_Kind !== ''"
+                           placeholder="{{'CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.KindofBenefits' | translate }}"
+                           [disabled]="isEdit"
+                           (ngModelChange)="onChangeKind()"
+                           required>
+                  <ng-option *ngFor="let i of listBenefitsKind"
+                             [value]="i.key">{{i.value}}</ng-option>
+                </ng-select>
+              </div>
+              <!-- Employee ID -->
+              <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning"> {{"CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.EmployeeID" | translate }} <span class="text-danger text-bold"> *</span></label>
+                <input autocomplete="off"
+                       type="text"
+                       placeholder="{{'CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.EmployeeID' | translate }}"
+                       class="form-control"
+                       maxlength="16"
+                       name="employee_ID"
+                       [disabled]="isEdit || !data.factory"
+                       [(ngModel)]="data.employee_ID"
+                       typeaheadScrollable="true"
+                       typeaheadOptionField="employee_ID"
+                       [typeahead]="employeeList"
+                       (typeaheadOnSelect)="onTypehead()"
+                       (typeaheadOnBlur)="onTypehead()"
+                       (typeaheadNoResults)="onTypehead(true)"
+                       required />
+              </div>
+              <!-- Local Full Name -->
+              <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning"> {{"CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.LocalFullName" | translate }} </label>
+                <input type="text"
+                       class="form-control"
+                       id="local_Full_Name"
+                       name="local_Full_Name"
+                       [(ngModel)]="data.local_Full_Name"
+                       placeholder="{{'CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.LocalFullName' | translate }}"
+                       autocomplete="off"
+                       disabled>
+              </div>
+              <!-- Compulsory Insurance Number -->
+              <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning"> {{"CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.CompulsoryInsuranceNumber" | translate }} </label>
+                <input type="text"
+                       class="form-control"
+                       id="compulsory_Insurance_Number"
+                       name="compulsory_Insurance_Number"
+                       [(ngModel)]="data.compulsory_Insurance_Number"
+                       placeholder="{{'CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.CompulsoryInsuranceNumber' | translate }}"
+                       autocomplete="off"
+                       disabled>
+              </div>
+              <!-- Special Work Type  -->
+              <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning"> {{"CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.SpecialWorkType" | translate }} </label>
+                <input type="text"
+                       class="form-control"
+                       id="special_Work_Type"
+                       name="special_Work_Type"
+                       [(ngModel)]="data.special_Work_Type"
+                       placeholder="{{'CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.SpecialWorkType' | translate }}"
+                       autocomplete="off"
+                       disabled>
+              </div>
+              <!-- Birthday of Child -->
+              <div class="col-xxl-3 col-xl-3 col-lg-6 col-sm-12 col-md-6 ">
+                <label class="badge badge-warning"> {{"CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.BirthdayofChild" | translate }}</label>
+                <div class="full-width">
+                  <div class="container_date">
+                    <div class="input-group mr-1">
+                      <input type="text"
+                             autocomplete="off"
+                             placeholder="YYYY/MM/DD"
+                             name="birth_Child"
+                             [bsConfig]="{ isAnimated: true,dateInputFormat: 'YYYY/MM/DD' }"
+                             class="form-control"
+                             bsDatepicker
+                             [(ngModel)]="data.birthday_Child"
+                             (ngModelChange)="onChangeDate('birthday_Child')"
+                             onpaste="return false">
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Date(Start) -->
+              <div class="col-xxl-3 col-xl-3 col-lg-6 col-sm-12 col-md-6 ">
+                <label class="badge badge-warning"> {{"CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.DateStart" | translate }} <span class="text-danger text-bold"> *</span></label>
+                <div class="full-width">
+                  <div class="container_date">
+                    <div class="input-group mr-1">
+                      <input type="text"
+                             autocomplete="off"
+                             placeholder="YYYY/MM/DD"
+                             name="dateStart"
+                             [bsConfig]="{ isAnimated: true,dateInputFormat: 'YYYY/MM/DD' }"
+                             class="form-control"
+                             bsDatepicker
+                             [maxDate]="data.benefits_End"
+                             [(ngModel)]="data.benefits_Start"
+                             (ngModelChange)="onChangeDate('benefits_Start')"
+                             onpaste="return false"
+                             [disabled]="isEdit"
+                             required>
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Date(End) -->
+              <div class="col-xxl-3 col-xl-3 col-lg-6 col-sm-12 col-md-6 ">
+                <label class="badge badge-warning"> {{"CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.DateEnd" | translate }} <span class="text-danger text-bold"> *</span></label>
+                <div class="full-width">
+                  <div class="container_date">
+                    <div class="input-group mr-1">
+                      <input type="text"
+                             autocomplete="off"
+                             placeholder="YYYY/MM/DD"
+                             name="dateEnd"
+                             [bsConfig]="{ isAnimated: true,dateInputFormat: 'YYYY/MM/DD' }"
+                             class="form-control"
+                             bsDatepicker
+                             [minDate]="data.benefits_Start"
+                             [(ngModel)]="data.benefits_End"
+                             (ngModelChange)="onChangeDate('benefits_End')"
+                             onpaste="return false"
+                             required>
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- div empty -->
+              <div class="col-xxl-3 col-xl-3 col-lg-6 col-sm-12 col-md-6 ">
+              </div>
+              <!-- Code of Benefits -->
+              <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning"> {{"CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.CodeofBenefits" | translate }} </label>
+                <input type="text"
+                       class="form-control"
+                       id="benefits_Num"
+                       name="benefits_Num"
+                       [(ngModel)]="data.benefits_Num"
+                       placeholder="{{'CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.CodeofBenefits' | translate }}"
+                       maxlength="10"
+                       autocomplete="off"
+                       (blur)="onValueChange()">
+              </div>
+              <!-- Day(s) -->
+              <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning"> {{"CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.Day" | translate }} </label>
+                <input type="text"
+                       class="form-control"
+                       id="total_Days"
+                       name="total_Days"
+                       [(ngModel)]="data.total_Days"
+                       placeholder="{{'CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.Day' | translate }}"
+                       autocomplete="off"
+                       disabled>
+              </div>
+              <!-- Annual Accumulated Days -->
+              <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning"> {{"CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.AnnualAccumulatedDays" | translate }} </label>
+                <input type="text"
+                       class="form-control"
+                       id="annual_Accumulated_Days"
+                       name="annual_Accumulated_Days"
+                       [(ngModel)]="data.annual_Accumulated_Days"
+                       placeholder="{{'CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.AnnualAccumulatedDays' | translate }}"
+                       autocomplete="off"
+                       disabled>
+              </div>
+              <!-- Total Amount -->
+              <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning"> {{"CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.TotalAmount" | translate }} <span class="text-danger text-bold"> *</span></label>
+                <input type="number"
+                       class="form-control"
+                       id="amt"
+                       name="amt"
+                       [min]="0"
+                       onkeypress="return /[0-9]/i.test(event.key)"
+                       [(ngModel)]="data.amt"
+                       placeholder="{{'CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.TotalAmount' | translate }}"
+                       autocomplete="off"
+                       (ngModelChange)="onValueChange()"
+                       required>
+              </div>
+              <!-- Update By -->
+              <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <label for="textDepartment"
+                       class="badge badge-warning">{{"CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.UpdateBy" | translate
+                  }}</label>
+                <input type="text"
+                       class="form-control"
+                       id="Update_By"
+                       name="Update_By"
+                       [(ngModel)]="data.update_By"
+                       placeholder="{{'CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.UpdateBy' | translate }}"
+                       disabled>
+              </div>
+              <!-- Update Time -->
+              <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <label for="textDepartment"
+                       class="badge badge-warning">{{"CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.UpdateTime" | translate
+                  }}</label>
+                <input type="text"
+                       class="form-control"
+                       id="Update_Time"
+                       name="Update_Time"
+                       [(ngModel)]="data.update_Time_Str"
+                       placeholder="{{'CompulsoryInsuranceManagement.ApplySocialInsuranceBenefitsMaintenance.UpdateTime' | translate }}"
+                       disabled>
+              </div>
+            </div>
+            <div class="row justify-content-md-center">
+              <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="table-responsive text-right">
+                  <button type="button"
+                          [ngClass]="isEdit ? 'none' : ''"
+                          class="btn btn-warning ml-2"
+                          (click)="save(true)"
+                          [disabled]="!addForm.valid || !validDate">
+                    <i class="{{ iconButton.SAVE }}"></i>
+                    {{ "System.Action.SaveAndContinue" | translate }}
+                  </button>
+                  <button type="button"
+                          class="btn btn-success ml-2"
+                          (click)="save(false)"
+                          [disabled]="!addForm.valid || !validDate">
+                    <i class="{{ iconButton.SAVE }}"></i> {{"System.Action.Save" | translate }}
+                  </button>
+                  <button type="button"
+                          class="btn btn-danger ml-2"
+                          (click)="back()">
+                    <i class="{{ iconButton.CLOSE }}"></i> {{"System.Action.Close" | translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

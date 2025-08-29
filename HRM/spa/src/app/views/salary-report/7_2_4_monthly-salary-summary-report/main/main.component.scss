@@ -1,0 +1,38 @@
+.container p {
+  margin-right: 10px;
+}
+
+.custom-colL {
+  padding-left: 3px !important;
+}
+.custom-colR {
+  padding-right: 3px !important;
+}
+
+p {
+  cursor: pointer;
+}
+
+.monthly-salary-detail {
+  position: relative;
+  margin: 1rem auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 1px;
+}
+
+.monthly-salary-detail::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 15px;
+  right: 15px;
+  height: 1px;
+  border-top: 1px dashed #007bff;
+  border-bottom: none;
+  border-left: none;
+  border-right: none;
+  z-index: 1;
+}

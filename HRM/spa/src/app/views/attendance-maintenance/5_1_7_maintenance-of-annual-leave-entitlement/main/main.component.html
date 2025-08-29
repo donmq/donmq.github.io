@@ -1,0 +1,315 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row border-title">
+            <div class="col-md-12">
+              <strong> {{ title }} </strong>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form class="form-horizontal border-shadow"
+                autocomplete="off"
+                #mainForm="ngForm">
+            <div class="row ">
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+                <label class="badge badge-warning"
+                       for="factory">
+                  {{"AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.Factory" | translate }}
+                  <span class="text-danger text-bold">*</span>
+                </label>
+                <ng-select name="factory"
+                           [clearable]="params.factory !== ''"
+                           [(ngModel)]="params.factory"
+                           placeholder='{{"AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.Factory" | translate }}'
+                           (clear)="deleteProperty('factory')"
+                           (ngModelChange)="changeFactory()"
+                           required>
+                  <ng-option *ngFor="let data of factories"
+                             [value]="data.key">{{data.value}}
+                  </ng-option>
+                </ng-select>
+              </div>
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+                <label class="badge badge-warning"
+                       for="department">
+                  {{"AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.Department" | translate }}
+                </label>
+                <ng-select name="department"
+                           [clearable]="params.department !== ''"
+                           (clear)="deleteProperty('department')"
+                           [(ngModel)]="params.department"
+                           placeholder='{{"AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.Department" | translate }}'>
+                  <ng-option *ngFor="let data of departments"
+                             [value]="data.key">{{data.key}} - {{data.value}}
+                  </ng-option>
+                </ng-select>
+              </div>
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+                <label class="badge badge-warning">
+                  {{"AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.EmployeeID" | translate }}
+                </label>
+                <input type="text"
+                       placeholder='{{"AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.EmployeeID" | translate }}'
+                       class="form-control"
+                       name="employee_ID"
+                       maxlength="9"
+                       [(ngModel)]="params.employee_ID" />
+              </div>
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+                <label class="badge badge-warning"
+                       for="leave_Code">
+                  {{"AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.LeaveCode" | translate }}
+                </label>
+                <ng-select name="leave_Code"
+                           [clearable]="params.leave_Code !== ''"
+                           (clear)="deleteProperty('leave_Code')"
+                           [(ngModel)]="params.leave_Code"
+                           placeholder='{{"AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.LeaveCode" | translate }}'>
+                  <ng-option *ngFor="let data of leaveCodes"
+                             [value]="data.key">{{data.value}}
+                  </ng-option>
+                </ng-select>
+              </div>
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6">
+                <label class="badge badge-warning">
+                  {{"AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.AvailableRange" | translate }}
+                </label>
+                <div class="full-width">
+                  <div class="container_input">
+                    <div class="input-group mr-2">
+                      <input type="text"
+                             autocomplete="off"
+                             placeholder="YYYY/MM/DD"
+                             name="availableRange_Start"
+                             [maxDate]="availableRange_End"
+                             [bsConfig]="bsConfig"
+                             class="form-control"
+                             bsDatepicker
+                             [(ngModel)]="availableRange_Start"
+                             onpaste="return false" />
+                      <div class="input-group-append">
+                        <span class="input-group-text">
+                          <i class="{{ iconButton.CALENDAR }}"></i>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="input-group">
+                      <input type="text"
+                             autocomplete="off"
+                             placeholder="YYYY/MM/DD"
+                             name="availableRange_End"
+                             [minDate]="availableRange_Start"
+                             [bsConfig]="bsConfig"
+                             class="form-control"
+                             bsDatepicker
+                             [(ngModel)]="availableRange_End"
+                             onpaste="return false" />
+                      <div class="input-group-append">
+                        <span class="input-group-text">
+                          <i class="{{ iconButton.CALENDAR }}"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 p-0">
+              <label class="d-block">&nbsp;</label>
+              <button type="submit"
+                      class="btn btn-primary"
+                      (click)="search(true)"
+                      *ngIf="functionUtility.checkFunction('Search')"
+                      [disabled]="!mainForm.valid">
+                <i class="{{ iconButton.SEARCH }}"></i> {{"System.Action.Search" | translate }}
+              </button>
+              <button type="button"
+                      class="btn btn-danger ml-2"
+                      (click)="clear()">
+                <i class="{{ iconButton.CLEAR }}"></i> {{"System.Action.Clear" | translate }}
+              </button>
+              <button type="button"
+                      (click)="add()"
+                      class="btn btn-success ml-2"
+                      id="add"
+                      *ngIf="functionUtility.checkFunction('Add')">
+                <i class="{{ iconButton.ADD }}"></i> {{"System.Action.Add" | translate }}
+              </button>
+              <label *ngIf="functionUtility.checkFunction('Upload')"
+                     class="btn btn-success ml-2 mb-0 custom-margin-top">
+                <input class="custom-upload"
+                       type="file"
+                       (change)="upload($event)"
+                       [accept]="accept">
+                <i class="{{iconButton.UPLOAD}}"></i> {{"System.Action.Upload" | translate }}
+              </label>
+              <button type="button"
+                      class="btn btn-primary ml-2"
+                      id="excelTemplate"
+                      (click)="exportExcel()"
+                      *ngIf="functionUtility.checkFunction('Upload')">
+                <i class="{{iconButton.EXCEL}}"></i>
+                {{'System.Action.ExcelTemplate' | translate }}
+              </button>
+              <button type="button"
+                      class="btn btn-success ml-2"
+                      id="excel"
+                      (click)="download()"
+                      *ngIf="functionUtility.checkFunction('Excel')"
+                      [disabled]="!mainForm.valid">
+                <i class="{{iconButton.EXCEL}}"></i>
+                {{'System.Action.Excel' | translate }}
+              </button>
+            </div>
+          </form>
+          <form class="form-horizontal"
+                autocomplete="off"
+                #tableForm="ngForm">
+            <div class="row justify-content-md-center">
+              <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="table-responsive">
+                  <drag-scroll id="dragscroll"
+                               (dragStart)="functionUtility.setTextSelector(false)"
+                               (dragEnd)="functionUtility.setTextSelector(true)">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th class="text-center text-nowrap"
+                              [attr.colspan]="functionUtility.getColspan(['Delete','Edit'])">
+                            {{"System.Action.Operation" | translate }}
+                          </th>
+                          <th class="text-center text-nowrap">
+                            {{"AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.AvailableRangeStart" | translate }}
+                          </th>
+                          <th class="text-center text-nowrap">
+                            {{"AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.AvailableRangeEnd" | translate }}
+                          </th>
+                          <th class="text-center text-nowrap">
+                            {{"AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.Factory" | translate }}
+                          </th>
+                          <th class="text-center text-nowrap">
+                            {{"AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.Department" | translate }}
+                          </th>
+                          <th class="text-center text-nowrap">
+                            {{"AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.EmployeeID" | translate }}
+                          </th>
+                          <th class="text-center text-nowrap">
+                            {{"AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.LocalFullName" | translate }}
+                          </th>
+                          <th class="text-center text-nowrap">
+                            {{"AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.Leave" | translate }}
+                          </th>
+                          <th class="text-center text-nowrap">
+                            {{"AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.PreviousHours" | translate }}
+                          </th>
+                          <th class="text-center text-nowrap">
+                            {{"AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.YearlyHours" | translate }}
+                          </th>
+                          <th class="text-center text-nowrap">
+                            {{"AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.TotalHours" | translate }}
+                          </th>
+                          <th class="text-center text-nowrap">
+                            {{"AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.TotalDays" | translate }}
+                          </th>
+                          <th class="text-center text-nowrap">
+                            {{"AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.UpdateBy" | translate }}
+                          </th>
+                          <th class="text-center text-nowrap">
+                            {{"AttendanceMaintenance.MaintenanceOfAnnualLeaveEntitlement.UpdateTime" | translate }}
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <ng-container *ngIf="datas?.length > 0; then dataTemplate else dataNotFound"></ng-container>
+                        <ng-template #dataTemplate>
+                          <tr *ngFor="let item of datas; index as i">
+                            <!-- Item view -->
+                            <ng-container *ngIf="!item.isEdit">
+                              <td class="text-center text-nowrap"
+                                  *ngIf="functionUtility.checkFunction('Edit')">
+                                <button type="button"
+                                        (click)="edit(item)"
+                                        class="btn btn-sm btn-warning"
+                                        [disabled]="item.isDisabled">
+                                  <i class="{{ iconButton.EDIT }}"></i>
+                                  <span>{{"System.Action.Edit" | translate }}
+                                  </span>
+                                </button>
+                              </td>
+                              <td *ngIf="functionUtility.checkFunction('Delete')"
+                                  class="text-center text-nowrap">
+                                <button type="button"
+                                        class="btn btn-danger btn-sm"
+                                        (click)="delete(item)"
+                                        [disabled]="item.isDisabled">
+                                  <i class="{{ iconButton.DELETE }}"></i>
+                                  {{ "System.Action.Delete" | translate }}
+                                </button>
+                              </td>
+                              <td class="text-center">{{ item.annual_Start }}</td>
+                              <td class="text-center">{{ item.annual_End }}</td>
+                              <td class="text-center">{{ item.factory }}</td>
+                              <td class="text-center">{{ item.department_Code_Name}}</td>
+                              <td class="text-center">{{ item.employee_ID }}</td>
+                              <td class="text-center text-nowrap">{{ item.local_Full_Name}}</td>
+                              <td class="text-center text-nowrap">{{ item.leave_Code_Name }}</td>
+                              <td class="text-center">{{ item.previous_Hours }}</td>
+                              <td class="text-center">{{ item.year_Hours }}</td>
+                              <td class="text-center">{{ item.total_Hours }}</td>
+                              <td class="text-center">{{ item.total_Days }}</td>
+                              <td class="text-center">{{ item.update_By }}</td>
+                              <td class="text-center text-nowrap">{{ item.update_Time }}</td>
+                            </ng-container>
+                          </tr>
+                        </ng-template>
+                        <ng-template #dataNotFound>
+                          <tr class="no-data">
+                            <td colspan="100%"
+                                class="table-warning text-center font-weight-bold">
+                              {{"System.Message.Nodata" | translate }}
+                            </td>
+                          </tr>
+                        </ng-template>
+                      </tbody>
+                    </table>
+                  </drag-scroll>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-8">
+                    <div class="d-flex"
+                         *ngIf="datas?.length > 0 && pagination.totalPage > 0">
+                      <pagination name="pagination"
+                                  [boundaryLinks]="true"
+                                  [totalItems]="pagination.totalCount"
+                                  [itemsPerPage]="pagination.pageSize"
+                                  previousText="&lsaquo;"
+                                  nextText="&rsaquo;"
+                                  firstText="&laquo;"
+                                  lastText="&raquo;"
+                                  [maxSize]="5"
+                                  [(ngModel)]="pagination.pageNumber"
+                                  (pageChanged)="pageChanged($event)">
+                      </pagination>
+                      <span class="cs-page ml-2">
+                        Page - {{ pagination.pageNumber }} / {{ pagination.totalPage }}
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <span class="cs-page float-right">
+                      {{'System.Rows' | translate }} : {{pagination.totalCount}}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-modal></app-modal>
+</div>

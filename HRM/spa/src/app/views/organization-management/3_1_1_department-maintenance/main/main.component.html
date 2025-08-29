@@ -1,0 +1,248 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">{{ title }}</strong>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="card-body">
+          <div class="row border-shadow">
+
+            <!-- Status -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+              <div class="form-group">
+                <label class="badge badge-warning">{{"OrganizationManagement.DepartmentMaintenance.Status" | translate}}</label>
+                <div class="row pl-3">
+                  <div *ngFor="let item of key; index as i">
+                    <label class="container">
+                      <div class="row">
+                        <div class="custom-control custom-radio pt-2">
+                          <input id="status-{{i}}"
+                                 class="custom-control-input"
+                                 type="radio"
+                                 name="status-{{i}}"
+                                 [(ngModel)]="param.status"F
+                                 [value]="item.key" />
+                          <p class="custom-control-label"
+                             for="status-{{i}}"><strong> {{ item.value | translate }} </strong> </p>
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Division -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-2">
+              <label class="badge badge-warning">
+                {{"OrganizationManagement.DepartmentMaintenance.Division" | translate}}
+              </label>
+              <ng-select [(ngModel)]="param.division"
+                         placeholder="{{'OrganizationManagement.DepartmentMaintenance.Division'| translate}}"
+                         (clear)="deleteProperty('division')"
+                         [clearable]="param.division !== ''"
+                         (ngModelChange)="onSelectDivision()">
+                <ng-option *ngFor="let item of division"
+                           value="{{ item.key }}">{{ item.key }} - {{ item.value }}</ng-option>
+              </ng-select>
+            </div>
+
+            <!-- Factory -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-2">
+              <label class="badge badge-warning">
+                {{"OrganizationManagement.DepartmentMaintenance.Factory" | translate}}
+              </label>
+              <ng-select [(ngModel)]="param.factory"
+                         placeholder="{{'OrganizationManagement.DepartmentMaintenance.Factory'| translate}}"
+                         (clear)="deleteProperty('factory')"
+                         [clearable]="param.factory !== ''"
+                         (ngModelChange)="onSelectFactory()">
+                <ng-option *ngFor="let item of factory"
+                           value="{{ item.key }}">{{ item.key }} - {{ item.value}}</ng-option>
+              </ng-select>
+            </div>
+
+            <!-- DepartmentCode -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-2">
+              <label class="badge badge-warning">
+                {{"OrganizationManagement.DepartmentMaintenance.DepartmentCode" | translate}}
+              </label>
+              <ng-select [(ngModel)]="param.department_Code"
+                         placeholder="{{'OrganizationManagement.DepartmentMaintenance.DepartmentCode'| translate}}"
+                         (clear)="deleteProperty('department_Code')"
+                         [clearable]="param.department_Code !== ''">
+                <ng-option *ngFor="let item of department"
+                           value="{{ item.key }}">{{ item.key }} - {{ item.value}}</ng-option>
+              </ng-select>
+            </div>
+
+            <!-- DepartmentName -->
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-2">
+              <label class="badge badge-warning">{{"OrganizationManagement.DepartmentMaintenance.DepartmentName" | translate}}</label>
+              <div class="full-width">
+                <div class="container_date">
+                  <div class="input-group mr-1">
+                    <input autocomplete="off"
+                           type="text"
+                           placeholder="{{'OrganizationManagement.DepartmentMaintenance.DepartmentName'| translate}}"
+                           class="form-control"
+                           name="Name"
+                           maxlength="100"
+                           [(ngModel)]="param.department_Name" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-0 col-xxl-1"></div>
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-12 col-xxl-12 custom-col">
+              <label class="d-block">&nbsp;</label>
+              <button type="submit"
+                      (click)="search(true)"
+                      class="btn btn-primary mr-1"
+                      *ngIf="functionUtility.checkFunction('Search')">
+                <i class="{{ iconButton.SEARCH }}"></i>
+                {{ "System.Action.Search" | translate }}
+              </button>
+              <button type="button"
+                      (click)="clear()"
+                      class="btn btn-danger mr-1">
+                <i class="{{ iconButton.CLEAR }}"></i>
+                {{ "System.Action.Clear" | translate }}
+              </button>
+              <button type="button"
+                      (click)="onForm()"
+                      class="btn btn-success mr-1"
+                      *ngIf="functionUtility.checkFunction('Add')">
+                <i class="{{ iconButton.ADD }}"></i>
+                {{ "System.Action.Add" | translate }}
+              </button>
+              <button type="button"
+                      (click)="excel()"
+                      class="btn btn-success"
+                      *ngIf="functionUtility.checkFunction('Excel')">
+                <i class="{{ iconButton.EXCEL }}"></i>
+                {{ "System.Action.Excel" | translate }}
+              </button>
+            </div>
+          </div>
+          <div class="row justify-content-md-center">
+            <div class="col-xl-12 col-xxl-12">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th class="text-center"
+                          *ngIf="functionUtility.checkFunction('Edit')">{{ "System.Action.Operation" | translate }}</th>
+                      <th class="text-center">{{"OrganizationManagement.DepartmentMaintenance.Division" | translate }}</th>
+                      <th class="text-center">{{"OrganizationManagement.DepartmentMaintenance.Factory" | translate}}</th>
+                      <th class="text-center">{{"OrganizationManagement.DepartmentMaintenance.Center_Function" | translate}}</th>
+                      <th class="text-center">{{"OrganizationManagement.DepartmentMaintenance.Level" | translate}}</th>
+                      <th class="text-center">{{"OrganizationManagement.DepartmentMaintenance.DepartmentCode"| translate}}</th>
+                      <th class="text-center">{{"OrganizationManagement.DepartmentMaintenance.DepartmentName"| translate}}</th>
+                      <th class="text-center">{{"OrganizationManagement.DepartmentMaintenance.UpperDepartment"| translate}}</th>
+                      <th class="text-center">{{"OrganizationManagement.DepartmentMaintenance.VirtualDepartment"| translate}}</th>
+                      <th class="text-center">{{"OrganizationManagement.DepartmentMaintenance.SupervisorEmployeeID"| translate}}</th>
+                      <th class="text-center">{{"OrganizationManagement.DepartmentMaintenance.Supervisor"| translate}}</th>
+                      <th class="text-center">{{"OrganizationManagement.DepartmentMaintenance.SupervisorType"| translate}}</th>
+                      <th class="text-center">{{"OrganizationManagement.DepartmentMaintenance.ApprovedHeadcount"| translate}}</th>
+                      <th class="text-center">{{"OrganizationManagement.DepartmentMaintenance.ActualHeadcount"| translate}}</th>
+                      <th class="text-center">{{"OrganizationManagement.DepartmentMaintenance.CostCenter"| translate}}</th>
+                      <th class="text-center">{{"OrganizationManagement.DepartmentMaintenance.Status"| translate}}</th>
+                      <th class="text-center">{{"OrganizationManagement.DepartmentMaintenance.EffectiveDate"| translate}}</th>
+                      <th class="text-center">{{"OrganizationManagement.DepartmentMaintenance.ExpirationDate"| translate}}</th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="data?.length > 0; else elseTemplate">
+                    <tr *ngFor="let item of data; let i = index">
+                      <td class="text-center"
+                          *ngIf="functionUtility.checkFunction('Edit')">
+                        <button type="button"
+                                class="btn btn-warning btn-sm"
+                                (click)="onForm(item)">
+                          <i class="{{ iconButton.EDIT }}"></i>
+                          {{ "System.Action.Edit" | translate }}
+                        </button>
+                      </td>
+                      <td class="text-center">{{ item.division }}</td>
+                      <td class="text-center">{{ item.factory }}</td>
+                      <td class="text-center">{{ item.center_Code }}</td>
+                      <td class="text-center">{{ item.org_Level_Name }}</td>
+                      <td class="text-center">{{ item.department_Code }}</td>
+                      <td class="text-center">{{ item.department_Name_Lang }}</td>
+                      <td class="text-center"
+                          *ngIf="item.upper_Department == null; else upper"></td>
+                      <ng-template #upper>
+                        <td class="text-center">{{ item.upper_Department_Name }}</td>
+                      </ng-template>
+                      <td class="text-center"
+                          *ngIf="item.virtual_Department == null; else virtual"></td>
+                      <ng-template #virtual>
+                        <td class="text-center">{{ item.virtual_Department_Name }}</td>
+                      </ng-template>
+                      <td class="text-center">{{ item.supervisor_Employee_ID }}</td>
+                      <td class="text-center"></td>
+                      <td class="text-center">{{ item.supervisor_Type }}</td>
+                      <td class="text-center">{{ item.approved_Headcount }}</td>
+                      <td class="text-center"></td>
+                      <td class="text-center">{{ item.cost_Center }}</td>
+                      <td class="text-center">
+                        {{item.isActive === true
+                        ? ("OrganizationManagement.DepartmentMaintenance.Enabled" | translate)
+                        : ("OrganizationManagement.DepartmentMaintenance.Disabled" | translate)}}
+                      </td>
+                      <td class="text-center">{{ item.effective_Date | date : "yyyy/MM/dd" }}</td>
+                      <td class="text-center">{{ item.expiration_Date | date : "yyyy/MM/dd" }}</td>
+                    </tr>
+                  </tbody>
+                  <ng-template #elseTemplate>
+                    <tbody>
+                      <tr>
+                        <td colspan="100%"
+                            class="table-warning text-center font-weight-bold">
+                          {{ "System.Message.Nodata" | translate }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </ng-template>
+                </table>
+              </div>
+              <div class="row">
+                <div class=" col-8">
+                  <div class="d-flex"
+                       *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                    <pagination [boundaryLinks]="true"
+                                [maxSize]="5"
+                                [totalItems]="pagination.totalCount"
+                                [itemsPerPage]="pagination.pageSize"
+                                (pageChanged)="pageChanged($event)"
+                                [(ngModel)]="pagination.pageNumber"
+                                previousText="&lsaquo;"
+                                nextText="&rsaquo;"
+                                firstText="&laquo;"
+                                lastText="&raquo;">
+                    </pagination>
+                    <span class="cs-page ml-2">
+                      Page - {{pagination.pageNumber}} / {{pagination.totalPage}}
+                    </span>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <span class="cs-page float-right ">{{"System.Rows" | translate}} : {{pagination.totalCount}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

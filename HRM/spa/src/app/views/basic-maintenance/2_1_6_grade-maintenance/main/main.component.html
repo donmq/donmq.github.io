@@ -1,0 +1,145 @@
+<div class="animated fadeIn">
+  <div class="card">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-md-10">
+          <strong>{{ title }}</strong>
+        </div>
+        <div class="col-md-2 text-right">
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row border-shadow">
+        <!-- Type Code -->
+        <div class="col-xxl-2 col-xl-4 col-md-5 col-sm-12">
+          <label class="badge badge-warning">{{"BasicMaintenance.2_6_GradeMaintenance.Type" | translate }}</label>
+          <ng-select name="typeCode"
+                     [(ngModel)]="param.type_Code"
+                     placeholder="{{ 'BasicMaintenance.2_6_GradeMaintenance.Grade' | translate }}"
+                     (clear)="deleteProperty('type_Code')"
+                     [clearable]="param.type_Code !== ''">
+            <ng-option *ngFor="let item of types"
+                       [value]="item.key">{{item.value}}</ng-option>
+          </ng-select>
+        </div>
+        <!-- Grade -->
+        <div class="col-xxl-2 col-xl-4 col-md-5 col-sm-12">
+          <label class="badge badge-warning">{{"BasicMaintenance.2_6_GradeMaintenance.Grade" | translate }}</label>
+          <input type="text"
+                 name="level"
+                 class="form-control"
+                 min="1"
+                 max="999"
+                 oninput="if(this.value.length>3) { if(!this.value.includes('.')) this.value = this.value.slice(0,3);}"
+                 onkeypress="return /[0-9.]/i.test(event.key)"
+                 onpaste="return false;"
+                 [(ngModel)]="param.level"
+                 autocomplete="off"
+                 placeholder="{{ 'BasicMaintenance.2_6_GradeMaintenance.Grade' | translate }}">
+        </div>
+        <!-- Position Title Code -->
+        <div class="col-xxl-2 col-xl-4 col-md-5 col-sm-12">
+          <label class="badge badge-warning">{{"BasicMaintenance.2_6_GradeMaintenance.Position_Title_Code" | translate }}</label>
+          <ng-select name="levelCode"
+                     [(ngModel)]="param.level_Code"
+                     placeholder="{{ 'BasicMaintenance.2_6_GradeMaintenance.Grade' | translate }}"
+                     (clear)="deleteProperty('level_Code')"
+                     [clearable]="param.level_Code !== ''">
+            <ng-option *ngFor="let item of ListLevelCode"
+                       [value]="item.key">{{item.value}}</ng-option>
+          </ng-select>
+        </div>
+        <div class="col">
+          <label class="d-block">&nbsp;</label>
+          <button *ngIf="functionUtility.checkFunction('Search')"
+                  type="button"
+                  class="btn btn-primary"
+                  (click)="search(true)"><i class="{{iconButton.SEARCH}}"></i> {{"System.Action.Search" | translate }}</button>
+          <button type="button"
+                  class="btn btn-danger ml-1"
+                  (click)="clear()"><i class="{{iconButton.CLEAR}}"></i> {{"System.Action.Clear" | translate }}</button>
+          <button *ngIf="functionUtility.checkFunction('Add')"
+                  type="button"
+                  class="btn btn-success ml-1"
+                  (click)="onForm()"><i class="{{iconButton.ADD}}"></i> {{"BasicMaintenance.2_6_GradeMaintenance.Add" | translate }}</button>
+          <button *ngIf="functionUtility.checkFunction('Excel')"
+                  type="button"
+                  class="btn btn-success ml-1"
+                  (click)="excel()"
+                  [disabled]="data.length === 0">
+            <i class="{{ iconButton.EXCEL }}"></i> Excel
+          </button>
+        </div>
+      </div>
+      <div class="row justify-content-md-center">
+        <div class="col-xxl-8 col-xl-12">
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr class="text-center">
+                  <th *ngIf="functionUtility.checkFunction('Edit')"
+                      class="text-center">{{"BasicMaintenance.2_6_GradeMaintenance.Operation" | translate }}</th>
+                  <th>{{"BasicMaintenance.2_6_GradeMaintenance.Grade" | translate }}</th>
+                  <th>{{"BasicMaintenance.2_6_GradeMaintenance.Type" | translate }}</th>
+                  <th>{{"BasicMaintenance.2_6_GradeMaintenance.Position_Title_Code" | translate }}</th>
+                  <!-- add status adjust HRM-_1023_20231106.docx -->
+                  <th class="text-center">{{"SystemMaintenance.SystemLanguageSetting.Status" | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of data"
+                    class="text-center">
+                  <!-- Operation -->
+                  <td class="text-center"
+                      *ngIf="functionUtility.checkFunction('Edit')">
+                    <button type="button"
+                            class="btn btn-warning btn-sm text-dark"
+                            (click)="onForm(item)"><i class="{{iconButton.EDIT}}"></i> {{"System.Action.Edit" | translate }}</button>
+                  </td>
+                  <td>{{item?.level}}</td>
+                  <td>{{item?.type_Code_Name}}</td>
+                  <td>{{item?.level_Code_Name}}</td>
+                  <!-- status -->
+                  <td class="text-center">
+                    <button [disabled]="!functionUtility.checkFunction('Edit')"
+                            [class]="!item.isActive ? 'btn btn-sm btn-danger' : 'btn btn-sm btn-primary'"
+                            (click)="changeState(item)">
+                      {{(!item.isActive ? "SystemMaintenance.SystemLanguageSetting.Disable" : "SystemMaintenance.SystemLanguageSetting.Enabled") | translate }}
+                    </button>
+                  </td>
+                </tr>
+                <tr *ngIf="data?.length === 0">
+                  <td class="table-warning text-center font-weight-bold"
+                      colspan="100%">{{"System.Message.Nodata" | translate }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="row">
+            <div class="col-8">
+              <div class="d-flex"
+                   *ngIf="data?.length > 0">
+                <pagination [boundaryLinks]="true"
+                            [totalItems]="pagination.totalCount"
+                            [itemsPerPage]="pagination.pageSize"
+                            previousText="&lsaquo;"
+                            [(ngModel)]="pagination.pageNumber"
+                            (pageChanged)="pageChanged($event)"
+                            nextText="&rsaquo;"
+                            firstText="&laquo;"
+                            lastText="&raquo;"
+                            [maxSize]="5">
+                </pagination>
+                <span class="cs-page ml-2"> Page - {{pagination.pageNumber}} / {{pagination.totalPage}}</span>
+              </div>
+            </div>
+            <div class="col-4">
+              <span class="cs-page float-right ">{{'System.Rows' | translate }} : {{pagination.totalCount}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

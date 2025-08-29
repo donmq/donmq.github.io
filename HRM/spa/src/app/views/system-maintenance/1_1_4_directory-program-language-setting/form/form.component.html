@@ -1,0 +1,134 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <!-- Header -->
+        <form class="form-horizontal"
+              autocomplete="off">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">{{ title }} - {{'System.Action.' + action | translate }}</strong>
+                <button type="button"
+                        class="btn btn-sm btn-primary float-right"
+                        (click)="back()">
+                  <i class="fa fa-chevron-left"></i>
+                  {{'System.Action.Back' | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- Body -->
+          <div class="card-body">
+            <div class="row border-shadow">
+              <div class="col-md-12 col-lg-6 col-xl-6 col-xxl-5 pt-2">
+                <div class="row">
+                  <!-- Kind -->
+                  <div class="col-md-6">
+                    <label class="badge badge-warning">
+                      {{'SystemMaintenance.DirectoryProgramLanguageSetting.Kind' | translate }}
+                      <span class="text-danger text-bold"> *</span>
+                    </label>
+                    <div class="row pl-3">
+                      <div *ngFor="let item of key; let i">
+                        <label class="container">
+                          <div class="row">
+                            <div class="custom-control custom-radio pt-2">
+                              <input id="customRadio-{{i}}"
+                                     class="custom-control-input"
+                                     type="radio"
+                                     name="customRadio-{{i}}"
+                                     [(ngModel)]="data.kind"
+                                     [value]="item.key"
+                                     (change)="onSelectChange()"
+                                     [disabled]="isEdit" />
+                              <p class="custom-control-label"
+                                 for="customRadio-{{i}}">
+                                <strong>{{ item.value | translate}}</strong>
+                              </p>
+                            </div>
+                          </div>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Code -->
+                  <div class="col-md-6">
+                    <label class="badge badge-warning">
+                      {{'SystemMaintenance.DirectoryProgramLanguageSetting.Code' | translate }}
+                      <span class="text-danger text-bold"> *</span>
+                    </label>
+                    <ng-select class="pt-2"
+                               [(ngModel)]="data.code"
+                               name="languageCode"
+                               [clearable]="false"
+                               placeholder="{{'EmployeeInformationModule.DocumentManagement.DocumentType' | translate }}"
+                               [disabled]="action == 'Edit'">
+                      <ng-option *ngFor="let item of listProgram"
+                                 value="{{ item.key }}">{{ item.key }} - {{ item.value
+                        }}</ng-option>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12 col-lg-6 col-xl-6 col-xxl-6">
+                <!-- Table -->
+                <div class="col-xl-12 col-xxl-10 pl-0 pr-0">
+                  <table class="table">
+                    <tr class="mb-0">
+                      <th width="50%">
+                        <label class="a badge badge-warning">
+                          {{'SystemMaintenance.DirectoryProgramLanguageSetting.LanguageCode' | translate }}
+                          <span class="text-danger text-bold"> *</span>
+                        </label>
+                      </th>
+                      <th width="50%">
+                        <label class="a badge badge-warning">
+                          {{'SystemMaintenance.DirectoryProgramLanguageSetting.Name' | translate }}
+                          <span class="text-danger text-bold"> *</span>
+                        </label>
+                      </th>
+                    </tr>
+                    <!-- Load Language Code + Language Name -->
+                    <tbody>
+                      <tr *ngFor="let item of data?.langs; let index">
+                        <td class="pt-0">
+                          <input type="text"
+                                 class="form-control"
+                                 [name]="item.lang_Code + index"
+                                 [(ngModel)]="item.lang_Code"
+                                 disabled />
+                        </td>
+                        <td class="text-center pt-0">
+                          <input type="text"
+                                 class="form-control"
+                                 [name]="item.lang_Name + index"
+                                 [(ngModel)]="item.lang_Name"
+                                 [placeholder]="item.lang_Code" />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="table-responsive text-right pr-3">
+              <button type="button"
+                      class="btn btn-success text-white mr-2"
+                      (click)="saveChange()">
+                <i class="{{ iconButton.SAVE }}"></i>
+                {{'System.Action.Save' | translate }}
+              </button>
+              <button type="button"
+                      class="btn btn-danger text-white"
+                      (click)="back()">
+                <i class="{{ iconButton.CLOSE }}"></i>
+                {{'System.Action.Close' | translate }}
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

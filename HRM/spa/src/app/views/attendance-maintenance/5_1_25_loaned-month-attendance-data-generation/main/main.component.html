@@ -1,0 +1,224 @@
+<div class="animated fadeIn">
+  <div>
+    <div class="card">
+      <div class="card-header">
+        <div class="row border-title">
+          <div class="col-md-12">
+            <strong>{{ title }}</strong>
+          </div>
+        </div>
+      </div>
+      <tab-component [tabs]="tabs"
+                   [(tabId)]="data.param.selected_Tab"
+                   (tabIdChange)="changeTab()"></tab-component>
+    </div>
+  </div>
+</div>
+
+<ng-template #dataGenerationTab>
+  <ng-container [ngTemplateOutlet]="content">
+  </ng-container>
+</ng-template>
+
+<ng-template #dataCloseTab>
+  <ng-container [ngTemplateOutlet]="content">
+  </ng-container>
+</ng-template>
+
+<ng-template #content>
+  <form class="form-horizontal"
+        autocomplete="off"
+        #subForm="ngForm">
+    <div class="row border-shadow">
+      <!-- Factory -->
+      <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+        <label class="badge badge-warning"
+               for="factory">
+          {{"AttendanceMaintenance.LoanedMonthAttendanceDataGeneration.Factory" | translate
+          }}
+          <span class="text-danger text-bold">*</span>
+        </label>
+        <ng-select id="factory"
+                   name="factory"
+                   [clearable]="false"
+                   [(ngModel)]="data.param.factory"
+                   [clearable]="data.param.factory !== ''"
+                   (clear)="data.factory = '' "
+                   placeholder="{{'AttendanceMaintenance.LoanedMonthAttendanceDataGeneration.Factory' | translate }}"
+                   required>
+          <ng-option *ngFor="let data of factories"
+                     [value]="data.key">{{data.value}}
+          </ng-option>
+        </ng-select>
+      </div>
+      <!-- Loaned Year Month -->
+      <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+        <label class="badge badge-warning"
+               for="attMonth"> {{"AttendanceMaintenance.LoanedMonthAttendanceDataGeneration.LoanedYearMonth" | translate }}
+          <span class="text-danger text-bold">*</span>
+        </label>
+        <div class="full-width">
+          <div class="container_date">
+            <div class="input-group mr-1">
+              <input autocomplete="off"
+                     (keydown.backspace)="data.loaned_Year_Month = null"
+                     onpaste="return false;"
+                     type="text"
+                     placeholder='YYYY/MM'
+                     class="form-control bg-white"
+                     name="attMonth"
+                     id="attMonth"
+                     [(ngModel)]="data.loaned_Year_Month"
+                     (ngModelChange)="changeAttMonth(true)"
+                     bsDatepicker
+                     [bsConfig]="bsConfigMonthly"
+                     required />
+              <div class="input-group-append">
+                <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Loaned Date -->
+      <div class="col-xxl-4 col-xl-4 col-lg-6 col-sm-12 col-md-6 "
+           *ngIf="data.param.selected_Tab == 'dataGeneration'">
+        <label class="badge badge-warning">
+          {{"AttendanceMaintenance.LoanedMonthAttendanceDataGeneration.LoanedDate" |
+          translate }}
+          <span class="text-danger text-bold">*</span>
+        </label>
+        <div class="full-width">
+          <div class="container_input">
+            <div class="input-group mr-2">
+              <input autocomplete="off"
+                     (keydown.backspace)="data.loaned_Date_Start = null"
+                     onpaste="return false;"
+                     type="text"
+                     placeholder='YYYY/MM/DD'
+                     class="form-control bg-white"
+                     name="loanedDateStart"
+                     [(ngModel)]="data.loaned_Date_Start"
+                     (ngModelChange)="changeDate()"
+                     bsDatepicker
+                     [bsConfig]="bsConfig"
+                     [minDate]="minDateStart"
+                     [maxDate]="maxDateStart"
+                     required />
+              <div class="input-group-append">
+                <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+              </div>
+            </div>
+            <div class="input-group mr-2">
+              <input autocomplete="off"
+                     (keydown.backspace)="data.loaned_Date_End = null"
+                     onpaste="return false;"
+                     type="text"
+                     placeholder='YYYY/MM/DD'
+                     class="form-control bg-white"
+                     name="loanedDateEnd"
+                     [(ngModel)]="data.loaned_Date_End"
+                     (ngModelChange)="changeDate()"
+                     bsDatepicker
+                     [bsConfig]="bsConfig"
+                     [minDate]="minDateEnd"
+                     [maxDate]="maxDateEnd"
+                     required />
+              <div class="input-group-append">
+                <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Salary Work Days -->
+      <div class="col-xxl-2 col-xl-4 col-lg-6 col-sm-12 col-md-6 "
+           *ngIf="data.param.selected_Tab == 'dataGeneration'">
+        <label class="badge badge-warning"
+               for="normal_Working_Days">
+          {{"AttendanceMaintenance.LoanedMonthAttendanceDataGeneration.SalaryWorkDays" |
+          translate }}
+          <span class="text-danger text-bold">*</span>
+        </label>
+        <input type="number"
+               class="form-control"
+               id="normal_Working_Days"
+               placeholder="{{'AttendanceMaintenance.LoanedMonthAttendanceDataGeneration.SalaryWorkDays' | translate }}"
+               name="normal_Working_Days"
+               [(ngModel)]="data.param.normal_Working_Days"
+               required />
+      </div>
+      <!-- Employee ID -->
+      <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6"
+           *ngIf="data.param.selected_Tab == 'dataGeneration'">
+        <label class="badge badge-warning">
+          {{"AttendanceMaintenance.LoanedMonthAttendanceDataGeneration.EmployeeID" |
+          translate }}
+          <span class="text-danger text-bold">*</span>
+        </label>
+        <div class="full-width">
+          <div class="container_input">
+            <div class="input-group mr-2">
+              <input type="text"
+                     class="form-control"
+                     placeholder="{{'AttendanceMaintenance.LoanedMonthAttendanceDataGeneration.From' | translate }}"
+                     name="employee_ID_Start"
+                     [(ngModel)]="data.param.employee_ID_Start"
+                     required />
+            </div>
+            <div class="input-group">
+              <input type="text"
+                     class="form-control"
+                     placeholder="{{'AttendanceMaintenance.LoanedMonthAttendanceDataGeneration.To' | translate }}"
+                     name="employee_ID_End"
+                     [(ngModel)]="data.param.employee_ID_End"
+                     required />
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Close Status -->
+      <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6"
+           *ngIf="data.param.selected_Tab != 'dataGeneration'">
+        <label class="badge badge-warning">
+          {{ "AttendanceMaintenance.LoanedMonthAttendanceDataGeneration.CloseStatus" | translate }}
+          <span class="text-danger">*</span>
+        </label>
+        <div class="row pl-4">
+          <div *ngFor="let item of closeStatus_list; index as i">
+            <label class="container">
+              <div class="row">
+                <div class="custom-control custom-radio pt-2">
+                  <input [id]="'close_Status' + i"
+                         class="custom-control-input"
+                         type="radio"
+                         checked="checked"
+                         name="close_Status"
+                         [(ngModel)]="data.param.close_Status"
+                         [value]="item.key"
+                         required />
+                  <p class="custom-control-label"
+                     [for]="'close_Status' + i">
+                    <strong>{{ item.value | translate }}</strong>
+                  </p>
+                </div>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-md-center mt-3">
+      <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="table-responsive text-right">
+          <button type="button"
+                  class="{{ classButton.SAVE }}"
+                  [disabled]="!subForm.valid"
+                  (click)="execute()">
+            {{ "System.Action.Execute" | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>

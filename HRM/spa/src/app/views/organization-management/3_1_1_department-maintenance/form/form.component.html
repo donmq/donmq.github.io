@@ -1,0 +1,383 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">{{ title }} - {{ action | translate }}</strong>
+                <button type="button"
+                        class="btn btn-sm btn-primary float-right"
+                        (click)="back()">
+                  <i class="{{ iconButton.BACK }}"></i> {{ "System.Action.Back" | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="card-body">
+          <div class="row border-shadow">
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+              <div class="form-group">
+                <label class="badge badge-warning">{{"OrganizationManagement.DepartmentMaintenance.Status" | translate}}
+                  <span class="text-danger text-bold"> *</span>
+                </label>
+                <div class="row pl-3">
+                  <div *ngFor="let item of key; index as i">
+                    <label class="container">
+                      <div class="row">
+                        <div class="custom-control custom-radio pt-2">
+                          <input id="customRadioActive-{{i}}"
+                                 class="custom-control-input"
+                                 type="radio"
+                                 name="customRadioActive-{{i}}"
+                                 [(ngModel)]="param.isActive"
+                                 [value]="item.key" />
+                          <p class="custom-control-label"
+                             for="customRadioActive-{{i}}">
+                            <strong> {{ item.value | translate }} </strong>
+                          </p>
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+              <div class="form-group">
+                <label class="badge badge-warning">{{"OrganizationManagement.DepartmentMaintenance.Attribute" |
+                  translate}}
+                  <span class="text-danger text-bold"> *</span>
+                </label>
+                <div class="row pl-3">
+                  <div *ngFor="let item of attribute; let i">
+                    <label class="container">
+                      <div class="row">
+                        <div class="custom-control custom-radio pt-2">
+                          <input id="customRadioAttribute-{{i}}"
+                                 class="custom-control-input"
+                                 type="radio"
+                                 name="customRadioAttribute-{{i}}"
+                                 [(ngModel)]="param.attribute"
+                                 [value]="item.key" />
+                          <p class="custom-control-label"
+                             for="customRadioAttribute-{{i}}">
+                            <strong>
+                              {{ item.value | translate }}
+                            </strong>
+                          </p>
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-6">
+              <label class="badge badge-warning">
+                {{"OrganizationManagement.DepartmentMaintenance.Division" | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <ng-select [(ngModel)]="param.division"
+                         (ngModelChange)="onSelectGetFactory()"
+                         placeholder="{{'OrganizationManagement.DepartmentMaintenance.Division' | translate}}"
+                         [disabled]="formType == 'Edit'">
+                <ng-option *ngFor="let item of divisions"
+                           value="{{ item.key }}">{{ item.key }} - {{ item.value }}
+                </ng-option>
+              </ng-select>
+            </div>
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-6">
+              <label class="badge badge-warning">
+                {{"OrganizationManagement.DepartmentMaintenance.Factory" | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <ng-select [(ngModel)]="param.factory"
+                         (ngModelChange)="onSelectGetDepartmentCode()"
+                         placeholder="{{ 'OrganizationManagement.DepartmentMaintenance.Factory' | translate}}"
+                         [disabled]="formType == 'Edit' || checkFactory">
+                <ng-option *ngFor="let item of factory"
+                           value="{{ item.key }}">{{ item.key }} - {{ item.value }}
+                </ng-option>
+              </ng-select>
+            </div>
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-6">
+              <label for="textDepartment"
+                     class="badge badge-warning">{{"OrganizationManagement.DepartmentMaintenance.DepartmentCode" |
+                translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <input type="text"
+                     class="form-control"
+                     pattern="/^-?\d+\.?\d*$/"
+                     id="department_Code"
+                     name="department_Code"
+                     mask="AAA"
+                     maxlength="3"
+                     [(ngModel)]="param.department_Code"
+                     (ngModelChange)="onSelectCheckDeptCode()"
+                     placeholder="{{'OrganizationManagement.DepartmentMaintenance.DepartmentCode' | translate }}"
+                     [disabled]="formType == 'Edit' || checkDepartment"
+                     required />
+            </div>
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-6">
+              <label class="badge badge-warning">{{"OrganizationManagement.DepartmentMaintenance.DepartmentName" |
+                translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <input type="text"
+                     class="form-control"
+                     pattern="/^-?\d+\.?\d*$/"
+                     id="department_Name"
+                     name="department_Name"
+                     maxlength="100"
+                     [(ngModel)]="param.department_Name"
+                     placeholder="{{'OrganizationManagement.DepartmentMaintenance.DepartmentName' | translate }}"
+                     required />
+            </div>
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-6">
+              <label class="badge badge-warning">{{ "OrganizationManagement.DepartmentMaintenance.Center_Function" | translate }}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <input type="text"
+                     class="form-control"
+                     pattern="/^-?\d+\.?\d*$/"
+                     id="center_Code"
+                     name="center_Code"
+                     mask="A{4}"
+                     maxlength="4"
+                     [(ngModel)]="param.center_Code"
+                     placeholder="{{'OrganizationManagement.DepartmentMaintenance.Center_Function' | translate }}"
+                     required />
+            </div>
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-6">
+              <label class="badge badge-warning">
+                {{"OrganizationManagement.DepartmentMaintenance.Level" | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <ng-select [(ngModel)]="param.org_Level"
+                         (click)="getListLevel()"
+                         placeholder="{{'OrganizationManagement.DepartmentMaintenance.Level' | translate }}">
+                <ng-option *ngFor="let item of level"
+                           value="{{ item.key }}">{{ item.key }} - {{ item.value }}
+                </ng-option>
+              </ng-select>
+            </div>
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-6">
+              <label for="textDepartment"
+                     class="badge badge-warning">{{"OrganizationManagement.DepartmentMaintenance.UpperDepartment" |
+                translate}}
+              </label>
+              <ng-select [(ngModel)]="param.upper_Department"
+                         (click)="onClick()"
+                         placeholder="{{'OrganizationManagement.DepartmentMaintenance.UpperDepartment' | translate }}"
+                         [disabled]=" param.department_Code == null || param.department_Code == undefined || param.department_Code == '' ">
+                <ng-option *ngFor="let data of listUpperVirtual"
+                           [value]="data.department">{{
+                  data.departmentName }}
+                </ng-option>
+              </ng-select>
+            </div>
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-6">
+              <label for="textDepartment"
+                     class="badge badge-warning">
+                {{"OrganizationManagement.DepartmentMaintenance.VirtualDepartment" | translate}}
+              </label>
+              <ng-select [(ngModel)]="param.virtual_Department"
+                         (click)="onClick()"
+                         placeholder="{{'OrganizationManagement.DepartmentMaintenance.VirtualDepartment' | translate }}"
+                         [disabled]=" param.department_Code == null || param.department_Code == undefined || param.department_Code == '' ">
+                <ng-option *ngFor="let data of listUpperVirtual"
+                           [value]="data.department">{{
+                  data.departmentName }}
+                </ng-option>
+              </ng-select>
+            </div>
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-6">
+              <label class="badge badge-warning">
+                {{"OrganizationManagement.DepartmentMaintenance.SupervisorEmployeeID" | translate}}
+              </label>
+              <input type="text"
+                     class="form-control"
+                     pattern="[A-Za-z]{12}"
+                     style="text-transform: uppercase;"
+                     id="SupervisorEmployeeID"
+                     name="SupervisorEmployeeID"
+                     maxlength="12"
+                     [(ngModel)]="param.supervisor_Employee_ID"
+                     placeholder="{{'OrganizationManagement.DepartmentMaintenance.SupervisorEmployeeID' | translate }}"
+                     required />
+            </div>
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-6">
+              <label class="badge badge-warning">
+                {{"OrganizationManagement.DepartmentMaintenance.Supervisor" | translate}}
+              </label>
+              <input type="text"
+                     class="form-control"
+                     pattern="/^-?\d+\.?\d*$/"
+                     id="Supervisor"
+                     name="Supervisor"
+                     maxlength="255"
+                     placeholder="人事主檔尚未規劃"
+                     readonly />
+            </div>
+
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-6">
+              <label class="badge badge-warning">
+                {{"OrganizationManagement.DepartmentMaintenance.SupervisorType" | translate}}
+              </label>
+              <ng-select [searchable]="false"
+                         [(ngModel)]="param.supervisor_Type"
+                         [clearable]="param.supervisor_Type != 'A'"
+                         (clear)="param.supervisor_Type = 'A'"
+                         placeholder="{{'OrganizationManagement.DepartmentMaintenance.SupervisorType' | translate }}">
+                <ng-option *ngFor="let item of list_Supervisor_Type"
+                           value="{{ item.key }}">{{ item.value | translate }}
+                </ng-option>
+              </ng-select>
+            </div>
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-6">
+              <label class="badge badge-warning">{{"OrganizationManagement.DepartmentMaintenance.ApprovedHeadcount" |
+                translate}}
+              </label>
+              <input type="text"
+                     class="form-control"
+                     pattern="/^-?\d+\.?\d*$/"
+                     id="approvedHeadcount"
+                     name="approvedHeadcount"
+                     mask="0{6}"
+                     maxlength="6"
+                     [(ngModel)]="approvedHeadcount"
+                     placeholder="{{'OrganizationManagement.DepartmentMaintenance.ApprovedHeadcount' | translate }}"
+                     required />
+            </div>
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-6">
+              <label class="badge badge-warning">
+                {{"OrganizationManagement.DepartmentMaintenance.CostCenter" | translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <input type="text"
+                     class="form-control"
+                     pattern="/^-?\d+\.?\d*$/"
+                     id="CostCenter"
+                     name="CostCenter"
+                     mask="A{8}"
+                     maxlength="8"
+                     [(ngModel)]="param.cost_Center"
+                     placeholder="{{'OrganizationManagement.DepartmentMaintenance.CostCenter' | translate }}"
+                     required />
+            </div>
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-6">
+              <label class="badge badge-warning">
+                {{"OrganizationManagement.DepartmentMaintenance.ActualHeadcount" | translate}}
+              </label>
+              <input type="text"
+                     class="form-control"
+                     pattern="/^-?\d+\.?\d*$/"
+                     id="ActualHeadcount"
+                     name="ActualHeadcount"
+                     maxlength="6"
+                     placeholder="人事主檔尚未規劃"
+                     readonly />
+            </div>
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-6">
+              <label class="badge badge-warning">
+                {{"OrganizationManagement.DepartmentMaintenance.EffectiveDate"| translate}}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <div class="input-group">
+                <input type="text"
+                       autocomplete="off"
+                       class="form-control"
+                       bsDatepicker
+                       name="time_start"
+                       [(ngModel)]="time_start"
+                       [bsConfig]="bsConfig"
+                       onkeypress="return false;"
+                       onpaste="return false;"
+                       placeholder="{{'OrganizationManagement.DepartmentMaintenance.EffectiveDate' | translate }}"
+                       [maxDate]="time_end"
+                       style="background-color: inherit"
+                       readonly
+                       (keydown.backspace)="time_start = null" />
+                <span class="input-group-append">
+                  <button class="btn btn-primary"
+                          type="button"
+                          disabled>
+                    <i class="fa fa-calendar"></i>
+                  </button>
+                </span>
+              </div>
+            </div>
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-6">
+              <label class="badge badge-warning">
+                {{"OrganizationManagement.DepartmentMaintenance.ExpirationDate" | translate}}
+              </label>
+              <div class="input-group">
+                <input type="text"
+                       autocomplete="off"
+                       class="form-control"
+                       bsDatepicker
+                       name="time_end"
+                       [(ngModel)]="time_end"
+                       [bsConfig]="bsConfig"
+                       onkeypress="return false;"
+                       onpaste="return false;"
+                       placeholder="{{'OrganizationManagement.DepartmentMaintenance.ExpirationDate' | translate }}"
+                       [minDate]="time_start"
+                       style="background-color: inherit"
+                       readonly
+                       (keydown.backspace)="time_end = null" />
+                <span class="input-group-append">
+                  <button class="btn btn-primary"
+                          type="button"
+                          disabled>
+                    <i class="fa fa-calendar"></i>
+                  </button>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="row justify-content-md-center">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="table-responsive text-right">
+                <button type="button"
+                        class="btn btn-primary text-white"
+                        (click)="onEdit(param)"
+                        [disabled]="!checkDept && formType != 'Edit'">
+                  <i class="fa fa-language"></i>
+                  {{"OrganizationManagement.DepartmentMaintenance.Language" | translate}}
+                </button>
+                <button type="button"
+                        class="btn btn-warning ml-2"
+                        (click)="saveAndContinue()"
+                        *ngIf="formType != 'Edit'"
+                        [disabled]="checkEmpty()">
+                  <i class="{{ iconButton.SAVE }}"></i>
+                  {{ "System.Action.SaveAndContinue" | translate }}
+                </button>
+                <button type="button"
+                        class="btn btn-success ml-2"
+                        (click)="save()"
+                        [disabled]="checkEmpty()">
+                  <i class="{{ iconButton.SAVE }}"></i>
+                  {{ "System.Action.Save" | translate }}
+                </button>
+                <button type="button"
+                        class="btn btn-danger ml-2"
+                        (click)="back()">
+                  <i class="{{ iconButton.CLOSE }}"></i>
+                  {{ "System.Action.Close" | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-modal [id]="formType"></app-modal>

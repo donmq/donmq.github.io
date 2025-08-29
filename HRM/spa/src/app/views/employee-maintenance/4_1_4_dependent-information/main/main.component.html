@@ -1,0 +1,97 @@
+<div class="mb-2">
+  <!-- Add -->
+  <button [disabled]="tranfer.mode == employeeMode.query"
+          type="button"
+          (click)="onAdd()"
+          *ngIf="functionUtility.checkFunction('Add')"
+          class="btn btn-success">
+    <i class="{{ iconButton.ADD }}"></i> {{ 'System.Action.Add' | translate}}
+  </button>
+</div>
+<div class="row justify-content-md-center">
+
+  <div class="col-lg-12 col-md-12 col-sm-12">
+    <div class="table-responsive">
+      <table class="table table-bordered text-center">
+        <thead>
+          <tr>
+            <th [attr.colspan]="functionUtility.getColspan(['Edit','Delete'])"
+                class="text-center align-middle operation-column"
+                *ngIf="functionUtility.checkFunction('Edit') || functionUtility.checkFunction('Delete')"> {{'EmployeeInformationModule.DependentInformation.Operation' | translate}} </th>
+            <th class="text-center align-middle">
+              {{'EmployeeInformationModule.DependentInformation.Nationality'|translate}}
+            </th>
+            <th class="text-center align-middle">
+              {{'EmployeeInformationModule.DependentInformation.IdentificationNumber'|translate}}
+            </th>
+            <th class="text-center align-middle">
+              {{'EmployeeInformationModule.DependentInformation.LocalFullName'|translate}}
+            </th>
+            <th class="text-center align-middle">
+              {{'EmployeeInformationModule.DependentInformation.Seq'|translate}}
+            </th>
+            <th class="text-center align-middle">
+              {{'EmployeeInformationModule.DependentInformation.Name'|translate}}
+            </th>
+            <th class="text-center align-middle">
+              {{'EmployeeInformationModule.DependentInformation.Relationship'|translate}}
+            </th>
+            <th class="text-center align-middle">
+              {{'EmployeeInformationModule.DependentInformation.Occupation'|translate}}
+            </th>
+            <th class="text-center align-middle">
+              {{'EmployeeInformationModule.DependentInformation.Dependents'|translate}}
+            </th>
+          </tr>
+        </thead>
+        <tbody *ngIf="data?.length > 0; else elseTemplate">
+          <tr *ngFor="let item of data">
+            <td *ngIf="functionUtility.checkFunction('Edit')">
+              <button class="btn btn-warning btn-sm"
+                      [disabled]="tranfer.mode == employeeMode.query"
+                      (click)="onEdit(item) ">
+                <i class="{{iconButton.EDIT}}"
+                   aria-hidden="true"></i> {{'System.Action.Edit' | translate}}
+              </button>
+            </td>
+            <td *ngIf="functionUtility.checkFunction('Delete')">
+              <button class="btn btn-danger btn-sm"
+                      [disabled]="tranfer.mode == employeeMode.query"
+                      (click)="deleteItem(item)">
+                <i class="{{iconButton.DELETE}}"
+                   aria-hidden="true"></i> {{'System.Action.Delete' | translate}}
+              </button>
+            </td>
+            <td>{{item.nationality}}</td>
+            <td>{{item.identification_Number}}</td>
+            <td>{{item.local_Full_Name}} </td>
+            <td>{{item.seq}} </td>
+            <td>{{item.name}}</td>
+            <td>{{item.relationship + "-" + item.relationship_Name}}</td>
+            <td>{{item.occupation}} </td>
+            <td>{{item.dependents === true
+              ? ("EmployeeInformationModule.DependentInformation.DependentsY" | translate)
+              : ("EmployeeInformationModule.DependentInformation.DependentsN" | translate)}} </td>
+          </tr>
+        </tbody>
+        <ng-template #elseTemplate>
+          <tbody>
+            <tr>
+              <td colspan="100%"
+                  class="table-warning text-center font-weight-bold">
+                {{'System.Message.Nodata' | translate}}
+              </td>
+            </tr>
+          </tbody>
+        </ng-template>
+      </table>
+    </div>
+    <div class="row">
+      <div class="col-8"></div>
+      <div class="col-4">
+        <span class="cs-page float-right ">{{'System.Rows' | translate }} : {{data.length}}</span>
+      </div>
+    </div>
+  </div>
+</div>
+<app-modal-4-1-4 id="modal-4-1-4"></app-modal-4-1-4>

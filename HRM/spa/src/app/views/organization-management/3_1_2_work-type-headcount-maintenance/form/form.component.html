@@ -1,0 +1,186 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <form class="card form-horizontal needs-validation"
+            #form="ngForm"
+            (ngSubmit)="saveChange()"
+            autocomplete="off">
+        <div class="form-horizontal">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">{{ title }} - {{ 'System.Action.' + formType | translate }}</strong>
+                <!-- Button Back -->
+                <button type="button"
+                        class="btn btn-sm btn-primary float-right"
+                        (click)="back()">
+                  <i class="fa fa-chevron-left"></i>
+                  {{ 'System.Action.Back' | translate}}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row border-shadow">
+            <!-- Division -->
+            <div class="col-md-2 col-sm-6 mb-3">
+              <label class="badge badge-warning"> {{ 'OrganizationManagement.WorkTypeHeadcountMaintenance.Division' | translate}}<span class="text-danger text-bold"> *</span></label>
+              <ng-select name="division"
+                         [(ngModel)]="param.division"
+                         (ngModelChange)="onDivisionChange()"
+                         placeholder="{{ 'OrganizationManagement.WorkTypeHeadcountMaintenance.Division' | translate}}"
+                         (clear)="deleteProperty('division')"
+                         [clearable]="param.division !== ''"
+                         [disabled]="formType == 'Edit'"
+                         required>
+                <ng-option *ngFor="let division of divisions"
+                           [value]="division.key">{{division.value}}</ng-option>
+              </ng-select>
+            </div>
+            <!-- Factory -->
+            <div class="col-md-2 col-sm-6 mb-3">
+              <label class="badge badge-warning"> {{ 'OrganizationManagement.WorkTypeHeadcountMaintenance.Factory' | translate}} <span class="text-danger text-bold"> *</span></label>
+              <ng-select name="Factory"
+                         [(ngModel)]="param.factory"
+                         (ngModelChange)="onFactoryChange()"
+                         placeholder="{{ 'OrganizationManagement.WorkTypeHeadcountMaintenance.Factory' | translate}}"
+                         (clear)="deleteProperty('factory')"
+                         [clearable]="param.factory !== ''"
+                         [disabled]="formType == 'Edit'"
+                         required>
+                <ng-option *ngFor="let factory of factories"
+                           [value]="factory.key">{{factory.value}}</ng-option>
+              </ng-select>
+            </div>
+            <!-- Department -->
+            <div class="col-md-2 col-sm-6 mb-3">
+              <label class="badge badge-warning"> {{ 'OrganizationManagement.WorkTypeHeadcountMaintenance.Department' | translate}} <span class="text-danger text-bold"> *</span></label>
+              <input type="text"
+                     name="department_Code"
+                     [(ngModel)]="param.department_Code"
+                     mask="AAA"
+                     maxlength="3"
+                     [typeahead]="departments"
+                     [isAnimated]="true"
+                     typeaheadOptionField="key"
+                     [disabled]="formType == 'Edit'"
+                     class="form-control"
+                     placeholder=" {{ 'OrganizationManagement.WorkTypeHeadcountMaintenance.Department' | translate}}"
+                     (ngModelChange)="onDepartmentChange()"
+                     required>
+              <span class="text-danger"> {{messageErrorDepartment}}</span>
+            </div>
+            <!-- Department -->
+            <div class="col-md-2 col-sm-6 mb-3">
+              <label>&nbsp; </label>
+              <input type="text"
+                     name="departmentName"
+                     [(ngModel)]="departmentName"
+                     disabled
+                     class="form-control"
+                     placeholder="{{ 'OrganizationManagement.WorkTypeHeadcountMaintenance.DepartmentName' | translate}}">
+            </div>
+            <!--  Effective Date -->
+            <div class="col-md-2 col-sm-6 mb-3">
+              <label class="badge badge-warning"> {{ 'OrganizationManagement.WorkTypeHeadcountMaintenance.EffectiveDate' | translate}} <span class="text-danger text-bold"> *</span></label>
+              <input type="text"
+                     name="effective_Date_value"
+                     maxlength="7"
+                     [(ngModel)]="effective_Date_value"
+                     [disabled]="formType == 'Edit'"
+                     class="form-control"
+                     placeholder=" {{ 'OrganizationManagement.WorkTypeHeadcountMaintenance.EffectiveDate' | translate}}"
+                     (ngModelChange)="onEffectiveDateChange()"
+                     bsDatepicker
+                     [bsConfig]="{ isAnimated: true,  minMode: 'month' ,dateInputFormat: 'YYYY/MM' }"
+                     required>
+            </div>
+          </div>
+          <div class="row justify-content-md-center">
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <table class="table table-bordered text-center">
+                  <thead>
+                    <tr>
+                      <th> {{ 'OrganizationManagement.WorkTypeHeadcountMaintenance.WorkTypeCode' | translate}} </th>
+                      <th> {{ 'OrganizationManagement.WorkTypeHeadcountMaintenance.WorkTypeName' | translate}} </th>
+                      <th> {{ 'OrganizationManagement.WorkTypeHeadcountMaintenance.ApprovedHeadcount' | translate}} </th>
+                      <th> {{ 'OrganizationManagement.WorkTypeHeadcountMaintenance.ActualHeadcount' | translate}} </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of workTypeHeads; let i=index">
+                      <td>
+                        <input type="text"
+                               class="form-control"
+                               maxlength="3"
+                               [disabled]="item.isEdit"
+                               placeholder="{{ 'OrganizationManagement.WorkTypeHeadcountMaintenance.WorkTypeCode' | translate}}"
+                               [name]="'work_Type_Code'+ i"
+                               [(ngModel)]="item.work_Type_Code"
+                               [typeahead]="workCodeNames"
+                               [typeaheadOptionsLimit]="7"
+                               (typeaheadOnSelect)="onWorkTypeCodeChange(i)"
+                               typeaheadOptionField="key"
+                               (ngModelChange)="onWorkTypeCodeChange(i)">
+                      </td>
+                      <td>
+                        <input type="text"
+                               class="form-control"
+                               disabled
+                               placeholder="{{ 'OrganizationManagement.WorkTypeHeadcountMaintenance.WorkTypeName' | translate}}"
+                               [name]="'work_Type_Name'+ i"
+                               [(ngModel)]="item.work_Type_Name">
+                      </td>
+                      <td>
+                        <input type="text"
+                               class="form-control"
+                               mask="0*"
+                               placeholder="{{ 'OrganizationManagement.WorkTypeHeadcountMaintenance.ApprovedHeadcount' | translate}}"
+                               [name]="'approved_Headcount'+ i"
+                               [(ngModel)]="item.approved_Headcount"
+                               (keyup)="onApprovedHeadcountChange(i)">
+                      </td>
+                      <td>
+                        <input type="text"
+                               class="form-control"
+                               mask="0*"
+                               placeholder="{{ 'OrganizationManagement.WorkTypeHeadcountMaintenance.ActualHeadcount' | translate}}"
+                               [name]="'actual_Headcount'+ i"
+                               [(ngModel)]="item.actual_Headcount"
+                               (keyup)="onActualHeadcountChange(i)"
+                               (keydown.Tab)="onTabKey()">
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td colspan="8">
+                        <span class="float-left"><i>Presss Tab to create new </i></span>
+                        <span class="mr-3"> {{ 'OrganizationManagement.WorkTypeHeadcountMaintenance.TotalApprovedHeadcount' | translate}}: <strong> {{totalHeadCount}}</strong></span>
+                        <span> {{ 'OrganizationManagement.WorkTypeHeadcountMaintenance.TotalActualHeadcount' | translate}}: <strong> {{totalActualNumber}}</strong></span>
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="row justify-content-md-center">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="table-responsive text-right">
+                <button type="submit"
+                        class="btn btn-success ml-1"
+                        [disabled]="!isSave"><i [class]="iconButton.SAVE"></i> {{ 'System.Action.Save' | translate}} </button>
+                <button type="button"
+                        class="btn btn-danger ml-1"
+                        (click)="cancel()"><i class="fa fa-ban"></i> {{ 'System.Action.Cancel' | translate}} </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

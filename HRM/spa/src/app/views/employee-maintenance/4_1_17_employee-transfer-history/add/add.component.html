@@ -1,0 +1,647 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off"
+              #addForm="ngForm">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                @switch (method) {
+                @case ("supplementary") {
+                <strong>{{ title }} - {{"EmployeeInformationModule.EmployeeTransferHistory.Supplementary" | translate }}</strong>
+                }
+                @default {
+                <strong>{{ title }} - {{"System.Action.Add" | translate }}</strong>
+                }
+                }
+                <!-- <strong>{{"EmployeeInformationModule.EmployeeTransferHistory.Title" | translate }} - {{"System.Action.Add" | translate }}</strong> -->
+                <button type="button"
+                        class="{{classButton.BACK}}"
+                        (click)="back()">
+                  <i class="{{ iconButton.BACK }}"></i> {{'System.Action.Back' | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="card">
+              <!-- Details  -->
+              <div class="col-md-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered">
+                    <thead class="text-center">
+                      <tr>
+                        <th class="blank-cell"></th>
+                        <th class="before-change">
+                          {{ 'EmployeeInformationModule.EmployeeTransferHistory.BeforeChange' | translate}}
+                        </th>
+                        <th class="after-change">
+                          {{ 'EmployeeInformationModule.EmployeeTransferHistory.AfterChange' | translate}}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!-- DataSource -->
+                      <tr>
+                        <td class="custom-text-title col-2">
+                          <p></p>{{ 'EmployeeInformationModule.EmployeeTransferHistory.DataSource' | translate}}
+                        </td>
+                        <td class="col-5"></td>
+                        <td class="col-5">
+                          <ng-select [readonly]="true"
+                                     [ngModel]="param.data_Source"
+                                     name="data_Source"
+                                     [clearable]="false">
+                            <ng-option *ngFor="let i of listDataSources"
+                                       [value]="i.key">{{i.value}}</ng-option>
+                          </ng-select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <!-- Title -->
+                        <td class=" custom-text-title col-2"> {{ 'EmployeeInformationModule.EmployeeTransferHistory.Nationality' | translate}}</td>
+                        <!-- Before Change -->
+                        <td class="col-5">
+                          <input type="text"
+                                 class="form-control"
+                                 disabled
+                                 [ngModel]="param.nationality_Before"
+                                 id="nationality_Before"
+                                 name="nationality_Before"
+                                 autocomplete="off"
+                                 maxlength="50"
+                                 placeholder='{{"EmployeeInformationModule.EmployeeTransferHistory.Nationality" | translate }}'>
+                        </td>
+                        <!-- After Change -->
+                        <td class="col-5">
+                          <input type="text"
+                                 class="form-control"
+                                 disabled
+                                 [ngModel]="param.nationality_After"
+                                 id="nationality_After"
+                                 name="nationality_After"
+                                 autocomplete="off"
+                                 maxlength="50"
+                                 placeholder='{{"EmployeeInformationModule.EmployeeTransferHistory.Nationality" | translate }}'>
+                        </td>
+                      </tr>
+                      <tr>
+                        <!-- Title -->
+                        <td class=" custom-text-title col-2 "> {{ 'EmployeeInformationModule.EmployeeTransferHistory.IdentificationNumber' | translate}}</td>
+                        <!-- Before Change -->
+                        <td class="col-5">
+                          <input type="text"
+                                 class="form-control"
+                                 disabled
+                                 [ngModel]="param.identification_Number_Before"
+                                 id="identification_Number_Before"
+                                 name="identification_Number_Before"
+                                 autocomplete="off"
+                                 maxlength="50"
+                                 placeholder='{{"EmployeeInformationModule.EmployeeTransferHistory.IdentificationNumber" | translate }}'>
+                        </td>
+                        <!-- After Change -->
+                        <td class="col-5">
+                          <input type="text"
+                                 class="form-control"
+                                 disabled
+                                 [ngModel]="param.identification_Number_After"
+                                 id="identification_Number_After"
+                                 name="identification_Number_After"
+                                 maxlength="50"
+                                 autocomplete="off"
+                                 placeholder='{{"EmployeeInformationModule.EmployeeTransferHistory.IdentificationNumber" | translate }}'>
+                        </td>
+                      </tr>
+                      <tr>
+                        <!-- Title -->
+                        <td class=" custom-text-title col-2"> {{ 'EmployeeInformationModule.EmployeeTransferHistory.LocalFullName' | translate}}</td>
+                        <!-- Before Change -->
+                        <td class="col-5">
+                          <input type="text"
+                                 class="form-control"
+                                 disabled
+                                 [ngModel]="param.local_Full_Name_Before"
+                                 id="local_Full_Name_Before"
+                                 name="local_Full_Name_Before"
+                                 autocomplete="off"
+                                 maxlength="255"
+                                 placeholder='{{"EmployeeInformationModule.EmployeeTransferHistory.LocalFullName" | translate }}'>
+                        </td>
+                        <!-- After Change -->
+                        <td class="col-5">
+                          <input type="text"
+                                 class="form-control"
+                                 disabled
+                                 [ngModel]="param.local_Full_Name_After"
+                                 id="local_Full_Name_After"
+                                 name="local_Full_Name_After"
+                                 autocomplete="off"
+                                 maxlength="255"
+                                 placeholder='{{"EmployeeInformationModule.EmployeeTransferHistory.LocalFullName" | translate }}'>
+                        </td>
+                      </tr>
+                      <tr>
+                        <!-- Title -->
+                        <td class=" custom-text-title col-2"> {{ 'EmployeeInformationModule.EmployeeTransferHistory.Division' | translate}} <span class="text-danger text-bold"> *</span></td>
+                        <!-- Before Change -->
+                        <td class="col-5">
+                          <ng-select disabled
+                                     [ngModel]="param.division_Before"
+                                     name="division_Before"
+                                     (ngModelChange)="onDivisionChange()"
+                                     [clearable]="false"
+                                     placeholder='{{"EmployeeInformationModule.EmployeeTransferHistory.Division" | translate }}'>
+                            <ng-option *ngFor="let i of listDivision"
+                                       [value]="i.key">{{i.value}}</ng-option>
+                          </ng-select>
+                        </td>
+                        <!-- After Change -->
+                        <td class="col-5"
+                            [ngClass]="{'invalid-data': !param.division_After}">
+                          <ng-select [(ngModel)]="param.division_After"
+                                     name="division_After"
+                                     (ngModelChange)="onDivisionChange()"
+                                     [clearable]="param.division_After != ''"
+                                     (clear)="deleteProperty('division_After')"
+                                     placeholder='{{"EmployeeInformationModule.EmployeeTransferHistory.Division" | translate }}'
+                                     required>
+                            <ng-option *ngFor="let i of listDivision"
+                                       [value]="i.key">{{i.value}}</ng-option>
+                          </ng-select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <!-- Title -->
+                        <td class=" custom-text-title col-2"> {{ 'EmployeeInformationModule.EmployeeTransferHistory.Factory' | translate}} <span class="text-danger text-bold"> *</span></td>
+                        <!-- Before Change -->
+                        <td class="col-5">
+                          <ng-select [ngModel]="param.factory_Before"
+                                     disabled
+                                     name="factory_Before"
+                                     (ngModelChange)="onFactoryChange()"
+                                     [clearable]="false"
+                                     placeholder='{{"EmployeeInformationModule.EmployeeTransferHistory.Factory" | translate }}'>
+                            <ng-option *ngFor="let i of listFactory"
+                                       [value]="i.key">{{i.value}}</ng-option>
+                          </ng-select>
+                        </td>
+                        <!-- After Change -->
+                        <td class="col-5"
+                            [ngClass]="{'invalid-data': !param.factory_After}">
+                          <ng-select [(ngModel)]="param.factory_After"
+                                     name="factory_After"
+                                     (ngModelChange)="onFactoryChange()"
+                                     [clearable]="param.factory_After != ''"
+                                     (clear)="deleteProperty('factory_After')"
+                                     placeholder='{{"EmployeeInformationModule.EmployeeTransferHistory.Factory" | translate }}'
+                                     required>
+                            <ng-option *ngFor="let i of listFactory"
+                                       [value]="i.key">{{i.value}}</ng-option>
+                          </ng-select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <!-- Title -->
+                        <td class=" custom-text-title col-2"> {{ 'EmployeeInformationModule.EmployeeTransferHistory.EmployeeID' | translate}} <span class="text-danger text-bold"> *</span></td>
+                        <!-- Before Change -->
+                        <td class="col-5">
+                          <input type="text"
+                                 class="form-control"
+                                 disabled
+                                 [ngModel]="param.employee_ID_Before"
+                                 id="employee_ID_Before"
+                                 name="employee_ID_Before"
+                                 autocomplete="off"
+                                 placeholder='{{"EmployeeInformationModule.EmployeeTransferHistory.EmployeeID" | translate }}'>
+                        </td>
+                        <!-- After Change -->
+                        <td class="col-5"
+                            [ngClass]="{'invalid-data': !param.employee_ID_After || !isCheckedEmp}">
+                          <input type="text"
+                                 class="form-control"
+                                 [(ngModel)]="param.employee_ID_After"
+                                 id="employee_ID_After"
+                                 name="employee_ID_After"
+                                 maxlength="9"
+                                 [typeahead]="dataTypeaHead"
+                                 typeaheadOptionField="key"
+                                 typeaheadScrollable="true"
+                                 autocomplete="off"
+                                 placeholder='{{"EmployeeInformationModule.EmployeeTransferHistory.EmployeeID" | translate }}'
+                                 (blur)="checkEmployeeID()"
+                                 required>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <!-- Title -->
+                        <td class=" custom-text-title col-2"> {{ 'EmployeeInformationModule.EmployeeTransferHistory.Department' | translate}} <span class="text-danger text-bold"> *</span></td>
+                        <!-- Before Change -->
+                        <td class="col-5">
+                          <ng-select [ngModel]="param.department_Before"
+                                     disabled
+                                     name="department_Before"
+                                     [clearable]="false"
+                                     placeholder='{{"EmployeeInformationModule.EmployeeTransferHistory.Department" | translate }}'>
+                            <ng-option *ngFor="let i of listDepartment"
+                                       [value]="i.key">{{i.value}}</ng-option>
+                          </ng-select>
+
+                        </td>
+                        <!-- After Change -->
+                        <td class="col-5"
+                            [ngClass]="{'invalid-data': !param.department_After}">
+                          <ng-select [(ngModel)]="param.department_After"
+                                     name="department_After"
+                                     [clearable]="param.department_After != ''"
+                                     (clear)="deleteProperty('department_After')"
+                                     placeholder='{{"EmployeeInformationModule.EmployeeTransferHistory.Department" | translate }}'
+                                     required>
+                            <ng-option *ngFor="let i of listDepartment"
+                                       [value]="i.key">{{i.value}}</ng-option>
+                          </ng-select>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <!-- Title -->
+                        <td class=" custom-text-title col-2"> {{ 'EmployeeInformationModule.EmployeeTransferHistory.Assigned/SupportedDivision' | translate}}</td>
+                        <!-- Before Change -->
+                        <td class="col-5">
+                          <ng-select [ngModel]="param.assigned_Division_Before"
+                                     disabled
+                                     name="assigned_Division_Before"
+                                     (ngModelChange)="onAssignedSupportedFactoryChange()"
+                                     [clearable]="false"
+                                     placeholder='{{"EmployeeInformationModule.EmployeeTransferHistory.Assigned/SupportedDivision" | translate }}'>
+                            <ng-option *ngFor="let i of listAssignedDivisionAfter"
+                                       [value]="i.key">{{i.value}}</ng-option>
+                          </ng-select>
+                        </td>
+                        <!-- After Change -->
+                        <td class="col-5">
+                          <ng-select [ngModel]="param.assigned_Division_After"
+                                     disabled
+                                     name="assigned_Division_After"
+                                     (ngModelChange)="onAssignedSupportedFactoryChange()"
+                                     [clearable]="false"
+                                     placeholder='{{"EmployeeInformationModule.EmployeeTransferHistory.Assigned/SupportedDivision" | translate }}'>
+                            <ng-option *ngFor="let i of listAssignedDivisionAfter"
+                                       [value]="i.key">{{i.value}}</ng-option>
+                          </ng-select>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <!-- Title -->
+                        <td class=" custom-text-title col-2"> {{ 'EmployeeInformationModule.EmployeeTransferHistory.Assigned/SupportedFactory' | translate}}</td>
+                        <!-- Before Change -->
+                        <td class="col-5">
+                          <ng-select [ngModel]="param.assigned_Factory_Before"
+                                     disabled
+                                     name="assigned_Factory_Before"
+                                     [clearable]="false"
+                                     placeholder='{{"EmployeeInformationModule.EmployeeTransferHistory.Assigned/SupportedFactory" | translate }}'>
+                            <ng-option *ngFor="let i of listAssignedFactoryAfter"
+                                       [value]="i.key">{{i.value}}</ng-option>
+                          </ng-select>
+                        </td>
+                        <!-- After Change -->
+                        <td class="col-5">
+                          <ng-select [ngModel]="param.assigned_Factory_After"
+                                     disabled
+                                     name="assigned_Factory_After"
+                                     [clearable]="false"
+                                     placeholder='{{"EmployeeInformationModule.EmployeeTransferHistory.Assigned/SupportedFactory" | translate }}'>
+                            <ng-option *ngFor="let i of listAssignedFactoryAfter"
+                                       [value]="i.key">{{i.value}}</ng-option>
+                          </ng-select>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <!-- Title -->
+                        <td class=" custom-text-title col-2"> {{ 'EmployeeInformationModule.EmployeeTransferHistory.Assigned/SupportedEmployeeID' | translate}}</td>
+                        <!-- Before Change -->
+                        <td class="col-5">
+                          <input type="text"
+                                 class="form-control"
+                                 disabled
+                                 [ngModel]="param.assigned_Employee_ID_Before"
+                                 id="assigned_Employee_ID_Before"
+                                 name="assigned_Employee_ID_Before"
+                                 autocomplete="off"
+                                 maxlength="255"
+                                 placeholder='{{"EmployeeInformationModule.EmployeeTransferHistory.Assigned/SupportedEmployeeID" | translate }}'>
+                        </td>
+                        <!-- After Change -->
+                        <td class="col-5">
+                          <input type="text"
+                                 class="form-control"
+                                 disabled
+                                 [ngModel]="param.assigned_Employee_ID_After"
+                                 id="assigned_Employee_ID_After"
+                                 name="assigned_Employee_ID_After"
+                                 autocomplete="off"
+                                 maxlength="255"
+                                 placeholder='{{"EmployeeInformationModule.EmployeeTransferHistory.Assigned/SupportedEmployeeID" | translate }}'>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <!-- Title -->
+                        <td class=" custom-text-title col-2"> {{ 'EmployeeInformationModule.EmployeeTransferHistory.Assigned/SupportedDepartment' | translate}}</td>
+                        <!-- Before Change -->
+                        <td class="col-5">
+                          <ng-select [ngModel]="param.assigned_Department_Before"
+                                     disabled
+                                     name="assigned_Department_Before"
+                                     [clearable]="false"
+                                     placeholder='{{"EmployeeInformationModule.EmployeeTransferHistory.Assigned/SupportedDepartment" | translate }}'>
+                            <ng-option *ngFor="let i of listAssignedDepartmentAfter"
+                                       [value]="i.key">{{i.value}}</ng-option>
+                          </ng-select>
+                        </td>
+                        <!-- After Change -->
+                        <td class="col-5">
+                          <ng-select [ngModel]="param.assigned_Department_After"
+                                     disabled
+                                     name="assigned_Department_After"
+                                     [clearable]="false"
+                                     placeholder='{{"EmployeeInformationModule.EmployeeTransferHistory.Assigned/SupportedDepartment" | translate }}'>
+                            <ng-option *ngFor="let i of listAssignedDepartmentAfter"
+                                       [value]="i.key">{{i.value}}</ng-option>
+                          </ng-select>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <!-- Title -->
+                        <td class=" custom-text-title col-2"> {{ 'EmployeeInformationModule.EmployeeTransferHistory.PositionGrade' | translate}} <span class="text-danger text-bold"> *</span></td>
+                        <!-- Before Change -->
+                        <td class="col-5">
+                          <ng-select [ngModel]="param.position_Grade_Before"
+                                     disabled
+                                     name="position_Grade_Before"
+                                     [clearable]="false"
+                                     (ngModelChange)="onPositionTitle()"
+                                     placeholder='{{"EmployeeInformationModule.EmployeeTransferHistory.PositionGrade" | translate }}'>
+                            <ng-option *ngFor="let i of listPositionGrade"
+                                       [value]="i.key">{{i.value}}</ng-option>
+                          </ng-select>
+                        </td>
+                        <!-- After Change -->
+                        <td class="col-5"
+                            [ngClass]="{'invalid-data': param.position_Grade_After == null}">
+                          <ng-select [(ngModel)]="param.position_Grade_After"
+                                     name="position_Grade_After"
+                                     [clearable]="param.position_Grade_After != null"
+                                     (clear)="deleteProperty('position_Grade_After')"
+                                     (ngModelChange)="onPositionTitle()"
+                                     placeholder='{{"EmployeeInformationModule.EmployeeTransferHistory.PositionGrade" | translate }}'
+                                     required>
+                            <ng-option *ngFor="let i of listPositionGrade"
+                                       [value]="i.key">{{i.value}}</ng-option>
+                          </ng-select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <!-- Title -->
+                        <td class=" custom-text-title col-2"> {{ 'EmployeeInformationModule.EmployeeTransferHistory.PositionTitle' | translate}} <span class="text-danger text-bold"> *</span></td>
+                        <!-- Before Change -->
+                        <td class="col-5">
+                          <ng-select disabled
+                                     [ngModel]="param.position_Title_Before"
+                                     name="position_Title_Before"
+                                     [clearable]="false"
+                                     placeholder='{{"EmployeeInformationModule.EmployeeTransferHistory.PositionTitle" | translate }}'>
+                            <ng-option *ngFor="let i of listPositionTitleBefore"
+                                       [value]="i.key">{{i.value}}</ng-option>
+                          </ng-select>
+                        </td>
+                        <!-- After Change -->
+                        <td class="col-5"
+                            [ngClass]="{'invalid-data': !param.position_Title_After}">
+                          <ng-select [(ngModel)]="param.position_Title_After"
+                                     name="position_Title_After"
+                                     [clearable]="param.position_Title_After != ''"
+                                     (clear)="deleteProperty('position_Title_After')"
+                                     placeholder='{{"EmployeeInformationModule.EmployeeTransferHistory.PositionTitle" | translate }}'
+                                     required>
+                            <ng-option *ngFor="let i of listPositionTitleAfter"
+                                       [value]="i.key">{{i.value}}</ng-option>
+                          </ng-select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <!-- Title -->
+                        <td class=" custom-text-title col-2"> {{ 'EmployeeInformationModule.EmployeeTransferHistory.WorkType/Job' | translate}} <span class="text-danger text-bold"> *</span></td>
+                        <!-- Before Change -->
+                        <td class="col-5">
+                          <ng-select [ngModel]="param.work_Type_Before"
+                                     disabled
+                                     name="work_Type_Before"
+                                     [clearable]="false"
+                                     placeholder='{{"EmployeeInformationModule.EmployeeTransferHistory.WorkType/Job" | translate }}'>
+                            <ng-option *ngFor="let i of listWorkType"
+                                       [value]="i.key">{{i.value}}</ng-option>
+                          </ng-select>
+                        </td>
+                        <!-- After Change -->
+                        <td class="col-5"
+                            [ngClass]="{'invalid-data': !param.work_Type_After}">
+                          <ng-select [(ngModel)]="param.work_Type_After"
+                                     name="work_Type_After"
+                                     placeholder='{{"EmployeeInformationModule.EmployeeTransferHistory.WorkType/Job" | translate }}'
+                                     [clearable]="param.work_Type_After != ''"
+                                     (clear)="deleteProperty('work_Type_After')"
+                                     required>
+                            <ng-option *ngFor="let i of listWorkType"
+                                       [value]="i.key">{{i.value}}</ng-option>
+                          </ng-select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <!-- Title -->
+                        <td class=" custom-text-title col-2"> {{ 'EmployeeInformationModule.EmployeeTransferHistory.PeriodOfActingPosition' | translate}}</td>
+                        <!-- Before Change -->
+                        <td class="col-5">
+                          <div class="row">
+                            <div class="col-md-6">
+                              <input autocomplete="off"
+                                     type="text"
+                                     placeholder="YYYY/MM/DD"
+                                     maxlength="10"
+                                     class="form-control"
+                                     name="actingPosition_Start_Before"
+                                     bsDatepicker
+                                     [bsConfig]="{ isAnimated: true,dateInputFormat: 'YYYY/MM/DD' }"
+                                     [bsValue]="param.actingPosition_Start_Before"
+                                     (bsValueChange)="onDateChange('actingPosition_Start_Before',$event)"
+                                     disabled />
+                            </div>
+                            <div class="col-md-6">
+                              <input autocomplete="off"
+                                     type="text"
+                                     placeholder="YYYY/MM/DD"
+                                     maxlength="10"
+                                     class="form-control"
+                                     name="actingPosition_End_Before"
+                                     bsDatepicker
+                                     [bsConfig]="{ isAnimated: true,dateInputFormat: 'YYYY/MM/DD' }"
+                                     [bsValue]="param.actingPosition_End_Before"
+                                     (bsValueChange)="onDateChange('actingPosition_End_Before',$event)"
+                                     disabled />
+                            </div>
+                          </div>
+                        </td>
+
+                        <!-- After Change -->
+                        <td class="col-5">
+                          <div class="row">
+                            <div class="col-md-6">
+                              <input autocomplete="off"
+                                     type="text"
+                                     placeholder="YYYY/MM/DD"
+                                     maxlength="10"
+                                     class="form-control bg-white"
+                                     name="actingPosition_Start_After"
+                                     [bsValue]="param.actingPosition_Start_After"
+                                     (bsValueChange)="onDateChange('actingPosition_Start_After',$event)"
+                                     [maxDate]="param.actingPosition_End_After"
+                                     bsDatepicker
+                                     [bsConfig]="{ isAnimated: true,dateInputFormat: 'YYYY/MM/DD' }" />
+                            </div>
+
+                            <div class="col-md-6">
+                              <input autocomplete="off"
+                                     type="text"
+                                     placeholder="YYYY/MM/DD"
+                                     maxlength="10"
+                                     class="form-control bg-white"
+                                     name="actingPosition_End_After"
+                                     [bsValue]="param.actingPosition_End_After"
+                                     (bsValueChange)="onDateChange('actingPosition_End_After',$event)"
+                                     [minDate]="param.actingPosition_Start_After"
+                                     bsDatepicker
+                                     [bsConfig]="{ isAnimated: true,dateInputFormat: 'YYYY/MM/DD' }" />
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <!-- Title -->
+                        <td class=" custom-text-title col-2"> {{ 'EmployeeInformationModule.EmployeeTransferHistory.ReasonforChange' | translate}} <span class="text-danger text-bold"> *</span></td>
+                        <!-- Before Change -->
+                        <td class="col-5">
+                        </td>
+                        <!-- After Change -->
+                        <td class="col-5"
+                            [ngClass]="{'invalid-data': !param.reason_for_Change}">
+                          <ng-select [(ngModel)]="param.reason_for_Change"
+                                     name="reason_for_Change"
+                                     placeholder="{{'EmployeeInformationModule.EmployeeTransferHistory.ReasonforChange' | translate }}"
+                                     [clearable]="param.reason_for_Change != ''"
+                                     (clear)="deleteProperty('reason_for_Change')"
+                                     appendTo="body"
+                                     required>
+                            <ng-option *ngFor="let i of listReasonforChange"
+                                       [value]="i.key">{{i.key}} - {{i.value}}</ng-option>
+                          </ng-select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <!-- Title -->
+                        <td class="lineheight-custom custom-text-title col-2"> {{ 'EmployeeInformationModule.EmployeeTransferHistory.Seq' | translate}}</td>
+                        <!-- Before Change -->
+                        <td class="col-5">
+                          <input type="text"
+                                 class="form-control d-none"
+                                 [ngModel]="param.useR_GUID"
+                                 disabled
+                                 id="useR_GUID"
+                                 name="useR_GUID"
+                                 placeholder='{{"EmployeeInformationModule.EmployeeTransferHistory.Seq" | translate }}'>
+                        </td>
+                        <!-- After Change -->
+                        <td class="col-5">
+                          <input type="text"
+                                 class="form-control"
+                                 [ngModel]="param.seq"
+                                 disabled
+                                 id="seq"
+                                 name="seq"
+                                 placeholder='{{"EmployeeInformationModule.EmployeeTransferHistory.Seq" | translate }}'>
+                        </td>
+                      </tr>
+                      <tr>
+                        <!-- Title -->
+                        <td class=" custom-text-title col-2"> {{ 'EmployeeInformationModule.EmployeeTransferHistory.EffectiveDate' | translate}} <span class="text-danger text-bold"> *</span></td>
+                        <!-- Before Change -->
+                        <td class="col-5">
+                        </td>
+                        <!-- After Change -->
+                        <td class="col-5"
+                            [ngClass]="{'invalid-data': !param.effective_Date || !isValidDate(param.effective_Date) }">
+                          <input autocomplete="off"
+                                 type="text"
+                                 placeholder='YYYY/MM/DD'
+                                 maxlength="10"
+                                 class="form-control bg-white"
+                                 name="effective_Date"
+                                 (bsValueChange)="onDateChange('effective_Date',$event)"
+                                 [bsValue]="param.effective_Date"
+                                 [minDate]=" param.data_Source == '01' ? maxDateEffective : null"
+                                 bsDatepicker
+                                 [bsConfig]="{ isAnimated: true,dateInputFormat: 'YYYY/MM/DD' }"
+                                 required />
+                        </td>
+                      </tr>
+                      <tr>
+                        <!-- Title -->
+                        <td class=" custom-text-title col-2"> {{ 'EmployeeInformationModule.EmployeeTransferHistory.EffectiveStatus' | translate}}</td>
+                        <!-- Before Change -->
+                        <td class="col-5">
+                        </td>
+                        <!-- After Change -->
+                        <td class="col-5">
+                          <input type="text"
+                                 class="form-control"
+                                 [ngModel]="param.effective_Status ? 'Y': 'N'"
+                                 disabled
+                                 id="effective_Status"
+                                 name="effective_Status"
+                                 placeholder='{{"EmployeeInformationModule.EmployeeTransferHistory.EffectiveStatus" | translate }}'>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="row justify-content-md-center mt-3">
+              <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="table-responsive text-right">
+                  <button type="button"
+                          class="btn btn-success"
+                          (click)="save()"
+                          [disabled]="!addForm.valid || param.employee_ID_Before == null">
+                    <i class="{{ iconButton.SAVE }}"></i> {{"System.Action.Save" | translate }}
+                  </button>
+                  <button type="button"
+                          class="btn btn-danger ml-2"
+                          (click)="back()">
+                    <i class="{{ iconButton.CLOSE }}"></i> {{"System.Action.Close" | translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

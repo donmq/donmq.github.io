@@ -1,0 +1,340 @@
+<div bsModal
+     #modal="bs-modal"
+     class="modal fade"
+     tabindex="-1"
+     role="dialog"
+     (onHide)="onHide()">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <form #editForm="ngForm"
+            autocomplete="off">
+        <div class="bg-primary modal-header">
+          <h4 class="modal-title pull-left"> {{ title }} - {{"System.Action.Edit" | translate}}</h4>
+          <button type="button"
+                  class="btn-close close pull-right"
+                  aria-label="Close"
+                  (click)="close()">
+            <span aria-hidden="true"
+                  class="visually-hidden">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body header-param">
+          <div class="row">
+            <!-- Factory -->
+            <div class="col-xxl-3 col-xl-3 col-lg-6 col-sm-12 col-md-6 ">
+              <label class="badge badge-warning"
+                     for="factory">
+                {{"AttendanceMaintenance.AttendanceChangeRecordMaintenance.Factory" | translate }}
+                <span class="text-danger text-bold">*</span>
+              </label>
+              <input autocomplete="off"
+                     type="text"
+                     class="form-control"
+                     maxlength="50"
+                     name="factory"
+                     [ngModel]="data.factory"
+                     disabled />
+            </div>
+            <!-- Department -->
+            <div class="col-xxl-3 col-xl-3 col-lg-6 col-sm-12 col-md-6 ">
+              <label class="badge badge-warning"
+                     for="department">
+                {{"AttendanceMaintenance.AttendanceChangeRecordMaintenance.Department" | translate }}
+              </label>
+              <input autocomplete="off"
+                     type="text"
+                     class="form-control"
+                     maxlength="50"
+                     name="department"
+                     [ngModel]="data.department_Code_Name"
+                     disabled />
+            </div>
+            <!-- EmployeeID -->
+            <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label for="employee_ID"
+                     class="badge badge-warning">{{'AttendanceMaintenance.AttendanceChangeRecordMaintenance.EmployeeID' | translate }}
+                <span class="text-danger text-bold">*</span></label>
+              <input autocomplete="off"
+                     type="text"
+                     class="form-control"
+                     maxlength="50"
+                     name="employee_ID"
+                     [ngModel]="data.employee_ID"
+                     disabled />
+            </div>
+            <!-- LocalFullName -->
+            <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label for="local_Full_Name"
+                     class="badge badge-warning">{{'AttendanceMaintenance.AttendanceChangeRecordMaintenance.LocalFullName' | translate }}</label>
+              <input autocomplete="off"
+                     type="text"
+                     class="form-control"
+                     maxlength="50"
+                     name="local_Full_Name"
+                     [ngModel]="data.local_Full_Name"
+                     disabled />
+            </div>
+            <!-- Date -->
+            <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label class="badge badge-warning">{{'AttendanceMaintenance.AttendanceChangeRecordMaintenance.Date' | translate }}
+                <span class="text-danger text-bold">*</span>
+              </label>
+              <div class="full-width">
+                <div class="container_input">
+                  <div class="input-group mr-1">
+                    <input type="text"
+                           autocomplete="off"
+                           placeholder="YYYY/MM/DD"
+                           name="att_Date"
+                           [bsConfig]="bsConfig"
+                           class="form-control"
+                           bsDatepicker
+                           [ngModel]="data.att_Date"
+                           disabled />
+                    <div class="input-group-append">
+                      <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- WorkShiftType -->
+            <div class="col-xxl-3 col-xl-3 col-lg-6 col-sm-12 col-md-6 ">
+              <label class="badge badge-warning"
+                     for="work_Shift_Type">
+                {{"AttendanceMaintenance.AttendanceChangeRecordMaintenance.WorkShiftType" | translate }}
+                <span class="text-danger text-bold">*</span>
+              </label>
+              <ng-select name="work_Shift_Type"
+                         [ngModel]="data.work_Shift_Type"
+                         disabled>
+                <ng-option *ngFor="let data of listWorkShiftType"
+                           [value]="data.key">{{data.value}}
+                </ng-option>
+              </ng-select>
+            </div>
+            <!-- Attendance -->
+            <div class="col-xxl-3 col-xl-3 col-lg-6 col-sm-12 col-md-6 ">
+              <label class="badge badge-warning"
+                     for="leave_Code">
+                {{"AttendanceMaintenance.AttendanceChangeRecordMaintenance.Attendance" | translate }}
+                <span class="text-danger text-bold">*</span>
+              </label>
+              <ng-select name="leave_Code"
+                         [(ngModel)]="data.leave_Code"
+                         (ngModelChange)="onDataChange()"
+                         placeholder="{{'AttendanceMaintenance.AttendanceChangeRecordMaintenance.Attendance' | translate }}"
+                         (clear)="deleteProperty('leave_Code')"
+                         [clearable]="data.leave_Code !== ''"
+                         appendTo="body"
+                         required>
+                <ng-option *ngFor="let data of listAttendance"
+                           [value]="data.key">{{data.value}}
+                </ng-option>
+              </ng-select>
+            </div>
+            <!-- UpdateReason -->
+            <div class="col-xxl-3 col-xl-3 col-lg-6 col-sm-12 col-md-6 ">
+              <label class="badge badge-warning"
+                     for="reason_Code">
+                {{"AttendanceMaintenance.AttendanceChangeRecordMaintenance.UpdateReason" | translate }}
+                <span class="text-danger text-bold">*</span>
+              </label>
+              <ng-select name="reason_Code"
+                         [(ngModel)]="data.reason_Code"
+                         (ngModelChange)="onDataChange()"
+                         placeholder="{{'AttendanceMaintenance.AttendanceChangeRecordMaintenance.UpdateReason' | translate }}"
+                         (clear)="deleteProperty('reason_Code')"
+                         [clearable]="data.reason_Code !== ''"
+                         appendTo="body"
+                         required>
+                <ng-option *ngFor="let data of listReasonCode"
+                           [value]="data.key">{{data.value}}
+                </ng-option>
+              </ng-select>
+            </div>
+            <!-- ClockIn -->
+            <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label for="previous_Hours"
+                     class="badge badge-warning">{{'AttendanceMaintenance.AttendanceChangeRecordMaintenance.ClockIn' | translate }}
+                <span class="text-danger text-bold">*</span></label>
+              <input type="text"
+                     class="form-control w-100"
+                     disabled
+                     name="clock_In"
+                     minlength="4"
+                     maxlength="4"
+                     mask="00:00"
+                     [(ngModel)]="data.clock_In" />
+            </div>
+            <!-- ModifiedClockIn -->
+            <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label for="previous_Hours"
+                     class="badge badge-warning">{{'AttendanceMaintenance.AttendanceChangeRecordMaintenance.ModifiedClockIn' | translate }}
+                <span class="text-danger text-bold">*</span></label>
+              <input [(ngModel)]="data.modified_Clock_In"
+                     mask="00:00"
+                     (blur)="updateTime($event.target.value, 'modified_Clock_In')"
+                     name="modified_Clock_In"
+                     type="text"
+                     class="form-control "
+                     required />
+            </div>
+            <!-- ClockOut -->
+            <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label for="previous_Hours"
+                     class="badge badge-warning">{{'AttendanceMaintenance.AttendanceChangeRecordMaintenance.ClockOut' | translate }}
+                <span class="text-danger text-bold">*</span></label>
+              <input type="text"
+                     class="form-control w-100"
+                     disabled
+                     mask="00:00"
+                     name="clock_Out"
+                     minlength="4"
+                     maxlength="4"
+                     [(ngModel)]="data.clock_Out" />
+            </div>
+            <!-- ModifiedClockOut -->
+            <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label for="previous_Hours"
+                     class="badge badge-warning">{{'AttendanceMaintenance.AttendanceChangeRecordMaintenance.ModifiedClockOut' | translate }}
+                <span class="text-danger text-bold">*</span></label>
+              <input [(ngModel)]="data.modified_Clock_Out"
+                     mask="00:00"
+                     (blur)="updateTime($event.target.value, 'modified_Clock_Out')"
+                     name="modified_Clock_Out"
+                     type="text"
+                     class="form-control "
+                     required />
+            </div>
+            <!-- OvertimeClockIn -->
+            <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label for="previous_Hours"
+                     class="badge badge-warning">{{'AttendanceMaintenance.AttendanceChangeRecordMaintenance.OvertimeClockIn' | translate }}
+                <span class="text-danger text-bold">*</span></label>
+              <input type="text"
+                     class="form-control w-100"
+                     disabled
+                     mask="00:00"
+                     name="overtime_ClockIn"
+                     minlength="4"
+                     maxlength="4"
+                     [(ngModel)]="data.overtime_ClockIn" />
+            </div>
+            <!-- ModifiedOvertimeClockIn -->
+            <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label for="previous_Hours"
+                     class="badge badge-warning">{{'AttendanceMaintenance.AttendanceChangeRecordMaintenance.ModifiedOvertimeClockIn' | translate }}
+                <span class="text-danger text-bold">*</span></label>
+              <input [(ngModel)]="data.modified_Overtime_ClockIn"
+                     mask="00:00"
+                     (blur)="updateTime($event.target.value, 'modified_Overtime_ClockIn')"
+                     name="modified_Overtime_ClockIn"
+                     type="text"
+                     class="form-control "
+                     required />
+            </div>
+            <!-- OvertimeClockOut -->
+            <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label for="previous_Hours"
+                     class="badge badge-warning">{{'AttendanceMaintenance.AttendanceChangeRecordMaintenance.OvertimeClockOut' | translate }}
+                <span class="text-danger text-bold">*</span></label>
+              <input type="text"
+                     class="form-control w-100"
+                     disabled
+                     mask="00:00"
+                     name="overtime_ClockOut"
+                     minlength="4"
+                     maxlength="4"
+                     [(ngModel)]="data.overtime_ClockOut" />
+            </div>
+            <!-- ModifiedOvertimeClockOut -->
+            <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label for="modified_Overtime_ClockOut"
+                     class="badge badge-warning">{{'AttendanceMaintenance.AttendanceChangeRecordMaintenance.ModifiedOvertimeClockOut' | translate }}
+                <span class="text-danger text-bold">*</span></label>
+              <input [(ngModel)]="data.modified_Overtime_ClockOut"
+                     mask="00:00"
+                     (blur)="updateTime($event.target.value, 'modified_Overtime_ClockOut')"
+                     name="modified_Overtime_ClockOut"
+                     type="text"
+                     class="form-control "
+                     required />
+            </div>
+            <!-- Days -->
+            <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label for="days"
+                     class="badge badge-warning">{{'AttendanceMaintenance.AttendanceChangeRecordMaintenance.Days' | translate }}
+                <span class="text-danger text-bold">*</span></label>
+              <input type="text"
+                     decimalMarker="."
+                     thousandSeparator=""
+                     separatorLimit="99999"
+                     mask="separator.5"
+                     maxlength="11"
+                     class="form-control w-100"
+                     name="days"
+                     [leadZero]="true"
+                     [(ngModel)]="data.days"
+                     (ngModelChange)="onDataChange()"
+                     required />
+            </div>
+            <!-- Holiday -->
+            <div class="col-xxl-3 col-xl-3 col-lg-6 col-sm-12 col-md-6 ">
+              <label class="badge badge-warning"
+                     for="holiday">
+                {{"AttendanceMaintenance.AttendanceChangeRecordMaintenance.Holiday" | translate }}
+              </label>
+              <ng-select name="holiday"
+                         [ngModel]="data.holiday"
+                         placeholder="{{'AttendanceMaintenance.AttendanceChangeRecordMaintenance.Holiday' | translate }}"
+                         disabled>
+                <ng-option *ngFor="let data of listHoliday"
+                           [value]="data.key">{{data.value}}
+                </ng-option>
+              </ng-select>
+            </div>
+            <!-- UpdateBy -->
+            <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label for="UpdateBy"
+                     class="badge badge-warning">{{'AttendanceMaintenance.AttendanceChangeRecordMaintenance.UpdateBy' | translate }}
+              </label>
+              <input type="text"
+                     class="form-control w-100"
+                     name="update_By"
+                     [ngModel]="data.update_By"
+                     disabled />
+            </div>
+            <!-- UpdateTime -->
+            <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+              <label for="UpdateTime"
+                     class="badge badge-warning">{{'AttendanceMaintenance.AttendanceChangeRecordMaintenance.UpdateTime' | translate }}
+              </label>
+              <input type="text"
+                     class="form-control w-100"
+                     name="update_Time"
+                     [ngModel]="data.update_Time_Str"
+                     disabled />
+            </div>
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button"
+                  class="btn btn-success"
+                  (click)="save()"
+                  [disabled]="!editForm.valid">
+            <i class="{{ iconButton.SAVE }} mr-1"
+               aria-hidden="true"> </i>{{'System.Action.Save' | translate }}
+          </button>
+          <button type="button"
+                  class="{{classButton.CLOSE}}"
+                  (click)="close()">
+            <i class="{{ iconButton.CLOSE }} mr-1"
+               aria-hidden="true"></i>{{'System.Action.Close' | translate }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

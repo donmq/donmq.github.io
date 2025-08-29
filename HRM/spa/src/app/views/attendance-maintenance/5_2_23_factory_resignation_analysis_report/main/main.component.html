@@ -1,0 +1,160 @@
+<div class="animated fadeIn">
+  <div>
+    <div class="card">
+      <form class="form-horizontal"
+            autocomplete="off"
+            #mainForm="ngForm">
+        <div class="card-header">
+          <div class="row border-title">
+            <div class="col-md-12">
+              <strong class="title-card-cs"> {{title }}</strong>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row border-shadow">
+            <div class="col-12">
+              <div class="row">
+                <!-- Factory -->
+                <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <label class="badge badge-warning">{{i18n + 'Factory' | translate }}
+                    <span class="text-danger"> *</span></label>
+                  <ng-select name="factoryGeneration"
+                             [(ngModel)]="param.factory"
+                             (clear)="deleteProperty('factory')"
+                             (ngModelChange)="onFactoryChange()"
+                             [clearable]="param.factory !== null"
+                             placeholder="{{i18n + 'Factory' | translate }}"
+                             required>
+                    <ng-option *ngFor="let item of factoryList"
+                               [value]="item.key">{{ item.value }}</ng-option>
+                  </ng-select>
+                </div>
+                <!-- Date -->
+                <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <label class="badge badge-warning">{{i18n + 'Date' | translate }}
+                    <span class="text-danger"> *</span>
+                  </label>
+                  <div class="full-width">
+                    <div class="container_input">
+                      <div class="input-group mr-1">
+                        <input type="text"
+                               autocomplete="off"
+                               placeholder="YYYY/MM/DD"
+                               name="dateStart_from"
+                               [maxDate]="param.date_To"
+                               [bsConfig]="bsConfig"
+                               class="form-control"
+                               bsDatepicker
+                               [(ngModel)]="param.date_From"
+                               (ngModelChange)="onDateChange('date_From')"
+                               onpaste="return false"
+                               required />
+                        <div class="input-group-append">
+                          <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
+                        </div>
+                      </div>
+                      <div class="input-group ml-1">
+                        <input type="text"
+                               autocomplete="off"
+                               placeholder="YYYY/MM/DD"
+                               name="dateStart_to"
+                               [minDate]="param.date_From"
+                               [bsConfig]="bsConfig"
+                               class="form-control"
+                               bsDatepicker
+                               [(ngModel)]="param.date_To"
+                               (ngModelChange)="onDateChange('date_To')"
+                               onpaste="return false"
+                               required />
+                        <div class="input-group-append">
+                          <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Permission Group -->
+                <div class="col-12">
+                  <div class="row">
+                    <div class="col-auto">
+                      <label for="namePermissionGeneration"
+                             class="badge badge-warning"> {{ i18n + 'PermissionGroup' | translate }}
+                        <span class="text-danger text-bold"> *</span>
+                      </label>
+                      <ng-select [items]="permissionGroupList"
+                                 [multiple]="true"
+                                 name="namePermissionGeneration"
+                                 groupBy="allGroup"
+                                 [selectableGroup]="true"
+                                 [selectableGroupAsModel]="false"
+                                 [closeOnSelect]="false"
+                                 bindLabel="value"
+                                 bindValue="key"
+                                 [(ngModel)]="param.permission_Group"
+                                 [disabled]="functionUtility.checkEmpty(param.factory)"
+                                 required
+                                 placeholder="{{ i18n + 'PermissionGroup'| translate}}">
+                        <ng-template ng-optgroup-tmp
+                                     let-item="item"
+                                     let-item$="item$"
+                                     let-index="index">
+                          <input id="itemGeneration-{{ index }}"
+                                 type="checkbox"
+                                 name="itemGeneration-{{ index }}"
+                                 [ngModel]="item$.selected" />
+                          {{ "System.Action.SelectAll" | translate }}</ng-template>
+                        <ng-template ng-option-tmp
+                                     let-item="item"
+                                     let-item$="item$"
+                                     let-index="index">
+                          <input id="itemGeneration-{{ index }}"
+                                 name="itemGeneration-{{ index }}"
+                                 type="checkbox"
+                                 [ngModel]="item$.selected" />
+                          {{ item.value }}
+                        </ng-template>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 mt-2">
+                  <button *ngIf="functionUtility.checkFunction('Search')"
+                          type="button"
+                          class="{{ classButton.SEARCH }}"
+                          [disabled]="!mainForm.valid"
+                          (click)="callFunction('search')">
+                    <i class="{{ iconButton.SEARCH }}"></i>
+                    {{ "System.Action.Search" | translate }}
+                  </button>
+                  <button *ngIf="functionUtility.checkFunction('Search')"
+                          type="button"
+                          class="{{ classButton.CLEAR }}"
+                          (click)="clear()">
+                    <i class="{{ iconButton.CLEAR }}"></i>
+                    {{ "System.Action.Clear" | translate }}
+                  </button>
+                  <button *ngIf="functionUtility.checkFunction('Excel')"
+                          type="button"
+                          class="{{ classButton.EXCEL }}"
+                          [disabled]="!mainForm.valid || param.total_Rows == 0"
+                          (click)="callFunction('excel')">
+                    <i class="{{ iconButton.EXCEL }}"></i>
+                    {{ "System.Action.Excel" | translate }}
+                  </button>
+                </div>
+                <div class="col-12 mt-2">
+                  <strong>
+                    {{ i18n + 'Total'| translate }}
+                    <span class="text-primary"> {{param.total_Rows}} </span>
+                    {{ i18n + 'Records' | translate }}
+                  </strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

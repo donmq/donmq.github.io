@@ -1,0 +1,259 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <form class="card form-horizontal needs-validation"
+            autocomplete="off">
+        <div class="form-horizontal">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong>{{ title }} - {{ 'System.Action.' + action | translate }}</strong>
+                <!-- Button Back -->
+                <button type="button"
+                        class="btn btn-sm btn-primary float-right"
+                        (click)="back()">
+                  <i class="fa fa-chevron-left"></i>
+                  {{'System.Action.Back' | translate}}
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <form #form="ngForm"
+                  class="form-horizontal"
+                  autocomplete="off">
+              <div class="row align-items-center">
+                <!-- Factory -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row align-items-center">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"SalaryMaintenance.FinSalaryCloseMaintenance.Factory" | translate}}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input type="text"
+                             class="form-control"
+                             name="factory"
+                             [(ngModel)]="data.factory"
+                             disabled />
+                    </div>
+                  </div>
+                </div>
+                <!-- Year Month -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row align-items-center">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{'SalaryMaintenance.FinSalaryCloseMaintenance.YearMonth'| translate}}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <div class="input-group mr-1">
+                        <input type="text"
+                               autocomplete="off"
+                               class="form-control"
+                               name="yearMonth"
+                               [(ngModel)]="data.year_Month_Str"
+                               disabled />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Department -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row align-items-center">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"SalaryMaintenance.FinSalaryCloseMaintenance.Department" | translate}}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <ng-select name="department"
+                                 [(ngModel)]="data.department"
+                                 disabled>
+                        <ng-option *ngFor="let i of listDepartment"
+                                   [value]="i.key">{{i.value}}</ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- EmployeeID -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row align-items-center">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"SalaryMaintenance.FinSalaryCloseMaintenance.Employee_ID" | translate}}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input type="text"
+                             class="form-control"
+                             name="employee_ID"
+                             [(ngModel)]="data.employee_ID"
+                             disabled />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Local Full Name -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row align-items-center">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"SalaryMaintenance.FinSalaryCloseMaintenance.LocalFullName" | translate}}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input type="text"
+                             class="form-control"
+                             name="local_Full_Name"
+                             [(ngModel)]="data.local_Full_Name"
+                             disabled />
+                    </div>
+                  </div>
+                </div>
+                <!-- Permission Group -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row align-items-center">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"SalaryMaintenance.FinSalaryCloseMaintenance.PermissionGroup" | translate}}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <ng-select name="permission_Group"
+                                 [(ngModel)]="data.permission_Group"
+                                 disabled>
+                        <ng-option *ngFor="let i of listPermissionGroup"
+                                   [value]="i.key">{{i.value}}</ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Close Status -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row align-items-center">
+                    <label for="close_Status"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">{{ 'SalaryMaintenance.FinSalaryCloseMaintenance.CloseStatus'
+                      | translate }} <span class="text-danger text-bold"> *</span></label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <div class="row pl-3">
+                        <div *ngFor="let item of list_Close_Status; let i">
+                          <label class="container">
+                            <div class="row">
+                              <div class="custom-control custom-radio pt-2 mr-3">
+                                <input [id]="'close_Status_' + i"
+                                       class="custom-control-input"
+                                       type="radio"
+                                       name="kind"
+                                       [(ngModel)]="data.close_Status"
+                                       [value]="item.key" />
+                                <p class="custom-control-label"
+                                   [for]="'close_Status_' + i">
+                                  {{ item.value | translate }}
+                                </p>
+                              </div>
+                            </div>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                <!-- Cloase Date -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row align-items-center">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"SalaryMaintenance.FinSalaryCloseMaintenance.Close_Date" | translate}}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input type="text"
+                             class="form-control"
+                             name="close_End"
+                             [(ngModel)]="data.close_End_Str"
+                             disabled />
+                    </div>
+                  </div>
+                </div>
+                <!-- Onboard Date -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row align-items-center">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"SalaryMaintenance.FinSalaryCloseMaintenance.Onboard_Date" | translate}}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input type="text"
+                             class="form-control"
+                             name="onboard_Date"
+                             [(ngModel)]="data.onboard_Date_Str"
+                             disabled />
+                    </div>
+                  </div>
+                </div>
+                <!-- Resign Date -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row align-items-center">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"SalaryMaintenance.FinSalaryCloseMaintenance.Resign_Date" | translate}}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input type="text"
+                             class="form-control"
+                             name="resign_Date"
+                             [(ngModel)]="data.resign_Date_Str"
+                             disabled />
+                    </div>
+                  </div>
+                </div>
+                <!-- Update By -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row align-items-center">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"SalaryMaintenance.FinSalaryCloseMaintenance.Update_By" | translate}}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input type="text"
+                             class="form-control"
+                             name="update_By"
+                             [(ngModel)]="data.update_By"
+                             disabled />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Update Time -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row align-items-center">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"SalaryMaintenance.FinSalaryCloseMaintenance.Update_Time" | translate}}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input type="text"
+                             class="form-control"
+                             name="update_Time"
+                             [(ngModel)]="data.update_Time"
+                             disabled />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+
+            <div class="row justify-content-md-center">
+              <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="mt-2 text-right">
+                  <button type="button"
+                          [disabled]="!form.valid"
+                          (click)="save()"
+                          class="{{ classButton.SAVE }}">
+                    <i class="{{ iconButton.SAVE }}"></i>
+                    {{ "System.Action.Save" | translate }}
+                  </button>
+                  <button type="button"
+                          class="{{ classButton.CLOSE }}"
+                          (click)="back()">
+                    <i class="{{ iconButton.CLOSE }}"></i>
+                    {{ "System.Action.Close" | translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

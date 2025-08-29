@@ -1,0 +1,88 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">{{ title }} - {{ "System.Action."  + formType | translate }}</strong>
+                <button type="button"
+                        class="btn btn-sm btn-primary float-right"
+                        (click)="back()">
+                  <i class="{{ iconButton.BACK }}"></i> {{"System.Action.Back" | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="card-body">
+          <div class="row border-shadow">
+            <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <label for="textDepartment"
+                     class="badge badge-warning">{{"BasicMaintenance.2_6_GradeMaintenance.Grade" | translate }} <span class="text-danger text-bold"> *</span></label>
+              <input type="number"
+                     name="level"
+                     class="form-control"
+                     min="0"
+                     max="15"
+                     autocomplete="off"
+                     onkeypress="return /[0-9.]/i.test(event.key)"
+                     onpaste="return false;"
+                     (ngModelChange)="changeLevel($event)"
+                     [maxlength]="3"
+                     placeholder="{{ 'BasicMaintenance.2_6_GradeMaintenance.Grade' | translate }}"
+                     [(ngModel)]="model.level"
+                     [disabled]="formType == 'Edit'">
+              <div *ngIf="isFlat">
+                <span class="text-danger"
+                      style="font-size: 12px;">*Please enter the number 0~15</span>
+              </div>
+            </div>
+            <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <label for="textDepartment"
+                     class="badge badge-warning">{{"BasicMaintenance.2_6_GradeMaintenance.Type" | translate }} <span class="text-danger text-bold"> *</span></label>
+              <ng-select name="typeCode"
+                         [(ngModel)]="model.type_Code"
+                         placeholder="{{'BasicMaintenance.2_6_GradeMaintenance.Type' | translate }}"
+                         (clear)="deleteProperty('type_Code')"
+                         [clearable]="model.type_Code !== ''">
+                <ng-option *ngFor="let item of types"
+                           [value]="item.key">{{item.value}}</ng-option>
+              </ng-select>
+            </div>
+            <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <label class="badge badge-warning">{{"BasicMaintenance.2_6_GradeMaintenance.Position_Title_Code" | translate }} <span class="text-danger text-bold"> *</span></label>
+              <ng-select name="levelCode"
+                         [(ngModel)]="model.level_Code"
+                         (clear)="deleteProperty('level_Code')"
+                         placeholder="{{'BasicMaintenance.2_6_GradeMaintenance.Position_Title_Code' | translate }}"
+                         [clearable]="model.level_Code !== ''"
+                         [disabled]="formType == 'Edit'">
+                <ng-option *ngFor="let item of listLevelCode"
+                           [value]="item.key">{{item.value}}</ng-option>
+              </ng-select>
+            </div>
+          </div>
+          <div class="row justify-content-md-center">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="table-responsive text-right">
+                <button type="button"
+                        class="btn btn-success"
+                        (click)="save()"
+                        [disabled]="isDisableSave()">
+                  <i class="{{ iconButton.SAVE }}"></i> {{"System.Action.Save" | translate }}
+                </button>
+                <button type="button"
+                        class="btn btn-danger ml-2"
+                        (click)="back()">
+                  <i class="{{ iconButton.CLOSE }}"></i> {{"System.Action.Close" | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

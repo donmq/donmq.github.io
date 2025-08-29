@@ -1,0 +1,175 @@
+<div bsModal
+     #modal="bs-modal"
+     class="modal fade"
+     tabindex="-1"
+     role="dialog"
+     (onHide)="onHide()">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <form #addForm="ngForm"
+            class="form-horizontal p-55px"
+            autocomplete="off">
+        <div class="modal-header bg-primary">
+          <h5 name="modal-title-add"
+              class="modal-title"
+              id="modal-basic-title"
+              *ngIf="type === 'Add'">
+            {{ title }} - {{"System.Action.Add" | translate}}
+          </h5>
+          <h5 name="modal-title-add"
+              class="modal-title"
+              id="modal-basic-title"
+              *ngIf="type === 'Edit'">
+            {{ title }} - {{"System.Action.Edit" | translate}}
+          </h5>
+          <button type="button"
+                  class="btn-close close pull-right"
+                  aria-label="Close"
+                  (click)="close()">
+            <span aria-hidden="true"
+                  class="visually-hidden">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <!-- Nationality -->
+            <div class="col-md-6">
+              <label class="badge badge-warning">{{"EmployeeInformationModule.EmployeeEmergencyContacts.Nationality" |
+          translate }}</label>
+              <input type="text"
+                     name="Nationality"
+                     class="form-control"
+                     [(ngModel)]="model.nationality"
+                     [maxlength]="10"
+                     disabled
+                     placeholder="{{ 'EmployeeInformationModule.EmployeeEmergencyContacts.Nationality' | translate }}">
+            </div>
+            <!-- IdentificationNumber -->
+            <div class="col-md-6">
+              <label class="badge badge-warning">{{"EmployeeInformationModule.EmployeeEmergencyContacts.IdentificationNumber" | translate }}</label>
+              <input type="text"
+                     name="identification_Number"
+                     class="form-control"
+                     [(ngModel)]="model.identification_Number"
+                     [maxlength]="50"
+                     disabled
+                     placeholder="{{ 'EmployeeInformationModule.EmployeeEmergencyContacts.IdentificationNumber' | translate }}">
+            </div>
+          </div>
+          <div class="row mt-2">
+            <!-- LocalFullName -->
+            <div class="col-md-6">
+              <label class="badge badge-warning">{{"EmployeeInformationModule.EmployeeEmergencyContacts.LocalFullName" | translate }}</label>
+              <input type="text"
+                     name="localFullName"
+                     class="form-control"
+                     [maxlength]="100"
+                     [(ngModel)]="model.localFullName"
+                     disabled
+                     placeholder="{{ 'EmployeeInformationModule.EmployeeEmergencyContacts.LocalFullName' | translate }}">
+            </div>
+            <!-- seq -->
+            <div class="col-md-6">
+              <label class="badge badge-warning">{{"EmployeeInformationModule.EmployeeEmergencyContacts.Seq" | translate }} <span class="text-danger text-bold"> *</span></label>
+              <input type="number"
+                     name="seq"
+                     class="form-control"
+                     [(ngModel)]="model.seq"
+                     min="1"
+                     disabled
+                     max="99"
+                     required
+                     oninput="if(this.value.length > 2) { this.value = this.value.slice(0,2);}"
+                     onkeypress="return /[0-9]/i.test(event.key)"
+                     onpaste="return false;"
+                     placeholder="{{ 'EmployeeInformationModule.EmployeeEmergencyContacts.Seq' | translate }}">
+            </div>
+          </div>
+          <div class="row mt-2">
+            <!-- EmergencyContact -->
+            <div class="col-md-6">
+              <label class="badge badge-warning">{{"EmployeeInformationModule.EmployeeEmergencyContacts.EmergencyContact" | translate }} <span class="text-danger text-bold"> *</span></label>
+              <input type="text"
+                     name="emergency_Contact"
+                     class="form-control"
+                     [(ngModel)]="model.emergency_Contact"
+                     [maxlength]="50"
+                     required
+                     placeholder="{{ 'EmployeeInformationModule.EmployeeEmergencyContacts.EmergencyContact' | translate }}">
+            </div>
+            <!-- Relationship -->
+            <div class="col-md-6">
+              <label class="badge badge-warning">{{"EmployeeInformationModule.EmployeeEmergencyContacts.Relationship" | translate }} <span class="text-danger text-bold"> *</span></label>
+              <ng-select required
+                         name="relationship"
+                         [(ngModel)]="model.relationship"
+                         placeholder="{{ 'EmployeeInformationModule.EmployeeEmergencyContacts.Relationship' | translate }}"
+                         (clear)="deleteProperty('relationship')"
+                         [clearable]="model.relationship != ''">
+                <ng-option *ngFor="let item of relationships"
+                           [value]="item.key">{{item.value}}</ng-option>
+              </ng-select>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <!-- EmergencyContactPhone -->
+            <div class="col-md-6">
+              <label class="badge badge-warning">{{"EmployeeInformationModule.EmployeeEmergencyContacts.EmergencyContactPhone" | translate }} <span class="text-danger text-bold"> *</span></label>
+              <input type="text"
+                     name="emergency_Contact_Phone"
+                     class="form-control"
+                     [(ngModel)]="model.emergency_Contact_Phone"
+                     [maxlength]="20"
+                     required
+                     onkeypress="return /[0-9]/i.test(event.key)"
+                     placeholder="{{ 'EmployeeInformationModule.EmployeeEmergencyContacts.EmergencyContactPhone' | translate }}">
+            </div>
+            <!-- TemporaryAddress -->
+            <div class="col-md-6">
+              <label class="badge badge-warning">{{"EmployeeInformationModule.EmployeeEmergencyContacts.TemporaryAddress" | translate }}</label>
+              <textarea type="text"
+                        name="temporary_Address"
+                        class="form-control"
+                        [(ngModel)]="model.temporary_Address"
+                        [maxlength]="255"
+                        placeholder="{{ 'EmployeeInformationModule.EmployeeEmergencyContacts.TemporaryAddress' | translate }}">
+              </textarea>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <!-- EmergencyContactAddress -->
+            <div class="col-md-6">
+              <label class="badge badge-warning">{{"EmployeeInformationModule.EmployeeEmergencyContacts.EmergencyContactAddress" | translate }} <span class="text-danger text-bold"> *</span></label>
+              <textarea type="text"
+                        name="emergency_Contact_Address"
+                        class="form-control"
+                        [(ngModel)]="model.emergency_Contact_Address"
+                        [maxlength]="255"
+                        required
+                        placeholder="{{ 'EmployeeInformationModule.EmployeeEmergencyContacts.EmergencyContactAddress' | translate }}">
+              </textarea>
+            </div>
+            <div class="col-md-6">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button name="btnAdd"
+                  class="btn btn-success text-white"
+                  type="button"
+                  (click)="save()"
+                  [disabled]="isDisableSave()">
+            <i class="{{ iconButton.SAVE }}"></i> {{ "System.Action.Save" | translate }}
+          </button>
+          <button name="btnClose"
+                  class="btn btn-danger text-black"
+                  type="button"
+                  (click)="close()">
+            <i class="{{ iconButton.CLOSE }}"></i> {{ "System.Action.Close" | translate }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
