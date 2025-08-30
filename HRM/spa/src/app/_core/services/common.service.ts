@@ -30,7 +30,7 @@ export class CommonService {
     return this.http.get<KeyValuePair[]>(this.apiUrl + 'GetListDepartment', { params: { language: this.language, factory } });
   }
 
-  getListWorkShiftType() {
+  getListWorkShiftType() { 
     return this.http.get<KeyValuePair[]>(this.apiUrl + 'GetListWorkShiftType', { params: { language: this.language } });
   }
 

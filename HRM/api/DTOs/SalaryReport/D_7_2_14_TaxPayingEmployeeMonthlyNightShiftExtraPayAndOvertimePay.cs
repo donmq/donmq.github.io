@@ -1,6 +1,4 @@
 
-using API.Models;
-
 namespace API.DTOs.SalaryReport
 {
     public class NightShiftExtraAndOvertimePayReport
@@ -12,14 +10,14 @@ namespace API.DTOs.SalaryReport
         public string LocalFullName { get; set; }
         public string TaxNo { get; set; }
         public string Standard { get; set; }
-        public List<decimal> OvertimeHours { get; set; }
-        public List<string> OvertimeAndNightShiftAllowance { get; set; }
-        public string A06_AMT { get; set; }
-        public string Overtime50_AMT { get; set; }
-        public string NHNO_AMT { get; set; }
-        public string HO_AMT { get; set; }
-        public string INS_AMT { get; set; }
-        public string SUM_AMT { get; set; }
+        public List<Att_Monthly_Detail_Values> OvertimeHours { get; set; }
+        public List<Sal_Monthly_Detail_Values> OvertimeAndNightShiftAllowance { get; set; }
+        public decimal A06_AMT { get; set; }
+        public decimal Overtime50_AMT { get; set; }
+        public decimal NHNO_AMT { get; set; }
+        public decimal HO_AMT { get; set; }
+        public decimal INS_AMT { get; set; }
+        public decimal SUM_AMT { get; set; }
 
     }
     public class NightShiftExtraAndOvertimePayParam
@@ -32,5 +30,24 @@ namespace API.DTOs.SalaryReport
         public string UserName { get; set; }
         public string Language { get; set; }
 
+    }
+    public class Att_Monthly_Detail_Values
+    {
+        public string Employee_ID { get; set; }
+        public string Leave_Code { get; set; }
+        public int Seq { get; set; }
+        public decimal Days { get; set; }
+    }
+    public class Att_Monthly_Detail_Temp_7_2_14
+    {
+        public string Employee_ID { get; set; }
+        public string Leave_Code { get; set; }
+        public decimal Days { get; set; }
+    }
+
+    public class Setting_Temp_7_2_14
+    {
+        public int Seq { get; set; }
+        public string Code { get; set; }
     }
 }

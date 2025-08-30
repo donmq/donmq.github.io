@@ -145,6 +145,8 @@ import { MonthlySalarySummaryReportModule } from '@views/salary-report/7_2_4_mon
 import { MonthlySalaryDetailReportModule } from '@views/salary-report/7_2_5_monthly-salary-detail-report/monthly-salary-detail-report.module';
 import { MonthlyNonTransferSalaryPaymentReportModule } from '@views/salary-report/7_2_6_monthly-non-transfer-salary-payment-report/monthly-non-transfer-salary-payment-report.module';
 import { MonthlySalaryAdditionsDeductionsSummaryReportModule } from "@views/salary-report/7_2_7_monthly-salary-additions-deductions-summary-report/monthly-salary-additions-deductions-summary-report.module";
+import { TaxPayingEmployeeMonthlyNightShiftExtraAndOvertimePayModule } from "@views/salary-report/7_2_14_tax-paying-employee-monthly-night-shift-extra-and-overtime-pay/tax-paying-employee-monthly-night-shift-extra-and-overtime-pay.module";
+import { MonthlyUnionDuesSummaryModule } from "@views/salary-report/7_2_15_monthly-union-dues-summary/monthly-union-dues-summary.module";
 import { RewardAndPenaltyReasonCodeMaintenanceModule } from '@views/reward-and-penalty-maintenance/8_1_1_reward-and-penalty-reason-code-maintenance/reward-and-penalty-reason-code-maintenance.module';
 import { EmployeeRewardAndPenaltyRecordsModule } from '@views/reward-and-penalty-maintenance/8_1_2_employee-reward-and-penalty-records/employee-reward-and-penalty-records.module';
 import { EmployeeRewardAndPenaltyReportModule } from '@views/reward-and-penalty-report/8_2_1_employee-reward-and-penalty-report/employee-reward-and-penalty-report.module';
@@ -317,6 +319,8 @@ export class RoutingService {
   Module_7_2_5 = () => MonthlySalaryDetailReportModule
   Module_7_2_6 = () => MonthlyNonTransferSalaryPaymentReportModule
   Module_7_2_7 = () => MonthlySalaryAdditionsDeductionsSummaryReportModule
+  Module_7_2_14 = () => TaxPayingEmployeeMonthlyNightShiftExtraAndOvertimePayModule
+  Module_7_2_15 = () => MonthlyUnionDuesSummaryModule
   //Reward and Penalty Maintenance
   Module_8_1_1 = () => RewardAndPenaltyReasonCodeMaintenanceModule
   Module_8_1_2 = () => EmployeeRewardAndPenaltyRecordsModule

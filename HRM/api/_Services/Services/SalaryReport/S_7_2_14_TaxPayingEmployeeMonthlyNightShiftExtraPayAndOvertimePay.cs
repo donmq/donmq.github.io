@@ -1,9 +1,11 @@
+using System.Drawing;
 using System.Globalization;
 using API._Services.Interfaces.SalaryReport;
 using API.Data;
 using API.DTOs.SalaryReport;
 using API.Helper.Constant;
 using API.Models;
+using Aspose.Cells;
 using LinqKit;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,16 +13,14 @@ namespace API._Services.Services.SalaryReport
 {
     public class S_7_2_14_TaxPayingEmployeeMonthlyNightShiftExtraPayAndOvertimePay : BaseServices, I_7_2_14_TaxPayingEmployeeMonthlyNightShiftExtraPayAndOvertimePay
     {
-        public S_7_2_14_TaxPayingEmployeeMonthlyNightShiftExtraPayAndOvertimePay(DBContext dbContext) : base(dbContext)
-        {
-        }
-
+        public S_7_2_14_TaxPayingEmployeeMonthlyNightShiftExtraPayAndOvertimePay(DBContext dbContext) : base(dbContext){}
+        private static readonly string rootPath = Directory.GetCurrentDirectory(); 
         private async Task<OperationResult> GetData(NightShiftExtraAndOvertimePayParam param)
         {
             if (string.IsNullOrWhiteSpace(param.Factory)
-             || !param.Permission_Group.Any()
-             || string.IsNullOrWhiteSpace(param.Year_Month)
-             || !DateTime.TryParseExact(param.Year_Month, "yyyy/MM", new CultureInfo("en-US"), DateTimeStyles.None, out DateTime yearMonth))
+                || !param.Permission_Group.Any()
+                || string.IsNullOrWhiteSpace(param.Year_Month)
+                || !DateTime.TryParseExact(param.Year_Month, "yyyy/MM", new CultureInfo("en-US"), DateTimeStyles.None, out DateTime yearMonth))
                 return new OperationResult(false, "SalaryReport.MonthlySalaryAdditionsDeductionsSummaryReport.InvalidInput");
 
             var pred = PredicateBuilder.New<HRMS_Sal_Monthly>(x => x.Factory == param.Factory
@@ -30,7 +30,7 @@ namespace API._Services.Services.SalaryReport
 
             var listEmployeeID = await _repositoryAccessor.HRMS_Emp_Personal
                 .FindAll(x => x.Factory == param.Factory
-                            && param.Permission_Group.Contains(x.Permission_Group))
+                            && param.Permission_Group.Contains(x.Permission_Group), true)
                 .Select(x => x.Employee_ID)
                 .ToListAsync();
 
@@ -42,97 +42,340 @@ namespace API._Services.Services.SalaryReport
 
             pred.And(x => listEmployeeID.Contains(x.Employee_ID));
 
-            // 1. Lấy danh sách SalaryMonthly
-            var wk_sql = await _repositoryAccessor.HRMS_Sal_Monthly.FindAll(pred)
-                .GroupJoin(_repositoryAccessor.HRMS_Org_Department_Language.FindAll(),
-                    x => new { x.Factory,  x.Department },
-                    y => new { y.Factory, Department = y.Department_Code },
-                    (x, y) => new { x, y })
-                .SelectMany(x => x.y.DefaultIfEmpty(),
-                    (x, y) => new { HSM = x.x, HODL = y })
-                .ToListAsync();
+            var wk_sql = await _repositoryAccessor.HRMS_Sal_Monthly.FindAll(pred).ToListAsync();
 
             var result = new List<NightShiftExtraAndOvertimePayReport>();
+            var listDepartments = await GetDepartmentName(param.Factory, param.Language);
 
             foreach (var item in wk_sql)
             {
                 var emp = await _repositoryAccessor.HRMS_Emp_Personal
-                    .FirstOrDefaultAsync(x => x.Factory == item.HSM.Factory && x.Employee_ID == item.HSM.Employee_ID);
+                    .FirstOrDefaultAsync(x => x.Factory == item.Factory && x.Employee_ID == item.Employee_ID);
 
                 var taxNumber = await _repositoryAccessor.HRMS_Sal_Tax_Number
-                    .FindAll(x => x.Factory == item.HSM.Factory
-                            && x.Employee_ID == item.HSM.Employee_ID
-                            && x.Year <= item.HSM.Sal_Month)
+                    .FindAll(x => x.Factory == item.Factory
+                            && x.Employee_ID == item.Employee_ID
+                            && x.Year <= item.Sal_Month, true)
                     .OrderByDescending(x => x.Year)
                     .FirstOrDefaultAsync();
 
                 var wageStandard = await Query_WageStandard_Sum("B",
-                    item.HSM.Factory, item.HSM.Sal_Month, item.HSM.Employee_ID,
-                    item.HSM.Permission_Group, item.HSM.Salary_Type);
+                    item.Factory, item.Sal_Month, item.Employee_ID,
+                    item.Permission_Group, item.Salary_Type);
 
                 var A06_AMT = await _repositoryAccessor.HRMS_Sal_AddDedItem_Monthly
-                    .FindAll(x => x.Factory == item.HSM.Factory
-                            && x.Sal_Month == item.HSM.Sal_Month
-                            && x.Employee_ID == item.HSM.Employee_ID
+                    .FindAll(x => x.Factory == item.Factory
+                            && x.Sal_Month == item.Sal_Month
+                            && x.Employee_ID == item.Employee_ID
                             && x.AddDed_Type == "A"
-                            && x.AddDed_Item == "A06")
+                            && x.AddDed_Item == "A06", true)
                     .Select(x => x.Amount)
                     .FirstOrDefaultAsync();
 
-                var overtimeHours = await Query_Att_Monthly_Detail_Item(item.HSM.Factory, item.HSM.Sal_Month, item.HSM.Employee_ID, "OT", "OT01");
+                var overtime50_AMT = await Query_Single_Sal_Monthly_Detail("Y", item.Factory, item.Sal_Month, item.Employee_ID, "42", "A", "A01");
+
+                var ho_AMT = await Query_Single_Sal_Monthly_Detail("Y", item.Factory, item.Sal_Month, item.Employee_ID, "42", "A", "C01");
+
+                var total1 = await Query_Single_Sal_Monthly_Detail("Y", item.Factory, item.Sal_Month, item.Employee_ID, "42", "A", "A03");
+                var total2 = await Query_Single_Sal_Monthly_Detail("Y", item.Factory, item.Sal_Month, item.Employee_ID, "57", "D", "V01");
+                var total3 = await Query_Single_Sal_Monthly_Detail("Y", item.Factory, item.Sal_Month, item.Employee_ID, "57", "D", "V02");
+                var total4 = await Query_Single_Sal_Monthly_Detail("Y", item.Factory, item.Sal_Month, item.Employee_ID, "57", "D", "V03");
+
+                var overtimeHours = await Query_Att_Monthly_Detail("Y", item.Factory, item.Sal_Month, item.Employee_ID, "2");
+                var overtimeAndNightShiftAllowance = await Query_Sal_Monthly_Detail("Y", item.Factory, item.Sal_Month, item.Employee_ID,
+                                                            "42", "A", item.Permission_Group, item.Salary_Type, "2");
+                decimal nhno_AMT = 0;
+                var days = await Query_Att_Monthly_Detail_Item(item.Factory, item.Sal_Month, item.Employee_ID, "2", "A01");
+                if(days <= 0)
+                    nhno_AMT = total1 * 100 / 210; 
+                else if(days > 0)
+                    nhno_AMT = total1 * 110 / 210;
+                
+                decimal ins_AMT = total2 + total3 + total4;
 
                 result.Add(new NightShiftExtraAndOvertimePayReport
                 {
-                    Factory = item.HSM.Factory,
-                    Department = item.HSM.Department,
-                    DepartmentName = item.HODL.Name,
-                    EmployeeID = item.HSM.Employee_ID,
+                    Factory = item.Factory,
+                    Department = item.Department,
+                    DepartmentName = listDepartments.FirstOrDefault(x => x.Key == item.Department).Value,
+                    EmployeeID = item.Employee_ID,
                     LocalFullName = emp?.Local_Full_Name,
                     TaxNo = taxNumber?.TaxNo,
                     Standard = wageStandard.ToString(),
                     OvertimeHours = overtimeHours,
-                    OvertimeAndNightShiftAllowance = new List<string> { A06_AMT.ToString() },
-                    A06_AMT = A06_AMT.ToString(),
-                    Overtime50_AMT = "0",
-                    NHNO_AMT = "0",
-                    HO_AMT = "0",
-                    INS_AMT = "0",
-                    SUM_AMT = "0"
+                    OvertimeAndNightShiftAllowance = overtimeAndNightShiftAllowance,
+                    A06_AMT = A06_AMT,
+                    Overtime50_AMT = (overtime50_AMT + A06_AMT) * 1 / 3,
+                    NHNO_AMT = nhno_AMT,
+                    HO_AMT = ho_AMT,
+                    INS_AMT = ins_AMT,
+                    SUM_AMT = nhno_AMT + ho_AMT + ins_AMT
                 });
             }
 
             return new OperationResult(true, result);
         }
 
+        private async Task<List<KeyValuePair<string, string>>> GetListPermissionGroupa(string factory, string Language)
+        {
+            return await Query_BasicCode_PermissionGroup(factory, Language);
+        }
+
         public async Task<OperationResult> Download(NightShiftExtraAndOvertimePayParam param)
         {
+            var updatedPermissionGroup = new List<string>();
+            var listPermissionGroup = await GetListPermissionGroupa(param.Factory, param.Language);
             var result = await GetData(param);
             if (!result.IsSuccess)
                 return result;
 
-            var data = (List<MainSalaryDetailDto>)result.Data;
+            var data = (List<NightShiftExtraAndOvertimePayReport>)result.Data;
 
             if (data.Count == 0)
                 return new OperationResult(false, "System.Message.Nodata");
-            throw new NotImplementedException();
+
+            MemoryStream memoryStream = new();
+            string file = Path.Combine(
+                rootPath,
+                "Resources\\Template\\SalaryReport\\7_2_14_TaxPayingEmployeeMonthlyNightShiftExtraPayAndOvertimePay\\Download.xlsx"
+            );
+            WorkbookDesigner obj = new()
+            {
+                Workbook = new Workbook(file)
+            };
+            foreach (var item in param.Permission_Group)
+            {
+                var updatedItem = listPermissionGroup.FirstOrDefault(x => x.Key == item).Value;
+                updatedPermissionGroup.Add(updatedItem);
+            }
+            Worksheet worksheet = obj.Workbook.Worksheets[0];
+
+            worksheet.Cells["B2"].PutValue(param.Factory);
+            worksheet.Cells["D2"].PutValue(param.Year_Month);
+            worksheet.Cells["F2"].PutValue(string.Join(",", updatedPermissionGroup));
+            worksheet.Cells["H2"].PutValue(param.Department);
+            worksheet.Cells["J2"].PutValue(param.EmployeeID);
+            worksheet.Cells["B3"].PutValue(param.UserName);
+            worksheet.Cells["D3"].PutValue(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
+
+            // worksheet.Cells["N5"].PutValue("職務/工種分析未滿一年");
+            // worksheet.Cells.CreateRange(4, 13, 1, data[0].WorkTypeList.Count + 1).SetStyle(GetStyle(obj, 255, 242, 204));
+
+            // worksheet.Cells[4, data[0].WorkTypeList.Count + 14].PutValue("滿一年以上離職總人數(工種)");
+            // worksheet.Cells.CreateRange(4, 13 + data[0].WorkTypeList.Count, 1, data[0].WorkTypeListThan1.Count + 2).SetStyle(GetStyle(obj, 226, 239, 218));
+
+            // // Merge Columns
+            // worksheet.Cells.Merge(4, 13, 1, data[0].WorkTypeList.Count + 1);
+            // worksheet.Cells.Merge(4, 14 + data[0].WorkTypeList.Count, 1, data[0].WorkTypeListThan1.Count + 1);
+
+            // worksheet.Cells[5, data[0].WorkTypeList.Count + 14].PutValue("滿一年以上離職總人數");
+            // worksheet.Cells[5, data[0].WorkTypeList.Count + 14].SetStyle(GetStyle(obj, 226, 239, 218));
+
+            var dataOvertime = Math.Max(data[0].OvertimeHours.Count, data[0].OvertimeAndNightShiftAllowance.Count);
+
+            for (int i = 0; i < dataOvertime; i++)
+            {
+                if (i < data[0].OvertimeHours.Count)
+                {
+                    worksheet.Cells[5, i + 7].PutValue(data[0].OvertimeHours[i].Leave_Code);
+                    worksheet.Cells[5, i + 7].SetStyle(GetStyle(obj, 255, 242, 204));
+                    worksheet.Cells[4, i + 7].PutValue(data[0].OvertimeHours[i].Leave_Code);
+                    worksheet.Cells[4, i + 7].SetStyle(GetStyle(obj, 255, 242, 204));
+                }
+
+                if (i < data[0].OvertimeAndNightShiftAllowance.Count)
+                {
+                    worksheet.Cells[4, i + data[0].OvertimeHours.Count + 7].PutValue(data[0].OvertimeAndNightShiftAllowance[i].Item);
+                    worksheet.Cells[4, i + data[0].OvertimeHours.Count + 7].SetStyle(GetStyle(obj, 226, 239, 218));
+                    worksheet.Cells[5, i + data[0].OvertimeHours.Count + 7].PutValue(data[0].OvertimeAndNightShiftAllowance[i].Item);
+                    worksheet.Cells[5, i + data[0].OvertimeHours.Count + 7].SetStyle(GetStyle(obj, 226, 239, 218));
+                }
+            }
+            for (int i = 0; i < data.Count; i++)
+            {
+                worksheet.Cells["A" + (i + 7)].PutValue(data[i].Factory);
+                worksheet.Cells["B" + (i + 7)].PutValue(data[i].Department);
+                worksheet.Cells["C" + (i + 7)].PutValue(data[i].DepartmentName);
+                worksheet.Cells["D" + (i + 7)].PutValue(data[i].EmployeeID);
+                worksheet.Cells["E" + (i + 7)].PutValue(data[i].LocalFullName);
+                worksheet.Cells["F" + (i + 7)].PutValue(data[i].TaxNo);
+                worksheet.Cells["G" + (i + 7)].PutValue(data[i].Standard);
+                // worksheet.Cells["G" + (i + 7)].PutValue(data[i].w_y23);
+                // worksheet.Cells["H" + (i + 7)].PutValue(data[i].w_y34);
+                // worksheet.Cells["I" + (i + 7)].PutValue(data[i].w_y45);
+                // worksheet.Cells["J" + (i + 7)].PutValue(data[i].w_y56);
+                // worksheet.Cells["K" + (i + 7)].PutValue(data[i].w_y6);
+                // worksheet.Cells["L" + (i + 7)].PutValue(data[i].w_all);
+                // worksheet.Cells["M" + (i + 7)].PutValue(data[i].w_mh);
+                // worksheet.Cells["N" + (i + 7)].PutValue(data[i].w_n1);
+                // worksheet.Cells[i + 6, data[0].WorkTypeList.Count + 14].PutValue(data[i].w_m1);
+
+                int columnIndex = 7;
+                for (int j = 0; j < dataOvertime; j++)
+                {
+                    if (j < data[i].OvertimeHours.Count)
+                        worksheet.Cells[i + 6, columnIndex].PutValue(data[i].OvertimeHours[j].Days);
+                    if (j < data[i].OvertimeAndNightShiftAllowance.Count)
+                        worksheet.Cells[i + 6, columnIndex + data[i].OvertimeHours.Count].PutValue(data[i].OvertimeAndNightShiftAllowance[j].Amount);
+                    columnIndex++;
+                }
+            }
+            var totalRowPos = worksheet.Cells.MaxRow + 2;
+            Style totalStyle = obj.Workbook.CreateStyle();
+            totalStyle.IsTextWrapped = true;
+            worksheet.Cells["B" + totalRowPos].Value = "合計:\nTotal:";
+            worksheet.Cells["B" + totalRowPos].SetStyle(totalStyle);
+            for (int i = 2; i <= worksheet.Cells.MaxDataColumn; i++)
+            {
+                // var cellPos = MyRegex().Replace(worksheet.Cells[5, i].Name, "");
+                // worksheet.Cells[cellPos + totalRowPos].Formula = "=SUM(" + cellPos + (totalRowPos - data.Count) + ":" + cellPos + (totalRowPos - 1) + ")";
+            }
+            CellArea area = new()
+            {
+                StartRow = 1,
+                StartColumn = 8,
+                EndRow = 6,
+                EndColumn = data[0].OvertimeHours.Count + data[0].OvertimeAndNightShiftAllowance.Count + 14
+            };
+            worksheet.AutoFitColumns(area.StartColumn, area.EndColumn);
+            worksheet.AutoFitRows(area.StartRow, area.EndRow);
+
+            obj.Workbook.Save(memoryStream, SaveFormat.Xlsx);
+            return new OperationResult(true, new { TotalRows = data.Count, Excel = memoryStream.ToArray() });
         }
 
-        public Task<OperationResult> GetTotalRows(NightShiftExtraAndOvertimePayParam param)
+        private Style GetStyle(WorkbookDesigner obj, int color1, int color2, int color3)
         {
-            throw new NotImplementedException();
+            Style style = obj.Workbook.CreateStyle();
+            style.ForegroundColor = Color.FromArgb(color1, color2, color3);
+            style.Pattern = BackgroundType.Solid;
+            style.IsTextWrapped = true;
+            style.HorizontalAlignment = TextAlignmentType.Center;
+            style.VerticalAlignment = TextAlignmentType.Center;
+            style = AsposeUtility.SetAllBorders(style);
+            return style;
+        }
+
+        public async Task<OperationResult> GetTotalRows(NightShiftExtraAndOvertimePayParam param)
+        {
+            var result = await GetData(param);
+            if (!result.IsSuccess)
+                return result;
+            var data = (List<NightShiftExtraAndOvertimePayReport>)result.Data;
+            return new OperationResult(true, data.Count);
         }
 
         #region Query_Att_Monthly_Detail_Item
-        private async Task<List<decimal>> Query_Att_Monthly_Detail_Item(string Factory, DateTime Att_Month, string EmployeeID, string Leave_Type, string Leave_Code)
+        private async Task<decimal> Query_Att_Monthly_Detail_Item(string Factory, DateTime Year_Month, string EmployeeID, string Leave_Type, string Leave_Code)
         {
             var days = await _repositoryAccessor.HRMS_Att_Monthly_Detail.FindAll(x => x.Factory == Factory
-                && x.Att_Month == Att_Month
+                && x.Att_Month == Year_Month
                 && x.Employee_ID == EmployeeID
                 && x.Leave_Type == Leave_Type
                 && x.Leave_Code == Leave_Code)
                 .Select(x => x.Days)
-                .ToListAsync();
+                .FirstOrDefaultAsync();
             return days;
+        }
+        #endregion
+        #region Query_Single_Sal_Monthly_Detail 
+        private async Task<decimal> Query_Single_Sal_Monthly_Detail(string Kind, string Factory, DateTime Year_Month, string EmployeeID, string Type_Seq, string AddDed_Type, string Item)
+        {
+            int Amount_Values = 0;
+            if (Kind == "Y")
+                Amount_Values = await _repositoryAccessor.HRMS_Sal_Monthly_Detail.FindAll(x => x.Factory == Factory
+                    && x.Sal_Month == Year_Month
+                    && x.Employee_ID == EmployeeID
+                    && x.Type_Seq == Type_Seq
+                    && x.AddDed_Type == AddDed_Type
+                    && x.Item == Item
+                ).SumAsync(x => x.Amount);
+            else
+                Amount_Values = await _repositoryAccessor.HRMS_Sal_Resign_Monthly_Detail.FindAll(x => x.Factory == Factory
+                    && x.Sal_Month == Year_Month
+                    && x.Employee_ID == EmployeeID
+                    && x.Type_Seq == Type_Seq
+                    && x.AddDed_Type == AddDed_Type
+                    && x.Item == Item
+                ).SumAsync(x => x.Amount);
+
+            return Amount_Values;
+        }
+        #endregion
+        #region Query_Att_Monthly_Detail
+        private async Task<List<Att_Monthly_Detail_Values>> Query_Att_Monthly_Detail(string Kind, string Factory, DateTime YearMonth, string EmployeeID, string LeaveType)
+        {
+            List<Att_Monthly_Detail_Temp_7_2_14> Att_Monthly_Detail_Temp;
+
+            if (Kind == "Y")
+            {
+                Att_Monthly_Detail_Temp = await _repositoryAccessor.HRMS_Att_Monthly_Detail
+                    .FindAll(x => x.Factory == Factory 
+                        && x.Att_Month == YearMonth 
+                        && x.Employee_ID == EmployeeID 
+                        && x.Leave_Type == LeaveType, true)
+                    .Select(x => new Att_Monthly_Detail_Temp_7_2_14
+                    {
+                        Employee_ID = x.Employee_ID,
+                        Leave_Code = x.Leave_Code,
+                        Days = x.Days
+                    })
+                    .ToListAsync();
+            }
+            else
+            {
+                Att_Monthly_Detail_Temp = await _repositoryAccessor.HRMS_Att_Resign_Monthly_Detail
+                    .FindAll(x => x.Factory == Factory
+                        && x.Att_Month == YearMonth
+                        && x.Employee_ID == EmployeeID
+                        && x.Leave_Type == LeaveType, true)
+                    .Select(x => new Att_Monthly_Detail_Temp_7_2_14
+                    {
+                        Employee_ID = x.Employee_ID,
+                        Leave_Code = x.Leave_Code,
+                        Days = x.Days
+                    })
+                    .ToListAsync();
+            }
+
+            var maxEffectiveMonth = await _repositoryAccessor.HRMS_Att_Use_Monthly_Leave
+                .FindAll(x => x.Factory == Factory 
+                    && x.Leave_Type == LeaveType 
+                    && x.Effective_Month <= YearMonth, true)
+                .MaxAsync(x => (DateTime?)x.Effective_Month);
+
+            if (!maxEffectiveMonth.HasValue)
+                return new List<Att_Monthly_Detail_Values>();
+
+            var Setting_Temp = await _repositoryAccessor.HRMS_Att_Use_Monthly_Leave
+                .FindAll(x => x.Factory == Factory 
+                    && x.Leave_Type == LeaveType 
+                    && x.Effective_Month == maxEffectiveMonth.Value, true)
+                .Select(x => new Setting_Temp_7_2_14
+                {
+                    Seq = x.Seq,
+                    Code = x.Code
+                })
+                .ToListAsync();
+
+            var result = Att_Monthly_Detail_Temp
+                .GroupJoin(Setting_Temp,
+                    x => x.Leave_Code,
+                    y => y.Code,
+                    (x, y) => new { AMDT = x, Setting_Temp = y })
+                .SelectMany(x => x.Setting_Temp.DefaultIfEmpty(),
+                    (x, y) => new Att_Monthly_Detail_Values
+                    {
+                        Employee_ID = x.AMDT.Employee_ID,
+                        Leave_Code = x.AMDT.Leave_Code,
+                        Seq = y?.Seq ?? 0,
+                        Days = x.AMDT.Days
+                    })
+                .OrderBy(x => x.Seq)
+                .ThenBy(x => x.Leave_Code)
+                .ToList();
+
+            return result;
         }
         #endregion
 
@@ -141,7 +384,7 @@ namespace API._Services.Services.SalaryReport
             var departments = await Query_Department_List(factory);
             var departmentsWithLanguage = await _repositoryAccessor.HRMS_Org_Department
                 .FindAll(x => x.Factory == factory
-                        && departments.Select(y => y.Key).Contains(x.Department_Code), true)
+                    && departments.Select(y => y.Key).Contains(x.Department_Code), true)
                 .GroupJoin(_repositoryAccessor.HRMS_Org_Department_Language.FindAll(x => x.Language_Code.ToLower() == language.ToLower(), true),
                     x => new { x.Division, x.Factory, x.Department_Code },
                     y => new { y.Division, y.Factory, y.Department_Code },
@@ -159,7 +402,7 @@ namespace API._Services.Services.SalaryReport
             List<string> factories = await Queryt_Factory_AddList(userName);
             var factoriesWithLanguage = await _repositoryAccessor.HRMS_Basic_Code
                 .FindAll(x => x.Type_Seq == BasicCodeTypeConstant.Factory
-                        && factories.Contains(x.Code), true)
+                    && factories.Contains(x.Code), true)
                 .GroupJoin(_repositoryAccessor.HRMS_Basic_Code_Language.FindAll(x => x.Language_Code.ToLower() == language.ToLower(), true),
                     x => new { x.Type_Seq, x.Code },
                     y => new { y.Type_Seq, y.Code },
@@ -177,7 +420,7 @@ namespace API._Services.Services.SalaryReport
 
             var permissionGroupsWithLanguage = await _repositoryAccessor.HRMS_Basic_Code
                 .FindAll(x => x.Type_Seq == BasicCodeTypeConstant.PermissionGroup
-                           && permissionGroups.Select(y => y.Permission_Group).Contains(x.Code), true)
+                    && permissionGroups.Select(y => y.Permission_Group).Contains(x.Code), true)
                 .GroupJoin(_repositoryAccessor.HRMS_Basic_Code_Language.FindAll(x => x.Language_Code.ToLower() == language.ToLower(), true),
                     x => new { x.Type_Seq, x.Code },
                     y => new { y.Type_Seq, y.Code },
@@ -187,6 +430,22 @@ namespace API._Services.Services.SalaryReport
                 .Select(x => new KeyValuePair<string, string>(x.HBC.Code, $"{x.HBC.Code} - {(x.HBCL != null ? x.HBCL.Code_Name : x.HBC.Code_Name)}"))
                 .ToListAsync();
             return permissionGroupsWithLanguage;
+        }
+
+        private async Task<List<KeyValuePair<string, string>>> GetDepartmentName(string factory, string language)
+        {
+            var HOD = _repositoryAccessor.HRMS_Org_Department.FindAll(x => x.Factory == factory, true);
+            var HODL = _repositoryAccessor.HRMS_Org_Department_Language.FindAll(x => x.Factory == factory && x.Language_Code.ToLower() == language.ToLower(), true);
+
+            return await HOD
+                .GroupJoin(HODL,
+                    department => new { department.Factory, department.Department_Code },
+                    lang => new { lang.Factory, lang.Department_Code },
+                    (department, lang) => new { department, lang })
+                    .SelectMany(x => x.lang.DefaultIfEmpty(),
+                    (department, lang) => new { department.department, lang })
+                .Select(x => new KeyValuePair<string, string>(x.department.Department_Code, $"{(x.lang != null ? x.lang.Name : x.department.Department_Name)}"))
+                .ToListAsync();
         }
     }
 }
