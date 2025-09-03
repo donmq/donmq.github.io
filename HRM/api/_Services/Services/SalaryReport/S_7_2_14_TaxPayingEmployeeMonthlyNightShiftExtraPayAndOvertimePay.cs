@@ -13,8 +13,8 @@ namespace API._Services.Services.SalaryReport
 {
     public class S_7_2_14_TaxPayingEmployeeMonthlyNightShiftExtraPayAndOvertimePay : BaseServices, I_7_2_14_TaxPayingEmployeeMonthlyNightShiftExtraPayAndOvertimePay
     {
-        public S_7_2_14_TaxPayingEmployeeMonthlyNightShiftExtraPayAndOvertimePay(DBContext dbContext) : base(dbContext){}
-        private static readonly string rootPath = Directory.GetCurrentDirectory(); 
+        public S_7_2_14_TaxPayingEmployeeMonthlyNightShiftExtraPayAndOvertimePay(DBContext dbContext) : base(dbContext) { }
+        private static readonly string rootPath = Directory.GetCurrentDirectory();
         private async Task<OperationResult> GetData(NightShiftExtraAndOvertimePayParam param)
         {
             if (string.IsNullOrWhiteSpace(param.Factory)
@@ -86,11 +86,11 @@ namespace API._Services.Services.SalaryReport
                                                             "42", "A", item.Permission_Group, item.Salary_Type, "2");
                 decimal nhno_AMT = 0;
                 var days = await Query_Att_Monthly_Detail_Item(item.Factory, item.Sal_Month, item.Employee_ID, "2", "A01");
-                if(days <= 0)
-                    nhno_AMT = total1 * 100 / 210; 
-                else if(days > 0)
+                if (days <= 0)
+                    nhno_AMT = total1 * 100 / 210;
+                else if (days > 0)
                     nhno_AMT = total1 * 110 / 210;
-                
+
                 decimal ins_AMT = total2 + total3 + total4;
 
                 result.Add(new NightShiftExtraAndOvertimePayReport
@@ -116,7 +116,7 @@ namespace API._Services.Services.SalaryReport
             return new OperationResult(true, result);
         }
 
-        private async Task<List<KeyValuePair<string, string>>> GetListPermissionGroupa(string factory, string Language)
+        private async Task<List<KeyValuePair<string, string>>> GetPermissionGroup(string factory, string Language)
         {
             return await Query_BasicCode_PermissionGroup(factory, Language);
         }
@@ -124,7 +124,7 @@ namespace API._Services.Services.SalaryReport
         public async Task<OperationResult> Download(NightShiftExtraAndOvertimePayParam param)
         {
             var updatedPermissionGroup = new List<string>();
-            var listPermissionGroup = await GetListPermissionGroupa(param.Factory, param.Language);
+            var listPermissionGroup = await GetPermissionGroup(param.Factory, param.Language);
             var result = await GetData(param);
             if (!result.IsSuccess)
                 return result;
@@ -158,28 +158,15 @@ namespace API._Services.Services.SalaryReport
             worksheet.Cells["B3"].PutValue(param.UserName);
             worksheet.Cells["D3"].PutValue(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
 
-            // worksheet.Cells["N5"].PutValue("職務/工種分析未滿一年");
-            // worksheet.Cells.CreateRange(4, 13, 1, data[0].WorkTypeList.Count + 1).SetStyle(GetStyle(obj, 255, 242, 204));
-
-            // worksheet.Cells[4, data[0].WorkTypeList.Count + 14].PutValue("滿一年以上離職總人數(工種)");
-            // worksheet.Cells.CreateRange(4, 13 + data[0].WorkTypeList.Count, 1, data[0].WorkTypeListThan1.Count + 2).SetStyle(GetStyle(obj, 226, 239, 218));
-
-            // // Merge Columns
-            // worksheet.Cells.Merge(4, 13, 1, data[0].WorkTypeList.Count + 1);
-            // worksheet.Cells.Merge(4, 14 + data[0].WorkTypeList.Count, 1, data[0].WorkTypeListThan1.Count + 1);
-
-            // worksheet.Cells[5, data[0].WorkTypeList.Count + 14].PutValue("滿一年以上離職總人數");
-            // worksheet.Cells[5, data[0].WorkTypeList.Count + 14].SetStyle(GetStyle(obj, 226, 239, 218));
-
             var dataOvertime = Math.Max(data[0].OvertimeHours.Count, data[0].OvertimeAndNightShiftAllowance.Count);
 
             for (int i = 0; i < dataOvertime; i++)
             {
                 if (i < data[0].OvertimeHours.Count)
                 {
-                    worksheet.Cells[5, i + 7].PutValue(data[0].OvertimeHours[i].Leave_Code);
+                    worksheet.Cells[5, i + 7].PutValue(data[0].OvertimeHours[i].Leave_Code + " - " + data[0].OvertimeHours[i].CodeName_TW);
                     worksheet.Cells[5, i + 7].SetStyle(GetStyle(obj, 255, 242, 204));
-                    worksheet.Cells[4, i + 7].PutValue(data[0].OvertimeHours[i].Leave_Code);
+                    worksheet.Cells[4, i + 7].PutValue(data[0].OvertimeHours[i].Leave_Code + " - " + data[0].OvertimeHours[i].CodeName_EN);
                     worksheet.Cells[4, i + 7].SetStyle(GetStyle(obj, 255, 242, 204));
                 }
 
@@ -190,6 +177,34 @@ namespace API._Services.Services.SalaryReport
                     worksheet.Cells[5, i + data[0].OvertimeHours.Count + 7].PutValue(data[0].OvertimeAndNightShiftAllowance[i].Item);
                     worksheet.Cells[5, i + data[0].OvertimeHours.Count + 7].SetStyle(GetStyle(obj, 226, 239, 218));
                 }
+                var totalIndex = data[0].OvertimeHours.Count + data[0].OvertimeAndNightShiftAllowance.Count + 7;
+                worksheet.Cells[4, totalIndex].PutValue("A06加班費(參加非生產活動)");
+                worksheet.Cells[5, totalIndex].PutValue("A06-Overtime Pay (Non-Production Activities)");
+                var style = worksheet.Cells[4, totalIndex].GetStyle();
+                style.IsTextWrapped = true;
+                worksheet.Cells[4, totalIndex].SetStyle(style);
+                worksheet.Cells[5, totalIndex].SetStyle(style);
+                worksheet.Cells[4, totalIndex + 1].PutValue("非假日加班費差額50%");
+                worksheet.Cells[5, totalIndex + 1].PutValue("Overtime Paid 50% Difference on Normal Working Day");
+                worksheet.Cells[4, totalIndex + 1].SetStyle(style);
+                worksheet.Cells[5, totalIndex + 1].SetStyle(style);
+                worksheet.Cells[4, totalIndex + 2].PutValue("非假日夜班加班費差額100%& 110%");
+                worksheet.Cells[5, totalIndex + 2].PutValue("Night Shift Overtime Paid 100% or 110% Difference on Normal Working Day");
+                worksheet.Cells[4, totalIndex + 2].SetStyle(style);
+                worksheet.Cells[5, totalIndex + 2].SetStyle(style);
+                worksheet.Cells[4, totalIndex + 3].PutValue("假日加班費差額300%");
+                worksheet.Cells[5, totalIndex + 3].PutValue("Overtime Paid 300% Difference on National Holiday");
+                worksheet.Cells[4, totalIndex + 3].SetStyle(style);
+                worksheet.Cells[5, totalIndex + 3].SetStyle(style);
+                worksheet.Cells[4, totalIndex + 4].PutValue("保險金額");
+                worksheet.Cells[5, totalIndex + 4].PutValue("Insurance Amount");
+                worksheet.Cells[4, totalIndex + 4].SetStyle(style);
+                worksheet.Cells[5, totalIndex + 4].SetStyle(style);
+                worksheet.Cells[4, totalIndex + 5].PutValue("家境狀況獲准豁免收入稅前不負稅之金額");
+                worksheet.Cells[5, totalIndex + 5].PutValue("Non-Taxable Amount before Deduction for Dependents");
+                worksheet.Cells[4, totalIndex + 5].SetStyle(style);
+                worksheet.Cells[5, totalIndex + 5].SetStyle(style);
+
             }
             for (int i = 0; i < data.Count; i++)
             {
@@ -200,15 +215,6 @@ namespace API._Services.Services.SalaryReport
                 worksheet.Cells["E" + (i + 7)].PutValue(data[i].LocalFullName);
                 worksheet.Cells["F" + (i + 7)].PutValue(data[i].TaxNo);
                 worksheet.Cells["G" + (i + 7)].PutValue(data[i].Standard);
-                // worksheet.Cells["G" + (i + 7)].PutValue(data[i].w_y23);
-                // worksheet.Cells["H" + (i + 7)].PutValue(data[i].w_y34);
-                // worksheet.Cells["I" + (i + 7)].PutValue(data[i].w_y45);
-                // worksheet.Cells["J" + (i + 7)].PutValue(data[i].w_y56);
-                // worksheet.Cells["K" + (i + 7)].PutValue(data[i].w_y6);
-                // worksheet.Cells["L" + (i + 7)].PutValue(data[i].w_all);
-                // worksheet.Cells["M" + (i + 7)].PutValue(data[i].w_mh);
-                // worksheet.Cells["N" + (i + 7)].PutValue(data[i].w_n1);
-                // worksheet.Cells[i + 6, data[0].WorkTypeList.Count + 14].PutValue(data[i].w_m1);
 
                 int columnIndex = 7;
                 for (int j = 0; j < dataOvertime; j++)
@@ -219,6 +225,13 @@ namespace API._Services.Services.SalaryReport
                         worksheet.Cells[i + 6, columnIndex + data[i].OvertimeHours.Count].PutValue(data[i].OvertimeAndNightShiftAllowance[j].Amount);
                     columnIndex++;
                 }
+                var totalIndex = data[i].OvertimeHours.Count + data[i].OvertimeAndNightShiftAllowance.Count + 7;
+                worksheet.Cells[i + 6, totalIndex].PutValue(data[i].A06_AMT);
+                worksheet.Cells[i + 6, totalIndex + 1].PutValue(data[i].Overtime50_AMT);
+                worksheet.Cells[i + 6, totalIndex + 2].PutValue(data[i].NHNO_AMT);
+                worksheet.Cells[i + 6, totalIndex + 3].PutValue(data[i].HO_AMT);
+                worksheet.Cells[i + 6, totalIndex + 4].PutValue(data[i].INS_AMT);
+                worksheet.Cells[i + 6, totalIndex + 5].PutValue(data[i].SUM_AMT);
             }
             var totalRowPos = worksheet.Cells.MaxRow + 2;
             Style totalStyle = obj.Workbook.CreateStyle();
@@ -310,9 +323,9 @@ namespace API._Services.Services.SalaryReport
             if (Kind == "Y")
             {
                 Att_Monthly_Detail_Temp = await _repositoryAccessor.HRMS_Att_Monthly_Detail
-                    .FindAll(x => x.Factory == Factory 
-                        && x.Att_Month == YearMonth 
-                        && x.Employee_ID == EmployeeID 
+                    .FindAll(x => x.Factory == Factory
+                        && x.Att_Month == YearMonth
+                        && x.Employee_ID == EmployeeID
                         && x.Leave_Type == LeaveType, true)
                     .Select(x => new Att_Monthly_Detail_Temp_7_2_14
                     {
@@ -339,8 +352,8 @@ namespace API._Services.Services.SalaryReport
             }
 
             var maxEffectiveMonth = await _repositoryAccessor.HRMS_Att_Use_Monthly_Leave
-                .FindAll(x => x.Factory == Factory 
-                    && x.Leave_Type == LeaveType 
+                .FindAll(x => x.Factory == Factory
+                    && x.Leave_Type == LeaveType
                     && x.Effective_Month <= YearMonth, true)
                 .MaxAsync(x => (DateTime?)x.Effective_Month);
 
@@ -348,8 +361,8 @@ namespace API._Services.Services.SalaryReport
                 return new List<Att_Monthly_Detail_Values>();
 
             var Setting_Temp = await _repositoryAccessor.HRMS_Att_Use_Monthly_Leave
-                .FindAll(x => x.Factory == Factory 
-                    && x.Leave_Type == LeaveType 
+                .FindAll(x => x.Factory == Factory
+                    && x.Leave_Type == LeaveType
                     && x.Effective_Month == maxEffectiveMonth.Value, true)
                 .Select(x => new Setting_Temp_7_2_14
                 {
@@ -358,17 +371,22 @@ namespace API._Services.Services.SalaryReport
                 })
                 .ToListAsync();
 
+            var HBCL = await _repositoryAccessor.HRMS_Basic_Code_Language.FindAll(x => x.Type_Seq == "42", true).ToListAsync();
             var result = Att_Monthly_Detail_Temp
                 .GroupJoin(Setting_Temp,
                     x => x.Leave_Code,
                     y => y.Code,
                     (x, y) => new { AMDT = x, Setting_Temp = y })
                 .SelectMany(x => x.Setting_Temp.DefaultIfEmpty(),
-                    (x, y) => new Att_Monthly_Detail_Values
+                    (x, y) => new { x.AMDT, Setting_Temp = y })
+                .Select(x =>
+                    new Att_Monthly_Detail_Values
                     {
                         Employee_ID = x.AMDT.Employee_ID,
                         Leave_Code = x.AMDT.Leave_Code,
-                        Seq = y?.Seq ?? 0,
+                        CodeName_EN = HBCL.FirstOrDefault(z => z.Code == x.AMDT.Leave_Code && z.Language_Code == "EN")?.Code_Name,
+                        CodeName_TW = HBCL.FirstOrDefault(z => z.Code == x.AMDT.Leave_Code && z.Language_Code == "TW")?.Code_Name,
+                        Seq = x.Setting_Temp?.Seq ?? 0,
                         Days = x.AMDT.Days
                     })
                 .OrderBy(x => x.Seq)

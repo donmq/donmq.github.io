@@ -35,6 +35,8 @@ namespace API.DTOs.SalaryReport
     {
         public string Employee_ID { get; set; }
         public string Leave_Code { get; set; }
+        public string CodeName_TW { get; set; }
+        public string CodeName_EN { get; set; }
         public int Seq { get; set; }
         public decimal Days { get; set; }
     }
