@@ -15,62 +15,64 @@ namespace API._Services.Services.SalaryReport
     {
         public S_7_2_14_TaxPayingEmployeeMonthlyNightShiftExtraPayAndOvertimePay(DBContext dbContext) : base(dbContext) { }
         private static readonly string rootPath = Directory.GetCurrentDirectory();
+        #region GetData
         private async Task<OperationResult> GetData(NightShiftExtraAndOvertimePayParam param)
         {
             if (string.IsNullOrWhiteSpace(param.Factory)
                 || !param.Permission_Group.Any()
                 || string.IsNullOrWhiteSpace(param.Year_Month)
                 || !DateTime.TryParseExact(param.Year_Month, "yyyy/MM", new CultureInfo("en-US"), DateTimeStyles.None, out DateTime yearMonth))
-                return new OperationResult(false, "SalaryReport.MonthlySalaryAdditionsDeductionsSummaryReport.InvalidInput");
+                return new OperationResult(false, "SalaryReport.TaxPayingEmployeeMonthlyNightShiftExtraPayAndOvertimePay.InvalidInput");
+
+            var HEP = await _repositoryAccessor.HRMS_Emp_Personal.FindAll(x => x.Factory == param.Factory).ToListAsync();
+
+            var listEmployeeID = HEP.Where(x => param.Permission_Group.Contains(x.Permission_Group))
+                .Select(x => x.Employee_ID)
+                .ToList();
 
             var pred = PredicateBuilder.New<HRMS_Sal_Monthly>(x => x.Factory == param.Factory
                 && x.Sal_Month.Date == yearMonth.Date
                 && x.Tax > 0
-                && param.Permission_Group.Contains(x.Permission_Group));
-
-            var listEmployeeID = await _repositoryAccessor.HRMS_Emp_Personal
-                .FindAll(x => x.Factory == param.Factory
-                            && param.Permission_Group.Contains(x.Permission_Group), true)
-                .Select(x => x.Employee_ID)
-                .ToListAsync();
+                && param.Permission_Group.Contains(x.Permission_Group)
+                && listEmployeeID.Contains(x.Employee_ID));
 
             if (!string.IsNullOrWhiteSpace(param.Department))
                 pred.And(x => x.Department == param.Department);
 
             if (!string.IsNullOrWhiteSpace(param.EmployeeID))
-                pred.And(x => x.Employee_ID == param.EmployeeID);
-
-            pred.And(x => listEmployeeID.Contains(x.Employee_ID));
+                pred.And(x => x.Employee_ID.Contains(param.EmployeeID));
 
             var wk_sql = await _repositoryAccessor.HRMS_Sal_Monthly.FindAll(pred).ToListAsync();
 
             var result = new List<NightShiftExtraAndOvertimePayReport>();
             var listDepartments = await GetDepartmentName(param.Factory, param.Language);
+            var listAllowances = await _repositoryAccessor.HRMS_Basic_Code
+                .FindAll(x => x.Type_Seq == BasicCodeTypeConstant.Allowance, true)
+                .GroupJoin(_repositoryAccessor.HRMS_Basic_Code_Language.FindAll(),
+                    HBC => new { HBC.Type_Seq, HBC.Code },
+                    HBCL => new { HBCL.Type_Seq, HBCL.Code },
+                    (HBC, HBCL) => new { HBC, HBCL })
+                    .SelectMany(x => x.HBCL.DefaultIfEmpty(),
+                    (prev, HBCL) => new { prev.HBC, HBCL })
+                .ToListAsync();
 
+            var HSTN = await _repositoryAccessor.HRMS_Sal_Tax_Number.FindAll(x => x.Factory == param.Factory).ToListAsync();
+            var HSAM = await _repositoryAccessor.HRMS_Sal_AddDedItem_Monthly.FindAll(x => x.Factory == param.Factory).ToListAsync();
             foreach (var item in wk_sql)
             {
-                var emp = await _repositoryAccessor.HRMS_Emp_Personal
-                    .FirstOrDefaultAsync(x => x.Factory == item.Factory && x.Employee_ID == item.Employee_ID);
+                var emp = HEP.FirstOrDefault(x => x.Employee_ID == item.Employee_ID);
 
-                var taxNumber = await _repositoryAccessor.HRMS_Sal_Tax_Number
-                    .FindAll(x => x.Factory == item.Factory
-                            && x.Employee_ID == item.Employee_ID
-                            && x.Year <= item.Sal_Month, true)
+                var taxNumber = HSTN.Where(x => x.Employee_ID == item.Employee_ID
+                        && x.Year <= item.Sal_Month)
                     .OrderByDescending(x => x.Year)
-                    .FirstOrDefaultAsync();
+                    .FirstOrDefault();
 
-                var wageStandard = await Query_WageStandard_Sum("B",
-                    item.Factory, item.Sal_Month, item.Employee_ID,
-                    item.Permission_Group, item.Salary_Type);
+                var wageStandard = await Query_WageStandard_Sum("B", item.Factory, item.Sal_Month, item.Employee_ID, item.Permission_Group, item.Salary_Type);
 
-                var A06_AMT = await _repositoryAccessor.HRMS_Sal_AddDedItem_Monthly
-                    .FindAll(x => x.Factory == item.Factory
-                            && x.Sal_Month == item.Sal_Month
-                            && x.Employee_ID == item.Employee_ID
-                            && x.AddDed_Type == "A"
-                            && x.AddDed_Item == "A06", true)
-                    .Select(x => x.Amount)
-                    .FirstOrDefaultAsync();
+                var A06_AMT = HSAM.Where(x => x.Sal_Month == item.Sal_Month
+                    && x.Employee_ID == item.Employee_ID
+                    && x.AddDed_Type == "A"
+                    && x.AddDed_Item == "A06").Select(x => x.Amount).FirstOrDefault();
 
                 var overtime50_AMT = await Query_Single_Sal_Monthly_Detail("Y", item.Factory, item.Sal_Month, item.Employee_ID, "42", "A", "A01");
 
@@ -82,8 +84,16 @@ namespace API._Services.Services.SalaryReport
                 var total4 = await Query_Single_Sal_Monthly_Detail("Y", item.Factory, item.Sal_Month, item.Employee_ID, "57", "D", "V03");
 
                 var overtimeHours = await Query_Att_Monthly_Detail("Y", item.Factory, item.Sal_Month, item.Employee_ID, "2");
-                var overtimeAndNightShiftAllowance = await Query_Sal_Monthly_Detail("Y", item.Factory, item.Sal_Month, item.Employee_ID,
-                                                            "42", "A", item.Permission_Group, item.Salary_Type, "2");
+                var querySalMonthlyDetail = await Query_Sal_Monthly_Detail("Y", item.Factory, item.Sal_Month, item.Employee_ID,
+                    "42", "A", item.Permission_Group, item.Salary_Type, "2");
+                var overtimeAndNightShiftAllowance = querySalMonthlyDetail.Select(x => new OvertimeAndNightShiftAllowance
+                {
+                    Employee_ID = x.Employee_ID,
+                    AllowanceName_EN = listAllowances.FirstOrDefault(y => y.HBC.Code == x.Item && y.HBCL.Language_Code == "EN")?.HBCL.Code_Name,
+                    AllowanceName_TW = listAllowances.FirstOrDefault(y => y.HBC.Code == x.Item && y.HBCL.Language_Code == "TW")?.HBCL.Code_Name,
+                    Item = x.Item,
+                    Amount = x.Amount
+                }).ToList();
                 decimal nhno_AMT = 0;
                 var days = await Query_Att_Monthly_Detail_Item(item.Factory, item.Sal_Month, item.Employee_ID, "2", "A01");
                 if (days <= 0)
@@ -115,12 +125,9 @@ namespace API._Services.Services.SalaryReport
 
             return new OperationResult(true, result);
         }
+        #endregion
 
-        private async Task<List<KeyValuePair<string, string>>> GetPermissionGroup(string factory, string Language)
-        {
-            return await Query_BasicCode_PermissionGroup(factory, Language);
-        }
-
+        #region Download
         public async Task<OperationResult> Download(NightShiftExtraAndOvertimePayParam param)
         {
             var updatedPermissionGroup = new List<string>();
@@ -172,15 +179,15 @@ namespace API._Services.Services.SalaryReport
 
                 if (i < data[0].OvertimeAndNightShiftAllowance.Count)
                 {
-                    worksheet.Cells[4, i + data[0].OvertimeHours.Count + 7].PutValue(data[0].OvertimeAndNightShiftAllowance[i].Item);
+                    worksheet.Cells[4, i + data[0].OvertimeHours.Count + 7].PutValue(data[0].OvertimeAndNightShiftAllowance[i].Item + " - " + data[0].OvertimeAndNightShiftAllowance[i].AllowanceName_TW);
                     worksheet.Cells[4, i + data[0].OvertimeHours.Count + 7].SetStyle(GetStyle(obj, 226, 239, 218));
-                    worksheet.Cells[5, i + data[0].OvertimeHours.Count + 7].PutValue(data[0].OvertimeAndNightShiftAllowance[i].Item);
+                    worksheet.Cells[5, i + data[0].OvertimeHours.Count + 7].PutValue(data[0].OvertimeAndNightShiftAllowance[i].Item + " - " + data[0].OvertimeAndNightShiftAllowance[i].AllowanceName_EN);
                     worksheet.Cells[5, i + data[0].OvertimeHours.Count + 7].SetStyle(GetStyle(obj, 226, 239, 218));
                 }
                 var totalIndex = data[0].OvertimeHours.Count + data[0].OvertimeAndNightShiftAllowance.Count + 7;
                 worksheet.Cells[4, totalIndex].PutValue("A06加班費(參加非生產活動)");
                 worksheet.Cells[5, totalIndex].PutValue("A06-Overtime Pay (Non-Production Activities)");
-                var style = worksheet.Cells[4, totalIndex].GetStyle();
+                var style = obj.Workbook.CreateStyle();
                 style.IsTextWrapped = true;
                 worksheet.Cells[4, totalIndex].SetStyle(style);
                 worksheet.Cells[5, totalIndex].SetStyle(style);
@@ -206,6 +213,9 @@ namespace API._Services.Services.SalaryReport
                 worksheet.Cells[5, totalIndex + 5].SetStyle(style);
 
             }
+            Style styleAmount = obj.Workbook.CreateStyle();
+            styleAmount.Custom = "#,##0";
+
             for (int i = 0; i < data.Count; i++)
             {
                 worksheet.Cells["A" + (i + 7)].PutValue(data[i].Factory);
@@ -222,7 +232,10 @@ namespace API._Services.Services.SalaryReport
                     if (j < data[i].OvertimeHours.Count)
                         worksheet.Cells[i + 6, columnIndex].PutValue(data[i].OvertimeHours[j].Days);
                     if (j < data[i].OvertimeAndNightShiftAllowance.Count)
+                    {
                         worksheet.Cells[i + 6, columnIndex + data[i].OvertimeHours.Count].PutValue(data[i].OvertimeAndNightShiftAllowance[j].Amount);
+                        worksheet.Cells[i + 6, columnIndex + data[i].OvertimeHours.Count].SetStyle(styleAmount);
+                    }
                     columnIndex++;
                 }
                 var totalIndex = data[i].OvertimeHours.Count + data[i].OvertimeAndNightShiftAllowance.Count + 7;
@@ -233,41 +246,20 @@ namespace API._Services.Services.SalaryReport
                 worksheet.Cells[i + 6, totalIndex + 4].PutValue(data[i].INS_AMT);
                 worksheet.Cells[i + 6, totalIndex + 5].PutValue(data[i].SUM_AMT);
             }
-            var totalRowPos = worksheet.Cells.MaxRow + 2;
-            Style totalStyle = obj.Workbook.CreateStyle();
-            totalStyle.IsTextWrapped = true;
-            worksheet.Cells["B" + totalRowPos].Value = "合計:\nTotal:";
-            worksheet.Cells["B" + totalRowPos].SetStyle(totalStyle);
-            for (int i = 2; i <= worksheet.Cells.MaxDataColumn; i++)
-            {
-                // var cellPos = MyRegex().Replace(worksheet.Cells[5, i].Name, "");
-                // worksheet.Cells[cellPos + totalRowPos].Formula = "=SUM(" + cellPos + (totalRowPos - data.Count) + ":" + cellPos + (totalRowPos - 1) + ")";
-            }
-            CellArea area = new()
-            {
-                StartRow = 1,
-                StartColumn = 8,
-                EndRow = 6,
-                EndColumn = data[0].OvertimeHours.Count + data[0].OvertimeAndNightShiftAllowance.Count + 14
-            };
-            worksheet.AutoFitColumns(area.StartColumn, area.EndColumn);
-            worksheet.AutoFitRows(area.StartRow, area.EndRow);
+            var totalRow = data.Count + 9;
+            worksheet.Cells["A" + totalRow].PutValue("核決:");
+            worksheet.Cells["A" + (totalRow + 1)].PutValue("Approved by:");
+            worksheet.Cells["D" + totalRow].PutValue("審核:");
+            worksheet.Cells["D" + (totalRow + 1)].PutValue("Checked by:");
+            worksheet.Cells["H" + totalRow].PutValue("製表:");
+            worksheet.Cells["H" + (totalRow + 1)].PutValue("Applicant:");
+            worksheet.AutoFitColumns(1, data[0].OvertimeHours.Count + data[0].OvertimeAndNightShiftAllowance.Count + 13);
+            worksheet.AutoFitRows(1, 6);
 
             obj.Workbook.Save(memoryStream, SaveFormat.Xlsx);
             return new OperationResult(true, new { TotalRows = data.Count, Excel = memoryStream.ToArray() });
         }
-
-        private Style GetStyle(WorkbookDesigner obj, int color1, int color2, int color3)
-        {
-            Style style = obj.Workbook.CreateStyle();
-            style.ForegroundColor = Color.FromArgb(color1, color2, color3);
-            style.Pattern = BackgroundType.Solid;
-            style.IsTextWrapped = true;
-            style.HorizontalAlignment = TextAlignmentType.Center;
-            style.VerticalAlignment = TextAlignmentType.Center;
-            style = AsposeUtility.SetAllBorders(style);
-            return style;
-        }
+        #endregion
 
         public async Task<OperationResult> GetTotalRows(NightShiftExtraAndOvertimePayParam param)
         {
@@ -397,6 +389,11 @@ namespace API._Services.Services.SalaryReport
         }
         #endregion
 
+        #region GetList
+        private async Task<List<KeyValuePair<string, string>>> GetPermissionGroup(string factory, string Language)
+        {
+            return await Query_BasicCode_PermissionGroup(factory, Language);
+        }
         public async Task<List<KeyValuePair<string, string>>> GetListDepartment(string factory, string language)
         {
             var departments = await Query_Department_List(factory);
@@ -465,5 +462,18 @@ namespace API._Services.Services.SalaryReport
                 .Select(x => new KeyValuePair<string, string>(x.department.Department_Code, $"{(x.lang != null ? x.lang.Name : x.department.Department_Name)}"))
                 .ToListAsync();
         }
+
+        private static Style GetStyle(WorkbookDesigner obj, int color1, int color2, int color3)
+        {
+            Style style = obj.Workbook.CreateStyle();
+            style.ForegroundColor = Color.FromArgb(color1, color2, color3);
+            style.Pattern = BackgroundType.Solid;
+            style.IsTextWrapped = true;
+            style.HorizontalAlignment = TextAlignmentType.Center;
+            style.VerticalAlignment = TextAlignmentType.Center;
+            style = AsposeUtility.SetAllBorders(style);
+            return style;
+        }
+        #endregion
     }
 }

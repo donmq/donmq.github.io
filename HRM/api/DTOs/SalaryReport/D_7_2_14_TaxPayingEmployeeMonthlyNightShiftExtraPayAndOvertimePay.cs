@@ -11,7 +11,7 @@ namespace API.DTOs.SalaryReport
         public string TaxNo { get; set; }
         public string Standard { get; set; }
         public List<Att_Monthly_Detail_Values> OvertimeHours { get; set; }
-        public List<Sal_Monthly_Detail_Values> OvertimeAndNightShiftAllowance { get; set; }
+        public List<OvertimeAndNightShiftAllowance> OvertimeAndNightShiftAllowance { get; set; }
         public decimal A06_AMT { get; set; }
         public decimal Overtime50_AMT { get; set; }
         public decimal NHNO_AMT { get; set; }
@@ -50,6 +50,18 @@ namespace API.DTOs.SalaryReport
     public class Setting_Temp_7_2_14
     {
         public int Seq { get; set; }
+        public string Code { get; set; }
+    }
+
+    public class OvertimeAndNightShiftAllowance
+    {
+        public int Seq { get; set; }
+        public string Employee_ID { get; set; }
+        public string AllowanceName_EN { get; set; }
+        public string AllowanceName_TW { get; set; }
+        public string Salary_Type { get; set; }
+        public string Item { get; set; }
+        public int Amount { get; set; }
         public string Code { get; set; }
     }
 }
